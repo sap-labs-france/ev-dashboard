@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SiteArea, UserToken } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
-import { ComponentType, ComponentService } from './component.service';
+import { ComponentService, ComponentType } from './component.service';
 
 @Injectable()
 export class AuthorizationService {
@@ -93,10 +93,11 @@ export class AuthorizationService {
     if (this.isAdmin()) {
       return true;
     }
-    if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE)) {
-      return this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
-    }
-    return false;
+    return this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
+  }
+
+  public isSiteOwner(siteID: string): boolean {
+    return this.loggedUser.sitesOwner && this.loggedUser.sitesOwner.includes(siteID);
   }
 
   public isSiteUser(siteID: string): boolean {

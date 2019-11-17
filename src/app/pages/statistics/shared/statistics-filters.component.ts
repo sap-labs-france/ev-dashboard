@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsLink, TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { Constants } from '../../../utils/Constants';
 
 export interface StatisticsButtonGroup {

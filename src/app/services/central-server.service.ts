@@ -40,7 +40,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveChargingStationsFromSiteArea`,
-      {siteAreaID, chargingStationIDs: chargerIDs},
+      { siteAreaID, chargingStationIDs: chargerIDs },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -54,7 +54,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddChargingStationsToSiteArea`,
-      {siteAreaID, chargingStationIDs: chargerIDs},
+      { siteAreaID, chargingStationIDs: chargerIDs },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -68,7 +68,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromSite`,
-      {siteID, userIDs},
+      { siteID, userIDs },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -82,7 +82,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToSite`,
-      {siteID, userIDs},
+      { siteID, userIDs },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -94,7 +94,19 @@ export class CentralServerService {
   public updateSiteUserAdmin(siteID: string, userID: string, siteAdmin: boolean): Observable<ActionResponse> {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
-      {siteID, userID, siteAdmin},
+      { siteID, userID, siteAdmin },
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public updateSiteOwner(siteID: string, userID: string): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
+      {siteID, userID},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -108,7 +120,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveSitesFromUser`,
-      {userID, siteIDs},
+      { userID, siteIDs },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -122,7 +134,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
-      {userID, siteIDs},
+      { userID, siteIDs },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -132,7 +144,7 @@ export class CentralServerService {
   }
 
   public getCompanies(params: { [param: string]: string | string[]; },
-                      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Company>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Company>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -201,7 +213,7 @@ export class CentralServerService {
   }
 
   public getUserSites(params: { [param: string]: string | string[]; },
-                      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -220,7 +232,7 @@ export class CentralServerService {
   }
 
   public getSites(params: { [param: string]: string | string[]; },
-                  paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Site>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Site>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -275,7 +287,7 @@ export class CentralServerService {
   }
 
   public getSiteAreas(params: { [param: string]: string | string[]; } = {},
-                      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -344,7 +356,7 @@ export class CentralServerService {
   }
 
   public getChargingStationConsumptionStatistics(year: number,
-                                                 params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -360,7 +372,7 @@ export class CentralServerService {
   }
 
   public getUserConsumptionStatistics(year: number,
-                                      params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -376,7 +388,7 @@ export class CentralServerService {
   }
 
   public getChargingStationUsageStatistics(year: number,
-                                           params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -392,7 +404,7 @@ export class CentralServerService {
   }
 
   public getUserUsageStatistics(year: number,
-                                params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -408,7 +420,7 @@ export class CentralServerService {
   }
 
   public getChargingStationInactivityStatistics(year: number,
-                                                params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -424,7 +436,7 @@ export class CentralServerService {
   }
 
   public getUserInactivityStatistics(year: number,
-                                     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -461,7 +473,7 @@ export class CentralServerService {
   }
 
   public getChargingStationTransactionsStatistics(year: number,
-                                                  params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -477,7 +489,7 @@ export class CentralServerService {
   }
 
   public getUserTransactionsStatistics(year: number,
-                                       params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -493,7 +505,7 @@ export class CentralServerService {
   }
 
   public getChargingStationPricingStatistics(year: number,
-                                             params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -509,7 +521,7 @@ export class CentralServerService {
   }
 
   public getUserPricingStatistics(year: number,
-                                  params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this._checkInit();
@@ -539,7 +551,7 @@ export class CentralServerService {
   }
 
   public getChargers(params: { [param: string]: string | string[]; },
-                     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Charger>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Charger>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -567,7 +579,7 @@ export class CentralServerService {
     return this.httpClient.get<Charger>(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
         headers: this._buildHttpHeaders(),
-        params: {ID: id},
+        params: { ID: id },
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -576,7 +588,7 @@ export class CentralServerService {
 
   // tslint:disable-next-line:max-line-length
   public getChargersInError(params: { [param: string]: string | string[]; },
-                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargerInError>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargerInError>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -595,7 +607,7 @@ export class CentralServerService {
   }
 
   public getSiteUsers(params: { [param: string]: string | string[]; },
-                      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -614,7 +626,7 @@ export class CentralServerService {
   }
 
   public getUsers(params: { [param: string]: string | string[]; },
-                  paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -633,7 +645,7 @@ export class CentralServerService {
   }
 
   public getUsersInError(params: { [param: string]: string | string[]; },
-                         paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -652,7 +664,7 @@ export class CentralServerService {
   }
 
   public getTenants(params: { [param: string]: string | string[]; },
-                    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -680,7 +692,7 @@ export class CentralServerService {
     return this.httpClient.get<Tenant>(`${this.centralRestServerServiceSecuredURL}/Tenant`,
       {
         headers: this._buildHttpHeaders(),
-        params: {ID: id},
+        params: { ID: id },
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -688,7 +700,7 @@ export class CentralServerService {
   }
 
   public getTransactions(params: { [param: string]: string | string[]; },
-                         paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -707,8 +719,8 @@ export class CentralServerService {
   }
 
   public getTransactionsToRefund(params: { [param: string]: string | string[]; },
-                                 paging: Paging = Constants.DEFAULT_PAGING,
-                                 ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING,
+    ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -727,8 +739,7 @@ export class CentralServerService {
   }
 
   public getTransactionsToRefundList(params: { [param: string]: string | string[]; },
-                                     paging: Paging = Constants.DEFAULT_PAGING,
-                                     ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -753,7 +764,7 @@ export class CentralServerService {
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssignTransactionsToUser`, null,
       {
         headers: this._buildHttpHeaders(),
-        params: {UserID: userId},
+        params: { UserID: userId },
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -767,7 +778,7 @@ export class CentralServerService {
     return this.httpClient.get<number>(`${this.centralRestServerServiceSecuredURL}/UnassignedTransactionsCount`,
       {
         headers: this._buildHttpHeaders(),
-        params: {UserID: userId},
+        params: { UserID: userId },
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -784,7 +795,7 @@ export class CentralServerService {
     return this.httpClient.get<Transaction>(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
         headers: this._buildHttpHeaders(),
-        params: {ID: id},
+        params: { ID: id },
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -792,7 +803,7 @@ export class CentralServerService {
   }
 
   public exportLogs(params: { [param: string]: string | string[]; },
-                    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -808,7 +819,7 @@ export class CentralServerService {
   }
 
   public exportTransactions(params: { [param: string]: string | string[]; },
-                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -824,7 +835,7 @@ export class CentralServerService {
   }
 
   public exportStatistics(params: { [param: string]: string | string[]; },
-                          paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -840,7 +851,7 @@ export class CentralServerService {
   }
 
   public exportChargingStations(params: { [param: string]: string | string[]; },
-                                paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -856,7 +867,7 @@ export class CentralServerService {
   }
 
   public getTransactionsInError(params: { [param: string]: string | string[]; },
-                                paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -875,7 +886,7 @@ export class CentralServerService {
   }
 
   public getActiveTransactions(params: { [param: string]: string | string[]; },
-                               paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
     : Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
@@ -896,7 +907,7 @@ export class CentralServerService {
 
   // tslint:disable-next-line:max-line-length
   public getOcpiEndpoints(params: { [param: string]: string | string[]; },
-                          paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -970,8 +981,7 @@ export class CentralServerService {
   }
 
   public getLogs(params: { [param: string]: string | string[]; },
-                 paging: Paging = Constants.DEFAULT_PAGING,
-                 ordering: Ordering[] = []): Observable<DataResult<Log>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1094,8 +1104,7 @@ export class CentralServerService {
   }
 
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
-                               paging: Paging = Constants.DEFAULT_PAGING,
-                               ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1466,11 +1475,11 @@ export class CentralServerService {
       );
   }
 
-  public createOcpiEndpoint(ocpiendpoint): Observable<ActionResponse> {
+  public createOcpiEndpoint(ocpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiendpoint,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1479,11 +1488,11 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiendpoint): Observable<OCPIEVSEStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIEVSEStatusesResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiendpoint,
+    return this.httpClient.post<OCPIEVSEStatusesResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1492,11 +1501,11 @@ export class CentralServerService {
       );
   }
 
-  public pingOcpiEndpoint(ocpiendpoint): Observable<OCPIPingResponse> {
+  public pingOcpiEndpoint(ocpiEndpoint): Observable<OCPIPingResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIPingResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiendpoint,
+    return this.httpClient.post<OCPIPingResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1505,11 +1514,11 @@ export class CentralServerService {
       );
   }
 
-  public generateLocalTokenOcpiEndpoint(ocpiendpoint): Observable<OCPIGenerateLocalTokenResponse> {
+  public generateLocalTokenOcpiEndpoint(ocpiEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiendpoint,
+    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1518,11 +1527,11 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiendpoint): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiendpoint,
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1621,7 +1630,7 @@ export class CentralServerService {
   refundTransactions(ids: number[]): Observable<ActionResponse> {
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, {transactionIds: ids},
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1886,11 +1895,11 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     const body = (args ?
-        `{
+      `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-        `{
+      `{
         "chargeBoxID": "${id}"
       }`
     );
@@ -2021,7 +2030,7 @@ export class CentralServerService {
 
   private _handleHttpError(error: HttpErrorResponse): Observable<never> {
     // In a real world app, we might use a remote logging infrastructure
-    const errMsg = {status: 0, message: '', details: undefined};
+    const errMsg = { status: 0, message: '', details: undefined };
     if (error) {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();

@@ -9,7 +9,7 @@ import { mergeMap } from 'rxjs/operators';
 import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -92,6 +92,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public isConcurConnectionValid: boolean;
   public canSeeInvoice: boolean;
+  private currentLocale: string;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -124,6 +125,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.currentLocale = locale.currentLocale;
+    });
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -211,7 +215,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      locale: new FormControl(this.localeService.getCurrentLocale(),
+      locale: new FormControl(this.currentLocale,
         Validators.compose([
           Validators.required,
         ])),
@@ -467,11 +471,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.address && user.address.country) {
         this.address.controls.country.setValue(user.address.country);
       }
-      if (user.address && user.address.latitude) {
-        this.address.controls.latitude.setValue(user.address.latitude);
-      }
-      if (user.address && user.address.longitude) {
-        this.address.controls.longitude.setValue(user.address.longitude);
+      if (user.address && user.address.coordinates && user.address.coordinates.length === 2) {
+        this.address.controls.longitude.setValue(user.address.coordinates[0]);
+        this.address.controls.latitude.setValue(user.address.coordinates[1]);
       }
       // Reset password
       this.passwords.controls.password.setValue('');

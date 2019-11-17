@@ -10,7 +10,7 @@
     <div class="row" style="margin-top: 1em">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" [formControl]="price"
+          <input appAutofocus matInput type="number" [formControl]="price"
             placeholder="{{'settings.pricing.simple.price' | translate}}" required>
           <mat-error *ngIf="price.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="price.errors?.pattern">{{"general.error_not_a_number" | translate}}</mat-error>

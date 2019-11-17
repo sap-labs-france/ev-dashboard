@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { CommonModule, CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -84,9 +84,6 @@ export class FooterModule {
     ReportsDialogComponent,
   ],
   providers: [
-    CurrencyPipe,
-    PercentPipe,
-    DecimalPipe,
     AppConnectorIdPipe,
     DialogService,
     ChargersDialogTableDataSource,

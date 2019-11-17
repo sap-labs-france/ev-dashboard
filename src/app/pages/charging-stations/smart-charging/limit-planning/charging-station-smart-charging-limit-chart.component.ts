@@ -1,4 +1,3 @@
-import { DecimalPipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'angular2-chartjs';
@@ -7,6 +6,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import * as moment from 'moment';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-chart',
@@ -27,7 +27,7 @@ import * as moment from 'moment';
   `,
 })
 
-export class ChargingStationSmartChargingLimitChartComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingLimitChartComponent implements OnInit {
   @Input() limitPlanning: ConnectorSchedule[];
 
   @Input() ratio: number;
@@ -39,13 +39,17 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
     [54, 162, 235],
     [255, 206, 86],
   ];
+  private language: string;
 
   constructor(
     private translateService: TranslateService,
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
-    private decimalPipe: DecimalPipe,
+    private decimalPipe: AppDecimalPipe,
     private connectorIdPipe: AppConnectorIdPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   resetZoom() {
@@ -56,9 +60,6 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
     if (this.limitPlanning && this.limitPlanning.length > 0) {
       this.createGraphData(this.limitPlanning);
     }
-  }
-
-  ngAfterViewInit(): void {
   }
 
   createGraphData(limitPlanning: ConnectorSchedule[]) {
@@ -201,7 +202,7 @@ export class ChargingStationSmartChargingLimitChartComponent implements OnInit, 
         },
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

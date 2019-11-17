@@ -1,13 +1,12 @@
 
-import { DecimalPipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'angular2-chartjs';
 import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
-import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { DisplayedScheduleSlot } from './charging-station-smart-charging-limit-planner.component';
 
 @Component({
@@ -35,14 +34,17 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     [54, 162, 235],
     [255, 206, 86],
   ];
+  private language: string;
 
   constructor(private centralServerService: CentralServerService,
               private translateService: TranslateService,
               private durationPipe: AppDurationPipe,
               private localeService: LocaleService,
               private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe,
-              private connectorIdPipe: AppConnectorIdPipe) {
+              private decimalPipe: AppDecimalPipe) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+    });
   }
 
   resetZoom() {
@@ -216,7 +218,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       onClick: (event, array) => {
       },
     };
-    if (this.localeService.language === 'fr') {
+    if (this.language === 'fr') {
       options.scales.xAxes[0].time = {
         tooltipFormat: 'HH:mm',
         displayFormats: {

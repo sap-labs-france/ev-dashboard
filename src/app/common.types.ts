@@ -235,8 +235,7 @@ export interface Charger extends Data {
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
-  latitude: number;
-  longitude: number;
+  coordinates: number[];
   currentIPAddress: string;
 }
 
@@ -254,8 +253,7 @@ export interface Address {
   department: string;
   region: string;
   country: string;
-  latitude: number;
-  longitude: number;
+  coordinates: number[];
 }
 
 export interface Company extends Data {
@@ -325,13 +323,17 @@ export interface RegistrationToken extends Data {
 export interface OcpiEndpoint extends Data {
   id: string;
   name: string;
+  role: string;
+  baseUrl: string;
   countryCode: string;
-  partyID: string;
-  version: string;
-  status: string;
+  partyId: string;
+  version?: string;
+  status?: string;
+  localToken: string;
+  token: string;
   backgroundPatchJob: boolean;
   lastPatchJobOn: Date;
-  lastPatchJobResult: any;
+  lastPatchJobResult?: any;
 }
 
 export interface OcpiEndpointDetail extends Data {
@@ -558,17 +560,7 @@ export interface User extends Data {
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
   };
-  address: {
-    address1: string;
-    address2: string;
-    postalCode: string;
-    city: string;
-    department: string;
-    region: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-  };
+  address: Address;
   iNumber: string;
   costCenter: boolean;
   status: string;
@@ -586,6 +578,7 @@ export interface User extends Data {
   companies: string[];
   sites: string[];
   sitesAdmin: string[];
+  sitesOwner: string[];
   userHashID: number;
   tenantHashID: number;
 }
@@ -608,18 +601,21 @@ export interface UserToken {
   sites?: string[];
   sitesAdmin?: string[];
   activeComponents?: string[];
+  sitesOwner?: string[];
 }
 
 export interface UserSite extends Data {
   user: User;
   siteID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface SiteUser extends Data {
   site: Site;
   userID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface VehicleManufacturer {

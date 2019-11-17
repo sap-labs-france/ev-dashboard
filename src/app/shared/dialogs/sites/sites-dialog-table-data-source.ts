@@ -20,7 +20,7 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
     this.initDataSource();
   }
 
- public loadDataImpl(): Observable<DataResult<Site>> {
+  public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getSites(this.buildFilterValues(),

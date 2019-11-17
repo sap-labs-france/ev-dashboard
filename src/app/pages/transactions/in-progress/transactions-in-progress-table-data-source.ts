@@ -1,4 +1,3 @@
-import { PercentPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -10,7 +9,7 @@ import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentType, ComponentService } from '../../../services/component.service';
+import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
@@ -18,6 +17,7 @@ import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -51,7 +51,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       private componentService: ComponentService,
       private authorizationService: AuthorizationService,
       private datePipe: AppDatePipe,
-      private percentPipe: PercentPipe,
+      private appPercentPipe: AppPercentPipe,
       private appUnitPipe: AppUnitPipe,
       private appBatteryPercentagePipe: AppBatteryPercentagePipe,
       private appUserNamePipe: AppUserNamePipe,
@@ -130,7 +130,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (currentTotalInactivitySecs, row) => {
           const percentage = row.currentTotalDurationSecs > 0 ? (currentTotalInactivitySecs / row.currentTotalDurationSecs) : 0;
           return this.appDurationPipe.transform(currentTotalInactivitySecs) +
-            ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
+            ` (${this.appPercentPipe.transform(percentage, '1.0-0')})`;
         },
       },
       {

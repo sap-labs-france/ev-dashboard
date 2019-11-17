@@ -24,6 +24,7 @@ import { TableOpenInConcurAction } from '../../../shared/table/actions/table-ope
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -213,6 +214,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new ReportTableFilter().getFilterDef());
       }
     }
 

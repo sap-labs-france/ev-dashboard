@@ -516,6 +516,7 @@ export interface Transaction extends Data {
   price: number;
   priceUnit: string;
   refundData: {
+    reportId: string;
     refundId: string;
     refundedAt: Date;
     status: string;

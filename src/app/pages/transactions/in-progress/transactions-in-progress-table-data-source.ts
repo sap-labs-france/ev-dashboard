@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { Observable } from 'rxjs';
-import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -98,7 +98,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [];
+    const columns: TableColumnDef[] = [];
     if (this.isAdmin) {
       columns.push({
         id: 'id',
@@ -114,13 +114,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value),
+        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (currentTotalDurationSecs, row: Transaction) =>
+        formatter: (currentTotalDurationSecs: number, row: Transaction) =>
           this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
       },
       {
@@ -146,17 +146,17 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       {
         id: 'currentConsumption',
         name: 'transactions.current_consumption',
-        formatter: (currentConsumption) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW'),
+        formatter: (currentConsumption: number) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW'),
       },
       {
         id: 'currentTotalConsumption',
         name: 'transactions.total_consumption',
-        formatter: (currentTotalConsumption) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh'),
+        formatter: (currentTotalConsumption: number) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh'),
       },
       {
         id: 'currentStateOfCharge',
         name: 'transactions.state_of_charge',
-        formatter: (currentStateOfCharge, row) => {
+        formatter: (currentStateOfCharge: number, row: Transaction) => {
           if (!currentStateOfCharge) {
             return '';
           }
@@ -168,7 +168,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
+        formatter: (value: User) => this.appUserNamePipe.transform(value),
       });
     }
     return columns as TableColumnDef[];

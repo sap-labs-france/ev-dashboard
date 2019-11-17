@@ -31,7 +31,7 @@ export interface TableFilterDef {
   items?: KeyValue[];
   dialogComponent?: any;
   dialogComponentData?: any;
-  reset?: Function;
+  reset?: () => void;
   multiple?: boolean;
   cleared?: boolean;
 }
@@ -74,6 +74,36 @@ export interface Data {
 export interface DataResult<T extends Data> {
   count: number;
   result: T[];
+}
+
+export interface TransactionDataResult {
+  count: number;
+  result: Transaction[];
+  stats: {
+    count: number;
+    firstTimestamp?: Date;
+    lastTimestamp?: Date;
+    totalConsumptionWattHours: number;
+    totalDurationSecs: number;
+    totalInactivitySecs: number;
+    totalPrice: number;
+    currency: string;
+  };
+}
+
+export interface TransactionRefundDataResult {
+  count: number;
+  result: Transaction[];
+  stats: {
+    count: number;
+    totalConsumptionWattHours: number;
+    countRefundTransactions: number;
+    countPendingTransactions: number;
+    countRefundedReports: number;
+    totalPriceRefund: number;
+    totalPricePending: number;
+    currency: string;
+  };
 }
 
 export interface RouteInfo {
@@ -354,7 +384,7 @@ export interface Logo {
 
 export interface Ordering {
   field: string;
-  direction: string;
+  direction: SortDirection;
 }
 
 export interface Paging {
@@ -481,7 +511,7 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  formatter?: Function;
+  formatter?: (value: any, row?: any) => void;
   sortable?: boolean;
   sorted?: boolean;
   direction?: SortDirection;

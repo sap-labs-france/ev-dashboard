@@ -8,7 +8,7 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { ActionResponse, Connector, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionDataResult, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -34,9 +34,9 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
+import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -106,7 +106,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [];
+    const columns: TableColumnDef[] = [];
     if (this.isAdmin) {
       columns.push({
         id: 'id',
@@ -122,13 +122,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value),
+        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         class: 'text-left',
-        formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
+        formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
       },
       {
         id: 'stop.totalInactivitySecs',
@@ -142,19 +142,19 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
-        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
+        formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
       },
       {
         id: 'stop.totalConsumption',
         name: 'transactions.consumption',
-        formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+        formatter: (totalConsumption: number) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
       });
     if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
       });
       if (this.componentService.isActive(ComponentType.PRICING)) {
         columns.push({
@@ -162,14 +162,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           name: 'transactions.price',
           headerClass: 'd-none d-xl-table-cell',
           class: 'd-none d-xl-table-cell',
-          formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
+          formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.stop.priceUnit),
         });
       }
     }
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs, row) {
+  formatInactivity(totalInactivitySecs: number, row: Transaction) {
     let percentage = 0;
     if (row.stop) {
       percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
@@ -178,16 +178,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       ` (${this.appPercentPipe.transform(percentage, '1.0-0')})`;
   }
 
-  formatChargingStation(chargingStation, row) {
-    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
+  formatChargingStation(chargingStationID: string, connector: Connector) {
+    return `${chargingStationID} - ${this.appConnectorIdPipe.transform(connector.connectorId)}`;
   }
 
-  public buildTableFooterStats(data) {
+  public buildTableFooterStats(data: TransactionDataResult): string {
     // All records has been retrieved
     if (data.count !== Constants.INFINITE_RECORDS) {
       // Stats?
       if (data.stats) {
-        const percentInactivity = (data.stats.totalDurationSecs > 0 ? (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
+        const percentInactivity = (data.stats.totalDurationSecs > 0 ?
+          (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
         // Total Duration
         // tslint:disable-next-line:max-line-length
         let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
@@ -203,7 +204,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         return stats;
       }
     }
-    this.tableFooterStats = '';
+    return  '';
   }
 
   buildTableFiltersDef(): TableFilterDef[] {

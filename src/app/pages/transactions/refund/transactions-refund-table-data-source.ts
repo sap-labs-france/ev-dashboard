@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { ActionsResponse, DataResult, Setting, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionRefundDataResult, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -36,9 +36,8 @@ import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-s
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
-
   private refundTransactionEnabled = false;
-  private refundSetting = undefined;
+  private refundSetting: Setting;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -104,7 +103,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     };
   }
 
-  public buildTableFooterStats(data) {
+  public buildTableFooterStats(data: TransactionRefundDataResult): string {
     // All records has been retrieved
     if (data.count !== Constants.INFINITE_RECORDS) {
       // Stats?
@@ -124,11 +123,11 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         return stats;
       }
     }
-    this.tableFooterStats = '';
+    return '';
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [];
+    const columns: TableColumnDef[] = [];
     columns.push(
       {
         id: 'id',
@@ -140,7 +139,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
       {
         id: 'refundData.reportId',
@@ -190,7 +189,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs, row) {
+  formatInactivity(totalInactivitySecs: number, row: Transaction) {
     const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     if (percentage === 0) {
       return '';
@@ -199,8 +198,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`;
   }
 
-  formatChargingStation(chargingStation, row) {
-    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
+  formatChargingStation(chargingStationID: string, row: Transaction) {
+    return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
@@ -279,26 +278,26 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
-    this.centralServerService.refundTransactions(transactions.map((tr) => tr.id)).subscribe((response: ActionsResponse) => {
-      if (response.inError > 0) {
-        this.messageService.showErrorMessage(
-          this.translateService.instant('transactions.notification.refund.partial',
-            {
-              inError: response.inError,
-              total: response.inError + response.inSuccess,
-            },
-          ));
-      } else {
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.refund.success',
-            { inSuccess: response.inSuccess }));
-      }
-      this.spinnerService.hide();
-      this.clearSelectedRows();
-      this.refreshData().subscribe();
+    this.centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
+      .subscribe((response: ActionsResponse) => {
+        if (response.inError > 0) {
+          this.messageService.showErrorMessage(
+            this.translateService.instant('transactions.notification.refund.partial',
+              {
+                inError: response.inError,
+                total: response.inError + response.inSuccess,
+              },
+            ));
+        } else {
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('transactions.notification.refund.success',
+              { inSuccess: response.inSuccess }));
+        }
+        this.spinnerService.hide();
+        this.clearSelectedRows();
+        this.refreshData().subscribe();
     }, (error) => {
       this.spinnerService.hide();
-
       switch (error.status) {
         case 560: // not authorized
           Utils.handleHttpError(error, this.router, this.messageService,

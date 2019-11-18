@@ -6,8 +6,8 @@ export class AppColorByLevelPipe implements PipeTransform {
 
   transform(level?: string): string {
     let classResult = 'ml-1 ';
-    if(level) {
-      switch(level) {
+    if (level) {
+      switch (level) {
         case 'info':
           classResult += Constants.LEVEL_TEXT_INFO;
           break;

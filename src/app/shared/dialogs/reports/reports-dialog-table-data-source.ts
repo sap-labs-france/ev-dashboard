@@ -22,7 +22,7 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Transact
     this.initDataSource();
   }
 
- public loadDataImpl(): Observable<DataResult<Transaction>> {
+  public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
       // Get data
       const filters = this.buildFilterValues();

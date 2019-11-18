@@ -12,6 +12,7 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
+import { TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
 import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './components/transactions-connector-cell.component';
 import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
 import { TransactionsHistoryComponent } from './history/transactions-history.component';
@@ -23,7 +24,6 @@ import { TransactionsRefundTableDataSource } from './refund/transactions-refund-
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
 import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
-import { TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
 
 @NgModule({
   imports: [
@@ -47,7 +47,7 @@ import { TransactionsInactivityCellComponent } from './cell-components/transacti
     TransactionsRefundComponent,
     AppTransactionsFormatConnector,
     TransactionsConnectorCellComponent,
-    TransactionsInactivityCellComponent
+    TransactionsInactivityCellComponent,
   ],
   entryComponents: [
     TransactionsComponent,
@@ -58,7 +58,7 @@ import { TransactionsInactivityCellComponent } from './cell-components/transacti
     TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent,
-    TransactionsInactivityCellComponent
+    TransactionsInactivityCellComponent,
   ],
   exports: [
     TransactionsComponent,

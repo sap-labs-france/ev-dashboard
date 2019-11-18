@@ -263,8 +263,8 @@ export class StatisticsFiltersComponent implements OnInit {
                 if (filterDef.currentValue.length > 1) {
                   // Handle multiple key selection as a JSON array
                   const jsonKeys = [];
-                  for (let index = 0; index < filterDef.currentValue.length; index++) {
-                    jsonKeys.push(filterDef.currentValue[index].key);
+                  for (const value of filterDef.currentValue) {
+                    jsonKeys.push(value.key);
                   }
                   filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
                 } else {

@@ -258,9 +258,9 @@ export class StatisticsBuildService {
       if (chartData.datasets.length > 0) {
         numberArray = chartData.datasets[0].data;
         if (Array.isArray(numberArray)) {
-          numberArray.forEach((number) => {
-            if (typeof (number) === 'number') {
-              totalValue += number;
+          numberArray.forEach((numberValue) => {
+            if (typeof (numberValue) === 'number') {
+              totalValue += numberValue;
             }
           });
         }
@@ -269,9 +269,9 @@ export class StatisticsBuildService {
       // yes, it is a stacked chart with totals
       numberArray = chartData.datasets[dataSetIndex].data;
       if (Array.isArray(numberArray)) {
-        numberArray.forEach((number) => {
-          if (typeof (number) === 'number') {
-            totalValue += number;
+        numberArray.forEach((numberValue) => {
+          if (typeof (numberValue) === 'number') {
+            totalValue += numberValue;
           }
         });
       }
@@ -291,9 +291,9 @@ export class StatisticsBuildService {
         totalValue = 0;
         numberArray = dataset.data;
         if (Array.isArray(numberArray)) {
-          numberArray.forEach((number) => {
-            if (typeof (number) === 'number') {
-              totalValue += number;
+          numberArray.forEach((numberValue) => {
+            if (typeof (numberValue) === 'number') {
+              totalValue += numberValue;
             }
           });
         }

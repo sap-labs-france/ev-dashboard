@@ -195,6 +195,7 @@ export class SiteAreaComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
+    // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
       this.formGroup.markAsPristine();
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,7 +17,7 @@ import { ChargingStationSmartChargingMasterLimitComponent } from './master-limit
   selector: 'app-charging-station-smart-charging-dialog',
   templateUrl: 'charging-station-smart-charging.dialog.component.html',
 })
-export class ChargingStationSmartChargingDialogComponent implements AfterViewInit {
+export class ChargingStationSmartChargingDialogComponent {
   charger: Charger;
 
   @ViewChild('masterLimit', { static: false }) masterLimitComponent: ChargingStationSmartChargingMasterLimitComponent;
@@ -44,9 +44,6 @@ export class ChargingStationSmartChargingDialogComponent implements AfterViewIni
         this.dialogRef.close();
       }
     });
-  }
-
-  ngAfterViewInit(): void {
   }
 
   limitChange(newValue) {

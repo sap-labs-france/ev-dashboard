@@ -1512,7 +1512,8 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIEVSEStatusesResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
+    return this.httpClient.post<OCPIEVSEStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1538,7 +1539,8 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
+    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })

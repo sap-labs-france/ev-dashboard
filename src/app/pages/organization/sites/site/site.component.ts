@@ -183,6 +183,7 @@ export class SiteComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
+    // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getSite(this.currentSiteID).pipe(mergeMap((site) => {
       this.formGroup.markAsPristine();
       // Init form

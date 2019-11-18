@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-details/error-code-details-dialog.component';
@@ -13,14 +13,11 @@ import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-detail
     margin: 0
   }`],
 })
-export class ErrorCodeDetailsComponent extends CellContentTemplateComponent implements OnInit {
+export class ErrorCodeDetailsComponent extends CellContentTemplateComponent {
   @Input() row: any;
 
   constructor(private dialog: MatDialog) {
     super();
-  }
-
-  ngOnInit(): void {
   }
 
   showHelpDialog() {

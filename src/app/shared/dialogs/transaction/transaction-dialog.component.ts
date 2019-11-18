@@ -104,7 +104,8 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   loadData() {
     this.spinnerService.show();
     if (!this.transactionId) {
-      this.centralServerService.getLastTransaction(this.chargingStationId, this.connector.connectorId.toString()).subscribe((dataResult) => {
+      this.centralServerService.getLastTransaction(this.chargingStationId,
+        this.connector.connectorId.toString()).subscribe((dataResult) => {
         if (dataResult.result && dataResult.result.length > 0) {
           this.transactionId = dataResult.result[0].id;
           this.loadConsumption(this.transactionId);

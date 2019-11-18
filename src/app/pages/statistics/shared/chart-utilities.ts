@@ -42,7 +42,7 @@ export class SimpleChart {
     // Unregister global activation of Chart labels
     Chart.plugins.unregister(ChartDataLabels);
 
-    Chart.Tooltip.positioners.customBar = function(elements, eventPosition) {
+    Chart.Tooltip.positioners.customBar = (elements, eventPosition) => {
       // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
       // @param elements {Chart.Element[]} the tooltip elements
       // @param eventPosition {Point} the position of the event in canvas coordinates
@@ -210,9 +210,7 @@ export class SimpleChart {
         anyArray = [];
 
         if (withZeroAmounts) {
-          for (let i = 0; i < dataset.data.length; i++) {
-            numberArray.push(0);
-          }
+          numberArray.fill(0, 0, dataset.data.length);
           anyArray = numberArray;
         } else {
 
@@ -273,18 +271,18 @@ export class SimpleChart {
       position: 'customBar',
       callbacks: {
         label: (tooltipItem, data) => {
-          let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           let toolTip: string;
 
           if (this.roundedChartLabels &&
-            typeof (number) === 'number') {
-            number = Math.round(number);
+            typeof (value) === 'number') {
+            value = Math.round(value);
           }
           if (this.stackedChart) {
             toolTip = data.datasets[tooltipItem.datasetIndex].label
-              + ' : ' + number.toLocaleString(this.language);
+              + ' : ' + value.toLocaleString(this.language);
           } else {
-            toolTip = number.toLocaleString(this.language);
+            toolTip = value.toLocaleString(this.language);
           }
           if (toolTipUnit) {
             toolTip = toolTip + ` ${toolTipUnit}`;
@@ -359,15 +357,15 @@ export class SimpleChart {
       enabled: true,
       callbacks: {
         label: (tooltipItem, data) => {
-          let number = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           let toolTip: string;
 
           if (this.roundedChartLabels &&
-            typeof (number) === 'number') {
-            number = Math.round(number);
+            typeof (value) === 'number') {
+            value = Math.round(value);
           }
           toolTip = data.labels[tooltipItem.index] + ' : '
-            + number.toLocaleString(this.language);
+            + value.toLocaleString(this.language);
 
           if (toolTipUnit) {
             toolTip = toolTip + ` ${toolTipUnit}`;
@@ -380,8 +378,7 @@ export class SimpleChart {
 
   private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
     let minValue = 0;
-    let number: any;
-    let minDivisor = number;
+    let minDivisor: any;
 
     if (mainLabel) {
       this.chartOptions.title.text = mainLabel;
@@ -426,12 +423,9 @@ export class SimpleChart {
       chartData.datasets.forEach((dataset) => {
         if (Array.isArray(dataset.data) === true &&
           dataset.stack === ChartConstants.STACKED_TOTAL) {
-          for (let i = 0; i < dataset.data.length; i++) {
-            number = dataset.data[i];
-            if (typeof (number) === 'number') {
-              if (number > minValue) {
-                minValue = number;
-              }
+          for (const data of dataset.data) {
+            if (typeof (data) === 'number' && data > minValue) {
+              minValue = data;
             }
           }
         }
@@ -440,10 +434,9 @@ export class SimpleChart {
     } else {
       chartData.datasets.forEach((dataset) => {
         if (Array.isArray(dataset.data) === true) {
-          for (let i = 0; i < dataset.data.length; i++) {
-            number = dataset.data[i];
-            if (typeof (number) === 'number') {
-              minValue = minValue + number;
+          for (const data of dataset.data) {
+            if (typeof (data) === 'number') {
+              minValue = minValue + data;
             }
           }
         }
@@ -541,8 +534,8 @@ export class SimpleChart {
     let rgb: string[];
 
     let sep: string;
-    let string: string;
-    let number: number;
+    let stringValue: string;
+    let numberValue: number;
 
     let r: number;
     let g: number;
@@ -575,14 +568,14 @@ export class SimpleChart {
         }
 
         for (let i = 0; i < rgba.length; i++) {
-          string = rgba[i];
-          if (string.indexOf('%') > -1) {
-            number = parseInt(string.substr(0, string.length - 1), 10);
-            number /= 100;
+          stringValue = rgba[i];
+          if (stringValue.indexOf('%') > -1) {
+            numberValue = parseInt(stringValue.substr(0, stringValue.length - 1), 10);
+            numberValue /= 100;
             if (i < 3) {
-              rgba[i] = Math.round(number * 255).toString(10);
+              rgba[i] = Math.round(numberValue * 255).toString(10);
             } else {
-              rgba[i] = number.toString(10);
+              rgba[i] = numberValue.toString(10);
             }
           }
         }
@@ -599,9 +592,9 @@ export class SimpleChart {
           rgb = color.substr(4).split(')')[0].split(sep);
 
           for (let i = 0; i < rgb.length; i++) {
-            string = rgb[i];
-            if (string.indexOf('%') > -1) {
-              rgb[i] = Math.round(parseInt(string.substr(0, string.length - 1), 10) / 100 * 255).toString(10);
+            stringValue = rgb[i];
+            if (stringValue.indexOf('%') > -1) {
+              rgb[i] = Math.round(parseInt(stringValue.substr(0, stringValue.length - 1), 10) / 100 * 255).toString(10);
             }
           }
 
@@ -621,22 +614,22 @@ export class SimpleChart {
     }
 
     // invert color components
-    string = '#';
-    number = 255 - r;
-    if (number < 16) {
-      string += '0';
+    stringValue = '#';
+    numberValue = 255 - r;
+    if (numberValue < 16) {
+      stringValue += '0';
     }
-    string += number.toString(16);
-    number = 255 - g;
-    if (number < 16) {
-      string += '0';
+    stringValue += numberValue.toString(16);
+    numberValue = 255 - g;
+    if (numberValue < 16) {
+      stringValue += '0';
     }
-    string += number.toString(16);
-    number = 255 - b;
-    if (number < 16) {
-      string += '0';
+    stringValue += numberValue.toString(16);
+    numberValue = 255 - b;
+    if (numberValue < 16) {
+      stringValue += '0';
     }
-    string += number.toString(16);
-    return string;
+    stringValue += numberValue.toString(16);
+    return stringValue;
   }
 }

@@ -237,8 +237,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
     const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
     const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
-    for (let i = 0; i < this.transaction.values.length; i += 1) {
-      const consumption = this.transaction.values[i];
+    for (const consumption of this.transaction.values) {
       this.data.labels.push(new Date(consumption.date).getTime());
       instantPowerDataSet.push(consumption.value);
       cumulatedConsumptionDataSet.push(consumption.cumulated);

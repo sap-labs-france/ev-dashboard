@@ -21,7 +21,7 @@ const misc: any = {
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  mobile_menu_visible: any = 0;
+  mobileMenuVisible: any = 0;
   public menuItems: any[];
   public loggedUser;
   public loggedUserImage = Constants.USER_NO_PICTURE;

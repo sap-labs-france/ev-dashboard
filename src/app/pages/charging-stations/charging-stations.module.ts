@@ -37,6 +37,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
 import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
 import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
+import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 
 @NgModule({
   imports: [
@@ -77,6 +78,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
+    ChargingStationsConnectorInactivityCellComponent
   ],
   declarations: [
     ChargingStationComponent,
@@ -102,6 +104,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
+    ChargingStationsConnectorInactivityCellComponent
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,

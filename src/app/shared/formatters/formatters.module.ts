@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { LocaleService } from '../../services/locale.service';
 import { AppArrayToStringPipe } from './app-array-to-string.pipe';
 import { AppBatteryPercentagePipe } from './app-battery-percentage.pipe';
+import { AppColorByLevelPipe } from './app-color-by-level.pipe';
 import { AppConnectorErrorCodePipe } from './app-connector-error-code.pipe';
 import { AppConnectorIdPipe } from './app-connector-id.pipe';
 import { AppConnectorTypePipe } from './app-connector-type.pipe';
@@ -10,6 +11,7 @@ import { AppDatePipe } from './app-date.pipe';
 import { AppDecimalPipe } from './app-decimal-pipe';
 import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
+import { AppInactivityPipe } from './app-inactivity.pipe';
 import { AppPercentPipe } from './app-percent-pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
@@ -27,9 +29,11 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
+    AppInactivityPipe,
     AppFormatRowCellPipe,
     AppUnitPipe,
     AppCurrencyPipe,
+    AppColorByLevelPipe,
     AppUserMultipleRolesPipe,
     AppPercentPipe,
   ],
@@ -44,8 +48,10 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppConnectorTypePipe,
     AppConnectorErrorCodePipe,
     AppBatteryPercentagePipe,
+    AppInactivityPipe,
     AppUnitPipe,
     AppCurrencyPipe,
+    AppColorByLevelPipe,
     AppUserMultipleRolesPipe,
     AppPercentPipe,
   ],
@@ -63,7 +69,9 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
+    AppInactivityPipe,
     AppPercentPipe,
+    AppColorByLevelPipe,
   ],
 })
 export class FormattersModule {

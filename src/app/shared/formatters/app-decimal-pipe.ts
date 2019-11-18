@@ -4,7 +4,7 @@ import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appDecimal'})
 export class AppDecimalPipe implements PipeTransform {
-  private decimalPipe: DecimalPipe;
+  private decimalPipe!: DecimalPipe;
 
   constructor(
     private localeService: LocaleService) {
@@ -13,7 +13,7 @@ export class AppDecimalPipe implements PipeTransform {
     });
   }
 
-  transform(value: number, digitsInfo?: string): string {
+  transform(value: number, digitsInfo?: string): string | null {
     return this.decimalPipe.transform(value, digitsInfo);
   }
 }

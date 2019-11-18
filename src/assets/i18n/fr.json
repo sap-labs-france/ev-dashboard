@@ -1440,6 +1440,11 @@
         "description": "La periode d'inactivité enregistrée est négative.",
         "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
       },
+      "long_inactivity": {
+        "title": "Inactivité de plus de 24h",
+        "description": "La session a été inactive pendant plus de 24heures.",
+        "action": "Vérifiez le problème avec l'utilisateur concerné."
+      },
       "negative_duration": {
         "title": "Durée négative",
         "description": "La durée enregistrée est négative.",

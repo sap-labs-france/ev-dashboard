@@ -6,8 +6,8 @@ import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appCurrency'})
 export class AppCurrencyPipe implements PipeTransform {
-  private currencyPipe: CurrencyPipe;
-  private currency: string;
+  private currencyPipe!: CurrencyPipe;
+  private currency!: string;
 
   constructor(
       private componentService: ComponentService,
@@ -25,7 +25,7 @@ export class AppCurrencyPipe implements PipeTransform {
     });
   }
 
-  transform(price: number, currency?: string, display: string = 'symbol'): string {
+  transform(price: number, currency?: string, display: string = 'symbol'): string | null {
     // Take from the conf
     if (!currency) {
       currency = this.currency;

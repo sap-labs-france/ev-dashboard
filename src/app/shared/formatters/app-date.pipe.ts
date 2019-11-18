@@ -4,7 +4,7 @@ import { LocaleService } from 'app/services/locale.service';
 
 @Pipe({name: 'appDate'})
 export class AppDatePipe implements PipeTransform {
-  private datePipe: DatePipe;
+  private datePipe!: DatePipe;
 
   constructor(
     private localeService: LocaleService) {
@@ -13,7 +13,7 @@ export class AppDatePipe implements PipeTransform {
     });
   }
 
-  transform(value: any, format = 'medium'): string {
-    return this.datePipe.transform(value);
+  transform(value: Date, format: string = 'medium'): string | null {
+    return this.datePipe.transform(value, format);
   }
 }

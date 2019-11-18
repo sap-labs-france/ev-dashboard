@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
-import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Ordering, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -14,13 +14,13 @@ import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
-  private centralRestServerServiceBaseURL: string;
-  private centralRestServerServiceSecuredURL: string;
-  private centralRestServerServiceAuthURL: string;
+  private centralRestServerServiceBaseURL!: string;
+  private centralRestServerServiceSecuredURL!: string;
+  private centralRestServerServiceAuthURL!: string;
   private centralSystemServerConfig;
   private initialized = false;
-  private currentUserToken: string;
-  private currentUser: UserToken;
+  private currentUserToken!: string;
+  private currentUser!: UserToken;
   private currentUserSubject = new BehaviorSubject<UserToken>(this.currentUser);
 
   constructor(
@@ -1188,7 +1188,7 @@ export class CentralServerService {
       );
   }
 
-  public login(user): Observable<LoginResponse> {
+  public login(user: any): Observable<LoginResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1321,7 +1321,7 @@ export class CentralServerService {
       );
   }
 
-  public registerUser(user): Observable<ActionResponse> {
+  public registerUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1336,7 +1336,7 @@ export class CentralServerService {
       );
   }
 
-  public createUser(user): Observable<ActionResponse> {
+  public createUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1362,7 +1362,7 @@ export class CentralServerService {
       );
   }
 
-  public createCompany(company): Observable<ActionResponse> {
+  public createCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1375,7 +1375,7 @@ export class CentralServerService {
       );
   }
 
-  public updateCompany(company): Observable<ActionResponse> {
+  public updateCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute

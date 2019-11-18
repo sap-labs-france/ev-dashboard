@@ -8,7 +8,7 @@ export class AppBatteryPercentagePipe implements PipeTransform {
   constructor(private percentPipe: AppPercentPipe) {
   }
 
-  transform(initialPercentage: number, finalPercentage?: number, withEvolution = true): string {
+  transform(initialPercentage: number, finalPercentage?: number, withEvolution = true): string | null {
     if (initialPercentage || finalPercentage) {
       let formattedMessage = this.percentPipe.transform(initialPercentage / 100, '1.0-0');
       if (finalPercentage) {

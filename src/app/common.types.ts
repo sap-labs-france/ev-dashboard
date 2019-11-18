@@ -31,7 +31,7 @@ export interface TableFilterDef {
   items?: KeyValue[];
   dialogComponent?: any;
   dialogComponentData?: any;
-  reset?: Function;
+  reset?: () => void;
   multiple?: boolean;
   cleared?: boolean;
 }
@@ -74,6 +74,36 @@ export interface Data {
 export interface DataResult<T extends Data> {
   count: number;
   result: T[];
+}
+
+export interface TransactionDataResult {
+  count: number;
+  result: Transaction[];
+  stats: {
+    count: number;
+    firstTimestamp?: Date;
+    lastTimestamp?: Date;
+    totalConsumptionWattHours: number;
+    totalDurationSecs: number;
+    totalInactivitySecs: number;
+    totalPrice: number;
+    currency: string;
+  };
+}
+
+export interface TransactionRefundDataResult {
+  count: number;
+  result: Transaction[];
+  stats: {
+    count: number;
+    totalConsumptionWattHours: number;
+    countRefundTransactions: number;
+    countPendingTransactions: number;
+    countRefundedReports: number;
+    totalPriceRefund: number;
+    totalPricePending: number;
+    currency: string;
+  };
 }
 
 export interface RouteInfo {
@@ -194,22 +224,33 @@ export interface ConsumptionValue {
 
 export interface Connector extends Data {
   connectorId: number;
-  errorCode: string;
   currentConsumption: number;
-  totalConsumption: number;
-  power: number;
-  voltage: number;
-  amperage: number;
+  currentStateOfCharge?: number;
+  totalInactivitySecs?: number;
+  totalConsumption?: number;
   status: string;
-  activeTagID: string;
+  errorCode?: string;
+  info?: string;
+  vendorErrorCode?: string;
+  power: number;
+  type: string;
+  voltage?: number;
+  amperage?: number;
   activeTransactionID: number;
   activeTransactionDate: Date;
-  type: string;
+  activeTagID: string;
+  inactivityStatusLevel: InactivityStatusLevel;
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
 }
+
+export type InactivityStatusLevel =
+ 'info' |
+ 'warning' |
+ 'danger'
+;
 
 export interface Charger extends Data {
   id: string;
@@ -354,7 +395,7 @@ export interface Logo {
 
 export interface Ordering {
   field: string;
-  direction: string;
+  direction: SortDirection;
 }
 
 export interface Paging {
@@ -481,7 +522,7 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  formatter?: Function;
+  formatter?: (value: any, row?: any) => string | null;
   sortable?: boolean;
   sorted?: boolean;
   direction?: SortDirection;
@@ -505,6 +546,7 @@ export interface Transaction extends Data {
   currentConsumption: number;
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
+  currentInactivityStatusLevel: InactivityStatusLevel;
   currentTotalDurationSecs: number;
   stateOfCharge: number;
   currentStateOfCharge: number;
@@ -532,6 +574,7 @@ export interface Transaction extends Data {
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
+    inactivityStatusLevel: InactivityStatusLevel;
   };
   dateTimestring: string;
   values: ConsumptionValue[];

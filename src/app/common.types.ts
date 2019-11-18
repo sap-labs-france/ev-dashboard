@@ -224,22 +224,33 @@ export interface ConsumptionValue {
 
 export interface Connector extends Data {
   connectorId: number;
-  errorCode: string;
   currentConsumption: number;
-  totalConsumption: number;
-  power: number;
-  voltage: number;
-  amperage: number;
+  currentStateOfCharge?: number;
+  totalInactivitySecs?: number;
+  totalConsumption?: number;
   status: string;
-  activeTagID: string;
+  errorCode?: string;
+  info?: string;
+  vendorErrorCode?: string;
+  power: number;
+  type: string;
+  voltage?: number;
+  amperage?: number;
   activeTransactionID: number;
   activeTransactionDate: Date;
-  type: string;
+  activeTagID: string;
+  inactivityStatusLevel: InactivityStatusLevel;
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
 }
+
+export type InactivityStatusLevel =
+ 'info' |
+ 'warning' |
+ 'danger'
+;
 
 export interface Charger extends Data {
   id: string;
@@ -535,6 +546,7 @@ export interface Transaction extends Data {
   currentConsumption: number;
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
+  currentInactivityStatusLevel: InactivityStatusLevel;
   currentTotalDurationSecs: number;
   stateOfCharge: number;
   currentStateOfCharge: number;
@@ -562,7 +574,7 @@ export interface Transaction extends Data {
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
-    inactivityStatusLevel: string;
+    inactivityStatusLevel: InactivityStatusLevel;
   };
   dateTimestring: string;
   values: ConsumptionValue[];

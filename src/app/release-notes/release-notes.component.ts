@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Impossible to update an User in the Master Tenant`,
+              `Change the color of the inactivity according its importance`
             ],
           },
         ],

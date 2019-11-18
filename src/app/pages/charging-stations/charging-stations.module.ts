@@ -14,6 +14,7 @@ import { TableModule } from 'app/shared/table/table.module';
 import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '../../app.module';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
+import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
@@ -37,7 +38,6 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
 import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
 import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
-import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 
 @NgModule({
   imports: [
@@ -78,7 +78,7 @@ import { ChargingStationsConnectorInactivityCellComponent } from './cell-compone
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
-    ChargingStationsConnectorInactivityCellComponent
+    ChargingStationsConnectorInactivityCellComponent,
   ],
   declarations: [
     ChargingStationComponent,
@@ -104,7 +104,7 @@ import { ChargingStationsConnectorInactivityCellComponent } from './cell-compone
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
-    ChargingStationsConnectorInactivityCellComponent
+    ChargingStationsConnectorInactivityCellComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,

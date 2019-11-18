@@ -180,7 +180,7 @@ export abstract class TableDataSource<T extends Data> {
     const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
     if (columnDef) {
       return [
-        { field: columnDef.id, direction: columnDef.direction }
+        { field: columnDef.id, direction: columnDef.direction },
       ];
     }
     return [];

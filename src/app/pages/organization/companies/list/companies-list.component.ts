@@ -6,12 +6,9 @@ import { CompaniesListTableDataSource } from './companies-list-table-data-source
   template: '<app-table [dataSource]="companiesListTableDataSource"></app-table>',
   providers: [CompaniesListTableDataSource],
 })
-export class CompaniesListComponent implements OnInit {
+export class CompaniesListComponent {
 
   constructor(
     public companiesListTableDataSource: CompaniesListTableDataSource) {
-  }
-
-  ngOnInit(): void {
   }
 }

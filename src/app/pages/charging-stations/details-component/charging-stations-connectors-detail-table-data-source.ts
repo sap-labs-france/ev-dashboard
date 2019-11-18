@@ -65,8 +65,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Return connector
       if (this.charger) {
         this.charger.connectors.forEach((connector) => {
+          // tslint:disable-next-line:max-line-length
           connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeTagID);
+          // tslint:disable-next-line:max-line-length
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
+          // tslint:disable-next-line:max-line-length
           connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeTagID);
           connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
@@ -155,7 +158,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ];
   }
 
-  public formatError(errorCode: string, info: string, vendorErrorCode:  string) {
+  public formatError(errorCode: string, info: string, vendorErrorCode: string) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info && info !== '' ? ` > ${info}` : '';
     const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
@@ -299,7 +302,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
   }
 
-  public startTransaction(connector: Connector, user: User|UserToken): boolean {
+  public startTransaction(connector: Connector, user: User | UserToken): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {

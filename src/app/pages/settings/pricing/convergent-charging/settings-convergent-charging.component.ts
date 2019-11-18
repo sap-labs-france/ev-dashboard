@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PricingSettings } from 'app/common.types';
 
@@ -6,7 +6,7 @@ import { PricingSettings } from 'app/common.types';
   selector: 'app-settings-convergent-charging',
   templateUrl: 'settings-convergent-charging.component.html',
 })
-export class SettingsConvergentChargingComponent implements OnInit {
+export class SettingsConvergentChargingComponent implements OnInit, OnChanges {
   @Input() formGroup: FormGroup;
   @Input() pricingSettings: PricingSettings;
 

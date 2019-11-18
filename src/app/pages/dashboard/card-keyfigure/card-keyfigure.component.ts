@@ -103,8 +103,4 @@ export class CardKeyfigureComponent implements OnChanges {
             this.trendingRotationValue : this.trendingRotationValue * -1);
     }
   }
-
-  setData() {
-  }
-
 }

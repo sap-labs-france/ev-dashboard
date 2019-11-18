@@ -40,8 +40,16 @@
     "label-position": true,
     "max-line-length": [
       true,
-      140
+      {
+        "limit": 140,
+        "ignore-pattern": "^import |^export |public |private {(.*?)}",
+        "check-strings": false,
+        "check-regex": false
+      }
     ],
+    "max-classes-per-file": {
+      "severity": "warn"
+    },
     "member-access": false,
     "member-ordering": [
       true,
@@ -49,7 +57,6 @@
         "order": "fields-first"
       }
     ],
-    "no-any": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -80,7 +87,9 @@
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
-    "no-unsafe-any": true,
+    "no-unsafe-any": {
+      "severity": "warn"
+    },
     "no-unsafe-finally": true,
     "static-this": true,
     "no-switch-case-fall-through": true,
@@ -88,7 +97,9 @@
     "no-unused-expression": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "unnecessary-else": true,
+    "unnecessary-else": {
+      "severity": "warn"
+    },
     "one-line": [
       true,
       "check-open-brace",
@@ -169,7 +180,9 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "promise-function-async": true,
-    "no-floating-promises": true,
+    "no-floating-promises": {
+      "severity": "warn"
+    },
     "await-promise": true,
     "unnecessary-constructor": true,
     "function-constructor": true,

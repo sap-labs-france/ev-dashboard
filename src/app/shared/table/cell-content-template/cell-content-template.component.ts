@@ -1,10 +1,7 @@
-import { Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Input } from '@angular/core';
 import { TableColumnDef } from '../../../common.types';
 
-export abstract class CellContentTemplateComponent implements OnChanges {
+export abstract class CellContentTemplateComponent {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
-
-  ngOnChanges(changes: SimpleChanges): void {
-  }
 }

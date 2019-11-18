@@ -1,4 +1,3 @@
-import { PercentPipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,6 +10,7 @@ import { MessageService } from '../../../services/message.service';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { ConsumptionChartComponent } from '../../component/consumption-chart/consumption-chart.component';
+import { AppPercentPipe } from '../../formatters/app-percent-pipe';
 
 @Component({
   templateUrl: './transaction-dialog.component.html',
@@ -42,7 +42,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
-    private percentPipe: PercentPipe,
+    private appPercentPipe: AppPercentPipe,
     private centralServerService: CentralServerService,
     private configService: ConfigService,
     private localeService: LocaleService,
@@ -145,7 +145,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
         this.totalInactivitySecs = transaction.currentTotalInactivitySecs;
       }
       this.percentOfInactivity =
-        ` (${this.percentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
+        ` (${this.appPercentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
       if (transaction.hasOwnProperty('stateOfCharge')) {
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';

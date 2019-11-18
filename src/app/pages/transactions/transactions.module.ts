@@ -1,4 +1,4 @@
-import { CommonModule, CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,6 +12,7 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
+import { TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
 import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './components/transactions-connector-cell.component';
 import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
 import { TransactionsHistoryComponent } from './history/transactions-history.component';
@@ -46,6 +47,7 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsRefundComponent,
     AppTransactionsFormatConnector,
     TransactionsConnectorCellComponent,
+    TransactionsInactivityCellComponent,
   ],
   entryComponents: [
     TransactionsComponent,
@@ -56,14 +58,12 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent,
+    TransactionsInactivityCellComponent,
   ],
   exports: [
     TransactionsComponent,
   ],
   providers: [
-    CurrencyPipe,
-    PercentPipe,
-    DecimalPipe,
     TransactionsHistoryTableDataSource,
     TransactionsInErrorTableDataSource,
     TransactionsInProgressTableDataSource,

@@ -1,17 +1,18 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { Connector } from '../../../common.types';
+import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="row.power === 0">
-        {{row | appChargingStationsFormatPowerConnector:'instantPowerKW':row | number}}
+        {{row | appChargingStationsFormatPowerConnector:'instantPowerKW'}}
         &nbsp;/&nbsp;
-        {{row | appChargingStationsFormatPowerConnector:'maxPowerKW':row | number}} kW
+        {{row | appChargingStationsFormatPowerConnector:'maxPowerKW'}} kW
       </div>
       <mat-progress-bar color="accent" class="d-flex" [hidden]="row.power === 0"
-        [value]="row | appChargingStationsFormatPowerConnector:'instantPowerKWPercent':row" mode="determinate">
+        [value]="row | appChargingStationsFormatPowerConnector:'instantPowerKWPercent'" mode="determinate">
       </mat-progress-bar>
     </div>
   `,
@@ -22,7 +23,11 @@ export class ChargingStationsInstantPowerConnectorProgressBarCellComponent exten
 
 @Pipe({name: 'appChargingStationsFormatPowerConnector'})
 export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransform {
-  transform(connector: Connector, type: string): number {
+  constructor(private decimalPipe: AppDecimalPipe) {
+  }
+
+  transform(connector: Connector, type: string): string {
+    let value = 0;
     // Check
     switch (type) {
       // Compute Instance Power
@@ -38,20 +43,23 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
         }
         if (type === 'instantPowerKWPercent') {
           if (instantPowerKW === 0) {
-            return 0;
+            value = 0;
           }
-          return Math.round((instantPowerKW * 1000 / connector.power) * 100);
+          value = Math.round((instantPowerKW * 1000 / connector.power) * 100);
         } else {
-          return instantPowerKW;
+          value = instantPowerKW;
         }
+        break;
 
       // Compute Max Power
       case 'maxPowerKW':
         if (connector.power) {
-          return Math.round(connector.power / 100) / 10;
+          value = Math.round(connector.power / 100) / 10;
         } else {
-          return 0;
+          value = 0;
         }
+        break;
     }
+    return this.decimalPipe.transform(value);
   }
 }

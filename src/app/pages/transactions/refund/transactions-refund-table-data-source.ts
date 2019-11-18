@@ -1,11 +1,10 @@
-import { PercentPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionsResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { ActionsResponse, DataResult, Setting, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionRefundDataResult, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -17,6 +16,7 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -24,6 +24,7 @@ import { TableOpenInConcurAction } from '../../../shared/table/actions/table-ope
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -35,9 +36,8 @@ import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-s
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
-
-  private isAdmin = false;
-  private refundSetting = undefined;
+  private refundTransactionEnabled = false;
+  private refundSetting!: Setting;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -51,14 +51,13 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
     private appUnitPipe: AppUnitPipe,
-    private percentPipe: PercentPipe,
+    private appPercentPipe: AppPercentPipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
-    // Admin
-    this.isAdmin = this.authorizationService.isAdmin();
+    this.refundTransactionEnabled = this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_REFUND_TRANSACTION);
     // Check
     this.checkConcurConnection();
     // Init
@@ -94,8 +93,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         enabled: true,
       },
       rowSelection: {
-        enabled: true,
-        multiple: true,
+        enabled: this.refundTransactionEnabled,
+        multiple: this.refundTransactionEnabled,
       },
       rowDetails: {
         enabled: false,
@@ -104,7 +103,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     };
   }
 
-  public buildTableFooterStats(data) {
+  public buildTableFooterStats(data: TransactionRefundDataResult): string {
     // All records has been retrieved
     if (data.count !== Constants.INFINITE_RECORDS) {
       // Stats?
@@ -124,11 +123,11 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         return stats;
       }
     }
-    this.tableFooterStats = '';
+    return '';
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [];
+    const columns: TableColumnDef[] = [];
     columns.push(
       {
         id: 'id',
@@ -140,7 +139,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
       {
         id: 'refundData.reportId',
@@ -151,7 +150,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         id: 'refundData.refundedAt',
         name: 'transactions.refundDate',
         sortable: true,
-        formatter: (refundedAt, row) => !!refundedAt ? this.datePipe.transform(refundedAt) : '',
+        formatter: (refundedAt) => this.datePipe.transform(refundedAt),
       },
       {
         id: 'refundData.status',
@@ -190,17 +189,17 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs, row) {
+  formatInactivity(totalInactivitySecs: number, row: Transaction) {
     const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     if (percentage === 0) {
       return '';
     }
     return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.percentPipe.transform(percentage, '2.0-0')})`;
+      ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`;
   }
 
-  formatChargingStation(chargingStation, row) {
-    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
+  formatChargingStation(chargingStationID: string, row: Transaction) {
+    return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
@@ -214,6 +213,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new ReportTableFilter().getFilterDef());
       }
     }
 
@@ -223,11 +223,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      new TableRefundAction().getActionDef(),
-      new TableOpenInConcurAction().getActionDef(),
-      ...tableActionsDef,
-    ];
+    if (this.refundTransactionEnabled) {
+      return [
+        new TableRefundAction().getActionDef(),
+        new TableOpenInConcurAction().getActionDef(),
+        ...tableActionsDef,
+      ];
+    }
+    return tableActionsDef;
   }
 
   actionTriggered(actionDef: TableActionDef) {
@@ -270,31 +273,31 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   isSelectable(row: Transaction) {
-    return !row.refundData || row.refundData.status === 'cancelled';
+    return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
   }
 
   protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
-    this.centralServerService.refundTransactions(transactions.map((tr) => tr.id)).subscribe((response: ActionsResponse) => {
-      if (response.inError > 0) {
-        this.messageService.showErrorMessage(
-          this.translateService.instant('transactions.notification.refund.partial',
-            {
-              inError: response.inError,
-              total: response.inError + response.inSuccess,
-            },
-          ));
-      } else {
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.refund.success',
-            { inSuccess: response.inSuccess }));
-      }
+    this.centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
+      .subscribe((response: ActionsResponse) => {
+        if (response.inError > 0) {
+          this.messageService.showErrorMessage(
+            this.translateService.instant('transactions.notification.refund.partial',
+              {
+                inError: response.inError,
+                total: response.inError + response.inSuccess,
+              },
+            ));
+        } else {
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('transactions.notification.refund.success',
+              { inSuccess: response.inSuccess }));
+        }
+        this.spinnerService.hide();
+        this.clearSelectedRows();
+        this.refreshData().subscribe();
+    }, (error: any) => {
       this.spinnerService.hide();
-      this.clearSelectedRows();
-      this.refreshData().subscribe();
-    }, (error) => {
-      this.spinnerService.hide();
-
       switch (error.status) {
         case 560: // not authorized
           Utils.handleHttpError(error, this.router, this.messageService,

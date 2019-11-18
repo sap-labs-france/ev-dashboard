@@ -360,9 +360,12 @@
     "create_error": "Une erreur est survenue pendant la création du site",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "admin_role": "Admin du Site",
+    "owner_role": "Propriétaire du Site",
     "update_set_site_admin_success": "L'utilisateur '{{userName}}' est désormais administrateur du site",
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site",
-    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'"
+    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'",
+    "update_set_site_owner_success": "L'utilisateur '{{userName}}' est désormais propriétaire du site",
+    "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
   },
   "site_areas": {
     "no_site_areas": "Aucune zone n'a été trouvée",
@@ -1350,6 +1353,7 @@
     "no_history": "Pas d'historique pendant cette période",
     "refundDate": "Transférée le",
     "reportId": "Rapport ID",
+    "select_report": "Selection Rapport",
     "filter": {
       "type": {
         "name": "Type",
@@ -1435,6 +1439,11 @@
         "title": "Inactivité négative",
         "description": "La periode d'inactivité enregistrée est négative.",
         "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
+      },
+      "long_inactivity": {
+        "title": "Inactivité de plus de 24h",
+        "description": "La session a été inactive pendant plus de 24heures.",
+        "action": "Vérifiez le problème avec l'utilisateur concerné."
       },
       "negative_duration": {
         "title": "Durée négative",

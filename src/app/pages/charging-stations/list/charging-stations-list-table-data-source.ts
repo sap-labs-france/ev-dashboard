@@ -10,7 +10,7 @@ import {
   TableActionDef,
   TableColumnDef,
   TableDef,
-  TableFilterDef
+  TableFilterDef,
 } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
@@ -37,7 +37,7 @@ import {
   ACTION_MORE_ACTIONS,
   ACTION_SMART_CHARGING,
   ACTION_SOFT_RESET,
-  ChargingStationsMoreAction
+  ChargingStationsMoreAction,
 } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';

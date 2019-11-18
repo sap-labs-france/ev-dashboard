@@ -4,18 +4,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import * as _ from 'lodash';
 import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import {
-  Data,
-  DataResult,
-  DropdownItem,
-  Ordering,
-  Paging,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from '../../common.types';
+import { Data, DataResult, DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
@@ -184,18 +173,17 @@ export abstract class TableDataSource<T extends Data> {
   public getSorting(): Ordering[] {
     if (this.getSort()) {
       return [
-        {field: this.getSort().active, direction: this.getSort().direction},
+        { field: this.getSort().active, direction: this.getSort().direction },
       ];
-    } else {
-      // Find Sorted columns
-      const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
-      // Set Sorting
-      if (columnDef) {
-        return [
-          {field: columnDef.id, direction: columnDef.direction},
-        ];
-      }
     }
+    // Find Sorted columns
+    const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
+    if (columnDef) {
+      return [
+        { field: columnDef.id, direction: columnDef.direction },
+      ];
+    }
+    return [];
   }
 
   public setTotalNumberOfRecords(totalNumberOfRecords: number) {
@@ -205,7 +193,7 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  public buildTableFooterStats(data) {
+  public buildTableFooterStats(data: any): string {
     return '';
   }
 
@@ -258,7 +246,9 @@ export abstract class TableDataSource<T extends Data> {
       return filterDef.id === filter.id;
     });
     // Update value
-    foundFilter.currentValue = filter.currentValue;
+    if (foundFilter) {
+      foundFilter.currentValue = filter.currentValue;
+    }
   }
 
   public resetFilters() {

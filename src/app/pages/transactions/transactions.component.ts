@@ -19,7 +19,9 @@ export class TransactionsComponent extends AbstractTabComponent {
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'refund']);
-    this.showTransactionRefundTab = this.componentService.isActive(ComponentType.REFUND) && (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
+    this.showTransactionRefundTab = this.componentService.isActive(ComponentType.REFUND) &&
+      (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_REFUND_TRANSACTION)
+        || this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
     this.showTransactionInError = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
   }
 }

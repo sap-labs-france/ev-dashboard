@@ -40,6 +40,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive: boolean;
 
+  private readonly Constants = Constants;
+
   constructor(
     private configService: ConfigService,
     private translateService: TranslateService,

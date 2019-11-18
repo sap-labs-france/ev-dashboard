@@ -24,6 +24,7 @@ import { SitesListTableDataSource } from './sites/list/sites-list-table-data-sou
 import { SitesListComponent } from './sites/list/sites-list.component';
 import { SiteUsersAdminCheckboxComponent } from './sites/site-users/site-users-admin-checkbox.component';
 import { SiteUsersDialogComponent } from './sites/site-users/site-users-dialog.component';
+import { SiteUsersOwnerRadioComponent } from './sites/site-users/site-users-owner-radio.component';
 import { SiteUsersTableDataSource } from './sites/site-users/site-users-table-data-source';
 import { SiteDialogComponent } from './sites/site/site-dialog.component';
 import { SiteComponent } from './sites/site/site.component';
@@ -55,6 +56,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
     SiteUsersAdminCheckboxComponent,
+    SiteUsersOwnerRadioComponent,
   ],
   entryComponents: [
     OrganizationComponent,
@@ -69,6 +71,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
     SiteUsersAdminCheckboxComponent,
+    SiteUsersOwnerRadioComponent,
   ],
   providers: [
     CompaniesListTableDataSource,

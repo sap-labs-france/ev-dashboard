@@ -3,12 +3,12 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Observable } from 'rxjs';
 import { ActionResponse, Charger, Connector, DataResult, TableActionDef, TableColumnDef, TableDef, User, UserToken } from '../../../common.types';
+import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -45,7 +45,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private appUnitPipe: AppUnitPipe,
-    private appDurationPipe: AppDurationPipe,
     private dialog: MatDialog,
     private authorizationService: AuthorizationService,
     private messageService: MessageService,
@@ -137,14 +136,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'totalConsumption',
         name: 'chargers.total_consumption_title',
-        formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
+        formatter: (value: number) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false,
       },
       {
         id: 'totalInactivitySecs',
         name: 'chargers.inactivity',
-        formatter: (totalInactivitySecs) => this.appDurationPipe.transform(totalInactivitySecs),
         sortable: false,
+        isAngularComponent: true,
+        angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
         id: 'errorCode',
@@ -155,7 +155,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ];
   }
 
-  public formatError(errorCode, info, vendorErrorCode) {
+  public formatError(errorCode: string, info: string, vendorErrorCode:  string) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info && info !== '' ? ` > ${info}` : '';
     const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';

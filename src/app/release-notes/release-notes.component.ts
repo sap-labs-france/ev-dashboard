@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.15',
-        date: new Date('2019-11-12'),
+        date: new Date('2019-11-17'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Impossible to update an User in the Master Tenant`,
+              `Change the color of the inactivity according its importance`,
             ],
           },
         ],
@@ -47,7 +48,7 @@ export class ReleaseNotesComponent {
               `Charging Station can be deleted if an attached ongoing Session is finished`,
               `Fixed URL in OCPI credential object according endpoint role`,
               `Fixed bug in Log's Search`,
-              `OCPI eMSP ongoing implementation`
+              `OCPI eMSP ongoing implementation`,
             ],
           },
         ],

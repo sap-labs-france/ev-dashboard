@@ -5,8 +5,8 @@ import { Utils } from 'app/utils/Utils';
 @Pipe({name: 'appFormatRowCell'})
 export class AppFormatRowCellPipe implements PipeTransform {
 
-  transform(value: any, tableColumnDef: TableColumnDef, row: any): any {
-    let formattedValue = value;
+  transform(value: string, tableColumnDef: TableColumnDef, row: any): string | null {
+    let formattedValue: string | null = value;
     // Convert to primitive/object first
     switch (tableColumnDef.type) {
       // Date

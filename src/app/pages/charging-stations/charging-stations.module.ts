@@ -14,6 +14,7 @@ import { TableModule } from 'app/shared/table/table.module';
 import { MomentModule } from 'ngx-moment';
 import { MaterialModule } from '../../app.module';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
+import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
@@ -77,6 +78,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
+    ChargingStationsConnectorInactivityCellComponent,
   ],
   declarations: [
     ChargingStationComponent,
@@ -102,6 +104,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
+    ChargingStationsConnectorInactivityCellComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,

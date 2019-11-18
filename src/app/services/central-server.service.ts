@@ -14,13 +14,13 @@ import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
-  private centralRestServerServiceBaseURL: string;
-  private centralRestServerServiceSecuredURL: string;
-  private centralRestServerServiceAuthURL: string;
+  private centralRestServerServiceBaseURL!: string;
+  private centralRestServerServiceSecuredURL!: string;
+  private centralRestServerServiceAuthURL!: string;
   private centralSystemServerConfig;
   private initialized = false;
-  private currentUserToken: string;
-  private currentUser: UserToken;
+  private currentUserToken!: string;
+  private currentUser!: UserToken;
   private currentUserSubject = new BehaviorSubject<UserToken>(this.currentUser);
 
   constructor(
@@ -95,6 +95,18 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
       { siteID, userID, siteAdmin },
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public updateSiteOwner(siteID: string, userID: string): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
+      {siteID, userID},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -726,6 +738,45 @@ export class CentralServerService {
       );
   }
 
+  public getRefundReports(params: { [param: string]: string | string[]; },
+                          paging: Paging = Constants.DEFAULT_PAGING,
+                          ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefundReports`,
+      {
+        headers: this._buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public getTransactionsToRefundList(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundList`,
+      {
+        headers: this._buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
   public assignTransactionsToUser(userId: string): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
@@ -950,8 +1001,7 @@ export class CentralServerService {
   }
 
   public getLogs(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<Log>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1074,8 +1124,7 @@ export class CentralServerService {
   }
 
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1139,7 +1188,7 @@ export class CentralServerService {
       );
   }
 
-  public login(user): Observable<LoginResponse> {
+  public login(user: any): Observable<LoginResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1272,7 +1321,7 @@ export class CentralServerService {
       );
   }
 
-  public registerUser(user): Observable<ActionResponse> {
+  public registerUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1287,7 +1336,7 @@ export class CentralServerService {
       );
   }
 
-  public createUser(user): Observable<ActionResponse> {
+  public createUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1313,7 +1362,7 @@ export class CentralServerService {
       );
   }
 
-  public createCompany(company): Observable<ActionResponse> {
+  public createCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1326,7 +1375,7 @@ export class CentralServerService {
       );
   }
 
-  public updateCompany(company): Observable<ActionResponse> {
+  public updateCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute

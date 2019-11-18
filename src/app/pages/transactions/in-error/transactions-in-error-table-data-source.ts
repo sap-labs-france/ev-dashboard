@@ -161,6 +161,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title`,
     });
     errorTypes.push({
+      key: Constants.TRANSACTION_IN_ERROR_LONG_INACTIVITY,
+      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_LONG_INACTIVITY}.title`,
+    });
+    errorTypes.push({
       key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION,
       value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title`,
     });

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSlider } from '@angular/material/slider';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
@@ -17,7 +17,7 @@ const LARGE_SLIDER_STEP = 1000;
   templateUrl: 'charging-station-smart-charging-power-slider.component.html',
 })
 @Injectable()
-export class ChargingStationSmartChargingPowerSliderComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingPowerSliderComponent implements OnInit {
   @Input() maximumPower: number;
   @Input() powerUnit: string;
   @Input() numberOfConnectedPhase: number;
@@ -104,9 +104,6 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit,
     if (this.textPosition === undefined) {
       this.textPosition = 'bottom';
     }
-  }
-
-  ngAfterViewInit(): void {
   }
 
   public formatPowerPercent(value: number | null) {

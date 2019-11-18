@@ -47,7 +47,8 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Check auth
-    if (!this.authorizationService.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_UPDATE) && !this.authorizationService.isDemo()) {
+    if (!this.authorizationService.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_UPDATE)
+      && !this.authorizationService.isDemo()) {
       // Not authorized
       this.messageService.showErrorMessage(this.translateService.instant('chargers.action_error.not_authorize'));
       this.dialog.closeAll();

@@ -124,12 +124,14 @@ export class SettingsBillingComponent implements OnInit {
         this.centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
             if (synchronizeResponse.synchronized) {
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success', { number: synchronizeResponse.synchronized }));
+              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',
+                {number: synchronizeResponse.synchronized}));
             } else if (!synchronizeResponse.error) {
               this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success_all'));
             }
             if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure', { number: synchronizeResponse.error }));
+              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure',
+                {number: synchronizeResponse.error}));
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');

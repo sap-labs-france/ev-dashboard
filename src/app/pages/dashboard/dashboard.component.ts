@@ -1,5 +1,5 @@
 import { animate, group, query, style, transition, trigger, AnimationEvent } from '@angular/animations';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as moment from 'moment';
@@ -62,7 +62,7 @@ const FADE_OUT_CLASS = 'fade-out';
   ],
 })
 
-export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   /**
    * Set to true to trigger the first half of the animation before changing model data
@@ -161,9 +161,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isCarouselPaused = true;
     this.dashboardService.stopLoading();
-  }
-
-  ngAfterViewInit(): void {
   }
 
   /**

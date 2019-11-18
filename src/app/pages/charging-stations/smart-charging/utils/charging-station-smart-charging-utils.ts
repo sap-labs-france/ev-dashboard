@@ -2,11 +2,11 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 
 export class ChargingStationSmartChargingUtils {
   /**
-  * Return the value in th eexpected display format
-  * All values are displayed in kW
-  * @param {*} value : value to convert
-  * @param {*} valueUnit : unit (W, kW, A) of the value
-  */
+   * Return the value in th eexpected display format
+   * All values are displayed in kW
+   * @param {*} value : value to convert
+   * @param {*} valueUnit : unit (W, kW, A) of the value
+   */
   static getDisplayedFormatValue(value, valueUnit, displayUnit, powerDigitPrecision,
                                  powerFloatingPrecision, numberOfConnectedPhase, appUnitFormatter, addUnit: boolean) {
     switch (valueUnit) {

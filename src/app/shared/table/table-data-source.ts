@@ -180,7 +180,7 @@ export abstract class TableDataSource<T extends Data> {
     const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
     if (columnDef) {
       return [
-        { field: columnDef.id, direction: columnDef.direction }
+        { field: columnDef.id, direction: columnDef.direction },
       ];
     }
     return [];
@@ -282,9 +282,11 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
+  // tslint:disable-next-line:no-empty
   public actionTriggered(actionDef: TableActionDef) {
   }
 
+  // tslint:disable-next-line:no-empty
   public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
   }
 
@@ -309,8 +311,8 @@ export abstract class TableDataSource<T extends Data> {
                 if (filterDef.currentValue.length > 1) {
                   // Handle multiple key selection as a JSON array
                   const jsonKeys = [];
-                  for (let index = 0; index < filterDef.currentValue.length; index++) {
-                    jsonKeys.push(filterDef.currentValue[index].key);
+                  for (const value of filterDef.currentValue) {
+                    jsonKeys.push(value.key);
                   }
                   filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
                 } else {
@@ -347,7 +349,7 @@ export abstract class TableDataSource<T extends Data> {
     return filterJson;
   }
 
-  public getRowDetails(row: T): Observable<String> {
+  public getRowDetails(row: T): Observable<string> {
     return of('getRowDetails() not implemented in your data source!');
   }
 
@@ -359,6 +361,7 @@ export abstract class TableDataSource<T extends Data> {
     return this.staticFilters;
   }
 
+  // tslint:disable-next-line:no-empty
   public onRowActionMenuOpen(action: TableActionDef, row: T) {}
 
   abstract buildTableColumnDefs(): TableColumnDef[];
@@ -574,8 +577,7 @@ export abstract class TableDataSource<T extends Data> {
     const isRowSelectionEnabled = this.isRowSelectionEnabled();
     const expandedRowIDs = this.data.filter((row) => row.isExpanded);
     const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);
-    for (let i = 0; i < freshData.length; i++) {
-      const freshRow = freshData[i];
+    for (const freshRow of freshData) {
       // Check for complex property
       for (const tableColumnDef of this.tableColumnDefs) {
         // Check for complex column id with dot

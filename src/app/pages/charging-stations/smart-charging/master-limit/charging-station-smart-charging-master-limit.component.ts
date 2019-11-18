@@ -1,5 +1,5 @@
 // tslint:disable-next-line:max-line-length
-import { AfterViewInit, Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +20,7 @@ import { ChargingStationSmartChargingPowerSliderComponent } from '../component/c
   templateUrl: './charging-station-smart-charging-master-limit.component.html',
 })
 @Injectable()
-export class ChargingStationSmartChargingMasterLimitComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingMasterLimitComponent implements OnInit {
   @Input() charger: Charger;
   @Output() onApplyPlanning = new EventEmitter<any>();
   public userLocales;
@@ -65,9 +65,6 @@ export class ChargingStationSmartChargingMasterLimitComponent implements OnInit,
   ngOnInit(): void {
     // Initialize slider values
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
-  }
-
-  ngAfterViewInit(): void {
   }
 
   public applyPowerLimit() {

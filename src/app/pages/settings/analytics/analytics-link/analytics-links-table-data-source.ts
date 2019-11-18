@@ -222,7 +222,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        _.remove(this.analyticsLinks, function(o: AnalyticsLink) { return (o.id === analyticsLink.id); });
+        _.remove(this.analyticsLinks, (o: AnalyticsLink) => (o.id === analyticsLink.id));
         this.refreshData().subscribe();
         this.changed.emit(true);
       }

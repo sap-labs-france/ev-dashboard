@@ -5,6 +5,6 @@ export abstract class CellContentTemplateComponent implements OnChanges {
   @Input() row: any;
   @Input() columnDef: TableColumnDef;
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  // tslint:disable-next-line:no-empty
+  ngOnChanges(changes: SimpleChanges): void {}
 }

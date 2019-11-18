@@ -18,7 +18,7 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: './charging-stations-get-diagnostics.component.html',
 })
 @Injectable()
-export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterViewInit {
+export class ChargingStationsGetDiagnosticsComponent {
   @Input() charger: Charger;
   public userLocales;
   public isAdmin;
@@ -46,12 +46,6 @@ export class ChargingStationsGetDiagnosticsComponent implements OnInit, AfterVie
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
   }
 
   changeURL(event) {

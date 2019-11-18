@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './error-code-details-dialog.component.html',
 })
-export class ErrorCodeDetailsDialogComponent implements OnInit {
+export class ErrorCodeDetailsDialogComponent {
   error: ErrorMessage;
 
   constructor(
@@ -13,9 +13,6 @@ export class ErrorCodeDetailsDialogComponent implements OnInit {
     if (data) {
       this.error = data;
     }
-  }
-
-  ngOnInit(): void {
   }
 
   cancel() {

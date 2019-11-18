@@ -3,7 +3,7 @@ import { Constants } from 'app/utils/Constants';
 
 @Pipe({ name: 'appColorByLevel' })
 export class AppColorByLevelPipe implements PipeTransform {
-  
+
   transform(level?: string): string {
     let classResult = 'ml-1 ';
     if(level) {

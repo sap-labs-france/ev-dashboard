@@ -239,6 +239,7 @@ export interface Connector extends Data {
   activeTransactionID: number;
   activeTransactionDate: Date;
   activeTagID: string;
+  statusLastChangedOn?: Date;
   inactivityStatusLevel: InactivityStatusLevel;
   hasDetails: boolean;
   isStopAuthorized: boolean;

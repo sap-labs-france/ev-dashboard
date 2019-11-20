@@ -113,6 +113,7 @@
     "rosie": "^2.0.1",
     "ts-node": "^8.3.0",
     "tslint": "^5.20.0",
+    "tslint-angular": "^3.0.2",
     "typescript": "~3.5.3"
   }
 }

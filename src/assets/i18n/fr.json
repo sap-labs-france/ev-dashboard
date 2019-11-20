@@ -921,7 +921,7 @@
     "name": "Nom",
     "first_name": "Prénom",
     "plate_id": "Plaque",
-    "tag_ids": "Badges",
+    "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
     "inumber": "I-Number",
     "cost_center": "Centre de coût",
@@ -993,6 +993,11 @@
         "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."
       }
     }
+  },
+  "tags": {
+    "id": "ID",
+    "provider": "Emetteur",
+    "internal": "Interne"
   },
   "tenants": {
     "title": "Organisation",
@@ -1301,7 +1306,6 @@
     "price": "Prix",
     "state_of_charge": "Batterie",
     "date": "Date",
-    "tag_ids": "Badges",
     "charging_station": "Borne",
     "started_at": "Date Début",
     "end_date": "Date Fin",

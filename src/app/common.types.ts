@@ -581,12 +581,22 @@ export interface Transaction extends Data {
   values: ConsumptionValue[];
 }
 
+export interface Tag {
+  id: string;
+  internal: boolean;
+  userID?: string;
+  provider?: string;
+  deleted?: boolean;
+  lastChangedBy?: Partial<User>;
+  lastChangedOn?: Date;
+}
+
 export interface User extends Data {
   id: string;
   name: string;
   firstName: string;
   fullName: string;
-  tagIDs: string[];
+  tags: Tag[];
   plateID: string;
   email: string;
   phone: Date;

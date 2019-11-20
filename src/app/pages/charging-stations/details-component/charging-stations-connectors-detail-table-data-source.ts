@@ -231,7 +231,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         if (this.authorizationService.isAdmin()) {
           this.startTransactionAsAdmin(connector);
         } else {
-          this.startTransaction(connector, this.centralServerService.getLoggedUser());
+          this.startTransaction(connector, null, this.centralServerService.getLoggedUser());
         }
         break;
 
@@ -302,18 +302,19 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
   }
 
-  public startTransaction(connector: Connector, user: User | UserToken): boolean {
+  public startTransaction(connector: Connector, user: User, loggedUser: UserToken): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
         chargeBoxID: this.charger.id,
-        userName: Users.buildUserFullName(user),
+        userName: Users.buildUserFullName(user ? user : loggedUser),
       }),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
+        const tagID: string = user ? user.tags[0].id : loggedUser.tagIDs[0];
         this.centralServerService.chargingStationStartTransaction(
-          this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response2: ActionResponse) => {
+          this.charger.id, connector.connectorId, tagID).subscribe((response2: ActionResponse) => {
           // Ok?
           if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // Ok
@@ -350,7 +351,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     dialogRef.afterClosed().subscribe((buttonId) => {
       switch (buttonId) {
         case BUTTON_FOR_MYSELF:
-          return this.startTransaction(connector, this.centralServerService.getLoggedUser());
+          return this.startTransaction(connector, null, this.centralServerService.getLoggedUser());
         case BUTTON_SELECT_USER:
           // Show select user dialog
           dialogConfig.data = {
@@ -363,7 +364,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           // Add sites
           dialogRef2.afterClosed().subscribe((data) => {
             if (data && data.length > 0) {
-              return this.startTransaction(connector, data[0].objectRef);
+              return this.startTransaction(connector, data[0].objectRef, this.centralServerService.getLoggedUser());
             }
           });
           break;

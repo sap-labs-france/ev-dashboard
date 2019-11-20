@@ -1,12 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { BehaviorSubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, User } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, Tag, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -53,7 +54,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public phone: AbstractControl;
   public mobile: AbstractControl;
   public iNumber: AbstractControl;
-  public tagIDs: AbstractControl;
+  public tags: FormArray;
   public plateID: AbstractControl;
   public costCenter: AbstractControl;
   public status: AbstractControl;
@@ -89,6 +90,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendChargingStationRegistered: AbstractControl;
   public sendOcpiPatchStatusError: AbstractControl;
   public sendSmtpAuthError: AbstractControl;
+
+  public tagDataSource = new BehaviorSubject<AbstractControl[]>([]);
+  public TAG_COLUMNS = ['id', 'provider', 'internal', 'action'];
 
   public isConcurConnectionValid: boolean;
   public canSeeInvoice: boolean;
@@ -171,7 +175,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendChargingStationRegistered: new FormControl(true),
         sendOcpiPatchStatusError: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
-        }),
+      }),
       email: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -189,15 +193,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
-      tagIDs: new FormControl('',
-        Validators.compose(this.isAdmin ?
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.pattern('^[a-zA-Z0-9,]*$'),
-          ] :
-          [],
-        )),
+      tags: new FormArray([]),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -262,7 +258,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.phone = this.formGroup.controls['phone'];
     this.mobile = this.formGroup.controls['mobile'];
     this.iNumber = this.formGroup.controls['iNumber'];
-    this.tagIDs = this.formGroup.controls['tagIDs'];
+    this.tags = this.formGroup.controls['tags'] as FormArray;
     this.plateID = this.formGroup.controls['plateID'];
     this.costCenter = this.formGroup.controls['costCenter'];
     this.status = this.formGroup.controls['status'];
@@ -303,7 +299,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       });
     }
     if (!this.currentUserID) {
-      this.formGroup.controls.tagIDs.setValue(this.generateTagID());
+      // this.formGroup.controls.tags.setValue(this.generateTagID());
     }
 
     this.loadApplicationSettings();
@@ -411,11 +407,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.locale) {
         this.formGroup.controls.locale.setValue(user.locale);
       }
-      if (user.tagIDs && user.tagIDs.length > 0) {
-        this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
-      }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
+      }
+      if (user.tags) {
+        user.tags.forEach((tag) => this.addTag(tag));
       }
       if (user.hasOwnProperty('notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
@@ -610,6 +606,22 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
+  }
+
+  addTag(tag?: Tag) {
+    const row = new FormGroup({
+      id: new FormControl(tag ? tag.id : '', Validators.required),
+      internal: new FormControl(tag ? tag.internal : false, [Validators.required]),
+      provider: new FormControl(tag ? tag.provider : ''),
+    });
+    this.tags.push(row);
+    this.tagDataSource.next(this.tags.controls);
+  }
+
+  deleteTag(index: number) {
+    this.tags.removeAt(index);
+    this.tagDataSource.next(this.tags.controls);
+    this.formGroup.markAsDirty();
   }
 
   private loadApplicationSettings() {

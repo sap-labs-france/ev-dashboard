@@ -1212,8 +1212,6 @@ export class CentralServerService {
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
       this.centralServerNotificationService.initSocketIO(this.currentUser['']);
     }
-    // Set Language
-    this.translateService.use(this.getLoggedUser().language);
   }
 
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {

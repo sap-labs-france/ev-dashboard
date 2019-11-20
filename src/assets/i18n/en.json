@@ -1493,4 +1493,4 @@
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
     "smtp-auth-error": "Notify me if the backend authentication to the email server has failed"
   }
-},
+}

@@ -40,7 +40,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveChargingStationsFromSiteArea`,
-      { siteAreaID, chargingStationIDs: chargerIDs },
+      {siteAreaID, chargingStationIDs: chargerIDs},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -54,7 +54,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddChargingStationsToSiteArea`,
-      { siteAreaID, chargingStationIDs: chargerIDs },
+      {siteAreaID, chargingStationIDs: chargerIDs},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -68,7 +68,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromSite`,
-      { siteID, userIDs },
+      {siteID, userIDs},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -82,7 +82,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToSite`,
-      { siteID, userIDs },
+      {siteID, userIDs},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -94,7 +94,7 @@ export class CentralServerService {
   public updateSiteUserAdmin(siteID: string, userID: string, siteAdmin: boolean): Observable<ActionResponse> {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
-      { siteID, userID, siteAdmin },
+      {siteID, userID, siteAdmin},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -120,7 +120,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveSitesFromUser`,
-      { userID, siteIDs },
+      {userID, siteIDs},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -134,7 +134,7 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
-      { userID, siteIDs },
+      {userID, siteIDs},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -579,7 +579,7 @@ export class CentralServerService {
     return this.httpClient.get<Charger>(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
         headers: this._buildHttpHeaders(),
-        params: { ID: id },
+        params: {ID: id},
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -692,7 +692,7 @@ export class CentralServerService {
     return this.httpClient.get<Tenant>(`${this.centralRestServerServiceSecuredURL}/Tenant`,
       {
         headers: this._buildHttpHeaders(),
-        params: { ID: id },
+        params: {ID: id},
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -739,8 +739,8 @@ export class CentralServerService {
   }
 
   public getRefundReports(params: { [param: string]: string | string[]; },
-                          paging: Paging = Constants.DEFAULT_PAGING,
-                          ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING,
+    ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -784,7 +784,7 @@ export class CentralServerService {
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssignTransactionsToUser`, null,
       {
         headers: this._buildHttpHeaders(),
-        params: { UserID: userId },
+        params: {UserID: userId},
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -798,7 +798,7 @@ export class CentralServerService {
     return this.httpClient.get<number>(`${this.centralRestServerServiceSecuredURL}/UnassignedTransactionsCount`,
       {
         headers: this._buildHttpHeaders(),
-        params: { UserID: userId },
+        params: {UserID: userId},
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -815,7 +815,7 @@ export class CentralServerService {
     return this.httpClient.get<Transaction>(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
         headers: this._buildHttpHeaders(),
-        params: { ID: id },
+        params: {ID: id},
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -1650,7 +1650,7 @@ export class CentralServerService {
   refundTransactions(ids: number[]): Observable<ActionResponse> {
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, {transactionIds: ids},
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1915,11 +1915,11 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     const body = (args ?
-      `{
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
     );
@@ -2050,7 +2050,7 @@ export class CentralServerService {
 
   private _handleHttpError(error: HttpErrorResponse): Observable<never> {
     // In a real world app, we might use a remote logging infrastructure
-    const errMsg = { status: 0, message: '', details: undefined };
+    const errMsg = {status: 0, message: '', details: undefined};
     if (error) {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();

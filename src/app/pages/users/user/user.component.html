@@ -146,7 +146,9 @@
 
           <div class="card-body">
             <div class="d-flex align-items-start">
-              <button mat-button (click)="addTag()" mat-flat-button color="primary">{{'general.add' | translate}}</button>
+              <button mat-button (click)="addTag()" mat-flat-button color="primary">
+                <mat-icon>add</mat-icon>{{'general.add' | translate}}
+              </button>
             </div>
 
             <table mat-table [dataSource]="tagDataSource" formArrayName="tags" class="table table-no-border" >

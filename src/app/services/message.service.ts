@@ -61,15 +61,15 @@ export class MessageService {
         title,
         message: this.translateService.instant(message, params),
       }, {
-        type,
-        delay: 3000,
-        timer: 1500,
+        type: type,
+        delay: 2000,
+        timer: 1000,
         allow_dismiss: true,
         placement: {
-          from,
-          align,
+          from: from,
+          align: align,
         },
-        z_index: 10000,
+        z_index: 1031,
         template: this.messageTemplate,
       },
     );

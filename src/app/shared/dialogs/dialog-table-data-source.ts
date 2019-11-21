@@ -13,6 +13,7 @@ export abstract class DialogTableDataSource<T extends Data> extends TableDataSou
   buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
+      rowFieldNameIdentifier: 'id',
       rowSelection: {
         enabled: true,
         multiple: true,

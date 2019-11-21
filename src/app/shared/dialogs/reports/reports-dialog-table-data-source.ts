@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { DataResult, TableColumnDef, Transaction } from '../../../common.types';
+import { DataResult, Report, TableColumnDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
@@ -10,7 +10,7 @@ import { AppUserNamePipe } from '../../formatters/app-user-name.pipe';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class ReportsDialogTableDataSource extends DialogTableDataSource<Transaction> {
+export class ReportsDialogTableDataSource extends DialogTableDataSource<Report> {
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -22,15 +22,15 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Transact
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Transaction>> {
+  public loadDataImpl(): Observable<DataResult<Report>> {
     return new Observable((observer) => {
       // Get data
       const filters = this.buildFilterValues();
       filters['MinimalPrice'] = '0';
       this.centralServerService.getRefundReports(filters,
-        this.getPaging(), this.getSorting()).subscribe((transaction) => {
+        this.getPaging(), this.getSorting()).subscribe((report) => {
           // Ok
-          observer.next(transaction);
+          observer.next(report);
           observer.complete();
         }, (error) => {
           // No longer exists!

@@ -591,6 +591,11 @@ export interface Tag {
   lastChangedOn?: Date;
 }
 
+export interface Report extends Data {
+  id: string;
+  user: User;
+}
+
 export interface User extends Data {
   id: string;
   name: string;

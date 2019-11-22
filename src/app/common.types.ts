@@ -581,6 +581,11 @@ export interface Transaction extends Data {
   values: ConsumptionValue[];
 }
 
+export interface Report extends Data {
+  id: string;
+  user: User;
+}
+
 export interface User extends Data {
   id: string;
   name: string;
@@ -754,8 +759,6 @@ export enum OcpiSettingsType {
 }
 
 export interface OcpiCommon {
-  countryCode: string;
-  partyID: string;
   businessDetails: {
     name: string;
     website: string;
@@ -767,6 +770,14 @@ export interface OcpiCommon {
       width: string;
       height: string;
     }
+  };
+  cpo: {
+    countryCode: string;
+    partyID: string;
+  };
+  emsp: {
+    countryCode: string;
+    partyID: string;
   };
 }
 

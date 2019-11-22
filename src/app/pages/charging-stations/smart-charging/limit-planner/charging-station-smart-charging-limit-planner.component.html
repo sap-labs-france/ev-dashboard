@@ -107,7 +107,8 @@
                     <app-charging-station-smart-charging-power-slider #powerSliders [maximumPower]="charger.maximumPower"
                       [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
                       [displayMinSliderValue]='false' [displayMaxSliderValue]='false'
-                      (onSliderChange)="sliderChanged(slot, $event)" textPosition="right"
+                                                                      (sliderChangeEventEmitter)="sliderChanged(slot, $event)"
+                                                                      textPosition="right"
                       [startValue]="{value: charger.maximumPower, unit: 'W'}"></app-charging-station-smart-charging-power-slider>
                   </div>
                 </div>

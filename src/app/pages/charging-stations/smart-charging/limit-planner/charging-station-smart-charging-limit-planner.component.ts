@@ -40,7 +40,7 @@ export const PROFILE_TYPE_MAP =
 })
 export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit {
   @Input() charger: Charger;
-  @Output() onApplyPlanning = new EventEmitter<any>();
+  @Output() applyPlanningEventEmitter = new EventEmitter<any>();
 
   @ViewChildren('powerSliders') powerSliders: QueryList<ChargingStationSmartChargingPowerSliderComponent>;
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent: ChargingStationSmartChargingLimitPlannerChartComponent;
@@ -220,7 +220,7 @@ export class ChargingStationSmartChargingLimitPlannerComponent implements OnInit
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
                 { chargeBoxID: self.charger.id, power: 'plan' }));
-              this.onApplyPlanning.emit();
+              this.applyPlanningEventEmitter.emit();
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));

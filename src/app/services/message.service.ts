@@ -62,14 +62,14 @@ export class MessageService {
         message: this.translateService.instant(message, params),
       }, {
         type,
-        delay: 2000,
-        timer: 1000,
+        delay: 3000,
+        timer: 1500,
         allow_dismiss: true,
         placement: {
           from,
           align,
         },
-        z_index: 1031,
+        z_index: 10000,
         template: this.messageTemplate,
       },
     );

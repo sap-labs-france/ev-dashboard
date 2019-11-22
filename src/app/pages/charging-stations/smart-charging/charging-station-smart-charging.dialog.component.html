@@ -10,15 +10,15 @@
           <div *ngIf="charger.maximumPower" class="row">
             <div class="col-md-6">
               <app-charging-station-smart-charging-limit-planning #limitPlanning [charger]="charger"
-                (onLimitChange)="limitChange($event)"></app-charging-station-smart-charging-limit-planning>
+                                                                  (limitChangeEventEmitter)="limitChange($event)"></app-charging-station-smart-charging-limit-planning>
             </div>
             <div class="col-md-6">
               <app-charging-station-smart-charging-master-limit #masterLimit [charger]="charger"
-                (onApplyPlanning)="planningChanged($event)"></app-charging-station-smart-charging-master-limit>
+                                                                (applyPlanningEventEmitter)="planningChanged($event)"></app-charging-station-smart-charging-master-limit>
             </div>
             <div class="col-md-12">
               <app-charging-station-smart-charging-limit-planner #limitPlanner [charger]="charger"
-                (onApplyPlanning)="planningChanged($event)"></app-charging-station-smart-charging-limit-planner>
+                                                                 (applyPlanningEventEmitter)="planningChanged($event)"></app-charging-station-smart-charging-limit-planner>
             </div>
           </div>
         </div>

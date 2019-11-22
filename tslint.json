@@ -32,6 +32,9 @@
         "check-regex": false
       }
     ],
+    "max-classes-per-file": {
+      "severity": "warn"
+    },
     "no-console": [
       true,
       "debug",

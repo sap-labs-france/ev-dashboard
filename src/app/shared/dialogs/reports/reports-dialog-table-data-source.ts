@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
-import { DataResult, Report, TableColumnDef } from '../../../common.types';
+import { DataResult, Report, TableColumnDef, TableDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
@@ -39,6 +39,20 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Report> 
           observer.error(error);
         });
     });
+  }
+
+  buildTableDef(): TableDef {
+    return {
+      class: 'table-dialog-list',
+      rowFieldNameIdentifier: 'id',
+      rowSelection: {
+        enabled: true,
+        multiple: true,
+      },
+      search: {
+        enabled: true,
+      },
+    };
   }
 
   buildTableColumnDefs(): TableColumnDef[] {

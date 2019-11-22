@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.15',
-        date: new Date('2019-11-17'),
+        date: new Date('2019-11-22'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Impossible to update an User in the Master Tenant`,
               `Change the color of the inactivity according its importance`,
+              `Added Report ID filter in Refunded Session list`,
             ],
           },
         ],

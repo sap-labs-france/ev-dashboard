@@ -1,12 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, User } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -21,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../users.model';
+import { UserRoles, userStatuses } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -30,69 +30,69 @@ import { UserDialogComponent } from './user.dialog.component';
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentUserID: string;
-  @Input() inDialog: boolean;
-  @Input() dialogRef: MatDialogRef<UserDialogComponent>;
-  public userStatuses;
-  public userRoles;
-  public userLocales;
-  public isAdmin;
-  public isSuperAdmin;
-  public isSiteAdmin;
-  public originalEmail;
+  @Input() currentUserID!: string;
+  @Input() inDialog!: boolean;
+  @Input() dialogRef!: MatDialogRef<UserDialogComponent>;
+  public userStatuses: KeyValue[];
+  public userRoles: KeyValue[];
+  public userLocales: KeyValue[];
+  public isAdmin = false;
+  public isSuperAdmin = false;
+  public isSiteAdmin = false;
+  public originalEmail!: string;
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
   public hidePassword = true;
-  public maxSize;
+  public maxSize: number;
 
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public firstName: AbstractControl;
-  public email: AbstractControl;
-  public phone: AbstractControl;
-  public mobile: AbstractControl;
-  public iNumber: AbstractControl;
-  public tagIDs: AbstractControl;
-  public plateID: AbstractControl;
-  public costCenter: AbstractControl;
-  public status: AbstractControl;
-  public role: AbstractControl;
-  public locale: AbstractControl;
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public latitude: AbstractControl;
-  public longitude: AbstractControl;
-  public refundSetting: Setting;
-  public integrationConnections: IntegrationConnection[];
-  public concurConnection: IntegrationConnection;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public firstName!: AbstractControl;
+  public email!: AbstractControl;
+  public phone!: AbstractControl;
+  public mobile!: AbstractControl;
+  public iNumber!: AbstractControl;
+  public tagIDs!: AbstractControl;
+  public plateID!: AbstractControl;
+  public costCenter!: AbstractControl;
+  public status!: AbstractControl;
+  public role!: AbstractControl;
+  public locale!: AbstractControl;
+  public address!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public latitude!: AbstractControl;
+  public longitude!: AbstractControl;
+  public refundSetting!: Setting;
+  public integrationConnections!: IntegrationConnection[]|null;
+  public concurConnection!: IntegrationConnection|null;
 
-  public passwords: FormGroup;
-  public password: AbstractControl;
-  public repeatPassword: AbstractControl;
+  public passwords!: FormGroup;
+  public password!: AbstractControl;
+  public repeatPassword!: AbstractControl;
 
-  public notificationsActive: AbstractControl;
-  public notifications: FormGroup;
-  public sendSessionStarted: AbstractControl;
-  public sendOptimalChargeReached: AbstractControl;
-  public sendEndOfCharge: AbstractControl;
-  public sendEndOfSession: AbstractControl;
-  public sendUserAccountStatusChanged: AbstractControl;
-  public sendUnknownUserBadged: AbstractControl;
-  public sendChargingStationStatusError: AbstractControl;
-  public sendChargingStationRegistered: AbstractControl;
-  public sendOcpiPatchStatusError: AbstractControl;
-  public sendSmtpAuthError: AbstractControl;
+  public notificationsActive!: AbstractControl;
+  public notifications!: FormGroup;
+  public sendSessionStarted!: AbstractControl;
+  public sendOptimalChargeReached!: AbstractControl;
+  public sendEndOfCharge!: AbstractControl;
+  public sendEndOfSession!: AbstractControl;
+  public sendUserAccountStatusChanged!: AbstractControl;
+  public sendUnknownUserBadged!: AbstractControl;
+  public sendChargingStationStatusError!: AbstractControl;
+  public sendChargingStationRegistered!: AbstractControl;
+  public sendOcpiPatchStatusError!: AbstractControl;
+  public sendSmtpAuthError!: AbstractControl;
 
-  public isConcurConnectionValid: boolean;
-  public canSeeInvoice: boolean;
-  private currentLocale: string;
+  public isConcurConnectionValid = false;
+  public canSeeInvoice = false;
+  private currentLocale!: string;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -102,7 +102,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
     private configService: ConfigService,
-    private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router,
@@ -122,6 +121,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Get statuses
     this.userStatuses = userStatuses;
     // Get Roles
+    // @ts-ignore
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
@@ -250,6 +250,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
+      // @ts-ignore
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
@@ -581,10 +582,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  getConcurUrl(): string {
+  getConcurUrl(): string|null {
     if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
       return this.refundSetting.content.concur.apiUrl;
     }
+    return null;
   }
 
   getInvoice() {
@@ -621,8 +623,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
     if (this.currentUserID) {
       this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
-        this.integrationConnections = undefined;
-        this.concurConnection = undefined;
+        this.integrationConnections = null;
+        this.concurConnection = null;
         this.isConcurConnectionValid = false;
         if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
           for (const connection of connectionResult.result) {
@@ -666,13 +668,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private createUser(user) {
+  private createUser(user: User) {
     // Show
     this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.createUser(user).subscribe((response) => {
+    this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
@@ -680,8 +682,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         // Ok
         this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
         // Refresh
-        user.id = response['id'];
-        this.currentUserID = response['id'];
+        user.id = response.id!;
+        this.currentUserID = response.id!;
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?

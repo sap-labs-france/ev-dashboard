@@ -22,7 +22,7 @@ import { ChargingStationSmartChargingPowerSliderComponent } from '../component/c
 @Injectable()
 export class ChargingStationSmartChargingMasterLimitComponent implements OnInit {
   @Input() charger: Charger;
-  @Output() onApplyPlanning = new EventEmitter<any>();
+  @Output() applyPlanningEventEmitter = new EventEmitter<any>();
   public userLocales;
   public isAdmin;
 
@@ -85,7 +85,7 @@ export class ChargingStationSmartChargingMasterLimitComponent implements OnInit 
               this.translateService.instant('chargers.smart_charging.power_limit_success',
                 { chargeBoxID: self.charger.id, power: this.powerSliderComponent.getDisplayedValue('kW') }),
             );
-            this.onApplyPlanning.emit();
+            this.applyPlanningEventEmitter.emit();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));

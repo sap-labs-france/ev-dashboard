@@ -22,7 +22,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../users.model';
+import { UserRoles, userStatuses } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -31,16 +31,16 @@ import { UserDialogComponent } from './user.dialog.component';
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentUserID: string;
-  @Input() inDialog: boolean;
-  @Input() dialogRef: MatDialogRef<UserDialogComponent>;
-  public userStatuses;
-  public userRoles;
-  public userLocales;
-  public isAdmin;
-  public isSuperAdmin;
-  public isSiteAdmin;
-  public originalEmail;
+  @Input() currentUserID!: string;
+  @Input() inDialog!: boolean;
+  @Input() dialogRef!: MatDialogRef<UserDialogComponent>;
+  public userStatuses: KeyValue[];
+  public userRoles: KeyValue[];
+  public userLocales: KeyValue[];
+  public isAdmin = false;
+  public isSuperAdmin = false;
+  public isSiteAdmin = false;
+  public originalEmail!: string;
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
   public hidePassword = true;
@@ -106,7 +106,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
     private configService: ConfigService,
-    private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router,
@@ -126,6 +125,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Get statuses
     this.userStatuses = userStatuses;
     // Get Roles
+    // @ts-ignore
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
@@ -246,6 +246,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
+      // @ts-ignore
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
@@ -577,10 +578,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  getConcurUrl(): string {
+  getConcurUrl(): string|null {
     if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
       return this.refundSetting.content.concur.apiUrl;
     }
+    return null;
   }
 
   getInvoice() {
@@ -633,8 +635,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
     if (this.currentUserID) {
       this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
-        this.integrationConnections = undefined;
-        this.concurConnection = undefined;
+        this.integrationConnections = null;
+        this.concurConnection = null;
         this.isConcurConnectionValid = false;
         if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
           for (const connection of connectionResult.result) {
@@ -678,13 +680,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private createUser(user) {
+  private createUser(user: User) {
     // Show
     this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.createUser(user).subscribe((response) => {
+    this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
@@ -692,8 +694,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         // Ok
         this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
         // Refresh
-        user.id = response['id'];
-        this.currentUserID = response['id'];
+        user.id = response.id!;
+        this.currentUserID = response.id!;
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?

@@ -17,7 +17,7 @@ export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceAuthURL!: string;
-  private centralSystemServerConfig;
+  private centralSystemServerConfig: any;
   private initialized = false;
   private currentUserToken!: string;
   private currentUser!: UserToken;

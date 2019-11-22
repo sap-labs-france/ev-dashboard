@@ -149,6 +149,7 @@ export interface NavItem {
 export interface ActionResponse {
   status: string;
   error: string;
+  id?: string;
 }
 
 export interface ActionsResponse extends ActionResponse {
@@ -623,7 +624,7 @@ export interface User extends Data {
   iNumber: string;
   costCenter: boolean;
   status: string;
-  image: string;
+  image: string|null;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;

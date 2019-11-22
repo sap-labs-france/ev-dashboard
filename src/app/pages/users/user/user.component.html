@@ -225,24 +225,24 @@
                 <div class="row">
                   <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox></div>
                 </div>
-                <div class="row">
+                <div *ngIf="role.value === 'A'" class="row">
                   <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin-only" | translate}}</div>
-                </div>
-                <div *ngIf="isAdmin" class="ml-3">
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
-                  </div>
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox></div>
-                  </div>
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox></div>
-                  </div>
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox></div>
+                  <div class="ml-3"> 
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
+                    </div> 
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox></div>
+                    </div>
+                    <div class="row ml-1">
+                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox></div>
+                    </div> 
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox></div>
+                    </div>
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox></div>
+                    </div>
                   </div>
                 </div>
               </div>

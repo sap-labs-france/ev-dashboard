@@ -581,6 +581,11 @@ export interface Transaction extends Data {
   values: ConsumptionValue[];
 }
 
+export interface Report extends Data {
+  id: string;
+  user: User;
+}
+
 export interface User extends Data {
   id: string;
   name: string;

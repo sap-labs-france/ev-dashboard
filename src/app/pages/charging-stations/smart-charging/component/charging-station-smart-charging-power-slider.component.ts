@@ -27,7 +27,7 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit 
   @Input() displayMinSliderValue?: boolean;
   @Input() displayMaxSliderValue?: boolean;
 
-  @Output() onSliderChange = new EventEmitter<number>();
+  @Output() sliderChangeEventEmitter = new EventEmitter<number>();
   public maxPowerSlider: number;
   public minPowerSlider: number;
   public minPowerSliderDisplayed: number;
@@ -125,7 +125,7 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit 
       true);
     this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
     this.powerSliderValue = this.powerSliderComponent.value;
-    this.onSliderChange.emit(this.powerSliderValue);
+    this.sliderChangeEventEmitter.emit(this.powerSliderValue);
   }
 
   public sliderInput() {

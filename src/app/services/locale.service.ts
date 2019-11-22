@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
-import { KeyValue, User, UserToken } from '../common.types';
+import { KeyValue, UserToken } from '../common.types';
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
 

@@ -28,7 +28,7 @@ interface LocalConnectorSchedule extends ConnectorSchedule {
 @Injectable()
 export class ChargingStationSmartChargingLimitPlanningComponent implements OnInit {
   @Input() charger: Charger;
-  @Output() onLimitChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() limitChangeEventEmitter: EventEmitter<number> = new EventEmitter<number>();
   public userLocales;
   public isAdmin;
 
@@ -110,7 +110,7 @@ export class ChargingStationSmartChargingLimitPlanningComponent implements OnIni
       }
       this._parseCompositeSchedule();
       // Inform that new limit value was calculated
-      this.onLimitChange.emit(this.internalFormatCurrentLimit);
+      this.limitChangeEventEmitter.emit(this.internalFormatCurrentLimit);
       this.currentDisplayedLimit = ChargingStationSmartChargingUtils.getDisplayedFormatValue(this.internalFormatCurrentLimit,
         'W',
         DISPLAY_UNIT,

@@ -33,7 +33,7 @@ export class ReleaseNotesComponent {
               `Impossible to update an User in the Master Tenant`,
               `Change the color of the inactivity according its importance`,
               `Added Report ID filter in Refunded Session list`,
-              `Enhance OCPI settings to handle different identifiers for CPO and EMSP roles`
+              `Enhance OCPI settings to handle different identifiers for CPO and EMSP roles`,
             ],
           },
         ],

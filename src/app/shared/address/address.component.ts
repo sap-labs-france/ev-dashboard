@@ -32,8 +32,10 @@ export class AddressComponent implements OnInit {
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
     this.coordinates = this.address.controls['coordinates'] as FormArray;
-    this.longitude = this.coordinates.at(0);
-    this.latitude = this.coordinates.at(1);
+    if (this.coordinates) {
+      this.longitude = this.coordinates.at(0);
+      this.latitude = this.coordinates.at(1);
+    }
   }
 
   setAddress(address: Address) {

@@ -921,7 +921,7 @@
     "name": "Name",
     "first_name": "First Name",
     "plate_id": "Plate",
-    "tag_ids": "Badge IDs",
+    "tags": "Badges",
     "tag_ids_help": "Enter a list of badge IDs separated by a comma",
     "inumber": "I-Number",
     "cost_center": "Cost Center",
@@ -993,6 +993,11 @@
         "action": "Assign this user to at least one site as the organization component is active."
       }
     }
+  },
+  "tags": {
+    "id": "ID",
+    "provider": "Provider",
+    "internal": "Internal"
   },
   "tenants": {
     "title": "Organization",
@@ -1302,7 +1307,6 @@
     "price": "Price",
     "state_of_charge": "Battery",
     "date": "Date",
-    "tag_ids": "Badge IDs",
     "charging_station": "Charging Station",
     "started_at": "Started At",
     "end_date": "End Date",

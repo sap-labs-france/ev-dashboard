@@ -106,7 +106,7 @@ export class CentralServerService {
   public updateSiteOwner(siteID: string, userID: string): Observable<ActionResponse> {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
-      {siteID, userID},
+      { siteID, userID },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -739,8 +739,8 @@ export class CentralServerService {
   }
 
   public getRefundReports(params: { [param: string]: string | string[]; },
-                          paging: Paging = Constants.DEFAULT_PAGING,
-                          ordering: Ordering[] = []): Observable<DataResult<Report>> {
+    paging: Paging = Constants.DEFAULT_PAGING,
+    ordering: Ordering[] = []): Observable<DataResult<Report>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1212,8 +1212,6 @@ export class CentralServerService {
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
       this.centralServerNotificationService.initSocketIO(this.currentUser['']);
     }
-    // Set Language
-    this.translateService.use(this.getLoggedUser().language);
   }
 
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
@@ -1917,11 +1915,11 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     const body = (args ?
-      `{
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
     );

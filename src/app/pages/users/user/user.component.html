@@ -158,9 +158,9 @@
 
               <!-- Column definitions -->
               <ng-container matColumnDef="id">
-                <th *matHeaderCellDef class="table-header text-center">{{'tags.id' | translate}}</th>
+                <th *matHeaderCellDef class="table-header text-left">{{'tags.id' | translate}}</th>
                 <td *matCellDef="let row; let index = index" [formGroupName]="index">
-                  <mat-form-field>
+                  <mat-form-field class="border-0">
                     <input matInput formControlName="id" type="text">
                     <mat-error *ngIf="plateID.errors?.pattern">
                       {{"users.invalid_plate_id" | translate}}
@@ -170,9 +170,9 @@
               </ng-container>
 
               <ng-container matColumnDef="provider">
-                <th *matHeaderCellDef class="table-header text-center">{{'tags.provider' | translate}}</th>
+                <th *matHeaderCellDef class="table-header text-left">{{'tags.provider' | translate}}</th>
                 <td *matCellDef="let row; let index = index" [formGroupName]="index">
-                  <mat-form-field>
+                  <mat-form-field class="border-0">
                     <input matInput formControlName="provider" type="text">
                   </mat-form-field>
                 </td>

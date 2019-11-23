@@ -1447,8 +1447,8 @@
       },
       "long_inactivity": {
         "title": "Inactivity more than 24h",
-        "description": "The inactivity of the session is more than 24hours.",
-        "action": "Report the issue to the user."
+        "description": "The inactivity of the session is more than 24 hours.",
+        "action": "Check the Session"
       },
       "negative_duration": {
         "title": "Negative Duration",

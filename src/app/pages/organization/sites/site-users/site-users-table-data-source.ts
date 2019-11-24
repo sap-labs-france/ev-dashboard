@@ -21,7 +21,9 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { AuthorizationService } from '../../../../services/authorization.service';
 import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
+import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component';
 
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
@@ -34,7 +36,8 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private authorisationService: AuthorizationService) {
     super(spinnerService);
     this.initDataSource();
   }
@@ -81,7 +84,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const columns: TableColumnDef[] = [
       {
         id: 'user.name',
         name: 'users.name',
@@ -108,6 +111,18 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         class: 'col-10p',
       },
     ];
+
+    if (this.authorisationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE)) {
+      columns.push({
+        id: 'siteOwner',
+        isAngularComponent: true,
+        angularComponent: SiteUsersOwnerRadioComponent,
+        name: 'sites.owner_role',
+        class: 'col-10p',
+      });
+    }
+
+    return columns;
   }
 
   public setSite(site: Site) {

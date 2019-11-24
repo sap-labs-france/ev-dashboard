@@ -19,8 +19,10 @@ export class SettingsOcpiComponent implements OnInit {
   public formGroup: FormGroup;
   public logoGroup: FormGroup;
 
-  public countryCode: AbstractControl;
-  public partyID: AbstractControl;
+  public cpoCountryCode: AbstractControl;
+  public cpoPartyID: AbstractControl;
+  public emspCountryCode: AbstractControl;
+  public emspPartyID: AbstractControl;
   public website: AbstractControl;
 
   public name: AbstractControl;
@@ -64,18 +66,6 @@ export class SettingsOcpiComponent implements OnInit {
     if (this.isActive) {
       // build form
       this.formGroup = new FormGroup({
-        countryCode: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
-          ])),
-        partyID: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(3),
-            Validators.minLength(3),
-          ])),
         businessDetails: new FormGroup({
           name: new FormControl(''),
           website: new FormControl('',
@@ -92,10 +82,41 @@ export class SettingsOcpiComponent implements OnInit {
               Validators.pattern(/^[0-9]*$/)),
           }),
         }),
+        cpo: new FormGroup({
+          countryCode: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(2),
+              Validators.minLength(2),
+            ])),
+          partyID: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(3),
+              Validators.minLength(3),
+            ])),
+        }),
+        emsp: new FormGroup({
+          countryCode: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(2),
+              Validators.minLength(2),
+            ])),
+          partyID: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(3),
+              Validators.minLength(3),
+            ])),
+        }),
       });
-      // business details - CPO identifier
-      this.countryCode = this.formGroup.controls['countryCode'];
-      this.partyID = this.formGroup.controls['partyID'];
+      // CPO identifier
+      this.cpoCountryCode = (this.formGroup.controls['cpo'] as FormGroup).controls['countryCode'];
+      this.cpoPartyID = (this.formGroup.controls['cpo'] as FormGroup).controls['partyID'];
+      // EMSP identifier
+      this.emspCountryCode = (this.formGroup.controls['emsp'] as FormGroup).controls['countryCode'];
+      this.emspPartyID = (this.formGroup.controls['emsp'] as FormGroup).controls['partyID'];
       // business details - image
       this.name = (this.formGroup.controls['businessDetails'] as FormGroup).controls['name'];
       this.website = (this.formGroup.controls['businessDetails'] as FormGroup).controls['website'];
@@ -117,9 +138,16 @@ export class SettingsOcpiComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.ocpiSettings = settings;
-      // business details - CPO identifier
-      this.countryCode.setValue(settings.ocpi.countryCode);
-      this.partyID.setValue(settings.ocpi.partyID);
+      // CPO identifier
+      if (settings.ocpi.cpo) {
+        this.cpoCountryCode.setValue(settings.ocpi.cpo.countryCode);
+        this.cpoPartyID.setValue(settings.ocpi.cpo.partyID);
+      }
+      // EMSP identifier
+      if (settings.ocpi.cpo) {
+        this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
+        this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
+      }
       const businessDetails = settings.ocpi.businessDetails;
       if (businessDetails) {
         this.name.setValue(businessDetails.name);

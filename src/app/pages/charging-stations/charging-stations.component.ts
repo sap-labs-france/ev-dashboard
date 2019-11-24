@@ -7,7 +7,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 @Component({
   templateUrl: 'charging-stations.component.html',
 })
-export class ChargingStationsComponent extends AbstractTabComponent implements OnInit {
+export class ChargingStationsComponent extends AbstractTabComponent {
   isAdmin: boolean;
   constructor(
     private authorizationService: AuthorizationService,
@@ -16,8 +16,5 @@ export class ChargingStationsComponent extends AbstractTabComponent implements O
   ) {
     super(activatedRoute, windowService, ['all', 'inerror']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
-  }
-
-  ngOnInit() {
   }
 }

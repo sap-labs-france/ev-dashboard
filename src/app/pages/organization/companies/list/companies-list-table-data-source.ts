@@ -40,15 +40,15 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private viewAction = new TableViewAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService) {
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
@@ -64,23 +64,23 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
-          // lookup for logo otherwise assign default
-          for (let i = 0; i < companies.result.length; i++) {
-            if (!companies.result[i].logo) {
-              companies.result[i].logo = Constants.COMPANY_NO_LOGO;
-            }
+        // lookup for logo otherwise assign default
+        for (const company of companies.result) {
+          if (!company.logo) {
+            company.logo = Constants.COMPANY_NO_LOGO;
           }
-          // Ok
-          observer.next(companies);
-          observer.complete();
-        }, (error) => {
-          // Show error
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+        }
+        // Ok
+        observer.next(companies);
+        observer.complete();
+      }, (error) => {
+        // Show error
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        // Error
+        observer.error(error);
       });
-    }
+    });
+  }
 
   public buildTableDef(): TableDef {
     return {
@@ -150,7 +150,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (company && company.address && company.address.latitude && company.address.longitude ) ? false : true;
+    openInMaps.disabled = (company && company.address && company.address.coordinates
+      && company.address.coordinates.length === 2) ? false : true;
     if (this.isAdmin) {
       return [
         this.editAction,
@@ -205,9 +206,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return [];
   }
 
-  private _showPlace(rowItem) {
-    if (rowItem && rowItem.address && rowItem.address.longitude && rowItem.address.latitude) {
-      window.open(`http://maps.google.com/maps?q=${rowItem.address.latitude},${rowItem.address.longitude}`);
+  private _showPlace(company: Company) {
+    if (company && company.address && company.address.coordinates) {
+      window.open(`http://maps.google.com/maps?q=${company.address.coordinates[1]},${company.address.coordinates[0]}`);
     }
   }
 
@@ -234,12 +235,12 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private _deleteCompany(company) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('companies.delete_title'),
-      this.translateService.instant('companies.delete_confirm', { companyName: company.name }),
+      this.translateService.instant('companies.delete_confirm', {companyName: company.name}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteCompany(company.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('companies.delete_success', { companyName: company.name });
+            this.messageService.showSuccessMessage('companies.delete_success', {companyName: company.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),

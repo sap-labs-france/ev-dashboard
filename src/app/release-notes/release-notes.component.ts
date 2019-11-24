@@ -24,6 +24,26 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.15',
+        date: new Date('2019-11-22'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Notify Site Owner when the User forgot to start his Session`,
+              `Notify Admins when a Charging Station is no longer reporting to the backend`,
+              `Notify the User when he has been inactive for 6 months (profile will be deleted)`,
+              `Put in Session In Error list, the Sessions that have an inactivity greater than one day`,
+              `Impossible to update an User in the Master Tenant`,
+              `Change the color of the inactivity according its importance`,
+              `Added Report ID filter in Refunded Session list`,
+              `Enhance OCPI settings to handle different identifiers for CPO and EMSP roles`,
+              `Refactor the User's Badges for eMSP implementation`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.14',
         date: new Date('2019-11-09'),
         componentChanges: [
@@ -35,7 +55,7 @@ export class ReleaseNotesComponent {
               `Charging Station can be deleted if an attached ongoing Session is finished`,
               `Fixed URL in OCPI credential object according endpoint role`,
               `Fixed bug in Log's Search`,
-              `OCPI eMSP ongoing implementation`
+              `OCPI eMSP ongoing implementation`,
             ],
           },
         ],

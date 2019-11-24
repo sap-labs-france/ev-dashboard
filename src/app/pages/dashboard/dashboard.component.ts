@@ -1,12 +1,11 @@
 import { animate, group, query, style, transition, trigger, AnimationEvent } from '@angular/animations';
-import { DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as moment from 'moment';
 import { CurrentMetrics } from '../../common.types';
 import { DashboardService } from '../../services/dashboard.service';
+import { AppDecimalPipe } from '../../shared/formatters/app-decimal-pipe';
 import { CardChartComponent, ChartButton, ChartData } from './card-chart/card-chart.component';
 
 const SLIDE_INTERVAL = 60000;
@@ -63,7 +62,7 @@ const FADE_OUT_CLASS = 'fade-out';
   ],
 })
 
-export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   /**
    * Set to true to trigger the first half of the animation before changing model data
@@ -123,8 +122,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private translateService: TranslateService,
               private spinnerService: SpinnerService,
               private dashboardService: DashboardService,
-              private decimalPipe: DecimalPipe,
-              private localeService: LocaleService) {
+              private decimalPipe: AppDecimalPipe) {
     this.dashboardService.startLoading();
   }
 
@@ -163,9 +161,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isCarouselPaused = true;
     this.dashboardService.stopLoading();
-  }
-
-  ngAfterViewInit(): void {
   }
 
   /**

@@ -1,5 +1,4 @@
-import { DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
@@ -8,6 +7,7 @@ import { Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -47,7 +47,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: DecimalPipe,
+    private decimalPipe: AppDecimalPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
@@ -237,8 +237,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
     const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
     const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
-    for (let i = 0; i < this.transaction.values.length; i += 1) {
-      const consumption = this.transaction.values[i];
+    for (const consumption of this.transaction.values) {
       this.data.labels.push(new Date(consumption.date).getTime());
       instantPowerDataSet.push(consumption.value);
       cumulatedConsumptionDataSet.push(consumption.cumulated);

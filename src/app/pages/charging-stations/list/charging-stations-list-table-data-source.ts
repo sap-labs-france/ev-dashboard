@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
+import {
+  Charger,
+  DataResult,
+  DropdownItem,
+  SubjectInfo,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -23,7 +32,13 @@ import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
+import {
+  ACTION_CLEAR_CACHE,
+  ACTION_MORE_ACTIONS,
+  ACTION_SMART_CHARGING,
+  ACTION_SOFT_RESET,
+  ChargingStationsMoreAction,
+} from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
@@ -274,9 +289,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     }
   }
 
-  public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-  }
-
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
@@ -315,7 +327,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     }
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = !(charger && charger.latitude && charger.longitude);
+    openInMaps.disabled = !(charger && charger.coordinates && charger.coordinates.length === 2);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : null)) {
       return [
         this.editAction,
@@ -456,8 +468,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   }
 
   private showPlace(charger: Charger) {
-    if (charger && charger.longitude && charger.latitude) {
-      window.open(`http://maps.google.com/maps?q=${charger.latitude},${charger.longitude}`);
+    if (charger && charger.coordinates && charger.coordinates.length === 2) {
+      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
     }
   }
 
@@ -499,26 +511,26 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   private getChargerLatitudeLongitude(charger: Charger) {
     let latitude = 0;
     let longitude = 0;
-    if (charger) {
+    if (charger && charger.coordinates && charger.coordinates.length === 2) {
       // get latitude/longitude from form
-      latitude = charger.latitude;
-      longitude = charger.longitude;
+      latitude = charger.coordinates[1];
+      longitude = charger.coordinates[0];
+    }
 
-      // if one is not available try to get from SiteArea and then from Site
-      if (!latitude || !longitude) {
-        const siteArea = charger.siteArea;
+    // if one is not available try to get from SiteArea and then from Site
+    if (!latitude || !longitude) {
+      const siteArea = charger.siteArea;
 
-        if (siteArea && siteArea.address) {
-          if (siteArea.address.latitude && siteArea.address.longitude) {
-            latitude = siteArea.address.latitude;
-            longitude = siteArea.address.longitude;
-          } else {
-            const site = siteArea.site;
+      if (siteArea) {
+        if (siteArea.address && siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
+          longitude = siteArea.address.coordinates[0];
+          latitude = siteArea.address.coordinates[1];
+        } else {
+          const site = siteArea.site;
 
-            if (site && site.address && site.address.latitude && site.address.longitude) {
-              latitude = site.address.latitude;
-              longitude = site.address.longitude;
-            }
+          if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
+            longitude = site.address.coordinates[0];
+            latitude = site.address.coordinates[1];
           }
         }
       }

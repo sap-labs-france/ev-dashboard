@@ -4,7 +4,7 @@ import { User } from '../../common.types';
 @Pipe({name: 'appUserName'})
 export class AppUserNamePipe implements PipeTransform {
 
-  transform(user: User): any {
+  transform(user: User): string {
     if (!user) {
       return '';
     }

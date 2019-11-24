@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -14,13 +14,13 @@ import { WindowService } from './window.service';
 
 @Injectable()
 export class CentralServerService {
-  private centralRestServerServiceBaseURL: string;
-  private centralRestServerServiceSecuredURL: string;
-  private centralRestServerServiceAuthURL: string;
-  private centralSystemServerConfig;
+  private centralRestServerServiceBaseURL!: string;
+  private centralRestServerServiceSecuredURL!: string;
+  private centralRestServerServiceAuthURL!: string;
+  private centralSystemServerConfig: any;
   private initialized = false;
-  private currentUserToken: string;
-  private currentUser: UserToken;
+  private currentUserToken!: string;
+  private currentUser!: UserToken;
   private currentUserSubject = new BehaviorSubject<UserToken>(this.currentUser);
 
   constructor(
@@ -95,6 +95,18 @@ export class CentralServerService {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
       { siteID, userID, siteAdmin },
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public updateSiteOwner(siteID: string, userID: string): Observable<ActionResponse> {
+    this._checkInit();
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
+      { siteID, userID },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -726,6 +738,45 @@ export class CentralServerService {
       );
   }
 
+  public getRefundReports(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING,
+    ordering: Ordering[] = []): Observable<DataResult<Report>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Report>>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefundReports`,
+      {
+        headers: this._buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public getTransactionsToRefundList(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    // Verify init
+    this._checkInit();
+    // Build Paging
+    this._getPaging(paging, params);
+    // Build Ordering
+    this._getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundList`,
+      {
+        headers: this._buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
   public assignTransactionsToUser(userId: string): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
@@ -950,8 +1001,7 @@ export class CentralServerService {
   }
 
   public getLogs(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<Log>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1074,8 +1124,7 @@ export class CentralServerService {
   }
 
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
     this._checkInit();
     // Build Paging
@@ -1139,7 +1188,7 @@ export class CentralServerService {
       );
   }
 
-  public login(user): Observable<LoginResponse> {
+  public login(user: any): Observable<LoginResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1163,8 +1212,6 @@ export class CentralServerService {
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
       this.centralServerNotificationService.initSocketIO(this.currentUser['']);
     }
-    // Set Language
-    this.translateService.use(this.getLoggedUser().language);
   }
 
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
@@ -1272,7 +1319,7 @@ export class CentralServerService {
       );
   }
 
-  public registerUser(user): Observable<ActionResponse> {
+  public registerUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1287,7 +1334,7 @@ export class CentralServerService {
       );
   }
 
-  public createUser(user): Observable<ActionResponse> {
+  public createUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1313,7 +1360,7 @@ export class CentralServerService {
       );
   }
 
-  public createCompany(company): Observable<ActionResponse> {
+  public createCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1326,7 +1373,7 @@ export class CentralServerService {
       );
   }
 
-  public updateCompany(company): Observable<ActionResponse> {
+  public updateCompany(company: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1463,7 +1510,8 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIEVSEStatusesResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
+    return this.httpClient.post<OCPIEVSEStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1489,7 +1537,8 @@ export class CentralServerService {
     // Verify init
     this._checkInit();
     // Execute
-    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
+    return this.httpClient.post<OCPIGenerateLocalTokenResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1866,11 +1915,11 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     const body = (args ?
-      `{
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
     );

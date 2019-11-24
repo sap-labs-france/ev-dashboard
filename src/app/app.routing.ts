@@ -25,7 +25,9 @@ export const AppRoutes: Routes = [
 
       {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},
       {
-        path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule), data: {
+        path: 'dashboard',
+        loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
+        data: {
           menu: {
             title: 'dashboard',
             type: 'link',
@@ -43,7 +45,9 @@ export const AppRoutes: Routes = [
         canLoad: [DevEnvGuard],
       },
       {
-        path: 'charging-stations', loadChildren: () => import('./pages/charging-stations/charging-stations.module').then((m) => m.ChargingStationsModule), data: {
+        path: 'charging-stations',
+        loadChildren: () => import('./pages/charging-stations/charging-stations.module').then((m) => m.ChargingStationsModule),
+        data: {
           menu: {
             title: 'charging_stations',
             type: 'link',
@@ -57,7 +61,9 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'transactions', loadChildren: () => import('./pages/transactions/transactions.module').then((m) => m.TransactionsModule), data: {
+        path: 'transactions',
+        loadChildren: () => import('./pages/transactions/transactions.module').then((m) => m.TransactionsModule),
+        data: {
           menu: {
             title: 'transactions',
             type: 'link',
@@ -71,7 +77,8 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'statistics', loadChildren: () => import('./pages/statistics/statistics.module').then((m) => m.StatisticsModule),
+        path: 'statistics',
+        loadChildren: () => import('./pages/statistics/statistics.module').then((m) => m.StatisticsModule),
         data: {
           menu: {
             title: 'statistics',
@@ -87,7 +94,9 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'tenants', loadChildren: () => import('./pages/tenants/tenants.module').then((m) => m.TenantsModule), data: {
+        path: 'tenants',
+        loadChildren: () => import('./pages/tenants/tenants.module').then((m) => m.TenantsModule),
+        data: {
           menu: {
             title: 'tenants',
             type: 'link',
@@ -101,7 +110,9 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'users', loadChildren: () => import('./pages/users/users.module').then((m) => m.UsersModule), data: {
+        path: 'users',
+        loadChildren: () => import('./pages/users/users.module').then((m) => m.UsersModule),
+        data: {
           menu: {
             title: 'users',
             type: 'link',
@@ -115,7 +126,9 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'organization', loadChildren: () => import('./pages/organization/organization.module').then((m) => m.OrganizationModule), data: {
+        path: 'organization',
+        loadChildren: () => import('./pages/organization/organization.module').then((m) => m.OrganizationModule),
+        data: {
           menu: {
             title: 'organization',
             type: 'link',
@@ -130,7 +143,8 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'settings', loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
+        path: 'settings',
+        loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
         data: {
           menu: {
             title: 'settings',
@@ -145,7 +159,9 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'logs', loadChildren: () => import('./pages/logs/logs.module').then((m) => m.LogsModule), data: {
+        path: 'logs',
+        loadChildren: () => import('./pages/logs/logs.module').then((m) => m.LogsModule),
+        data: {
           menu: {
             title: 'logs',
             type: 'link',

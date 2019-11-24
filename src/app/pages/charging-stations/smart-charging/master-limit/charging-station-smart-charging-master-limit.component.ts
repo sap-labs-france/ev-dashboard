@@ -1,5 +1,5 @@
 // tslint:disable-next-line:max-line-length
-import { AfterViewInit, Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,9 +20,9 @@ import { ChargingStationSmartChargingPowerSliderComponent } from '../component/c
   templateUrl: './charging-station-smart-charging-master-limit.component.html',
 })
 @Injectable()
-export class ChargingStationSmartChargingMasterLimitComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingMasterLimitComponent implements OnInit {
   @Input() charger: Charger;
-  @Output() onApplyPlanning = new EventEmitter<any>();
+  @Output() applyPlanningEventEmitter = new EventEmitter<any>();
   public userLocales;
   public isAdmin;
 
@@ -67,9 +67,6 @@ export class ChargingStationSmartChargingMasterLimitComponent implements OnInit,
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
   }
 
-  ngAfterViewInit(): void {
-  }
-
   public applyPowerLimit() {
     // show yes/no dialog
     const self = this;
@@ -88,7 +85,7 @@ export class ChargingStationSmartChargingMasterLimitComponent implements OnInit,
               this.translateService.instant('chargers.smart_charging.power_limit_success',
                 { chargeBoxID: self.charger.id, power: this.powerSliderComponent.getDisplayedValue('kW') }),
             );
-            this.onApplyPlanning.emit();
+            this.applyPlanningEventEmitter.emit();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));

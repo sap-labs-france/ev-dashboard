@@ -6,7 +6,7 @@ export interface PropertyDisplay {
   key: string;
   title: string;
   value?: string;
-  formatter?: Function;
+  formatter?: (value: Date) => string;
 }
 
 @Component({

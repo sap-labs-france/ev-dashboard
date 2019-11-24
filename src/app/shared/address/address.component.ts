@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
@@ -17,8 +17,9 @@ export class AddressComponent implements OnInit {
   public department: AbstractControl;
   public region: AbstractControl;
   public country: AbstractControl;
-  public latitude: AbstractControl;
+  public coordinates: FormArray;
   public longitude: AbstractControl;
+  public latitude: AbstractControl;
 
   ngOnInit() {
     // Form
@@ -30,47 +31,50 @@ export class AddressComponent implements OnInit {
     this.department = this.address.controls['department'];
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
-    this.latitude = this.address.controls['latitude'];
-    this.longitude = this.address.controls['longitude'];
+    this.coordinates = this.address.controls['coordinates'] as FormArray;
+    if (this.coordinates) {
+      this.longitude = this.coordinates.at(0);
+      this.latitude = this.coordinates.at(1);
+    }
   }
 
   setAddress(address: Address) {
     // Set data
-    let street_number = '';
+    let streetNumber = '';
     let route = '';
 
-    address.address_components.forEach(((address_component) => {
-      switch (address_component.types[0]) {
+    address.address_components.forEach(((addressComponent) => {
+      switch (addressComponent.types[0]) {
         // Postal Code
         case 'postal_code':
-          this.address.controls.postalCode.setValue(address_component.long_name);
+          this.address.controls.postalCode.setValue(addressComponent.long_name);
           break;
         // Town
         case 'locality':
-          this.address.controls.city.setValue(address_component.long_name);
+          this.address.controls.city.setValue(addressComponent.long_name);
           break;
         // Department
         case 'administrative_area_level_2':
-          this.address.controls.department.setValue(address_component.long_name);
+          this.address.controls.department.setValue(addressComponent.long_name);
           break;
         // Region
         case 'administrative_area_level_1':
-          this.address.controls.region.setValue(address_component.long_name);
+          this.address.controls.region.setValue(addressComponent.long_name);
           break;
         // Country
         case 'country':
-          this.address.controls.country.setValue(address_component.long_name);
+          this.address.controls.country.setValue(addressComponent.long_name);
           break;
         case 'route':
-          route = address_component.long_name;
+          route = addressComponent.long_name;
           break;
         case 'street_number':
-          street_number = address_component.long_name;
+          streetNumber = addressComponent.long_name;
           break;
       }
     }));
     // build Address 2
-    const address2 = `${street_number} ${route}`;
+    const address2 = `${streetNumber} ${route}`;
     // Address
     this.address.controls.address1.setValue(address.name);
     // Set Address 2 if different from Address 1
@@ -80,16 +84,16 @@ export class AddressComponent implements OnInit {
       this.address.controls.address2.setValue('');
     }
     // Latitude
-    this.address.controls.latitude.setValue(address.geometry.location.lat());
-    this.address.controls.latitude.markAsTouched();
+    this.latitude.setValue(address.geometry.location.lat());
+    this.latitude.markAsTouched();
     // Longitude
-    this.address.controls.longitude.setValue(address.geometry.location.lng());
-    this.address.controls.longitude.markAsTouched();
+    this.longitude.setValue(address.geometry.location.lng());
+    this.longitude.markAsTouched();
     // set as dirty
     this.formGroup.markAsDirty();
   }
 
   showPlace() {
-    window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
+    window.open(`http://maps.google.com/maps?q=${this.latitude.value},${this.longitude.value}`);
   }
 }

@@ -24,7 +24,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.14",
+    "last_update": "Version 2.1.15",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -360,9 +360,12 @@
     "create_error": "Error occurred while creating the site",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "admin_role": "Site Admin",
+    "owner_role": "Site Owner",
     "update_set_site_admin_success": "The user '{{userName}}' is now administrator on this site",
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
-    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'"
+    "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'",
+    "update_set_site_owner_success": "The user '{{userName}}' is now owner on this site",
+    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
     "no_site_areas": "No site areas found",
@@ -918,7 +921,7 @@
     "name": "Name",
     "first_name": "First Name",
     "plate_id": "Plate",
-    "tag_ids": "Badge IDs",
+    "tags": "Badges",
     "tag_ids_help": "Enter a list of badge IDs separated by a comma",
     "inumber": "I-Number",
     "cost_center": "Cost Center",
@@ -990,6 +993,11 @@
         "action": "Assign this user to at least one site as the organization component is active."
       }
     }
+  },
+  "tags": {
+    "id": "ID",
+    "provider": "Provider",
+    "internal": "Internal"
   },
   "tenants": {
     "title": "Organization",
@@ -1218,14 +1226,15 @@
   "ocpi": {
     "title": "Roaming",
     "type_placeholder": "Type",
-    "emsps": "Inter Operability Platform",
+    "roaming_platforms": "Inter Operability Platform",
     "cpo": "Charging Point Operator Identification",
+    "emsp": "E-Mobility Service Provider Identification",
     "description": "Open Charge Point Interface",
-    "cpo_details": "Charge Point Operator Identifier",
-    "cpo_country_code": "Country code",
-    "cpo_party_id": "Party ID",
-    "cpo_business_details": "Business Details",
-    "cpo_logo": "Image",
+    "details": "Identification",
+    "country_code": "Country code",
+    "party_id": "Party ID",
+    "business_details": "Business Details",
+    "logo": "Image",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",
@@ -1298,7 +1307,6 @@
     "price": "Price",
     "state_of_charge": "Battery",
     "date": "Date",
-    "tag_ids": "Badge IDs",
     "charging_station": "Charging Station",
     "started_at": "Started At",
     "end_date": "End Date",
@@ -1350,6 +1358,7 @@
     "no_history": "No history during this period",
     "refundDate": "Transferred On",
     "reportId": "Report ID",
+    "select_report": "Select Report",
     "filter": {
       "type": {
         "name": "Type",
@@ -1436,6 +1445,11 @@
         "description": "The inactivity of the session is negative.",
         "action": "Check the charging station settings. Ensure that meter values are sent in the correct order."
       },
+      "long_inactivity": {
+        "title": "Inactivity more than 24h",
+        "description": "The inactivity of the session is more than 24 hours.",
+        "action": "Check the Session"
+      },
       "negative_duration": {
         "title": "Negative Duration",
         "description": "The duration of the session is negative.",
@@ -1477,6 +1491,8 @@
     "unknown-user-badged": "Notify me when an unknown user has badged on a charging station",
     "charging-station-status-error": "Notify me when an error occurred on a charging station’s connector",
     "charging-station-registered": "Notify me when a charging station has been registered to the backend or has been restarted",
+    "charging-stations-offline": "Notify me when a charging station is offline",
+    "preparing-session-not-started": "Notify me when a session has not been started (site owner only)",
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
     "smtp-auth-error": "Notify me if the backend authentication to the email server has failed"
   }

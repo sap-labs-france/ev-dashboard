@@ -1,12 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { BehaviorSubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, User } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, Tag, User, KeyValue } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -21,7 +22,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../users.model';
+import { UserRoles, userStatuses } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -30,69 +31,74 @@ import { UserDialogComponent } from './user.dialog.component';
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentUserID: string;
-  @Input() inDialog: boolean;
-  @Input() dialogRef: MatDialogRef<UserDialogComponent>;
-  public userStatuses;
-  public userRoles;
-  public userLocales;
-  public isAdmin;
-  public isSuperAdmin;
-  public isSiteAdmin;
-  public originalEmail;
+  @Input() currentUserID!: string;
+  @Input() inDialog!: boolean;
+  @Input() dialogRef!: MatDialogRef<UserDialogComponent>;
+  public userStatuses: KeyValue[];
+  public userRoles: KeyValue[];
+  public userLocales: KeyValue[];
+  public isAdmin = false;
+  public isSuperAdmin = false;
+  public isSiteAdmin = false;
+  public originalEmail!: string;
   public image = Constants.USER_NO_PICTURE;
   public hideRepeatPassword = true;
   public hidePassword = true;
-  public maxSize;
+  public maxSize: number;
 
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public firstName: AbstractControl;
-  public email: AbstractControl;
-  public phone: AbstractControl;
-  public mobile: AbstractControl;
-  public iNumber: AbstractControl;
-  public tagIDs: AbstractControl;
-  public plateID: AbstractControl;
-  public costCenter: AbstractControl;
-  public status: AbstractControl;
-  public role: AbstractControl;
-  public locale: AbstractControl;
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public latitude: AbstractControl;
-  public longitude: AbstractControl;
-  public refundSetting: Setting;
-  public integrationConnections: IntegrationConnection[];
-  public concurConnection: IntegrationConnection;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public firstName!: AbstractControl;
+  public email!: AbstractControl;
+  public phone!: AbstractControl;
+  public mobile!: AbstractControl;
+  public iNumber!: AbstractControl;
+  public tags!: FormArray;
+  public plateID!: AbstractControl;
+  public costCenter!: AbstractControl;
+  public status!: AbstractControl;
+  public role!: AbstractControl;
+  public locale!: AbstractControl;
+  public address!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public latitude!: AbstractControl;
+  public longitude!: AbstractControl;
+  public refundSetting!: Setting;
+  public integrationConnections!: IntegrationConnection[];
+  public concurConnection!: IntegrationConnection;
 
-  public passwords: FormGroup;
-  public password: AbstractControl;
-  public repeatPassword: AbstractControl;
+  public passwords!: FormGroup;
+  public password!: AbstractControl;
+  public repeatPassword!: AbstractControl;
 
-  public notificationsActive: AbstractControl;
-  public notifications: FormGroup;
-  public sendSessionStarted: AbstractControl;
-  public sendOptimalChargeReached: AbstractControl;
-  public sendEndOfCharge: AbstractControl;
-  public sendEndOfSession: AbstractControl;
-  public sendUserAccountStatusChanged: AbstractControl;
-  public sendUnknownUserBadged: AbstractControl;
-  public sendChargingStationStatusError: AbstractControl;
-  public sendChargingStationRegistered: AbstractControl;
-  public sendOcpiPatchStatusError: AbstractControl;
-  public sendSmtpAuthError: AbstractControl;
+  public notificationsActive!: AbstractControl;
+  public notifications!: FormGroup;
+  public sendSessionStarted!: AbstractControl;
+  public sendOptimalChargeReached!: AbstractControl;
+  public sendEndOfCharge!: AbstractControl;
+  public sendEndOfSession!: AbstractControl;
+  public sendUserAccountStatusChanged!: AbstractControl;
+  public sendUnknownUserBadged!: AbstractControl;
+  public sendChargingStationStatusError!: AbstractControl;
+  public sendChargingStationRegistered!: AbstractControl;
+  public sendOfflineChargingStations!: AbstractControl;
+  public sendOcpiPatchStatusError!: AbstractControl;
+  public sendPreparingSessionNotStarted!: AbstractControl;
+  public sendSmtpAuthError!: AbstractControl;
 
-  public isConcurConnectionValid: boolean;
+  public tagDataSource = new BehaviorSubject<AbstractControl[]>([]);
+  public TAG_COLUMNS = ['id', 'provider', 'internal', 'action'];
+
+  public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
-  private currentLocale: string;
+  private currentLocale!: string;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -102,7 +108,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
     private configService: ConfigService,
-    private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router,
@@ -122,12 +127,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Get statuses
     this.userStatuses = userStatuses;
     // Get Roles
+    // @ts-ignore
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.currentLocale = locale.currentLocale;
-    })
+    });
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -169,9 +175,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendUnknownUserBadged: new FormControl(true),
         sendChargingStationStatusError: new FormControl(true),
         sendChargingStationRegistered: new FormControl(true),
+        sendOfflineChargingStations: new FormControl(true),
         sendOcpiPatchStatusError: new FormControl(true),
+        sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
-        }),
+      }),
       email: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -189,15 +197,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
-      tagIDs: new FormControl('',
-        Validators.compose(this.isAdmin ?
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.pattern('^[a-zA-Z0-9,]*$'),
-          ] :
-          [],
-        )),
+      tags: new FormArray([]),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -250,6 +250,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
+      // @ts-ignore
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
@@ -262,7 +263,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.phone = this.formGroup.controls['phone'];
     this.mobile = this.formGroup.controls['mobile'];
     this.iNumber = this.formGroup.controls['iNumber'];
-    this.tagIDs = this.formGroup.controls['tagIDs'];
+    this.tags = this.formGroup.controls['tags'] as FormArray;
     this.plateID = this.formGroup.controls['plateID'];
     this.costCenter = this.formGroup.controls['costCenter'];
     this.status = this.formGroup.controls['status'];
@@ -291,7 +292,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
     this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
     this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
+    this.sendOfflineChargingStations = this.notifications.controls['sendOfflineChargingStations'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
+    this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
 
     if (this.currentUserID) {
@@ -303,7 +306,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       });
     }
     if (!this.currentUserID) {
-      this.formGroup.controls.tagIDs.setValue(this.generateTagID());
+      // this.formGroup.controls.tags.setValue(this.generateTagID());
     }
 
     this.loadApplicationSettings();
@@ -411,44 +414,74 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.locale) {
         this.formGroup.controls.locale.setValue(user.locale);
       }
-      if (user.tagIDs && user.tagIDs.length > 0) {
-        this.formGroup.controls.tagIDs.setValue(user.tagIDs.join(','));
-      }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
+      }
+      if (user.tags) {
+        user.tags.forEach((tag) => this.addTag(tag));
       }
       if (user.hasOwnProperty('notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendSessionStarted')) {
         this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
+      } else {
+        this.notifications.controls.sendSessionStarted.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendOptimalChargeReached')) {
         this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
+      } else {
+        this.notifications.controls.sendOptimalChargeReached.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendEndOfCharge')) {
         this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
+      } else {
+        this.notifications.controls.sendEndOfCharge.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendEndOfSession')) {
         this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
+      } else {
+        this.notifications.controls.sendEndOfSession.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountStatusChanged')) {
         this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
+      } else {
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendUnknownUserBadged')) {
         this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
+      } else {
+        this.notifications.controls.sendUnknownUserBadged.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationStatusError')) {
         this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
+      } else {
+        this.notifications.controls.sendChargingStationStatusError.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationRegistered')) {
         this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
+      } else {
+        this.notifications.controls.sendChargingStationRegistered.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendOfflineChargingStations')) {
+        this.notifications.controls.sendOfflineChargingStations.setValue(user.notifications.sendOfflineChargingStations);
+      } else {
+        this.notifications.controls.sendOfflineChargingStations.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendOcpiPatchStatusError')) {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
+      } else {
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendPreparingSessionNotStarted')) {
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
+      } else {
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendSmtpAuthError')) {
         this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
+      } else {
+        this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);
@@ -471,11 +504,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.address && user.address.country) {
         this.address.controls.country.setValue(user.address.country);
       }
-      if (user.address && user.address.latitude) {
-        this.address.controls.latitude.setValue(user.address.latitude);
-      }
-      if (user.address && user.address.longitude) {
-        this.address.controls.longitude.setValue(user.address.longitude);
+      if (user.address && user.address.coordinates && user.address.coordinates.length === 2) {
+        this.address.controls.longitude.setValue(user.address.coordinates[0]);
+        this.address.controls.latitude.setValue(user.address.coordinates[1]);
       }
       // Reset password
       this.passwords.controls.password.setValue('');
@@ -583,10 +614,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  getConcurUrl(): string {
+  getConcurUrl(): string|null {
     if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
       return this.refundSetting.content.concur.apiUrl;
     }
+    return null;
   }
 
   getInvoice() {
@@ -614,6 +646,22 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     control.setValue(control.value.toUpperCase());
   }
 
+  addTag(tag?: Tag) {
+    const row = new FormGroup({
+      id: new FormControl(tag ? tag.id : '', Validators.required),
+      internal: new FormControl(tag ? tag.internal : false, [Validators.required]),
+      provider: new FormControl(tag ? tag.provider : ''),
+    });
+    this.tags.push(row);
+    this.tagDataSource.next(this.tags.controls);
+  }
+
+  deleteTag(index: number) {
+    this.tags.removeAt(index);
+    this.tagDataSource.next(this.tags.controls);
+    this.formGroup.markAsDirty();
+  }
+
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
     this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
@@ -623,8 +671,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
     if (this.currentUserID) {
       this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
-        this.integrationConnections = undefined;
-        this.concurConnection = undefined;
+        // @ts-ignore
+        this.integrationConnections = null;
+        // @ts-ignore
+        this.concurConnection = null;
         this.isConcurConnectionValid = false;
         if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
           for (const connection of connectionResult.result) {
@@ -668,13 +718,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
-  private createUser(user) {
+  private createUser(user: User) {
     // Show
     this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    this.centralServerService.createUser(user).subscribe((response) => {
+    this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
@@ -682,8 +732,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         // Ok
         this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
         // Refresh
-        user.id = response['id'];
-        this.currentUserID = response['id'];
+        user.id = response.id!;
+        this.currentUserID = response.id!;
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?

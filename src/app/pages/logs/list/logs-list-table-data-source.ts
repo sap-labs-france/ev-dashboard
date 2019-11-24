@@ -83,7 +83,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     });
   }
 
-  public getRowDetails(row: Log): Observable<String> {
+  public getRowDetails(row: Log): Observable<string> {
     // Read the log details
     return this.centralServerService.getLog(row.id).pipe(
       map((log) => Formatters.formatTextToHTML(log.detailedMessages)));
@@ -113,7 +113,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         name: 'logs.level',
         isAngularComponent: true,
         angularComponent: LogLevelFormatterComponent,
-        headerClass: 'col-7p',
+        headerClass: 'col-7p text-center',
         class: 'col-7p',
         sortable: true,
       },

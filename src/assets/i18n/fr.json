@@ -24,7 +24,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.14",
+    "last_update": "Version 2.1.15",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -360,9 +360,12 @@
     "create_error": "Une erreur est survenue pendant la création du site",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "admin_role": "Admin du Site",
+    "owner_role": "Propriétaire du Site",
     "update_set_site_admin_success": "L'utilisateur '{{userName}}' est désormais administrateur du site",
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site",
-    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'"
+    "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'",
+    "update_set_site_owner_success": "L'utilisateur '{{userName}}' est désormais propriétaire du site",
+    "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
   },
   "site_areas": {
     "no_site_areas": "Aucune zone n'a été trouvée",
@@ -918,7 +921,7 @@
     "name": "Nom",
     "first_name": "Prénom",
     "plate_id": "Plaque",
-    "tag_ids": "Badges",
+    "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
     "inumber": "I-Number",
     "cost_center": "Centre de coût",
@@ -990,6 +993,11 @@
         "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."
       }
     }
+  },
+  "tags": {
+    "id": "ID",
+    "provider": "Emetteur",
+    "internal": "Interne"
   },
   "tenants": {
     "title": "Organisation",
@@ -1218,14 +1226,15 @@
   "ocpi": {
     "title": "Itinérance",
     "type_placeholder": "Type",
-    "emsps": "Plate-forme d'interopérabilité",
-    "cpo": "Identification Opérateur d’Infrastructure de Recharge",
+    "roaming_platforms": "Plate-forme d'interopérabilité",
+    "cpo": "Identification de l'Opérateur d’Infrastructure de Recharge",
+    "emsp": "Identification du Fournisseur de Services de Mobilité",
     "description": "Open Charge Point Interface",
-    "cpo_details": "Identification du Point de Charge",
-    "cpo_country_code": "Code Pays",
-    "cpo_party_id": "Party ID",
-    "cpo_business_details": "Business Details",
-    "cpo_logo": "Image",
+    "details": "Identification",
+    "country_code": "Code Pays",
+    "party_id": "Party ID",
+    "business_details": "Business Details",
+    "logo": "Image",
     "businessdetails": {
       "name": "Nom de l'operateur",
       "website": "Site web de l'operateur",
@@ -1298,7 +1307,6 @@
     "price": "Prix",
     "state_of_charge": "Batterie",
     "date": "Date",
-    "tag_ids": "Badges",
     "charging_station": "Borne",
     "started_at": "Date Début",
     "end_date": "Date Fin",
@@ -1350,6 +1358,7 @@
     "no_history": "Pas d'historique pendant cette période",
     "refundDate": "Transférée le",
     "reportId": "Rapport ID",
+    "select_report": "Selection Rapport",
     "filter": {
       "type": {
         "name": "Type",
@@ -1436,6 +1445,11 @@
         "description": "La periode d'inactivité enregistrée est négative.",
         "action": "Verifiez la configuration de la borne. Assurez vous que les données de charge sont transmises dans le bon ordre."
       },
+      "long_inactivity": {
+        "title": "Inactivité de plus de 24h",
+        "description": "La session a été inactive pendant plus de 24 heures.",
+        "action": "Vérifiez la session"
+      },
       "negative_duration": {
         "title": "Durée négative",
         "description": "La durée enregistrée est négative.",
@@ -1476,7 +1490,9 @@
     "new-registered-user": "Me notifier lorsqu'un nouvel utilisateur s'est enregistré",
     "unknown-user-badged": "Me notifier lorsqu'un utilisateur inconnu s'est connecté sur une borne de recharge",
     "charging-station-status-error": "Me notifier lorsqu'une erreur se produit sur une borne de recharge",
-    "charging-station-registered": "Me notifier lorsqu'une une borne de recharge s'est enregistrée ou a redémarré",
+    "charging-station-registered": "Me notifier lorsqu'une borne de recharge s'est enregistrée ou a redémarré",
+    "charging-stations-offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
+    "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
     "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué"
   }

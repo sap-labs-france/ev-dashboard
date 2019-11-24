@@ -3,12 +3,12 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Observable } from 'rxjs';
 import { ActionResponse, Charger, Connector, DataResult, TableActionDef, TableColumnDef, TableDef, User, UserToken } from '../../../common.types';
+import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -45,7 +45,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private appUnitPipe: AppUnitPipe,
-    private appDurationPipe: AppDurationPipe,
     private dialog: MatDialog,
     private authorizationService: AuthorizationService,
     private messageService: MessageService,
@@ -66,8 +65,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Return connector
       if (this.charger) {
         this.charger.connectors.forEach((connector) => {
+          // tslint:disable-next-line:max-line-length
           connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeTagID);
+          // tslint:disable-next-line:max-line-length
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
+          // tslint:disable-next-line:max-line-length
           connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeTagID);
           connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
@@ -137,14 +139,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'totalConsumption',
         name: 'chargers.total_consumption_title',
-        formatter: (value) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
+        formatter: (value: number) => this.appUnitPipe.transform(value, 'Wh', 'kWh'),
         sortable: false,
       },
       {
         id: 'totalInactivitySecs',
         name: 'chargers.inactivity',
-        formatter: (totalInactivitySecs) => this.appDurationPipe.transform(totalInactivitySecs),
         sortable: false,
+        isAngularComponent: true,
+        angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
         id: 'errorCode',
@@ -155,7 +158,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ];
   }
 
-  public formatError(errorCode, info, vendorErrorCode) {
+  public formatError(errorCode: string, info: string, vendorErrorCode: string) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info && info !== '' ? ` > ${info}` : '';
     const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
@@ -228,7 +231,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         if (this.authorizationService.isAdmin()) {
           this.startTransactionAsAdmin(connector);
         } else {
-          this.startTransaction(connector, this.centralServerService.getLoggedUser());
+          this.startTransaction(connector, null, this.centralServerService.getLoggedUser());
         }
         break;
 
@@ -299,18 +302,19 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
   }
 
-  public startTransaction(connector: Connector, user: User|UserToken): boolean {
+  public startTransaction(connector: Connector, user: User, loggedUser: UserToken): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
         chargeBoxID: this.charger.id,
-        userName: Users.buildUserFullName(user),
+        userName: Users.buildUserFullName(user ? user : loggedUser),
       }),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
+        const tagID: string = user ? user.tags[0].id : loggedUser.tagIDs[0];
         this.centralServerService.chargingStationStartTransaction(
-          this.charger.id, connector.connectorId, user.tagIDs[0]).subscribe((response2: ActionResponse) => {
+          this.charger.id, connector.connectorId, tagID).subscribe((response2: ActionResponse) => {
           // Ok?
           if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
             // Ok
@@ -347,7 +351,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     dialogRef.afterClosed().subscribe((buttonId) => {
       switch (buttonId) {
         case BUTTON_FOR_MYSELF:
-          return this.startTransaction(connector, this.centralServerService.getLoggedUser());
+          return this.startTransaction(connector, null, this.centralServerService.getLoggedUser());
         case BUTTON_SELECT_USER:
           // Show select user dialog
           dialogConfig.data = {
@@ -360,7 +364,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           // Add sites
           dialogRef2.afterClosed().subscribe((data) => {
             if (data && data.length > 0) {
-              return this.startTransaction(connector, data[0].objectRef);
+              return this.startTransaction(connector, data[0].objectRef, this.centralServerService.getLoggedUser());
             }
           });
           break;

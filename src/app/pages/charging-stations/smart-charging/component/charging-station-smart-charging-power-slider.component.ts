@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSlider } from '@angular/material/slider';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
@@ -17,7 +17,7 @@ const LARGE_SLIDER_STEP = 1000;
   templateUrl: 'charging-station-smart-charging-power-slider.component.html',
 })
 @Injectable()
-export class ChargingStationSmartChargingPowerSliderComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingPowerSliderComponent implements OnInit {
   @Input() maximumPower: number;
   @Input() powerUnit: string;
   @Input() numberOfConnectedPhase: number;
@@ -27,7 +27,7 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit,
   @Input() displayMinSliderValue?: boolean;
   @Input() displayMaxSliderValue?: boolean;
 
-  @Output() onSliderChange = new EventEmitter<number>();
+  @Output() sliderChangeEventEmitter = new EventEmitter<number>();
   public maxPowerSlider: number;
   public minPowerSlider: number;
   public minPowerSliderDisplayed: number;
@@ -106,9 +106,6 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit,
     }
   }
 
-  ngAfterViewInit(): void {
-  }
-
   public formatPowerPercent(value: number | null) {
     const self = this as unknown as MatSlider; // To check why we have issue between compile and runtime. At runtime this is a MatSlider
     if (!value) {
@@ -128,7 +125,7 @@ export class ChargingStationSmartChargingPowerSliderComponent implements OnInit,
       true);
     this.isNotValid = this.powerSliderDisplayedValueInkW < 3;
     this.powerSliderValue = this.powerSliderComponent.value;
-    this.onSliderChange.emit(this.powerSliderValue);
+    this.sliderChangeEventEmitter.emit(this.powerSliderValue);
   }
 
   public sliderInput() {

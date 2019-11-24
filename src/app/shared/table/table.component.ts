@@ -40,6 +40,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive: boolean;
 
+  private readonly Constants = Constants;
+
   constructor(
     private configService: ConfigService,
     private translateService: TranslateService,
@@ -131,7 +133,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public updateFilterLabel(filter: TableFilterDef) {
     if (Array.isArray(filter.currentValue)) {
       if (filter.currentValue.length > 0) {
-        filter.label  = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+        filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
       } else {
         filter.label = '';
       }
@@ -191,7 +193,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if ((filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE || filterDef.type === Constants.FILTER_TYPE_DROPDOWN) && filterDef.multiple) {
+    if ((filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE
+      || filterDef.type === Constants.FILTER_TYPE_DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
       filterDef.cleared = true;
     } else {
@@ -265,10 +268,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       // Refresh Data
       this.dataSource.refreshData(!this.ongoingAutoRefresh).subscribe(() => {
-      this.ongoingRefresh = false;
-      if (autoRefresh) {
-        this.ongoingAutoRefresh = false;
-      }
+        this.ongoingRefresh = false;
+        if (autoRefresh) {
+          this.ongoingAutoRefresh = false;
+        }
       });
     }
   }
@@ -318,7 +321,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Already Expanded
     if (!row.isExpanded) {
       // Already Loaded
-      if (this.dataSource.tableDef.rowDetails.enabled && this.dataSource.tableDef.rowDetails.detailsField && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+      if (this.dataSource.tableDef.rowDetails.enabled
+        && this.dataSource.tableDef.rowDetails.detailsField
+        && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
         // No: Load details from data source
         this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
           // Set details

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -45,8 +45,7 @@ export class SiteAreaComponent implements OnInit {
   public department: AbstractControl;
   public region: AbstractControl;
   public country: AbstractControl;
-  public latitude: AbstractControl;
-  public longitude: AbstractControl;
+  public coordinates: FormArray;
   public isAdmin: boolean;
 
   public sites: any;
@@ -102,18 +101,20 @@ export class SiteAreaComponent implements OnInit {
         department: new FormControl(''),
         region: new FormControl(''),
         country: new FormControl(''),
-        latitude: new FormControl('',
-          Validators.compose([
-            Validators.max(90),
-            Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-          ])),
-        longitude: new FormControl('',
-          Validators.compose([
-            Validators.max(180),
-            Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-          ])),
+        coordinates: new FormArray ([
+          new FormControl('',
+            Validators.compose([
+              Validators.max(180),
+              Validators.min(-180),
+              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+            ])),
+          new FormControl('',
+            Validators.compose([
+              Validators.max(90),
+              Validators.min(-90),
+              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+            ])),
+        ]),
       }),
     });
     // Form
@@ -130,8 +131,7 @@ export class SiteAreaComponent implements OnInit {
     this.department = this.address.controls['department'];
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
-    this.latitude = this.address.controls['latitude'];
-    this.longitude = this.address.controls['longitude'];
+    this.coordinates = this.address.controls['coordinates'] as FormArray;
 
     this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_CREATE);
 
@@ -195,6 +195,7 @@ export class SiteAreaComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
+    // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
       this.formGroup.markAsPristine();
 
@@ -243,11 +244,9 @@ export class SiteAreaComponent implements OnInit {
       if (siteArea.address && siteArea.address.country) {
         this.address.controls.country.setValue(siteArea.address.country);
       }
-      if (siteArea.address && siteArea.address.latitude) {
-        this.address.controls.latitude.setValue(siteArea.address.latitude);
-      }
-      if (siteArea.address && siteArea.address.longitude) {
-        this.address.controls.longitude.setValue(siteArea.address.longitude);
+      if (siteArea.address && siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
+        this.coordinates.at(0).setValue(siteArea.address.coordinates[0]);
+        this.coordinates.at(1).setValue(siteArea.address.coordinates[1]);
       }
       // Yes, get image
       return this.centralServerService.getSiteAreaImage(this.currentSiteAreaID);

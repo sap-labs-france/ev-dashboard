@@ -31,7 +31,7 @@ export interface TableFilterDef {
   items?: KeyValue[];
   dialogComponent?: any;
   dialogComponentData?: any;
-  reset?: Function;
+  reset?: () => void;
   multiple?: boolean;
   cleared?: boolean;
 }
@@ -74,6 +74,36 @@ export interface Data {
 export interface DataResult<T extends Data> {
   count: number;
   result: T[];
+}
+
+export interface TransactionDataResult {
+  count: number;
+  result: Transaction[];
+  stats: {
+    count: number;
+    firstTimestamp?: Date;
+    lastTimestamp?: Date;
+    totalConsumptionWattHours: number;
+    totalDurationSecs: number;
+    totalInactivitySecs: number;
+    totalPrice: number;
+    currency: string;
+  };
+}
+
+export interface TransactionRefundDataResult {
+  count: number;
+  result: Transaction[];
+  stats: {
+    count: number;
+    totalConsumptionWattHours: number;
+    countRefundTransactions: number;
+    countPendingTransactions: number;
+    countRefundedReports: number;
+    totalPriceRefund: number;
+    totalPricePending: number;
+    currency: string;
+  };
 }
 
 export interface RouteInfo {
@@ -119,6 +149,7 @@ export interface NavItem {
 export interface ActionResponse {
   status: string;
   error: string;
+  id?: string;
 }
 
 export interface ActionsResponse extends ActionResponse {
@@ -194,22 +225,34 @@ export interface ConsumptionValue {
 
 export interface Connector extends Data {
   connectorId: number;
-  errorCode: string;
   currentConsumption: number;
-  totalConsumption: number;
-  power: number;
-  voltage: number;
-  amperage: number;
+  currentStateOfCharge?: number;
+  totalInactivitySecs?: number;
+  totalConsumption?: number;
   status: string;
-  activeTagID: string;
+  errorCode?: string;
+  info?: string;
+  vendorErrorCode?: string;
+  power: number;
+  type: string;
+  voltage?: number;
+  amperage?: number;
   activeTransactionID: number;
   activeTransactionDate: Date;
-  type: string;
+  activeTagID: string;
+  statusLastChangedOn?: Date;
+  inactivityStatusLevel: InactivityStatusLevel;
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
 }
+
+export type InactivityStatusLevel =
+ 'info' |
+ 'warning' |
+ 'danger'
+;
 
 export interface Charger extends Data {
   id: string;
@@ -235,8 +278,7 @@ export interface Charger extends Data {
   cannotChargeInParallel: boolean;
   maximumPower: number;
   powerLimitUnit: string;
-  latitude: number;
-  longitude: number;
+  coordinates: number[];
   currentIPAddress: string;
 }
 
@@ -254,8 +296,7 @@ export interface Address {
   department: string;
   region: string;
   country: string;
-  latitude: number;
-  longitude: number;
+  coordinates: number[];
 }
 
 export interface Company extends Data {
@@ -356,7 +397,7 @@ export interface Logo {
 
 export interface Ordering {
   field: string;
-  direction: string;
+  direction: SortDirection;
 }
 
 export interface Paging {
@@ -483,7 +524,7 @@ export interface TableColumnDef {
   type?: string;
   headerClass?: string;
   class?: string;
-  formatter?: Function;
+  formatter?: (value: any, row?: any) => string | null;
   sortable?: boolean;
   sorted?: boolean;
   direction?: SortDirection;
@@ -507,6 +548,7 @@ export interface Transaction extends Data {
   currentConsumption: number;
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
+  currentInactivityStatusLevel: InactivityStatusLevel;
   currentTotalDurationSecs: number;
   stateOfCharge: number;
   currentStateOfCharge: number;
@@ -518,6 +560,7 @@ export interface Transaction extends Data {
   price: number;
   priceUnit: string;
   refundData: {
+    reportId: string;
     refundId: string;
     refundedAt: Date;
     status: string;
@@ -533,9 +576,25 @@ export interface Transaction extends Data {
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
+    inactivityStatusLevel: InactivityStatusLevel;
   };
   dateTimestring: string;
   values: ConsumptionValue[];
+}
+
+export interface Tag {
+  id: string;
+  internal: boolean;
+  userID?: string;
+  provider?: string;
+  deleted?: boolean;
+  lastChangedBy?: Partial<User>;
+  lastChangedOn?: Date;
+}
+
+export interface Report extends Data {
+  id: string;
+  user: User;
 }
 
 export interface User extends Data {
@@ -543,7 +602,7 @@ export interface User extends Data {
   name: string;
   firstName: string;
   fullName: string;
-  tagIDs: string[];
+  tags: Tag[];
   plateID: string;
   email: string;
   phone: Date;
@@ -560,22 +619,15 @@ export interface User extends Data {
     sendChargingStationRegistered?: boolean;
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
+    sendUserAccountInactivity?: boolean;
+    sendPreparingSessionNotStarted?: boolean;
+    sendOfflineChargingStations?: boolean;
   };
-  address: {
-    address1: string;
-    address2: string;
-    postalCode: string;
-    city: string;
-    department: string;
-    region: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-  };
+  address: Address;
   iNumber: string;
   costCenter: boolean;
   status: string;
-  image: string;
+  image: string|null;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;
@@ -589,6 +641,7 @@ export interface User extends Data {
   companies: string[];
   sites: string[];
   sitesAdmin: string[];
+  sitesOwner: string[];
   userHashID: number;
   tenantHashID: number;
 }
@@ -611,18 +664,21 @@ export interface UserToken {
   sites?: string[];
   sitesAdmin?: string[];
   activeComponents?: string[];
+  sitesOwner?: string[];
 }
 
 export interface UserSite extends Data {
   user: User;
   siteID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface SiteUser extends Data {
   site: Site;
   userID: string;
   siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export interface VehicleManufacturer {
@@ -717,8 +773,6 @@ export enum OcpiSettingsType {
 }
 
 export interface OcpiCommon {
-  countryCode: string;
-  partyID: string;
   businessDetails: {
     name: string;
     website: string;
@@ -730,6 +784,14 @@ export interface OcpiCommon {
       width: string;
       height: string;
     }
+  };
+  cpo: {
+    countryCode: string;
+    partyID: string;
+  };
+  emsp: {
+    countryCode: string;
+    partyID: string;
   };
 }
 

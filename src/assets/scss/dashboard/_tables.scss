@@ -25,7 +25,7 @@ $outer-spinner: $brand-warn !default;
 
   :last-child {
     margin-right: 0px !important;
-  } 
+  }
 
   &.filter-row-with-action {
     &>div:last-child {
@@ -68,7 +68,6 @@ $outer-spinner: $brand-warn !default;
   overflow: auto;
   min-height: 40vh;
   min-width: 50vw;
-  width: 50vh;
   height: calc(100vh - (0.7 * 100vh));
   background-color: transparent;
   white-space: nowrap;
@@ -342,7 +341,7 @@ tr.element-row:not(.expanded-row):active {
 .table {
   background: rgba(255,255,255,0.3);
   margin-bottom: 0;
-  
+
   > thead {
     top: 0;
   }
@@ -451,7 +450,7 @@ tr.element-row:not(.expanded-row):active {
 .more-records {
   text-align: center;
   font-size: 1rem;
-  cursor: pointer;    
+  cursor: pointer;
 }
 
 .bottom-table {
@@ -462,10 +461,17 @@ tr.element-row:not(.expanded-row):active {
   padding: 10px;
   background: $brand-background;
   z-index: 100;
-  
+
   .left-bottom-table {
   }
   .right-bottom-table {
     text-align: right;
-  }  
+  }
+}
+
+.table-no-border {
+  td {
+    border-bottom: none !important;
+    border-top: none !important;
+  }
 }

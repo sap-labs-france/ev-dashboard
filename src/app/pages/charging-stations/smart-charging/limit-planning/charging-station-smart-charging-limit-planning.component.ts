@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,9 +26,9 @@ interface LocalConnectorSchedule extends ConnectorSchedule {
   templateUrl: './charging-station-smart-charging-limit-planning.component.html',
 })
 @Injectable()
-export class ChargingStationSmartChargingLimitPlanningComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingLimitPlanningComponent implements OnInit {
   @Input() charger: Charger;
-  @Output() onLimitChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() limitChangeEventEmitter: EventEmitter<number> = new EventEmitter<number>();
   public userLocales;
   public isAdmin;
 
@@ -90,9 +90,6 @@ export class ChargingStationSmartChargingLimitPlanningComponent implements OnIni
     this.getCompositeSchedule();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   /**
    * refresh
    */
@@ -113,7 +110,7 @@ export class ChargingStationSmartChargingLimitPlanningComponent implements OnIni
       }
       this._parseCompositeSchedule();
       // Inform that new limit value was calculated
-      this.onLimitChange.emit(this.internalFormatCurrentLimit);
+      this.limitChangeEventEmitter.emit(this.internalFormatCurrentLimit);
       this.currentDisplayedLimit = ChargingStationSmartChargingUtils.getDisplayedFormatValue(this.internalFormatCurrentLimit,
         'W',
         DISPLAY_UNIT,

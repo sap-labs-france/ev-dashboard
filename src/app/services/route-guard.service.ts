@@ -121,7 +121,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     }
   }
 
-  redirectToDefaultRoute(): Promise<boolean> {
+  async redirectToDefaultRoute(): Promise<boolean> {
     let route = RouteGuardService.LOGIN_ROUTE;
     if (this.userRole) {
       switch (this.userRole) {
@@ -138,7 +138,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return this.router.navigate([route]);
   }
 
-  redirectToBrowserNotSupportRoute(): Promise<boolean> {
+  async redirectToBrowserNotSupportRoute(): Promise<boolean> {
     return this.router.navigate([RouteGuardService.BROWSER_NOT_SUPPORTED_ROUTE]);
   }
 }

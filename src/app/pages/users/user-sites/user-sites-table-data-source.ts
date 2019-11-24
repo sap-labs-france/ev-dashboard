@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Observable } from 'rxjs';
 import {
   DataResult,
-  Site, SiteUser,
+  SiteUser,
   TableActionDef,
   TableColumnDef,
   TableDef,
@@ -21,7 +21,6 @@ import { TableRemoveAction } from '../../../shared/table/actions/table-remove-ac
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { SiteUsersAdminCheckboxComponent } from '../../organization/sites/site-users/site-users-admin-checkbox.component';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
 
 @Injectable()

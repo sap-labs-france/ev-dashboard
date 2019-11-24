@@ -1,18 +1,13 @@
-import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
-import { LocaleService } from '../../services/locale.service';
+import { AppDecimalPipe } from './app-decimal-pipe';
 
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
-  private decimalPipe: DecimalPipe;
 
-  constructor(private localeService: LocaleService) {
-    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.decimalPipe = new DecimalPipe(locale.currentLocaleJS);
-    });
+  constructor(private decimalPipe: AppDecimalPipe) {
   }
 
-  _parseMeasure(measureAsString): Measure {
+  _parseMeasure(measureAsString: string): Measure {
     if (Unit[Unit[measureAsString]] === measureAsString) {
       return {unit: Unit[measureAsString], size: Size.basis};
     }
@@ -20,7 +15,7 @@ export class AppUnitPipe implements PipeTransform {
   }
 
   transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,
-            numberOfDecimal: number = 2): any {
+            numberOfDecimal: number = 2): string {
     if (value === 0) {
       numberOfDecimal = 0;
     }

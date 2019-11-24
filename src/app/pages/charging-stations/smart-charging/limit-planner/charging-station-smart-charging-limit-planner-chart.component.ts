@@ -1,13 +1,12 @@
 
-import { DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'angular2-chartjs';
 import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
-import { AppConnectorIdPipe } from 'app/shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { DisplayedScheduleSlot } from './charging-station-smart-charging-limit-planner.component';
 
 @Component({
@@ -24,7 +23,7 @@ import { DisplayedScheduleSlot } from './charging-station-smart-charging-limit-p
   `,
 })
 
-export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit, AfterViewInit {
+export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit {
   @Input() scheduleSlots: DisplayedScheduleSlot[];
   @Input() ratio: number;
   @ViewChild('chart', { static: false }) chartComponent: ChartComponent;
@@ -42,8 +41,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
               private durationPipe: AppDurationPipe,
               private localeService: LocaleService,
               private datePipe: AppDatePipe,
-              private decimalPipe: DecimalPipe,
-              private connectorIdPipe: AppConnectorIdPipe) {
+              private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -68,9 +66,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       this.options = null;
       this.data = null;
     }
-  }
-
-  ngAfterViewInit(): void {
   }
 
   createGraphData(scheduleSlots: DisplayedScheduleSlot[]) {
@@ -98,22 +93,19 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       const limit = connectorPlanning.slot;
       this.data.labels.push(limit.start.getTime());
       limitPowerDataSet.data.push({
-        x: limit.start.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-        },
+        x: limit.start.getTime(), y: limit.displayedLimitInkW,
       });
       if (index === scheduleSlots.length - 1) {
         // Add last limit
         if (limit.end && limit.end.getTime() !== limit.start.getTime()) {
           this.data.labels.push(limit.end.getTime());
           limitPowerDataSet.data.push({
-            x: limit.end.getTime(), y: limit.displayedLimitInkW, click: (element) => {
-            },
+            x: limit.end.getTime(), y: limit.displayedLimitInkW,
           });
         } else {
           this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
           limitPowerDataSet.data.push({
-            x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW, click: (element) => {
-            },
+            x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW,
           });
         }
       }
@@ -216,8 +208,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         line: {
           stepped: true,
         },
-      },
-      onClick: (event, array) => {
       },
     };
     if (this.language === 'fr') {

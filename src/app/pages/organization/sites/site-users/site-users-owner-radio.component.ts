@@ -18,7 +18,7 @@ import { Utils } from '../../../../utils/Utils';
       </div>`,
 })
 export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
-  @Input() row: UserSite;
+  @Input() row!: UserSite;
   public loggedUser: UserToken;
 
   constructor(
@@ -39,11 +39,11 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
     // Update
     this.centralServerService.updateSiteOwner(userSite.siteID, userSite.user.id).subscribe((response) => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-          this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: userSite.user.name});
+          this.messageService.showSuccessMessage('sites.update_set_site_owner_success', { userName: Utils.buildUserFullName(userSite.user) });
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'sites.update_site_users_owner_error', {
-              userName: userSite.user.name,
+              userName: Utils.buildUserFullName(userSite.user),
             });
         }
       }

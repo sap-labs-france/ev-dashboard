@@ -1491,7 +1491,7 @@
     "unknown-user-badged": "Me notifier lorsqu'un utilisateur inconnu s'est connecté sur une borne de recharge",
     "charging-station-status-error": "Me notifier lorsqu'une erreur se produit sur une borne de recharge",
     "charging-station-registered": "Me notifier lorsqu'une borne de recharge s'est enregistrée ou a redémarré",
-    "charging-station-offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
+    "charging-stations-offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
     "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
     "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué"

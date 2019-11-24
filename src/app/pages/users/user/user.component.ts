@@ -88,7 +88,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendUnknownUserBadged!: AbstractControl;
   public sendChargingStationStatusError!: AbstractControl;
   public sendChargingStationRegistered!: AbstractControl;
-  public sendOfflineChargingStation!: AbstractControl;
+  public sendOfflineChargingStations!: AbstractControl;
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
@@ -175,7 +175,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendUnknownUserBadged: new FormControl(true),
         sendChargingStationStatusError: new FormControl(true),
         sendChargingStationRegistered: new FormControl(true),
-        sendOfflineChargingStation: new FormControl(true),
+        sendOfflineChargingStations: new FormControl(true),
         sendOcpiPatchStatusError: new FormControl(true),
         sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
@@ -292,7 +292,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
     this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
     this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
-    this.sendOfflineChargingStation = this.notifications.controls['sendOfflineChargingStation'];
+    this.sendOfflineChargingStations = this.notifications.controls['sendOfflineChargingStations'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
@@ -463,10 +463,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendChargingStationRegistered.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendOfflineChargingStation')) {
-        this.notifications.controls.sendOfflineChargingStation.setValue(user.notifications.sendOfflineChargingStation);
+      if (user.notifications && user.notifications.hasOwnProperty('sendOfflineChargingStations')) {
+        this.notifications.controls.sendOfflineChargingStations.setValue(user.notifications.sendOfflineChargingStations);
       } else {
-        this.notifications.controls.sendOfflineChargingStation.setValue(false);
+        this.notifications.controls.sendOfflineChargingStations.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendOcpiPatchStatusError')) {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);

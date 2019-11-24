@@ -88,7 +88,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendUnknownUserBadged!: AbstractControl;
   public sendChargingStationStatusError!: AbstractControl;
   public sendChargingStationRegistered!: AbstractControl;
+  public sendOfflineChargingStation!: AbstractControl;
   public sendOcpiPatchStatusError!: AbstractControl;
+  public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
 
   public tagDataSource = new BehaviorSubject<AbstractControl[]>([]);
@@ -173,7 +175,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendUnknownUserBadged: new FormControl(true),
         sendChargingStationStatusError: new FormControl(true),
         sendChargingStationRegistered: new FormControl(true),
+        sendOfflineChargingStation: new FormControl(true),
         sendOcpiPatchStatusError: new FormControl(true),
+        sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
       }),
       email: new FormControl('',
@@ -288,7 +292,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
     this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
     this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
+    this.sendOfflineChargingStation = this.notifications.controls['sendOfflineChargingStation'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
+    this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
 
     if (this.currentUserID) {
@@ -419,33 +425,63 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendSessionStarted')) {
         this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
+      } else {
+        this.notifications.controls.sendSessionStarted.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendOptimalChargeReached')) {
         this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
+      } else {
+        this.notifications.controls.sendOptimalChargeReached.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendEndOfCharge')) {
         this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
+      } else {
+        this.notifications.controls.sendEndOfCharge.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendEndOfSession')) {
         this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
+      } else {
+        this.notifications.controls.sendEndOfSession.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountStatusChanged')) {
         this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
+      } else {
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendUnknownUserBadged')) {
         this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
+      } else {
+        this.notifications.controls.sendUnknownUserBadged.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationStatusError')) {
         this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
+      } else {
+        this.notifications.controls.sendChargingStationStatusError.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationRegistered')) {
         this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
+      } else {
+        this.notifications.controls.sendChargingStationRegistered.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendOfflineChargingStation')) {
+        this.notifications.controls.sendOfflineChargingStation.setValue(user.notifications.sendOfflineChargingStation);
+      } else {
+        this.notifications.controls.sendOfflineChargingStation.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendOcpiPatchStatusError')) {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
+      } else {
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendPreparingSessionNotStarted')) {
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
+      } else {
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendSmtpAuthError')) {
         this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
+      } else {
+        this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);
@@ -635,7 +671,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
     if (this.currentUserID) {
       this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
+        // @ts-ignore
         this.integrationConnections = null;
+        // @ts-ignore
         this.concurConnection = null;
         this.isConcurConnectionValid = false;
         if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {

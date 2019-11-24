@@ -619,6 +619,9 @@ export interface User extends Data {
     sendChargingStationRegistered?: boolean;
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
+    sendUserAccountInactivity?: boolean;
+    sendPreparingSessionNotStarted?: boolean;
+    sendOfflineChargingStation?: boolean;
   };
   address: Address;
   iNumber: string;

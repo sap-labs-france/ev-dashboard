@@ -14,7 +14,6 @@ import { Utils } from '../../../utils/Utils';
       <div class="d-flex justify-content-center">
           <mat-checkbox class="mx-auto"
                             [checked]="(row.siteOwner ? row.siteOwner : false)"
-                            [disabled]="(row.siteOwner ? row.siteOwner : false)"
                             (change)="changeSiteOwner($event)"></mat-checkbox>
       </div>`,
 })
@@ -30,18 +29,21 @@ export class UserSitesOwnerRadioComponent extends CellContentTemplateComponent {
     this.loggedUser = centralServerService.getLoggedUser();
   }
 
-  public changeSiteOwner(matRadioChange: MatRadioChange) {
-    if (matRadioChange) {
-      matRadioChange.source.disabled = true;
-      this.setUserSiteOwner(this.row);
+  public changeSiteOwner(matCheckboxChange: MatCheckboxChange) {
+    if (matCheckboxChange) {
+      this.setUserSiteOwner(this.row, matCheckboxChange.checked);
     }
   }
 
-  private setUserSiteOwner(siteUser: SiteUser) {
+  private setUserSiteOwner(siteUser: SiteUser, siteOwner: boolean) {
     // Update
-    this.centralServerService.updateSiteOwner(siteUser.site.id, siteUser.userID).subscribe((response) => {
+    this.centralServerService.updateSiteOwner(siteUser.site.id, siteUser.userID, siteOwner).subscribe((response) => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-          this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: siteUser.site.name});
+          if (siteOwner) {
+            this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: siteUser.site.name});
+          } else {
+            this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {siteName: siteUser.site.name});
+          }
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'users.update_site_users_owner_error', {

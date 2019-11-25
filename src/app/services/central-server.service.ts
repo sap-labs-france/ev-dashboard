@@ -103,10 +103,10 @@ export class CentralServerService {
       );
   }
 
-  public updateSiteOwner(siteID: string, userID: string): Observable<ActionResponse> {
+  public updateSiteOwner(siteID: string, userID: string, siteOwner: boolean): Observable<ActionResponse> {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
-      {siteID, userID},
+      {siteID, userID, siteOwner},
       {
         headers: this._buildHttpHeaders(),
       })

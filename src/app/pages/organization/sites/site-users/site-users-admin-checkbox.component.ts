@@ -41,9 +41,9 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponen
     this.centralServerService.updateSiteUserAdmin(userSite.siteID, userSite.user.id, siteAdmin).subscribe((response) => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           if (siteAdmin) {
-            this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {userName: userSite.user.name});
+            this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {userName: Utils.buildUserFullName(userSite.user)});
           } else {
-            this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {userName: userSite.user.name});
+            this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {userName: Utils.buildUserFullName(userSite.user)});
           }
         } else {
           userSite.siteAdmin = !siteAdmin;

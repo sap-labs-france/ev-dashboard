@@ -921,7 +921,7 @@
     "name": "Name",
     "first_name": "First Name",
     "plate_id": "Plate",
-    "tag_ids": "Badge IDs",
+    "tags": "Badges",
     "tag_ids_help": "Enter a list of badge IDs separated by a comma",
     "inumber": "I-Number",
     "cost_center": "Cost Center",
@@ -993,6 +993,11 @@
         "action": "Assign this user to at least one site as the organization component is active."
       }
     }
+  },
+  "tags": {
+    "id": "ID",
+    "provider": "Provider",
+    "internal": "Internal"
   },
   "tenants": {
     "title": "Organization",
@@ -1302,7 +1307,6 @@
     "price": "Price",
     "state_of_charge": "Battery",
     "date": "Date",
-    "tag_ids": "Badge IDs",
     "charging_station": "Charging Station",
     "started_at": "Started At",
     "end_date": "End Date",
@@ -1443,8 +1447,8 @@
       },
       "long_inactivity": {
         "title": "Inactivity more than 24h",
-        "description": "The inactivity of the session is more than 24hours.",
-        "action": "Report the issue to the user."
+        "description": "The inactivity of the session is more than 24 hours.",
+        "action": "Check the Session"
       },
       "negative_duration": {
         "title": "Negative Duration",
@@ -1487,6 +1491,8 @@
     "unknown-user-badged": "Notify me when an unknown user has badged on a charging station",
     "charging-station-status-error": "Notify me when an error occurred on a charging station’s connector",
     "charging-station-registered": "Notify me when a charging station has been registered to the backend or has been restarted",
+    "charging-stations-offline": "Notify me when a charging station is offline",
+    "preparing-session-not-started": "Notify me when a session has not been started (site owner only)",
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
     "smtp-auth-error": "Notify me if the backend authentication to the email server has failed"
   }

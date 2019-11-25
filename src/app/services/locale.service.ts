@@ -82,6 +82,7 @@ export class LocaleService {
 
   private updateLocale(language: string) {
     if (!this.locale || this.locale.language !== language) {
+      this.translateService.use(language);
       this.locale = {
         language,
         currentLocale: this.getCurrentLocale(language),

@@ -1,6 +1,6 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MobileType } from 'app/common.types';
+import { MobileType, User } from 'app/common.types';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { CentralServerService } from '../services/central-server.service';
@@ -30,6 +30,19 @@ export class Utils {
 
   public static isInMobileApp(): boolean {
     return Utils.getMobileVendor() !== null;
+  }
+
+  public static buildUserFullName(user: User) {
+    let fullName: string;
+    if (!user || !user.name) {
+      return 'Unknown';
+    }
+    if (user.firstName) {
+      fullName = `${user.name}, ${user.firstName}`;
+    } else {
+      fullName = user.name;
+    }
+    return fullName;
   }
 
   public static getMobileVendor(): MobileType {

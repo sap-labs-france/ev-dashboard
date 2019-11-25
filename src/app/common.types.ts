@@ -149,6 +149,7 @@ export interface NavItem {
 export interface ActionResponse {
   status: string;
   error: string;
+  id?: string;
 }
 
 export interface ActionsResponse extends ActionResponse {
@@ -581,6 +582,16 @@ export interface Transaction extends Data {
   values: ConsumptionValue[];
 }
 
+export interface Tag {
+  id: string;
+  internal: boolean;
+  userID?: string;
+  provider?: string;
+  deleted?: boolean;
+  lastChangedBy?: Partial<User>;
+  lastChangedOn?: Date;
+}
+
 export interface Report extends Data {
   id: string;
   user: User;
@@ -591,7 +602,7 @@ export interface User extends Data {
   name: string;
   firstName: string;
   fullName: string;
-  tagIDs: string[];
+  tags: Tag[];
   plateID: string;
   email: string;
   phone: Date;
@@ -608,12 +619,15 @@ export interface User extends Data {
     sendChargingStationRegistered?: boolean;
     sendOcpiPatchStatusError?: boolean;
     sendSmtpAuthError?: boolean;
+    sendUserAccountInactivity?: boolean;
+    sendPreparingSessionNotStarted?: boolean;
+    sendOfflineChargingStations?: boolean;
   };
   address: Address;
   iNumber: string;
   costCenter: boolean;
   status: string;
-  image: string;
+  image: string|null;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;

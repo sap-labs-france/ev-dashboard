@@ -107,7 +107,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     },
     {
       id: 'id',
-      name: 'transactions.id',
+      name: 'users.id',
       headerClass: 'd-none d-xl-table-cell',
       class: 'd-none d-xl-table-cell',
     },
@@ -136,9 +136,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
-      id: 'tagIDs',
-      name: 'users.tag_ids',
-      formatter: this.arrayToStringPipe.transform,
+      id: 'tags',
+      name: 'users.tags',
+      formatter: (tags) => this.arrayToStringPipe.transform(tags.map((tag) => tag.id)),
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,

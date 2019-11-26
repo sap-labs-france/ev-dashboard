@@ -61,10 +61,10 @@
                       <p class="card-category">{{currentMetrics.company.name}}</p>
                     </div>
                     <div class="card-body" [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
-                      <agm-map [latitude]="currentMetrics.address[0].latitude+0" [longitude]="currentMetrics.address[0].longitude+0"
+                      <agm-map [latitude]="currentMetrics.address[0].coordinates[1]" [longitude]="currentMetrics.address[0].coordinates[0]"
                         [zoom]="4" [streetViewControl]="false">
-                        <agm-marker *ngFor="let address of currentMetrics.address" [latitude]="address.latitude"
-                          [longitude]="address.longitude"></agm-marker>
+                        <agm-marker *ngFor="let address of currentMetrics.address" [latitude]="address.coordinates[1]"
+                          [longitude]="address.coordinates[0]"></agm-marker>
                       </agm-map>
                     </div>
                   </div>

@@ -113,7 +113,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         name: 'logs.level',
         isAngularComponent: true,
         angularComponent: LogLevelFormatterComponent,
-        headerClass: 'col-7p',
+        headerClass: 'col-7p text-center',
         class: 'col-7p',
         sortable: true,
       },

@@ -1,6 +1,6 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MobileType } from 'app/common.types';
+import { MobileType, User } from 'app/common.types';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { CentralServerService } from '../services/central-server.service';
@@ -32,8 +32,21 @@ export class Utils {
     return Utils.getMobileVendor() !== null;
   }
 
+  public static buildUserFullName(user: User) {
+    let fullName: string;
+    if (!user || !user.name) {
+      return 'Unknown';
+    }
+    if (user.firstName) {
+      fullName = `${user.name}, ${user.firstName}`;
+    } else {
+      fullName = user.name;
+    }
+    return fullName;
+  }
+
   public static getMobileVendor(): MobileType {
-    let mobileVendor: MobileType = null;
+    let mobileVendor!: MobileType;
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
       mobileVendor = MobileType.IOS;

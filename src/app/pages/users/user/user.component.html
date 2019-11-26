@@ -128,17 +128,6 @@
               <div *ngIf="isAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="tagIDs" matInput placeholder="{{'users.tag_ids' | translate}}" [required]="isAdmin" type="text">
-                    <mat-hint>{{"users.tag_ids_help" | translate}}</mat-hint>
-                    <mat-error *ngIf="tagIDs.errors?.pattern">
-                      {{"users.invalid_tag_ids" | translate}}
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div *ngIf="isAdmin" class="col-md-6">
-                <div class="form-group">
-                  <mat-form-field>
                     <input [formControl]="plateID" matInput placeholder="{{'users.plate_id' | translate}}" type="text">
                     <mat-error *ngIf="plateID.errors?.pattern">
                       {{"users.invalid_plate_id" | translate}}
@@ -147,6 +136,64 @@
                 </div>
               </div>
             </div>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="isAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>nfc</mat-icon>
+            <span>{{'users.tags' | translate}}</span>
+          </ng-template>
+
+          <div class="card-body">
+            <div class="d-flex align-items-start">
+              <button mat-button (click)="addTag()" mat-flat-button color="primary">
+                <mat-icon>add</mat-icon>{{'general.add' | translate}}
+              </button>
+            </div>
+
+            <table mat-table [dataSource]="tagDataSource" formArrayName="tags" class="table table-no-border" >
+              <!-- Row definitions -->
+              <tr mat-header-row *matHeaderRowDef="TAG_COLUMNS"></tr>
+              <tr mat-row *matRowDef="let row; let i = index; columns: TAG_COLUMNS;"></tr>
+
+              <!-- Column definitions -->
+              <ng-container matColumnDef="id">
+                <th *matHeaderCellDef class="table-header text-left">{{'tags.id' | translate}}</th>
+                <td *matCellDef="let row; let index = index" [formGroupName]="index">
+                  <mat-form-field class="border-0">
+                    <input matInput formControlName="id" type="text">
+                    <mat-error *ngIf="plateID.errors?.pattern">
+                      {{"users.invalid_plate_id" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="provider">
+                <th *matHeaderCellDef class="table-header text-left">{{'tags.provider' | translate}}</th>
+                <td *matCellDef="let row; let index = index" [formGroupName]="index">
+                  <mat-form-field class="border-0">
+                    <input matInput formControlName="provider" type="text">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="internal">
+                <th *matHeaderCellDef class="table-header text-center">{{'tags.internal' | translate}}</th>
+                <td *matCellDef="let row; let index = index" [formGroupName]="index">
+                  <mat-checkbox formControlName="internal"></mat-checkbox>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th *matHeaderCellDef class="table-header text-center">{{'general.actions' | translate}}</th>
+                <td *matCellDef="let row; let index = index" [formGroupName]="index">
+                  <button mat-icon-button color="warn" (click)="deleteTag(index)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+            </table>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isAdmin">
@@ -162,40 +209,46 @@
                   </div>
                 </div>
               </div>
-              <div class="ml-4"> 
+              <div class="ml-4">
                 <div class="row">
                     <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSessionStarted">{{"notifications.session-started" | translate}}</mat-checkbox></div>
-                </div> 
+                </div>
                 <div class="row">
                     <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOptimalChargeReached">{{"notifications.optimal-charge-reached" | translate}}</mat-checkbox></div>
-                </div> 
+                </div>
                 <div class="row">
                     <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendEndOfCharge">{{"notifications.end-of-charge" | translate}}</mat-checkbox></div>
-                </div> 
+                </div>
                 <div class="row">
                     <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendEndOfSession">{{"notifications.end-of-session" | translate}}</mat-checkbox></div>
                 </div>
                 <div class="row">
                   <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox></div>
                 </div>
-                <div class="row">
+                <div *ngIf="role.value === 'A'" class="row">
                   <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin-only" | translate}}</div>
-                </div>
-                <div *ngIf="isAdmin" class="ml-3"> 
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
-                  </div> 
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox></div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox></div>
-                  </div> 
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox></div>
-                  </div> 
-                  <div class="row">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox></div>
+                  <div class="ml-3"> 
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
+                    </div> 
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox></div>
+                    </div>
+                    <div class="row ml-1">
+                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox></div>
+                    </div> 
+                    <div class="row ml-1">
+                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOfflineChargingStations">{{"notifications.charging-stations-offline" | translate}}</mat-checkbox></div>
+                    </div> 
+                    <div class="row ml-1">
+                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing-session-not-started" | translate}}</mat-checkbox></div>
+                    </div> 
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox></div>
+                    </div>
+                    <div class="row ml-1">
+                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox></div>
+                    </div>
                   </div>
                 </div>
               </div>

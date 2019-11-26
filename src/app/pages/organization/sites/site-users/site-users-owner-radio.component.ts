@@ -19,7 +19,7 @@ import { Utils } from '../../../../utils/Utils';
       </div>`,
 })
 export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
-  @Input() row: UserSite;
+  @Input() row!: UserSite;
   @ViewChild('rbid', {static: false}) radioButtonRef!: MatRadioButton;
   public loggedUser: UserToken;
 
@@ -45,21 +45,21 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
     this.centralServerService.updateSiteOwner(userSite.siteID, userSite.user.id, siteOwner).subscribe((response) => {
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           if (siteOwner) {
-            this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: userSite.user.name});
+            this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
           } else {
-            this.messageService.showSuccessMessage('sites.update_remove_site_owner_success', {userName: userSite.user.name});
+            this.messageService.showSuccessMessage('sites.update_remove_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
           }
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'sites.update_site_users_owner_error', {
-              userName: userSite.user.name,
+              userName: Utils.buildUserFullName(userSite.user),
             });
         }
       }
       ,
       (error) => {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'sites.update_site_users_owner_error', {userName: userSite.user.name});
+          'sites.update_site_users_owner_error', {userName: Utils.buildUserFullName(userSite.user)});
       },
     );
   }

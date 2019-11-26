@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Transaction } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
@@ -7,7 +7,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   <span>
     <ng-container>
       <span [ngClass]="(row.stop ? row.stop.inactivityStatusLevel : row.currentInactivityStatusLevel) | appColorByLevel">
-        {{row.stop.totalInactivitySecs | appInactivity:row.stop.totalDurationSecs}}
+        {{(row.stop ? row.stop.totalInactivitySecs : row.currentTotalInactivitySecs) | appInactivity:(row.stop ? row.stop.totalDurationSecs : row.currentTotalDurationSecs)}}
       </span>
     </ng-container>
   </span>

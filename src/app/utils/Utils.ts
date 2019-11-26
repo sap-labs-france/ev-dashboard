@@ -46,7 +46,7 @@ export class Utils {
   }
 
   public static getMobileVendor(): MobileType {
-    let mobileVendor: MobileType = null;
+    let mobileVendor!: MobileType;
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
       mobileVendor = MobileType.IOS;

@@ -306,7 +306,7 @@ export class StatisticsFiltersComponent implements OnInit {
             filterDef.currentValue = new Date;
           }
         }
-        else {
+        else if (this.selectedYear > 0){
           if (filterDef.id == 'dateFrom') {
             filterDef.currentValue = new Date(this.selectedYear, 0, 1);
           }
@@ -327,10 +327,6 @@ export class StatisticsFiltersComponent implements OnInit {
     if (this.allYears) {
       if (this.selectedYear > 0) {
         this.buttonsOfScopeGroup[1].inactive = false;
-        // set Date filter to corresponding year
-        this.setDateFilterYear();
-        this.filterParams = this.buildFilterValues();
-        this.filters.emit(this.filterParams);
       } else {
         this.buttonsOfScopeGroup[1].inactive = true;
       }
@@ -338,6 +334,9 @@ export class StatisticsFiltersComponent implements OnInit {
       if (index >= 0 && this.buttonsOfScopeGroup[index].inactive) {
         this.setActiveButtonOfScopeGroup();
       }
+      this.setDateFilterYear();
+      this.filterParams = this.buildFilterValues();
+      this.filters.emit(this.filterParams);
     }
 
     this.year.emit(this.selectedYear);
@@ -354,15 +353,11 @@ export class StatisticsFiltersComponent implements OnInit {
     }
     // Update filter
     this.filterChanged(filterDef);
-    // set year to -1 to reset filter year
-    this.selectedYear = -1;
-    // update year
-    this.yearChanged();
 
-    // Set & Reload all
-    this.filterParams = this.buildFilterValues();
-    this.filters.emit(this.filterParams);
-    this.update.emit(true);
+    // set year to -1 to reset filter year
+    this.selectedYear = -1
+    // update year and filter
+    this.yearChanged();
   }
 
   refresh(): void {

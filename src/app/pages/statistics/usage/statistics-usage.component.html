@@ -3,6 +3,8 @@
                           (buttonOfScopeGroup)="scopeChanged($event)"
                           (category)="categoryChanged($event)"
                           (year)="yearChanged($event)" [allYears]="allYears"
+                          (dateFrom)="dateFromChange($event)"
+                          (dateTo)="dateToChange($event)"
                           (filters)="filtersChanged($event)"
                           (update)="updateCharts($event)"
                           (export)="exportData()"></app-statistics-filters>

@@ -12,6 +12,8 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
+import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
+import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
 
 @Component({
   selector: 'app-statistics-pricing',
@@ -23,6 +25,8 @@ export class StatisticsPricingComponent implements OnInit {
 
   public selectedChart: string;
   public selectedCategory: string;
+  public selectedDateFrom: Date;
+  public selectedDateTo: Date;
   public selectedYear: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
@@ -55,6 +59,13 @@ export class StatisticsPricingComponent implements OnInit {
 
   ngOnInit(): void {
     let filterDef: TableFilterDef;
+
+    filterDef = new LogDateFromTableFilter().getFilterDef();
+    this.allFiltersDef.push(filterDef);
+
+    filterDef = new LogDateUntilTableFilter().getFilterDef();
+    this.allFiltersDef.push(filterDef);
+
     filterDef = new SiteTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
@@ -82,6 +93,14 @@ export class StatisticsPricingComponent implements OnInit {
 
   yearChanged(year: number): void {
     this.selectedYear = year;
+  }
+
+  dateFromChange(date){
+    this.selectedDateFrom = date;
+  }
+
+  dateToChange(date){
+    this.selectedDateTo = date;
   }
 
   filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
@@ -126,7 +145,12 @@ export class StatisticsPricingComponent implements OnInit {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.pricing_per_cs_year_title',
             { total: totalPriceString });
-        } else {
+        }
+        else if(this.selectedYear < 0){
+          mainLabel = this.translateService.instant('statistics.pricing_per_cs_timeFrame_title',
+            { total: totalPriceString });
+        }
+        else {
           mainLabel = this.translateService.instant('statistics.pricing_per_cs_total_title',
             { total: totalPriceString });
         }
@@ -134,7 +158,12 @@ export class StatisticsPricingComponent implements OnInit {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.pricing_per_user_year_title',
             { total: totalPriceString });
-        } else {
+        }
+        else if(this.selectedYear < 0){
+          mainLabel = this.translateService.instant('statistics.pricing_per_user_timeFrame_title',
+            { total: totalPriceString });
+        }
+        else {
           mainLabel = this.translateService.instant('statistics.pricing_per_user_total_title',
             { total: totalPriceString });
         }

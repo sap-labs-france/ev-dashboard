@@ -6,6 +6,7 @@ import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { Constants } from '../../../utils/Constants';
+import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -32,6 +33,9 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Output() category = new EventEmitter();
   @Output() year = new EventEmitter();
+  @Output() dateFrom = new EventEmitter();
+  @Output() dateTo = new EventEmitter();
+
   @Input() allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
@@ -116,6 +120,7 @@ export class StatisticsFiltersComponent implements OnInit {
         }
       }
     }
+    this.setDateFilterYear();
     this.filterParams = this.buildFilterValues();
     this.filters.emit(this.filterParams);
     this.update.emit(true);
@@ -170,10 +175,6 @@ export class StatisticsFiltersComponent implements OnInit {
             } else {
               filterDef.currentValue = null;
             }
-            break;
-          case Constants.FILTER_TYPE_DATE:
-            filterIsChanged = true;
-            filterDef.reset();
             break;
         }
       });
@@ -293,6 +294,30 @@ export class StatisticsFiltersComponent implements OnInit {
     return filterJson;
   }
 
+  //set Date Filter to corresponding year
+  private setDateFilterYear(): void {
+    this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
+      if (filterDef.type == Constants.FILTER_TYPE_DATE) {
+        if (this.selectedYear == 0) {
+          if (filterDef.id == 'dateFrom') {
+            filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
+          }
+          else if (filterDef.id == 'dateUntil') {
+            filterDef.currentValue = new Date;
+          }
+        }
+        else {
+          if (filterDef.id == 'dateFrom') {
+            filterDef.currentValue = new Date(this.selectedYear, 0, 1);
+          }
+          else if (filterDef.id == 'dateUntil') {
+            filterDef.currentValue = new Date(this.selectedYear, 11, 31);
+          }
+        }
+      }
+    })
+  }
+
   categoryChanged(): void {
     this.category.emit(this.selectedCategory);
     this.update.emit(true);
@@ -302,6 +327,10 @@ export class StatisticsFiltersComponent implements OnInit {
     if (this.allYears) {
       if (this.selectedYear > 0) {
         this.buttonsOfScopeGroup[1].inactive = false;
+        // set Date filter to corresponding year
+        this.setDateFilterYear();
+        this.filterParams = this.buildFilterValues();
+        this.filters.emit(this.filterParams);
       } else {
         this.buttonsOfScopeGroup[1].inactive = true;
       }
@@ -316,6 +345,24 @@ export class StatisticsFiltersComponent implements OnInit {
     if (refresh) {
       this.update.emit(true);
     }
+  }
+
+  public dateFilterChanged(filterDef: StatisticsFilterDef, event: MatDatetimepickerInputEvent<any>) {
+    // Date?
+    if (filterDef.type === 'date') {
+      filterDef.currentValue = event.value ? event.value.toDate() : null;
+    }
+    // Update filter
+    this.filterChanged(filterDef);
+    // set year to -1 to reset filter year
+    this.selectedYear = -1;
+    // update year
+    this.yearChanged();
+
+    // Set & Reload all
+    this.filterParams = this.buildFilterValues();
+    this.filters.emit(this.filterParams);
+    this.update.emit(true);
   }
 
   refresh(): void {

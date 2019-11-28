@@ -1,6 +1,6 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
-import { MatRadioChange, MatRadioButton } from '@angular/material/radio';
+import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { User, UserSite, UserToken } from '../../../../common.types';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -31,7 +31,7 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
     this.loggedUser = centralServerService.getLoggedUser();
   }
 
-  public changeSiteOwner(){
+  public changeSiteOwner() {
     this.radioButtonRef.checked = !this.radioButtonRef.checked;
     this.setUserSiteOwner(this.row, this.radioButtonRef.checked);
   }

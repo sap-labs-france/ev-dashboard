@@ -2,6 +2,8 @@
   <app-statistics-filters [tableFiltersDef]="allFiltersDef"
                           (buttonOfScopeGroup)="scopeChanged($event)"
                           (category)="categoryChanged($event)"
+                          (dateFrom)="dateFromChange($event)"
+                          (dateTo)="dateToChange($event)"
                           (year)="yearChanged($event)" [allYears]="allYears"
                           (filters)="filtersChanged($event)"
                           (update)="updateCharts($event)"

@@ -24,6 +24,7 @@ import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
+import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { UserRoutes } from './users.routing';
     UserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe,
+    UserSitesOwnerRadioComponent,
   ],
   entryComponents: [
     UserStatusFormatterComponent,
@@ -58,6 +60,7 @@ import { UserRoutes } from './users.routing';
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
     ErrorCodeDetailsComponent,
+    UserSitesOwnerRadioComponent,
   ],
   exports: [
     AppUserRolePipe,

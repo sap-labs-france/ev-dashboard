@@ -35,10 +35,12 @@ export class StatisticsExportService {
 
   private exportStatisticsData(filterParams: { [param: string]: string | string[]; }) {
     this.spinnerService.show();
+    let chartType: string = filterParams['DataType'] as string;
+    chartType = chartType.toLowerCase();
     this.centralServerService.exportStatistics(filterParams)
       .subscribe((result) => {
         this.spinnerService.hide();
-        saveAs(result, `exported-${filterParams['DataType']}-statistics.csv`);
+        saveAs(result, `exported-${chartType}-statistics.csv`);
       }, (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');

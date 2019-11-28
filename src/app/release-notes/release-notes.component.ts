@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.16',
+        date: new Date('2019-11-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set the Site Owner role in Users Management`,
+              `Be able to unset the the Site Owner role in Site Management`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.15',
         date: new Date('2019-11-22'),
         componentChanges: [

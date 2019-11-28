@@ -1,22 +1,11 @@
 import { Injectable } from '@angular/core';
-
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  DataResult,
-  SiteArea,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { Charger, DataResult, SiteArea, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -148,7 +137,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.coordinates.length === 2) ? false : true;
+    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.coordinates && siteArea.address.coordinates.length === 2) ? false : true;
     if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,

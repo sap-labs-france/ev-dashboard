@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Set the Site Owner role in Users Management`,
               `Be able to unset the the Site Owner role in Site Management`,
+              `No GPS coordinates error in Site Areas fixed`
             ],
           },
         ],

@@ -854,6 +854,22 @@ export class CentralServerService {
       );
   }
 
+  public exportTransactionsToRefund(params: { [param: string]: string | string[]; },
+                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    this._checkInit();
+    this._getPaging(paging, params);
+    this._getSorting(ordering, params);
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundExport`,
+      {
+        headers: this._buildHttpHeaders(),
+        responseType: 'blob',
+        params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
   public exportStatistics(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ActionsResponse, DataResult, Setting, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionRefundDataResult, User } from '../../../common.types';
@@ -20,6 +21,7 @@ import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { TableOpenInConcurAction } from '../../../shared/table/actions/table-open-in-concur-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
@@ -223,11 +225,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(new TableExportAction().getActionDef());
     if (this.refundTransactionEnabled) {
       return [
+        ...tableActionsDef,
         new TableRefundAction().getActionDef(),
         new TableOpenInConcurAction().getActionDef(),
-        ...tableActionsDef,
       ];
     }
     return tableActionsDef;
@@ -259,6 +262,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
             window.open(this.refundSetting.content.concur.apiUrl, '_blank');
           }
         }
+        break;
+      case 'export':
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant('transactions.dialog.export.title'),
+          this.translateService.instant('transactions.dialog.export.confirm'),
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this.exportTransactionsToRefund();
+          }
+        });
         break;
       default:
         super.actionTriggered(actionDef);
@@ -323,5 +336,17 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         }
       });
     }
+  }
+
+  private exportTransactionsToRefund() {
+    this.centralServerService.exportTransactionsToRefund(this.buildFilterValues(), {
+      limit: this.getTotalNumberOfRecords(),
+      skip: Constants.DEFAULT_SKIP,
+    }, this.getSorting())
+      .subscribe((result) => {
+        saveAs(result, 'exportTransactionsToRefund.csv');
+      }, (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+      });
   }
 }

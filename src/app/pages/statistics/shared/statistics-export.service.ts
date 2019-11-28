@@ -5,12 +5,14 @@ import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
 import saveAs from 'file-saver';
 import { CentralServerService } from '../../../services/central-server.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
 
 @Injectable()
 export class StatisticsExportService {
 
   constructor(
+    public spinnerService: SpinnerService,
     private dialogService: DialogService,
     private router: Router,
     private messageService: MessageService,
@@ -32,12 +34,13 @@ export class StatisticsExportService {
   }
 
   private exportStatisticsData(filterParams: { [param: string]: string | string[]; }) {
-    const fileName = `export${filterParams['DataType']}Statistics.csv`;
-
+    this.spinnerService.show();
     this.centralServerService.exportStatistics(filterParams)
       .subscribe((result) => {
-        saveAs(result, fileName);
+        this.spinnerService.hide();
+        saveAs(result, `exported-${filterParams['DataType']}-statistics.csv`);
       }, (error) => {
+        this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }

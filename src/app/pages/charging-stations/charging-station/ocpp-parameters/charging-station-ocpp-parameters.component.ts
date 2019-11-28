@@ -213,12 +213,12 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
-        let csv = `Parameter,Value\r\nid,${this.charger.id}\r\n`;
+        let csv = `Parameter${Constants.CSV_SEPARATOR}Value\r\nid,${this.charger.id}\r\n`;
         for (const parameter of this.chargerConfiguration) {
-          csv += `${parameter.key},"${parameter.value}"\r\n`;
+          csv += `${parameter.key}${Constants.CSV_SEPARATOR}"${parameter.value}"\r\n`;
         }
         const blob = new Blob([csv]);
-        saveAs(blob, 'exportChargingStationConfiguration.csv');
+        saveAs(blob, 'exported-charging-station-configuration.csv');
       }
     });
   }

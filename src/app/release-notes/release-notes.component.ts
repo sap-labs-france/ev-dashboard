@@ -32,6 +32,11 @@ export class ReleaseNotesComponent {
             changes: [
               `Set the Site Owner role in Users Management`,
               `Be able to unset the the Site Owner role in Site Management`,
+              `Includes extra inactivity in Sessions in Error with inactivity greater than 24h`,
+              `Added Date filter in Stastistics`,
+              `Made Session/Charging Station/Logs CSV export more user friendly`,
+              `Side bar text missing if the browser language is not french or english`,
+              `Change CSV separator to tabs instead commas`,
               `No GPS coordinates error in Site Areas fixed`
             ],
           },

@@ -365,6 +365,7 @@
     "update_remove_site_admin_success": "The user '{{userName}}' is no more administrator on this site",
     "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'",
     "update_set_site_owner_success": "The user '{{userName}}' is now owner on this site",
+    "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
@@ -962,8 +963,11 @@
     "no_users": "No users found",
     "select_users": "Select User",
     "update_set_site_admin_success": "The user is now administrator of the site '{{siteName}}'",
-    "update_remove_site_admin_success": "The user is no more administrator of the site '{{siteName}}' ",
+    "update_remove_site_admin_success": "The user is no more administrator of the site '{{siteName}}'",
     "update_site_admin_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}'",
+    "update_set_site_owner_success": "The user is now owner of the site '{{siteName}}",
+    "update_remove_site_owner_success": "The user is no more owner of the site '{{siteName}}'",
+    "update_site_owner_role_error": "Error occurred while trying to update the user right to the site '{{siteName}}'",
     "assign_transactions_title": "Sessions Assignment",
     "assign_transactions_confirm": "{{count}} orphan sessions have been found. Do you want to assign them to this user?",
     "assign_transactions_success": "All orphan sessions have been assigned to the user '{{userFullName}}'",

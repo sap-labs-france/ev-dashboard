@@ -253,8 +253,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
-        if (transaction.refundData && (transaction.refundData.status === 'submitted' ||
-          transaction.refundData.status === 'approved')) {
+        if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
+          transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('transactions.dialog.delete.title'),
             this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));

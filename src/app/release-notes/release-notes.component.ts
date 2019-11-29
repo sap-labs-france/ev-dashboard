@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.16',
+        date: new Date('2019-11-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set the Site Owner role in Users Management`,
+              `Be able to unset the the Site Owner role in Site Management`,
+              `Includes extra inactivity in Sessions in Error with inactivity greater than 24h`,
+              `Added Date filter in Stastistics`,
+              `Made Session/Charging Station/Logs CSV export more user friendly`,
+              `Side bar text missing if the browser language is not french or english`,
+              `Change CSV separator to tabs instead commas`,
+              `No GPS coordinates error in Site Areas fixed`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.15',
         date: new Date('2019-11-22'),
         componentChanges: [

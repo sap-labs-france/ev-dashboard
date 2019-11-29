@@ -209,6 +209,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
+      // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
@@ -252,7 +253,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
-
         if (transaction.refundData && (transaction.refundData.status === 'submitted' ||
           transaction.refundData.status === 'approved')) {
           this.dialogService.createAndShowOkDialog(
@@ -341,14 +341,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   private exportTransactions() {
+    this.spinnerService.show();
     this.centralServerService.exportTransactions(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
-        saveAs(result, 'exportTransactions.csv');
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+        this.spinnerService.hide();
+        saveAs(result, 'exported-transactions.csv');
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+    });
   }
 }

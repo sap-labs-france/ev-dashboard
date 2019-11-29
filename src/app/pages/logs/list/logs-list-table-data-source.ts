@@ -231,13 +231,16 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   private exportLogs() {
+    this.spinnerService.show();
     this.centralServerService.exportLogs(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
-        saveAs(result, 'exportLogs.csv');
+        this.spinnerService.hide();
+        saveAs(result, 'exported-logs.csv');
       }, (error) => {
+        this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }

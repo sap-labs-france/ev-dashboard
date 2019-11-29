@@ -352,7 +352,7 @@
     <!-- More Records -->
     <div *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length"
          (click)="displayMoreRecords()" class="more-records">
-      {{'general.more_records' | translate}}
+         <mat-icon>keyboard_arrow_down</mat-icon>{{'general.more_records' | translate}}<mat-icon>keyboard_arrow_down</mat-icon>
     </div>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"

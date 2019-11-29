@@ -456,13 +456,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   }
 
   private exportChargingStations() {
+    this.spinnerService.show();
     this.centralServerService.exportChargingStations(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
-        saveAs(result, 'exportChargingStations.csv');
+        this.spinnerService.hide();
+        saveAs(result, 'exported-charging-stations.csv');
       }, (error) => {
+        this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
   }

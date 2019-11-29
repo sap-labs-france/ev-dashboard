@@ -38,7 +38,8 @@ export class ReleaseNotesComponent {
               `Side bar text missing if the browser language is not french or english`,
               `Change CSV separator to tabs instead commas`,
               `No GPS coordinates error in Site Areas fixed`,
-              `Fix issue in Sending email to Admin when creating a tenant`
+              `Fix issue in Sending email to Admin when creating a tenant`,
+              `Do not compute extra inactivity after several same status notifications`
             ],
           },
         ],

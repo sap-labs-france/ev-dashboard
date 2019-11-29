@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
+import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
 import { TableFilterDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -11,8 +13,6 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
-import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
-import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -84,11 +84,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.selectedCategory = category;
   }
 
-  dateFromChange(date){
+  dateFromChange(date) {
     this.selectedDateFrom = date;
   }
 
-  dateToChange(date){
+  dateToChange(date) {
     this.selectedDateTo = date;
   }
 
@@ -129,12 +129,10 @@ export class StatisticsConsumptionComponent implements OnInit {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
             {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
-        }
-        else if (this.selectedYear < 0){
+        } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_timeFrame_title',
           {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
-        }
-        else {
+        } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_total_title',
             {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
         }
@@ -142,12 +140,10 @@ export class StatisticsConsumptionComponent implements OnInit {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
             {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
-        }
-        else if (this.selectedYear < 0){
+        } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_timeFrame_title',
           {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
-        }
-        else {
+        } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_total_title',
             {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
         }

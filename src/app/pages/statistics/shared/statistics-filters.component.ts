@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsLink, TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { Constants } from '../../../utils/Constants';
-import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -294,28 +294,25 @@ export class StatisticsFiltersComponent implements OnInit {
     return filterJson;
   }
 
-  //set Date Filter to corresponding year
+  // set Date Filter to corresponding year
   private setDateFilterYear(): void {
     this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
-      if (filterDef.type == Constants.FILTER_TYPE_DATE) {
-        if (this.selectedYear == 0) {
-          if (filterDef.id == 'dateFrom') {
+      if (filterDef.type === Constants.FILTER_TYPE_DATE) {
+        if (this.selectedYear === 0) {
+          if (filterDef.id === 'dateFrom') {
             filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
+          } else if (filterDef.id === 'dateUntil') {
+            filterDef.currentValue = new Date();
           }
-          else if (filterDef.id == 'dateUntil') {
-            filterDef.currentValue = new Date;
-          }
-        }
-        else if (this.selectedYear > 0){
-          if (filterDef.id == 'dateFrom') {
+        } else if (this.selectedYear > 0) {
+          if (filterDef.id === 'dateFrom') {
             filterDef.currentValue = new Date(this.selectedYear, 0, 1);
-          }
-          else if (filterDef.id == 'dateUntil') {
+          } else if (filterDef.id === 'dateUntil') {
             filterDef.currentValue = new Date(this.selectedYear, 11, 31);
           }
         }
       }
-    })
+    });
   }
 
   categoryChanged(): void {
@@ -355,7 +352,7 @@ export class StatisticsFiltersComponent implements OnInit {
     this.filterChanged(filterDef);
 
     // set year to -1 to reset filter year
-    this.selectedYear = -1
+    this.selectedYear = -1;
     // update year and filter
     this.yearChanged();
   }

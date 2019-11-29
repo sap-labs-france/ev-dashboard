@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+// @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';

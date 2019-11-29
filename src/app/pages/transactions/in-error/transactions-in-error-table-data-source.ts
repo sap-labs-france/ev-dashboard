@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -7,7 +7,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction } from '../../../common.types';
+import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionInError, User } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -37,7 +37,7 @@ import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private isSiteAdmin = false;
-  private dialogRefSession;
+  private dialogRefSession: any;
   private openAction = new TableOpenAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
@@ -106,7 +106,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         id: 'user',
         name: 'transactions.user',
         class: 'text-left',
-        formatter: (value) => this.appUserNamePipe.transform(value),
+        formatter: (value: User) => this.appUserNamePipe.transform(value),
       });
     }
     columns.push(
@@ -117,13 +117,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sorted: true,
         sortable: true,
         direction: 'desc',
-        formatter: (value) => this.datePipe.transform(value),
+        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         class: 'text-left',
-        formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
+        formatter: (chargingStationID: string, row: TransactionInError) => this.formatChargingStation(chargingStationID, row),
       },
       {
         id: 'errorCodeDetails',
@@ -139,14 +139,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         name: 'errors.title',
         class: 'col-30p',
         sortable: true,
-        formatter: (value, row) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
+        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
     );
     return columns as TableColumnDef[];
   }
 
-  formatChargingStation(chargingStation, row) {
-    return `${chargingStation} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
+  formatChargingStation(chargingStationID: string, row: Transaction) {
+    return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
@@ -195,6 +195,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
 
     const filters: TableFilterDef[] = [
+      //@ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
@@ -230,14 +231,22 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('transactions.dialog.delete.title'),
-          this.translateService.instant('transactions.dialog.delete.confirm', {user: this.appUserNamePipe.transform(transaction.user)}),
-        ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
-            this._deleteTransaction(transaction);
-          }
-        });
+        if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
+          transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('transactions.dialog.delete.title'),
+            this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
+        } else {
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('transactions.dialog.delete.title'),
+            this.translateService.instant('transactions.dialog.delete.confirm',
+              {user: this.appUserNamePipe.transform(transaction.user)}),
+          ).subscribe((response) => {
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this._deleteTransaction(transaction);
+            }
+          });
+        }
         break;
       case 'open':
         this._openSession(transaction);
@@ -265,7 +274,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
-  private formatErrorMessages(transactions) {
+  private formatErrorMessages(transactions: TransactionInError[]) {
     transactions.forEach((transaction) => {
       const path = `transactions.errors.${transaction.errorCode}`;
       const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});

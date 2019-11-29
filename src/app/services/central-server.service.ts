@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, TransactionInError } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -903,7 +903,7 @@ export class CentralServerService {
   }
 
   public getTransactionsInError(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
     // Verify init
     this._checkInit();
     // Build Paging

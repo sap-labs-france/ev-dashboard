@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { BehaviorSubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, PricingSettingsType, Setting, Tag, User, KeyValue } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, Tag, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -22,7 +22,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../users.model';
+import { userStatuses, UserRoles } from '../users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({

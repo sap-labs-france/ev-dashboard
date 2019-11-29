@@ -19,12 +19,12 @@ import { UsersInErrorComponent } from './in-error/users-in-error.component';
 import { UsersListComponent } from './list/users-list.component';
 import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-checkbox.component';
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
+import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
 import { UsersComponent } from './users.component';
 import { UserRoutes } from './users.routing';
-import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 
 @NgModule({
   imports: [

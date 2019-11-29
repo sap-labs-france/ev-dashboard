@@ -37,7 +37,7 @@ export class ReleaseNotesComponent {
               `Made Session/Charging Station/Logs CSV export more user friendly`,
               `Side bar text missing if the browser language is not french or english`,
               `Change CSV separator to tabs instead commas`,
-              `No GPS coordinates error in Site Areas fixed`
+              `No GPS coordinates error in Site Areas fixed`,
             ],
           },
         ],

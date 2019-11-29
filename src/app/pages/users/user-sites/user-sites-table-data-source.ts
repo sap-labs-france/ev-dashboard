@@ -12,6 +12,7 @@ import {
   TableDef,
   User,
 } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -21,7 +22,6 @@ import { TableRemoveAction } from '../../../shared/table/actions/table-remove-ac
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { AuthorizationService } from '../../../services/authorization.service';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
 import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
 

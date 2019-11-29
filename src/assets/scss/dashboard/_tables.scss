@@ -448,9 +448,13 @@ tr.element-row:not(.expanded-row):active {
 }
 
 .more-records {
+  position: inherit;
+  min-height: 30px;
+  padding-top: 5px;
   text-align: center;
   font-size: 1rem;
   cursor: pointer;
+  background-color: $brand-background;
 }
 
 .bottom-table {

@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.16',
-        date: new Date('2019-11-28'),
+        date: new Date('2019-11-29'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -37,7 +37,8 @@ export class ReleaseNotesComponent {
               `Made Session/Charging Station/Logs CSV export more user friendly`,
               `Side bar text missing if the browser language is not french or english`,
               `Change CSV separator to tabs instead commas`,
-              `No GPS coordinates error in Site Areas fixed`
+              `No GPS coordinates error in Site Areas fixed`,
+              `Fix issue in Sending email to Admin when creating a tenant`
             ],
           },
         ],

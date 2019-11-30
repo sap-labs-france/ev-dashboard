@@ -1,4 +1,5 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
+import { Transaction } from '../../../common.types';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
@@ -19,7 +20,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 })
 @Injectable()
 export class TransactionsConnectorCellComponent extends CellContentTemplateComponent {
-  @Input() row: any;
+  @Input() row!: Transaction;
 }
 
 @Pipe({name: 'appTransactionsFormatConnector'})
@@ -31,6 +32,7 @@ export class AppTransactionsFormatConnector implements PipeTransform {
     if (type === 'text') {
       return this.buildConnectorText(currentConsumption);
     }
+    return '';
   }
 
   buildConnectorClasses(currentConsumption: number): string {

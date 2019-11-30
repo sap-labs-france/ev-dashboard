@@ -16,26 +16,26 @@ import { AppPercentPipe } from '../../formatters/app-percent-pipe';
   templateUrl: './transaction-dialog.component.html',
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
-  public transaction: Transaction = undefined;
-  public connector: Connector = undefined;
-  public chargingStationId: string;
-  public stateOfChargeIcon: string;
-  public stateOfCharge: number;
-  public endStateOfCharge: number;
+  public transaction!: Transaction;
+  public connector!: Connector;
+  public chargingStationId!: string;
+  public stateOfChargeIcon!: string;
+  public stateOfCharge!: number;
+  public endStateOfCharge!: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public stopUserImage = Constants.USER_NO_PICTURE;
   public isStoppedByAnotherUser = false;
-  public totalConsumption: number;
-  public totalInactivitySecs: number;
-  public totalDurationSecs: number;
-  public percentOfInactivity: string;
-  public locale: string;
+  public totalConsumption!: number;
+  public totalInactivitySecs!: number;
+  public totalDurationSecs!: number;
+  public percentOfInactivity!: string;
+  public locale!: string;
 
-  @ViewChild('chartConsumption', {static: false}) chartComponent: ConsumptionChartComponent;
-  private transactionId: number;
+  @ViewChild('chartConsumption', {static: false}) chartComponent!: ConsumptionChartComponent;
+  private transactionId!: number;
 
-  private autoRefeshTimer;
-  private autoRefeshPollEnabled;
+  private autoRefeshTimer!: number;
+  private autoRefeshPollEnabled!: boolean;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
 
   constructor(
@@ -47,7 +47,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private localeService: LocaleService,
     protected dialogRef: MatDialogRef<TransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
@@ -137,7 +137,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
         this.endStateOfCharge = transaction.stop.stateOfCharge;
         this.totalDurationSecs = transaction.stop.totalDurationSecs;
         this.totalInactivitySecs = transaction.stop.totalInactivitySecs;
-        this.isStoppedByAnotherUser = (transaction.user.id !== transaction.stop.user.id);
+        this.isStoppedByAnotherUser = (transaction.user && transaction.user.id !== transaction.stop.user.id);
       } else {
         this.totalConsumption = transaction.currentTotalConsumption;
         this.stateOfCharge = transaction.stateOfCharge;

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,11 +17,11 @@ import { Utils } from '../../utils/Utils';
 export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
-  public verifyEmailAction: boolean;
-  public verificationToken: string;
-  public resetToken: string;
-  public verificationEmail: string;
-  private messages: object;
+  public verifyEmailAction!: boolean;
+  public verificationToken: string|null;
+  public resetToken: string|null;
+  public verificationEmail: string|null;
+  private messages!: object;
 
   private siteKey: string;
 
@@ -91,7 +91,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  verifyEmail(data) {
+  verifyEmail(data: any) {
     // Show
     this.spinnerService.show();
     // Verify Email
@@ -103,11 +103,13 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
 
         if (this.resetToken) {
           // Show message
+          // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
           // Go to reset password
           this.router.navigate(['auth/reset-password'], {queryParams: {hash: this.resetToken}});
         } else {
           // Show message
+          // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_success']);
           // Go to login
           this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
@@ -116,6 +118,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       } else {
         // Unexpected error
         Utils.handleError(JSON.stringify(response),
+          // @ts-ignore
           this.messageService, this.messages['verify_email_error']);
       }
     }, (error) => {
@@ -126,16 +129,19 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         // Account already active
         case 530:
           // Report the error
+          // @ts-ignore
           this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
           break;
         // VerificationToken no longer valid
         case 540:
           // Report the error
+          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
           break;
         // Email does not exist
         case 550:
           // Report the error
+          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
           break;
         default:
@@ -149,11 +155,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     });
   }
 
-  resendVerificationEmail(data) {
+  resendVerificationEmail(data: any) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ActivateAccount', (token) => {
       if (token) {
         data['captcha'] = token;
       } else {
+          // @ts-ignore
         this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
         return;
       }
@@ -166,12 +173,14 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         // Success
         if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Show message
+          // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login
           this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
           // Unexpected Error
         } else {
           Utils.handleError(JSON.stringify(response),
+            // @ts-ignore
             this.messageService, this.messages['verify_email_resend_error']);
         }
       }, (error) => {
@@ -181,11 +190,13 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         switch (error.status) {
           // Account already active
           case 530:
+            // @ts-ignore
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
             break;
           // Email does not exist
           case 550:
+            // @ts-ignore
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
             break;
           // Unexpected Error

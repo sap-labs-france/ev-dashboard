@@ -582,6 +582,11 @@ export interface Transaction extends Data {
   values: ConsumptionValue[];
 }
 
+export interface TransactionInError extends Transaction {
+  errorCode: string;
+  errorMessage: ErrorMessage;
+}
+
 export interface Tag {
   id: string;
   internal: boolean;

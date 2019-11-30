@@ -31,7 +31,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TransactionsConnectorCellComponent } from '../components/transactions-connector-cell.component';
+import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {

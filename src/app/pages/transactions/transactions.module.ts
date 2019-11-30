@@ -13,7 +13,7 @@ import { CommonDirectivesModule } from '../../shared/directives/directives.modul
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
-import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './components/transactions-connector-cell.component';
+import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './cell-components/transactions-connector-cell.component';
 import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
 import { TransactionsHistoryComponent } from './history/transactions-history.component';
 import { TransactionsInErrorTableDataSource } from './in-error/transactions-in-error-table-data-source';

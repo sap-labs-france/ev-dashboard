@@ -7,7 +7,7 @@ import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 
 export class Utils {
-  public static validateEqual(formGroup: FormGroup, firstField, secondField) {
+  public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {
     const field1: FormControl = formGroup.controls[firstField] as FormControl;
     const field2: FormControl = formGroup.controls[secondField] as FormControl;
 
@@ -23,9 +23,9 @@ export class Utils {
     return { notEqual: true };
   }
 
-  public static handleError(error, messageService, errorMessage?, params?): Observable<any> {
+  public static handleError(error: any, messageService: MessageService, errorMessage: string = "", params?: object) {
     console.log(`Error: ${errorMessage}: ${error}`);
-    return messageService.showErrorMessage(errorMessage, params);
+    messageService.showErrorMessage(errorMessage, params);
   }
 
   public static isInMobileApp(): boolean {
@@ -45,15 +45,16 @@ export class Utils {
     return fullName;
   }
 
-  public static getMobileVendor(): MobileType {
+  public static getMobileVendor(): MobileType|null {
     let mobileVendor!: MobileType;
+    // @ts-ignore
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
-      mobileVendor = MobileType.IOS;
+      return MobileType.IOS;
     } else if (userAgent.match(/Android/i)) {
-      mobileVendor = MobileType.ANDROID;
+      return MobileType.ANDROID;
     }
-    return mobileVendor;
+    return null;
   }
 
   public static buildMobileAppDeepLink(path: string): string {
@@ -66,8 +67,8 @@ export class Utils {
     }
   }
 
-  public static handleHttpError(error, router: Router, messageService: MessageService,
-    centralServerService: CentralServerService, errorMessage: string, params?) {
+  public static handleHttpError(error: any, router: Router, messageService: MessageService,
+    centralServerService: CentralServerService, errorMessage: string, params?: object) {
     // Check error
     switch (error.status) {
       // Server connection error`

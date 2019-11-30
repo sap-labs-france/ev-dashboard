@@ -21,13 +21,13 @@ import { Utils } from '../../utils/Utils';
 export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public formGroup: FormGroup;
-  public resetPasswordHash: string;
+  public resetPasswordHash!: string|null;
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public hidePassword = true;
   public hideRepeatPassword = true;
-  public mobileVendor: string;
+  public mobileVendor!: string;
 
   private siteKey: string;
 
@@ -56,7 +56,9 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
           Validators.compose([
             Validators.required,
           ])),
-      }, (passwordFormGroup: FormGroup) => {
+      },
+      //@ts-ignore
+      (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
     });
@@ -67,7 +69,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     // Handle Deep Linking
     if (Utils.isInMobileApp()) {
-      // Forward to Mobile App
+        // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
       window.location.href = mobileAppURL;
@@ -91,7 +93,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  resetPassword(data) {
+  resetPassword(data: any) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
       if (token) {
         data['captcha'] = token;

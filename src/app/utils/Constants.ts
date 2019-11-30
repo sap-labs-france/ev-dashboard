@@ -3,6 +3,13 @@ import { ButtonType, DialogType, FilterType } from '../common.types';
 export class Constants {
   public static URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
+  public static CSV_SEPARATOR = '\t';
+
+  public static readonly REFUND_STATUS_SUBMITTED = 'submitted';
+  public static readonly REFUND_STATUS_NOT_SUBMITTED = 'notSubmitted';
+  public static readonly REFUND_STATUS_CANCELLED = 'cancelled';
+  public static readonly REFUND_STATUS_APPROVED = 'approved';
+
   public static DEFAULT_PAGE_SIZE = 100;
   public static INFINITE_RECORDS = -1;
   public static DEFAULT_POLLING_MILLIS = 10000;

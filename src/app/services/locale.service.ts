@@ -82,6 +82,7 @@ export class LocaleService {
 
   private updateLocale(language: string) {
     if (!this.locale || this.locale.language !== language) {
+      language = this.getSupportedLanguage(language);
       this.translateService.use(language);
       this.locale = {
         language,
@@ -93,6 +94,16 @@ export class LocaleService {
       } else {
         this.currentLocaleSubject.next(this.locale);
       }
+    }
+  }
+
+  private getSupportedLanguage(language: string) {
+    switch (language) {
+      case 'fr':
+      case 'en':
+        return language;
+      default:
+        return 'en';
     }
   }
 

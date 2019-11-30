@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+// @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -209,6 +210,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
+      // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
@@ -252,9 +254,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case 'delete':
-
-        if (transaction.refundData && (transaction.refundData.status === 'submitted' ||
-          transaction.refundData.status === 'approved')) {
+        if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
+          transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('transactions.dialog.delete.title'),
             this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
@@ -341,14 +342,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   private exportTransactions() {
+    this.spinnerService.show();
     this.centralServerService.exportTransactions(this.buildFilterValues(), {
       limit: this.getTotalNumberOfRecords(),
       skip: Constants.DEFAULT_SKIP,
     }, this.getSorting())
       .subscribe((result) => {
-        saveAs(result, 'exportTransactions.csv');
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
+        this.spinnerService.hide();
+        saveAs(result, 'exported-transactions.csv');
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+    });
   }
 }

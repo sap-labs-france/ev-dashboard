@@ -39,7 +39,7 @@ export class RegistrationTokenComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100),
       ])),
-      expirationDate: new FormControl(moment().add(1, 'd'),
+      expirationDate: new FormControl(moment().add(1, 'month'),
         Validators.compose([
           Validators.required,
         ])),

@@ -12,6 +12,7 @@ import {
   TableDef,
   User,
 } from '../../../common.types';
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -22,6 +23,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
+import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
 
 @Injectable()
 export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
@@ -36,7 +38,8 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       private router: Router,
       private dialog: MatDialog,
       private dialogService: DialogService,
-      private centralServerService: CentralServerService) {
+      private centralServerService: CentralServerService,
+      private authorisationService: AuthorizationService) {
     super(spinnerService);
     // Init
     this.initDataSource();
@@ -83,7 +86,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const columns: TableColumnDef[] = [
       {
         id: 'site.name',
         name: 'sites.name',
@@ -112,7 +115,18 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         name: 'sites.admin_role',
         class: 'col-10p',
       },
+
     ];
+    if (this.authorisationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE)) {
+      columns.push({
+        id: 'siteOwner',
+        isAngularComponent: true,
+        angularComponent: UserSitesOwnerRadioComponent,
+        name: 'sites.owner_role',
+        class: 'col-10p',
+      });
+    }
+    return columns;
   }
 
   public setUser(user: User) {

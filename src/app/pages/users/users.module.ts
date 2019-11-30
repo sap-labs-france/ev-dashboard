@@ -19,6 +19,7 @@ import { UsersInErrorComponent } from './in-error/users-in-error.component';
 import { UsersListComponent } from './list/users-list.component';
 import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-checkbox.component';
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
+import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
 import { UserComponent } from './user/user.component';
 import { UserDialogComponent } from './user/user.dialog.component';
@@ -51,6 +52,7 @@ import { UserRoutes } from './users.routing';
     UserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe,
+    UserSitesOwnerRadioComponent,
   ],
   entryComponents: [
     UserStatusFormatterComponent,
@@ -58,6 +60,7 @@ import { UserRoutes } from './users.routing';
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
     ErrorCodeDetailsComponent,
+    UserSitesOwnerRadioComponent,
   ],
   exports: [
     AppUserRolePipe,

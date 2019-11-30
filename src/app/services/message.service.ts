@@ -55,7 +55,7 @@ export class MessageService {
     this._showMessage('danger', message, title, params);
   }
 
-  private _showMessage(type, message, title = '', params?: object, from = 'top', align = 'right', icon = 'notifications') {
+  private _showMessage(type: string, message: string, title = '', params?: object, from = 'top', align = 'right', icon = 'notifications') {
     $.notify({
         icon,
         title,

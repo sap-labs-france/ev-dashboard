@@ -21,17 +21,17 @@ export class AppDurationPipe implements PipeTransform {
     const minutes = Math.floor(durationSecs / 60);
     const seconds = Math.floor(durationSecs - (minutes * 60));
     if (days !== 0) {
-      result += `${days}${this.localeService.getI18nDay()}`;
+      result += `${days}${this.localeService.getI18nDay()} `;
     }
     if (((hours !== 0) || (days !== 0)) && (hours !== 0 || (minutes !== 0 && days === 0))) {
-      result += `${hours}${this.localeService.getI18nHour()}`;
+      result += `${hours}${this.localeService.getI18nHour()} `;
     }
     if (days === 0) {
       if ((minutes !== 0) || (hours !== 0) && (minutes !== 0 || (seconds !== 0 && hours === 0))) {
-        result += `${minutes}${this.localeService.getI18nMinute()}`;
+        result += `${minutes}${this.localeService.getI18nMinute()} `;
       }
       if ((hours === 0) && (seconds !== 0)) {
-        result += `${seconds}${this.localeService.getI18nSecond()}`;
+        result += `${seconds}${this.localeService.getI18nSecond()} `;
       }
     }
     return result;

@@ -61,7 +61,7 @@ export class AuthenticationRetrievePasswordComponent implements OnInit, OnDestro
     body.classList.remove('off-canvas-sidebar');
   }
 
-  resetPassword(data) {
+  resetPassword(data: any) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
       if (token) {
         data['captcha'] = token;

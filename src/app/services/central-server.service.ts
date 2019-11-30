@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, TransactionInError } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, TransactionInError, KeyValue } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -911,7 +911,7 @@ export class CentralServerService {
     // Build Ordering
     this._getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
+    return this.httpClient.get<DataResult<TransactionInError>>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
       {
         headers: this._buildHttpHeaders(),
         params,
@@ -1226,6 +1226,7 @@ export class CentralServerService {
     this.setLoggedUserToken(token, true);
     // Init Socket IO
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
+      // @ts-ignore
       this.centralServerNotificationService.initSocketIO(this.currentUser['']);
     }
   }
@@ -1233,6 +1234,7 @@ export class CentralServerService {
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
     // Keep token
     this.currentUserToken = token;
+    // @ts-ignore
     this.currentUser = null;
     // Not null?
     if (token) {
@@ -1277,7 +1279,9 @@ export class CentralServerService {
 
   public clearLoggedUserToken(): void {
     // Clear
+    // @ts-ignore
     this.currentUserToken = null;
+    // @ts-ignore
     this.currentUser = null;
     this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
@@ -1285,6 +1289,7 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
+    // @ts-ignore
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
@@ -1320,7 +1325,7 @@ export class CentralServerService {
     return this.currentUser;
   }
 
-  public resetUserPassword(data): Observable<ActionResponse> {
+  public resetUserPassword(data: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1363,7 +1368,7 @@ export class CentralServerService {
       );
   }
 
-  public updateUser(user): Observable<ActionResponse> {
+  public updateUser(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1416,7 +1421,7 @@ export class CentralServerService {
       );
   }
 
-  public createSite(site): Observable<ActionResponse> {
+  public createSite(site: Site): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1429,7 +1434,7 @@ export class CentralServerService {
       );
   }
 
-  public updateSite(site): Observable<ActionResponse> {
+  public updateSite(site: Site): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1496,7 +1501,7 @@ export class CentralServerService {
       );
   }
 
-  public updateSetting(setting): Observable<ActionResponse> {
+  public updateSetting(setting: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1509,7 +1514,7 @@ export class CentralServerService {
       );
   }
 
-  public createOcpiEndpoint(ocpiEndpoint): Observable<ActionResponse> {
+  public createOcpiEndpoint(ocpiEndpoint: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1522,7 +1527,7 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1536,7 +1541,7 @@ export class CentralServerService {
       );
   }
 
-  public pingOcpiEndpoint(ocpiEndpoint): Observable<OCPIPingResponse> {
+  public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1549,7 +1554,7 @@ export class CentralServerService {
       );
   }
 
-  public generateLocalTokenOcpiEndpoint(ocpiEndpoint): Observable<OCPIGenerateLocalTokenResponse> {
+  public generateLocalTokenOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIGenerateLocalTokenResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1563,7 +1568,7 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiEndpoint): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute
@@ -1636,7 +1641,7 @@ export class CentralServerService {
       );
   }
 
-  public resendVerificationEmail(user): Observable<ActionResponse> {
+  public resendVerificationEmail(user: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Set the tenant
@@ -1778,7 +1783,7 @@ export class CentralServerService {
   /**
    * updateChargingStationOCPPConfiguration
    */
-  public updateChargingStationOCPPConfiguration(id, chargerParameter): Observable<ActionResponse> {
+  public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute the REST service
@@ -1799,7 +1804,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id, connectorId, duration, unit, loadAllConnectors): Observable<ActionResponse> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string, loadAllConnectors: boolean): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // build request
@@ -1824,7 +1829,7 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: Charger, connectorId, unit, powerValue: number, stackLevel: number): Observable<ActionResponse> {
+  public chargingStationLimitPower(charger: Charger, connectorId: number, unit: string, powerValue: number, stackLevel: number): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Build default charging profile json
@@ -1860,7 +1865,7 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationSetChargingProfile(charger: Charger, connectorId, chargingProfile): Observable<ActionResponse> {
+  public chargingStationSetChargingProfile(charger: Charger, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Build default charging profile json
@@ -2025,13 +2030,13 @@ export class CentralServerService {
     const header = {
       'Content-Type': 'application/json',
     };
-
     if (tenant !== undefined) {
+      // @ts-ignore
       header['Tenant'] = tenant;
     }
-
     // Check token
     if (this.getLoggedUserToken()) {
+      // @ts-ignore
       header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
     }
     // Build Header
@@ -2041,14 +2046,15 @@ export class CentralServerService {
   private _getSorting(ordering: Ordering[], queryParams: { [param: string]: string | string[]; }) {
     // Check
     if (ordering && ordering.length) {
-      const sortFields = [];
-      const sortDirs = [];
+      const sortFields: String[] = [];
+      const sortDirs: String[] = [];
       ordering.forEach((order) => {
         sortFields.push(order.field);
         sortDirs.push(order.direction);
       });
-      // Set
+      // @ts-ignore
       queryParams['SortFields'] = sortFields;
+      // @ts-ignore
       queryParams['SortDirs'] = sortDirs;
     }
   }

@@ -1595,6 +1595,21 @@ export class CentralServerService {
       );
   }
 
+  public unregisterOcpiEndpoint(id: string): Observable<ActionResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUnregister?ID=${id}`,
+      `{ "id": "${id}" }`,
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
   public registerOcpiEndpoint(id: string): Observable<ActionResponse> {
     // Verify init
     this._checkInit();

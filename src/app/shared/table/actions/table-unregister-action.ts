@@ -1,14 +1,14 @@
 import { ButtonColor, TableActionDef } from '../../../common.types';
 import { TableAction } from './table-action';
 
-export class TableRegisterAction implements TableAction {
+export class TableUnregisterAction implements TableAction {
   private action: TableActionDef = {
-    id: 'register',
+    id: 'unregister',
     type: 'button',
-    icon: 'link',
+    icon: 'link_off',
     color: ButtonColor.PRIMARY,
-    name: 'general.register',
-    tooltip: 'general.tooltips.register',
+    name: 'general.unregister',
+    tooltip: 'general.tooltips.unregister',
   };
 
   // Return an action

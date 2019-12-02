@@ -1527,12 +1527,26 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIEVSEStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.post<OCPIEVSEStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<OCPIEVSEStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendTokens`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1568,7 +1582,7 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiEndpoint: any): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute

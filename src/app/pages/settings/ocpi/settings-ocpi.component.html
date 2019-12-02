@@ -15,7 +15,7 @@
     </h4>
   </div>
 </div>
-<div *ngIf="isActive">
+<div *ngIf="isActive" class="d-flex flex-column">
   <div class="mat-toolbar-row mat-toolbar-settings">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
             [disabled]="!formGroup.valid || !formGroup.dirty">
@@ -199,5 +199,5 @@
       </div>
     </div>
   </form>
-  <app-settings-ocpi-endpoints class="h-50"></app-settings-ocpi-endpoints>
+  <app-settings-ocpi-endpoints></app-settings-ocpi-endpoints>
 </div>

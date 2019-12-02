@@ -41,7 +41,8 @@ export class ReleaseNotesComponent {
               `Fix issue in Sending email to Admin when creating a tenant`,
               `Do not compute extra inactivity after several same status notifications`,
               `Prevent deletion of Refunded Sessions in Sessions In Error`,
-              `Fixed Reset Passord redirected to the Login page`
+              `Fixed Reset Passord redirected to the Login page`,
+              `Convert Inactivity in mins in Export Session`
             ],
           },
         ],

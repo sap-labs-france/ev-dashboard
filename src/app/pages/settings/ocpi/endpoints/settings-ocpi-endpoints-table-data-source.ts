@@ -28,6 +28,7 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
+import { TableUnregisterAction } from 'app/shared/table/actions/table-unregister-action';
 import { Constants } from 'app/utils/Constants';
 import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
@@ -39,6 +40,7 @@ import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-oc
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();
   private registerAction = new TableRegisterAction().getActionDef();
+  private unregisterAction = new TableUnregisterAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
@@ -179,6 +181,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     return [
       this.editAction,
       this.registerAction,
+      this.unregisterAction,
       this.deleteAction,
     ];
   }
@@ -204,6 +207,9 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         break;
       case 'register':
         this.registerOcpiEndpoint(rowItem);
+        break;
+      case 'unregister':
+        this.unregisterOcpiEndpoint(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -258,7 +264,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     });
   }
 
-  private registerOcpiEndpoint(ocpiendpoint) {
+  private registerOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { name: ocpiendpoint.name }),
@@ -275,6 +281,28 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.register_error');
+        });
+      }
+    });
+  }
+
+  private unregisterOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.unregister_title'),
+      this.translateService.instant('ocpiendpoints.unregister_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            this.messageService.showSuccessMessage('ocpiendpoints.unregister_success', { name: ocpiendpoint.name });
+            this.refreshData().subscribe();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.unregister_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.unregister_error');
         });
       }
     });

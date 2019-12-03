@@ -11,7 +11,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
         </span>
       </ng-container>
     </span>
-  `
+  `,
 })
 export class TransactionsInactivityCellComponent extends CellContentTemplateComponent {
   @Input() row!: Transaction;

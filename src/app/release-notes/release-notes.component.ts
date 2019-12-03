@@ -42,7 +42,7 @@ export class ReleaseNotesComponent {
               `Do not compute extra inactivity after several same status notifications`,
               `Prevent deletion of Refunded Sessions in Sessions In Error`,
               `Fixed Reset Passord redirected to the Login page`,
-              `Convert Inactivity in mins in Export Session`
+              `Convert Inactivity in mins in Export Session`,
             ],
           },
         ],

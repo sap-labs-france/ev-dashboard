@@ -142,7 +142,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       // Hide
       this.spinnerService.hide();
       // Success
-      this.centralServerService.loggingSucceeded(result.token);
+      this.centralServerService.logginSucceeded(result.token);
       // login successful so redirect to return url
       this.router.navigateByUrl(this.returnUrl as string);
     }, (error) => {

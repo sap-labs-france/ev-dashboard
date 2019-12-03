@@ -23,7 +23,7 @@ export class Utils {
     return { notEqual: true };
   }
 
-  public static handleError(error: any, messageService: MessageService, errorMessage: string = "", params?: object) {
+  public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
     console.log(`Error: ${errorMessage}: ${error}`);
     messageService.showErrorMessage(errorMessage, params);
   }

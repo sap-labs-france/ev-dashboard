@@ -79,7 +79,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         acceptEula: true,
       }).subscribe((result) => {
         // Success
-        this.centralServerService.logginSucceeded(result.token);
+        this.centralServerService.loginSucceeded(result.token);
         this.redirectToDefaultRoute();
       }, (error) => {
         // Report the error

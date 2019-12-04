@@ -124,13 +124,12 @@ export class StatisticsPricingComponent implements OnInit {
     }
 
     let totalPriceString = '';
+
     this.totalPriceWithUnit.forEach((object) => {
-      if (object.value && object.value !== 0) {
         if (totalPriceString) {
           totalPriceString += ' + ';
         }
         totalPriceString += Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
-      }
     });
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
@@ -222,7 +221,9 @@ export class StatisticsPricingComponent implements OnInit {
       this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
 
+          if(statisticsData.length > 1){
           this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
+          }
 
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;
@@ -244,7 +245,9 @@ export class StatisticsPricingComponent implements OnInit {
       this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
 
-          this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
+          if(statisticsData.length > 1){
+            this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
+            }
 
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;

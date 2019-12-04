@@ -360,7 +360,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         },
       },
       zoom: {
-        enabled: true,
+        enabled: false,
         drag: false,
         mode: 'x',
         sensitivity: 10,

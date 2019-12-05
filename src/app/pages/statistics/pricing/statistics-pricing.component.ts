@@ -221,7 +221,7 @@ export class StatisticsPricingComponent implements OnInit {
       this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
 
-          if(statisticsData.length > 1){
+          if (statisticsData.length > 1) {
           this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
           }
 
@@ -245,7 +245,7 @@ export class StatisticsPricingComponent implements OnInit {
       this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
 
-          if(statisticsData.length > 1){
+          if (statisticsData.length > 1) {
             this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
             }
 

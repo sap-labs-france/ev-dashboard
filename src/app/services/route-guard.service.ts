@@ -79,13 +79,13 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         acceptEula: true,
       }).subscribe((result) => {
         // Success
-        this.centralServerService.loggingSucceeded(result.token);
+        this.centralServerService.loginSucceeded(result.token);
         this.redirectToDefaultRoute();
       }, (error) => {
         // Report the error
         this.messageService.showErrorMessage(
           this.translateService.instant('authentication.wrong_email_or_password'));
-        // Naigate to login
+        // Navigate to login
         this.router.navigate([RouteGuardService.LOGIN_ROUTE], {queryParams: {email}});
       });
     } else {
@@ -116,9 +116,8 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   canLoad(route: Route, segments: UrlSegment[]): boolean {
     if (route.data && route.data.options && route.data.options.onlyDev) {
       return !environment.production; // if prod = false it will load module
-    } else {
-      return true;
     }
+    return true;
   }
 
   async redirectToDefaultRoute(): Promise<boolean> {

@@ -57,7 +57,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
             Validators.required,
           ])),
       },
-      //@ts-ignore
+      // @ts-ignore
       (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),

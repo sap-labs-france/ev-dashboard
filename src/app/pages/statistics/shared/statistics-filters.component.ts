@@ -308,7 +308,7 @@ export class StatisticsFiltersComponent implements OnInit {
           if (filterDef.id === 'dateFrom') {
             filterDef.currentValue = new Date(this.selectedYear, 0, 1);
           } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date(this.selectedYear, 11, 31);
+            filterDef.currentValue = new Date(this.selectedYear + 1, 0, 1);
           }
         }
       }

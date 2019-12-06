@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.17',
-        date: new Date('2019-12-04'),
+        date: new Date('2019-12-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed error if no data in Statistics > Pricing`,
-              `Removed mouse scroll from consumption Chart`
+              `Removed mouse scroll from consumption Chart`,
+              `OCPI > Gireve > Push Users' tokens`
             ],
           },
         ],

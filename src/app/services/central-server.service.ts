@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, TransactionInError, KeyValue } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, KeyValue, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, TransactionInError, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -1219,7 +1219,7 @@ export class CentralServerService {
       );
   }
 
-  public loggingSucceeded(token: string): void {
+  public loginSucceeded(token: string): void {
     // Verify init
     this._checkInit();
     // Keep it local (iFrame use case)
@@ -1527,12 +1527,26 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIEVSEStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
     this._checkInit();
     // Execute
     return this.httpClient.post<OCPIEVSEStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
+      {
+        headers: this._buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
+    // Verify init
+    this._checkInit();
+    // Execute
+    return this.httpClient.post<OCPIEVSEStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendTokens`, ocpiEndpoint,
       {
         headers: this._buildHttpHeaders(),
       })
@@ -1568,7 +1582,7 @@ export class CentralServerService {
       );
   }
 
-  public updateOcpiEndpoint(ocpiEndpoint: any): Observable<ActionResponse> {
+  public updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
     // Execute

@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.17',
+        date: new Date('2019-12-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed error if no data in Statistics > Pricing`,
+              `Removed mouse scroll from consumption Chart`,
+              `OCPI > Gireve > Push Users' tokens`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.16',
         date: new Date('2019-11-30'),
         componentChanges: [
@@ -42,7 +56,7 @@ export class ReleaseNotesComponent {
               `Do not compute extra inactivity after several same status notifications`,
               `Prevent deletion of Refunded Sessions in Sessions In Error`,
               `Fixed Reset Passord redirected to the Login page`,
-              `Convert Inactivity in mins in Export Session`
+              `Convert Inactivity in mins in Export Session`,
             ],
           },
         ],

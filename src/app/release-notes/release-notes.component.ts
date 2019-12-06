@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed error if no data in Statistics > Pricing`,
-              `Removed mouse scroll from consumption Chart`
+              `Removed mouse scroll from consumption Chart`,
             ],
           },
         ],

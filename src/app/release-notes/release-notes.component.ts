@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.17',
+        date: new Date('2019-12-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed error if no data in Statistics > Pricing`,
+              `Removed mouse scroll from consumption Chart`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.16',
         date: new Date('2019-11-30'),
         componentChanges: [

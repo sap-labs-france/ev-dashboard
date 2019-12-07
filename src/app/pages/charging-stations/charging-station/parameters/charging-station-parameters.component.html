@@ -35,6 +35,17 @@
         </div>
       </div>
       <div class="col-md-6 col-xl-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase" required>
+              <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
+                {{nbPhases.description | translate}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
         <mat-form-field>
           <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude" [readOnly]="!isAdmin">
           <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
@@ -57,17 +68,6 @@
       </div>
     </div>
     <div class="row align-items-center">
-      <div class="col-md-6 col-xl-6">
-        <div class="form-group">
-          <mat-form-field>
-            <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}" [formControl]="numberOfConnectedPhase" required>
-              <mat-option *ngFor="let nbPhases of connectedPhaseMap" [value]="nbPhases.key">
-                {{nbPhases.description | translate}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
       <div class="col-md-6 col-xl-6 text-left">
         <div class="form-group">
           <mat-checkbox [formControl]="cannotChargeInParallel">
@@ -108,31 +108,39 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <ng-container *ngIf="numberOfConnectedPhase.value > 0">
+                    <mat-form-field>
+                      <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControlName]="'connectorVoltage' + connector.connectorId" required
+                          (selectionChange)="refreshChargingStationPower()">
+                        <mat-option [value]="230">230</mat-option>
+                        <mat-option [value]="400">400</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formGroup.controls['connectorVoltage' + connector.connectorId].invalid">{{'chargers.invalid_voltage' | translate}}</mat-error>
+                    </mat-form-field>
+                  </ng-container>
+                  <ng-container *ngIf="numberOfConnectedPhase.value === 0">
+                    <mat-form-field>
+                      <input matInput placeholder="{{'chargers.voltage' | translate}}" (input)="refreshChargingStationPower()" type="number" required
+                        [formControlName]="'connectorVoltage' + connector.connectorId" [readOnly]="!isAdmin">
+                      <mat-error *ngIf="formGroup.controls['connectorVoltage' + connector.connectorId].invalid">{{'chargers.invalid_voltage' | translate}}</mat-error>
+                    </mat-form-field>
+                  </ng-container>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <input matInput placeholder="{{'chargers.amperage' | translate}}" (input)="refreshChargingStationPower()" type="number" required
+                      [formControlName]="'connectorAmperage' + connector.connectorId" [readOnly]="!isAdmin">
+                    <mat-error *ngIf="formGroup.controls['connectorAmperage' + connector.connectorId].invalid">{{'chargers.invalid_amperage' | translate}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
               <div class="">
                 <mat-form-field>
                   <input matInput placeholder="{{'chargers.connector_max_power' | translate}}"
-                    [formControlName]="'connectorMaxPower' + connector.connectorId" required [readOnly]="!isAdmin">
-                  <mat-error
-                    *ngIf="formGroup.controls['connectorMaxPower' + connector.connectorId].invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
+                    [formControlName]="'connectorMaxPower' + connector.connectorId">
                 </mat-form-field>
-              </div>
-              <div *ngIf="this.isOCPIActive" class="row">
-                <div class="col-md-6">
-                  <mat-form-field>
-                    <input matInput placeholder="{{'chargers.voltage' | translate}}" required
-                      [formControlName]="'connectorVoltage' + connector.connectorId" [readOnly]="!isAdmin">
-                    <mat-error
-                      *ngIf="formGroup.controls['connectorVoltage' + connector.connectorId].invalid">{{'chargers.invalid_voltage' | translate}}</mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field>
-                    <input matInput placeholder="{{'chargers.amperage' | translate}}" required
-                      [formControlName]="'connectorAmperage' + connector.connectorId" [readOnly]="!isAdmin">
-                    <mat-error
-                      *ngIf="formGroup.controls['connectorAmperage' + connector.connectorId].invalid">{{'chargers.invalid_amperage' | translate}}</mat-error>
-                  </mat-form-field>
-                </div>
               </div>
             </div>
           </div>

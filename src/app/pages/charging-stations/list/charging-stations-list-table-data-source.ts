@@ -2,16 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  DataResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { Charger, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -27,18 +18,13 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+//@ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import {
-  ACTION_CLEAR_CACHE,
-  ACTION_MORE_ACTIONS,
-  ACTION_SMART_CHARGING,
-  ACTION_SOFT_RESET,
-  ChargingStationsMoreAction,
-} from '../actions/charging-stations-more-action';
+import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
@@ -253,6 +239,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
         // this.openGeoMap(rowItem);
         break;
       case 'more':
+        // @ts-ignore
         switch (dropdownItem.id) {
           case ACTION_SMART_CHARGING:
             this.dialogSmartCharging(rowItem);
@@ -328,7 +315,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
     openInMaps.disabled = !(charger && charger.coordinates && charger.coordinates.length === 2);
-    if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : null)) {
+    if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
         openInMaps,
@@ -339,7 +326,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     return [openInMaps];
   }
 
-  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, successMessage, errorMessage) {
+  private simpleActionChargingStation(action: string, charger: Charger, args: any, title: string, message: string, successMessage: string, errorMessage: string) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -401,7 +388,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   }
 
   private dialogSmartCharging(chargingStation?: Charger) {
-    if (chargingStation.inactive || parseFloat(chargingStation.ocppVersion) < 1.6) {
+    if (chargingStation && (chargingStation.inactive || parseFloat(chargingStation.ocppVersion) < 1.6)) {
       if (chargingStation.inactive) {
         // Charger is not connected
         this.dialogService.createAndShowOkDialog(
@@ -434,7 +421,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
   }
 
   private dialogMoreActions(chargingStation?: Charger) {
-    if (chargingStation.inactive) {
+    if (chargingStation && chargingStation.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.command_title'),

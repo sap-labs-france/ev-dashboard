@@ -6,7 +6,7 @@ import { ComponentService, ComponentType } from './component.service';
 
 @Injectable()
 export class AuthorizationService {
-  private loggedUser: UserToken;
+  private loggedUser!: UserToken | null;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -47,12 +47,12 @@ export class AuthorizationService {
   }
 
   public canAccess(resource: string, action: string): boolean {
-    return this.loggedUser && this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
+    return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }
 
   public canStopTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_REMOTE_STOP_TRANSACTION)) {
-      if (this.loggedUser.tagIDs.includes(badgeID)) {
+      if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
       if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
@@ -69,7 +69,8 @@ export class AuthorizationService {
         if (!siteArea) {
           return false;
         }
-        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) || this.loggedUser.sites.includes(siteArea.siteID);
+        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) ||
+          (!!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteArea.siteID));
       }
       return true;
     }
@@ -78,7 +79,7 @@ export class AuthorizationService {
 
   public canReadTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_READ)) {
-      if (this.loggedUser.tagIDs.includes(badgeID)) {
+      if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
       if (this.componentService.isActive(ComponentType.ORGANIZATION) && siteArea) {
@@ -93,11 +94,11 @@ export class AuthorizationService {
     if (this.isAdmin()) {
       return true;
     }
-    return this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
+    return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
   }
 
   public isSiteOwner(siteID: string): boolean {
-    return this.loggedUser.sitesOwner && this.loggedUser.sitesOwner.includes(siteID);
+    return !!this.loggedUser && !!this.loggedUser.sitesOwner && this.loggedUser.sitesOwner.includes(siteID);
   }
 
   public isSiteUser(siteID: string): boolean {
@@ -105,7 +106,7 @@ export class AuthorizationService {
       return true;
     }
     if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_READ)) {
-      return this.loggedUser.sites && this.loggedUser.sites.includes(siteID);
+      return !!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteID);
     }
     return false;
   }
@@ -119,13 +120,13 @@ export class AuthorizationService {
 
   public hasSitesAdminRights(): boolean {
     if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE)) {
-      return this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.length > 0;
+      return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.length > 0;
     }
     return false;
   }
 
   public getSitesAdmin(): ReadonlyArray<string> {
-    return this.loggedUser.sitesAdmin;
+    return !!this.loggedUser && this.loggedUser.sitesAdmin ? this.loggedUser.sitesAdmin : [];
   }
 
   public isSuperAdmin(): boolean {

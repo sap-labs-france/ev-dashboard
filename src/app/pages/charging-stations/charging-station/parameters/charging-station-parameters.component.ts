@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Charger, SiteArea } from '../../../../common.types';
+import { Charger, SiteArea, KeyValue } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../../services/component.service';
@@ -24,44 +24,36 @@ export const CONNECTED_PHASE_MAP =
     {key: 0, description: 'chargers.direct_current'},
   ];
 
-export const POWER_UNIT_MAP =
-  [
-    {key: 'W', description: 'chargers.watt'},
-    {key: 'A', description: 'chargers.amper'},
-  ];
-
 @Component({
   selector: 'app-charging-station-parameters',
   templateUrl: './charging-station-parameters.component.html',
 })
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
-  @Input() charger: Charger;
-  @Input() dialogRef: MatDialogRef<any>;
-  public userLocales;
-  public isAdmin;
+  @Input() charger!: Charger;
+  @Input() dialogRef!: MatDialogRef<any>;
+  public userLocales: KeyValue[];
+  public isAdmin!: boolean;
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = CONNECTED_PHASE_MAP;
-  public powerUnitMap = POWER_UNIT_MAP;
 
   public formGroup: FormGroup;
-  public chargingStationURL: AbstractControl;
-  public numberOfConnectedPhase: AbstractControl;
-  public cannotChargeInParallel: AbstractControl;
-  public powerLimitUnit: AbstractControl;
-  public maximumPower: AbstractControl;
-  public coordinates: FormArray;
-  public longitude: AbstractControl;
-  public latitude: AbstractControl;
-  public siteArea: AbstractControl;
-  public siteAreaID: AbstractControl;
+  public chargingStationURL!: AbstractControl;
+  public numberOfConnectedPhase!: AbstractControl;
+  public cannotChargeInParallel!: AbstractControl;
+  public maximumPower!: AbstractControl;
+  public coordinates!: FormArray;
+  public longitude!: AbstractControl;
+  public latitude!: AbstractControl;
+  public siteArea!: AbstractControl;
+  public siteAreaID!: AbstractControl;
 
-  public chargingStationURLTooltip: string;
+  public chargingStationURLTooltip!: string;
 
   public isOrganizationComponentActive: boolean;
   public isOCPIActive: boolean;
-  private messages;
+  private messages!: any;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -88,7 +80,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
   ngOnInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : null);
+    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
 
     // Init the form
     this.formGroup = new FormGroup({
@@ -98,10 +90,6 @@ export class ChargingStationParametersComponent implements OnInit {
           Validators.pattern(Constants.URL_PATTERN),
         ])),
       numberOfConnectedPhase: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      powerLimitUnit: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -136,7 +124,6 @@ export class ChargingStationParametersComponent implements OnInit {
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
-    this.powerLimitUnit = this.formGroup.controls['powerLimitUnit'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
@@ -149,7 +136,6 @@ export class ChargingStationParametersComponent implements OnInit {
       this.chargingStationURL.disable();
       this.numberOfConnectedPhase.disable();
       this.maximumPower.disable();
-      this.powerLimitUnit.disable();
       this.latitude.disable();
       this.longitude.disable();
       this.siteArea.disable();
@@ -235,9 +221,6 @@ export class ChargingStationParametersComponent implements OnInit {
       if (this.charger.cannotChargeInParallel) {
         this.formGroup.controls.cannotChargeInParallel.setValue(this.charger.cannotChargeInParallel);
       }
-      if (this.charger.powerLimitUnit) {
-        this.formGroup.controls.powerLimitUnit.setValue(this.charger.powerLimitUnit);
-      }
       if (this.charger.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(this.charger.maximumPower);
       }
@@ -283,8 +266,7 @@ export class ChargingStationParametersComponent implements OnInit {
         // Not found
         case 550:
           // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['charger_not_found']);
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, this.messages['charger_not_found']);
           break;
         default:
           // Unexpected error`
@@ -300,7 +282,6 @@ export class ChargingStationParametersComponent implements OnInit {
       this.charger.maximumPower = this.maximumPower.value;
       this.charger.numberOfConnectedPhase = this.numberOfConnectedPhase.value;
       this.charger.cannotChargeInParallel = this.cannotChargeInParallel.value;
-      this.charger.powerLimitUnit = this.powerLimitUnit.value;
       this.charger.coordinates = [this.longitude.value, this.latitude.value];
       for (const connector of this.charger.connectors) {
         connector.type = this.formGroup.controls[`connectorType${connector.connectorId}`].value;

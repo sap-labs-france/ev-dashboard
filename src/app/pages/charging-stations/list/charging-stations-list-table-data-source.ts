@@ -172,6 +172,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
             sortable: true,
           },
           {
+            id: 'firmwareVersion',
+            name: 'chargers.firmware_version',
+            headerClass: 'd-none d-xl-table-cell text-center',
+            class: 'd-none d-xl-table-cell text-center',
+            sortable: false,
+          },
+          {
             id: 'ocppVersion',
             name: 'chargers.ocpp_version_title',
             headerClass: 'd-none d-xl-table-cell text-center',

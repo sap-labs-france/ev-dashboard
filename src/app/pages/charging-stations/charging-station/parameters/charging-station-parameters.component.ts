@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Charger, SiteArea, KeyValue } from '../../../../common.types';
+import { Charger, KeyValue, SiteArea } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../../services/component.service';

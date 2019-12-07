@@ -13,8 +13,8 @@ export interface Locale {
 
 @Injectable()
 export class LocaleService {
-  private locale: Locale;
-  private currentLocaleSubject: BehaviorSubject<Locale>;
+  private locale!: Locale;
+  private currentLocaleSubject!: BehaviorSubject<Locale>;
 
   constructor(
     private translateService: TranslateService,
@@ -32,11 +32,11 @@ export class LocaleService {
   }
 
   public getLocales(): KeyValue[] {
-    const locales = [];
+    const locales: KeyValue[] = [];
     // en, fr...
     const configLocales = this.configService.getLocales();
     // Return
-    configLocales.fullSupported.forEach((localeFull) => {
+    configLocales.fullSupported.forEach((localeFull: string) => {
       locales.push({
         key: localeFull,
         value: this.getLocaleDescription(localeFull),
@@ -45,7 +45,7 @@ export class LocaleService {
     return locales;
   }
 
-  public getLocaleByKey(localeKey) {
+  public getLocaleByKey(localeKey: string) {
     // Return the found key
     const locales = this.getLocales().filter((locale) => {
       return locale.key === localeKey;
@@ -127,7 +127,7 @@ export class LocaleService {
     }
   }
 
-  private getLocaleDescription(localeFull) {
+  private getLocaleDescription(localeFull: string) {
     switch (localeFull) {
       case 'en_US':
         return this.translateService.instant('users.locale_desc_english');

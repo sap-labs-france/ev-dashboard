@@ -206,6 +206,10 @@ export class Constants {
   public static OCPI_ENDPOINT_STATUS_REGISTERED = 'registered';
   public static OCPI_ENDPOINT_STATUS_UNREGISTERED = 'unregistered';
 
+  /* OCPI roles */
+  public static OCPI_ROLE_CPO = 'CPO';
+  public static OCPI_ROLE_EMSP = 'EMSP';
+
   /* OCPI Patch Job status */
   public static OCPI_ENDPOINT_PATCH_JOB_STATUS_ACTIVE = 'active';
   public static OCPI_ENDPOINT_PATCH_JOB_STATUS_INACTIVE = 'inactive';

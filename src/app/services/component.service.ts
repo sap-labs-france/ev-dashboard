@@ -303,13 +303,13 @@ export class ComponentService {
       } as SmartChargingSettings;
       // Get the SmartCharging settings
       this.centralServerService.getSettings(ComponentType.SMART_CHARGING, contentFilter).subscribe((settings) => {
-
-        const config = settings.result[0].content;
-        // Set
-        smartChargingSettings.id = settings.result[0].id;
-        smartChargingSettings.sensitiveData = settings.result[0].sensitiveData;
-        smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
-
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // Set
+          smartChargingSettings.id = settings.result[0].id;
+          smartChargingSettings.sensitiveData = settings.result[0].sensitiveData;
+          smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
+        }
         observer.next(smartChargingSettings);
         observer.complete();
       }, (error) => {

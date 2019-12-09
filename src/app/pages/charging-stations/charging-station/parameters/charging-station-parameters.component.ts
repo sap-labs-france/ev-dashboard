@@ -52,7 +52,6 @@ export class ChargingStationParametersComponent implements OnInit {
   public chargingStationURLTooltip!: string;
 
   public isOrganizationComponentActive: boolean;
-  public isOCPIActive: boolean;
   private messages!: any;
 
   constructor(
@@ -75,7 +74,6 @@ export class ChargingStationParametersComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     this.formGroup = new FormGroup({});
     this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
-    this.isOCPIActive = this.componentService.isActive(ComponentType.OCPI);
   }
 
   ngOnInit(): void {
@@ -135,13 +133,12 @@ export class ChargingStationParametersComponent implements OnInit {
       this.cannotChargeInParallel.disable();
       this.chargingStationURL.disable();
       this.numberOfConnectedPhase.disable();
-      this.maximumPower.disable();
       this.latitude.disable();
       this.longitude.disable();
       this.siteArea.disable();
       this.siteAreaID.disable();
     }
-
+    this.maximumPower.disable();
     // URL not editable in case OCPP v1.6 or above
     if (Number(this.charger.ocppVersion) >= 1.6) {
       this.chargingStationURL.disable();
@@ -181,12 +178,10 @@ export class ChargingStationParametersComponent implements OnInit {
         ])));
       if (!this.isAdmin) {
         this.formGroup.controls[connectorTypeId].disable();
-        this.formGroup.controls[connectorMaxPowerId].disable();
-      }
-      if (!this.isAdmin || !this.isOCPIActive) {
         this.formGroup.controls[connectorVoltageId].disable();
         this.formGroup.controls[connectorAmperageId].disable();
       }
+      this.formGroup.controls[connectorMaxPowerId].disable();        
     }
     if (this.charger.id) {
       this.loadChargingStation();
@@ -198,6 +193,31 @@ export class ChargingStationParametersComponent implements OnInit {
    */
   public refresh() {
     this.loadChargingStation();
+  }
+
+  public refreshChargingStationPower() {
+    let chargerMaxPower = 0;
+    for (const connector of this.charger.connectors) {
+      const connectorVolt = this.formGroup.controls[`connectorVoltage${connector.connectorId}`].value;
+      const connectorAmp = this.formGroup.controls[`connectorAmperage${connector.connectorId}`].value;
+      if (this.numberOfConnectedPhase.value === 0) {
+        return;
+      }
+      if (connectorVolt && connectorAmp && this.numberOfConnectedPhase.value) {
+        // Compute Conector's Power
+        let connectorMaxPower = 0;
+        if (this.numberOfConnectedPhase.value === 1) {
+            connectorMaxPower = Math.floor(connectorVolt * connectorAmp);
+        } else if (this.numberOfConnectedPhase.value === 3) {
+          connectorMaxPower = Math.floor(connectorVolt * connectorAmp * Math.sqrt(this.numberOfConnectedPhase.value));
+        }
+        this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].setValue(connectorMaxPower);
+        // Compute Charger's Power
+        chargerMaxPower += connectorMaxPower;
+      }
+    }
+    // Set Charger Max Power
+    this.maximumPower.setValue(chargerMaxPower);
   }
 
   public loadChargingStation() {
@@ -217,6 +237,11 @@ export class ChargingStationParametersComponent implements OnInit {
       }
       if (this.charger.numberOfConnectedPhase >= 0) {
         this.formGroup.controls.numberOfConnectedPhase.setValue(this.charger.numberOfConnectedPhase);
+        if (this.numberOfConnectedPhase.value > 0) {
+          this.maximumPower.disable();
+        } else {
+          this.maximumPower.enable();
+        }
       }
       if (this.charger.cannotChargeInParallel) {
         this.formGroup.controls.cannotChargeInParallel.setValue(this.charger.cannotChargeInParallel);
@@ -238,22 +263,21 @@ export class ChargingStationParametersComponent implements OnInit {
         } else {
           this.formGroup.controls.siteAreaID.setValue('');
           this.formGroup.controls.siteArea.setValue('');
-          // this.formGroup.controls.siteAreaID.markAsPristine();
-          // this.formGroup.controls.siteArea.markAsPristine();
           this.formGroup.controls.siteArea.disable();
           this.formGroup.controls.siteAreaID.disable();
         }
       }
       // Update connectors formcontrol
       for (const connector of this.charger.connectors) {
-        const connectorTypeId = `connectorType${connector.connectorId}`;
-        const connectorMaxPowerId = `connectorMaxPower${connector.connectorId}`;
-        const connectorVoltageId = `connectorVoltage${connector.connectorId}`;
-        const connectorAmperageId = `connectorAmperage${connector.connectorId}`;
-        this.formGroup.controls[connectorTypeId].setValue(connector.type ? connector.type : 'U');
-        this.formGroup.controls[connectorMaxPowerId].setValue(connector.power);
-        this.formGroup.controls[connectorVoltageId].setValue(connector.voltage);
-        this.formGroup.controls[connectorAmperageId].setValue(connector.amperage);
+        this.formGroup.controls[`connectorType${connector.connectorId}`].setValue(connector.type ? connector.type : 'U');
+        this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].setValue(connector.power);
+        this.formGroup.controls[`connectorVoltage${connector.connectorId}`].setValue(connector.voltage);
+        this.formGroup.controls[`connectorAmperage${connector.connectorId}`].setValue(connector.amperage);
+        if (this.numberOfConnectedPhase.value > 0) {
+          this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].disable();        
+        } else {
+          this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].enable();        
+        }
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();

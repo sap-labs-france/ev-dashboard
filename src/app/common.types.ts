@@ -852,3 +852,17 @@ export interface RefundSettings {
     reportName: string;
   };
 }
+
+export enum SmartChargingSettingsType {
+  sapSmartCharging = 'sapSmartCharging',
+}
+
+export interface SmartChargingSettings {
+  id?: string;
+  identifier: ComponentType.SMART_CHARGING;
+  type: SmartChargingSettingsType;
+  sensitiveData: string[];
+  sapSmartCharging: {
+    optimizerUrl: string;
+  };
+}

@@ -59,6 +59,13 @@ export class TenantComponent implements OnInit {
       description: 'settings.analytics.sac.title',
     },
   ];
+
+  public smartChargingTypes = [
+    {
+      key: 'sapSmartCharging',
+      description: 'settings.smartCharging.sapSmartCharging.title',
+    },
+  ];
   private currentTenant: Tenant;
 
   constructor(

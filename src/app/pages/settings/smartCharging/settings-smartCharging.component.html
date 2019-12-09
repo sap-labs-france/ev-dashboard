@@ -26,6 +26,6 @@
       </button>
     </div>
     <!-- SAP Smart Charging -->
-    <app-settings-sapSmartCharging  [smartChargingSettings]="smartChargingSettings" [formGroup]="formGroup"> </app-settings-sapSmartCharging>
+    <app-settings-sapSmartCharging *ngIf="smartChargingSettings?.sapSmartCharging" [smartChargingSettings]="smartChargingSettings" [formGroup]="formGroup"> </app-settings-sapSmartCharging>
   </form>
 </div>

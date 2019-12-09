@@ -12,6 +12,7 @@ declare const $: any;
 })
 export class SettingsComponent extends AbstractTabComponent {
   public isOCPIActive = false;
+  public isOrganizationActive = false;
   public isRefundActive = false;
   public isPricingActive = false;
   public isBillingActive = false;
@@ -23,8 +24,9 @@ export class SettingsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['ocpi', 'refund', 'pricing', 'billing', 'sac', 'smartCharging']);
+    super(activatedRoute, windowService, ['ocpi', 'organization', 'refund', 'pricing', 'billing', 'sac', 'smartCharging']);
     this.isOCPIActive = this.componentService.isActive(ComponentType.OCPI);
+    this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION)
     this.isRefundActive = this.componentService.isActive(ComponentType.REFUND);
     this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
     this.isBillingActive = this.componentService.isActive(ComponentType.BILLING);

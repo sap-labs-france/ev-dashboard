@@ -58,6 +58,7 @@ export class SettingsSmartChargingComponent implements OnInit {
 
   public save(content) {
     this.smartChargingSettings.sapSmartCharging = content;
+    this.smartChargingSettings.type = SmartChargingSettingsType.sapSmartCharging;
     // Save
     this.spinnerService.show();
     this.componentService.saveSmartChargingSettings(this.smartChargingSettings).subscribe((response) => {

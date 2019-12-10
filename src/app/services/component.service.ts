@@ -17,12 +17,12 @@ export enum ComponentType {
 
 @Injectable()
 export class ComponentService {
-  private activeComponents?: string[];
+  private activeComponents!: string[]|null;
 
   constructor(
     private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
-      if (user) {
+      if (user && user.activeComponents) {
         this.activeComponents = user.activeComponents;
       } else {
         this.activeComponents = null;
@@ -37,7 +37,7 @@ export class ComponentService {
     return false;
   }
 
-  public getActiveComponents(): string[] {
+  public getActiveComponents(): string[]|null {
     return this.activeComponents;
   }
 
@@ -90,6 +90,7 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
+      // @ts-ignore
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -113,6 +114,7 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === BillingSettingsType.STRIPE) {
+      // @ts-ignore
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
     }
     // Set some temporary defaults
@@ -139,6 +141,7 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === RefundSettingsType.CONCUR) {
+      // @ts-ignore
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS

@@ -7,17 +7,20 @@ import { CommonDirectivesModule } from '../directives/directives.module';
 import { FormattersModule } from '../formatters/formatters.module';
 import { CellContentTemplateModule } from './cell-content-template/cell-content-template.module';
 import { TableComponent } from './table.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    RouterModule,
-    CommonModule,
-    MaterialModule,
-    TranslateModule,
-    FormattersModule,
-    CellContentTemplateModule,
-    CommonDirectivesModule,
-  ],
+    imports: [
+        RouterModule,
+        CommonModule,
+        MaterialModule,
+        TranslateModule,
+        FormattersModule,
+        CellContentTemplateModule,
+        CommonDirectivesModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
   declarations: [
     TableComponent,
   ],

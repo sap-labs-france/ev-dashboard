@@ -27,7 +27,7 @@ import { TableDataSource } from './table-data-source';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource: TableDataSource<Data>;
-  @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
@@ -119,6 +119,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     // Load data
     this.loadData();
+  }
+
+  public updateRow(value: any, index: number, columnDef: TableColumnDef) {
+    this.dataSource.updateRow(value, index, columnDef);
   }
 
   public filterChanged(filterDef: TableFilterDef) {
@@ -252,7 +256,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.autoRefreshSubscription = null;
   }
 
-  public toggleAutoRefresh({checked}) {
+  public toggleAutoRefresh({ checked }) {
     if (checked) {
       this.createAutoRefreshTimer();
     } else {
@@ -311,6 +315,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public trackByObjectId(index: number, item: Data): string {
     return item.id as string;
+  }
+
+  public trackByObjectIndex(index: number, item: Data): string {
+    return index.toString();
   }
 
   public loadData() {

@@ -5,7 +5,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { BehaviorSubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, Tag, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -23,11 +22,13 @@ import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { userStatuses, UserRoles } from '../users.model';
+import { UserTagsTableDataSource } from './user-tags-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
+  providers: [UserTagsTableDataSource],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -93,14 +94,14 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
 
-  public tagDataSource = new BehaviorSubject<AbstractControl[]>([]);
-  public TAG_COLUMNS = ['id', 'provider', 'internal', 'action'];
+  public user: User;
 
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
 
   constructor(
+    private userTagsTableDataSource: UserTagsTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -197,7 +198,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
-      tags: new FormArray([]),
+      tags: new FormArray([],
+        Validators.compose([
+          Validators.required,
+        ])),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -297,6 +301,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
 
+    this.userTagsTableDataSource.setFormGroup(this.formGroup);
+
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -304,9 +310,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.currentUserID = params['id'];
         this.loadUser();
       });
-    }
-    if (!this.currentUserID) {
-      // this.formGroup.controls.tags.setValue(this.generateTagID());
     }
 
     this.loadApplicationSettings();
@@ -379,6 +382,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();
+      this.user = user;
       // Init form
       if (user.id) {
         this.formGroup.controls.id.setValue(user.id);
@@ -418,7 +422,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.formGroup.controls.plateID.setValue(user.plateID);
       }
       if (user.tags) {
-        user.tags.forEach((tag) => this.addTag(tag));
+        this.userTagsTableDataSource.setContent(user.tags);
       }
       if (user.hasOwnProperty('notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
@@ -644,22 +648,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
-  }
-
-  addTag(tag?: Tag) {
-    const row = new FormGroup({
-      id: new FormControl(tag ? tag.id : '', Validators.required),
-      internal: new FormControl(tag ? tag.internal : false, [Validators.required]),
-      provider: new FormControl(tag ? tag.provider : ''),
-    });
-    this.tags.push(row);
-    this.tagDataSource.next(this.tags.controls);
-  }
-
-  deleteTag(index: number) {
-    this.tags.removeAt(index);
-    this.tagDataSource.next(this.tags.controls);
-    this.formGroup.markAsDirty();
   }
 
   private loadApplicationSettings() {

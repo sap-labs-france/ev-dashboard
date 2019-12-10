@@ -283,6 +283,10 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   // tslint:disable-next-line:no-empty
+  public updateRow(row: any, index: number, columnDef: TableColumnDef) {
+  }
+
+  // tslint:disable-next-line:no-empty
   public actionTriggered(actionDef: TableActionDef) {
   }
 
@@ -362,7 +366,8 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   // tslint:disable-next-line:no-empty
-  public onRowActionMenuOpen(action: TableActionDef, row: T) {}
+  public onRowActionMenuOpen(action: TableActionDef, row: T) {
+  }
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
@@ -448,7 +453,7 @@ export abstract class TableDataSource<T extends Data> {
     // Set static filter
     const staticFilters = [
       ...this.getStaticFilters(),
-      {OnlyRecordCount: true},
+      { OnlyRecordCount: true },
     ];
     // Set
     this.setStaticFilters(staticFilters);
@@ -493,6 +498,15 @@ export abstract class TableDataSource<T extends Data> {
     this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
     this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
       this.tableDef.hasDynamicRowAction;
+  }
+
+  protected updateRowActions(row: T) {
+    if (this.hasRowActions) {
+      // Check if authorized
+      this.tableRowActionsDef.forEach((rowActionDef) => {
+        row[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, row);
+      });
+    }
   }
 
   private initTableRowActions(force: boolean): TableActionDef[] {
@@ -593,17 +607,12 @@ export abstract class TableDataSource<T extends Data> {
           freshRow['dynamicRowActions'] = dynamicRowActions;
         }
       }
-      // Check Row Action Authorization
-      if (this.hasRowActions) {
-        // Check if authorized
-        this.tableRowActionsDef.forEach((rowActionDef) => {
-          freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
-        });
-      }
+      this.updateRowActions(freshRow);
       // Check if row can be selected
       if (isRowSelectionEnabled) {
         freshRow.isSelectable = this.isSelectable(freshRow);
       }
+
       // Set row ID
       if (!freshRow.id) {
         // Get row ID

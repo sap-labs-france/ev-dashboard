@@ -900,8 +900,8 @@
     "user_not_found": "Utilisateur inconnu",
     "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
     "invalid_phone_number": "Numéro de téléphone invalide",
-    "invalid_tag_ids": "Seulement les lettres et les nombres sont autorisés",
-    "invalid_plate_id": "Seulement les lettres majuscules, les nombres et '-' sont autorisés",
+    "invalid_tags": "Un utilisateur doit posséder au moins un badge. Le badge ID ne doit contenir que des chiffres et des lettres",
+    "invalid_plate_id": "Seulement les lettres majuscules, les chiffres et '-' sont autorisés",
     "locale": "Language",
     "locale_invalid": "Locale invalide",
     "locale_desc_english": "Anglais",
@@ -999,8 +999,7 @@
   },
   "tags": {
     "id": "ID",
-    "provider": "Emetteur",
-    "internal": "Interne"
+    "issuer": "Emetteur"
   },
   "tenants": {
     "title": "Organisation",

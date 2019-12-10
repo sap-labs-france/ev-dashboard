@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillingSettings } from 'app/common.types';
+import { BillingSettings, Tax } from 'app/common.types';
 import { Constants } from 'app/utils/Constants';
+import { CentralServerService } from '../../../../services/central-server.service';
 import { StripeToolBox } from './StripeToolbox';
 
 export class StripeBillingConstants {
@@ -24,9 +25,12 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public stripeImmediateBillingAllowed: AbstractControl;
   public stripePeriodicBillingAllowed: AbstractControl;
   public stripeLastSynchronizedOn: AbstractControl;
+  public taxes: Tax[] = [];
+  public taxCountry: AbstractControl;
+  public taxCode: AbstractControl;
 
   ngOnInit() {
-    this.formGroup.addControl('stripe',
+    this.stripe =
       new FormGroup({
         url: new FormControl('',
           Validators.compose([
@@ -52,23 +56,56 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         immediateBillingAllowed: new FormControl(''),
         periodicBillingAllowed: new FormControl(''),
         lastSynchronizedOn: new FormControl(''),
-      }),
-    );
+        taxCountry: new FormControl('',
+          Validators.compose([
+            Validators.required,
+          ]),
+        ),
+        taxCode: new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(20),
+            StripeToolBox.validateTaxCode,
+          ]),
+        ),
+      });
     // Keep
-    this.stripe = (this.formGroup.controls['stripe'] as FormGroup);
     this.stripeUrl = this.stripe.controls['url'];
     this.stripeSecretKey = this.stripe.controls['secretKey'];
     this.stripePublicKey = this.stripe.controls['publicKey'];
     this.stripeImmediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
     this.stripePeriodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
     this.stripeLastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
+    this.taxCountry = this.stripe.controls['taxCountry'];
+    this.taxCountry.setValue('none');
+    this.taxCode = this.stripe.controls['taxCode'];
+    this.taxCode.disable();
+
     // Set data
     this.updateFormData(true);
+    this.onChanges();
+  }
+
+  constructor(private centralServerService: CentralServerService) {
+    this.centralServerService.getCountryTaxes().subscribe((taxes) => {
+      this.taxes = taxes.result;
+    });
   }
 
   ngOnChanges() {
     this.updateFormData();
+  }
 
+  onChanges() {
+    this.stripe.get('taxCountry').valueChanges.subscribe((selectedTax) => {
+      console.log(selectedTax);
+      if (selectedTax === 'none') {
+        this.stripe.get('taxCode').reset();
+        this.stripe.get('taxCode').disable();
+      } else {
+        this.stripe.get('taxCode').enable();
+      }
+    });
   }
 
   updateFormData(firstTime = false) {

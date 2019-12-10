@@ -1164,7 +1164,10 @@
         "invalid_secret_key": "Secret API key is not plausible",
         "billing_method": "Billing Method",
         "immediate_billing": "Immediate Billing",
-        "periodic_billing": "Periodic Billing (not yet implemented)"
+        "periodic_billing": "Periodic Billing (not yet implemented)",
+        "tax_country": "Country code",
+        "tax_code": "Tax code",
+        "invalid_tax_code": "The entered value does not match the VAT format"
       }
     },
     "analytics": {

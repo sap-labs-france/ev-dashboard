@@ -771,6 +771,15 @@ export interface BillingSettings {
     advanceBillingAllowed?: boolean;
     lastSynchronizedOn?: Date;
   };
+  tax?: Tax;
+}
+
+export interface Tax extends Data {
+  countryCode: string;
+  taxCode: string;
+  standard: number;
+  reduced: number[];
+  allowZero: boolean;
 }
 
 export enum OcpiSettingsType {

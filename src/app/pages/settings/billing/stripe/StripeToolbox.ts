@@ -8,7 +8,7 @@ export class StripeToolBox {
       // Ok
       return null;
     }
-    return {invalid: true};
+    return { invalid: true };
   }
 
   public static validateSecretKey(control: AbstractControl) {
@@ -17,6 +17,15 @@ export class StripeToolBox {
       // Ok
       return null;
     }
-    return {invalid: true};
+    return { invalid: true };
+  }
+
+  public static validateTaxCode(control: AbstractControl) {
+    // Check
+    if (!control.value || /^[A-Z]*[0-9]+[A-Z0-9]*$/.test(control.value)) {
+      // Ok
+      return null;
+    }
+    return { invalid: true};
   }
 }

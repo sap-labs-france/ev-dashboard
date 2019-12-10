@@ -41,22 +41,22 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private isSiteAdmin = false;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private componentService: ComponentService,
-      private authorizationService: AuthorizationService,
-      private datePipe: AppDatePipe,
-      private appPercentPipe: AppPercentPipe,
-      private appUnitPipe: AppUnitPipe,
-      private appBatteryPercentagePipe: AppBatteryPercentagePipe,
-      private appUserNamePipe: AppUserNamePipe,
-      private appDurationPipe: AppDurationPipe) {
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private componentService: ComponentService,
+    private authorizationService: AuthorizationService,
+    private datePipe: AppDatePipe,
+    private appPercentPipe: AppPercentPipe,
+    private appUnitPipe: AppUnitPipe,
+    private appBatteryPercentagePipe: AppBatteryPercentagePipe,
+    private appUserNamePipe: AppUserNamePipe,
+    private appDurationPipe: AppDurationPipe) {
     super(spinnerService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
@@ -180,10 +180,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       case 'stop':
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.soft_stop.title'),
-          this.translateService.instant('transactions.dialog.soft_stop.confirm', {user: this.appUserNamePipe.transform(transaction.user)}),
+          this.translateService.instant('transactions.dialog.soft_stop.confirm', { user: this.appUserNamePipe.transform(transaction.user) }),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
-            this._softStopTransaction(transaction);
+            this._stopTransaction(transaction);
           }
         });
         break;
@@ -246,6 +246,24 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
+  protected _remoteStopTransaction(transaction: Transaction) {
+    this.centralServerService.chargingStationStopTransaction(
+      transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
+      if (response.status === 'Rejected') {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.notification.soft_stop.error'));
+      } else {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.soft_stop.success',
+            { user: this.appUserNamePipe.transform(transaction.user) }));
+        this.refreshData().subscribe();
+      }
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'transactions.notification.soft_stop.error');
+    });
+  }
+
   protected _softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Invalid') {
@@ -253,14 +271,36 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           this.translateService.instant('transactions.notification.soft_stop.error'));
       } else {
         this.messageService.showSuccessMessage(
-        this.translateService.instant('transactions.notification.soft_stop.success',
-          {user: this.appUserNamePipe.transform(transaction.user)}));
+          this.translateService.instant('transactions.notification.soft_stop.success',
+            { user: this.appUserNamePipe.transform(transaction.user) }));
         this.refreshData().subscribe();
       }
     }, (error) => {
       // tslint:disable-next-line:max-line-length
       Utils.handleHttpError(error, this.router, this.messageService,
         this.centralServerService, 'transactions.notification.soft_stop.error');
+    });
+  }
+
+  private _stopTransaction(transaction: Transaction) {
+    this.centralServerService.getCharger(transaction.chargeBoxID).subscribe((chargingStation) => {
+      if (chargingStation && !chargingStation.inactive) {
+        for (const connector of chargingStation.connectors) {
+          if (connector && connector.activeTransactionID === transaction.id) {
+            this._remoteStopTransaction(transaction);
+            return;
+          }
+        }
+      }
+      this._softStopTransaction(transaction);
+    }, (error) => {
+      // Charger not found
+      if (error.status === 550) {
+        this._softStopTransaction(transaction);
+      } else {
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'transactions.notification.soft_stop.error');
+      }
     });
   }
 }

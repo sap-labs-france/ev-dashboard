@@ -900,7 +900,7 @@
     "user_not_found": "Utilisateur inconnu",
     "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
     "invalid_phone_number": "Numéro de téléphone invalide",
-    "invalid_tags": "Un utilisateur doit posséder au moins un badge.",
+    "missing_tag": "Cette liste doit contenir au moins un badge",
     "invalid_tag_id": "Seuls les chiffres et les lettres sont autorisés",
     "invalid_plate_id": "Seuls les lettres majuscules, les chiffres et '-' sont autorisés",
     "locale": "Language",

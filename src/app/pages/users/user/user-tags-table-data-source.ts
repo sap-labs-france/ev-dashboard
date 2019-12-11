@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { TableColumnDef, Tag } from '../../../common.types';
+import { TableColumnDef, TableDef, Tag } from '../../../common.types';
 import { SpinnerService } from '../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
 
@@ -8,6 +8,14 @@ import { EditableTableDataSource } from '../../../shared/table/editable-table-da
 export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
   constructor(public spinnerService: SpinnerService) {
     super(spinnerService);
+  }
+
+  public buildTableDef(): TableDef {
+    return {
+      isEditable: true,
+      rowFieldNameIdentifier: 'id',
+      errorMessage: 'users.missing_tag',
+    };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

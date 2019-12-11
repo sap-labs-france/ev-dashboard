@@ -911,7 +911,7 @@
     "user_not_found": "User not found",
     "user_id_not_found": "User '{{userId}}' not found",
     "invalid_phone_number": "Invalid phone number",
-    "invalid_tags": "At least one tag is required",
+    "missing_tag": "This list must contain at least one badge",
     "invalid_tag_id": "Only numbers and letters are allowed",
     "invalid_plate_id": "Only capital letters, numbers and '-' are allowed",
     "locale": "Language",

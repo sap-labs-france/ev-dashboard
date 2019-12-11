@@ -398,11 +398,16 @@
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
          class="m-auto text-center table-no-record-found">
       <mat-error *ngIf="dataSource.formArray?.errors as errors; else noRecordFound">
-        <div *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
-        <div *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
-             [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
-        <div *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
-             [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
+        <div *ngIf="dataSource.tableDef.errorMessage; else defaultError">
+          {{dataSource.tableDef.errorMessage | translate}}
+        </div>
+        <ng-template #defaultError>
+          <div *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
+          <div *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
+               [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
+          <div *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
+               [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
+        </ng-template>
       </mat-error>
       <ng-template #noRecordFound>
         {{'general.no_record_found' | translate}}

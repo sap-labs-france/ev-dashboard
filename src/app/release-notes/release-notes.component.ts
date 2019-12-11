@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.18',
-        date: new Date('2019-12-07'),
+        date: new Date('2019-12-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Charging Station registration with template`,
+              `New Charging Station are registratered and enriched with template`,
+              `Users synchronization in Billing`,
             ],
           },
         ],

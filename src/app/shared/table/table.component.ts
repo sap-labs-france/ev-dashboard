@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -7,16 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { Constants } from 'app/utils/Constants';
-import * as _ from 'lodash';
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
-import {
-  Data,
-  DropdownItem,
-  TableActionDef,
-  TableColumnDef,
-  TableFilterDef,
-} from '../../common.types';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from '../../common.types';
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
@@ -26,19 +20,20 @@ import { TableDataSource } from './table-data-source';
   templateUrl: 'table.component.html',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() dataSource: TableDataSource<Data>;
-  @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
+  @Input() dataSource!: TableDataSource<Data>;
+  @ViewChild('searchInput', {static: false}) searchInput!: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
+  private loading = false;
   private ongoingRefresh = false;
 
-  private autoRefreshSubscription: Subscription;
-  private autoRefreshPollEnabled;
+  private autoRefreshSubscription!: Subscription|null;
+  private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
-  private alive: boolean;
+  private alive!: boolean;
 
   private readonly Constants = Constants;
 
@@ -62,7 +57,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (columnDef) {
       // Yes: Set Sorting
       this.sort.active = columnDef.id;
-      this.sort.direction = columnDef.direction;
+      this.sort.direction = columnDef.direction ? columnDef.direction : '';
     }
     this.dataSource.setSort(this.sort);
     // Compute number of columns
@@ -80,7 +75,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
       // Observe the Search field
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
+        // @ts-ignore
         takeWhile(() => this.alive),
+        // @ts-ignore
         map((e: KeyboardEvent) => e.target['value']),
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
         distinctUntilChanged(),
@@ -251,7 +248,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.autoRefreshSubscription = null;
   }
-
+  // @ts-ignore
   public toggleAutoRefresh({checked}) {
     if (checked) {
       this.createAutoRefreshTimer();
@@ -283,9 +280,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
-  public actionTriggered(actionDef: TableActionDef, event?) {
+  public actionTriggered(actionDef: TableActionDef, event?: MouseEvent|MatSlideToggleChange) {
     // Slide
-    if (actionDef.type === 'slide') {
+    if (event && event instanceof MatSlideToggleChange && actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually
       actionDef.currentValue = event.checked;
     }
@@ -293,7 +290,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
     this.dataSource.rowActionTriggered(actionDef, rowItem, dropdownItem);
   }
 
@@ -305,7 +302,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.toggleMasterSelect();
   }
 
-  public onRowActionMenuOpen(action: TableActionDef, row) {
+  public onRowActionMenuOpen(action: TableActionDef, row: any) {
     this.dataSource.onRowActionMenuOpen(action, row);
   }
 
@@ -314,19 +311,24 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadData() {
-    this.dataSource.loadData().subscribe();
+    this.loading = true;
+    this.dataSource.loadData().subscribe(() => {
+      this.loading = false;
+    });
   }
 
-  public showHideDetailsClicked(row) {
+  public showHideDetailsClicked(row: any) {
     // Already Expanded
     if (!row.isExpanded) {
       // Already Loaded
-      if (this.dataSource.tableDef.rowDetails.enabled
-        && this.dataSource.tableDef.rowDetails.detailsField
-        && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+      if (this.dataSource && this.dataSource.tableDef && this.dataSource.tableDef.rowDetails
+          && this.dataSource.tableDef.rowDetails.enabled
+          && this.dataSource.tableDef.rowDetails.detailsField
+          && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
         // No: Load details from data source
         this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
           // Set details
+          // @ts-ignore
           row[this.dataSource.tableDef.rowDetails.detailsField] = details;
           // No: Expand it!
           row.isExpanded = true;

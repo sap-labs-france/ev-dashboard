@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { TableColumnDef, Tag } from '../../../common.types';
 import { SpinnerService } from '../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable()
 export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
@@ -16,7 +16,10 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         id: 'id',
         name: 'tags.id',
         editType: 'input',
-        validators: [Validators.required],
+        validators: [Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(16),
+          Validators.pattern('^[a-zA-Z0-9]*$')],
         headerClass: 'text-left col-30p',
         class: 'text-left col-30p',
       },

@@ -301,7 +301,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
 
-    this.userTagsTableDataSource.setFormGroup(this.formGroup);
+    this.userTagsTableDataSource.setFormArray(this.tags);
 
     if (this.currentUserID) {
       this.loadUser();

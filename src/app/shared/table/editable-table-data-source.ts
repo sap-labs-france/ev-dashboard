@@ -8,12 +8,12 @@ import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   private editableContent: T[] = [];
-  private formGroup: FormGroup;
+  public formArray: FormArray;
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
   constructor(
-    public spinnerService: SpinnerService, public formArrayName: string) {
+    public spinnerService: SpinnerService) {
     super(spinnerService);
     this.initDataSource();
   }
@@ -44,8 +44,8 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.loadData(false).subscribe();
   }
 
-  public setFormGroup(formGroup: FormGroup) {
-    this.formGroup = formGroup;
+  public setFormArray(formArray: FormArray) {
+    this.formArray = formArray;
   }
 
   // tslint:disable-next-line:no-empty
@@ -55,37 +55,34 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
         const index = this.editableContent.indexOf(row);
         this.editableContent.splice(index, 1);
         this.refreshData(false).subscribe();
-        this.formGroup.markAsDirty();
+        this.formArray.markAsDirty();
         break;
     }
   }
 
   public updateRow(value: any, index: number, columnDef: TableColumnDef) {
-    if (this.formArrayName) {
-      const formArray: FormArray = this.formGroup.controls[this.formArrayName] as FormArray;
-
+    if (this.formArray) {
       if (columnDef.editType === 'radiobutton') {
         this.editableContent.forEach((row) => {
           row[columnDef.id] = false;
         });
-        formArray.controls.forEach((formRow) => {
+        this.formArray.controls.forEach((formRow) => {
           formRow.get(columnDef.id).setValue(false);
         });
       }
 
-      const rowGroup: FormGroup = formArray.at(index) as FormGroup;
+      const rowGroup: FormGroup = this.formArray.at(index) as FormGroup;
       rowGroup.get(columnDef.id).setValue(value);
       this.editableContent[index][columnDef.id] = value;
-      this.formGroup.markAsDirty();
+      this.formArray.markAsDirty();
     }
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
     if (this.editableContent) {
-      if (this.formArrayName) {
-        const formArray: FormArray = this.formGroup.controls[this.formArrayName] as FormArray;
-        formArray.clear();
-        this.editableContent.forEach((data) => formArray.push(this.getFormGroupDefinition(data)));
+      if (this.formArray) {
+        this.formArray.clear();
+        this.editableContent.forEach((data) => this.formArray.push(this.getFormGroupDefinition(data)));
       }
 
       return of({ count: this.editableContent.length, result: this.editableContent });

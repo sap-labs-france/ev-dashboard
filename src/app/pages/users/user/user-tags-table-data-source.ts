@@ -7,7 +7,7 @@ import { EditableTableDataSource } from '../../../shared/table/editable-table-da
 @Injectable()
 export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
   constructor(public spinnerService: SpinnerService) {
-    super(spinnerService, 'tags');
+    super(spinnerService);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

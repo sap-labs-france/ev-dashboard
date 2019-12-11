@@ -495,7 +495,6 @@ export interface CurrentMetrics {
 export interface TableDef {
   class?: string;
   isEditable?: boolean;
-  formArrayName?: string;
   rowSelection?: {
     enabled: boolean;
     multiple?: boolean;

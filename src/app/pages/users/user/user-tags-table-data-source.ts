@@ -20,6 +20,7 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
           Validators.minLength(8),
           Validators.maxLength(16),
           Validators.pattern('^[a-zA-Z0-9]*$')],
+        errorMessage: 'users.invalid_tag_id',
         headerClass: 'text-left col-30p',
         class: 'text-left col-30p',
       },

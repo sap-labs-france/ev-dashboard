@@ -8,7 +8,6 @@ import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   private editableContent: T[] = [];
-  public formArray: FormArray;
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 

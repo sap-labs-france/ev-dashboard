@@ -527,6 +527,7 @@ export interface TableColumnDef {
   type?: string;
   editType?: 'radiobutton'|'checkbox'|'input';
   validators?: ValidatorFn[];
+  errorMessage?: string;
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;

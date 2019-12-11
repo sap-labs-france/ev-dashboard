@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { Data, DataResult, DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
+import { FormArray } from '@angular/forms';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
@@ -17,6 +18,7 @@ export abstract class TableDataSource<T extends Data> {
   public tableRowActionsDef!: TableActionDef[];
 
   public data: T[] = [];
+  public formArray?: FormArray;
   public paging: Paging = {
     limit: this.getPageSize(),
     skip: 0,

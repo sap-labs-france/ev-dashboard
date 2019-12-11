@@ -166,6 +166,9 @@ export class TenantComponent implements OnInit {
     let pricingActive = false;
     let refundActive = false;
     let billingActive = false;
+    let smartChargingActive = false;
+    let organizationActive = false;
+
     for (const component in tenant.components) {
       if (tenant.components.hasOwnProperty(component)) {
         if (!tenant.components[component].active) {
@@ -180,6 +183,12 @@ export class TenantComponent implements OnInit {
         if (component === ComponentType.BILLING) {
           billingActive = tenant.components[component].active;
         }
+        if (component === ComponentType.SMART_CHARGING) {
+          smartChargingActive = tenant.components[component].active;
+        }
+        if (component === ComponentType.ORGANIZATION) {
+          organizationActive = tenant.components[component].active;
+        }
       }
     }
     if (refundActive && !pricingActive) {
@@ -188,6 +197,10 @@ export class TenantComponent implements OnInit {
     }
     if (billingActive && !pricingActive) {
       this.messageService.showErrorMessage('tenants.save_error_billing');
+      return;
+    }
+    if (smartChargingActive && !organizationActive) {
+      this.messageService.showErrorMessage('tenants.save_error_smart_charging');
       return;
     }
     if (this.currentTenant) {

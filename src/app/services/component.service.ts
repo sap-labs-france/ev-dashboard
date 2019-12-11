@@ -192,6 +192,10 @@ export class ComponentService {
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
+    if (settings.type === SmartChargingSettingsType.SAP_SMART_CHARGING) {
+      // @ts-ignore
+      settingsToSave.sensitiveData = ['content.sapSmartCharging.password'];
+    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;

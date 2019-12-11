@@ -13,8 +13,8 @@ import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analyti
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
-import { SettingsSmartChargingComponent } from './smartCharging/settings-smartCharging.component';
-import { SettingsSapSmartChargingComponent } from './smartCharging/sapSmartCharging/settings-sapSmartCharging.component';
+import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
+import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
 import {
   AppRegistrationTokenStatusPipe,
   RegistrationTokenStatusComponent,

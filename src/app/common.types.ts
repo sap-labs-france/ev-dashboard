@@ -854,7 +854,7 @@ export interface RefundSettings {
 }
 
 export enum SmartChargingSettingsType {
-  sapSmartCharging = 'sapSmartCharging',
+  SAP_SMART_CHARGING = 'sapSmartCharging',
 }
 
 export interface SmartChargingSettings {
@@ -864,5 +864,7 @@ export interface SmartChargingSettings {
   sensitiveData: string[];
   sapSmartCharging: {
     optimizerUrl: string;
+    user: string;
+    password: string;
   };
 }

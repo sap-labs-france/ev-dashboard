@@ -10,8 +10,8 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  selector: 'app-settings-smartCharging',
-  templateUrl: 'settings-smartCharging.component.html',
+  selector: 'app-settings-smart-charging',
+  templateUrl: 'settings-smart-charging.component.html',
 })
 export class SettingsSmartChargingComponent implements OnInit {
   public isActive = false;
@@ -57,8 +57,8 @@ export class SettingsSmartChargingComponent implements OnInit {
   }
 
   public save(content) {
-    this.smartChargingSettings.sapSmartCharging = content;
-    this.smartChargingSettings.type = SmartChargingSettingsType.sapSmartCharging;
+    this.smartChargingSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
+    this.smartChargingSettings.type = SmartChargingSettingsType.SAP_SMART_CHARGING;
     // Save
     this.spinnerService.show();
     this.componentService.saveSmartChargingSettings(this.smartChargingSettings).subscribe((response) => {

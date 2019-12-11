@@ -373,7 +373,7 @@
       </tbody>
     </table>
     <!-- More Records -->
-    <div *ngIf="dataSource.totalNumberOfRecords !== dataSource.data.length"
+    <div *ngIf="!loading && dataSource.totalNumberOfRecords !== dataSource.data.length"
          (click)="displayMoreRecords()" class="more-records">
       <mat-icon>keyboard_arrow_down</mat-icon>
       {{'general.more_records' | translate}}

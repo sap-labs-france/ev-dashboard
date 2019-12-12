@@ -434,6 +434,24 @@ tr.element-row:not(.expanded-row):active {
     padding: 5px;
   }
 
+  .row-validation {
+    height: 0 !important;
+    td {
+      text-align: left !important;
+      padding-top: 0 !important;
+      font-size: 75% !important;
+      border-bottom: none !important;
+      border-top: none !important;
+    }
+  }
+
+  .table-field-invalid {
+    input {
+      border-style: solid;
+      border-color: $brand-warn;
+    }
+  }
+
   > tbody > tr {
     position: relative;
     height: 38px !important;

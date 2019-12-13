@@ -540,7 +540,7 @@ export interface TableSearch {
 export enum InactivityStatus {
   INFO = 'I',
   WARNING = 'W',
-  ERROR = 'E'
+  ERROR = 'E',
 }
 
 export interface Transaction extends Data {

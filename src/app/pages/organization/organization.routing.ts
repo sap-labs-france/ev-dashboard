@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { ComponentType } from '../../services/component.service';
 import { RouteGuardService } from '../../guard/route-guard';
+import { ComponentType } from '../../services/component.service';
 import { Constants } from '../../utils/Constants';
 import { OrganizationComponent } from './organization.component';
 

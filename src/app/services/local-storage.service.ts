@@ -16,7 +16,7 @@ export class LocalStorageService {
     window.addEventListener('message', this._receiveMessage.bind(this), false);
   }
 
-  public setItem(key:string, value: string) {
+  public setItem(key: string, value: string) {
     // iFrame?
     if (this._isInIFrame) {
       // Build request

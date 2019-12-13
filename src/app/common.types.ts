@@ -1,6 +1,7 @@
 import { SortDirection } from '@angular/material/typings';
 import { ComponentType } from './services/component.service';
 import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
+import { ValidatorFn } from '@angular/forms';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
@@ -66,9 +67,9 @@ export interface TableActionDef {
 
 export interface Data {
   id: string|number;
-  isSelected: boolean;
-  isSelectable: boolean;
-  isExpanded: boolean;
+  isSelected?: boolean;
+  isSelectable?: boolean;
+  isExpanded?: boolean;
 }
 
 export interface DataResult<T extends Data> {
@@ -493,6 +494,8 @@ export interface CurrentMetrics {
 
 export interface TableDef {
   class?: string;
+  isEditable?: boolean;
+  errorMessage?: string;
   rowSelection?: {
     enabled: boolean;
     multiple?: boolean;
@@ -522,6 +525,9 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
+  editType?: 'radiobutton'|'checkbox'|'input';
+  validators?: ValidatorFn[];
+  errorMessage?: string;
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;
@@ -587,11 +593,11 @@ export interface TransactionInError extends Transaction {
   errorMessage: ErrorMessage;
 }
 
-export interface Tag {
+export interface Tag extends Data {
   id: string;
-  internal: boolean;
+  issuer: boolean;
   userID?: string;
-  provider?: string;
+  description?: string;
   deleted?: boolean;
   lastChangedBy?: Partial<User>;
   lastChangedOn?: Date;

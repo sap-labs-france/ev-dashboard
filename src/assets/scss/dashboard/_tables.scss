@@ -56,7 +56,7 @@ $outer-spinner: $brand-warn !default;
   flex-direction: column;
   overflow: auto;
   white-space: nowrap;
-  height: 200px;
+  height: 300px;
   min-height: 100px;
   background-color: mat-color($app-background, dialog);
 }
@@ -432,6 +432,24 @@ tr.element-row:not(.expanded-row):active {
   .td-actions .btn {
     margin: 0px;
     padding: 5px;
+  }
+
+  .row-validation {
+    height: 0 !important;
+    td {
+      text-align: left !important;
+      padding-top: 0 !important;
+      font-size: 75% !important;
+      border-bottom: none !important;
+      border-top: none !important;
+    }
+  }
+
+  .table-field-invalid {
+    input {
+      border-style: solid;
+      border-color: $brand-warn;
+    }
   }
 
   > tbody > tr {

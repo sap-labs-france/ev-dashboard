@@ -54,6 +54,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       let ocpiEndpointDetail;
       if (this.ocpiEndpoint) {
         // Set
+        console.log(this.ocpiEndpoint.id);
         ocpiEndpointDetail = ({
           id: this.ocpiEndpoint.id,
           ocpiendpoint: this.ocpiEndpoint,
@@ -73,6 +74,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   public setEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.ocpiEndpoint = ocpiendpoint;
+    this.initDataSource(true);
   }
 
   public buildTableDef(): TableDef {
@@ -120,7 +122,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       {
         id: 'totalNbr',
         type: 'integer',
-        name: 'ocpiendpoints.totalChargePoints',
+        name: this.ocpiEndpoint ? (this.ocpiEndpoint.role === 'CPO' ? 'ocpiendpoints.totalChargePoints' : 'ocpiendpoints.totalTokens') : 'ocpiendpoints.total',
         isAngularComponent: true,
         angularComponent: OcpiDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
@@ -179,7 +181,11 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case 'send':
-        this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
+        if (this.ocpiEndpoint.role === Constants.OCPI_ROLE_CPO) {
+          this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
+        } else {
+          this.sendTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        }
         break;
       case 'start':
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
@@ -192,7 +198,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     }
   }
 
-  private sendEVSEStatusesOcpiEndpoint(ocpiendpoint) {
+  private sendEVSEStatusesOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
       this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { name: ocpiendpoint.name }),
@@ -221,7 +227,36 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private enableDisableBackgroundJob(ocpiendpoint, enable: boolean) {
+  private sendTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.sendTokens_title'),
+      this.translateService.instant('ocpiendpoints.sendTokens_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Ping
+        this.centralServerService.sendTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.success_send_tokens', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.partial_send_tokens',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.error_send_tokens');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.error_send_tokens');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private enableDisableBackgroundJob(ocpiendpoint: OcpiEndpoint, enable: boolean) {
     // update it with dialog
     this.dialogService.createAndShowYesNoDialog(
       (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_title')

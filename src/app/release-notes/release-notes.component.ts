@@ -24,14 +24,28 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.18',
+        date: new Date('2019-12-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Charging Station are registratered and enriched with template`,
+              `Users synchronization in Billing`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.17',
-        date: new Date('2019-12-04'),
+        date: new Date('2019-12-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Fixed error if no data in Statistics > Pricing`,
-              `Removed mouse scroll from consumption Chart`
+              `Removed mouse scroll from consumption Chart`,
+              `OCPI > Gireve > Push Users' tokens`
             ],
           },
         ],

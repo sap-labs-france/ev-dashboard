@@ -16,7 +16,7 @@ export class ChargingStationsStartTransactionDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
     this.title = data.title;
     this.message = data.message;

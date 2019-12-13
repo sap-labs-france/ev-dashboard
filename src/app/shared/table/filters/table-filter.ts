@@ -1,7 +1,7 @@
 import { TableFilterDef } from '../../../common.types';
 
 export abstract class TableFilter {
-  private filterDef: TableFilterDef;
+  private filterDef!: TableFilterDef;
 
   // Return the filter
   public getFilterDef(): TableFilterDef {

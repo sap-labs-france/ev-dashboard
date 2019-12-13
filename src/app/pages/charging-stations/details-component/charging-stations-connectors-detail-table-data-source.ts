@@ -14,7 +14,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
@@ -37,8 +37,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public openAction = new TableOpenAction();
   public noAction = new TableNoAction();
 
-  private charger: Charger;
-  private dialogRefSession: MatDialogRef<TransactionDialogComponent>;
+  private charger!: Charger;
+  private dialogRefSession!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -66,12 +66,12 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       if (this.charger) {
         this.charger.connectors.forEach((connector) => {
           // tslint:disable-next-line:max-line-length
-          connector.isStopAuthorized = connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeTagID);
+          connector.isStopAuthorized = !!connector.activeTransactionID && this.authorizationService.canStopTransaction(this.charger.siteArea, connector.activeTagID);
           // tslint:disable-next-line:max-line-length
           connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.charger.siteArea);
           // tslint:disable-next-line:max-line-length
           connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.charger.siteArea, connector.activeTagID);
-          connector.hasDetails = connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
+          connector.hasDetails = !!connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
         });
 
         observer.next({
@@ -302,7 +302,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
   }
 
-  public startTransaction(connector: Connector, user: User, loggedUser: UserToken): boolean {
+  public startTransaction(connector: Connector, user: User|null, loggedUser: UserToken): boolean {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
@@ -312,7 +312,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         // To DO a selection of the badge to use??
-        const tagID: string = user ? user.tags[0].id : loggedUser.tagIDs[0];
+        const tagID: string = user ? user.tags[0].id : loggedUser.tagIDs ? loggedUser.tagIDs[0] : '';
         this.centralServerService.chargingStationStartTransaction(
           this.charger.id, connector.connectorId, tagID).subscribe((response2: ActionResponse) => {
           // Ok?

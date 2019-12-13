@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as jQuery from 'jquery';
 import { filter } from 'rxjs/operators';
 import { CentralServerService } from '../../services/central-server.service';
-import { RouteGuardService } from '../../services/route-guard.service';
+import { RouteGuardService } from '../../guard/route-guard';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
   mobileMenuVisible: any = 0;
 
   @ViewChild('app-navbar', { static: false }) button: any;
-  private listTitles: any[];
+  private listTitles!: any[];
   private nativeElement: Node;
   private toggleButton: any;
   private sidebarVisible: boolean;
@@ -99,9 +99,11 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => {
-      return route.data && route.data.menu && this.guard.isRouteAllowed(route);
-    }).map((route) => route.data.menu);
+    if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
+      this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => {
+          return route.data && route.data.menu && this.guard.isRouteAllowed(route);
+        }).map((route) => route.data ? route.data.menu : null);      
+    }
     const navbar: HTMLElement = this.element.nativeElement;
     const body = document.getElementsByTagName('body')[0];
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
@@ -111,7 +113,7 @@ export class NavbarComponent implements OnInit {
     if (body.classList.contains('hide-sidebar')) {
       misc.hide_sidebar_active = true;
     }
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       const $layer = document.getElementsByClassName('close-layer')[0];
       if ($layer) {
         $layer.remove();
@@ -119,7 +121,8 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  onResize(event) {
+  onResize(event: Event) {
+    // @ts-ignore
     return jQuery(window).width() <= 991;
   }
 

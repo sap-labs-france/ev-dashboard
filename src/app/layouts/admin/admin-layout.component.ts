@@ -14,13 +14,13 @@ declare const $: any;
 })
 
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
-  url: string;
+  url!: string;
   location: Location;
 
   @ViewChild('sidebar', { static: false }) sidebar: any;
-  @ViewChild(NavbarComponent, { static: true }) navbar: NavbarComponent;
-  private _router: Subscription;
-  private lastPoppedUrl: string;
+  @ViewChild(NavbarComponent, { static: true }) navbar!: NavbarComponent;
+  private _router!: Subscription;
+  private lastPoppedUrl!: string|null;
   private yScrollStack: number[] = [];
 
   constructor(private router: Router, location: Location) {
@@ -31,7 +31,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     const elemMainPanel = document.querySelector('.main-panel') as HTMLElement;
     const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
     this.location.subscribe((ev: PopStateEvent) => {
-      this.lastPoppedUrl = ev.url;
+      this.lastPoppedUrl = ev && ev.url ? ev.url : null;
     });
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
@@ -40,14 +40,15 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
         }
       } else if (event instanceof NavigationEnd) {
         if (event.url === this.lastPoppedUrl) {
-          this.lastPoppedUrl = undefined;
+          this.lastPoppedUrl = null;
+          // @ts-ignore
           window.scrollTo(0, this.yScrollStack.pop());
         } else {
           window.scrollTo(0, 0);
         }
       }
     });
-    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       elemMainPanel.scrollTop = 0;
       elemSidebar.scrollTop = 0;
     });
@@ -59,7 +60,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     } else {
       html.classList.add('perfect-scrollbar-off');
     }
-    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.navbar.sidebarClose();
     });
   }

@@ -1,21 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanLoad,
-  Route,
-  Router,
-  RouterStateSnapshot,
-  UrlSegment,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'environments/environment';
+import { AuthorizationService } from '../services/authorization.service';
+import { CentralServerService } from '../services/central-server.service';
+import { ComponentService } from '../services/component.service';
+import { MessageService } from '../services/message.service';
 import { Constants } from '../utils/Constants';
-import { AuthorizationService } from './authorization.service';
-import { CentralServerService } from './central-server.service';
-import { ComponentService } from './component.service';
-import { MessageService } from './message.service';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
@@ -51,9 +42,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       this.redirectToBrowserNotSupportRoute();
       return false;
     }
-
     const queryParams = {};
-
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
       if (this.isRouteAllowed(activatedRoute.routeConfig)) {
@@ -64,10 +53,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     } else {
       this.userRole = undefined;
     }
-
     // Add URL origin
+    // @ts-ignore
     queryParams['returnUrl'] = routerState.url;
-
     // Check user/pass in URL
     const email = activatedRoute.queryParams['email'];
     const password = activatedRoute.queryParams['password'];
@@ -99,14 +87,13 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return this.canActivate(childRoute, state);
   }
 
-  public isRouteAllowed(route: Route): boolean {
-    const auth = route.data ? route.data['auth'] : undefined;
+  public isRouteAllowed(route: Route|null): boolean {
+    const auth = route && route.data ? route.data['auth'] : undefined;
     if (auth) {
-      const component = route.data ? route.data['component'] : undefined;
+      const component = route && route.data ? route.data['component'] : undefined;
       if (component && !this.componentService.isActive(component)) {
         return false;
       }
-
       return this.authorizationService.canAccess(auth.entity, auth.action);
     }
 

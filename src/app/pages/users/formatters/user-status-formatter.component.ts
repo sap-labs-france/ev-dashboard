@@ -2,7 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import { User } from '../../../common.types';
 import { Constants } from '../../../utils/Constants';
-import { userStatuses } from '../users.model';
+import { userStatuses } from '../model/users.model';
 
 @Component({
   selector: 'app-user-status-formatter',
@@ -15,7 +15,7 @@ import { userStatuses } from '../users.model';
   `,
 })
 export class UserStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: User;
+  @Input() row!: User;
 }
 
 @Pipe({name: 'appFormatUserStatus'})
@@ -27,6 +27,7 @@ export class AppFormatUserStatusPipe implements PipeTransform {
     if (type === 'text') {
       return this.buildUserStatusText(userStatus);
     }
+    return '';
   }
 
   buildUserStatusClasses(status: string): string {
@@ -59,5 +60,6 @@ export class AppFormatUserStatusPipe implements PipeTransform {
         return userStatus.value;
       }
     }
+    return '';
   }
 }

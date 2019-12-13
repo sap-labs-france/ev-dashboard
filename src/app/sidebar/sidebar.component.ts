@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserToken } from 'app/common.types';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerNotificationService } from '../services/central-server-notification.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ConfigService } from '../services/config.service';
-import { RouteGuardService } from '../services/route-guard.service';
 import { Constants } from '../utils/Constants';
 
 declare const $: any;
@@ -22,14 +24,14 @@ const misc: any = {
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   mobileMenuVisible: any = 0;
-  public menuItems: any[];
-  public loggedUser;
+  public menuItems!: any[];
+  public loggedUser: UserToken;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public isAdmin = false;
   public canEditProfile = false;
   private toggleButton: any;
-  private sidebarVisible: boolean;
-  private userSubscription;
+  private sidebarVisible!: boolean;
+  private userSubscription!: Subscription;
 
   constructor(
     private configService: ConfigService,
@@ -40,9 +42,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService) {
     // Get the routes
-    this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => {
-      return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, null);
-    }).map((route) => route.data.menu);
+    if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
+      this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => {
+        return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, []);
+      }).map((route) => route && route.data ? route.data.menu : null);      
+    }
 
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
@@ -82,17 +86,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   updateUserImage() {
     // Get the user's image
-    this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
-      // Keep
-      this.loggedUserImage = (image && image.image ? image.image : Constants.USER_NO_PICTURE).toString();
-    });
+    if (this.loggedUser && this.loggedUser.id) {
+      this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
+        this.loggedUserImage = (image && image.image ? image.image : Constants.USER_NO_PICTURE).toString();
+      });      
+    }
   }
 
   isMobileMenu() {
-    // if ($(window).width() > 991) {
-    //   return false;
-    // }
-    // return true;
     return false;
   }
 

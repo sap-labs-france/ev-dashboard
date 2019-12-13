@@ -54,7 +54,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
         const index = this.editableContent.indexOf(row);
         this.editableContent.splice(index, 1);
         this.refreshData(false).subscribe();
-        this.formArray.markAsDirty();
+        if (this.formArray) {
+          this.formArray.markAsDirty();
+        }
         break;
     }
   }
@@ -63,15 +65,19 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     if (this.formArray) {
       if (columnDef.editType === 'radiobutton') {
         this.editableContent.forEach((row) => {
+          // @ts-ignore
           row[columnDef.id] = false;
         });
         this.formArray.controls.forEach((formRow) => {
+          // @ts-ignore
           formRow.get(columnDef.id).setValue(false);
         });
       }
 
       const rowGroup: FormGroup = this.formArray.at(index) as FormGroup;
+      // @ts-ignore
       rowGroup.get(columnDef.id).setValue(value);
+      // @ts-ignore
       this.editableContent[index][columnDef.id] = value;
       this.formArray.markAsDirty();
     }
@@ -81,9 +87,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     if (this.editableContent) {
       if (this.formArray) {
         this.formArray.clear();
+        // @ts-ignore
         this.editableContent.forEach((data) => this.formArray.push(this.getFormGroupDefinition(data)));
       }
-
       return of({ count: this.editableContent.length, result: this.editableContent });
     }
     return of({ count: 0, result: [] });
@@ -108,12 +114,15 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       switch (tableColumnDef.editType) {
         case 'checkbox':
         case 'radiobutton':
+          // @ts-ignore
           value = data[tableColumnDef.id] ? data[tableColumnDef.id] : false;
           break;
         case 'input':
         default:
+          // @ts-ignore
           value = data[tableColumnDef.id] ? data[tableColumnDef.id] : '';
       }
+      // @ts-ignore
       controls[tableColumnDef.id] = new FormControl(value, tableColumnDef.validators);
     });
     return new FormGroup(controls);

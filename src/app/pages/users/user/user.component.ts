@@ -21,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../users.model';
+import { userStatuses, UserRoles } from '../model/users.model';
 import { UserTagsTableDataSource } from './user-tags-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
@@ -94,7 +94,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
 
-  public user: User;
+  public user!: User;
 
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;

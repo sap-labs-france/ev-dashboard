@@ -513,6 +513,7 @@ export abstract class TableDataSource<T extends Data> {
     if (this.hasRowActions) {
       // Check if authorized
       this.tableRowActionsDef.forEach((rowActionDef) => {
+        // @ts-ignore
         row[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, row);
       });
     }

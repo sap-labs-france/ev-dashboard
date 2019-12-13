@@ -182,6 +182,24 @@
                           </mat-form-field>
                           <mat-slide-toggle [formControl]="components['controls'].analytics['controls'].active"></mat-slide-toggle>
                         </div>
+                        <div class="d-flex align-items-center component-item">
+                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                            <div><strong><b>{{"smartCharging.title" | translate}}</b></strong></div>
+                            <div>{{"smartCharging.description" | translate}}</div>
+                          </div>
+                          <mat-form-field *ngIf="components['controls'].smartCharging['controls'].active.value" class="flex-shrink-1 mx-5">
+                            <mat-select [formControl]="components['controls'].smartCharging['controls'].type"
+                                [placeholder]="'smartCharging.type_placeholder' | translate"
+                                [required]="components['controls'].smartCharging['controls'].active.value">
+                              <mat-option *ngFor="let smartChargingType of smartChargingTypes" [value]="smartChargingType.key">
+                                {{smartChargingType.description | translate}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="components['controls'].smartCharging['controls'].active.errors?.required">
+                              {{"general.mandatory_field" | translate}}</mat-error>
+                          </mat-form-field>
+                          <mat-slide-toggle [formControl]="components['controls'].smartCharging['controls'].active"></mat-slide-toggle>
+                        </div>
                       </div>
                     </div>
                   </div>

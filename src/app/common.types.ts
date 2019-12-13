@@ -242,18 +242,12 @@ export interface Connector extends Data {
   activeTransactionDate: Date;
   activeTagID: string;
   statusLastChangedOn?: Date;
-  inactivityStatusLevel: InactivityStatusLevel;
+  inactivityStatus: InactivityStatus;
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
 }
-
-export type InactivityStatusLevel =
- 'info' |
- 'warning' |
- 'danger'
-;
 
 export interface Charger extends Data {
   id: string;
@@ -543,6 +537,12 @@ export interface TableSearch {
   search: string;
 }
 
+export enum InactivityStatus {
+  INFO = 'I',
+  WARNING = 'W',
+  ERROR = 'E'
+}
+
 export interface Transaction extends Data {
   id: number;
   timestamp: Date;
@@ -554,7 +554,7 @@ export interface Transaction extends Data {
   currentConsumption: number;
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
-  currentInactivityStatusLevel: InactivityStatusLevel;
+  currentInactivityStatus: InactivityStatus;
   currentTotalDurationSecs: number;
   stateOfCharge: number;
   currentStateOfCharge: number;
@@ -582,7 +582,7 @@ export interface Transaction extends Data {
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
-    inactivityStatusLevel: InactivityStatusLevel;
+    inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
   values: ConsumptionValue[];

@@ -6,7 +6,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   template: `
     <span>
       <ng-container>
-        <span class="ml-1" [ngClass]="row.inactivityStatusLevel | appColorByLevel">
+        <span class="ml-1" [ngClass]="row.inactivityStatus | appColorByStatus">
           {{row.totalInactivitySecs | appInactivity}}
         </span>
       </ng-container>

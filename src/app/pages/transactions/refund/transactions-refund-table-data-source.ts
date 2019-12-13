@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+// @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';

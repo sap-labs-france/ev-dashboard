@@ -61,7 +61,7 @@
               <div class="first-text">{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</div>
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
-              [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatusLevel : transaction.currentInactivityStatusLevel) | appColorByLevel"
+              [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatus : transaction.currentInactivityStatus) | appColorByStatus"
               title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
               <mat-icon >timer_off</mat-icon>
               <div class="first-text">{{totalInactivitySecs | appDuration}} {{ percentOfInactivity }}</div>

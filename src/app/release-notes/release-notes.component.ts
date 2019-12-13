@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `New Charging Station are registratered and enriched with template`,
-              `Users synchronization in Billing`
+              `Users synchronization in Billing`,
             ],
           },
         ],
@@ -45,7 +45,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed error if no data in Statistics > Pricing`,
               `Removed mouse scroll from consumption Chart`,
-              `OCPI > Gireve > Push Users' tokens`
+              `OCPI > Gireve > Push Users' tokens`,
             ],
           },
         ],

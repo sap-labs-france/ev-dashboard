@@ -18,7 +18,7 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-//@ts-ignore
+// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';

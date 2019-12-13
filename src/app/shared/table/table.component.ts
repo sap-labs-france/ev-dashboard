@@ -27,7 +27,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
-  private loading: boolean = false;
+  private loading = false;
   private ongoingRefresh = false;
 
   private autoRefreshSubscription!: Subscription|null;

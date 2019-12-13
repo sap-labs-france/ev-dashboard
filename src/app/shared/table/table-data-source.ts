@@ -1,3 +1,4 @@
+import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -7,7 +8,6 @@ import { first } from 'rxjs/operators';
 import { Data, DataResult, DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
-import { FormArray } from '@angular/forms';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
@@ -27,9 +27,9 @@ export abstract class TableDataSource<T extends Data> {
 
   public hasActions!: boolean;
   public hasFilters!: boolean;
-  public isSearchEnabled: boolean = false;
-  public isFooterEnabled: boolean = false;
-  public hasRowActions: boolean = false;
+  public isSearchEnabled = false;
+  public isFooterEnabled = false;
+  public hasRowActions = false;
   public selectedRows = 0;
   public maxSelectableRows = 0;
   public lastSelectedRow: any;
@@ -39,7 +39,7 @@ export abstract class TableDataSource<T extends Data> {
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
-  private staticFilters:object[] = [];
+  private staticFilters: object[] = [];
 
   constructor(
     public spinnerService: SpinnerService) {

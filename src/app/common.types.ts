@@ -1,7 +1,7 @@
+import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
 import { ComponentType } from './services/component.service';
 import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
-import { ValidatorFn } from '@angular/forms';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';

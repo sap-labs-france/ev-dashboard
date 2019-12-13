@@ -14,13 +14,14 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: './tenant.component.html',
 })
 export class TenantComponent implements OnInit {
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public subdomain: AbstractControl;
-  public email: AbstractControl;
-  public components: FormGroup;
-  public tenantID: string;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public subdomain!: AbstractControl;
+  public email!: AbstractControl;
+  public components!: FormGroup;
+  public tenantID!: string;
+  private currentTenant!: Tenant;
 
   public pricingTypes = [
     {
@@ -66,7 +67,6 @@ export class TenantComponent implements OnInit {
       description: 'settings.smartCharging.sapSmartCharging.title',
     },
   ];
-  private currentTenant: Tenant;
 
   constructor(
       private centralServerService: CentralServerService,
@@ -74,7 +74,7 @@ export class TenantComponent implements OnInit {
       private spinnerService: SpinnerService,
       private router: Router,
       protected dialogRef: MatDialogRef<TenantComponent>,
-      @Inject(MAT_DIALOG_DATA) data) {
+      @Inject(MAT_DIALOG_DATA) data: any) {
     // Check if data is passed to the dialog
     if (data) {
       this.tenantID = data.id;
@@ -161,7 +161,7 @@ export class TenantComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  save(tenant) {
+  save(tenant: Tenant) {
     // Clear Type of inactive tenants
     let pricingActive = false;
     let refundActive = false;
@@ -212,7 +212,7 @@ export class TenantComponent implements OnInit {
     }
   }
 
-  private createTenant(tenant) {
+  private createTenant(tenant: Tenant) {
     this.spinnerService.show();
     this.centralServerService.createTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
@@ -228,7 +228,7 @@ export class TenantComponent implements OnInit {
     });
   }
 
-  private updateTenant(tenant) {
+  private updateTenant(tenant: Tenant) {
     this.spinnerService.show();
     this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();

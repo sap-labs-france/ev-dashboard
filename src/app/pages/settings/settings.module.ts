@@ -13,6 +13,8 @@ import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analyti
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
+import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
+import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
 import {
   AppRegistrationTokenStatusPipe,
   RegistrationTokenStatusComponent,
@@ -71,6 +73,8 @@ import { SettingsRoutes } from './settings.routing';
     SettingsStripeComponent,
     SettingsAnalyticsComponent,
     SettingsSacComponent,
+    SettingsSmartChargingComponent,
+    SettingsSapSmartChargingComponent,
     OcpiJobResultFormatterComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiComponent,
@@ -110,6 +114,8 @@ import { SettingsRoutes } from './settings.routing';
     SettingsAnalyticsComponent,
     SettingsSimplePricingComponent,
     SettingsSacComponent,
+    SettingsSmartChargingComponent,
+    SettingsSapSmartChargingComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,

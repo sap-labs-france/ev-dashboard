@@ -1,3 +1,4 @@
+import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -7,7 +8,6 @@ import { first } from 'rxjs/operators';
 import { Data, DataResult, DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
-import { FormArray } from '@angular/forms';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;

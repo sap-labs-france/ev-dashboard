@@ -302,7 +302,6 @@ export class ComponentService {
     });
   }
 
-
   public getSmartChargingSettings(contentFilter = false): Observable<SmartChargingSettings> {
     return new Observable((observer) => {
       const smartChargingSettings = {

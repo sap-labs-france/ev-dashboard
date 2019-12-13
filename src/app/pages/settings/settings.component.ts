@@ -26,7 +26,7 @@ export class SettingsComponent extends AbstractTabComponent {
   ) {
     super(activatedRoute, windowService, ['ocpi', 'organization', 'refund', 'pricing', 'billing', 'sac', 'smartCharging']);
     this.isOCPIActive = this.componentService.isActive(ComponentType.OCPI);
-    this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION)
+    this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION);
     this.isRefundActive = this.componentService.isActive(ComponentType.REFUND);
     this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
     this.isBillingActive = this.componentService.isActive(ComponentType.BILLING);

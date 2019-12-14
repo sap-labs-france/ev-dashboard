@@ -206,11 +206,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [new TransactionsDateFromFilter(
-      moment().startOf('y').toDate()).getFilterDef(),
-    new TransactionsDateUntilFilter().getFilterDef(),
-    new TransactionsRefundStatusFilter().getFilterDef()];
-
+    const filters: TableFilterDef[] = [
+      // @ts-ignore
+      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new TransactionsDateUntilFilter().getFilterDef(),
+      new TransactionsRefundStatusFilter().getFilterDef()
+    ];
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -219,9 +220,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         filters.push(new ReportTableFilter().getFilterDef());
       }
     }
-
     return filters;
-
   }
 
   buildTableActionsDef(): TableActionDef[] {
@@ -293,6 +292,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
     this.centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
+      // @ts-ignore
       .subscribe((response: ActionsResponse) => {
         if (response.inError > 0) {
           this.messageService.showErrorMessage(

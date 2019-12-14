@@ -32,8 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Add Inactivity filter in Session History`,
               `Add Smart Charging component in Tenant management`,
-              `Add Smart Charging settings section`,
-              `New Charging Station are registratered and enriched with template`,
+              `Add Smart Charging Settings section in Tenant`,
+              `New Charging Station are automatically registered and enriched with template`,
               `Fixed Users synchronization in Billing system`,
               `Stop a Session in progress in Session list`
             ],

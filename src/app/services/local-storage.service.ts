@@ -16,7 +16,7 @@ export class LocalStorageService {
     window.addEventListener('message', this._receiveMessage.bind(this), false);
   }
 
-  public setItem(key, value) {
+  public setItem(key:string, value: string) {
     // iFrame?
     if (this._isInIFrame) {
       // Build request
@@ -36,7 +36,7 @@ export class LocalStorageService {
     }
   }
 
-  public getItem(key): Observable<any> {
+  public getItem(key: string): Observable<any> {
     // Exec
     return new Observable((observer) => {
       // iFrame?
@@ -59,7 +59,7 @@ export class LocalStorageService {
     });
   }
 
-  public removeItem(key) {
+  public removeItem(key: string) {
     // iFrame?
     if (this._isInIFrame) {
       const data = {
@@ -94,14 +94,15 @@ export class LocalStorageService {
     }
   }
 
-  private _sendRequest(data) {
+  private _sendRequest(data: any) {
     // Keep call back
+    // @ts-ignore
     this._requests[data.request.id] = data.callback;
     // Post
     parent.postMessage(JSON.stringify(data.request), '*');
   }
 
-  private _receiveMessage(event) {
+  private _receiveMessage(event: any) {
     let data;
     try {
       // Parse the data

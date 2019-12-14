@@ -13,7 +13,7 @@ import { ConsumptionChartComponent } from '../../component/consumption-chart/con
 import { AppPercentPipe } from '../../formatters/app-percent-pipe';
 
 @Component({
-  templateUrl: './transaction-dialog.component.html',
+  templateUrl: './transactions-dialog.component.html',
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction!: Transaction;

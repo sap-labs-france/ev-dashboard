@@ -14,7 +14,7 @@ export class DashboardService {
   currentMetrics: CurrentMetrics[] = [];
   initialLoadDone = new BehaviorSubject<boolean>(false);
   refreshData = new BehaviorSubject<CurrentMetrics[]>([]);
-  intervalReference;
+  intervalReference!: number | null;
 
   constructor(private centralServerService: CentralServerService,
               private messageService: MessageService,
@@ -53,17 +53,19 @@ export class DashboardService {
     }
   }
 
-  getStatistics(period: string, metrics: CurrentMetrics): CurrentMetrics {
+  getStatistics(period: string, metrics: CurrentMetrics): CurrentMetrics | null {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
     if (!currentData) {
-      return;
+      return null;
     }
     const graphLabels = [];
-    let graphSerie = [];
+    let graphSerie: any = [];
+    // @ts-ignore
     let date = moment();
     switch (period) {
       case 'day':
         // create a date/time for each hour
+        // @ts-ignore
         date = moment().startOf('day');
         do {
           graphLabels.push(date.format('h:mm'));

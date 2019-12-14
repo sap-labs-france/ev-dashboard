@@ -6,7 +6,7 @@ export interface PropertyDisplay {
   key: string;
   title: string;
   value?: string;
-  formatter?: (value: Date) => string;
+  formatter?: (value: any) => string|null;
 }
 
 @Component({
@@ -15,7 +15,7 @@ export interface PropertyDisplay {
 })
 @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
-  @Input() charger: Charger;
+  @Input() charger!: Charger;
   chargerFormatted: any = {};
   displayedProperties: PropertyDisplay[] = [
     {key: 'chargePointVendor', title: 'chargers.vendor'},
@@ -27,13 +27,25 @@ export class ChargingStationPropertiesComponent implements OnInit {
     {key: 'currentIPAddress', title: 'chargers.current_ip'},
     {key: 'ocppVersion', title: 'chargers.ocpp_version'},
     {
-      key: 'lastReboot', title: 'chargers.last_reboot', formatter: (value) => {
-        return this.datePipe.transform(value);
+      key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => {
+        return this.datePipe.transform(lastReboot);
       },
     },
     {
-      key: 'createdOn', title: 'chargers.created_on', formatter: (value) => {
-        return this.datePipe.transform(value);
+      key: 'createdOn', title: 'chargers.created_on', formatter: (createdOn: Date) => {
+        return this.datePipe.transform(createdOn);
+      },
+    },
+    {
+      key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities) => {
+        if (capabilities) {
+          const formatterValues: string[] = [];
+          for (const key in capabilities) {
+            formatterValues.push(`${key}: ${capabilities[key]}`);
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
       },
     },
   ];
@@ -47,8 +59,10 @@ export class ChargingStationPropertiesComponent implements OnInit {
     // Format
     for (const property of this.displayedProperties) {
       if (property.formatter) {
+        // @ts-ignore
         property['value'] = property.formatter(this.charger[property.key]);
       } else {
+        // @ts-ignore
         property['value'] = this.charger[property.key];
       }
     }

@@ -65,6 +65,7 @@ export class Utils {
       case MobileType.ANDROID:
         return `intent://${path}#Intent;scheme=eMobility;package=com.emobility;end`;
     }
+    return '';
   }
 
   public static handleHttpError(error: any, router: Router, messageService: MessageService,

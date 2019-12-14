@@ -1,3 +1,4 @@
+import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -9,54 +10,55 @@ import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T extends Data> {
-  public tableDef: TableDef;
-  public tableColumnDefs: TableColumnDef[];
-  public tableFiltersDef: TableFilterDef[];
-  public tableActionsDef: TableActionDef[];
-  public tableActionsRightDef: TableActionDef[];
-  public tableRowActionsDef: TableActionDef[];
+  public tableDef!: TableDef;
+  public tableColumnDefs!: TableColumnDef[];
+  public tableFiltersDef!: TableFilterDef[];
+  public tableActionsDef!: TableActionDef[];
+  public tableActionsRightDef!: TableActionDef[];
+  public tableRowActionsDef!: TableActionDef[];
 
   public data: T[] = [];
+  public formArray?: FormArray;
   public paging: Paging = {
     limit: this.getPageSize(),
     skip: 0,
   };
   public sort: MatSort = new MatSort();
 
-  public hasActions: boolean;
-  public hasFilters: boolean;
-  public isSearchEnabled: boolean;
-  public isFooterEnabled: boolean;
-  public hasRowActions: boolean;
+  public hasActions!: boolean;
+  public hasFilters!: boolean;
+  public isSearchEnabled = false;
+  public isFooterEnabled = false;
+  public hasRowActions = false;
   public selectedRows = 0;
   public maxSelectableRows = 0;
-  public lastSelectedRow;
+  public lastSelectedRow: any;
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
-  public multipleRowSelection;
+  public multipleRowSelection!: boolean;
 
   private loadingNumberOfRecords = false;
   private searchValue = '';
-  private staticFilters = [];
+  private staticFilters: object[] = [];
 
   constructor(
     public spinnerService: SpinnerService) {
   }
 
   public isRowSelectionEnabled(): boolean {
-    return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
+    return !!this.tableDef && !!this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
   }
 
   public isRowDetailsEnabled(): boolean {
-    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
+    return !!this.tableDef && !!this.tableDef.rowDetails && this.tableDef.rowDetails.enabled;
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    return this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
+    return !!this.tableDef && !!this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
-    return this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple;
+    return !!this.tableDef && !!this.tableDef.rowSelection && !!this.tableDef.rowSelection.multiple;
   }
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {
@@ -108,7 +110,7 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    if (this.tableDef.rowSelection.multiple) {
+    if (this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple) {
       row.isSelected = event.checked;
       if (row.isSelected) {
         this.selectedRows++;
@@ -180,7 +182,7 @@ export abstract class TableDataSource<T extends Data> {
     const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
     if (columnDef) {
       return [
-        { field: columnDef.id, direction: columnDef.direction },
+        { field: columnDef.id, direction: columnDef.direction ? columnDef.direction : '' },
       ];
     }
     return [];
@@ -273,7 +275,7 @@ export abstract class TableDataSource<T extends Data> {
             }
             break;
           case 'date':
-            filterDef.reset();
+            filterDef.reset && filterDef.reset();
             break;
         }
       });
@@ -283,11 +285,15 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   // tslint:disable-next-line:no-empty
+  public updateRow(row: any, index: number, columnDef: TableColumnDef) {
+  }
+
+  // tslint:disable-next-line:no-empty
   public actionTriggered(actionDef: TableActionDef) {
   }
 
   // tslint:disable-next-line:no-empty
-  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
@@ -303,6 +309,7 @@ export abstract class TableDataSource<T extends Data> {
         if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
           // Date
           if (filterDef.type === 'date') {
+            // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
@@ -314,8 +321,10 @@ export abstract class TableDataSource<T extends Data> {
                   for (const value of filterDef.currentValue) {
                     jsonKeys.push(value.key);
                   }
+                  // @ts-ignore
                   filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
                 } else {
+                  // @ts-ignore
                   filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
                 }
               }
@@ -323,15 +332,18 @@ export abstract class TableDataSource<T extends Data> {
             // Dialog with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
+              // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
+              // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
           } else {
+            // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
         }
@@ -340,6 +352,7 @@ export abstract class TableDataSource<T extends Data> {
     // With Search?
     const searchValue = this.getSearchValue();
     if (withSearch && searchValue) {
+      // @ts-ignore
       filterJson['Search'] = searchValue;
     }
     // Static filters
@@ -353,16 +366,17 @@ export abstract class TableDataSource<T extends Data> {
     return of('getRowDetails() not implemented in your data source!');
   }
 
-  public setStaticFilters(staticFilters) {
+  public setStaticFilters(staticFilters: object[]) {
     this.staticFilters = staticFilters;
   }
 
-  public getStaticFilters() {
+  public getStaticFilters(): object[] {
     return this.staticFilters;
   }
 
   // tslint:disable-next-line:no-empty
-  public onRowActionMenuOpen(action: TableActionDef, row: T) {}
+  public onRowActionMenuOpen(action: TableActionDef, row: T) {
+  }
 
   abstract buildTableColumnDefs(): TableColumnDef[];
 
@@ -448,7 +462,7 @@ export abstract class TableDataSource<T extends Data> {
     // Set static filter
     const staticFilters = [
       ...this.getStaticFilters(),
-      {OnlyRecordCount: true},
+      { OnlyRecordCount: true },
     ];
     // Set
     this.setStaticFilters(staticFilters);
@@ -489,10 +503,20 @@ export abstract class TableDataSource<T extends Data> {
     this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
       (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
     this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);
-    this.isSearchEnabled = this.tableDef && this.tableDef.search && this.tableDef.search.enabled;
-    this.isFooterEnabled = this.tableDef && this.tableDef.footer && this.tableDef.footer.enabled;
-    this.hasRowActions = (this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
-      this.tableDef.hasDynamicRowAction;
+    this.isSearchEnabled = !!this.tableDef && !!this.tableDef.search && this.tableDef.search.enabled;
+    this.isFooterEnabled = !!this.tableDef && !!this.tableDef.footer && this.tableDef.footer.enabled;
+    this.hasRowActions = (!!this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
+      (!!this.tableDef && !!this.tableDef.hasDynamicRowAction);
+  }
+
+  protected updateRowActions(row: T) {
+    if (this.hasRowActions) {
+      // Check if authorized
+      this.tableRowActionsDef.forEach((rowActionDef) => {
+        // @ts-ignore
+        row[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, row);
+      });
+    }
   }
 
   private initTableRowActions(force: boolean): TableActionDef[] {
@@ -583,6 +607,7 @@ export abstract class TableDataSource<T extends Data> {
         // Check for complex column id with dot
         if (tableColumnDef.id.indexOf('.') !== -1) {
           // Create new var for direct access
+          // @ts-ignore
           freshRow[tableColumnDef.id] = _.get(freshRow, tableColumnDef.id);
         }
       }
@@ -590,20 +615,16 @@ export abstract class TableDataSource<T extends Data> {
       if (this.tableDef.hasDynamicRowAction) {
         const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
         if (dynamicRowActions.length > 0) {
+          // @ts-ignore
           freshRow['dynamicRowActions'] = dynamicRowActions;
         }
       }
-      // Check Row Action Authorization
-      if (this.hasRowActions) {
-        // Check if authorized
-        this.tableRowActionsDef.forEach((rowActionDef) => {
-          freshRow[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, freshRow);
-        });
-      }
+      this.updateRowActions(freshRow);
       // Check if row can be selected
       if (isRowSelectionEnabled) {
         freshRow.isSelectable = this.isSelectable(freshRow);
       }
+
       // Set row ID
       if (!freshRow.id) {
         // Get row ID
@@ -613,16 +634,18 @@ export abstract class TableDataSource<T extends Data> {
           throw new Error('Table Def has no row ID defined!');
         }
         // Set the ID
+        // @ts-ignore
         freshRow.id = freshRow[rowID];
       }
       // Check if Expanded
       const foundExpandedRow = expandedRowIDs.find((expandedRow) => expandedRow.id === freshRow.id);
       if (foundExpandedRow) {
         // Check if the table has a specific field to hide/show details
-        if (this.tableDef.rowDetails.showDetailsField) {
+        if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.showDetailsField) {
           // Check if it's still visible
           if (freshRow.hasOwnProperty(this.tableDef.rowDetails.showDetailsField)) {
             // Set
+            // @ts-ignore
             freshRow.isExpanded = freshRow[this.tableDef.rowDetails.showDetailsField];
           } else {
             freshRow.isExpanded = true;
@@ -632,7 +655,8 @@ export abstract class TableDataSource<T extends Data> {
           freshRow.isExpanded = true;
         }
         // Detailed field?
-        if (this.tableDef.rowDetails.detailsField) {
+        if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailsField) {
+          // @ts-ignore
           freshRow[this.tableDef.rowDetails.detailsField] = foundExpandedRow[this.tableDef.rowDetails.detailsField];
         }
       }

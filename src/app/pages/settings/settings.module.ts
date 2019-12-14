@@ -29,6 +29,8 @@ import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './o
 import { AppFormatOcpiPatchJobResultPipe, OcpiPatchJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-result-formatter.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
+import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
+import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
 
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
@@ -71,6 +73,8 @@ import { SettingsRoutes } from './settings.routing';
     SettingsStripeComponent,
     SettingsAnalyticsComponent,
     SettingsSacComponent,
+    SettingsSmartChargingComponent,
+    SettingsSapSmartChargingComponent,
     OcpiJobResultFormatterComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiComponent,
@@ -110,6 +114,8 @@ import { SettingsRoutes } from './settings.routing';
     SettingsAnalyticsComponent,
     SettingsSimplePricingComponent,
     SettingsSacComponent,
+    SettingsSmartChargingComponent,
+    SettingsSapSmartChargingComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,

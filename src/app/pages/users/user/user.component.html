@@ -11,8 +11,10 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-2 my-auto">
-                <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all'}">
-                  <div class="card card-rotate card-background img-thumbnail m-0" style="height: 100px">
+                <div class="rotating-card-container img-fluid"
+                     [ngStyle]="{ 'pointer-events': 'all'}">
+                  <div class="card card-rotate card-background img-thumbnail m-0"
+                       style="height: 100px">
                     <div class="front front-background bg-transparent"
                          [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                       <div class="card-body">
@@ -25,7 +27,8 @@
                           <button mat-flat-button color="primary">
                             <mat-icon (click)="file.click()">mode_edit</mat-icon>
                             <div style="display:none">
-                              <input type="file" accept=".jpg, .jpeg, .png, .gif" [maxLength]="maxSize" name="..."
+                              <input type="file" accept=".jpg, .jpeg, .png, .gif"
+                                     [maxLength]="maxSize" name="..."
                                      (change)="imageChanged($event)" #file>
                             </div>
                           </button>
@@ -41,7 +44,8 @@
               <div class="col-md-10">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="name" appAutofocus matInput placeholder="{{'users.name' | translate}}"
+                    <input [formControl]="name" appAutofocus matInput
+                           placeholder="{{'users.name' | translate}}"
                            required (input)="toUpperCase(name)" type="text">
                     <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
@@ -50,7 +54,8 @@
                 </div>
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="firstName" matInput placeholder="{{'users.first_name' | translate}}" required
+                    <input [formControl]="firstName" matInput
+                           placeholder="{{'users.first_name' | translate}}" required
                            type="text">
                     <mat-error *ngIf="firstName.errors?.required">
                       {{"general.mandatory_field" | translate}}
@@ -61,7 +66,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="email" matInput placeholder="{{'users.email' | translate}}" required
+                    <input [formControl]="email" matInput
+                           placeholder="{{'users.email' | translate}}" required
                            type="text">
                     <mat-error *ngIf="email.errors?.email">
                       {{"authentication.invalid_email" | translate}}
@@ -86,7 +92,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="phone" matInput placeholder="{{'users.phone' | translate}}" type="text">
+                    <input [formControl]="phone" matInput
+                           placeholder="{{'users.phone' | translate}}" type="text">
                     <mat-error *ngIf="phone.errors?.pattern">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
@@ -96,7 +103,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="mobile" matInput placeholder="{{'users.mobile' | translate}}" type="text">
+                    <input [formControl]="mobile" matInput
+                           placeholder="{{'users.mobile' | translate}}" type="text">
                     <mat-error *ngIf="mobile.errors?.pattern">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
@@ -128,7 +136,8 @@
               <div *ngIf="isAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="plateID" matInput placeholder="{{'users.plate_id' | translate}}" type="text">
+                    <input [formControl]="plateID" matInput
+                           placeholder="{{'users.plate_id' | translate}}" type="text">
                     <mat-error *ngIf="plateID.errors?.pattern">
                       {{"users.invalid_plate_id" | translate}}
                     </mat-error>
@@ -145,116 +154,105 @@
           </ng-template>
 
           <div class="card-body">
-            <div class="d-flex align-items-start">
-              <button mat-button (click)="addTag()" mat-flat-button color="primary">
-                <mat-icon>add</mat-icon>{{'general.add' | translate}}
-              </button>
-            </div>
-
-            <table mat-table [dataSource]="tagDataSource" formArrayName="tags" class="table table-no-border" >
-              <!-- Row definitions -->
-              <tr mat-header-row *matHeaderRowDef="TAG_COLUMNS"></tr>
-              <tr mat-row *matRowDef="let row; let i = index; columns: TAG_COLUMNS;"></tr>
-
-              <!-- Column definitions -->
-              <ng-container matColumnDef="id">
-                <th *matHeaderCellDef class="table-header text-left">{{'tags.id' | translate}}</th>
-                <td *matCellDef="let row; let index = index" [formGroupName]="index">
-                  <mat-form-field class="border-0">
-                    <input matInput formControlName="id" type="text">
-                    <mat-error *ngIf="plateID.errors?.pattern">
-                      {{"users.invalid_plate_id" | translate}}
-                    </mat-error>
-                  </mat-form-field>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="provider">
-                <th *matHeaderCellDef class="table-header text-left">{{'tags.provider' | translate}}</th>
-                <td *matCellDef="let row; let index = index" [formGroupName]="index">
-                  <mat-form-field class="border-0">
-                    <input matInput formControlName="provider" type="text">
-                  </mat-form-field>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="internal">
-                <th *matHeaderCellDef class="table-header text-center">{{'tags.internal' | translate}}</th>
-                <td *matCellDef="let row; let index = index" [formGroupName]="index">
-                  <mat-checkbox formControlName="internal"></mat-checkbox>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="action">
-                <th *matHeaderCellDef class="table-header text-center">{{'general.actions' | translate}}</th>
-                <td *matCellDef="let row; let index = index" [formGroupName]="index">
-                  <button mat-icon-button color="warn" (click)="deleteTag(index)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-            </table>
+            <app-table [dataSource]="userTagsTableDataSource"></app-table>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isAdmin">
-            <ng-template mat-tab-label>
-              <mat-icon>email</mat-icon>
-              <span>{{'general.notifications' | translate}}</span>
-            </ng-template>
-            <div class="card-body" class="text-left m-4">
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="form-group mb-0">
-                    <mat-checkbox (click)="toggleNotificationsActive()" [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
-                  </div>
+          <ng-template mat-tab-label>
+            <mat-icon>email</mat-icon>
+            <span>{{'general.notifications' | translate}}</span>
+          </ng-template>
+          <div class="card-body" class="text-left m-4">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group mb-0">
+                  <mat-checkbox (click)="toggleNotificationsActive()"
+                                [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
                 </div>
               </div>
-              <div class="ml-4">
-                <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSessionStarted">{{"notifications.session-started" | translate}}</mat-checkbox></div>
+            </div>
+            <div class="ml-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendSessionStarted">{{"notifications.session-started" | translate}}</mat-checkbox>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOptimalChargeReached">{{"notifications.optimal-charge-reached" | translate}}</mat-checkbox></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendOptimalChargeReached">{{"notifications.optimal-charge-reached" | translate}}</mat-checkbox>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendEndOfCharge">{{"notifications.end-of-charge" | translate}}</mat-checkbox></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendEndOfCharge">{{"notifications.end-of-charge" | translate}}</mat-checkbox>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendEndOfSession">{{"notifications.end-of-session" | translate}}</mat-checkbox></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendEndOfSession">{{"notifications.end-of-session" | translate}}</mat-checkbox>
                 </div>
-                <div class="row">
-                  <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox>
                 </div>
-                <div *ngIf="role.value === 'A'" class="row">
-                  <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin-only" | translate}}</div>
-                  <div class="ml-3"> 
-                    <div class="row ml-1">
-                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox></div>
-                    </div> 
-                    <div class="row ml-1">
-                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox></div>
+              </div>
+              <div *ngIf="role.value === 'A'" class="row">
+                <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin-only" | translate}}</div>
+                <div class="ml-3">
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox>
                     </div>
-                    <div class="row ml-1">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox></div>
-                    </div> 
-                    <div class="row ml-1">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOfflineChargingStations">{{"notifications.charging-stations-offline" | translate}}</mat-checkbox></div>
-                    </div> 
-                    <div class="row ml-1">
-                      <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing-session-not-started" | translate}}</mat-checkbox></div>
-                    </div> 
-                    <div class="row ml-1">
-                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox></div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox>
                     </div>
-                    <div class="row ml-1">
-                        <div class="col-sm-12"><mat-checkbox [disabled]="!notificationsActive.value" [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox></div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendOfflineChargingStations">{{"notifications.charging-stations-offline" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing-session-not-started" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </mat-tab>
-          <mat-tab>
+          </div>
+        </mat-tab>
+        <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>location_on</mat-icon>
             <span>{{'general.address' | translate}}</span>
@@ -273,7 +271,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="password" [type]="hidePassword ? 'password' : 'text'" matInput
+                    <input [formControl]="password" [type]="hidePassword ? 'password' : 'text'"
+                           matInput
                            placeholder="{{'authentication.password' | translate}}" type="password">
                     <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable"
                               matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
@@ -290,10 +289,13 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [errorStateMatcher]="parentErrorStateMatcher" [formControl]="repeatPassword"
+                    <input [errorStateMatcher]="parentErrorStateMatcher"
+                           [formControl]="repeatPassword"
                            [type]="hideRepeatPassword ? 'password' : 'text'" matInput
-                           placeholder="{{'authentication.repeat_password' | translate}}" type="password">
-                    <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword" class="icon-clickable" matSuffix>
+                           placeholder="{{'authentication.repeat_password' | translate}}"
+                           type="password">
+                    <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword"
+                              class="icon-clickable" matSuffix>
                       {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
                     <mat-error *ngIf="passwords.errors?.notEqual">
@@ -317,7 +319,8 @@
                   <div class="card-body">
                     <a [attr.href]="getConcurUrl()" target="_blank">
                       <div class="d-flex flex-row align-items-center">
-                        <img src="/assets/img/integrations/concur-logo.png" class="card-logo img-thumbnail mr-3"/>
+                        <img src="/assets/img/integrations/concur-logo.png"
+                             class="card-logo img-thumbnail mr-3"/>
                         <h2 class="card-title">Concur</h2>
                       </div>
                     </a>
@@ -346,7 +349,8 @@
                 </div>
               </div>
               <div *ngIf="!refundSetting" class="mx-auto my-3">
-                <p class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
+                <p
+                  class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
               </div>
             </div>
           </div>
@@ -361,7 +365,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="iNumber" matInput placeholder="{{'users.inumber' | translate}}" type="text">
+                    <input [formControl]="iNumber" matInput
+                           placeholder="{{'users.inumber' | translate}}" type="text">
                     <mat-error *ngIf="iNumber.errors?.pattern">
                       {{"general.invalid_value" | translate}}
                     </mat-error>
@@ -371,7 +376,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <input [formControl]="costCenter" matInput placeholder="{{'users.cost_center' | translate}}"
+                    <input [formControl]="costCenter" matInput
+                           placeholder="{{'users.cost_center' | translate}}"
                            type="text">
                     <mat-error *ngIf="costCenter.errors?.pattern">
                       {{"general.invalid_value" | translate}}

@@ -1,9 +1,9 @@
 import { AgmCoreModule } from '@agm/core';
-import { registerLocaleData, CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeFr from '@angular/common/locales/fr';
-import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -48,6 +48,7 @@ import 'popper.js';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { DevEnvGuard } from './guard/development.guard';
+import { RouteGuardService } from './guard/route-guard';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { BrowserNotSupportedModule } from './pages/browser-not-supported/browser-not-supported.module';
@@ -62,7 +63,6 @@ import { DashboardService } from './services/dashboard.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LocaleService } from './services/locale.service';
 import { MessageService } from './services/message.service';
-import { RouteGuardService } from './services/route-guard.service';
 import { SpinnerService } from './services/spinner.service';
 import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
@@ -131,8 +131,8 @@ export function localeFactory(
   let language = translateService.getBrowserLang();
   // Get current user
   const loggedUser = centralServerService.getLoggedUserFromToken();
-  if (loggedUser) {
-    language = loggedUser['language'];
+  if (loggedUser && loggedUser.language) {
+    language = loggedUser.language;
   }
   return language;
 }
@@ -202,8 +202,8 @@ export class AppModule {
     let language = this.translateService.getBrowserLang();
     // Get current user
     const loggedUser = this.centralServerService.getLoggedUserFromToken();
-    if (loggedUser) {
-      language = loggedUser['language'];
+    if (loggedUser && loggedUser.language) {
+      language = loggedUser.language;
     }
     // Supported
     translateService.addLangs(['en', 'fr']);

@@ -1,7 +1,7 @@
 import { Charger, KeyValue } from 'app/common.types';
 
 export class ChargingStations {
-  public static convertAmpToW(numberOfConnectedPhase, maxIntensityInAmper) {
+  public static convertAmpToW(numberOfConnectedPhase: number, maxIntensityInAmper: number) {
     // Compute it
     if (numberOfConnectedPhase === 0 ) {
       return Math.floor(400 * maxIntensityInAmper * Math.sqrt(3));
@@ -12,7 +12,7 @@ export class ChargingStations {
     }
   }
 
-  public static convertWToAmp(numberOfConnectedPhase, maxIntensityInW) {
+  public static convertWToAmp(numberOfConnectedPhase: number, maxIntensityInW: number) {
     // Compute it
     if (numberOfConnectedPhase === 0) {
       return Math.round(maxIntensityInW / (400 * Math.sqrt(3)));
@@ -36,9 +36,11 @@ export class ChargingStations {
     return MANDATORY_SETTINGS_LIST.filter((mandatorySetting) => {
       if (mandatorySetting.key.startsWith('connectors.')) {
         for (const connector of charger.connectors) {
+          // @ts-ignore
           return !mandatorySetting.isOK(connector[mandatorySetting.key.replace('connectors.', '')]);
         }
       } else {
+        // @ts-ignore
         return (!mandatorySetting.isOK(charger[mandatorySetting.key]));
       }
     });
@@ -46,31 +48,31 @@ export class ChargingStations {
 }
 
 export const MANDATORY_SETTINGS_LIST = [
-  {key: 'maximumPower', value: 'chargers.maximum_energy', isOK: (value) => {
+  {key: 'maximumPower', value: 'chargers.maximum_energy', isOK: (value: number) => {
     return value && value > 0;
   } },
-  {key: 'chargePointModel', value: 'chargers.model', isOK: (value) => {
+  {key: 'chargePointModel', value: 'chargers.model', isOK: (value: string[]) => {
     return value && value.length > 0;
   }},
-  {key: 'chargePointVendor', value: 'chargers.vendor', isOK: (value) => {
+  {key: 'chargePointVendor', value: 'chargers.vendor', isOK: (value: string[]) => {
     return value && value.length > 0;
   }},
-  {key: 'numberOfConnectedPhase', value: 'chargers.nb_connected_phase', isOK: (value) => {
+  {key: 'numberOfConnectedPhase', value: 'chargers.nb_connected_phase', isOK: (value: number) => {
     return value && value > 0;
   }},
-  {key: 'powerLimitUnit', value: 'chargers.power_limit_unit', isOK: (value) => {
+  {key: 'powerLimitUnit', value: 'chargers.power_limit_unit', isOK: (value: string) => {
     return value && (value === 'A' || value === 'W');
   }},
-  {key: 'chargingStationURL', value: 'chargers.charger_url', isOK: (value) => {
+  {key: 'chargingStationURL', value: 'chargers.charger_url', isOK: (value: string[]) => {
     return value && value.length > 0;
   }},
-  {key: 'cannotChargeInParallel', value: 'chargers.cant_charge_in_parallel', isOK: (value) => {
+  {key: 'cannotChargeInParallel', value: 'chargers.cant_charge_in_parallel', isOK: (value: number) => {
     return true;
   }},
-  {key: 'connectors.type', value: 'chargers.connector_type', isOK: (value) => {
+  {key: 'connectors.type', value: 'chargers.connector_type', isOK: (value: string[]) => {
     return value && value.length > 0;
   }},
-  {key: 'connectors.power', value: 'chargers.connector_max_power', isOK: (value) => {
+  {key: 'connectors.power', value: 'chargers.connector_max_power', isOK: (value: number) => {
     return value && value > 0;
   }},
 ];

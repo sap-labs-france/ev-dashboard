@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger } from '../../../common.types';
+import { Charger, KeyValue } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -17,15 +17,15 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
   templateUrl: 'charging-station.component.html',
 })
 export class ChargingStationComponent implements OnInit, AfterViewInit {
-  @Input() currentCharger: Charger;
-  public userLocales;
-  public isAdmin;
+  @Input() currentCharger!: Charger;
+  public userLocales: KeyValue[];
+  public isAdmin!: boolean;
 
-  @ViewChild('ocppParameters', {static: false}) ocppParametersComponent: ChargingStationOcppParametersComponent;
-  @ViewChild('chargerParameters', {static: true}) chargerParametersComponent: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters', {static: false}) ocppParametersComponent!: ChargingStationOcppParametersComponent;
+  @ViewChild('chargerParameters', {static: true}) chargerParametersComponent!: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
-  public isSaveButtonHidden: boolean; // by default deactivate
+  public isSaveButtonHidden!: boolean; // by default deactivate
 
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
@@ -65,7 +65,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : null);
+    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : '');
     this.isSaveButtonHidden = !this.isAdmin;
 
     // check changes to activate or not save button

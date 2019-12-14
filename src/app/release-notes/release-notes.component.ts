@@ -24,6 +24,23 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.18',
+        date: new Date('2019-12-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add Inactivity filter in Session History`,
+              `Add Smart Charging component in Tenant management`,
+              `Add Smart Charging Settings section in Tenant`,
+              `New Charging Station are automatically registered and enriched with template`,
+              `Fixed Users synchronization in Billing system`,
+              `Stop a Session in progress in Session list`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.17',
         date: new Date('2019-12-07'),
         componentChanges: [
@@ -32,7 +49,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed error if no data in Statistics > Pricing`,
               `Removed mouse scroll from consumption Chart`,
-              `OCPI > Gireve > Push Users' tokens`
+              `OCPI > Gireve > Push Users' tokens`,
             ],
           },
         ],

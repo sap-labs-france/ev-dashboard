@@ -1,6 +1,6 @@
-export class Formatters {
 
-  public static formatTextToHTML(value): string {
+export class Formatters {
+  public static formatTextToHTML(value: any): string {
     // Check
     if (Array.isArray(value)) {
       for (let i = 0; i < value.length; i++) {
@@ -15,7 +15,7 @@ export class Formatters {
     return value.replace('<anonymous>', 'anonymous');
   }
 
-  private static _formatTextToHTML(value) {
+  private static _formatTextToHTML(value: any): string {
     // JSON?
     if (typeof value === 'object') {
       // Check that every values is parsed

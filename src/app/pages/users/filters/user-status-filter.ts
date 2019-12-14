@@ -1,7 +1,7 @@
 import { TableFilterDef } from '../../../common.types';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
-import { userStatuses } from '../users.model';
+import { userStatuses } from '../model/users.model';
 
 export class UserStatusFilter extends TableFilter {
   constructor() {

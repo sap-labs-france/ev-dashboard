@@ -1,5 +1,5 @@
-import { KeyValue } from '../../common.types';
-import { Constants } from '../../utils/Constants';
+import { KeyValue } from '../../../common.types';
+import { Constants } from '../../../utils/Constants';
 
 export const userStatuses: KeyValue[] = [
   {key: 'A', value: 'users.status_active'},
@@ -10,7 +10,7 @@ export const userStatuses: KeyValue[] = [
 ];
 
 export class UserRoles {
-  public static getAvailableRoles(role: string): KeyValue[] {
+  public static getAvailableRoles(role?: string): KeyValue[] {
     if (role === Constants.ROLE_SUPER_ADMIN) {
       return [
         {key: 'S', value: 'users.role_super_admin'},

@@ -12,6 +12,10 @@ export class SpinnerService {
     }
   }
 
+  public isVisible(): boolean {
+    return this.visible;
+  }
+
   public show(): void {
     if (this.spinner) {
       this.spinner.style['display'] = 'block';

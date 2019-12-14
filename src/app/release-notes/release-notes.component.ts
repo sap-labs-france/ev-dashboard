@@ -25,13 +25,17 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.18',
-        date: new Date('2019-12-11'),
+        date: new Date('2019-12-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Add Inactivity filter in Session History`,
+              `Add Smart Charging component in Tenant management`,
+              `Add Smart Charging settings section`,
               `New Charging Station are registratered and enriched with template`,
-              `Users synchronization in Billing`,
+              `Fixed Users synchronization in Billing system`,
+              `Stop a Session in progress in Session list`
             ],
           },
         ],

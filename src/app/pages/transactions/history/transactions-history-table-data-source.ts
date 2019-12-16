@@ -38,6 +38,7 @@ import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -214,6 +215,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
+      new TransactionsInactivityStatusFilter().getFilterDef()
     ];
 
     // Show Site Area Filter If Organization component is active

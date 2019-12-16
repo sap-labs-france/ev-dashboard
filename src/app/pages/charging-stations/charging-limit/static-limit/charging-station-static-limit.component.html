@@ -1,0 +1,27 @@
+<div class="main-content">
+  <div class="form-group">
+    <div class="card">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>settings_power</mat-icon>
+        </div>
+        <h3 class="card-title text-left">
+          {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
+        </h3>
+      </div>
+      <div class="card-body">
+        <div class="row col-md-12">
+          <app-charging-station-power-slider
+            class="col-md-12" [charger]="charger"
+            (powerSliderChanged)="powerSliderChanged($event)">
+          </app-charging-station-power-slider>
+        </div>
+        <div class="col-md-12 text-right">
+          <button mat-raised-button color="primary" (click)="applyPowerLimit()">
+            <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

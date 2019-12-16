@@ -668,8 +668,10 @@
     "assign_sitearea_action": "Assign",
     "assign_sitearea_action_tooltip": "Assign site area",
     "smart_charging": {
+      "static_limit": "Static Limitation",
+      "charging_profile_limit": "Charging Profile",
       "reset_button": "Reset",
-      "maximum_energy_limit": "Master power limit of '{{chargeBoxID}}'",
+      "maximum_energy_limit": "Power limit of '{{chargeBoxID}}'",
       "power_limit_title": "Limit power",
       "power_limit_confirm": "Do you really want to limit power of '{{chargeBoxID}}' to {{power}}?",
       "power_limit_success": "Charging station '{{chargeBoxID}}' power was limited successfully",

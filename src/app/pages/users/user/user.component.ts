@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, Tag, User } from '../../../common.types';
+import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -21,7 +21,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../model/users.model';
+import { UserRoles, userStatuses } from '../model/users.model';
 import { UserTagsTableDataSource } from './user-tags-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
@@ -46,7 +46,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public hideRepeatPassword = true;
   public hidePassword = true;
   public maxSize: number;
-
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
@@ -74,11 +73,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public refundSetting!: Setting;
   public integrationConnections!: IntegrationConnection[];
   public concurConnection!: IntegrationConnection;
-
   public passwords!: FormGroup;
   public password!: AbstractControl;
   public repeatPassword!: AbstractControl;
-
   public notificationsActive!: AbstractControl;
   public notifications!: FormGroup;
   public sendSessionStarted!: AbstractControl;
@@ -93,9 +90,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
-
   public user!: User;
-
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;

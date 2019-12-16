@@ -1,4 +1,3 @@
-
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'angular2-chartjs';
@@ -7,7 +6,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
-import { DisplayedScheduleSlot } from './charging-station-smart-charging-limit-planner.component';
+import { DisplayedScheduleSlot } from './charging-station-charging-profile-limit.component';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -22,11 +21,10 @@ import { DisplayedScheduleSlot } from './charging-station-smart-charging-limit-p
     </div>
   `,
 })
-
 export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit {
-  @Input() scheduleSlots: DisplayedScheduleSlot[];
-  @Input() ratio: number;
-  @ViewChild('chart', { static: false }) chartComponent: ChartComponent;
+  @Input() scheduleSlots!: DisplayedScheduleSlot[];
+  @Input() ratio!: number;
+  @ViewChild('chart', { static: false }) chartComponent!: ChartComponent;
   public data: any;
   private options: any;
   private colors = [
@@ -34,7 +32,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     [54, 162, 235],
     [255, 206, 86],
   ];
-  private language: string;
+  private language!: string;
 
   constructor(private centralServerService: CentralServerService,
               private translateService: TranslateService,
@@ -129,17 +127,17 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         multiKeyBackground: 'rgba(0,0,0,0)',
         intersect: false,
         callbacks: {
-          labelColor: (tooltipItem, chart) => {
+          labelColor: (tooltipItem: any, chart: ChartComponent) => {
             return {
               borderColor: 'rgba(0,0,0,0)',
               backgroundColor: this.rgba(this.colors[tooltipItem.datasetIndex], 1),
             };
           },
-          label: (tooltipItem, values) => {
+          label: (tooltipItem: any, values: any) => {
             const value = values.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y;
             return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';
           },
-          title: (tooltipItems, data) => {
+          title: (tooltipItems: any, data: any) => {
             const firstDate = data.labels[0];
             const currentDate = data.labels[tooltipItems[0].index];
 
@@ -178,7 +176,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
             min: 0,
             stepSize: 1,
             ticks: {
-              callback: (value, index, values) => this.decimalPipe.transform(value / 1000, '1.0-0'),
+              callback: (value: number) => this.decimalPipe.transform(value / 1000, '1.0-0'),
               fontColor: '#0d47a1',
             },
             gridLines: {

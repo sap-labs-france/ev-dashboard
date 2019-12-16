@@ -83,7 +83,7 @@
                         <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait"
                           timeInterval="1"></mat-datetimepicker>
                         <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                        <input matInput (dateChange)="changeStartSlotDate($event, slot)"
+                        <input matInput (dateChange)="changeStartSlotDate($event.target.value, slot)"
                           [placeholder]="'chargers.smart_charging.start_date' | translate" [matDatetimepicker]="picker"
                           [value]="slot.displayedStartValue" required autocomplete="false">
                       </mat-form-field>
@@ -98,24 +98,21 @@
                     </ng-container>
                     <ng-template #elseDuration>
                       <mat-form-field>
-                        <input matInput type="number" (input)="changeSlotDuration($event, slot)"
+                        <input matInput type="number" (input)="changeSlotDuration($event.target.value, slot)"
                           [placeholder]="'chargers.smart_charging.duration' | translate" [value]="slot.duration">
                       </mat-form-field>
                     </ng-template>
                   </div>
                   <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
-                    <app-charging-station-smart-charging-power-slider #powerSliders [maximumPower]="charger.maximumPower"
-                      [powerUnit]="powerUnit" [numberOfConnectedPhase]="charger.numberOfConnectedPhase"
-                      [displayMinSliderValue]='false' [displayMaxSliderValue]='false'
-                                                                      (sliderChangeEventEmitter)="sliderChanged(slot, $event)"
-                                                                      textPosition="right"
-                      [startValue]="{value: charger.maximumPower, unit: 'W'}"></app-charging-station-smart-charging-power-slider>
+                    <app-charging-station-power-slider #powerSliders [charger]="charger"
+                      (powerSliderChanged)="powerSliderChanged($event)">
+                    </app-charging-station-power-slider>
                   </div>
                 </div>
                 <div *ngIf="false && slot.id === slotsSchedule.length-1" class="row col-md-12 text-left">
                   <div class="col-md-6">
                     <mat-form-field>
-                      <input matInput type="datetime-local" (input)="changeEndSlotDate($event, slot)"
+                      <input matInput type="datetime-local" (input)="changeEndSlotDate($event.target.value, slot)"
                         [placeholder]="'chargers.smart_charging.end_date' | translate" [value]="slot.displayedEndValue">
                     </mat-form-field>
                   </div>

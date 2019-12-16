@@ -668,8 +668,10 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
+      "static_limit": "Limite Statique",
+      "charging_profile_limit": "Profile de Charge",
       "reset_button": "Rafraichir",
-      "maximum_energy_limit": "Limiter la puissance de '{{chargeBoxID}}' à",
+      "maximum_energy_limit": "Puissance Limite de '{{chargeBoxID}}' à",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
       "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",

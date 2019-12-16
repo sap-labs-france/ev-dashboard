@@ -14,9 +14,9 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 
 @Component({
   selector: 'app-charging-station',
-  templateUrl: 'charging-station.component.html',
+  templateUrl: 'charging-station-dialog.component.html',
 })
-export class ChargingStationComponent implements OnInit, AfterViewInit {
+export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
   @Input() currentCharger!: Charger;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
@@ -39,7 +39,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialog: MatDialog,
-    public dialogRef: MatDialogRef<ChargingStationComponent>) {
+    public dialogRef: MatDialogRef<ChargingStationDialogComponent>) {
 
     // Get Locales
     this.userLocales = this.localeService.getLocales();

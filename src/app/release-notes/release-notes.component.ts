@@ -35,7 +35,7 @@ export class ReleaseNotesComponent {
               `Add Smart Charging Settings section in Tenant`,
               `New Charging Station are automatically registered and enriched with template`,
               `Fixed Users synchronization in Billing system`,
-              `Stop a Session in progress in Session list`
+              `Stop a Session in progress in Session list`,
             ],
           },
         ],

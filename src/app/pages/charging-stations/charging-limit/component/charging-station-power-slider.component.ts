@@ -4,7 +4,6 @@ import { Charger } from 'app/common.types';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStations } from 'app/utils/ChargingStations';
 
-
 @Component({
   selector: 'app-charging-station-power-slider',
   templateUrl: 'charging-station-power-slider.component.html',
@@ -12,14 +11,14 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: Charger;
-  @Input() currentAmpValue: number = 0;
+  @Input() currentAmpValue = 0;
   @Output() powerSliderChanged = new EventEmitter<number>();
 
-  public minAmp: number = 0;
-  public maxAmp: number = 0;
-  public displayedMinPowerKW: string = "";
-  public displayedMaxPowerKW: string = "";
-  public displayedCurrentPowerW: string = "";
+  public minAmp = 0;
+  public maxAmp = 0;
+  public displayedMinPowerKW = '';
+  public displayedMaxPowerKW = '';
+  public displayedCurrentPowerW = '';
 
   constructor(
     private appUnitFormatter: AppUnitPipe) {
@@ -30,7 +29,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     if (this.charger) {
       this.minAmp = 6;
       // Add all connector's amps
-      for (const connector of this.charger.connectors) {        
+      for (const connector of this.charger.connectors) {
         this.maxAmp += connector.amperage ? connector.amperage : 0;
       }
       // Set the current value

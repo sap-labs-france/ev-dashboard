@@ -1,0 +1,39 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial card-min-height">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>battery_charging_full</mat-icon>
+          <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
+        </ng-template>
+        <div class="card-body" style="margin-top: 15px">
+          <div *ngIf="charger.maximumPower" class="row">
+            <div class="col-md-6">
+              <app-charging-station-static-limit [charger]="charger"></app-charging-station-static-limit>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>show_chart</mat-icon>
+          <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
+        </ng-template>
+        <div class="card-body" style="margin-top: 15px">
+          <div *ngIf="charger.maximumPower" class="row">
+            <div class="col-md-12">
+              <app-charging-station-charging-profile-limit [charger]="charger"></app-charging-station-charging-profile-limit>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

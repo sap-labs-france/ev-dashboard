@@ -1,0 +1,23 @@
+<table class="col-md-12">
+    <tr>
+        <td class="current-power-text text-center" colspan="3">
+            {{displayedCurrentPowerW}}
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right col-5em">
+            {{displayedMinPowerKW}}
+        </td>
+        <td>
+            <mat-slider
+                thumbLabel class="col-md-12"
+                [min]="minAmp" [max]="maxAmp" step="1" [value]="currentAmpValue"
+                [displayWith]="formatSlideLabelPowerKW"
+                (change)="sliderChanged($event.value)">
+            </mat-slider>
+        </td>
+        <td class="text-left col-5em">
+            {{displayedMaxPowerKW}}
+        </td>
+    </tr>
+</table>

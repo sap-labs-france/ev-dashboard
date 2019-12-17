@@ -264,7 +264,6 @@ export interface Charger extends Data {
   endpoint: string;
   ocppVersion: string;
   lastHeartBeat: Date;
-  lastHeartBeatChanged: boolean;
   inactive: boolean;
   chargingStationURL: string;
   numberOfConnectedPhase: number;

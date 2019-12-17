@@ -7,15 +7,12 @@ import { Charger } from 'app/common.types';
   templateUrl: 'charging-stations-more-actions-dialog.component.html',
 })
 export class ChargingStationsMoreActionsDialogComponent {
-  charger: Charger;
+  charger!: Charger;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationsMoreActionsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    if (data) {
-      this.charger = data;
-    }
+    @Inject(MAT_DIALOG_DATA) data: Charger) {
+    this.charger = data;
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // check if escape

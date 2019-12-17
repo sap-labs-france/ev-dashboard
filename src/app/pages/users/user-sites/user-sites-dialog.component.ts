@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Users } from 'app/utils/Users';
 import { UserSitesTableDataSource } from './user-sites-table-data-source';
+import { User } from 'app/common.types';
 
 @Component({
   selector: 'app-user-sites-dialog',
@@ -16,7 +17,7 @@ export class UserSitesDialogComponent {
     public userSitesTableDataSource: UserSitesTableDataSource,
     private translateService: TranslateService,
     private dialogRef: MatDialogRef<UserSitesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: User) {
 
     if (data) {
       this.userSitesTableDataSource.setUser(data);

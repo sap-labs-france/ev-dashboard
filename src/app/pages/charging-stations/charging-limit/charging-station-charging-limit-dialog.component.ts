@@ -1,18 +1,19 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { User } from 'app/common.types';
+import { Charger } from 'app/common.types';
 
 @Component({
-  templateUrl: 'user.dialog.component.html',
+  selector: 'app-charging-station-smart-charging-dialog',
+  templateUrl: 'charging-station-charging-limit-dialog.component.html',
 })
-export class UserDialogComponent {
-  userID!: string;
+export class ChargingStationSmartChargingDialogComponent {
+  charger!: Charger;
 
   constructor(
-    private dialogRef: MatDialogRef<UserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: User) {
+    private dialogRef: MatDialogRef<ChargingStationSmartChargingDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data: Charger) {
     if (data) {
-      this.userID = data.id;
+      this.charger = data;
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -21,9 +22,5 @@ export class UserDialogComponent {
         this.dialogRef.close();
       }
     });
-  }
-
-  getDialogRef(): MatDialogRef<UserDialogComponent> {
-    return this.dialogRef;
   }
 }

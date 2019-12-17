@@ -21,7 +21,7 @@ import { ChargingStationsHeartbeatCellComponent } from './cell-components/chargi
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
-import { ChargingStationComponent } from './charging-station/charging-station.component';
+import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
@@ -37,7 +37,7 @@ import { ChargingStationsListTableDataSource } from './list/charging-stations-li
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
-import { ChargingStationSmartChargingModule } from './smart-charging/charging-station-smart-charging.module';
+import { ChargingStationSmartChargingModule } from './charging-limit/charging-station-charging-limit.module';
 
 @NgModule({
   imports: [
@@ -58,7 +58,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     MomentModule,
   ],
   entryComponents: [
-    ChargingStationComponent,
+    ChargingStationDialogComponent,
     ChargingStationSettingsComponent,
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
@@ -81,7 +81,7 @@ import { ChargingStationSmartChargingModule } from './smart-charging/charging-st
     ChargingStationsConnectorInactivityCellComponent,
   ],
   declarations: [
-    ChargingStationComponent,
+    ChargingStationDialogComponent,
     ChargingStationSettingsComponent,
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,

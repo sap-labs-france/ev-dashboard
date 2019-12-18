@@ -26,8 +26,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public stripePeriodicBillingAllowed: AbstractControl;
   public stripeLastSynchronizedOn: AbstractControl;
   public taxes: PartialBillingTax[] = [];
-  public taxCountry: AbstractControl;
-  public taxCode: AbstractControl;
+  public stripeTax: AbstractControl;
 
   ngOnInit() {
     this.stripe = new FormGroup({
@@ -42,7 +41,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
-          //  StripeToolBox.validateSecretKey
+           // StripeToolBox.validateSecretKey
         ]),
       ),
       publicKey: new FormControl('',
@@ -60,13 +59,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
           Validators.required,
         ]),
       ),
-      taxCode: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(20),
-          StripeToolBox.validateTaxCode,
-        ]),
-      ),
     });
 
     this.formGroup.addControl('stripe', this.stripe);
@@ -78,10 +70,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.stripeImmediateBillingAllowed = (this.formGroup.get('stripe') as FormGroup).controls['immediateBillingAllowed'];
     this.stripePeriodicBillingAllowed = (this.formGroup.get('stripe') as FormGroup).controls['periodicBillingAllowed'];
     this.stripeLastSynchronizedOn = (this.formGroup.get('stripe') as FormGroup).controls['lastSynchronizedOn'];
-    this.taxCountry = (this.formGroup.get('stripe') as FormGroup).controls['taxCountry'];
-    this.taxCountry.setValue('none');
-    this.taxCode = (this.formGroup.get('stripe') as FormGroup).controls['taxCode'];
-    this.taxCode.disable();
+    this.stripeTax = (this.formGroup.get('stripe') as FormGroup).controls['taxCountry'];
+    this.stripeTax.setValue('none');
 
     // Set data
     this.updateFormData(true);

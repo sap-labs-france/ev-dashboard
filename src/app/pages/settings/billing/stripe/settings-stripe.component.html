@@ -94,19 +94,6 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
-        <mat-form-field>
-          <input matInput type="text" formControlName="taxCode"
-                 placeholder="{{'settings.billing.stripe.tax_code' | translate}}" required>
-          <mat-error *ngIf="taxCode.errors?.required">{{"general.mandatory_field"
-            | translate}}</mat-error>
-          <mat-error *ngIf="taxCode.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 20}"></div>
-          </mat-error>
-          <mat-error *ngIf="taxCode.errors?.invalid">
-            <div [translate]="'settings.billing.stripe.invalid_tax_code'"></div>
-          </mat-error>
-        </mat-form-field>
       </div>
     </div>
   </div>

@@ -771,15 +771,14 @@ export interface BillingSettings {
     advanceBillingAllowed?: boolean;
     lastSynchronizedOn?: Date;
   };
-  tax?: Tax;
+  tax?: PartialBillingTax;
 }
 
-export interface Tax extends Data {
-  countryCode: string;
-  taxCode: string;
-  standard: number;
-  reduced: number[];
-  allowZero: boolean;
+export interface PartialBillingTax extends Data {
+  description: string;
+  displayName: string;
+  jurisdiction: string;
+  percentage: number;
 }
 
 export enum OcpiSettingsType {

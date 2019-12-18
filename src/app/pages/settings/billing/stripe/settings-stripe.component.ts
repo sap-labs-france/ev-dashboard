@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillingSettings, Tax } from 'app/common.types';
+import { BillingSettings, PartialBillingTax } from 'app/common.types';
 import { Constants } from 'app/utils/Constants';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { StripeToolBox } from './StripeToolbox';
@@ -25,7 +25,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public stripeImmediateBillingAllowed: AbstractControl;
   public stripePeriodicBillingAllowed: AbstractControl;
   public stripeLastSynchronizedOn: AbstractControl;
-  public taxes: Tax[] = [];
+  public taxes: PartialBillingTax[] = [];
   public taxCountry: AbstractControl;
   public taxCode: AbstractControl;
 
@@ -89,8 +89,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   }
 
   constructor(private centralServerService: CentralServerService) {
-    this.centralServerService.getCountryTaxes().subscribe((taxes) => {
-      this.taxes = taxes.result;
+    this.centralServerService.getBillingTaxes().subscribe((taxes) => {
+      this.taxes = taxes;
     });
   }
 

@@ -143,5 +143,4 @@ export class SettingsBillingComponent implements OnInit {
       }
     });
   }
-
 }

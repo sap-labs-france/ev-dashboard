@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User, UserToken } from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User, UserToken, Tag } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -114,7 +114,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'role',
       name: 'users.role',
-      formatter: (role) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
+      formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p',
       class: 'text-left col-10p',
       sortable: true,
@@ -136,9 +136,16 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
+      id: 'email',
+      name: 'users.email',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true,
+    },
+    {
       id: 'tags',
       name: 'users.tags',
-      formatter: (tags) => this.arrayToStringPipe.transform(tags.map((tag) => tag.id)),
+      formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,

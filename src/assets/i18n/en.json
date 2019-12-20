@@ -1550,6 +1550,7 @@
     "charging-stations-offline": "Notify me when a charging station is offline",
     "preparing-session-not-started": "Notify me when a session has not been started (site owner only)",
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
-    "smtp-auth-error": "Notify me if the backend authentication to the email server has failed"
+    "smtp-auth-error": "Notify me if the backend authentication to the email server has failed",
+    "billing-synchronization-failed": "Notify me when a synchronization with billing provider has failed"
   }
 }

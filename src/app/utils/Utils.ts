@@ -2,7 +2,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MobileType, User } from 'app/common.types';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
-import { Observable } from 'rxjs';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 

@@ -539,7 +539,7 @@ export interface TableSearch {
 export enum InactivityStatus {
   INFO = 'I',
   WARNING = 'W',
-  ERROR = 'E'
+  ERROR = 'E',
 }
 
 export interface Transaction extends Data {
@@ -632,6 +632,7 @@ export interface User extends Data {
     sendUserAccountInactivity?: boolean;
     sendPreparingSessionNotStarted?: boolean;
     sendOfflineChargingStations?: boolean;
+    sendBillingSynchronizationFailed?: boolean;
   };
   address: Address;
   iNumber: string;

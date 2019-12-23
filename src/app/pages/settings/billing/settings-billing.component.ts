@@ -18,8 +18,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public billingSettings: BillingSettings;
+  public formGroup!: FormGroup;
+  public billingSettings!: BillingSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -60,7 +60,7 @@ export class SettingsBillingComponent implements OnInit {
     });
   }
 
-  public save(content) {
+  public save(content: BillingSettings) {
     // Stripe
     if (content.stripe) {
       this.billingSettings.stripe = content.stripe;
@@ -121,7 +121,7 @@ export class SettingsBillingComponent implements OnInit {
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         this.messageService.showInfoMessage('settings.billing.synchronize_users_started');
-        this.centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
+        this.centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
             if (synchronizeResponse.synchronized) {
               this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',

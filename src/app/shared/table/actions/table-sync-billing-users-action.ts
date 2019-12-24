@@ -1,7 +1,7 @@
 import { ButtonColor, TableActionDef } from '../../../common.types';
 import { TableAction } from './table-action';
 
-export class TableSyncBillingUsers implements TableAction {
+export class TableSyncBillingUsersAction implements TableAction {
   private action: TableActionDef = {
     id: 'synchronize',
     type: 'button',

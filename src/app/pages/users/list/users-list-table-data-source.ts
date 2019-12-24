@@ -20,7 +20,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingUsers } from '../../../shared/table/actions/table-sync-billing-users';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -177,7 +177,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (this.componentService.isActive(ComponentType.BILLING) &&
         this.authorizationService.isAdmin() &&
         this.authorizationService.canSynchronizeUsers()) {
-      actionsDef.push(new TableSyncBillingUsers().getActionDef());
+      actionsDef.push(new TableSyncBillingUsersAction().getActionDef());
     }
     return [
       ...actionsDef,
@@ -210,15 +210,33 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.showUserDialog();
         break;
       case 'synchronize':
-        new SettingsBillingComponent(
-          this.centralServerService,
-          this.componentService,
-          this.dialogService,
-          this.messageService,
-          this.spinnerService,
-          this.translateService,
-          this.router,
-        ).synchronizeUsers();
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant('settings.billing.synchronize_users_dialog_title'),
+          this.translateService.instant('settings.billing.synchronize_users_dialog_confirm'),
+        ).subscribe((response) => {
+          if (response === Constants.BUTTON_TYPE_YES) {
+            this.messageService.showInfoMessage('settings.billing.synchronize_users_started');
+            this.centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
+              if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+                if (synchronizeResponse.synchronized) {
+                  this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',
+                    {number: synchronizeResponse.synchronized}));
+                } else if (!synchronizeResponse.error) {
+                  this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success_all'));
+                }
+                if (synchronizeResponse.error) {
+                  this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure',
+                    {number: synchronizeResponse.error}));
+                }
+              } else {
+                Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
+              }
+            }, (error) => {
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'settings.billing.synchronize_users_error');
+            });
+          }
+        });
         break;
       default:
         super.actionTriggered(actionDef);

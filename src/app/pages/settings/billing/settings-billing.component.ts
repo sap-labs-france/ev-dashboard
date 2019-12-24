@@ -10,6 +10,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
+import {TableSyncBillingUsersAction} from "../../../shared/table/actions/table-sync-billing-users-action";
 
 @Component({
   selector: 'app-settings-billing',
@@ -115,32 +116,12 @@ export class SettingsBillingComponent implements OnInit {
   }
 
   public synchronizeUsers() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.synchronize_users_dialog_title'),
-      this.translateService.instant('settings.billing.synchronize_users_dialog_confirm'),
-    ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
-        this.messageService.showInfoMessage('settings.billing.synchronize_users_started');
-        this.centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
-            if (synchronizeResponse.synchronized) {
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',
-                {number: synchronizeResponse.synchronized}));
-            } else if (!synchronizeResponse.error) {
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success_all'));
-            }
-            if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure',
-                {number: synchronizeResponse.error}));
-            }
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.billing.synchronize_users_error');
-        });
-      }
-    });
+    TableSyncBillingUsersAction.openPopup(
+      this.dialogService,
+      this.translateService,
+      this.messageService,
+      this.centralServerService,
+      this.router,
+    );
   }
 }

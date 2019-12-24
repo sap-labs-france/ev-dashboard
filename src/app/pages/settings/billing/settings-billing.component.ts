@@ -8,9 +8,9 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import {TableSyncBillingUsersAction} from "../../../shared/table/actions/table-sync-billing-users-action";
 
 @Component({
   selector: 'app-settings-billing',

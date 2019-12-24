@@ -19,8 +19,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public billingSettings: BillingSettings;
+  public formGroup!: FormGroup;
+  public billingSettings!: BillingSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -61,7 +61,7 @@ export class SettingsBillingComponent implements OnInit {
     });
   }
 
-  public save(content) {
+  public save(content: BillingSettings) {
     // Stripe
     if (content.stripe) {
       this.billingSettings.stripe = content.stripe;

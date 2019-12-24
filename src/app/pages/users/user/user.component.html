@@ -247,6 +247,12 @@
                                     [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox>
                     </div>
                   </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing-synchronization-failed" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

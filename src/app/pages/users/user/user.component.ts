@@ -90,6 +90,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
+  public sendBillingSynchronizationFailed!: AbstractControl;
   public user!: User;
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -175,6 +176,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOcpiPatchStatusError: new FormControl(true),
         sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
+        sendBillingSynchronizationFailed: new FormControl(true),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -295,6 +297,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
+    this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
 
     this.userTagsTableDataSource.setFormArray(this.tags);
 
@@ -481,6 +484,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
       } else {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendBillingSynchronizationFailed')) {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
+      } else {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);

@@ -25,8 +25,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public stripeImmediateBillingAllowed: AbstractControl;
   public stripePeriodicBillingAllowed: AbstractControl;
   public stripeLastSynchronizedOn: AbstractControl;
-  public taxes: PartialBillingTax[] = [];
   public stripeTax: AbstractControl;
+  public taxes: PartialBillingTax[] = [];
 
   ngOnInit() {
     this.stripe = new FormGroup({
@@ -54,7 +54,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       immediateBillingAllowed: new FormControl(''),
       periodicBillingAllowed: new FormControl(''),
       lastSynchronizedOn: new FormControl(''),
-      taxCountry: new FormControl('',
+      tax: new FormControl('',
         Validators.compose([
           Validators.required,
         ]),
@@ -70,12 +70,11 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.stripeImmediateBillingAllowed = (this.formGroup.get('stripe') as FormGroup).controls['immediateBillingAllowed'];
     this.stripePeriodicBillingAllowed = (this.formGroup.get('stripe') as FormGroup).controls['periodicBillingAllowed'];
     this.stripeLastSynchronizedOn = (this.formGroup.get('stripe') as FormGroup).controls['lastSynchronizedOn'];
-    this.stripeTax = (this.formGroup.get('stripe') as FormGroup).controls['taxCountry'];
+    this.stripeTax = (this.formGroup.get('stripe') as FormGroup).controls['tax'];
     this.stripeTax.setValue('none');
 
     // Set data
     this.updateFormData(true);
-    this.onChanges();
   }
 
   constructor(private centralServerService: CentralServerService) {
@@ -86,18 +85,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.updateFormData();
-  }
-
-  onChanges() {
-    this.stripe.get('taxCountry').valueChanges.subscribe((selectedTax) => {
-      console.log(selectedTax);
-      if (selectedTax === 'none') {
-        this.stripe.get('taxCode').reset();
-        this.stripe.get('taxCode').disable();
-      } else {
-        this.stripe.get('taxCode').enable();
-      }
-    });
   }
 
   updateFormData(firstTime = false) {
@@ -122,6 +109,10 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     if (this.stripeLastSynchronizedOn) {
       this.stripeLastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
+    }
+    if (this.stripeTax) {
+      this.stripeTax.setValue(this.billingSettings.stripe.tax
+        ? this.billingSettings.stripe.tax : 'none');
     }
   }
 

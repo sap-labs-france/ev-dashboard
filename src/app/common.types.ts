@@ -770,8 +770,8 @@ export interface BillingSettings {
     periodicBillingAllowed: boolean;
     advanceBillingAllowed?: boolean;
     lastSynchronizedOn?: Date;
+    tax: PartialBillingTax;
   };
-  tax?: PartialBillingTax;
 }
 
 export interface PartialBillingTax extends Data {

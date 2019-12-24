@@ -87,7 +87,7 @@
     <div class="row">
       <div class="col-md-6 text-left">
         <mat-form-field>
-          <mat-select formControlName="taxCountry" placeholder="{{'settings.billing.stripe.tax_country' | translate}}">
+          <mat-select formControlName="tax" placeholder="{{'settings.billing.stripe.tax_country' | translate}}">
             <mat-option value="none">No tax</mat-option>
             <mat-option *ngFor="let tax of taxes" [value]="tax.id">
               {{ tax | appTaxName}}

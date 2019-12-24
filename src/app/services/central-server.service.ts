@@ -1130,7 +1130,7 @@ export class CentralServerService {
   public synchronizeUsersForBilling(): Observable<SynchronizeResponse> {
     this._checkInit();
     // Execute the REST service
-    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/synchronizeUsersForBilling`, {},
+    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
       {
         headers: this._buildHttpHeaders(),
       })

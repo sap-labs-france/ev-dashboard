@@ -25,7 +25,7 @@ export class TableSyncBillingUsersAction implements TableAction {
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         messageService.showInfoMessage('settings.billing.synchronize_users_started');
-        centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
+        centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
             if (synchronizeResponse.synchronized) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.synchronize_users_success',

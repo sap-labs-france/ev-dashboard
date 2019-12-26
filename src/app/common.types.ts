@@ -63,6 +63,7 @@ export interface TableActionDef {
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[];
   tooltip: string;
+  action?(...args: any[]): void;
 }
 
 export interface Data {

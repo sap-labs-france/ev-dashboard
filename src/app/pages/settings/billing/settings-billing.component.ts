@@ -116,12 +116,12 @@ export class SettingsBillingComponent implements OnInit {
   }
 
   public synchronizeUsers() {
-    TableSyncBillingUsersAction.openPopup(
+    new TableSyncBillingUsersAction().getActionDef().action(
       this.dialogService,
       this.translateService,
       this.messageService,
       this.centralServerService,
       this.router,
-    );
+      );
   }
 }

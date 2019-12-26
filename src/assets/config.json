@@ -1,8 +1,8 @@
 {
   "CentralSystemServer": {
-    "protocol": "https",
+    "protocol": "http",
     "host": "localhost",
-    "port": 443,
+    "port": 8082,
     "pollEnabled": true,
     "pollIntervalSecs": 10
   },

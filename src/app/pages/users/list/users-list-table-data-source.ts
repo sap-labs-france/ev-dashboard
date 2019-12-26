@@ -172,15 +172,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    const actionsDef: TableActionDef[] = [];
-    actionsDef.push(new TableCreateAction().getActionDef());
+    tableActionsDef.unshift(new TableCreateAction().getActionDef());
     if (this.componentService.isActive(ComponentType.BILLING) &&
-        this.authorizationService.isAdmin() &&
         this.authorizationService.canSynchronizeUsers()) {
-      actionsDef.push(new TableSyncBillingUsersAction().getActionDef());
+      tableActionsDef.splice(1, 0, new TableSyncBillingUsersAction().getActionDef());
     }
     return [
-      ...actionsDef,
       ...tableActionsDef,
     ];
   }
@@ -210,13 +207,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.showUserDialog();
         break;
       case 'synchronize':
-        TableSyncBillingUsersAction.openPopup(
+        new TableSyncBillingUsersAction().getActionDef().action(
           this.dialogService,
           this.translateService,
           this.messageService,
           this.centralServerService,
           this.router,
-        );
+          );
         break;
       default:
         super.actionTriggered(actionDef);

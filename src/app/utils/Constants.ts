@@ -85,7 +85,7 @@ export class Constants {
   public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';
-  public static ACTION_SYNCHRONIZE_USERS_BILLING = 'SynchronizeUsersBilling';
+  public static ACTION_SYNCHRONIZE_USERS_BILLING = 'SynchronizeBilling';
 
   /* Company */
   public static COMPANY_WITH_LOGO = true;

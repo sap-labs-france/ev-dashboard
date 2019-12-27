@@ -24,7 +24,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.18",
+    "last_update": "Version 2.1.19",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -1550,6 +1550,7 @@
     "charging-stations-offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
     "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
-    "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué"
+    "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
+    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de Billing a échoué"
   }
 }

@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.19',
+        date: new Date('2019-12-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `TypeScript: migration of Settings`,
+              `Billing: Add User synchronization in User's list`,
+              `eMSP Locations: Store CPO Charging Stations`,
+              `Notification: Admins are notified when billing user's synchronization has failed`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.18',
         date: new Date('2019-12-14'),
         componentChanges: [

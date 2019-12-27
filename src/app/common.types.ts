@@ -63,6 +63,7 @@ export interface TableActionDef {
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[];
   tooltip: string;
+  action?(...args: any[]): void;
 }
 
 export interface Data {
@@ -632,6 +633,7 @@ export interface User extends Data {
     sendUserAccountInactivity?: boolean;
     sendPreparingSessionNotStarted?: boolean;
     sendOfflineChargingStations?: boolean;
+    sendBillingSynchronizationFailed?: boolean;
   };
   address: Address;
   iNumber: string;

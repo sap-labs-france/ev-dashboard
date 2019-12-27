@@ -31,7 +31,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   public percentOfInactivity!: string;
   public locale!: string;
 
-  @ViewChild('chartConsumption', {static: false}) chartComponent!: ConsumptionChartComponent;
+  @ViewChild('chartConsumption', { static: false }) chartComponent!: ConsumptionChartComponent;
   private transactionId!: number;
 
   private autoRefeshTimer!: number;
@@ -111,7 +111,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
           this.loadConsumption(this.transactionId);
         } else {
           this.spinnerService.hide();
-          this.messageService.showInfoMessage('chargers.no_transaction_found', {chargerID: this.chargingStationId});
+          this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationId });
           this.dialogRef.close();
         }
       });
@@ -165,12 +165,14 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
         }
       }
 
-      this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage: Image) => {
-        if (userImage && userImage.image) {
-          this.loggedUserImage = userImage.image.toString();
-        }
-      });
-      if (transaction.stop) {
+      if (transaction.user) {
+        this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage: Image) => {
+          if (userImage && userImage.image) {
+            this.loggedUserImage = userImage.image.toString();
+          }
+        });
+      }
+      if (transaction.stop && transaction.stop.user) {
         this.centralServerService.getUserImage(transaction.stop.user.id).subscribe((userImage: Image) => {
           if (userImage && userImage.image) {
             this.stopUserImage = userImage.image.toString();

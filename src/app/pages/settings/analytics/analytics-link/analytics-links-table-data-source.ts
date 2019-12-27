@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -37,12 +36,12 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private translateService: TranslateService,
-      private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
-      private dialogService: DialogService,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService) {
+    public spinnerService: SpinnerService,
+    private translateService: TranslateService,
+    private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
+    private dialogService: DialogService,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService) {
     super(spinnerService);
     // Init
     this.initDataSource();
@@ -64,7 +63,9 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return new Observable((observer) => {
       // Check
       if (this.analyticsLinks) {
-        this.analyticsLinks = _.orderBy(this.analyticsLinks, 'name', 'asc');
+        this.analyticsLinks.sort((a, b) => {
+          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
+        });
         const links = [];
         for (let index = 0; index < this.analyticsLinks.length; index++) {
           const _link = this.analyticsLinks[index];
@@ -204,7 +205,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // find object
-        const index = _.findIndex(this.analyticsLinks, { id: result.id });
+        const index = this.analyticsLinks.findIndex((link) => link.id === result.id);
         if (index >= 0) {
           this.analyticsLinks.splice(index, 1, result);
         } else {
@@ -222,7 +223,10 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        _.remove(this.analyticsLinks, (o: AnalyticsLink) => (o.id === analyticsLink.id));
+        const index = this.analyticsLinks.findIndex((link) => link.id === analyticsLink.id);
+        if (index > -1) {
+          this.analyticsLinks.splice(index, 1);
+        }
         this.refreshData().subscribe();
         this.changed.emit(true);
       }

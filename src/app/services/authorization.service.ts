@@ -46,6 +46,10 @@ export class AuthorizationService {
     return this.canAccess(Constants.ENTITY_USER, Constants.ACTION_UPDATE);
   }
 
+  public canSynchronizeUsers(): boolean {
+    return this.canAccess(Constants.ENTITY_BILLING, Constants.ACTION_SYNCHRONIZE_USERS_BILLING);
+  }
+
   public canAccess(resource: string, action: string): boolean {
     return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }

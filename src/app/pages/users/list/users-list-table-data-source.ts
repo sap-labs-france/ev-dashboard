@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User, UserToken, Tag } from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tag, User, UserToken } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -20,9 +20,11 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
+import { SettingsBillingComponent } from '../../settings/billing/settings-billing.component';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
@@ -170,8 +172,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(new TableCreateAction().getActionDef());
+    if (this.componentService.isActive(ComponentType.BILLING) &&
+        this.authorizationService.canSynchronizeUsers()) {
+      tableActionsDef.splice(1, 0, new TableSyncBillingUsersAction().getActionDef());
+    }
     return [
-      new TableCreateAction().getActionDef(),
       ...tableActionsDef,
     ];
   }
@@ -199,6 +205,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case 'create':
         this.showUserDialog();
+        break;
+      case 'synchronize':
+        new TableSyncBillingUsersAction().getActionDef().action(
+          this.dialogService,
+          this.translateService,
+          this.messageService,
+          this.centralServerService,
+          this.router,
+          );
         break;
       default:
         super.actionTriggered(actionDef);

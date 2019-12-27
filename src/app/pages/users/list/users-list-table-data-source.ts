@@ -24,7 +24,6 @@ import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { SettingsBillingComponent } from '../../settings/billing/settings-billing.component';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
@@ -37,8 +36,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
+  private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private currentUser: UserToken;
-
+  
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -162,7 +162,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'createdOn',
       name: 'users.created_on',
-      formatter: (createdOn) => this.datePipe.transform(createdOn),
+      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -175,7 +175,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     tableActionsDef.unshift(new TableCreateAction().getActionDef());
     if (this.componentService.isActive(ComponentType.BILLING) &&
         this.authorizationService.canSynchronizeUsers()) {
-      tableActionsDef.splice(1, 0, new TableSyncBillingUsersAction().getActionDef());
+      tableActionsDef.splice(1, 0, this.tableSyncBillingUsersAction);
     }
     return [
       ...tableActionsDef,
@@ -207,20 +207,22 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.showUserDialog();
         break;
       case 'synchronize':
-        new TableSyncBillingUsersAction().getActionDef().action(
-          this.dialogService,
-          this.translateService,
-          this.messageService,
-          this.centralServerService,
-          this.router,
+        if (this.tableSyncBillingUsersAction.action) {
+          this.tableSyncBillingUsersAction.action(
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
           );
+        }
         break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: User) {
     switch (actionDef.id) {
       case 'edit':
         this.showUserDialog(rowItem);

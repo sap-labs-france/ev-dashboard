@@ -64,13 +64,13 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.formGroup.addControl('stripe', this.stripe);
 
     // Keep
-    this.stripeUrl = (this.formGroup.get('stripe') as FormGroup).controls['url'];
-    this.stripeSecretKey = (this.formGroup.get('stripe') as FormGroup).controls['secretKey'];
-    this.stripePublicKey = (this.formGroup.get('stripe') as FormGroup).controls['publicKey'];
-    this.stripeImmediateBillingAllowed = (this.formGroup.get('stripe') as FormGroup).controls['immediateBillingAllowed'];
-    this.stripePeriodicBillingAllowed = (this.formGroup.get('stripe') as FormGroup).controls['periodicBillingAllowed'];
-    this.stripeLastSynchronizedOn = (this.formGroup.get('stripe') as FormGroup).controls['lastSynchronizedOn'];
-    this.stripeTax = (this.formGroup.get('stripe') as FormGroup).controls['tax'];
+    this.stripeUrl = this.stripe.controls['url'];
+    this.stripeSecretKey = this.stripe.controls['secretKey'];
+    this.stripePublicKey = this.stripe.controls['publicKey'];
+    this.stripeImmediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
+    this.stripePeriodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
+    this.stripeLastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
+    this.stripeTax = this.stripe.controls['tax'];
     this.stripeTax.setValue('none');
 
     // Set data

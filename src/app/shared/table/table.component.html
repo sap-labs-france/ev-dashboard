@@ -14,10 +14,8 @@
           <button mat-raised-button
                   *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
                   (click)="actionTriggered(actionDef)"
-                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip=""
-                  data-placement="bottom"
-                  data-toggle="tooltip"
-                  [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+                  [color]="(actionDef.color ? actionDef.color : '')"
+                  appTooltip [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
@@ -25,9 +23,7 @@
           <button mat-raised-button
                   *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
                   (click)="resetFilters()"
-                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip=""
-                  data-placement="bottom"
-                  data-toggle="tooltip"
+                  [color]="(actionDef.color ? actionDef.color : '')" appTooltip
                   [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
@@ -39,8 +35,7 @@
                 <ng-container *ngFor="let dropdownItem of actionDef.dropdownItems">
                   <button mat-menu-item
                           (click)="actionTriggered(actionDef)"
-                          [disabled]="dropdownItem.disabled"
-                          appTooltip data-placement="bottom" data-toggle="tooltip"
+                          [disabled]="dropdownItem.disabled" appTooltip
                           [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
                     <mat-icon
                       *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
@@ -50,9 +45,8 @@
               </ng-template>
             </mat-menu>
             <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
-                    [color]="(actionDef.color ? actionDef.color : '')" appTooltip=""
-                    data-placement="bottom"
-                    data-toggle="tooltip" [title]="'analytics.links' | translate">
+                    [color]="(actionDef.color ? actionDef.color : '')" appTooltip
+                    [title]="'analytics.links' | translate">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
@@ -79,8 +73,7 @@
             <ng-container *ngIf="actionRightDef.id !== 'refresh'">
               <button mat-raised-button *ngIf="actionRightDef.type === 'button'"
                       [color]="(actionRightDef.color ? actionRightDef.color : '')"
-                      (click)="actionTriggered(actionRightDef)"
-                      appTooltip="" data-placement="bottom" data-toggle="tooltip"
+                      (click)="actionTriggered(actionRightDef)" appTooltip
                       [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <mat-icon
                   *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
@@ -92,8 +85,7 @@
             <!-- Refresh -->
             <button mat-raised-button *ngIf="actionRightDef.id === 'refresh'"
                     class="button-refresh" (click)="refresh()"
-                    [color]="(actionRightDef.color ? actionRightDef.color : '')"
-                    appTooltip="" data-toggle="tooltip" data-placement="bottom"
+                    [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
                     [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingAutoRefresh" class="spinner-autorefresh2">
                 <div class="loader"></div>
@@ -106,9 +98,7 @@
             <!-- Auto Refresh -->
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
               <mat-slide-toggle (change)="toggleAutoRefresh($event)"
-                                [checked]="actionRightDef.currentValue" appTooltip=""
-                                data-toggle="tooltip"
-                                data-placement="bottom"
+                                [checked]="actionRightDef.currentValue" appTooltip
                                 [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)"
                                 class="auto-refresh-slider">
                 {{actionRightDef.name| translate}}
@@ -312,9 +302,7 @@
                         *ngFor="let dropdownItem of rowAction.dropdownItems">
                         <button mat-menu-item
                                 (click)="rowActionTriggered(rowAction, row, dropdownItem)"
-                                [disabled]="dropdownItem.disabled"
-                                appTooltip data-placement="bottom"
-                                data-toggle="tooltip"
+                                [disabled]="dropdownItem.disabled" appTooltip
                                 [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
                           <mat-icon
                             *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
@@ -325,18 +313,14 @@
                   </mat-menu>
                   <button mat-icon-button
                           (menuOpened)="onRowActionMenuOpen(rowAction, row)"
-                          [matMenuTriggerFor]="rowActionMenu" appTooltip=""
-                          data-placement="bottom"
-                          data-toggle="tooltip"
+                          [matMenuTriggerFor]="rowActionMenu" appTooltip
                           [title]="rowAction.tooltip | translate">
                     <mat-icon>{{rowAction.icon}}</mat-icon>
                   </button>
                 </ng-container>
                 <!-- Button Action -->
                 <ng-container *ngIf="!rowAction.isDropdownMenu">
-                  <div class="d-inline-block" appTooltip data-placement="bottom"
-                       data-toggle="tooltip"
-                       [title]="rowAction.tooltip | translate">
+                  <div class="d-inline-block" appTooltip [title]="rowAction.tooltip | translate">
                     <button mat-icon-button
                             [color]="(rowAction.color ? rowAction.color : '')"
                             (click)="rowActionTriggered(rowAction, row)"

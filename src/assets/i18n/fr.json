@@ -1169,9 +1169,8 @@
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
         "periodic_billing": "Facturation périodique (pas encore implémentée)",
-        "tax_country": "Code du pays",
-        "tax_code": "Code de taxe",
-        "invalid_tax_code": "Le format entré n'est pas un format de TVA valide"
+        "tax": "Taxe",
+        "no_tax": "Aucune Taxe"
       }
     },
     "analytics": {

@@ -26,7 +26,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public stripePeriodicBillingAllowed: AbstractControl;
   public stripeLastSynchronizedOn: AbstractControl;
   public stripeTax: AbstractControl;
-  public taxes: PartialBillingTax[] = [];
+  public availableStripeTaxes: PartialBillingTax[] = [];
 
   ngOnInit() {
     this.stripe = new FormGroup({
@@ -79,7 +79,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
-      this.taxes = taxes;
+      this.availableStripeTaxes = taxes;
     });
   }
 

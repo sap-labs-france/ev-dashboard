@@ -62,8 +62,7 @@
     </div>
     <div class="row" style="margin-top: 1em">
       <div class="col-md-6">
-        <label
-          id="stripe-billing-method-selection">{{'settings.billing.stripe.billing_method' | translate}}</label>
+        <label id="stripe-billing-method-selection">{{'settings.billing.stripe.billing_method' | translate}}</label>
       </div>
     </div>
     <div class="row">
@@ -87,9 +86,9 @@
     <div class="row">
       <div class="col-md-6 text-left">
         <mat-form-field>
-          <mat-select formControlName="tax" placeholder="{{'settings.billing.stripe.tax_country' | translate}}">
-            <mat-option value="none">No tax</mat-option>
-            <mat-option *ngFor="let tax of taxes" [value]="tax.id">
+          <mat-select formControlName="tax" placeholder="{{'settings.billing.stripe.tax' | translate}}">
+            <mat-option value="none">{{'settings.billing.stripe.no_tax' | translate}}</mat-option>
+            <mat-option *ngFor="let tax of availableStripeTaxes" [value]="tax.id">
               {{ tax | appTaxName}}
             </mat-option>
           </mat-select>

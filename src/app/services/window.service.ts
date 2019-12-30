@@ -57,6 +57,7 @@ export class WindowService {
   }
 
   getSearch(name: string): string {
+    // @ts-ignore
     return new URLSearchParams(window.location.search).get(name);
   }
 
@@ -95,7 +96,7 @@ export class WindowService {
     this._setSearchQueryParams(null);
   }
 
-  private _setSearchQueryParams(queryParams) {
+  private _setSearchQueryParams(queryParams: string | null) {
     // Set the Query params
     if (history.pushState) {
       // Without page reload
@@ -104,7 +105,7 @@ export class WindowService {
       window.history.pushState({path: newURL}, '' , newURL);
     } else {
       // With page reload
-      this.window.location.search = queryParams;
+      this.window.location.search = queryParams ? queryParams : '';
     }
   }
 }

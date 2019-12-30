@@ -8,9 +8,12 @@ export class AppUnitPipe implements PipeTransform {
   }
 
   _parseMeasure(measureAsString: string): Measure {
+    // @ts-ignore
     if (Unit[Unit[measureAsString]] === measureAsString) {
+      // @ts-ignore
       return {unit: Unit[measureAsString], size: Size.basis};
     }
+    // @ts-ignore
     return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any};
   }
 

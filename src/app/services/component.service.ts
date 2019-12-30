@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { ActionResponse, AnalyticsSettings, BillingSettings, BillingSettingsType, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType } from 'app/common.types';
+import { ActionResponse, AnalyticsSettings, BillingSettings, BillingSettingsType, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, SmartChargingSettings, SmartChargingSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
 
@@ -12,16 +12,17 @@ export enum ComponentType {
   REFUND = 'refund',
   STATISTICS = 'statistics',
   ANALYTICS = 'analytics',
+  SMART_CHARGING = 'smartCharging',
 }
 
 @Injectable()
 export class ComponentService {
-  private activeComponents?: string[];
+  private activeComponents!: string[]|null;
 
   constructor(
     private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
-      if (user) {
+      if (user && user.activeComponents) {
         this.activeComponents = user.activeComponents;
       } else {
         this.activeComponents = null;
@@ -36,7 +37,7 @@ export class ComponentService {
     return false;
   }
 
-  public getActiveComponents(): string[] {
+  public getActiveComponents(): string[]|null {
     return this.activeComponents;
   }
 
@@ -89,6 +90,7 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
+      // @ts-ignore
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -112,6 +114,7 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === BillingSettingsType.STRIPE) {
+      // @ts-ignore
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
     }
     // Set some temporary defaults
@@ -138,6 +141,7 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === RefundSettingsType.CONCUR) {
+      // @ts-ignore
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS
@@ -172,6 +176,26 @@ export class ComponentService {
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    // Save
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
+  public saveSmartChargingSettings(settings: SmartChargingSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: ComponentType.SMART_CHARGING,
+      sensitiveData: [],
+      content: JSON.parse(JSON.stringify(settings)),
+    };
+    if (settings.type === SmartChargingSettingsType.SAP_SMART_CHARGING) {
+      // @ts-ignore
+      settingsToSave.sensitiveData = ['content.sapSmartCharging.password'];
+    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
@@ -277,4 +301,27 @@ export class ComponentService {
       });
     });
   }
+
+  public getSmartChargingSettings(contentFilter = false): Observable<SmartChargingSettings> {
+    return new Observable((observer) => {
+      const smartChargingSettings = {
+        identifier: ComponentType.SMART_CHARGING,
+      } as SmartChargingSettings;
+      // Get the SmartCharging settings
+      this.centralServerService.getSettings(ComponentType.SMART_CHARGING, contentFilter).subscribe((settings) => {
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // Set
+          smartChargingSettings.id = settings.result[0].id;
+          smartChargingSettings.sensitiveData = settings.result[0].sensitiveData;
+          smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
+        }
+        observer.next(smartChargingSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
+
 }

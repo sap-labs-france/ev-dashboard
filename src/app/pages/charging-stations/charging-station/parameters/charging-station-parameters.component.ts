@@ -181,7 +181,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls[connectorVoltageId].disable();
         this.formGroup.controls[connectorAmperageId].disable();
       }
-      this.formGroup.controls[connectorMaxPowerId].disable();        
+      this.formGroup.controls[connectorMaxPowerId].disable();
     }
     if (this.charger.id) {
       this.loadChargingStation();
@@ -274,9 +274,9 @@ export class ChargingStationParametersComponent implements OnInit {
         this.formGroup.controls[`connectorVoltage${connector.connectorId}`].setValue(connector.voltage);
         this.formGroup.controls[`connectorAmperage${connector.connectorId}`].setValue(connector.amperage);
         if (this.numberOfConnectedPhase.value > 0) {
-          this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].disable();        
+          this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].disable();
         } else {
-          this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].enable();        
+          this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].enable();
         }
       }
       this.formGroup.updateValueAndValidity();

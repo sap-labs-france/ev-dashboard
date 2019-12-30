@@ -39,15 +39,15 @@ export class ChargingStationPropertiesComponent implements OnInit {
     {
       key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities) => {
         if (capabilities) {
-          let formatterValues: string[] = [];
+          const formatterValues: string[] = [];
           for (const key in capabilities) {
-            formatterValues.push(`${key}: ${capabilities[key]}`)
+            formatterValues.push(`${key}: ${capabilities[key]}`);
           }
           return formatterValues.join(', ');
         }
         return '';
-      }
-    }
+      },
+    },
   ];
 
   displayedColumns: string[] = ['title', 'value'];

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { Observable } from 'rxjs';
-import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User, UserToken } from '../../../common.types';
+import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Tag, User, UserToken } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -20,6 +20,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -35,8 +36,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
+  private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private currentUser: UserToken;
-
+  
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -114,7 +116,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'role',
       name: 'users.role',
-      formatter: (role) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
+      formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p',
       class: 'text-left col-10p',
       sortable: true,
@@ -136,9 +138,16 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
+      id: 'email',
+      name: 'users.email',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true,
+    },
+    {
       id: 'tags',
       name: 'users.tags',
-      formatter: (tags) => this.arrayToStringPipe.transform(tags.map((tag) => tag.id)),
+      formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -153,7 +162,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'createdOn',
       name: 'users.created_on',
-      formatter: (createdOn) => this.datePipe.transform(createdOn),
+      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -163,8 +172,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(new TableCreateAction().getActionDef());
+    if (this.componentService.isActive(ComponentType.BILLING) &&
+        this.authorizationService.canSynchronizeUsers()) {
+      tableActionsDef.splice(1, 0, this.tableSyncBillingUsersAction);
+    }
     return [
-      new TableCreateAction().getActionDef(),
       ...tableActionsDef,
     ];
   }
@@ -193,12 +206,23 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case 'create':
         this.showUserDialog();
         break;
+      case 'synchronize':
+        if (this.tableSyncBillingUsersAction.action) {
+          this.tableSyncBillingUsersAction.action(
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+          );
+        }
+        break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: User) {
     switch (actionDef.id) {
       case 'edit':
         this.showUserDialog(rowItem);

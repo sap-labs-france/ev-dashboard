@@ -55,5 +55,14 @@
         <app-settings-analytics></app-settings-analytics>
       </ng-template>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>power</mat-icon><span>{{'settings.tabs.smartCharging' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-smart-charging></app-settings-smart-charging>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

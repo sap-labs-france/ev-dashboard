@@ -2,12 +2,13 @@ import { TableFilterDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
-import { UserRoles } from '../users.model';
+import { UserRoles } from '../model/users.model';
 
 export class UserRoleFilter extends TableFilter {
   constructor(
     private centralServerService: CentralServerService) {
     super();
+    const items = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'role',
@@ -17,7 +18,7 @@ export class UserRoleFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
-      items: UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role),
+      items: items ? items : undefined,
       multiple: true,
     };
     this.setFilterDef(filterDef);

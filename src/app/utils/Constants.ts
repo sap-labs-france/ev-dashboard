@@ -69,6 +69,7 @@ export class Constants {
   public static ENTITY_TRANSACTIONS = 'Transactions';
   public static ENTITY_CHARGING_STATION = 'ChargingStation';
   public static ENTITY_CHARGING_STATIONS = 'ChargingStations';
+  public static ENTITY_BILLING = 'Billing';
   public static ENTITY_LOGGING = 'Logging';
   public static ENTITY_LOGGINGS = 'Loggings';
   public static ACTION_CREATE = 'Create';
@@ -84,6 +85,7 @@ export class Constants {
   public static ACTION_REFUND_TRANSACTION = 'RefundTransaction';
   public static ACTION_UNLOCK_CONNECTOR = 'UnlockConnector';
   public static ACTION_GET_CONFIGURATION = 'GetConfiguration';
+  public static ACTION_SYNCHRONIZE_USERS_BILLING = 'SynchronizeUsersBilling';
 
   /* Company */
   public static COMPANY_WITH_LOGO = true;

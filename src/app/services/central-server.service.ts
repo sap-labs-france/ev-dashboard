@@ -106,7 +106,7 @@ export class CentralServerService {
   public updateSiteOwner(siteID: string, userID: string, siteOwner: boolean): Observable<ActionResponse> {
     this._checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
-      {siteID, userID, siteOwner},
+      { siteID, userID, siteOwner },
       {
         headers: this._buildHttpHeaders(),
       })
@@ -855,7 +855,7 @@ export class CentralServerService {
   }
 
   public exportTransactionsToRefund(params: { [param: string]: string | string[]; },
-                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
     this._checkInit();
     this._getPaging(paging, params);
     this._getSorting(ordering, params);
@@ -1127,7 +1127,7 @@ export class CentralServerService {
       );
   }
 
-  public SynchronizeUsersForBilling(): Observable<SynchronizeResponse> {
+  public synchronizeUsersForBilling(): Observable<SynchronizeResponse> {
     this._checkInit();
     // Execute the REST service
     return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
@@ -1977,11 +1977,11 @@ export class CentralServerService {
     this._checkInit();
     // Execute the REST service
     const body = (args ?
-        `{
+      `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-        `{
+      `{
         "chargeBoxID": "${id}"
       }`
     );

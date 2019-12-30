@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transaction/transaction-dialog.component';
+import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transactions-dialog.component';
 import { LocaleService } from '../../../services/locale.service';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
@@ -18,9 +18,9 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 })
 export class ChargingStationsTransactionDetailComponentCellComponent extends CellContentTemplateComponent implements OnInit {
   @Input() row: any;
-  locale: string;
-  displaySessionAuthorized: boolean;
-  dialogRef: MatDialogRef<TransactionDialogComponent>;
+  locale!: string;
+  displaySessionAuthorized!: boolean;
+  dialogRef!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
       private localeService: LocaleService,

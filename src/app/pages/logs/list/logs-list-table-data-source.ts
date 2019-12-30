@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

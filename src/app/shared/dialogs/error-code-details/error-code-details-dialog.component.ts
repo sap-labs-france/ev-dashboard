@@ -5,11 +5,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './error-code-details-dialog.component.html',
 })
 export class ErrorCodeDetailsDialogComponent {
-  error: ErrorMessage;
+  error!: ErrorMessage;
 
   constructor(
     protected dialogRef: MatDialogRef<ErrorCodeDetailsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     if (data) {
       this.error = data;
     }

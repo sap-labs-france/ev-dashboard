@@ -6,7 +6,7 @@ import { CentralServerService } from '../../services/central-server.service';
   templateUrl: './authentication-eula.component.html',
 })
 export class AuthenticationEulaComponent implements OnInit {
-  public eulaText: string;
+  public eulaText!: string;
 
   constructor(
     private translateService: TranslateService,

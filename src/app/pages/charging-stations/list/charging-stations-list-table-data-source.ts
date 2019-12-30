@@ -18,7 +18,7 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-//@ts-ignore
+// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -32,7 +32,7 @@ import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
-import { ChargingStationSmartChargingDialogComponent } from '../smart-charging/charging-station-smart-charging.dialog.component';
+import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {

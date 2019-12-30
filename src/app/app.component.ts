@@ -13,7 +13,7 @@ import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe'
 })
 
 export class AppComponent implements OnInit, AfterViewInit {
-  private _router: Subscription;
+  private _router!: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       const body = document.getElementsByTagName('body')[0];
       const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
       if (body.classList.contains('modal-open')) {
@@ -38,6 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         modalBackdrop.remove();
       }
     });
+    // @ts-ignore
     this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe((event: NavigationStart) => {
       let url = event.url;
       let modified = false;

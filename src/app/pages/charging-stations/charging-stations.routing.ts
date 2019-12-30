@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { RouteGuardService } from '../../services/route-guard.service';
+import { RouteGuardService } from '../../guard/route-guard';
 import { Constants } from '../../utils/Constants';
-import { ChargingStationComponent } from './charging-station/charging-station.component';
+import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 
 export const ChargingStationsRoutes: Routes = [
   {
-    path: ':id', component: ChargingStationComponent, canActivate: [RouteGuardService], data: {
+    path: ':id', component: ChargingStationDialogComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Constants.ENTITY_CHARGING_STATION,
         action: Constants.ACTION_READ,

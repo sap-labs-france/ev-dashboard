@@ -8,6 +8,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
@@ -18,8 +19,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsBillingComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public billingSettings: BillingSettings;
+  public formGroup!: FormGroup;
+  public billingSettings!: BillingSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -60,7 +61,7 @@ export class SettingsBillingComponent implements OnInit {
     });
   }
 
-  public save(content) {
+  public save(content: BillingSettings) {
     // Stripe
     if (content.stripe) {
       this.billingSettings.stripe = content.stripe;
@@ -115,33 +116,12 @@ export class SettingsBillingComponent implements OnInit {
   }
 
   public synchronizeUsers() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.synchronize_users_dialog_title'),
-      this.translateService.instant('settings.billing.synchronize_users_dialog_confirm'),
-    ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
-        this.messageService.showInfoMessage('settings.billing.synchronize_users_started');
-        this.centralServerService.SynchronizeUsersForBilling().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
-            if (synchronizeResponse.synchronized) {
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',
-                {number: synchronizeResponse.synchronized}));
-            } else if (!synchronizeResponse.error) {
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success_all'));
-            }
-            if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure',
-                {number: synchronizeResponse.error}));
-            }
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.billing.synchronize_users_error');
-        });
-      }
-    });
+    new TableSyncBillingUsersAction().getActionDef().action(
+      this.dialogService,
+      this.translateService,
+      this.messageService,
+      this.centralServerService,
+      this.router,
+      );
   }
-
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+// @ts-ignore
 import io from 'socket.io-client';
 import { SubjectInfo } from '../common.types';
 import { Constants } from '../utils/Constants';
 
 @Injectable()
 export class CentralServerNotificationService {
-  private centralRestServerServiceURL: string;
+  private centralRestServerServiceURL!: string;
   private subjectTenants = new Subject<SubjectInfo>();
   private subjectTenant = new Subject<SubjectInfo>();
   private subjectChargingStations = new Subject<SubjectInfo>();
@@ -31,9 +32,9 @@ export class CentralServerNotificationService {
   private subjectOcpiEndpoints = new Subject<SubjectInfo>();
   private subjectOcpiEndpoint = new Subject<SubjectInfo>();
   private subjectAnalyticsLinks = new Subject<SubjectInfo>();
-  private socket;
+  private socket: any;
 
-  public setcentralRestServerServiceURL(url) {
+  public setcentralRestServerServiceURL(url: string) {
     this.centralRestServerServiceURL = url;
   }
 
@@ -147,7 +148,6 @@ export class CentralServerNotificationService {
 
       // Monitor Company
       this.socket.on(Constants.ENTITY_COMPANY, (notifInfo) => {
-        // Notify
         this.subjectCompany.next(notifInfo);
       });
 

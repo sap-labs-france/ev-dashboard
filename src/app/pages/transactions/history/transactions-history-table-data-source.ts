@@ -17,7 +17,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
@@ -38,6 +38,7 @@ import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -214,6 +215,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
+      new TransactionsInactivityStatusFilter().getFilterDef()
     ];
 
     // Show Site Area Filter If Organization component is active

@@ -1,3 +1,4 @@
+import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
 import { ComponentType } from './services/component.service';
 import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
@@ -62,13 +63,14 @@ export interface TableActionDef {
   isDropdownMenu?: boolean;
   dropdownItems?: DropdownItem[];
   tooltip: string;
+  action?(...args: any[]): void;
 }
 
 export interface Data {
   id: string|number;
-  isSelected: boolean;
-  isSelectable: boolean;
-  isExpanded: boolean;
+  isSelected?: boolean;
+  isSelectable?: boolean;
+  isExpanded?: boolean;
 }
 
 export interface DataResult<T extends Data> {
@@ -241,18 +243,12 @@ export interface Connector extends Data {
   activeTransactionDate: Date;
   activeTagID: string;
   statusLastChangedOn?: Date;
-  inactivityStatusLevel: InactivityStatusLevel;
+  inactivityStatus: InactivityStatus;
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
 }
-
-export type InactivityStatusLevel =
- 'info' |
- 'warning' |
- 'danger'
-;
 
 export interface Charger extends Data {
   id: string;
@@ -269,7 +265,6 @@ export interface Charger extends Data {
   endpoint: string;
   ocppVersion: string;
   lastHeartBeat: Date;
-  lastHeartBeatChanged: boolean;
   inactive: boolean;
   chargingStationURL: string;
   numberOfConnectedPhase: number;
@@ -493,6 +488,8 @@ export interface CurrentMetrics {
 
 export interface TableDef {
   class?: string;
+  isEditable?: boolean;
+  errorMessage?: string;
   rowSelection?: {
     enabled: boolean;
     multiple?: boolean;
@@ -522,6 +519,9 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
+  editType?: 'radiobutton'|'checkbox'|'input';
+  validators?: ValidatorFn[];
+  errorMessage?: string;
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;
@@ -537,6 +537,12 @@ export interface TableSearch {
   search: string;
 }
 
+export enum InactivityStatus {
+  INFO = 'I',
+  WARNING = 'W',
+  ERROR = 'E',
+}
+
 export interface Transaction extends Data {
   id: number;
   timestamp: Date;
@@ -548,7 +554,7 @@ export interface Transaction extends Data {
   currentConsumption: number;
   currentTotalConsumption: number;
   currentTotalInactivitySecs: number;
-  currentInactivityStatusLevel: InactivityStatusLevel;
+  currentInactivityStatus: InactivityStatus;
   currentTotalDurationSecs: number;
   stateOfCharge: number;
   currentStateOfCharge: number;
@@ -576,7 +582,7 @@ export interface Transaction extends Data {
     totalDurationSecs: number;
     price: number;
     priceUnit: string;
-    inactivityStatusLevel: InactivityStatusLevel;
+    inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
   values: ConsumptionValue[];
@@ -587,11 +593,11 @@ export interface TransactionInError extends Transaction {
   errorMessage: ErrorMessage;
 }
 
-export interface Tag {
+export interface Tag extends Data {
   id: string;
-  internal: boolean;
+  issuer: boolean;
   userID?: string;
-  provider?: string;
+  description?: string;
   deleted?: boolean;
   lastChangedBy?: Partial<User>;
   lastChangedOn?: Date;
@@ -627,6 +633,7 @@ export interface User extends Data {
     sendUserAccountInactivity?: boolean;
     sendPreparingSessionNotStarted?: boolean;
     sendOfflineChargingStations?: boolean;
+    sendBillingSynchronizationFailed?: boolean;
   };
   address: Address;
   iNumber: string;
@@ -858,5 +865,21 @@ export interface RefundSettings {
     expenseTypeCode: string;
     policyId: string;
     reportName: string;
+  };
+}
+
+export enum SmartChargingSettingsType {
+  SAP_SMART_CHARGING = 'sapSmartCharging',
+}
+
+export interface SmartChargingSettings {
+  id?: string;
+  identifier: ComponentType.SMART_CHARGING;
+  type: SmartChargingSettingsType;
+  sensitiveData: string[];
+  sapSmartCharging: {
+    optimizerUrl: string;
+    user: string;
+    password: string;
   };
 }

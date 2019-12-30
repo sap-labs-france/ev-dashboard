@@ -1,9 +1,9 @@
 // tslint:disable-next-line:max-line-length
-import { AfterViewInit, Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, GetDiagnosticResponse } from 'app/common.types';
+import { Charger, GetDiagnosticResponse, KeyValue } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -19,9 +19,9 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationsGetDiagnosticsComponent {
-  @Input() charger: Charger;
-  public userLocales;
-  public isAdmin;
+  @Input() charger!: Charger;
+  public userLocales: KeyValue[];
+  public isAdmin: boolean;
 
   public fileURL = '';
   public fileName = 'No file';
@@ -48,8 +48,8 @@ export class ChargingStationsGetDiagnosticsComponent {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  changeURL(event) {
-    this.fileURL = event.target.value;
+  changeURL(value: string) {
+    this.fileURL = value;
   }
 
   triggerAction() {
@@ -65,7 +65,11 @@ export class ChargingStationsGetDiagnosticsComponent {
           const date = new Date();
           date.setHours(0, 0, 0, 0);
           // tslint:disable-next-line:max-line-length
-          this.centralServerService.actionChargingStation('ChargingStationGetDiagnostics', this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`).subscribe((response: GetDiagnosticResponse) => {
+          this.centralServerService.actionChargingStation(
+                'ChargingStationGetDiagnostics',
+                this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`
+              // @ts-ignore
+              ).subscribe((response: GetDiagnosticResponse) => {
             if (response.fileName && response.fileName.length > 0) {
               this.fileName = response.fileName;
               // success + reload
@@ -75,7 +79,7 @@ export class ChargingStationsGetDiagnosticsComponent {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.more_actions.get_diagnostics_error'));
             }
-          }, (error) => {
+          }, (error: any) => {
             this.spinnerService.hide();
             this.dialog.closeAll();
             Utils.handleHttpError(

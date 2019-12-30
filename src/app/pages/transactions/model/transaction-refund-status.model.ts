@@ -1,5 +1,4 @@
 import { KeyValue } from '../../../common.types';
-import { Constants } from '../../../utils/Constants';
 
 export const transactionRefundStatus: KeyValue[] = [
   {key: 'notSubmitted', value: 'transactions.refund_undefined'},

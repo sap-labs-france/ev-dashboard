@@ -1,16 +1,16 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { User } from 'app/common.types';
 
 @Component({
   templateUrl: 'user.dialog.component.html',
 })
 export class UserDialogComponent {
-  userID: string;
+  userID!: string;
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
+    @Inject(MAT_DIALOG_DATA) data: User) {
     if (data) {
       this.userID = data.id;
     }

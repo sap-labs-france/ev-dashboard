@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { RouteGuardService } from '../../services/route-guard.service';
+import { RouteGuardService } from '../../guard/route-guard';
 import { Constants } from '../../utils/Constants';
 import { DashboardComponent } from './dashboard.component';
 

@@ -6,7 +6,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   template: `
     <span>
       <ng-container>
-        <span [ngClass]="(row.stop ? row.stop.inactivityStatusLevel : row.currentInactivityStatusLevel) | appColorByLevel">
+        <span [ngClass]="(row.stop ? row.stop.inactivityStatus : row.currentInactivityStatus) | appColorByStatus">
           {{(row.stop ? row.stop.totalInactivitySecs : row.currentTotalInactivitySecs) | appInactivity:(row.stop ? row.stop.totalDurationSecs : row.currentTotalDurationSecs)}}
         </span>
       </ng-container>

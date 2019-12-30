@@ -24,7 +24,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.18",
+    "last_update": "Version 2.1.19",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -367,6 +367,7 @@
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site",
     "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'",
     "update_set_site_owner_success": "L'utilisateur '{{userName}}' est désormais propriétaire du site",
+    "update_remove_site_owner_success": "L'utilisateur '{{userName}}' n'est désormais plus le propriétaire du site",
     "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
   },
   "site_areas": {
@@ -492,33 +493,43 @@
     "total_usage_year": "Utilisation Totale {{year}}",
     "consumption_per_cs_month_title": "Consommation des bornes par mois (au total : {{total}} kW.h)",
     "consumption_per_cs_year_title": "Consommation des bornes par an : {{total}} kW.h",
+    "consumption_per_cs_timeFrame_title": "Consommation des bornes : ({{total}} kW.h)",
     "consumption_per_cs_total_title": "Consommation totale des bornes : {{total}} kW.h",
     "consumption_per_user_month_title": "Consommation des utilisateurs par mois (au total : {{total}} kW.h)",
     "consumption_per_user_year_title": "Consommation des utilisateurs par an : {{total}} kW.h",
+    "consumption_per_user_timeFrame_title": "Consommation des utilisateurs : {{total}} kW.h",
     "consumption_per_user_total_title": "Consommation totale des utilisateurs : {{total}} kW.h",
     "usage_per_cs_month_title": "Utilisation des bornes par mois (au total : {{total}} heures)",
     "usage_per_cs_year_title": "Utilisation des bornes par an : {{total}} heures",
-    "usage_per_cs_total_title": "Utilisation totale des bornes : {{total}} hours",
+    "usage_per_cs_timeFrame_title": "Utilisation des bornes : {{total}} heures",
+    "usage_per_cs_total_title": "Utilisation totale des bornes : {{total}} heures",
     "usage_per_user_month_title": "Utilisation des utilisateurs par mois (au total : {{total}} heures)",
     "usage_per_user_year_title": "Utilisation des utilisateurs par an : {{total}} heures",
-    "usage_per_user_total_title": "Utilisation totale des utilisateurs : {{total}} hours",
+    "usage_per_user_timeFrame_title": "Utilisation des utilisateurs : {{total}} heures",
+    "usage_per_user_total_title": "Utilisation totale des utilisateurs : {{total}} heures",
     "inactivity_per_cs_month_title": "Inactivité des bornes par mois (au total : {{total}} heures)",
     "inactivity_per_cs_year_title": "Inactivité des bornes par an : {{total}} heures",
-    "inactivity_per_cs_total_title": "Inactivité totale des bornes : {{total}} hours",
+    "inactivity_per_cs_timeFrame_title": "Inactivité des bornes : {{total}} heures",
+    "inactivity_per_cs_total_title": "Inactivité totale des bornes : {{total}} heures",
     "inactivity_per_user_month_title": "Inactivité des utilisateurs par mois (au total : {{total}} heures)",
     "inactivity_per_user_year_title": "Inactivité des utilisateurs par an : {{total}} heures",
-    "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} hours",
+    "inactivity_per_user_timeFrame_title": "Inactivité des utilisateurs : {{total}} heures",
+    "inactivity_per_user_total_title": "Inactivité totale des utilisateurs : {{total}} heures",
     "transactions_per_cs_month_title": "Sessions des bornes par mois (au total : {{total}})",
     "transactions_per_cs_year_title": "Sessions des bornes par an : {{total}}",
+    "transactions_per_cs_timeFrame_title": "Sessions des bornes : {{total}}",
     "transactions_per_cs_total_title": "Sessions totales des bornes : {{total}}",
     "transactions_per_user_month_title": "Sessions des utilisateurs par mois (au total : {{total}})",
     "transactions_per_user_year_title": "Sessions des utilisateurs par an : {{total}}",
+    "transactions_per_user_timeFrame_title": "Sessions des utilisateurs : {{total}}",
     "transactions_per_user_total_title": "Sessions totales des utilisateurs : {{total}}",
     "pricing_per_cs_month_title": "Prix des bornes par mois (au total : {{total}})",
     "pricing_per_cs_year_title": "Prix des bornes par an : {{total}}",
+    "pricing_per_cs_timeFrame_title": "Prix totaux des bornes : {{total}}",
     "pricing_per_cs_total_title": "Prix totaux des bornes : {{total}}",
     "pricing_per_user_month_title": "Prix des utilisateurs par mois (au total : {{total}})",
     "pricing_per_user_year_title": "Prix des utilisateurs par an : {{total}}",
+    "pricing_per_user_timeFrame_title": "Prix totaux des utilisateurs : {{total}}",
     "pricing_per_user_total_title": "Prix totaux des utilisateurs : {{total}}",
     "hours": "heures",
     "total": "Total",
@@ -657,8 +668,10 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
+      "static_limit": "Limite Statique",
+      "charging_profile_limit": "Profile de Charge",
       "reset_button": "Rafraichir",
-      "maximum_energy_limit": "Limiter la puissance de '{{chargeBoxID}}' à",
+      "maximum_energy_limit": "Puissance Limite de '{{chargeBoxID}}' à",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
       "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
@@ -900,8 +913,9 @@
     "user_not_found": "Utilisateur inconnu",
     "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
     "invalid_phone_number": "Numéro de téléphone invalide",
-    "invalid_tag_ids": "Seulement les lettres et les nombres sont autorisés",
-    "invalid_plate_id": "Seulement les lettres majuscules, les nombres et '-' sont autorisés",
+    "missing_tag": "Cette liste doit contenir au moins un badge",
+    "invalid_tag_id": "Seuls les chiffres et les lettres sont autorisés",
+    "invalid_plate_id": "Seuls les lettres majuscules, les chiffres et '-' sont autorisés",
     "locale": "Language",
     "locale_invalid": "Locale invalide",
     "locale_desc_english": "Anglais",
@@ -967,6 +981,9 @@
     "update_set_site_admin_success": "L'utilisateur est désormais administrateur du site '{{siteName}}'",
     "update_remove_site_admin_success": "L'utilisateur '{{userName}}' n'est désormais plus administrateur du site '{{siteName}}' ",
     "update_site_admin_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}'",
+    "update_set_site_owner_success": "L'utilisateur est maintenant le propriétaire du site '{{siteName}}",
+    "update_remove_site_owner_success": "L'utilisateur n'est plus le propriétaire du site '{{siteName}}'",
+    "update_site_owner_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès de l'utilisateur au site '{{siteName}}'",
     "assign_transactions_title": "Assignation des Sessions",
     "assign_transactions_confirm": "{{count}} session(s) orpheline(s) a(ont) été trouvée(s). Voulez-vous les assigner a cet utilisateur ?",
     "assign_transactions_success": "Toutes les sessions orphelines ont été correctement assignées à l'utilisateur '{{userFullName}}'",
@@ -999,8 +1016,7 @@
   },
   "tags": {
     "id": "ID",
-    "provider": "Emetteur",
-    "internal": "Interne"
+    "issuer": "Emetteur"
   },
   "tenants": {
     "title": "Organisation",
@@ -1021,7 +1037,8 @@
     "delete_success": "L'organisation '{{name}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
     "save_error_refund": "Pricing doit être actif pour utiliser Remboursement",
-    "save_error_billing": "Pricing doit être actif pour utiliser Billing"
+    "save_error_billing": "Pricing doit être actif pour utiliser Billing",
+    "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging"
   },
   "settings": {
     "tabs": {
@@ -1030,7 +1047,8 @@
       "refund": "Remboursement",
       "pricing": "Pricing",
       "billing": "Billing",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "smartCharging": "Charge Intelligente"
     },
     "ocpi": {
       "gireve": {
@@ -1169,6 +1187,21 @@
       "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud"
     },
+    "smartCharging": {
+      "sapSmartCharging": {
+        "title": "SAP Smart Charging",
+        "settings": "Configuration",
+        "user": "Utilisateur",
+        "password": "Mot de passe"
+      },
+      "description": "E-Mobility est capable d'utiliser des algorithmes de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des évènements divers",
+      "setting_do_not_exist": "La configuration n'existe pas",
+      "setting_not_found": "La configuration n'a pas été trouvée",
+      "create_success": "La configuration de SAP Smart Charging a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Smart Charging",
+      "update_success": "La configuration SAP Smart Charging a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
+    },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
   },
@@ -1291,6 +1324,12 @@
       "url": "URL"
     }
   },
+  "smartCharging": {
+    "title": "Charge Intelligente",
+    "type_placeholder": "Type",
+    "description": "Charge Intelligente",
+    "optimizerUrl": "URL Optimisateur"
+  },
   "refund": {
     "title": "Remboursement",
     "type_placeholder": "Type",
@@ -1349,6 +1388,9 @@
     "delete_transaction_confirm": "Voulez-vous vraiment supprimer la session de '{{userFullName}}' sur '{{chargeBoxID}}'?",
     "delete_transaction_success": "La session a été supprimée avec succès",
     "delete_transaction_error": "Une erreur est survenue pendant la suppression de la session",
+    "inactivity_info": "Toutes les Inactivités",
+    "inactivity_warning": "Inactivités Moyennes",
+    "inactivity_error": "Inactivités Importantes",
     "refund": "Refund",
     "refund_transaction_title": "Rembourser Session",
     "refund_transaction_confirm": "Voulez-vous vraiment rembourser la session de '{{userFullName}}' sur '{{chargeBoxID}}'?",
@@ -1511,6 +1553,7 @@
     "charging-stations-offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
     "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
-    "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué"
+    "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
+    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de Billing a échoué"
   }
 }

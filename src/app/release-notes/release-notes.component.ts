@@ -34,7 +34,8 @@ export class ReleaseNotesComponent {
               `Billing: Add User synchronization in User's list`,
               `Billing: Add a job to synchronize Billing information`,
               `eMSP Locations: Store CPO Charging Stations`,
-              `Notification: Admins are notified when billing user's synchronization has failed`
+              `Notification: Admins are notified when billing user's synchronization has failed`,
+              `All Lists: Optimized performances by optimizing third party libs import usages`
             ],
           },
         ],

@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `TypeScript: migration of Settings`,
               `Billing: Add User synchronization in User's list`,
+              `Billing: Add a job to synchronize Billing information`,
               `eMSP Locations: Store CPO Charging Stations`,
               `Notification: Admins are notified when billing user's synchronization has failed`,
             ],

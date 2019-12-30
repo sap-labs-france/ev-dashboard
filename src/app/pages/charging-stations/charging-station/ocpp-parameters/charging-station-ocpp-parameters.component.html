@@ -24,12 +24,11 @@
             <th class="text-left">{{item.key | translate}}</th>
             <td class="d-flex flex-grow-1 justify-content-center">
               <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="changeParameter(item)"
-                      appTooltip data-toggle="tooltip" [title]="item.tooltip | translate">
+                      appTooltip [title]="item.tooltip | translate">
                 <mat-icon>{{item.icon}}</mat-icon>
               </button>
               <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="clearParameter(item)"
-                      [hidden]="item.icon === 'edit'" appTooltip data-toggle="tooltip"
-                      [title]="'general.cancel' | translate">
+                      [hidden]="item.icon === 'edit'" appTooltip [title]="'general.cancel' | translate">
                 <mat-icon>clear</mat-icon>
               </button>
             </td>

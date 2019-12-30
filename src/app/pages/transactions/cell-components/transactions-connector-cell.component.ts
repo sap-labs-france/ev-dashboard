@@ -7,7 +7,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
       <div class="row mx-0 px-0 align-items-center">
-        <div appTooltip data-toogle="tooltip" data-offset="0px, 8px" data-placement="bottom"
+        <div appTooltip data-offset="0px, 8px"
             [title]="row.currentConsumption | appTransactionsFormatConnector:'text' | translate"
             class="charger-connector-container">
           <div [class]="row.currentConsumption | appTransactionsFormatConnector:'class'">

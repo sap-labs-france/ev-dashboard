@@ -1,5 +1,5 @@
 <ng-container *ngIf="row.ocpp15Url">
-  <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip"
+  <div class="d-inline-block" appTooltip
        title="{{'settings.charging_station.copy_url_tooltip' | translate}}">1.5
     <button mat-icon-button color="primary"
             (click)="copyClipboard(row.ocpp15Url)">
@@ -8,7 +8,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="row.ocpp16Url">
-  <div class="d-inline-block" appTooltip data-placement="bottom" data-toggle="tooltip"
+  <div class="d-inline-block" appTooltip
        title="{{'settings.charging_station.copy_url_tooltip' | translate}}">1.6
     <button mat-icon-button color="primary"
             (click)="copyClipboard(row.ocpp16Url)">

@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <mat-form-field>
-            <span appTooltip data-toggle="tooltip" [title]="chargingStationURLTooltip | translate">
+            <span appTooltip [title]="chargingStationURLTooltip | translate">
             <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
               [formControl]="chargingStationURL" required [readOnly]="!isAdmin"/>
             </span>

@@ -777,7 +777,7 @@ export interface BillingSettings {
     periodicBillingAllowed: boolean;
     advanceBillingAllowed?: boolean;
     lastSynchronizedOn?: Date;
-    tax: PartialBillingTax;
+    taxID: string;
   };
 }
 

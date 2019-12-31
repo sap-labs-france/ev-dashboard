@@ -54,7 +54,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       immediateBillingAllowed: new FormControl(''),
       periodicBillingAllowed: new FormControl(''),
       lastSynchronizedOn: new FormControl(''),
-      tax: new FormControl('',
+      taxID: new FormControl('',
         Validators.compose([
           Validators.required,
         ]),
@@ -70,7 +70,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.stripeImmediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
     this.stripePeriodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
     this.stripeLastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
-    this.stripeTax = this.stripe.controls['tax'];
+    this.stripeTax = this.stripe.controls['taxID'];
     this.stripeTax.setValue('none');
 
     // Set data
@@ -111,8 +111,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
     }
     if (this.stripeTax) {
-      this.stripeTax.setValue(this.billingSettings.stripe.tax
-        ? this.billingSettings.stripe.tax : 'none');
+      this.stripeTax.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : 'none');
     }
   }
 

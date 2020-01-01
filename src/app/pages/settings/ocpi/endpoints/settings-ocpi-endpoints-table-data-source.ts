@@ -1,40 +1,31 @@
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {
-  DataResult,
-  DropdownItem,
-  OcpiEndpoint,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { DataResult, DropdownItem, OcpiEndpoint, SubjectInfo, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Utils } from 'app/utils/Utils';
-
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { TableUnregisterAction } from 'app/shared/table/actions/table-unregister-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
+
+
 
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
@@ -197,7 +188,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpoint, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
         this.showOcpiEndpointDialog(rowItem);
@@ -242,7 +233,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     });
   }
 
-  private deleteOcpiEndpoint(ocpiendpoint) {
+  private deleteOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { name: ocpiendpoint.name }),

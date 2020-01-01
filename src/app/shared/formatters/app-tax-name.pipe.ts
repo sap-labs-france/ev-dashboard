@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PartialBillingTax } from '../../common.types';
+import { BillingTax } from '../../common.types';
 
 @Pipe({name: 'appTaxName'})
 export class AppTaxName implements PipeTransform {
 
-  transform(tax: PartialBillingTax): string {
+  transform(tax: BillingTax): string {
     if (!tax) {
       return '';
     }

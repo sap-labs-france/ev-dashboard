@@ -13,7 +13,7 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiDetailTotalEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+  @Input() row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiEvsesTotal'})
@@ -31,5 +31,6 @@ export class AppFormatOcpiEvsesTotalPipe implements PipeTransform {
     if (type === 'text') {
       return (totalNbr > 0 ? totalNbr.toString() : '-');
     }
+    return '';
   }
 }

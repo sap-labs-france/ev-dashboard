@@ -6,22 +6,22 @@
     <h3 class="card-title">{{'settings.billing.stripe.title' | translate}}</h3>
   </div>
 
-  <div class="card-body" [formGroup]="stripe">
+  <div class="card-body">
     <div class="row" style="margin-top: 1em">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" formControlName="url"
+          <input appAutofocus matInput type="text" [formControl]="url"
                  placeholder="{{'settings.billing.stripe.url' | translate}}" required>
-          <mat-error *ngIf="stripeUrl.errors?.required">{{"general.mandatory_field"
+          <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
-          <mat-error *ngIf="stripeUrl.errors?.maxlength">
+          <mat-error *ngIf="url.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 200}"></div>
           </mat-error>
-          <mat-error *ngIf="stripeUrl.errors?.pattern">
+          <mat-error *ngIf="url.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>
           </mat-error>
           <button mat-icon-button matSuffix aria-label="View" (click)="openUrl()"
-                  [disabled]="stripeUrl.errors?.pattern || stripeUrl.errors?.required">
+                  [disabled]="url.errors?.pattern || url.errors?.required">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
         </mat-form-field>
@@ -32,13 +32,13 @@
         <mat-form-field>
           <input appAutofocus matInput type="password"
                  placeholder="{{'settings.billing.stripe.secret_key' | translate}}"
-                 formControlName="secretKey" required>
-          <mat-error *ngIf="stripeSecretKey.errors?.required">{{"general.mandatory_field"
+                 [formControl]="secretKey" required>
+          <mat-error *ngIf="secretKey.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
-          <mat-error *ngIf="stripeSecretKey.errors?.maxlength">
+          <mat-error *ngIf="secretKey.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
           </mat-error>
-          <mat-error *ngIf="stripeSecretKey.errors?.invalid">
+          <mat-error *ngIf="secretKey.errors?.invalid">
             <div [translate]="'settings.billing.stripe.invalid_secret_key'"></div>
           </mat-error>
         </mat-form-field>
@@ -47,14 +47,14 @@
     <div class="row" style="margin-top: 1em">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" formControlName="publicKey"
+          <input appAutofocus matInput type="text" [formControl]="publicKey"
                  placeholder="{{'settings.billing.stripe.public_key' | translate}}" required>
-          <mat-error *ngIf="stripePublicKey.errors?.required">{{"general.mandatory_field"
+          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
-          <mat-error *ngIf="stripePublicKey.errors?.maxlength">
+          <mat-error *ngIf="publicKey.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
           </mat-error>
-          <mat-error *ngIf="stripePublicKey.errors?.invalid">
+          <mat-error *ngIf="publicKey.errors?.invalid">
             <div [translate]="'settings.billing.stripe.invalid_public_key'"></div>
           </mat-error>
         </mat-form-field>
@@ -68,7 +68,7 @@
     <div class="row">
       <div class="col-md-6 col-xl-6 text-left">
         <div class="form-group">
-          <mat-checkbox formControlName="immediateBillingAllowed">
+          <mat-checkbox [formControl]="immediateBillingAllowed">
             {{'settings.billing.stripe.immediate_billing' | translate}}
           </mat-checkbox>
         </div>
@@ -77,7 +77,7 @@
     <div class="row">
       <div class="col-md-6 col-xl-6 text-left">
         <div class="form-group">
-          <mat-checkbox formControlName="periodicBillingAllowed">
+          <mat-checkbox [formControl]="periodicBillingAllowed">
             {{'settings.billing.stripe.periodic_billing' | translate}}
           </mat-checkbox>
         </div>
@@ -86,9 +86,8 @@
     <div class="row">
       <div class="col-md-6 text-left">
         <mat-form-field>
-          <mat-select formControlName="taxID" placeholder="{{'settings.billing.stripe.tax' | translate}}">
-            <mat-option value="none">{{'settings.billing.stripe.no_tax' | translate}}</mat-option>
-            <mat-option *ngFor="let tax of availableStripeTaxes" [value]="tax.id">
+          <mat-select [formControl]="taxID" placeholder="{{'settings.billing.stripe.tax' | translate}}">
+            <mat-option *ngFor="let tax of taxes" [value]="tax.id">
               {{ tax | appTaxName}}
             </mat-option>
           </mat-select>

@@ -1,9 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillingSettings, PartialBillingTax } from 'app/common.types';
+import { BillingSettings, BillingTax } from 'app/common.types';
 import { Constants } from 'app/utils/Constants';
 import { CentralServerService } from '../../../../services/central-server.service';
-import { StripeToolBox } from './StripeToolbox';
 
 export class StripeBillingConstants {
   public static BILLING_METHOD_IMMEDIATE = 'immediate';
@@ -15,18 +14,18 @@ export class StripeBillingConstants {
   templateUrl: 'settings-stripe.component.html',
 })
 export class SettingsStripeComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() billingSettings: BillingSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() billingSettings!: BillingSettings;
 
-  public stripe: FormGroup;
-  public stripeUrl: AbstractControl;
-  public stripeSecretKey: AbstractControl;
-  public stripePublicKey: AbstractControl;
-  public stripeImmediateBillingAllowed: AbstractControl;
-  public stripePeriodicBillingAllowed: AbstractControl;
-  public stripeLastSynchronizedOn: AbstractControl;
-  public stripeTax: AbstractControl;
-  public availableStripeTaxes: PartialBillingTax[] = [];
+  public stripe!: FormGroup;
+  public url!: AbstractControl;
+  public secretKey!: AbstractControl;
+  public publicKey!: AbstractControl;
+  public immediateBillingAllowed!: AbstractControl;
+  public periodicBillingAllowed!: AbstractControl;
+  public lastSynchronizedOn!: AbstractControl;
+  public tax!: AbstractControl;
+  public taxes: BillingTax[] = [];
 
   ngOnInit() {
     this.stripe = new FormGroup({
@@ -48,7 +47,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
-          StripeToolBox.validatePublicKey,
+          this.validatePublicKey,
         ]),
       ),
       immediateBillingAllowed: new FormControl(''),
@@ -64,14 +63,13 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.formGroup.addControl('stripe', this.stripe);
 
     // Keep
-    this.stripeUrl = this.stripe.controls['url'];
-    this.stripeSecretKey = this.stripe.controls['secretKey'];
-    this.stripePublicKey = this.stripe.controls['publicKey'];
-    this.stripeImmediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
-    this.stripePeriodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
-    this.stripeLastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
-    this.stripeTax = this.stripe.controls['taxID'];
-    this.stripeTax.setValue('none');
+    this.url = this.stripe.controls['url'];
+    this.secretKey = this.stripe.controls['secretKey'];
+    this.publicKey = this.stripe.controls['publicKey'];
+    this.immediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
+    this.periodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
+    this.lastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
+    this.tax = this.stripe.controls['taxID'];
 
     // Set data
     this.updateFormData(true);
@@ -79,7 +77,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getBillingTaxes().subscribe((taxes) => {
-      this.availableStripeTaxes = taxes;
+      this.taxes = taxes;
     });
   }
 
@@ -87,35 +85,43 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  updateFormData(firstTime = false) {
-    // Set data
-    if (this.stripeUrl) {
-      this.stripeUrl.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
-    }
-    if (this.stripeSecretKey) {
-      this.stripeSecretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
-    }
-    if (this.stripePublicKey) {
-      this.stripePublicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
-    }
-    if (this.stripeImmediateBillingAllowed) {
-      this.stripeImmediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
+  private updateFormData(firstTime = false) {
+    if (this.stripe) {
+      // Set data
+      this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
+      this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
+      this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
+      this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
         ? this.billingSettings.stripe.immediateBillingAllowed : '');
-    }
-    if (this.stripePeriodicBillingAllowed) {
-      this.stripePeriodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
+      this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
         ? this.billingSettings.stripe.periodicBillingAllowed : '');
-    }
-    if (this.stripeLastSynchronizedOn) {
-      this.stripeLastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
+      this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
-    }
-    if (this.stripeTax) {
-      this.stripeTax.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : 'none');
+      this.tax.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
     }
   }
 
-  openUrl() {
-    window.open(this.stripeUrl.value);
+  public validatePublicKey(control: AbstractControl) {
+    // Check
+    if (!control.value || /(^pk_test_)/.test(control.value) || /(^pk_live_)/.test(control.value)) {
+      // Ok
+      return null;
+    }
+    return { invalid: true };
+  }
+
+  public validateSecretKey(control: AbstractControl) {
+    // Check
+    if (!control.value || /(^sk_test_)/.test(control.value) || /(^sk_live_)/.test(control.value)) {
+      // Ok
+      return null;
+    }
+    return { invalid: true };
+  }
+
+  public openUrl() {
+    if (this.url) {
+      window.open(this.url.value);
+    }
   }
 }

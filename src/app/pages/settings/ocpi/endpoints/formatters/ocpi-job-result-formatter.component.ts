@@ -13,7 +13,7 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiJobResultFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpoint;
+  @Input() row!: OcpiEndpoint;
 }
 
 @Pipe({name: 'appFormatOcpiJobResult'})
@@ -55,5 +55,6 @@ export class AppFormatOcpiJobResultPipe implements PipeTransform {
       }
       return text;
     }
+    return '';
   }
 }

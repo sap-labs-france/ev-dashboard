@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../app.module';
-
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
@@ -13,13 +12,12 @@ import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analyti
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
-import {
-  AppRegistrationTokenStatusPipe,
-  RegistrationTokenStatusComponent,
-} from './charging_station/registration-tokens/registration-token-status.component';
-import { RegistrationTokenUrlComponent } from './charging_station/registration-tokens/registration-token-url.component';
-import { RegistrationTokenComponent } from './charging_station/registration-tokens/registration-token.component';
-import { SettingsOcppComponent } from './charging_station/settings-ocpp.component';
+import { SettingsBillingComponent } from './billing/settings-billing.component';
+import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
+import { AppRegistrationTokenStatusPipe, RegistrationTokenStatusComponent } from './charging-station/registration-tokens/registration-token-status.component';
+import { RegistrationTokenUrlComponent } from './charging-station/registration-tokens/registration-token-url.component';
+import { RegistrationTokenComponent } from './charging-station/registration-tokens/registration-token.component';
+import { SettingsOcppComponent } from './charging-station/settings-ocpp.component';
 import { SettingsOcpiEnpointDialogComponent } from './ocpi/endpoints/dialog/settings-ocpi-endpoint-dialog.component';
 import { AppFormatOcpiEvsesFailurePipe, OcpiDetailFailureEvsesStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { AppFormatOcpiDetailJobStatusPipe, OcpiDetailJobStatusFomatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-job-status-formatter.component';
@@ -29,11 +27,6 @@ import { AppFormatOcpiJobResultPipe, OcpiJobResultFormatterComponent } from './o
 import { AppFormatOcpiPatchJobResultPipe, OcpiPatchJobResultFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-result-formatter.component';
 import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
 import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
-import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
-import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
-
-import { SettingsBillingComponent } from './billing/settings-billing.component';
-import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details.component';
 import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
@@ -46,6 +39,10 @@ import { SettingsConcurComponent } from './refund/concur/settings-concur.compone
 import { SettingsRefundComponent } from './refund/settings-refund.component';
 import { SettingsComponent } from './settings.component';
 import { SettingsRoutes } from './settings.routing';
+import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
+import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
+
+
 
 @NgModule({
   imports: [

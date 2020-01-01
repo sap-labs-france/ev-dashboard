@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OcpiSettings, OcpiSettingsType } from 'app/common.types';
+import { OcpiCommon, OcpiSettings, OcpiSettingsType } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -16,24 +16,24 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 export class SettingsOcpiComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public logoGroup: FormGroup;
+  public formGroup!: FormGroup;
+  public logoGroup!: FormGroup;
 
-  public cpoCountryCode: AbstractControl;
-  public cpoPartyID: AbstractControl;
-  public emspCountryCode: AbstractControl;
-  public emspPartyID: AbstractControl;
-  public website: AbstractControl;
+  public cpoCountryCode!: AbstractControl;
+  public cpoPartyID!: AbstractControl;
+  public emspCountryCode!: AbstractControl;
+  public emspPartyID!: AbstractControl;
+  public website!: AbstractControl;
 
-  public name: AbstractControl;
-  public logoURL: AbstractControl;
-  public logoThumbnail: AbstractControl;
-  public logoCategory: AbstractControl;
-  public logoType: AbstractControl;
-  public logoWidth: AbstractControl;
-  public logoHeight: AbstractControl;
+  public name!: AbstractControl;
+  public logoURL!: AbstractControl;
+  public logoThumbnail!: AbstractControl;
+  public logoCategory!: AbstractControl;
+  public logoType!: AbstractControl;
+  public logoWidth!: AbstractControl;
+  public logoHeight!: AbstractControl;
 
-  public ocpiSettings: OcpiSettings;
+  public ocpiSettings!: OcpiSettings;
 
   public logoTypes: any = [
     { key: '', description: '' },
@@ -180,7 +180,7 @@ export class SettingsOcpiComponent implements OnInit {
     });
   }
 
-  public save(content) {
+  public save(content: OcpiCommon) {
     this.ocpiSettings.ocpi = content;
     this.ocpiSettings.type = OcpiSettingsType.GIREVE;
     this.spinnerService.show();

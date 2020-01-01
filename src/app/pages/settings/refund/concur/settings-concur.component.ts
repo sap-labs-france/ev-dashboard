@@ -7,18 +7,18 @@ import { RefundSettings } from 'app/common.types';
   templateUrl: 'settings-concur.component.html',
 })
 export class SettingsConcurComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() refundSettings: RefundSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() refundSettings!: RefundSettings;
 
-  public concur: FormGroup;
-  public concurAuthenticationUrl: AbstractControl;
-  public concurApiUrl: AbstractControl;
-  public concurClientId: AbstractControl;
-  public concurClientSecret: AbstractControl;
-  public concurPaymentTypeId: AbstractControl;
-  public concurExpenseTypeCode: AbstractControl;
-  public concurPolicyId: AbstractControl;
-  public concurReportName: AbstractControl;
+  public concur!: FormGroup;
+  public concurAuthenticationUrl!: AbstractControl;
+  public concurApiUrl!: AbstractControl;
+  public concurClientId!: AbstractControl;
+  public concurClientSecret!: AbstractControl;
+  public concurPaymentTypeId!: AbstractControl;
+  public concurExpenseTypeCode!: AbstractControl;
+  public concurPolicyId!: AbstractControl;
+  public concurReportName!: AbstractControl;
 
   ngOnInit() {
     this.formGroup.addControl('concur',
@@ -93,7 +93,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
 
   updateFormData() {
     // Set data
-    if (this.concur) {
+    if (this.refundSettings && this.refundSettings.concur) {
       this.concurAuthenticationUrl.setValue(this.refundSettings.concur.authenticationUrl);
       this.concurApiUrl.setValue(this.refundSettings.concur.apiUrl ? this.refundSettings.concur.apiUrl : '');
       this.concurClientId.setValue(this.refundSettings.concur.clientId ? this.refundSettings.concur.clientId : '');

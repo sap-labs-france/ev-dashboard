@@ -9,7 +9,7 @@ import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-end
 })
 
 export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row: OcpiEndpoint;
+  @Input() row!: OcpiEndpoint;
 
   constructor(public settingsOcpiEnpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
     super();

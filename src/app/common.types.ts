@@ -781,7 +781,7 @@ export interface BillingSettings {
   };
 }
 
-export interface PartialBillingTax extends Data {
+export interface BillingTax extends Data {
   description: string;
   displayName: string;
   percentage: number;

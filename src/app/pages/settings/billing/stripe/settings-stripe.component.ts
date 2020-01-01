@@ -24,7 +24,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public immediateBillingAllowed!: AbstractControl;
   public periodicBillingAllowed!: AbstractControl;
   public lastSynchronizedOn!: AbstractControl;
-  public tax!: AbstractControl;
+  public taxID!: AbstractControl;
   public taxes: BillingTax[] = [];
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.immediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
     this.periodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
     this.lastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
-    this.tax = this.stripe.controls['taxID'];
+    this.taxID = this.stripe.controls['taxID'];
 
     // Set data
     this.updateFormData(true);
@@ -97,7 +97,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
         ? this.billingSettings.stripe.periodicBillingAllowed : '');
       this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
-      this.tax.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
+      this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
     }
   }
 

@@ -14,7 +14,7 @@ import { Constants } from '../../../../utils/Constants';
   `,
 })
 export class RegistrationTokenStatusComponent extends CellContentTemplateComponent {
-  @Input() row: RegistrationToken;
+  @Input() row!: RegistrationToken;
 }
 
 @Pipe({name: 'appRegistrationTokenStatus'})
@@ -26,6 +26,7 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
     if (type === 'text') {
       return this.buildStatusText(registrationToken);
     }
+    return '';
   }
 
   buildStatusClasses(registrationToken: RegistrationToken): string {
@@ -51,10 +52,12 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
   }
 
   private isExpired(registrationToken: RegistrationToken): boolean {
-      return registrationToken.expirationDate && moment().isAfter(registrationToken.expirationDate);
+    // @ts-ignore
+    return registrationToken.expirationDate && moment().isAfter(registrationToken.expirationDate);
   }
 
   private isRevoked(registrationToken: RegistrationToken): boolean {
+    // @ts-ignore
     return registrationToken.revocationDate && moment().isAfter(registrationToken.revocationDate);
   }
 }

@@ -3,20 +3,20 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Constants } from 'app/utils/Constants';
-import { KeyValue } from '../../../../common.types';
+import { AnalyticsLink, KeyValue } from '../../../../common.types';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 
 @Component({
   templateUrl: './analytics-link-dialog.component.html',
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public description: AbstractControl;
-  public role: AbstractControl;
-  public roleList: KeyValue[];
-  public url: AbstractControl;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public description!: AbstractControl;
+  public role!: AbstractControl;
+  public roleList!: KeyValue[];
+  public url!: AbstractControl;
 
   public currentLink: any;
 
@@ -24,7 +24,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Check if data is passed to the dialog
     if (data) {
       this.currentLink = data;
@@ -82,7 +82,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  setLinkAndClose(analyticsLink) {
+  setLinkAndClose(analyticsLink: AnalyticsLink) {
     this.dialogRef.close(analyticsLink);
   }
 

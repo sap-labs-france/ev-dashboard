@@ -12,5 +12,5 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
   `,
 })
 export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+  @Input() row!: OcpiEndpointDetail;
 }

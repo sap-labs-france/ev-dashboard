@@ -6,15 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  RegistrationToken,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from '../../../../common.types';
+import { DataResult, RegistrationToken, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../common.types';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -103,7 +95,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       {
         id: 'createdOn',
         name: 'general.created_on',
-        formatter: (createdOn) => this.datePipe.transform(createdOn),
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         sortable: true,
@@ -112,7 +104,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       {
         id: 'expirationDate',
         name: 'general.expired_on',
-        formatter: (expirationDate) => this.datePipe.transform(expirationDate),
+        formatter: (expirationDate: Date) => this.datePipe.transform(expirationDate),
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         direction: 'desc',
@@ -121,7 +113,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       {
         id: 'revocationDate',
         name: 'general.revoked_on',
-        formatter: (revocationDate) => this.datePipe.transform(revocationDate),
+        formatter: (revocationDate: Date) => this.datePipe.transform(revocationDate),
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         direction: 'desc',
@@ -130,7 +122,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       {
         id: 'siteAreaID',
         name: 'site_areas.title',
-        formatter: (siteAreaID, token) => {
+        formatter: (siteAreaID: string, token: any) => {
           if (token.siteArea) {
             return token.siteArea.name;
           }
@@ -159,6 +151,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
+    // @ts-ignore
     if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
       return [this.deleteAction];
     }
@@ -179,7 +172,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: RegistrationToken) {
     switch (actionDef.id) {
       case 'revoke':
         this.revokeToken(rowItem);

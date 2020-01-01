@@ -8,38 +8,38 @@ import { Constants } from 'app/utils/Constants';
   templateUrl: 'settings-sap-smart-charging.component.html',
 })
 export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() smartChargingSettings: SmartChargingSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() smartChargingSettings!: SmartChargingSettings;
 
-  public sapSmartCharging: FormGroup;
-  public optimizerUrl: AbstractControl;
-  public user: AbstractControl;
-  public password: AbstractControl;
+  public sapSmartCharging!: FormGroup;
+  public optimizerUrl!: AbstractControl;
+  public user!: AbstractControl;
+  public password!: AbstractControl;
 
   ngOnInit(): void {
-    this.formGroup.addControl('sapSmartCharging',
-      new FormGroup({
-        optimizerUrl: new FormControl('',
+    this.sapSmartCharging = new FormGroup({
+      optimizerUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ]),
-        ),
-        user: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100),
-          ]),
-        ),
-        password: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100),
-          ]),
-        ),
-      }),
-    );
-    this.sapSmartCharging = (this.formGroup.controls['sapSmartCharging'] as FormGroup);
+      ),
+      user: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(100),
+        ]),
+      ),
+      password: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(100),
+        ]),
+      ),
+    });
+    // Add
+    this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);
+    // Keep
     this.optimizerUrl = this.sapSmartCharging.controls['optimizerUrl'];
     this.user = this.sapSmartCharging.controls['user'];
     this.password = this.sapSmartCharging.controls['password'];

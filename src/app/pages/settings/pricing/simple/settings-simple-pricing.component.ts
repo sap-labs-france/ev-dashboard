@@ -7,12 +7,12 @@ import { PricingSettings } from 'app/common.types';
   templateUrl: 'settings-simple-pricing.component.html',
 })
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() pricingSettings: PricingSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() pricingSettings!: PricingSettings;
 
-  public simplePricing: FormGroup;
-  public price: AbstractControl;
-  public currency: AbstractControl;
+  public simplePricing!: FormGroup;
+  public price!: AbstractControl;
+  public currency!: AbstractControl;
 
   ngOnInit(): void {
     // Simple pricing

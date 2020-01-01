@@ -7,14 +7,14 @@ import { PricingSettings } from 'app/common.types';
   templateUrl: 'settings-convergent-charging.component.html',
 })
 export class SettingsConvergentChargingComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() pricingSettings: PricingSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() pricingSettings!: PricingSettings;
 
-  public convergentCharging: FormGroup;
-  public convergentChargingUrl: AbstractControl;
-  public convergentChargingChargeableItemName: AbstractControl;
-  public convergentChargingUser: AbstractControl;
-  public convergentChargingPassword: AbstractControl;
+  public convergentCharging!: FormGroup;
+  public convergentChargingUrl!: AbstractControl;
+  public convergentChargingChargeableItemName!: AbstractControl;
+  public convergentChargingUser!: AbstractControl;
+  public convergentChargingPassword!: AbstractControl;
 
   ngOnInit(): void {
     // Convergent Charging pricing

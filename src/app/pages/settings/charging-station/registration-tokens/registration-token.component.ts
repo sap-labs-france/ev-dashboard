@@ -4,7 +4,7 @@ import { MatCheckboxChange, MatDialogRef, MAT_DIALOG_DATA } from '@angular/mater
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { SiteArea } from '../../../../common.types';
+import { SiteArea, RegistrationToken } from '../../../../common.types';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -15,11 +15,11 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'registration-token.component.html',
 })
 export class RegistrationTokenComponent implements OnInit {
-  public formGroup: FormGroup;
-  public siteArea: AbstractControl;
-  public siteAreaID: AbstractControl;
-  public expirationDate: AbstractControl;
-  public description: AbstractControl;
+  public formGroup!: FormGroup;
+  public siteArea!: AbstractControl;
+  public siteAreaID!: AbstractControl;
+  public expirationDate!: AbstractControl;
+  public description!: AbstractControl;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -28,7 +28,7 @@ export class RegistrationTokenComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     protected dialogRef: MatDialogRef<RegistrationTokenComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
   }
 
   ngOnInit(): void {
@@ -39,6 +39,7 @@ export class RegistrationTokenComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100),
       ])),
+      // @ts-ignore
       expirationDate: new FormControl(moment().add(1, 'month'),
         Validators.compose([
           Validators.required,
@@ -54,7 +55,7 @@ export class RegistrationTokenComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  save(token) {
+  save(token: RegistrationToken) {
     this.spinnerService.show();
     this.centralServerService.createRegistrationToken(token).subscribe((response) => {
       this.spinnerService.hide();

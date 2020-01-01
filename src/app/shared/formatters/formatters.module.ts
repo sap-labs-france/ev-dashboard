@@ -13,6 +13,7 @@ import { AppDurationPipe } from './app-duration.pipe';
 import { AppFormatRowCellPipe } from './app-format-row-cell.pipe';
 import { AppInactivityPipe } from './app-inactivity.pipe';
 import { AppPercentPipe } from './app-percent-pipe';
+import { AppTaxName } from './app-tax-name.pipe';
 import { AppUnitPipe } from './app-unit.pipe';
 import { AppUserMultipleRolesPipe } from './app-user-multiple-roles.pipe';
 import { AppUserNamePipe } from './app-user-name.pipe';
@@ -36,6 +37,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppColorByStatusPipe,
     AppUserMultipleRolesPipe,
     AppPercentPipe,
+    AppTaxName,
   ],
   exports: [
     AppArrayToStringPipe,
@@ -54,6 +56,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppColorByStatusPipe,
     AppUserMultipleRolesPipe,
     AppPercentPipe,
+    AppTaxName,
   ],
   providers: [
     LocaleService,
@@ -72,6 +75,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppInactivityPipe,
     AppPercentPipe,
     AppColorByStatusPipe,
+    AppTaxName,
   ],
 })
 export class FormattersModule {

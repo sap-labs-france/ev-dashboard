@@ -13,7 +13,7 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiDetailFailureEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+  @Input() row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiEvsesFailure'})
@@ -28,5 +28,6 @@ export class AppFormatOcpiEvsesFailurePipe implements PipeTransform {
       }
       return classNames;
     }
+    return '';
   }
 }

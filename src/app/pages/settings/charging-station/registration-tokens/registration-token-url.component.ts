@@ -9,7 +9,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'registration-token-url.component.html',
 })
 export class RegistrationTokenUrlComponent extends CellContentTemplateComponent {
-  @Input() row: RegistrationToken;
+  @Input() row!: RegistrationToken;
 
   constructor(private messageService: MessageService) {
     super();

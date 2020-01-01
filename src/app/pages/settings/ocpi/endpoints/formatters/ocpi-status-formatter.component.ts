@@ -19,7 +19,7 @@ export const ocpiStatuses: KeyValue[] = [
   `,
 })
 export class OcpiEndpointStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpoint;
+  @Input() row!: OcpiEndpoint;
 }
 
 @Pipe({name: 'appFormatOcpiStatus'})
@@ -50,6 +50,7 @@ export class AppFormatOcpiStatusPipe implements PipeTransform {
           return ocpiStatus.value;
         }
       }
-      }
+    }
+    return '';
   }
 }

@@ -64,8 +64,8 @@ export class SettingsBillingComponent implements OnInit {
   public save(content: BillingSettings) {
     // Stripe
     if (content.stripe) {
-      this.billingSettings.stripe = content.stripe;
       this.billingSettings.type = BillingSettingsType.STRIPE;
+      this.billingSettings.stripe = content.stripe;
     } else {
       return;
     }
@@ -116,12 +116,15 @@ export class SettingsBillingComponent implements OnInit {
   }
 
   public synchronizeUsers() {
-    new TableSyncBillingUsersAction().getActionDef().action(
-      this.dialogService,
-      this.translateService,
-      this.messageService,
-      this.centralServerService,
-      this.router,
+    const actionDef = new TableSyncBillingUsersAction().getActionDef();
+    if (actionDef && actionDef.action) {
+      actionDef.action(
+        this.dialogService,
+        this.translateService,
+        this.messageService,
+        this.centralServerService,
+        this.router,
       );
+    }
   }
 }

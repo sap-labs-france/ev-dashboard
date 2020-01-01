@@ -777,7 +777,14 @@ export interface BillingSettings {
     periodicBillingAllowed: boolean;
     advanceBillingAllowed?: boolean;
     lastSynchronizedOn?: Date;
+    taxID: string;
   };
+}
+
+export interface BillingTax extends Data {
+  description: string;
+  displayName: string;
+  percentage: number;
 }
 
 export enum OcpiSettingsType {

@@ -1,36 +1,27 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {
-  AnalyticsLink,
-  DataResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsLink, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Constants } from 'app/utils/Constants';
-
 import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Constants } from 'app/utils/Constants';
+import { Observable } from 'rxjs';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
+
+
 
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink> {
   @Output() changed = new EventEmitter<boolean>();
-  private analyticsLinks: AnalyticsLink[];
+  private analyticsLinks!: AnalyticsLink[];
   private editAction = new TableEditAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -164,7 +155,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: AnalyticsLink, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
         this.showLinksDialog(rowItem);
@@ -217,7 +208,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     });
   }
 
-  private deleteLink(analyticsLink) {
+  private deleteLink(analyticsLink: AnalyticsLink) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('analytics.delete_title'),
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
@@ -233,7 +224,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     });
   }
 
-  private viewLink(analyticsLink) {
+  private viewLink(analyticsLink: AnalyticsLink) {
     window.open(analyticsLink.url);
   }
 }

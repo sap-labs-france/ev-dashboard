@@ -13,7 +13,7 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+  @Input() row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiDetailJobStatus'})
@@ -37,5 +37,6 @@ export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
         return 'ocpiendpoints.status_inactive';
       }
     }
+    return '';
   }
 }

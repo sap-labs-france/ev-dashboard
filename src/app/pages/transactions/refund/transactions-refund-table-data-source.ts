@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { RefundSettings } from 'app/types/Setting';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Transaction } from 'app/types/Transaction';
+import { User } from 'app/types/User';
 // @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionsResponse, DataResult, Setting, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionRefundDataResult, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -40,7 +45,7 @@ import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-s
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
   private refundTransactionEnabled = false;
-  private refundSetting!: Setting;
+  private refundSetting!: RefundSettings;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -333,7 +338,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     if (this.authorizationService.canListSettings()) {
       this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
-          this.refundSetting = settingResult.result[0];
+          this.refundSetting = settingResult.result[0] as RefundSettings;
         }
       });
     }

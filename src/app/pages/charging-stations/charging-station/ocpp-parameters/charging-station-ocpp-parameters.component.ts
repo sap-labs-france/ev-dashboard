@@ -4,10 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
+import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+// @ts-ignore
 import saveAs from 'file-saver';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
-import { Charger, ChargerConfiguration } from '../../../../common.types';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ConfigService } from '../../../../services/config.service';
@@ -23,19 +25,19 @@ import { Utils } from '../../../../utils/Utils';
 })
 @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() charger: Charger;
-  @ViewChild('searchInput', {static: false}) searchInput: ElementRef;
+  @Input() charger!: ChargingStation;
+  @ViewChild('searchInput', {static: false}) searchInput!: ElementRef;
   public searchPlaceholder = '';
-  public chargerConfiguration;
-  public loadedChargerConfiguration;
-  public userLocales;
-  public isAdmin;
+  public chargerConfiguration: any;
+  public loadedChargerConfiguration: any;
+  public userLocales: KeyValue[];
+  public isAdmin: boolean;
   public formGroup: FormGroup;
   isGetConfigurationActive = true;
-  @ViewChildren('parameter') parameterInput: QueryList<ElementRef>;
-  private messages;
+  @ViewChildren('parameter') parameterInput!: QueryList<ElementRef>;
+  private messages: any;
   private searchValue = '';
-  private alive: boolean;
+  private alive!: boolean;
 
   constructor(
     private configService: ConfigService,
@@ -111,7 +113,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getChargingStationConfiguration(this.charger.id).subscribe((configurationResult: ChargerConfiguration) => {
+    this.centralServerService.getChargingStationConfiguration(this.charger.id).subscribe((configurationResult: ChargingStationConfiguration) => {
       if (configurationResult && Array.isArray(configurationResult.configuration)) {
         this.chargerConfiguration = configurationResult.configuration;
       } else {
@@ -159,7 +161,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
   /**
    * saveConfiguration
    */
-  public saveConfiguration(item) {
+  public saveConfiguration(item: any) {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.set_configuration_title'),
@@ -223,7 +225,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     });
   }
 
-  public changeParameter(item) {
+  public changeParameter(item: any) {
     if (item.icon === 'edit') {
       if (this.charger.inactive) {
         // Charger is not connected
@@ -254,7 +256,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     }
   }
 
-  public clearParameter(item) {
+  public clearParameter(item: any) {
     // activate get configuration button
     this.isGetConfigurationActive = true;
     // Cancel input changes

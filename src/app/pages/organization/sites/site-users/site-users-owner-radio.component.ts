@@ -1,8 +1,8 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
-import { User, UserSite, UserToken } from '../../../../common.types';
+import { UserSite } from 'app/types/Site';
+import { UserToken } from 'app/types/User';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../../shared/table/cell-content-template/cell-content-template.component';

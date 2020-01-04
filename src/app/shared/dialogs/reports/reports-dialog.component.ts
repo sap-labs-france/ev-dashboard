@@ -1,13 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { KeyValue, Report } from '../../../common.types';
+import { KeyValue } from 'app/types/GlobalType';
+import { RefundReport } from 'app/types/Refund';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { ReportsDialogTableDataSource } from './reports-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
 })
-export class ReportsDialogComponent extends DialogTableDataComponent<Report> {
+export class ReportsDialogComponent extends DialogTableDataComponent<RefundReport> {
   constructor(
     protected dialogRef: MatDialogRef<ReportsDialogComponent>,
     private transactionsListTableDataSource: ReportsDialogTableDataSource,
@@ -20,7 +21,7 @@ export class ReportsDialogComponent extends DialogTableDataComponent<Report> {
     this.transactionsListTableDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: Report[]): KeyValue[] {
+  getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

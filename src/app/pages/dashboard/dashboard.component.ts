@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import * as moment from 'moment';
-import { CurrentMetrics } from '../../common.types';
 import { DashboardService } from '../../services/dashboard.service';
 import { AppDecimalPipe } from '../../shared/formatters/app-decimal-pipe';
 import { CardChartComponent, ChartButton, ChartData } from './card-chart/card-chart.component';
+import { CurrentMetrics } from 'app/types/Statistic';
 
 const SLIDE_INTERVAL = 60000;
 const REALTIME_INTERVAL = 10000;

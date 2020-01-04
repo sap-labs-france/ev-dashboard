@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { DataResult, DropdownItem, OcpiEndpoint, SubjectInfo, TableActionDef, TableColumnDef, TableDef } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -16,6 +15,10 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableRegisterAction } from 'app/shared/table/actions/table-register-action';
 import { TableUnregisterAction } from 'app/shared/table/actions/table-unregister-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';

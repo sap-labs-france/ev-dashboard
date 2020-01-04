@@ -14,6 +14,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
+import { Company } from 'app/types/Company';
 
 @Component({
   selector: 'app-company',
@@ -21,26 +22,26 @@ import { Utils } from 'app/utils/Utils';
 })
 export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentCompanyID: string;
-  @Input() inDialog: boolean;
-  @Input() dialogRef: MatDialogRef<any>;
+  @Input() currentCompanyID!: string;
+  @Input() inDialog!: boolean;
+  @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
   public logo: any = Constants.COMPANY_NO_LOGO;
-  public maxSize;
+  public maxSize: number;
 
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public coordinates: FormArray;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public address!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public coordinates!: FormArray;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -139,7 +140,7 @@ export class CompanyComponent implements OnInit {
     return this.inDialog;
   }
 
-  public setCurrentCompanyId(currentCompanyId) {
+  public setCurrentCompanyId(currentCompanyId: string) {
     this.currentCompanyID = currentCompanyId;
   }
 
@@ -215,26 +216,26 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  public updateCompanyLogo(company) {
+  public updateCompanyLogo(company: Company) {
     // Check no company?
     if (!this.logo.endsWith(Constants.COMPANY_NO_LOGO)) {
       // Set to company
       company.logo = this.logo;
     } else {
       // No logo
-      company.logo = null;
+      delete company.logo;
     }
   }
 
-  public saveCompany(company) {
+  public saveCompany(company: Company) {
     if (this.currentCompanyID) {
-      this._updateCompany(company);
+      this.updateCompany(company);
     } else {
-      this._createCompany(company);
+      this.createCompany(company);
     }
   }
 
-  public logoChanged(event) {
+  public logoChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -290,7 +291,7 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  private _createCompany(company) {
+  private createCompany(company: Company) {
     // Show
     this.spinnerService.show();
     // Set the logo
@@ -328,7 +329,7 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  private _updateCompany(company) {
+  private updateCompany(company: Company) {
     // Show
     this.spinnerService.show();
     // Set the logo

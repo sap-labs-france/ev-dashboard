@@ -1,8 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import { Constants } from 'app/utils/Constants';
-import { Log } from '../../../common.types';
 import { logLevels } from '../model/logs.model';
+import { Log } from 'app/types/Log';
 
 @Component({
   template: `
@@ -14,7 +14,7 @@ import { logLevels } from '../model/logs.model';
   `,
 })
 export class LogLevelFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: Log;
+  @Input() row!: Log;
 }
 
 @Pipe({name: 'appFormatLogLevel'})
@@ -26,6 +26,7 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     if (type === 'text') {
       return this.buildLogLevelText(logLevel);
     }
+    return '';
   }
 
   buildLogLevelClasses(logLevel: string): string {
@@ -59,5 +60,6 @@ export class AppFormatLogLevelPipe implements PipeTransform {
         return level.value;
       }
     }
+    return '';
   }
 }

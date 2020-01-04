@@ -1,6 +1,6 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
-import { Connector } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Connector } from 'app/types/ChargingStation';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
@@ -41,6 +41,7 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
     if (type === 'text') {
       return this.buildConnectorText(connector);
     }
+    return '';
   }
 
   buildConnectorClasses(connector: Connector): string {

@@ -3,13 +3,14 @@ import { Component, Injectable, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, GetDiagnosticResponse, KeyValue } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 
@@ -19,7 +20,7 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationsGetDiagnosticsComponent {
-  @Input() charger!: Charger;
+  @Input() charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
 

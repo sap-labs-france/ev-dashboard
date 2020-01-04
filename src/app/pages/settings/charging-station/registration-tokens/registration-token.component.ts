@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { RegistrationToken } from 'app/types/RegistrationToken';
+import { SiteArea } from 'app/types/SiteArea';
 import * as moment from 'moment';
-import { SiteArea, RegistrationToken } from '../../../../common.types';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';

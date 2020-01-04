@@ -1,5 +1,5 @@
-import { TableFilterDef } from 'app/common.types';
 import { TableFilter } from 'app/shared/table/filters/table-filter';
+import { TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { logHosts } from '../model/logs.model';
 

@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
-import { OcpiEndpoint } from '../../../../../common.types';
+import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';

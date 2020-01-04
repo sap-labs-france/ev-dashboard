@@ -1,4 +1,4 @@
-import { Charger, KeyValue } from 'app/common.types';
+import { ChargingStation } from 'app/types/ChargingStation';
 
 export class ChargingStations {
   public static convertAmpToW(numberOfConnectedPhase: number, maxIntensityInAmper: number) {
@@ -23,7 +23,7 @@ export class ChargingStations {
     }
   }
 
-  public static provideLimit(charger: Charger, value: number) {
+  public static provideLimit(charger: ChargingStation, value: number) {
     // Test purpose as it seems that schneider needs to have the power value for each connector
     if (charger.chargePointVendor === 'Schneider Electric' && charger.chargePointModel === 'MONOBLOCK') {
       return Math.round(value / 2);
@@ -32,7 +32,7 @@ export class ChargingStations {
     }
   }
 
-  public static getListOfMissingSettings(charger: Charger) {
+  public static getListOfMissingSettings(charger: ChargingStation) {
     return MANDATORY_SETTINGS_LIST.filter((mandatorySetting) => {
       if (mandatorySetting.key.startsWith('connectors.')) {
         for (const connector of charger.connectors) {

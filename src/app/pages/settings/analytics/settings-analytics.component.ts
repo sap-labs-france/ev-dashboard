@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AnalyticsSettings, AnalyticsSettingsType } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { ComponentService, ComponentType } from '../../../services/component.service';

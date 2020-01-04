@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { OcpiEndpoint } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { Constants } from 'app/utils/Constants';
 
 @Component({

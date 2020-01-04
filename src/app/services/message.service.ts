@@ -35,27 +35,23 @@ export class MessageService {
     this.showWarningMessage('general.user_or_tenant_updated');
   }
 
-  public showMessage(message: string, params?: object, title?: string) {
-    this._showMessage('primary', message, title, params);
-  }
-
   public showInfoMessage(message: string, params?: object, title?: string) {
-    this._showMessage('info', message, title, params);
+    this.showMessage('info', message, title, params);
   }
 
   public showWarningMessage(message: string, params?: object, title?: string) {
-    this._showMessage('warning', message, title, params);
+    this.showMessage('warning', message, title, params);
   }
 
   public showSuccessMessage(message: string, params?: object, title?: string) {
-    this._showMessage('success', message, title, params);
+    this.showMessage('success', message, title, params);
   }
 
   public showErrorMessage(message: string, params?: object, title?: string) {
-    this._showMessage('danger', message, title, params);
+    this.showMessage('danger', message, title, params);
   }
 
-  private _showMessage(type: string, message: string, title = '', params?: object, from = 'top', align = 'right', icon = 'notifications') {
+  private showMessage(type: string, message: string, title = '', params?: object, from = 'top', align = 'right', icon = 'notifications') {
     $.notify({
         icon,
         title,

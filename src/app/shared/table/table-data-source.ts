@@ -2,9 +2,11 @@ import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
-import { of, Observable } from 'rxjs';
+import { DataResult, Ordering, Paging } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { Data, DataResult, DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 

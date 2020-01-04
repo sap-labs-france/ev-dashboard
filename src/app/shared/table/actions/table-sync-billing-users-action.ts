@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ButtonColor, TableActionDef } from '../../../common.types';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';

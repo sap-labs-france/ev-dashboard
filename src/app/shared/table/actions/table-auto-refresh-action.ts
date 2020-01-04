@@ -1,4 +1,4 @@
-import { TableActionDef } from '../../../common.types';
+import { TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableAutoRefreshAction implements TableAction {

@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { AnalyticsLink, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -11,6 +10,10 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { SettingLink } from 'app/types/Setting';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Observable } from 'rxjs';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
@@ -19,9 +22,9 @@ import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component'
 
 
 @Injectable()
-export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink> {
+export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
   @Output() changed = new EventEmitter<boolean>();
-  private analyticsLinks!: AnalyticsLink[];
+  private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -42,15 +45,15 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return this.centralServerNotificationService.getSubjectAnalyticsLinks();
   }
 
-  public setLinks(analyticsLinks: AnalyticsLink[]) {
+  public setLinks(analyticsLinks: SettingLink[]) {
     this.analyticsLinks = analyticsLinks ? analyticsLinks : [];
   }
 
-  public getLinks(): AnalyticsLink[] {
+  public getLinks(): SettingLink[] {
     return this.analyticsLinks;
   }
 
-  public loadDataImpl(): Observable<DataResult<AnalyticsLink>> {
+  public loadDataImpl(): Observable<DataResult<SettingLink>> {
     return new Observable((observer) => {
       // Check
       if (this.analyticsLinks) {
@@ -114,7 +117,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
       {
         id: 'role',
         name: 'analytics.link.role',
-        formatter: (role) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
+        formatter: (role: string) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: false,
@@ -155,7 +158,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: AnalyticsLink, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: SettingLink, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
         this.showLinksDialog(rowItem);
@@ -181,7 +184,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return [];
   }
 
-  private showLinksDialog(analyticsLink?: AnalyticsLink) {
+  private showLinksDialog(analyticsLink?: SettingLink) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -208,7 +211,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     });
   }
 
-  private deleteLink(analyticsLink: AnalyticsLink) {
+  private deleteLink(analyticsLink: SettingLink) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('analytics.delete_title'),
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
@@ -224,7 +227,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     });
   }
 
-  private viewLink(analyticsLink: AnalyticsLink) {
+  private viewLink(analyticsLink: SettingLink) {
     window.open(analyticsLink.url);
   }
 }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BillingTax } from '../../common.types';
+import { BillingTax } from 'app/types/Billing';
 
 @Pipe({name: 'appTaxName'})
 export class AppTaxName implements PipeTransform {

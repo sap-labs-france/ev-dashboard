@@ -3,15 +3,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult } from 'app/types/DataResult';
+import { Site, SiteUser } from 'app/types/Site';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  SiteUser,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  User,
-} from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -27,7 +23,7 @@ import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component
 
 @Injectable()
 export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
-  private user: User;
+  private user!: User;
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
 
@@ -192,7 +188,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     dialogRef.afterClosed().subscribe((sites) => this.addSites(sites));
   }
 
-  private removeSites(siteIDs) {
+  private removeSites(siteIDs: string[]) {
     // Yes: Update
     this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe((response) => {
       // Ok?
@@ -213,7 +209,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     });
   }
 
-  private addSites(sites) {
+  private addSites(sites: Site[]) {
     // Check
     if (sites && sites.length > 0) {
       // Get the IDs

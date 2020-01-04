@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Charger } from '../../../common.types';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
@@ -12,5 +12,5 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 export class ChargingStationsConnectorsCellComponent extends CellContentTemplateComponent {
-  @Input() row: Charger;
+  @Input() row!: ChargingStation;
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, ChargerInError, Connector, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -15,12 +14,16 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Connector } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { ChargingStationInError, ErrorMessage } from 'app/types/InError';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ChargingStations } from '../../../utils/ChargingStations';
@@ -32,7 +35,7 @@ import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charg
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 
 @Injectable()
-export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargerInError> {
+export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
   private isAdmin: boolean;
   private actions = {
     missingSettings: [
@@ -85,14 +88,14 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadDataImpl(): Observable<DataResult<ChargerInError>> {
+  public loadDataImpl(): Observable<DataResult<ChargingStationInError>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargersInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
         this.formatErrorMessages(chargers.result);
         // Update details status
-        chargers.result.forEach((charger) => {
+        chargers.result.forEach((charger: ChargingStationInError) => {
           // At first filter out the connectors that are null
           charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
           charger.connectors.forEach((connector) => {
@@ -111,7 +114,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     });
   }
 
-  public getConnectors(id): Observable<Connector> {
+  public getConnectors(id: string): Observable<Connector>|null {
     this.getData().forEach((charger) => {
       if (charger.id === id) {
         return charger;
@@ -178,7 +181,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         name: 'errors.title',
         class: 'col-30p',
         sortable: true,
-        formatter: (value) => this.translateService.instant(`chargers.errors.${value}.title`),
+        formatter: (value: string) => this.translateService.instant(`chargers.errors.${value}.title`),
       },
     ];
   }
@@ -202,7 +205,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStationInError, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'reboot':
         this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
@@ -231,18 +234,20 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     }
   }
 
-  public onRowActionMenuOpen(action: TableActionDef, row: Charger) {
-    action.dropdownItems.forEach((dropDownItem) => {
-      if (dropDownItem.id === ACTION_SMART_CHARGING) {
-        // Check charging station version
-        dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
-          row.ocppVersion === Constants.OCPP_VERSION_15 ||
-          row.inactive;
-      } else {
-        // Check active status of CS
-        dropDownItem.disabled = row.inactive;
-      }
-    });
+  public onRowActionMenuOpen(action: TableActionDef, row: ChargingStationInError) {
+    if (action.dropdownItems) {
+      action.dropdownItems.forEach((dropDownItem) => {
+        if (dropDownItem.id === ACTION_SMART_CHARGING) {
+          // Check charging station version
+          dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
+            row.ocppVersion === Constants.OCPP_VERSION_15 ||
+            row.inactive;
+        } else {
+          // Check active status of CS
+          dropDownItem.disabled = row.inactive;
+        }
+      });
+    }
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -289,18 +294,25 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     ];
   }
 
-  buildTableDynamicRowActions(charger: ChargerInError) {
-    if (this.isAdmin) {
+  buildTableDynamicRowActions(charger: ChargingStationInError) {
+    if (this.isAdmin && charger.errorCode) {
       return this.actions[charger.errorCode];
     } else {
       return [];
     }
   }
 
-  private formatErrorMessages(chargersInError: ChargerInError[]) {
+  private formatErrorMessages(chargersInError: ChargingStationInError[]) {
     chargersInError.forEach((chargerInError) => {
       const path = `chargers.errors.${chargerInError.errorCode}`;
-      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      const errorMessage: ErrorMessage = {
+        title: `${path}.title`,
+        titleParameters: {},
+        description: `${path}.description`,
+        descriptionParameters: {},
+        action: `${path}.action`,
+        actionParameters: {}
+      };
       switch (chargerInError.errorCode) {
         case 'missingSettings':
           errorMessage.actionParameters = {
@@ -314,7 +326,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     });
   }
 
-  private simpleActionChargingStation(action: string, charger: Charger, args, title, message, successMessage, errorMessage) {
+  private simpleActionChargingStation(action: string, charger: ChargingStationInError, args: any,
+      title: string, message: string, successMessage: string, errorMessage: string) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -346,7 +359,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     }
   }
 
-  private showChargingStationDialog(chargingStation?: Charger) {
+  private showChargingStationDialog(chargingStation?: ChargingStationInError) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -367,7 +380,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     });
   }
 
-  private deleteChargingStation(chargingStation: Charger) {
+  private deleteChargingStation(chargingStation: ChargingStationInError) {
     if (chargingStation.connectors.findIndex((connector) => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       this.dialogService.createAndShowOkDialog(

@@ -3,16 +3,14 @@ import { Component, Injectable, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, ConnectorSchedule, KeyValue } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStations } from 'app/utils/ChargingStations';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
 
 @Component({
@@ -21,7 +19,7 @@ import { ChargingStationPowerSliderComponent } from '../component/charging-stati
 })
 @Injectable()
 export class ChargingStationStaticLimitComponent {
-  @Input() charger!: Charger;
+  @Input() charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
 

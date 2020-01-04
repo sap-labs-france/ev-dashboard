@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillingSettings, BillingTax } from 'app/common.types';
+import { BillingTax } from 'app/types/Billing';
+import { BillingSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { CentralServerService } from '../../../../services/central-server.service';
 

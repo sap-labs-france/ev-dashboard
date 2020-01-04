@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { InactivityStatus } from 'app/types/Transaction';
 import { Constants } from 'app/utils/Constants';
-import { InactivityStatus } from 'app/common.types';
 
 @Pipe({ name: 'appColorByStatus' })
 export class AppColorByStatusPipe implements PipeTransform {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { TableColumnDef, TableDef, Tag } from '../../../common.types';
+import { TableColumnDef, TableDef } from 'app/types/Table';
+import { Tag } from 'app/types/Tag';
 import { SpinnerService } from '../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
 

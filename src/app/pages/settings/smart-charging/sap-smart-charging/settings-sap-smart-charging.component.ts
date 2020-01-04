@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SmartChargingSettings, SmartChargingSettingsType } from 'app/common.types';
+import { SmartChargingSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
@@ -53,7 +53,7 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
 
   updateFormData() {
     // Set data
-    if (this.sapSmartCharging) {
+    if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging) {
       this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl);
       this.user.setValue(this.smartChargingSettings.sapSmartCharging.user);
       this.password.setValue(this.smartChargingSettings.sapSmartCharging.password);

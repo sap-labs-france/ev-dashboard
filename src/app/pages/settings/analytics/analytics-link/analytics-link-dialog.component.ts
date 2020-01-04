@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { KeyValue } from 'app/types/GlobalType';
+import { SettingLink } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
-import { AnalyticsLink, KeyValue } from '../../../../common.types';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 
 @Component({
@@ -82,7 +83,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  setLinkAndClose(analyticsLink: AnalyticsLink) {
+  setLinkAndClose(analyticsLink: SettingLink) {
     this.dialogRef.close(analyticsLink);
   }
 

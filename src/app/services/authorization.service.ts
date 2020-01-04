@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SiteArea, UserToken } from '../common.types';
+import { SiteArea } from 'app/types/SiteArea';
+import { UserToken } from 'app/types/User';
 import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
 import { ComponentService, ComponentType } from './component.service';

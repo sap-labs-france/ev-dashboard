@@ -3,15 +3,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  DataResult,
-  Site,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -33,6 +24,10 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
+import { Site } from 'app/types/Site';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { DataResult } from 'app/types/DataResult';
+import { TableDef, TableColumnDef, TableActionDef, TableFilterDef } from 'app/types/Table';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
@@ -167,27 +162,27 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showSiteDialog();
+        this.showSiteDialog();
         break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: Site) {
     switch (actionDef.id) {
       case 'edit':
       case 'view':
-        this._showSiteDialog(rowItem);
+        this.showSiteDialog(rowItem);
         break;
       case 'edit_users':
-        this._showUsersDialog(rowItem);
+        this.showUsersDialog(rowItem);
         break;
       case 'delete':
-        this._deleteSite(rowItem);
+        this.deleteSite(rowItem);
         break;
       case 'open_in_maps':
-        this._showPlace(rowItem);
+        this.showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -207,13 +202,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     ];
   }
 
-  private _showPlace(site: Site) {
+  private showPlace(site: Site) {
     if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
       window.open(`http://maps.google.com/maps?q=${site.address.coordinates[1]},${site.address.coordinates[0]}`);
     }
   }
 
-  private _showSiteDialog(site?: Site) {
+  private showSiteDialog(site?: Site) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '70vw';
@@ -233,7 +228,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     });
   }
 
-  private _showUsersDialog(site?: Site) {
+  private showUsersDialog(site?: Site) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -246,7 +241,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     this.dialog.open(SiteUsersDialogComponent, dialogConfig);
   }
 
-  private _deleteSite(site) {
+  private deleteSite(site: Site) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('sites.delete_title'),
       this.translateService.instant('sites.delete_confirm', {siteName: site.name}),

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PricingSettings, PricingSettingsType } from 'app/common.types';
+import { PricingSettings, PricingSettingsType } from 'app/types/Setting';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';

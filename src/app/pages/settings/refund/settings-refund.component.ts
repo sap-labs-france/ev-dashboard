@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { RefundSettings, RefundSettingsType } from 'app/common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -10,6 +9,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
+import { RefundSettingsType, RefundSettings } from 'app/types/Setting';
 
 @Component({
   selector: 'app-settings-refund',

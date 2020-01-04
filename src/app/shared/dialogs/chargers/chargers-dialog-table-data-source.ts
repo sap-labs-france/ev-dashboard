@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
-import { Charger, DataResult, TableColumnDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class ChargersDialogTableDataSource extends DialogTableDataSource<Charger> {
+export class ChargersDialogTableDataSource extends DialogTableDataSource<ChargingStation> {
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -20,7 +22,7 @@ export class ChargersDialogTableDataSource extends DialogTableDataSource<Charger
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Charger>> {
+  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),

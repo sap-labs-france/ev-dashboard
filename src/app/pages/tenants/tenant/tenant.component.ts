@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Tenant } from 'app/common.types';
+import { Tenant } from 'app/types/Tenant';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';

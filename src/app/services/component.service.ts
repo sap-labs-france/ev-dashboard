@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ActionResponse } from 'app/types/DataResult';
+import { AnalyticsSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 // tslint:disable-next-line:max-line-length
-import { ActionResponse, AnalyticsSettings, BillingSettings, BillingSettingsType, OcpiSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, SmartChargingSettings, SmartChargingSettingsType } from 'app/common.types';
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
 
@@ -152,7 +153,7 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-  public saveOcpiSettings(settings: OcpiSettings): Observable<ActionResponse> {
+  public saveOcpiSettings(settings: RoamingSettings): Observable<ActionResponse> {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
@@ -230,11 +231,11 @@ export class ComponentService {
     });
   }
 
-  public getOcpiSettings(): Observable<OcpiSettings> {
+  public getOcpiSettings(): Observable<RoamingSettings> {
     return new Observable((observer) => {
       const ocpiSettings = {
         identifier: ComponentType.OCPI,
-      } as OcpiSettings;
+      } as RoamingSettings;
       // Get the Pricing settings
       this.centralServerService.getSettings(ComponentType.OCPI).subscribe((settings) => {
         // Get the currency

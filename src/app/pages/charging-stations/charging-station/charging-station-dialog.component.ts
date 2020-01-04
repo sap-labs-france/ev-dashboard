@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, KeyValue } from '../../../common.types';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -17,7 +18,7 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
   templateUrl: 'charging-station-dialog.component.html',
 })
 export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
-  @Input() currentCharger!: Charger;
+  @Input() currentCharger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 

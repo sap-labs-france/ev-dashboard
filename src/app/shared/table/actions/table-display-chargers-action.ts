@@ -1,4 +1,4 @@
-import { ButtonColor, TableActionDef } from '../../../common.types';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableDisplayChargersAction implements TableAction {

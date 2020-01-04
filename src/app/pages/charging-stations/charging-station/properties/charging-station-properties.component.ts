@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { Charger } from '../../../../common.types';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 
 export interface PropertyDisplay {
@@ -15,7 +15,7 @@ export interface PropertyDisplay {
 })
 @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
-  @Input() charger!: Charger;
+  @Input() charger!: ChargingStation;
   chargerFormatted: any = {};
   displayedProperties: PropertyDisplay[] = [
     {key: 'chargePointVendor', title: 'chargers.vendor'},

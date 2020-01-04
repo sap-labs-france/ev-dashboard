@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { RegistrationToken } from 'app/types/RegistrationToken';
 import * as moment from 'moment';
-import { RegistrationToken } from '../../../../common.types';
 import { Constants } from '../../../../utils/Constants';
 
 @Component({

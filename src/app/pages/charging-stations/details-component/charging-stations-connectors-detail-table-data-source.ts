@@ -6,8 +6,11 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStation, Connector } from 'app/types/ChargingStation';
+import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { User, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
-import { ActionResponse, Charger, Connector, DataResult, TableActionDef, TableColumnDef, TableDef, User, UserToken } from '../../../common.types';
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -37,7 +40,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public openAction = new TableOpenAction();
   public noAction = new TableNoAction();
 
-  private charger!: Charger;
+  private charger!: ChargingStation;
   private dialogRefSession!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
@@ -83,7 +86,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     });
   }
 
-  public setCharger(charger: Charger) {
+  public setCharger(charger: ChargingStation) {
     this.charger = charger;
   }
 

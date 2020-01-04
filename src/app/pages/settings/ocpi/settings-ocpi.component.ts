@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OcpiCommon, OcpiSettings, OcpiSettingsType } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -33,7 +33,7 @@ export class SettingsOcpiComponent implements OnInit {
   public logoWidth!: AbstractControl;
   public logoHeight!: AbstractControl;
 
-  public ocpiSettings!: OcpiSettings;
+  public ocpiSettings!: RoamingSettings;
 
   public logoTypes: any = [
     { key: '', description: '' },
@@ -180,9 +180,9 @@ export class SettingsOcpiComponent implements OnInit {
     });
   }
 
-  public save(content: OcpiCommon) {
+  public save(content: OcpiSetting) {
     this.ocpiSettings.ocpi = content;
-    this.ocpiSettings.type = OcpiSettingsType.GIREVE;
+    this.ocpiSettings.type = RoamingSettingsType.GIREVE;
     this.spinnerService.show();
     this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
       this.spinnerService.hide();

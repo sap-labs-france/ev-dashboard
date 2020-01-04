@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { Log } from 'app/types/Log';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 // @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DataResult, Log, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -56,7 +59,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       this.centralServerService.getLogs(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((logs) => {
           // Add the users in the message
-          logs.result.map((log) => {
+          logs.result.map((log: Log) => {
             let user;
             // Set User
             if (log.user) {

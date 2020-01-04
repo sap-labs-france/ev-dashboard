@@ -1,8 +1,6 @@
-import { TableFilterDef } from '../../../common.types';
-import { UserDialogComponent } from '../../../pages/users/user/user.dialog.component';
+import { TableFilterDef } from 'app/types/Table';
 import { Constants } from '../../../utils/Constants';
 import { ReportsDialogComponent } from '../../dialogs/reports/reports-dialog.component';
-import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component';
 import { TableFilter } from './table-filter';
 
 // Sort table by reports ID

@@ -1,10 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { Connector } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Connector } from 'app/types/ChargingStation';
 import { Constants } from 'app/utils/Constants';
 
-const TYPE_PRIMARY = 'chip-primary';
-const TYPE_DEFAULT = 'chip-default';
 const TYPE_INFO = 'chip-info';
 const TYPE_SUCCESS = 'chip-success';
 const TYPE_DANGER = 'chip-danger';
@@ -21,7 +19,7 @@ const TYPE_GREY = 'chip-grey';
   `,
 })
 export class ChargingStationsConnectorStatusCellComponent extends CellContentTemplateComponent {
-  @Input() row: Connector;
+  @Input() row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatConnectorStatus'})
@@ -33,6 +31,7 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
     if (type === 'text') {
       return this.buildConnectorStatusText(status);
     }
+    return '';
   }
 
   buildConnectorStatusClasses(status: string): string {

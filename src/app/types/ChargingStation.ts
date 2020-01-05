@@ -1,6 +1,51 @@
+import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+
+export interface ChargingStation extends Data {
+  id: string;
+  chargePointVendor: string;
+  chargePointModel: string;
+  chargePointSerialnumber: string;
+  chargeBoxSerialnumber: string;
+  firmwareVersion: string;
+  iccid: string;
+  imsi: string;
+  lastReboot: Date;
+  meterType: string;
+  meterSerialnumber: string;
+  endpoint: string;
+  ocppVersion: string;
+  lastHeartBeat: Date;
+  inactive: boolean;
+  chargingStationURL: string;
+  numberOfConnectedPhase: number;
+  connectors: Connector[];
+  siteArea: SiteArea;
+  cannotChargeInParallel: boolean;
+  maximumPower: number;
+  powerLimitUnit: PowerLimitUnits;
+  coordinates: number[];
+  currentIPAddress: string;
+  capabilities?: ChargingStationCapabilities;
+  ocppAdvancedCommands?: OcppAdvancedCommands[];
+  ocppParameters?: KeyValue[];
+}
+
+export interface OcppCommand {
+  command: string,
+  parameters: string[]
+}
+
+export interface OcppAdvancedCommands {
+  command: string|OcppCommand;
+}
+
+export enum PowerLimitUnits {
+  WATT = 'W',
+  AMPERE = 'A'
+}
 
 export interface ChargingStationConfiguration {
   chargeBoxID: string;
@@ -49,34 +94,13 @@ export interface Connector extends Data {
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
+  numberOfConnectedPhase?: number;
+  currentType?: ConnectorCurrentType;
 }
 
-export interface ChargingStation extends Data {
-  id: string;
-  chargePointVendor: string;
-  chargePointModel: string;
-  chargePointSerialnumber: string;
-  chargeBoxSerialnumber: string;
-  firmwareVersion: string;
-  iccid: string;
-  imsi: string;
-  lastReboot: Date;
-  meterType: string;
-  meterSerialnumber: string;
-  endpoint: string;
-  ocppVersion: string;
-  lastHeartBeat: Date;
-  inactive: boolean;
-  chargingStationURL: string;
-  numberOfConnectedPhase: number;
-  connectors: Connector[];
-  siteArea: SiteArea;
-  cannotChargeInParallel: boolean;
-  maximumPower: number;
-  powerLimitUnit: string;
-  coordinates: number[];
-  currentIPAddress: string;
-  capabilities?: ChargingStationCapabilities;
+export enum ConnectorCurrentType {
+  AC = 'AC',
+  DC = 'DC'
 }
 
 export interface ChargingStationCapabilities {

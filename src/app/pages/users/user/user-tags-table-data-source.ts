@@ -51,8 +51,9 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
   }
 
   public addData() {
-    return{
+    return {
       id: '',
+      key: '',
       description: '',
       issuer: false,
     };

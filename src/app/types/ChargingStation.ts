@@ -76,4 +76,11 @@ export interface ChargingStation extends Data {
   powerLimitUnit: string;
   coordinates: number[];
   currentIPAddress: string;
+  capabilities?: ChargingStationCapabilities;
+}
+
+export interface ChargingStationCapabilities {
+  supportStaticLimitationForChargingStation: boolean;
+  supportStaticLimitationPerConnector: boolean;
+  supportChargingProfiles: boolean;
 }

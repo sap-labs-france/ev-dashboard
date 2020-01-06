@@ -7,11 +7,18 @@
           <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
         </ng-template>
         <div class="card-body" style="margin-top: 15px">
-          <div *ngIf="charger.maximumPower" class="row">
+          <div class="row" *ngIf="charger.capabilities?.supportStaticLimitationForChargingStation || charger.capabilities?.supportStaticLimitationPerConnector; else notSupported">
             <div class="col-md-6">
               <app-charging-station-static-limit [charger]="charger"></app-charging-station-static-limit>
             </div>
           </div>
+          <ng-template #notSupported>
+            <div class="row">
+              <div class="col-md-12">
+                {{'chargers.smart_charging.not_supported' | translate }}
+              </div>
+            </div>
+          </ng-template>
         </div>
       </mat-tab>
       <mat-tab>
@@ -20,11 +27,18 @@
           <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
         </ng-template>
         <div class="card-body" style="margin-top: 15px">
-          <div *ngIf="charger.maximumPower" class="row">
+          <div class="row" *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
             <div class="col-md-12">
               <app-charging-station-charging-profile-limit [charger]="charger"></app-charging-station-charging-profile-limit>
             </div>
           </div>
+          <ng-template #notSupported>
+            <div class="row">
+              <div class="col-md-12">
+                {{'chargers.smart_charging.not_supported' | translate }}
+              </div>
+            </div>
+          </ng-template>
         </div>
       </mat-tab>
       <mat-tab disabled>

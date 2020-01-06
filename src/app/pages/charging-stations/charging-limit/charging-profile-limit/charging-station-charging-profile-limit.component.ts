@@ -77,11 +77,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     // Initialize slider values
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
     // Calculate default slider value which is macimum Power of the charger
-    if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
-      this.defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
-    } else {
-      this.defaultLimit = this.charger.maximumPower;
-    }
+    // TODO: To handle numberOfConnectedPhase per connector now
+    // if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
+    //   this.defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
+    // } else {
+    //   this.defaultLimit = this.charger.maximumPower;
+    // }
     // Init the form
     this.formGroup = new FormGroup({
       profileTypeControl: new FormControl('',
@@ -299,11 +300,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   }
 
   private getDisplayedLimit(value: number) {
-    if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
-      return ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, value);
-    } else {
-      return value;
-    }
+    // TODO: To handle numberOfConnectedPhase per connector now
+    // if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
+    //   return ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, value);
+    // } else {
+    //   return value;
+    // }
+    return value;
   }
 
 }

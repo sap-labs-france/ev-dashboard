@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserToken } from 'app/common.types';
+import { UserToken } from 'app/types/User';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { RouteGuardService } from '../guard/route-guard';

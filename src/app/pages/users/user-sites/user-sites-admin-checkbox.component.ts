@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { SiteUser, User, UserToken } from '../../../common.types';
+import { SiteUser } from 'app/types/Site';
+import { User, UserToken } from 'app/types/User';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
@@ -18,9 +19,9 @@ import { Utils } from '../../../utils/Utils';
       </div>`,
 })
 export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row: SiteUser;
+  @Input() row!: SiteUser;
   public loggedUser: UserToken;
-  public user: User;
+  public user!: User;
 
   constructor(
     private messageService: MessageService,

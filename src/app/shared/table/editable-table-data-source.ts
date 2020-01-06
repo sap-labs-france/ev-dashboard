@@ -1,6 +1,7 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { DataResult } from 'app/types/DataResult';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { of, Observable } from 'rxjs';
-import { Data, DataResult, DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../common.types';
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableInlineDeleteAction } from './actions/table-inline-delete-action';

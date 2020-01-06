@@ -1,5 +1,5 @@
-import { ButtonColor, TableActionDef } from 'app/common.types';
 import { TableAction } from 'app/shared/table/actions/table-action';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 export const ACTION_SEND = 'send';
 export const ACTION_STOP_START_JOB = 'stop_start_job';

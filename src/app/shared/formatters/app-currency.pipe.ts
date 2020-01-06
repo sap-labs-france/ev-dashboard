@@ -1,8 +1,8 @@
 import { CurrencyPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
-import { PricingSettingsType } from 'app/common.types';
 import { ComponentService } from 'app/services/component.service';
 import { LocaleService } from 'app/services/locale.service';
+import { PricingSettingsType } from 'app/types/Setting';
 
 @Pipe({name: 'appCurrency'})
 export class AppCurrencyPipe implements PipeTransform {

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Connector } from '../../../common.types';
+import { Connector } from 'app/types/ChargingStation';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({

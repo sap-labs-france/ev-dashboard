@@ -1,4 +1,4 @@
-import { ButtonType, DialogType, FilterType } from '../common.types';
+import { ButtonType, DialogType, FilterType } from 'app/types/Table';
 
 export class Constants {
   public static URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;

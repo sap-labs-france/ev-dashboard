@@ -1,18 +1,18 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PricingSettings } from 'app/common.types';
+import { PricingSettings } from 'app/types/Setting';
 
 @Component({
   selector: 'app-settings-simple-pricing',
   templateUrl: 'settings-simple-pricing.component.html',
 })
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() pricingSettings: PricingSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() pricingSettings!: PricingSettings;
 
-  public simplePricing: FormGroup;
-  public price: AbstractControl;
-  public currency: AbstractControl;
+  public simplePricing!: FormGroup;
+  public price!: AbstractControl;
+  public currency!: AbstractControl;
 
   ngOnInit(): void {
     // Simple pricing

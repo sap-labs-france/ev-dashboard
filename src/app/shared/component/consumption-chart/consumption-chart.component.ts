@@ -2,8 +2,8 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { Transaction } from 'app/types/Transaction';
 import { Chart } from 'chart.js';
-import { Transaction } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
@@ -15,18 +15,18 @@ import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 })
 
 export class ConsumptionChartComponent implements AfterViewInit {
-  @Input() transactionId: number;
-  @Input() transaction: Transaction;
-  @Input() ratio: number;
+  @Input() transactionId!: number;
+  @Input() transaction!: Transaction;
+  @Input() ratio!: number;
 
-  @ViewChild('primary', {static: true}) primaryElement: ElementRef;
-  @ViewChild('accent', {static: true}) accentElement: ElementRef;
-  @ViewChild('danger', {static: true}) dangerElement: ElementRef;
-  @ViewChild('success', {static: true}) successElement: ElementRef;
-  @ViewChild('chart', {static: true}) chartElement: ElementRef;
+  @ViewChild('primary', {static: true}) primaryElement!: ElementRef;
+  @ViewChild('accent', {static: true}) accentElement!: ElementRef;
+  @ViewChild('danger', {static: true}) dangerElement!: ElementRef;
+  @ViewChild('success', {static: true}) successElement!: ElementRef;
+  @ViewChild('chart', {static: true}) chartElement!: ElementRef;
 
   private graphCreated = false;
-  private currencyCode: string;
+  private currencyCode!: string;
   private lineTension = 0;
   private data = {
     labels: [],
@@ -34,12 +34,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
   };
   private options: any;
   private chart: any;
-  private consumptionColor: string;
-  private instantPowerColor: string;
-  private amountColor: string;
-  private stateOfChargeColor: string;
-  private defaultColor: string;
-  private language: string;
+  private consumptionColor!: string;
+  private instantPowerColor!: string;
+  private amountColor!: string;
+  private stateOfChargeColor!: string;
+  private defaultColor!: string;
+  private language!: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -112,7 +112,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         this.transaction = transaction;
         this.prepareOrUpdateGraph();
       }, (error) => {
-        this.transaction = null;
+        delete this.transaction;
       });
   }
 
@@ -219,7 +219,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     }
   }
 
-  getDataSet(name) {
+  getDataSet(name: string) {
     const dataSet = this.data.datasets.find((d) => (d as any).name === name);
     return dataSet ? dataSet.data : null;
   }

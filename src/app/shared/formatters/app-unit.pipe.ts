@@ -7,7 +7,7 @@ export class AppUnitPipe implements PipeTransform {
   constructor(private decimalPipe: AppDecimalPipe) {
   }
 
-  _parseMeasure(measureAsString: string): Measure {
+  private parseMeasure(measureAsString: string): Measure {
     // @ts-ignore
     if (Unit[Unit[measureAsString]] === measureAsString) {
       // @ts-ignore
@@ -22,8 +22,8 @@ export class AppUnitPipe implements PipeTransform {
     if (value === 0) {
       numberOfDecimal = 0;
     }
-    const src = this._parseMeasure(srcMeasure);
-    const dest = this._parseMeasure(destMeasure);
+    const src = this.parseMeasure(srcMeasure);
+    const dest = this.parseMeasure(destMeasure);
     const localDestMeasure = destMeasure.replace('Wh', 'W.h');
     return this.decimalPipe.transform(value / (src.size * dest.size),
       `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + localDestMeasure : ''}`;

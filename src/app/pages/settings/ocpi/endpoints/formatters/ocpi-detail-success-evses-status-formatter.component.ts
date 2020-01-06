@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { OcpiEndpointDetail } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 
 @Component({
   template: `
@@ -12,5 +12,5 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
   `,
 })
 export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+  @Input() row!: OcpiEndpointDetail;
 }

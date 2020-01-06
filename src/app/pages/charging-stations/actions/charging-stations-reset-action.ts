@@ -1,5 +1,5 @@
-import { ButtonColor, TableActionDef } from 'app/common.types';
 import { TableAction } from 'app/shared/table/actions/table-action';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 export class ChargingStationsResetAction implements TableAction {
   private action: TableActionDef = {

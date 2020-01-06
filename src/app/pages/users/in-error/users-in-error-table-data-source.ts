@@ -3,15 +3,18 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { ErrorMessage, UserInError } from 'app/types/InError';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
-import { DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, User } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
@@ -107,7 +110,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     {
       id: 'role',
       name: 'users.role',
-      formatter: (role) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
+      formatter: (role: string) => this.translateService.instant(this.userRolePipe.transform(role, loggedUserRole)),
       headerClass: 'col-10p text-center',
       class: 'text-left col-10p text-center',
       sortable: true,
@@ -142,12 +145,12 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       name: 'errors.title',
       class: 'col-30p',
       sortable: true,
-      formatter: (value, row) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
+      formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
     },
     {
       id: 'createdOn',
       name: 'users.created_on',
-      formatter: (createdOn) => this.datePipe.transform(createdOn),
+      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -178,7 +181,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: UserInError) {
     switch (actionDef.id) {
       case 'edit':
         this.showUserDialog(rowItem);
@@ -224,7 +227,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     return filters;
   }
 
-  public showUserDialog(user?: User) {
+  public showUserDialog(user?: UserInError) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -244,15 +247,22 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     });
   }
 
-  private formatErrorMessages(users) {
-    users.forEach((user) => {
+  private formatErrorMessages(users: UserInError[]) {
+    users.forEach((user: UserInError) => {
       const path = `users.errors.${user.errorCode}`;
-      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      const errorMessage: ErrorMessage = {
+        title: `${path}.title`,
+        titleParameters: {},
+        description: `${path}.description`,
+        descriptionParameters: {},
+        action: `${path}.action`,
+        actionParameters: {},
+      };
       user.errorMessage = errorMessage;
     });
   }
 
-  private showSitesDialog(user?: User) {
+  private showSitesDialog(user?: UserInError) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -263,7 +273,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     this.dialog.open(UserSitesDialogComponent, dialogConfig);
   }
 
-  private deleteUser(user: User) {
+  private deleteUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
       this.translateService.instant('users.delete_confirm', {userFullName: this.userNamePipe.transform(user)}),

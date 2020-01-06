@@ -1,4 +1,4 @@
-import { TableFilterDef } from '../../../common.types';
+import { TableFilterDef } from 'app/types/Table';
 
 export abstract class TableFilter {
   private filterDef!: TableFilterDef;

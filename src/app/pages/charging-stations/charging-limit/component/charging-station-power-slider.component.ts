@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatSlider, MatSliderChange } from '@angular/material/slider';
-import { Charger } from 'app/common.types';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { ChargingStations } from 'app/utils/ChargingStations';
 
 @Component({
@@ -10,7 +9,7 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 })
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit {
-  @Input() charger!: Charger;
+  @Input() charger!: ChargingStation;
   @Input() currentAmpValue = 0;
   @Output() powerSliderChanged = new EventEmitter<number>();
 

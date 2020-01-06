@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { Connector } from '../../../common.types';
+import { Connector } from 'app/types/ChargingStation';
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
@@ -18,7 +18,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 export class ChargingStationsInstantPowerConnectorProgressBarCellComponent extends CellContentTemplateComponent {
-  @Input() row: Connector;
+  @Input() row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatPowerConnector'})
@@ -60,6 +60,7 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
         }
         break;
     }
-    return this.decimalPipe.transform(value);
+    const result = this.decimalPipe.transform(value);
+    return result ? result : '';
   }
 }

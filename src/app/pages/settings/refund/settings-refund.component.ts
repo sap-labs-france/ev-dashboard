@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { RefundSettings } from 'app/common.types';
+import { RefundSettings, RefundSettingsType } from 'app/types/Setting';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -18,8 +18,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsRefundComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public refundSettings: RefundSettings;
+  public formGroup!: FormGroup;
+  public refundSettings!: RefundSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -62,9 +62,14 @@ export class SettingsRefundComponent implements OnInit {
     });
   }
 
-  public save(content) {
-    // Set the content
-    this.refundSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
+  public save(content: RefundSettings) {
+    // Concur
+    if (content.concur) {
+      this.refundSettings.type = RefundSettingsType.CONCUR;
+      this.refundSettings.concur = content.concur;
+    } else {
+      return;
+    }
     // Save
     this.spinnerService.show();
     this.componentService.saveRefundSettings(this.refundSettings).subscribe((response) => {

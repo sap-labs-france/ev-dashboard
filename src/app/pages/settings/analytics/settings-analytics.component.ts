@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AnalyticsSettings, AnalyticsSettingsType } from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -16,7 +16,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 })
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;
-  public analyticsSettings: AnalyticsSettings;
+  public analyticsSettings!: AnalyticsSettings;
   public formGroup: FormGroup;
 
   constructor(
@@ -27,7 +27,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     private router: Router,
     public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource,
   ) {
-    this.analyticsLinksTableDataSource.changed.subscribe((_) => {
+    this.analyticsLinksTableDataSource.changed.subscribe(() => {
       this.formGroup.markAsDirty();
     });
     this.isActive = componentService.isActive(ComponentType.ANALYTICS);
@@ -65,11 +65,15 @@ export class SettingsAnalyticsComponent implements OnInit {
     });
   }
 
-  public save(content) {
-    // Set data
-    this.analyticsSettings.sac = content;
+  public save(content: AnalyticsSettings) {
+    // SAC?
+    if (content.sac) {
+      this.analyticsSettings.type = AnalyticsSettingsType.SAC;
+      this.analyticsSettings.sac = content.sac;
+    } else {
+      return;
+    }
     this.analyticsSettings.links = this.analyticsLinksTableDataSource.getLinks();
-    this.analyticsSettings.type = AnalyticsSettingsType.SAC;
     // Save
     this.spinnerService.show();
     this.componentService.saveSacSettings(this.analyticsSettings).subscribe((response) => {

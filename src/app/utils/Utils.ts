@@ -1,6 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MobileType, User } from 'app/common.types';
+import { MobileType } from 'app/types/Mobile';
+import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
@@ -45,7 +46,6 @@ export class Utils {
   }
 
   public static getMobileVendor(): MobileType|null {
-    let mobileVendor!: MobileType;
     // @ts-ignore
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {

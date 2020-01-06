@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Transaction } from '../../../common.types';
+import { Transaction } from 'app/types/Transaction';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionResponse } from '../../../common.types';
+import { ActionResponse } from 'app/types/DataResult';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: 'user-connection.component.html',
 })
 export class UserConnectionComponent extends AbstractTabComponent {
-  public isAdmin;
+  public isAdmin!: boolean;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -27,12 +27,12 @@ export class UserConnectionComponent extends AbstractTabComponent {
     if (this.activatedRoute.snapshot.queryParams['state']) {
       const state = JSON.parse(this.activatedRoute.snapshot.queryParams['state']);
       if (state.connector === 'concur') {
-        this._createConcurConnection(state);
+        this.createConcurConnection(state);
       }
     }
   }
 
-  private _createConcurConnection(state) {
+  private createConcurConnection(state: any) {
     if (this.activatedRoute.snapshot.queryParams['code']) {
       const payload = {
         settingId: state.appId,

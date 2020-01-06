@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { InactivityStatus } from 'app/common.types';
+import { InactivityStatus } from 'app/types/Transaction';
 import { Constants } from 'app/utils/Constants';
 
 @Pipe({ name: 'appColorByStatus' })

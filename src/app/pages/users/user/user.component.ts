@@ -4,9 +4,13 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { IntegrationConnection } from 'app/types/Connection';
+import { ActionResponse } from 'app/types/DataResult';
+import { KeyValue } from 'app/types/GlobalType';
+import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
+import { User } from 'app/types/User';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -70,7 +74,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public country!: AbstractControl;
   public latitude!: AbstractControl;
   public longitude!: AbstractControl;
-  public refundSetting!: Setting;
+  public refundSetting!: RefundSettings;
   public integrationConnections!: IntegrationConnection[];
   public concurConnection!: IntegrationConnection;
   public passwords!: FormGroup;
@@ -657,7 +661,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // if (this.authorizationService.canListSettings()) {
     this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
       if (settingResult && settingResult.result && settingResult.result.length > 0) {
-        this.refundSetting = settingResult.result[0];
+        this.refundSetting = settingResult.result[0] as RefundSettings;
       }
     });
     if (this.currentUserID) {

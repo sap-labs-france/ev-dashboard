@@ -1,9 +1,10 @@
-import { TableFilterDef } from '../../../common.types';
+import { KeyValue } from 'app/types/GlobalType';
+import { TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
 
 export class ErrorTypeTableFilter extends TableFilter {
-  constructor(types) {
+  constructor(types: KeyValue[]) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {

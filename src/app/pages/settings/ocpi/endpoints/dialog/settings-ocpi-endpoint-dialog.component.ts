@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
-import { OcpiEndpoint } from '../../../../../common.types';
+import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
@@ -15,17 +15,17 @@ import { Utils } from '../../../../../utils/Utils';
   templateUrl: './settings-ocpi-endpoint-dialog.component.html',
 })
 export class SettingsOcpiEnpointDialogComponent implements OnInit {
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public role: AbstractControl;
-  public type: AbstractControl;
-  public baseUrl: AbstractControl;
-  public countryCode: AbstractControl;
-  public partyId: AbstractControl;
-  public localToken: AbstractControl;
-  public token: AbstractControl;
-  public isBackgroundPatchJobActive: AbstractControl;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public role!: AbstractControl;
+  public type!: AbstractControl;
+  public baseUrl!: AbstractControl;
+  public countryCode!: AbstractControl;
+  public partyId!: AbstractControl;
+  public localToken!: AbstractControl;
+  public token!: AbstractControl;
+  public isBackgroundPatchJobActive!: AbstractControl;
 
   public currentEndpoint: Partial<OcpiEndpoint>;
 
@@ -38,7 +38,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     protected dialogRef: MatDialogRef<SettingsOcpiEnpointDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Check if data is passed to the dialog
     if (data) {
       this.currentEndpoint = data;
@@ -120,7 +120,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  save(endpoint) {
+  save(endpoint: OcpiEndpoint) {
     // Show
     this.spinnerService.show();
 
@@ -133,7 +133,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     }
   }
 
-  generateLocalToken(ocpiendpoint) {
+  generateLocalToken(ocpiendpoint: OcpiEndpoint) {
     // Show
     this.spinnerService.show();
     // Generate new local token
@@ -152,7 +152,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     });
   }
 
-  testConnection(ocpiendpoint) {
+  testConnection(ocpiendpoint: OcpiEndpoint) {
     // Show
     this.spinnerService.show();
     // Ping
@@ -215,7 +215,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     }
   }
 
-  private createOcpiEndpoint(ocpiEndpoint) {
+  private createOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
     this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
@@ -232,7 +232,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     });
   }
 
-  private updateOcpiEndpoint(ocpiEndpoint) {
+  private updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
     this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {

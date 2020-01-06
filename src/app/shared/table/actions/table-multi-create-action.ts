@@ -1,8 +1,4 @@
-import { ButtonColor, DropdownItem, TableActionDef } from '../../../common.types';
-import {
-  ACTION_CLEAR_CACHE,
-  ACTION_SMART_CHARGING,
-} from '../../../pages/charging-stations/actions/charging-stations-more-action';
+import { ButtonColor, DropdownItem, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableMultiCreateAction implements TableAction {

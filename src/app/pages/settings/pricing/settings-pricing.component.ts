@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PricingSettings, PricingSettingsType } from 'app/common.types';
+import { PricingSettings, PricingSettingsType } from 'app/types/Setting';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
@@ -16,8 +16,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsPricingComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public pricingSettings: PricingSettings;
+  public formGroup!: FormGroup;
+  public pricingSettings!: PricingSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -56,15 +56,15 @@ export class SettingsPricingComponent implements OnInit {
     });
   }
 
-  public save(content) {
+  public save(content: PricingSettings) {
     // Convergent Charging
     if (content.convergentCharging) {
-      this.pricingSettings.convergentCharging = content.convergentCharging;
       this.pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
+      this.pricingSettings.convergentCharging = content.convergentCharging;
     // Simple
     } else if (content.simple) {
-      this.pricingSettings.simple = content.simple;
       this.pricingSettings.type = PricingSettingsType.SIMPLE;
+      this.pricingSettings.simple = content.simple;
     } else {
       return;
     }

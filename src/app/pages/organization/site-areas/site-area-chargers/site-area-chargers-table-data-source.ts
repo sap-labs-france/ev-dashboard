@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  Charger,
-  DataResult,
-  SiteArea,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -19,13 +11,17 @@ import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-di
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { SiteArea } from 'app/types/SiteArea';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
-  private siteArea: SiteArea;
+export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation> {
+  private siteArea!: SiteArea;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -39,7 +35,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     super(spinnerService);
   }
 
-  public loadDataImpl(): Observable<DataResult<Charger>> {
+  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
       // siteArea provided?
       if (this.siteArea) {
@@ -202,7 +198,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<Charger> {
     });
   }
 
-  private addChargers(chargers) {
+  private addChargers(chargers: ChargingStation[]) {
     // Check
     if (chargers && chargers.length > 0) {
       // Get the IDs

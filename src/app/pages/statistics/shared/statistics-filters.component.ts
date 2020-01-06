@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AnalyticsLink, TableFilterDef } from '../../../common.types';
+import { SettingLink } from 'app/types/Setting';
+import { TableFilterDef } from 'app/types/Table';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -24,11 +25,11 @@ interface StatisticsFilterDef extends TableFilterDef {
 })
 export class StatisticsFiltersComponent implements OnInit {
   public ongoingRefresh = false;
-  public isAdmin: boolean;
-  public isOrganizationActive: boolean;
-  public selectedYear: number;
-  public transactionYears: number[];
-  public sacLinks: AnalyticsLink[];
+  public isAdmin!: boolean;
+  public isOrganizationActive!: boolean;
+  public selectedYear!: number;
+  public transactionYears!: number[];
+  public sacLinks!: SettingLink[];
   public sacLinksActive = false;
 
   @Output() category = new EventEmitter();
@@ -50,7 +51,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   private selectedCategory = 'C';
   private filterParams = {};
-  private activeButtonOfScopeGroup: StatisticsButtonGroup;
+  private activeButtonOfScopeGroup!: StatisticsButtonGroup;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -132,7 +133,9 @@ export class StatisticsFiltersComponent implements OnInit {
       return filterDef.id === filter.id;
     });
     // Update value (if needed!)
-    foundFilter.currentValue = filter.currentValue;
+    if (foundFilter) {
+      foundFilter.currentValue = filter.currentValue;
+    }
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
@@ -165,7 +168,7 @@ export class StatisticsFiltersComponent implements OnInit {
         switch (filterDef.type) {
           case Constants.FILTER_TYPE_DROPDOWN:
           case Constants.FILTER_TYPE_DIALOG_TABLE:
-            const filterIsInitial = this._testIfFilterIsInitial(filterDef);
+            const filterIsInitial = this.testIfFilterIsInitial(filterDef);
             if (!filterIsInitial) {
               filterIsChanged = true;
             }
@@ -192,10 +195,12 @@ export class StatisticsFiltersComponent implements OnInit {
     let filterIsChanged = false;
     if (filterDef.type === Constants.FILTER_TYPE_DATE) {
       filterIsChanged = true;
-      filterDef.reset();
+      if (filterDef.reset) {
+        filterDef.reset();
+      }
     } else if ((filterDef.type === Constants.FILTER_TYPE_DROPDOWN)
       || (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE)) {
-      filterIsChanged = !this._testIfFilterIsInitial(filterDef);
+      filterIsChanged = !this.testIfFilterIsInitial(filterDef);
       if (filterDef.multiple) {
         filterDef.currentValue = [];
         filterDef.label = '';
@@ -232,7 +237,7 @@ export class StatisticsFiltersComponent implements OnInit {
       // dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe(data => {
       if (data) {
         let dataIsChanged = false;
-        if (this._testIfFilterIsInitial(filterDef)
+        if (this.testIfFilterIsInitial(filterDef)
           || filterDef.currentValue !== data) {
           dataIsChanged = true;
         }
@@ -386,7 +391,7 @@ export class StatisticsFiltersComponent implements OnInit {
     this.export.emit();
   }
 
-  private _testIfFilterIsInitial(filterDef: StatisticsFilterDef): boolean {
+  private testIfFilterIsInitial(filterDef: StatisticsFilterDef): boolean {
     let filterIsInitial = true;
     if (filterDef.multiple) {
       if ((filterDef.currentValue && Array.isArray(filterDef.currentValue)

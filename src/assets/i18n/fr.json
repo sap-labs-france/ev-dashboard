@@ -1168,7 +1168,9 @@
         "invalid_secret_key" : "La clé API secrète n'est pas plausible",
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
-        "periodic_billing": "Facturation périodique (pas encore implémentée)"
+        "periodic_billing": "Facturation périodique (pas encore implémentée)",
+        "tax": "Taxe",
+        "no_tax": "Aucune Taxe"
       }
     },
     "analytics": {

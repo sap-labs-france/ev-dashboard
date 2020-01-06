@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angular/core';
-import { Charger } from '../../../common.types';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stations-connectors-detail-table-data-source';
 
@@ -9,7 +9,7 @@ import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stat
 })
 
 export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {
-  @Input() row: Charger;
+  @Input() row!: ChargingStation;
 
   constructor(
       @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {

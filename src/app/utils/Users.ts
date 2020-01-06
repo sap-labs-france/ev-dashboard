@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import { User, UserToken } from '../common.types';
+import { User, UserToken } from 'app/types/User';
 
 export class Users {
   public static buildUserFullName(user: User | UserToken) {

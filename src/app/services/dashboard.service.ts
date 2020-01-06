@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CurrentMetrics } from 'app/common.types';
 import { MessageService } from 'app/services/message.service';
+import { CurrentMetrics } from 'app/types/Statistic';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';

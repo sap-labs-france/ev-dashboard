@@ -1,5 +1,5 @@
 import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
-import { TableFilterDef } from '../../../common.types';
+import { TableFilterDef } from 'app/types/Table';
 import { Constants } from '../../../utils/Constants';
 import { TableFilter } from './table-filter';
 

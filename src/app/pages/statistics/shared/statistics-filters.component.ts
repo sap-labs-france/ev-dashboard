@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import { SettingLink } from 'app/types/Setting';
+import { TableFilterDef } from 'app/types/Table';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { Constants } from '../../../utils/Constants';
-import { TableFilterDef } from 'app/types/Table';
-import { SettingLink } from 'app/types/Setting';
 
 export interface StatisticsButtonGroup {
   name: string;

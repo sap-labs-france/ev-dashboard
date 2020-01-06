@@ -215,7 +215,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
-      new TransactionsRefundStatusFilter().getFilterDef()
+      new TransactionsRefundStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       if (this.componentService.isActive(ComponentType.ORGANIZATION)) {

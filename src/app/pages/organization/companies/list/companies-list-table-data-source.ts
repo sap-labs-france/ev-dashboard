@@ -25,8 +25,6 @@ import { Observable } from 'rxjs';
 import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 
-
-
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
   private isAdmin = false;

@@ -34,8 +34,8 @@ export interface ChargingStation extends Data {
 }
 
 export interface OcppCommand {
-  command: string,
-  parameters: string[]
+  command: string;
+  parameters: string[];
 }
 
 export interface OcppAdvancedCommands {
@@ -44,7 +44,7 @@ export interface OcppAdvancedCommands {
 
 export enum PowerLimitUnits {
   WATT = 'W',
-  AMPERE = 'A'
+  AMPERE = 'A',
 }
 
 export interface ChargingStationConfiguration {
@@ -100,7 +100,7 @@ export interface Connector extends Data {
 
 export enum ConnectorCurrentType {
   AC = 'AC',
-  DC = 'DC'
+  DC = 'DC',
 }
 
 export interface ChargingStationCapabilities {

@@ -33,7 +33,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
       ),
       timezone: new FormControl('',
         Validators.required,
-      )
+      ),
     });
 
     this.formGroup.addControl('sac', this.sac);

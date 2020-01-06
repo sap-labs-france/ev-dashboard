@@ -2,12 +2,12 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { Transaction } from 'app/types/Transaction';
 import { Chart } from 'chart.js';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
-import { Transaction } from 'app/types/Transaction';
 
 @Component({
   selector: 'app-transaction-chart',

@@ -3,8 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as jQuery from 'jquery';
 import { filter } from 'rxjs/operators';
-import { CentralServerService } from '../../services/central-server.service';
 import { RouteGuardService } from '../../guard/route-guard';
+import { CentralServerService } from '../../services/central-server.service';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -102,7 +102,7 @@ export class NavbarComponent implements OnInit {
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
       this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => {
           return route.data && route.data.menu && this.guard.isRouteAllowed(route);
-        }).map((route) => route.data ? route.data.menu : null);      
+        }).map((route) => route.data ? route.data.menu : null);
     }
     const navbar: HTMLElement = this.element.nativeElement;
     const body = document.getElementsByTagName('body')[0];

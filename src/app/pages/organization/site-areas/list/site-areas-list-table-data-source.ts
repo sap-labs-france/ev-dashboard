@@ -18,16 +18,16 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
-import { SiteArea } from 'app/types/SiteArea';
-import { SubjectInfo } from 'app/types/GlobalType';
-import { DataResult } from 'app/types/DataResult';
-import { TableDef, TableColumnDef, TableActionDef, TableFilterDef } from 'app/types/Table';
-import { ChargingStation } from 'app/types/ChargingStation';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {

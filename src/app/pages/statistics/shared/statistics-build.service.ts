@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { LocaleService } from '../../../services/locale.service';
 import { ChartConstants, ChartData } from './chart-utilities';
 
-
 export interface StatisticsBuildValueWithUnit {
   value: number;
   unit: string;
@@ -299,7 +298,7 @@ export class StatisticsBuildService {
       stackedChartData.datasets.forEach((dataset) => {
         if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
           totalChartData.labels.push(dataset.label);
-  
+
           totalValue = 0;
           numberArray = dataset.data;
           if (Array.isArray(numberArray)) {
@@ -309,7 +308,7 @@ export class StatisticsBuildService {
               }
             });
           }
-  
+
           if (totalChartData.datasets.length === 0) {
             numberArray = [];
             numberArray.push(totalValue);

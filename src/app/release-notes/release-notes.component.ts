@@ -35,7 +35,7 @@ export class ReleaseNotesComponent {
               `Billing: Add a job to synchronize Billing information`,
               `eMSP Locations: Store CPO Charging Stations`,
               `Notification: Admins are notified when billing user's synchronization has failed`,
-              `All Lists: Optimized performances by optimizing third party libs import usages`
+              `All Lists: Optimized performances by optimizing third party libs import usages`,
             ],
           },
         ],
@@ -52,7 +52,7 @@ export class ReleaseNotesComponent {
               `Add Smart Charging Settings section in Tenant`,
               `New Charging Station are automatically registered and enriched with template`,
               `Fixed Users synchronization in Billing system`,
-              `Stop a Session in progress in Session list`
+              `Stop a Session in progress in Session list`,
             ],
           },
         ],

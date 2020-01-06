@@ -42,8 +42,6 @@ import { SettingsRoutes } from './settings.routing';
 import { SettingsSapSmartChargingComponent } from './smart-charging/sap-smart-charging/settings-sap-smart-charging.component';
 import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-charging.component';
 
-
-
 @NgModule({
   imports: [
     CommonModule,

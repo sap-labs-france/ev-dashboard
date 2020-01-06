@@ -1,8 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Log } from 'app/types/Log';
 import { Constants } from 'app/utils/Constants';
 import { logLevels } from '../model/logs.model';
-import { Log } from 'app/types/Log';
 
 @Component({
   template: `

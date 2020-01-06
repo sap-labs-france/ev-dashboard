@@ -19,15 +19,15 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { Site } from 'app/types/Site';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
-import { Site } from 'app/types/Site';
-import { SubjectInfo } from 'app/types/GlobalType';
-import { DataResult } from 'app/types/DataResult';
-import { TableDef, TableColumnDef, TableActionDef, TableFilterDef } from 'app/types/Table';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {

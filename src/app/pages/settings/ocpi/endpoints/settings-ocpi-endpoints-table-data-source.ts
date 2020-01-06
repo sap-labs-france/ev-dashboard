@@ -28,8 +28,6 @@ import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-jo
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';
 import { SettingsOcpiEnpointsDetailsComponent } from './ocpi-details/settings-ocpi-endpoints-details.component';
 
-
-
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEndpoint> {
   private editAction = new TableEditAction().getActionDef();

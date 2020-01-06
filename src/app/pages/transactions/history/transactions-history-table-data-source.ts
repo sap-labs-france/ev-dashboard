@@ -220,7 +220,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
-      new TransactionsInactivityStatusFilter().getFilterDef()
+      new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
 
     // Show Site Area Filter If Organization component is active

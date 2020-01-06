@@ -287,7 +287,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         description: `${path}.description`,
         descriptionParameters: {},
         action: `${path}.action`,
-        actionParameters: {}
+        actionParameters: {},
       };
       switch (transaction.errorCode) {
         case'noConsumption':

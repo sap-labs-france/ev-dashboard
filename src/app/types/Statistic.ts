@@ -23,4 +23,3 @@ export interface CurrentMetrics {
   dataConsumptionChart: any;
   dataDeliveredChart: any;
 }
-

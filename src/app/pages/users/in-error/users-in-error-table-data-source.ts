@@ -3,6 +3,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { ErrorMessage, UserInError } from 'app/types/InError';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -27,11 +32,6 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
-import { SubjectInfo } from 'app/types/GlobalType';
-import { DataResult } from 'app/types/DataResult';
-import { User } from 'app/types/User';
-import { TableDef, TableColumnDef, TableActionDef, TableFilterDef } from 'app/types/Table';
-import { ErrorMessage, UserInError } from 'app/types/InError';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -256,7 +256,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         description: `${path}.description`,
         descriptionParameters: {},
         action: `${path}.action`,
-        actionParameters: {}
+        actionParameters: {},
       };
       user.errorMessage = errorMessage;
     });

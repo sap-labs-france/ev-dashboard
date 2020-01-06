@@ -311,7 +311,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         description: `${path}.description`,
         descriptionParameters: {},
         action: `${path}.action`,
-        actionParameters: {}
+        actionParameters: {},
       };
       switch (chargerInError.errorCode) {
         case 'missingSettings':

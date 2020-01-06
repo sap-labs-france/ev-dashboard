@@ -42,7 +42,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteAction = new TableDeleteAction().getActionDef();
   private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private currentUser: UserToken;
-  
+
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,

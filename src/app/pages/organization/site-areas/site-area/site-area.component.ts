@@ -9,15 +9,14 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RegistrationToken } from 'app/types/RegistrationToken';
+import { Site } from 'app/types/Site';
+import { SiteArea } from 'app/types/SiteArea';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
-import { RegistrationToken } from 'app/types/RegistrationToken';
-import { SiteArea } from 'app/types/SiteArea';
-import { Site } from 'app/types/Site';
-
 
 @Component({
   selector: 'app-site-area',

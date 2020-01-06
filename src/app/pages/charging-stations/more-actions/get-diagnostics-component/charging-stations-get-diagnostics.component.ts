@@ -68,7 +68,7 @@ export class ChargingStationsGetDiagnosticsComponent {
           // tslint:disable-next-line:max-line-length
           this.centralServerService.actionChargingStation(
                 'ChargingStationGetDiagnostics',
-                this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`
+                this.charger.id, `{ "location" : "${this.fileURL}", "startTime": "${date.toISOString()}"}`,
               // @ts-ignore
               ).subscribe((response: GetDiagnosticResponse) => {
             if (response.fileName && response.fileName.length > 0) {

@@ -26,4 +26,3 @@ export interface OcpiEndpointDetail extends Data {
   failureNbr: number;
   totalNbr: number;
 }
-

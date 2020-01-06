@@ -21,6 +21,7 @@ import { ChargingStationsHeartbeatCellComponent } from './cell-components/chargi
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
+import { ChargingStationSmartChargingModule } from './charging-limit/charging-station-charging-limit.module';
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
@@ -37,7 +38,6 @@ import { ChargingStationsListTableDataSource } from './list/charging-stations-li
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
 import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
-import { ChargingStationSmartChargingModule } from './charging-limit/charging-station-charging-limit.module';
 
 @NgModule({
   imports: [

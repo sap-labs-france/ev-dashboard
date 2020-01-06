@@ -8,7 +8,7 @@ export enum ComponentType {
   REFUND = 'refund',
   STATISTICS = 'statistics',
   ANALYTICS = 'analytics',
-  SMART_CHARGING = 'smartCharging'
+  SMART_CHARGING = 'smartCharging',
 }
 
 export interface Setting extends Data {
@@ -54,7 +54,7 @@ export interface ConvergentChargingPricingSetting extends PricingSetting {
 }
 
 export enum RoamingSettingsType {
-  GIREVE = 'gireve'
+  GIREVE = 'gireve',
 }
 
 export interface RoamingSettings extends Setting {
@@ -103,7 +103,7 @@ export interface SacAnalyticsSetting {
 }
 
 export enum SmartChargingSettingsType {
-  SAP_SMART_CHARGING = 'sapSmartCharging'
+  SAP_SMART_CHARGING = 'sapSmartCharging',
 }
 
 export interface SmartChargingSettings extends Setting {

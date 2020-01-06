@@ -5,4 +5,3 @@ export interface BillingTax extends Data {
   displayName: string;
   percentage: number;
 }
-

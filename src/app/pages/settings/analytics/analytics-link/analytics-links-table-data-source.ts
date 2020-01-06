@@ -19,8 +19,6 @@ import { Observable } from 'rxjs';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
-
-
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
   @Output() changed = new EventEmitter<boolean>();

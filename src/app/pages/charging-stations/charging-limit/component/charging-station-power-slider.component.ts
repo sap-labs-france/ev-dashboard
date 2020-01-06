@@ -26,11 +26,12 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.charger);
     // Init
     if (this.charger) {
       this.minAmp = 6;
       // Add all connector's amps
-      for (const connector of this.charger.connectors) {        
+      for (const connector of this.charger.connectors) {
         this.maxAmp += connector.amperage ? connector.amperage : 0;
       }
       // Set the current value

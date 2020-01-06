@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, KeyValue, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, TransactionInError, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse } from '../common.types';
+import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, KeyValue, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, TransactionInError, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, ChargingProfile } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -245,6 +245,18 @@ export class CentralServerService {
       {
         headers: this._buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        catchError(this._handleHttpError),
+      );
+  }
+
+  public getChargingProfile():Observable<DataResult<ChargingProfile>> {
+    this._checkInit();
+    return this.httpClient.get<DataResult<ChargingProfile>>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingProfile`,
+      {
+        headers: this._buildHttpHeaders(),
       })
       .pipe(
         catchError(this._handleHttpError),
@@ -1833,6 +1845,8 @@ export class CentralServerService {
       );
   }
 
+
+
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string, loadAllConnectors: boolean): Observable<ActionResponse> {
     // Verify init
     this._checkInit();
@@ -1857,6 +1871,7 @@ export class CentralServerService {
         catchError(this._handleHttpError),
       );
   }
+
 
   public chargingStationLimitPower(charger: Charger, connectorId: number, unit: string, powerValue: number, stackLevel: number): Observable<ActionResponse> {
     // Verify init

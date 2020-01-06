@@ -197,7 +197,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         // },
       },
       zoom: {
-        enabled: true,
+        enabled: false,
         drag: false,
         mode: 'x',
         sensitivity: 10,

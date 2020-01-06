@@ -271,7 +271,7 @@ export interface Charger extends Data {
   siteArea: SiteArea;
   cannotChargeInParallel: boolean;
   maximumPower: number;
-  powerLimitUnit: string;
+  powerLimitUnit: ChargingRateUnitType;
   coordinates: number[];
   currentIPAddress: string;
 }
@@ -518,7 +518,7 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
-  editType?: 'radiobutton'|'checkbox'|'input';
+  editType?: 'radiobutton'|'checkbox'|'input'|'datepicker';
   validators?: ValidatorFn[];
   errorMessage?: string;
   headerClass?: string;
@@ -873,3 +873,53 @@ export interface SmartChargingSettings {
     password: string;
   };
 }
+
+export interface ChargingProfile extends Data {
+  id: number;
+  chargingProfileId: Number;
+  transactionId?: Number;
+  stackLevel: Number;
+  chargingProfilePurpose: ChargingProfilePurposeType;
+  chargingProfileKind: ChargingProfileKindType;
+  recurrencyKind: RecurrencyKindType;
+  validFrom?: Date;
+  validTo?: Date;
+  chargingSchedule: ChargingSchedule
+}
+
+export interface ChargingSchedule {
+  duration?: Number;
+  startSchedule?: Date;
+  chargingRateUnit: ChargingRateUnitType;
+  chargingSchedulePeriod: ChargingSchedulePeriod[]
+  minChargeRate?: Number;
+}
+
+export interface ChargingSchedulePeriod extends Data {
+  startPeriod: Number;
+  limit: Number;
+  numberPhases?: Number;
+}
+
+export enum ChargingRateUnitType {
+  WATT = 'W',
+  AMPERE = 'A'
+}
+
+export enum ChargingProfileKindType{
+  ABSOLUTE = 'Absolute',
+  RECURRING = 'Recurring',
+  RELATIVE = 'Relative'
+}
+
+export enum ChargingProfilePurposeType {
+  CHARGE_POINT_MAX_PROFILE = 'ChargePointMaxProfile',
+  TX_DEFAULT_PROFILE = 'TxDefaultProfile',
+  TX_PROFILE = 'TxProfile'
+}
+
+export enum RecurrencyKindType {
+  DAILY = 'Daily',
+  WEEKLY = 'Weekly'
+}
+

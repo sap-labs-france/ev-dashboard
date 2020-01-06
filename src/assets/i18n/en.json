@@ -699,6 +699,7 @@
       "start_date": "Start",
       "end_date": "End",
       "add_slot_button": "Add slot",
+      "remove_slot_button": "Remove slot",
       "slot_start_header": "Starting slot date",
       "slot_index_header": "Slot number",
       "slot_duration_header": "Slot duration (s)",

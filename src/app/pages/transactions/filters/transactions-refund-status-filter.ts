@@ -1,4 +1,4 @@
-import { TableFilterDef } from '../../../common.types';
+import { TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { Constants } from '../../../utils/Constants';
 import { transactionRefundStatus } from '../model/transaction-refund-status.model';

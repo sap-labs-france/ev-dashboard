@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
-import {
-  DataResult,
-  OcpiEndpoint,
-  OcpiEndpointDetail,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-} from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -20,6 +12,9 @@ import { TableSendAction } from 'app/shared/table/actions/table-send-action';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { OcpiEndpoint, OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -30,7 +25,7 @@ import { OcpiDetailTotalEvsesStatusFormatterComponent } from '../formatters/ocpi
 
 @Injectable()
 export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource<OcpiEndpointDetail> {
-  private ocpiEndpoint: OcpiEndpoint;
+  private ocpiEndpoint!: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
   private sendAction = new TableSendAction().getActionDef();

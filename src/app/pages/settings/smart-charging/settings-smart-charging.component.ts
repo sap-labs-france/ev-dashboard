@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SmartChargingSettings, SmartChargingSettingsType } from 'app/common.types';
+import { SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
@@ -16,8 +16,8 @@ import { Utils } from '../../../utils/Utils';
 export class SettingsSmartChargingComponent implements OnInit {
   public isActive = false;
 
-  public formGroup: FormGroup;
-  public smartChargingSettings: SmartChargingSettings;
+  public formGroup!: FormGroup;
+  public smartChargingSettings!: SmartChargingSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -56,9 +56,14 @@ export class SettingsSmartChargingComponent implements OnInit {
     });
   }
 
-  public save(content) {
-    this.smartChargingSettings[Object.keys(content)[0]] = content[Object.keys(content)[0]];
-    this.smartChargingSettings.type = SmartChargingSettingsType.SAP_SMART_CHARGING;
+  public save(content: SmartChargingSettings) {
+    // SAP Smart Charging
+    if (content.sapSmartCharging) {
+      this.smartChargingSettings.type = SmartChargingSettingsType.SAP_SMART_CHARGING;
+      this.smartChargingSettings.sapSmartCharging = content.sapSmartCharging;
+    } else {
+      return;
+    }
     // Save
     this.spinnerService.show();
     this.componentService.saveSmartChargingSettings(this.smartChargingSettings).subscribe((response) => {

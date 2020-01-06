@@ -6,7 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Charger, KeyValue, SiteArea } from '../../../../common.types';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../../services/component.service';
@@ -30,7 +32,7 @@ export const CONNECTED_PHASE_MAP =
 })
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
-  @Input() charger!: Charger;
+  @Input() charger!: ChargingStation;
   @Input() dialogRef!: MatDialogRef<any>;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
@@ -313,7 +315,7 @@ export class ChargingStationParametersComponent implements OnInit {
         connector.voltage = this.formGroup.controls[`connectorVoltage${connector.connectorId}`].value;
         connector.amperage = this.formGroup.controls[`connectorAmperage${connector.connectorId}`].value;
       }
-      this._updateChargeBoxID();
+      this.updateChargeBoxID();
     }
   }
 
@@ -426,7 +428,7 @@ export class ChargingStationParametersComponent implements OnInit {
     }
   }
 
-  private _updateChargeBoxID() {
+  private updateChargeBoxID() {
     // Show
     this.spinnerService.show();
     // Yes: Update

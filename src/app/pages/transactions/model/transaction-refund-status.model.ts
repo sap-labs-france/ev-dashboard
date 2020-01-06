@@ -1,4 +1,4 @@
-import { KeyValue } from '../../../common.types';
+import { KeyValue } from 'app/types/GlobalType';
 
 export const transactionRefundStatus: KeyValue[] = [
   {key: 'notSubmitted', value: 'transactions.refund_undefined'},

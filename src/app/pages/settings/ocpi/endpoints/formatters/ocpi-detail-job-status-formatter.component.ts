@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { OcpiEndpointDetail } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
@@ -13,7 +13,7 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateComponent {
-  @Input() row: OcpiEndpointDetail;
+  @Input() row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiDetailJobStatus'})
@@ -37,5 +37,6 @@ export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
         return 'ocpiendpoints.status_inactive';
       }
     }
+    return '';
   }
 }

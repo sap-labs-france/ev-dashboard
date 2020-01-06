@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConfigService {
-  private _config: object;
+  private config: object;
 
   constructor(
     private http: HttpClient) {
@@ -11,50 +11,50 @@ export class ConfigService {
   }
 
   public async load() {
-    this._config = await this.http.get('/assets/config.json').toPromise();
+    this.config = await this.http.get('/assets/config.json').toPromise();
   }
 
   public getCentralSystemServer() {
-    return this._config['CentralSystemServer'];
+    return this.config['CentralSystemServer'];
   }
 
   public getFrontEnd() {
-    return (this._config['FrontEnd'] ? this._config['FrontEnd'] : {host: 'localhost'});
+    return (this.config['FrontEnd'] ? this.config['FrontEnd'] : {host: 'localhost'});
   }
 
   public getLocales() {
-    return this._config['Locales'];
+    return this.config['Locales'];
   }
 
   public getAuthorization() {
-    return this._config['Authorization'];
+    return this.config['Authorization'];
   }
 
   public getAdvanced() {
-    return this._config['Advanced'];
+    return this.config['Advanced'];
   }
 
   public getUser() {
-    return this._config['User'];
+    return this.config['User'];
   }
 
   public getCompany() {
-    return this._config['Company'];
+    return this.config['Company'];
   }
 
   public getVehicleManufacturer() {
-    return this._config['VehicleManufacturer'];
+    return this.config['VehicleManufacturer'];
   }
 
   public getVehicle() {
-    return this._config['Vehicle'];
+    return this.config['Vehicle'];
   }
 
   public getSite() {
-    return this._config['Site'];
+    return this.config['Site'];
   }
 
   public getSiteArea() {
-    return this._config['SiteArea'];
+    return this.config['SiteArea'];
   }
 }

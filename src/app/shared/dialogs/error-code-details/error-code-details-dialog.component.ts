@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ErrorMessage } from 'app/types/InError';
 
 @Component({
   templateUrl: './error-code-details-dialog.component.html',
@@ -17,16 +18,5 @@ export class ErrorCodeDetailsDialogComponent {
 
   cancel() {
     this.dialogRef.close();
-  }
-}
-
-export class ErrorMessage {
-  constructor(
-    public title: string,
-    public titleParameters: any = {},
-    public description: string,
-    public descriptionParameters: any = {},
-    public action: string,
-    public actionParameters: any = {}) {
   }
 }

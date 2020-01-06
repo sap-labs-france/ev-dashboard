@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { SubjectInfo } from 'app/types/GlobalType';
 import { Observable, Subject } from 'rxjs';
 // @ts-ignore
 import io from 'socket.io-client';
-import { SubjectInfo } from '../common.types';
 import { Constants } from '../utils/Constants';
 
 @Injectable()

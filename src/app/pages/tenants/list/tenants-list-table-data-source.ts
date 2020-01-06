@@ -4,16 +4,11 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Tenant } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
-import {
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-  Tenant,
-} from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -142,7 +137,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: Tenant) {
     switch (actionDef.id) {
       case 'edit':
         this.showTenantDialog(rowItem);
@@ -192,7 +187,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     }
   }
 
-  private deleteTenant(tenant) {
+  private deleteTenant(tenant: Tenant) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('tenants.delete_title'),
       this.translateService.instant('tenants.delete_confirm', {name: tenant.name}),

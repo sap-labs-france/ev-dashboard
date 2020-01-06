@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult } from 'app/types/DataResult';
+import { RefundReport } from 'app/types/Refund';
+import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
-import { DataResult, Report, TableColumnDef, TableDef } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
@@ -10,7 +12,7 @@ import { AppUserNamePipe } from '../../formatters/app-user-name.pipe';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class ReportsDialogTableDataSource extends DialogTableDataSource<Report> {
+export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundReport> {
   constructor(
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -22,7 +24,7 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<Report> 
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Report>> {
+  public loadDataImpl(): Observable<DataResult<RefundReport>> {
     return new Observable((observer) => {
       // Get data
       const filters = this.buildFilterValues();

@@ -1,4 +1,4 @@
-import { KeyValue } from '../../../common.types';
+import { KeyValue } from 'app/types/GlobalType';
 import { Constants } from '../../../utils/Constants';
 
 export const userStatuses: KeyValue[] = [

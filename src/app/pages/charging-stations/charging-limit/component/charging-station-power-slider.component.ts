@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatSlider, MatSliderChange } from '@angular/material/slider';
-import { Charger } from 'app/common.types';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { ChargingStations } from 'app/utils/ChargingStations';
-
 
 @Component({
   selector: 'app-charging-station-power-slider',
@@ -11,15 +9,15 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 })
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit {
-  @Input() charger!: Charger;
-  @Input() currentAmpValue: number = 0;
+  @Input() charger!: ChargingStation;
+  @Input() currentAmpValue = 0;
   @Output() powerSliderChanged = new EventEmitter<number>();
 
-  public minAmp: number = 0;
-  public maxAmp: number = 0;
-  public displayedMinPowerKW: string = "";
-  public displayedMaxPowerKW: string = "";
-  public displayedCurrentPowerW: string = "";
+  public minAmp = 0;
+  public maxAmp = 0;
+  public displayedMinPowerKW = '';
+  public displayedMaxPowerKW = '';
+  public displayedCurrentPowerW = '';
 
   constructor(
     private appUnitFormatter: AppUnitPipe) {

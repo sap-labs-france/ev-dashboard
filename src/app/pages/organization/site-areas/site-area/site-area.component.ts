@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -10,12 +9,14 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RegistrationToken } from 'app/types/RegistrationToken';
+import { Site } from 'app/types/Site';
+import { SiteArea } from 'app/types/SiteArea';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
-import { RegistrationToken } from '../../../../common.types';
-import { RegistrationTokensTableDataSource } from '../../../settings/charging_station/registration-tokens/registration-tokens-table-data-source';
+import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-site-area',
@@ -23,33 +24,33 @@ import { RegistrationTokensTableDataSource } from '../../../settings/charging_st
   providers: [RegistrationTokensTableDataSource],
 })
 export class SiteAreaComponent implements OnInit {
-  @Input() currentSiteAreaID: string;
-  @Input() inDialog: boolean;
-  @Input() dialogRef: MatDialogRef<any>;
+  @Input() currentSiteAreaID!: string;
+  @Input() inDialog!: boolean;
+  @Input() dialogRef!: MatDialogRef<any>;
 
   public image: any = Constants.SITE_AREA_NO_IMAGE;
-  public maxSize;
+  public maxSize: number;
 
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public siteID: AbstractControl;
-  public maximumPower: AbstractControl;
-  public accessControl: AbstractControl;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public siteID!: AbstractControl;
+  public maximumPower!: AbstractControl;
+  public accessControl!: AbstractControl;
 
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public coordinates: FormArray;
-  public isAdmin: boolean;
+  public address!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public coordinates!: FormArray;
+  public isAdmin!: boolean;
 
   public sites: any;
-  public registrationToken: RegistrationToken;
+  public registrationToken!: RegistrationToken;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -158,7 +159,7 @@ export class SiteAreaComponent implements OnInit {
     return this.inDialog;
   }
 
-  public setCurrentSiteAreaId(currentSiteAreaId) {
+  public setCurrentSiteAreaId(currentSiteAreaId: string) {
     this.currentSiteAreaID = currentSiteAreaId;
   }
 
@@ -273,22 +274,22 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  public updateSiteAreaImage(siteArea) {
+  public updateSiteAreaImage(siteArea: SiteArea) {
     // Set the image
     if (!this.image.endsWith(Constants.SITE_AREA_NO_IMAGE)) {
       // Set to current image
       siteArea.image = this.image;
     } else {
       // No image
-      siteArea.image = null;
+      delete siteArea.image;
     }
   }
 
-  public saveSiteArea(siteArea) {
+  public saveSiteArea(siteArea: SiteArea) {
     if (this.currentSiteAreaID) {
-      this._updateSiteArea(siteArea);
+      this.updateSiteArea(siteArea);
     } else {
-      this._createSiteArea(siteArea);
+      this.createSiteArea(siteArea);
     }
   }
 
@@ -301,7 +302,7 @@ export class SiteAreaComponent implements OnInit {
         if (result === Constants.BUTTON_TYPE_YES) {
           this.spinnerService.show();
 
-          const selectedSite = this.sites.find((site) => site.id === this.siteID.value);
+          const selectedSite = this.sites.find((site: Site) => site.id === this.siteID.value);
           this.centralServerService.createRegistrationToken({
             siteAreaID: this.currentSiteAreaID,
             description: `Token for ${selectedSite.name} / ${this.name.value}`,
@@ -329,7 +330,7 @@ export class SiteAreaComponent implements OnInit {
     this.messageService.showInfoMessage('settings.charging_station.url_copied');
   }
 
-  public imageChanged(event) {
+  public imageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -404,12 +405,13 @@ export class SiteAreaComponent implements OnInit {
   }
 
   private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
+    // @ts-ignore
     const now = moment();
     return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
       && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
   }
 
-  private _createSiteArea(siteArea) {
+  private createSiteArea(siteArea: SiteArea) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -447,7 +449,7 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  private _updateSiteArea(siteArea) {
+  private updateSiteArea(siteArea: SiteArea) {
     // Show
     this.spinnerService.show();
     // Set the image

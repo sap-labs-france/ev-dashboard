@@ -3,6 +3,25 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
+import { BillingTax } from 'app/types/Billing';
+import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
+import { Company } from 'app/types/Company';
+import { IntegrationConnection, UserConnection } from 'app/types/Connection';
+import { ActionResponse, DataResult, LoginResponse, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { EndUserLicenseAgreement } from 'app/types/Eula';
+import { Image, KeyValue, Logo } from 'app/types/GlobalType';
+import { ChargingStationInError, TransactionInError } from 'app/types/InError';
+import { Log } from 'app/types/Log';
+import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { RefundReport } from 'app/types/Refund';
+import { RegistrationToken } from 'app/types/RegistrationToken';
+import { Setting } from 'app/types/Setting';
+import { Site, SiteUser, UserSite } from 'app/types/Site';
+import { SiteArea } from 'app/types/SiteArea';
+import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
+import { Tenant } from 'app/types/Tenant';
+import { Transaction } from 'app/types/Transaction';
+import { User, UserToken } from 'app/types/User';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, KeyValue, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, TransactionInError, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, ChargingProfile } from '../common.types';
@@ -37,129 +56,129 @@ export class CentralServerService {
 
   public removeChargersFromSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveChargingStationsFromSiteArea`,
       { siteAreaID, chargingStationIDs: chargerIDs },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public addChargersToSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddChargingStationsToSiteArea`,
       { siteAreaID, chargingStationIDs: chargerIDs },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public removeUsersFromSite(siteID: string, userIDs: string[]): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromSite`,
       { siteID, userIDs },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public addUsersToSite(siteID: string, userIDs: string[]): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToSite`,
       { siteID, userIDs },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateSiteUserAdmin(siteID: string, userID: string, siteAdmin: boolean): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUserAdmin`,
       { siteID, userID, siteAdmin },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateSiteOwner(siteID: string, userID: string, siteOwner: boolean): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteOwner`,
-      {siteID, userID, siteOwner},
+      { siteID, userID, siteOwner },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public removeSitesFromUser(userID: string, siteIDs: string[]): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveSitesFromUser`,
       { userID, siteIDs },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public addSitesToUser(userID: string, siteIDs: string[]): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddSitesToUser`,
       { userID, siteIDs },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getCompanies(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Company>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Company>>(
       `${this.centralRestServerServiceSecuredURL}/Companies`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -168,30 +187,30 @@ export class CentralServerService {
     params['ID'] = companyId;
     params['WithLogo'] = withLogo.toString();
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Company>(
       `${this.centralRestServerServiceSecuredURL}/Company`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getCompanyLogos(): Observable<Logo[]> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Logo[]>(
       `${this.centralRestServerServiceSecuredURL}/CompanyLogos`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -199,55 +218,55 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = companyId;
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Logo>(
       `${this.centralRestServerServiceSecuredURL}/CompanyLogo`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUserSites(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<SiteUser>>(`${this.centralRestServerServiceSecuredURL}/UserSites`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getSites(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Site>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Site>>(
       `${this.centralRestServerServiceSecuredURL}/Sites`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -268,16 +287,16 @@ export class CentralServerService {
     params['ID'] = siteId;
     params['WithImage'] = withImage.toString();
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Site>(
       `${this.centralRestServerServiceSecuredURL}/Site`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -285,36 +304,36 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = siteId;
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Image>(
       `${this.centralRestServerServiceSecuredURL}/SiteImage`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getSiteAreas(params: { [param: string]: string | string[]; } = {},
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<SiteArea>>(
       `${this.centralRestServerServiceSecuredURL}/SiteAreas`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -322,16 +341,16 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = siteAreaId;
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<SiteArea>(
       `${this.centralRestServerServiceSecuredURL}/SiteArea`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -339,31 +358,31 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = siteAreaId;
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Image>(
       `${this.centralRestServerServiceSecuredURL}/SiteAreaImage`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTransactionYears(): Observable<number[]> {
     const params: { [param: string]: string } = {};
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<number[]>(`${this.centralRestServerServiceSecuredURL}/TransactionYears`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -371,15 +390,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConsumptionStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -387,15 +406,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/UserConsumptionStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -403,15 +422,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUsageStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -419,15 +438,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/UserUsageStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -435,15 +454,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/ChargingStationInactivityStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -451,15 +470,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/UserInactivityStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -472,15 +491,15 @@ export class CentralServerService {
     params['SortFields'] = 'timestamp';
     params['SortDirs'] = '-1';
 
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactions`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -488,15 +507,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/ChargingStationTransactionsStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -504,15 +523,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/UserTransactionsStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -520,15 +539,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/ChargingStationPricingStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -536,15 +555,15 @@ export class CentralServerService {
     params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/UserPricingStatistics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -554,179 +573,179 @@ export class CentralServerService {
     // Call
     return this.httpClient.get<CurrentMetrics[]>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getChargers(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Charger>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Charger>>(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
+    return this.httpClient.get<DataResult<ChargingStation>>(`${this.centralRestServerServiceSecuredURL}/ChargingStations`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  public getCharger(id: string): Observable<Charger> {
+  public getCharger(id: string): Observable<ChargingStation> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     if (!id) {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Charger>(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
+    return this.httpClient.get<ChargingStation>(`${this.centralRestServerServiceSecuredURL}/ChargingStation`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params: { ID: id },
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   // tslint:disable-next-line:max-line-length
   public getChargersInError(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargerInError>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<ChargerInError>>(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
+    return this.httpClient.get<DataResult<ChargingStationInError>>(`${this.centralRestServerServiceSecuredURL}/ChargingStationsInError`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getSiteUsers(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<UserSite>>(`${this.centralRestServerServiceSecuredURL}/SiteUsers`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUsers(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<User>>(`${this.centralRestServerServiceSecuredURL}/Users`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUsersInError(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<User>>(`${this.centralRestServerServiceSecuredURL}/UsersInError`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTenants(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Tenant>>(`${this.centralRestServerServiceSecuredURL}/Tenants`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTenant(id: string): Observable<Tenant> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     if (!id) {
       return EMPTY;
     }
     // Execute the REST service
     return this.httpClient.get<Tenant>(`${this.centralRestServerServiceSecuredURL}/Tenant`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params: { ID: id },
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTransactions(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsCompleted`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -734,202 +753,202 @@ export class CentralServerService {
     paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefund`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getRefundReports(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<DataResult<Report>> {
+    ordering: Ordering[] = []): Observable<DataResult<RefundReport>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Report>>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefundReports`,
+    return this.httpClient.get<DataResult<RefundReport>>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefundReports`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTransactionsToRefundList(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundList`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public assignTransactionsToUser(userId: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssignTransactionsToUser`, null,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params: { UserID: userId },
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUnassignedTransactionsCount(userId: string): Observable<number> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<number>(`${this.centralRestServerServiceSecuredURL}/UnassignedTransactionsCount`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params: { UserID: userId },
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTransaction(id: string): Observable<Transaction> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     if (!id) {
       return EMPTY;
     }
     // Execute the REST service
     return this.httpClient.get<Transaction>(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params: { ID: id },
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public exportLogs(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
-    this._checkInit();
-    this._getPaging(paging, params);
-    this._getSorting(ordering, params);
+    this.checkInit();
+    this.getPaging(paging, params);
+    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public exportTransactions(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
-    this._checkInit();
-    this._getPaging(paging, params);
-    this._getSorting(ordering, params);
+    this.checkInit();
+    this.getPaging(paging, params);
+    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public exportTransactionsToRefund(params: { [param: string]: string | string[]; },
-                            paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
-    this._checkInit();
-    this._getPaging(paging, params);
-    this._getSorting(ordering, params);
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+    this.checkInit();
+    this.getPaging(paging, params);
+    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundExport`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public exportStatistics(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
-    this._checkInit();
-    this._getPaging(paging, params);
-    this._getSorting(ordering, params);
+    this.checkInit();
+    this.getPaging(paging, params);
+    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/StatisticsExport`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public exportChargingStations(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
-    this._checkInit();
-    this._getPaging(paging, params);
-    this._getSorting(ordering, params);
+    this.checkInit();
+    this.getPaging(paging, params);
+    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsExport`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getTransactionsInError(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<TransactionInError>>(`${this.centralRestServerServiceSecuredURL}/TransactionsInError`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -937,19 +956,19 @@ export class CentralServerService {
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
     : Observable<DataResult<Transaction>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/TransactionsActive`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -957,19 +976,19 @@ export class CentralServerService {
   public getOcpiEndpoints(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<OcpiEndpoint>>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpoints`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -977,263 +996,275 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Transaction>(
       `${this.centralRestServerServiceSecuredURL}/ConsumptionFromTransaction`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createTenant(tenant: Tenant): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantCreate`, tenant,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateTenant(tenant: Tenant): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantUpdate`, tenant,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteTenant(id: string): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TenantDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getLogs(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     // Execute
     return this.httpClient.get<DataResult<Log>>(`${this.centralRestServerServiceSecuredURL}/Loggings`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getLog(id: string): Observable<Log> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     if (!id) {
       return EMPTY;
     }
     // Call
     return this.httpClient.get<Log>(`${this.centralRestServerServiceSecuredURL}/Logging?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUserImage(id: string): Observable<Image> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     if (!id) {
       return EMPTY;
     }
     return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/UserImage?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUser(id: string): Observable<User> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     if (!id) {
       return EMPTY;
     }
     // Execute the REST service
     return this.httpClient.get<User>(`${this.centralRestServerServiceSecuredURL}/User?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getUserInvoice(id: string): Observable<Blob> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     if (!id) {
       return EMPTY;
     }
     // Execute the REST service
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/UserInvoice?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getSettings(identifier: string, contentFilter = false): Observable<DataResult<Setting>> {
     // verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST Service
     return this.httpClient.get<DataResult<Setting>>(`${this.centralRestServerServiceSecuredURL}/Settings?Identifier=${identifier}&ContentFilter=${contentFilter}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public validateBillingConnection(): Observable<ValidateBillingConnectionResponse> {
     // verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST Service
     return this.httpClient.get<ValidateBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingConnection`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  public SynchronizeUsersForBilling(): Observable<SynchronizeResponse> {
-    this._checkInit();
+  public synchronizeUsersForBilling(): Observable<SynchronizeResponse> {
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getBillingTaxes(): Observable<BillingTax[]> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<BillingTax[]>(`${this.centralRestServerServiceSecuredURL}/BillingTaxes`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
       );
   }
 
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build Paging
-    this._getPaging(paging, params);
+    this.getPaging(paging, params);
     // Build Ordering
-    this._getSorting(ordering, params);
+    this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<RegistrationToken>>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokens`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createRegistrationToken(registrationToken: Partial<RegistrationToken> = {}): Observable<RegistrationToken> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.post<RegistrationToken>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenCreate`, registrationToken,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteRegistrationToken(id: string): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public revokeRegistrationToken(id: string): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RegistrationTokenRevoke?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getEndUserLicenseAgreement(language: string): Observable<EndUserLicenseAgreement> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<EndUserLicenseAgreement>(`${this.centralRestServerServiceAuthURL}/EndUserLicenseAgreement?Language=${language}`,
       {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain()),
+        headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public login(user: any): Observable<LoginResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<LoginResponse>(`${this.centralRestServerServiceAuthURL}/Login`, user,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public loginSucceeded(token: string): void {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
@@ -1307,19 +1338,19 @@ export class CentralServerService {
 
   public logout(): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceAuthURL}/Logout`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public logoutSucceeded(): void {
-    this._checkInit();
+    this.checkInit();
     this.dialog.closeAll();
     this.clearLoggedUserToken();
     this.centralServerNotificationService.resetSocketIO();
@@ -1327,7 +1358,7 @@ export class CentralServerService {
 
   public getLoggedUser(): UserToken {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     this.getLoggedUserFromToken();
     // Init Socket IO
     if (!this.configService.getCentralSystemServer().pollEnabled) {
@@ -1339,414 +1370,414 @@ export class CentralServerService {
 
   public resetUserPassword(data: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/Reset`, data,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public registerUser(user: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/RegisterUser`, user,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createUser(user: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserCreate`, user,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateUser(user: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserUpdate`, user,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createCompany(company: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyCreate`, company,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateCompany(company: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyUpdate`, company,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteCompany(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createSite(site: Site): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteCreate`, site,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateSite(site: Site): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteUpdate`, site,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteSite(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaCreate`, siteArea,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateSiteArea(siteArea: SiteArea): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaUpdate`, siteArea,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteSiteArea(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateSetting(setting: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SettingUpdate`, setting,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createOcpiEndpoint(ocpiEndpoint: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointCreate`, ocpiEndpoint,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<OCPIEVSEStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<OCPIEVSEStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendTokens`, ocpiEndpoint,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<OCPIPingResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointPing`, ocpiEndpoint,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public generateLocalTokenOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIGenerateLocalTokenResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.post<OCPIGenerateLocalTokenResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointGenerateLocalToken`, ocpiEndpoint,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUpdate`, ocpiEndpoint,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteOcpiEndpoint(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public unregisterOcpiEndpoint(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUnregister?ID=${id}`,
       `{ "id": "${id}" }`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public registerOcpiEndpoint(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointRegister?ID=${id}`,
       `{ "id": "${id}" }`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteUser(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public verifyEmail(params: { [param: string]: string | string[]; }): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Set the tenant
     params['tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get<ActionResponse>(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public resendVerificationEmail(user: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/ResendVerificationEmail`, user,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   deleteTransaction(id: number): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   refundTransactions(ids: number[]): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   synchronizeRefundedTransactions(): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeRefundedTransactions`, {},
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   softStopTransaction(id: number): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
       `{ "ID": "${id}" }`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   chargingStationStopTransaction(chargeBoxId: string, transactionId: number): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
       args: {
@@ -1755,15 +1786,15 @@ export class CentralServerService {
     };
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStopTransaction`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   chargingStationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
       args: {
@@ -1773,51 +1804,51 @@ export class CentralServerService {
     };
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStartTransaction`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  updateChargingStationParams(chargingStation: Charger): Observable<ActionResponse> {
+  updateChargingStationParams(chargingStation: ChargingStation): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
       {
-        headers: this._buildHttpHeaders(this.windowService.getSubdomain()),
+        headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteChargingStation(id: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  public getChargingStationConfiguration(id: string): Observable<ChargerConfiguration> {
+  public getChargingStationConfiguration(id: string): Observable<ChargingStationConfiguration> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.get<ChargerConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+    return this.httpClient.get<ChargingStationConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -1826,7 +1857,7 @@ export class CentralServerService {
    */
   public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     const body = `{
       "chargeBoxID": "${id}",
@@ -1838,10 +1869,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationChangeConfiguration`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -1849,7 +1880,7 @@ export class CentralServerService {
 
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string, loadAllConnectors: boolean): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // build request
 
     const body =
@@ -1865,17 +1896,17 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
 
   public chargingStationLimitPower(charger: Charger, connectorId: number, unit: string, powerValue: number, stackLevel: number): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
     let body: string;
@@ -1902,16 +1933,16 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  public chargingStationSetChargingProfile(charger: Charger, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
+  public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build default charging profile json
     let body: string;
     body = `{
@@ -1924,16 +1955,16 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  public chargingStationClearChargingProfile(charger: Charger, profileId?: string, connectorId?: string, profilePurpose?: string, stackLevel?: string): Observable<ActionResponse> {
+  public chargingStationClearChargingProfile(charger: ChargingStation, profileId?: string, connectorId?: string, profilePurpose?: string, stackLevel?: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Build default charging profile json
     const date = new Date('01/01/2018').toISOString();
     let body: string;
@@ -1965,10 +1996,10 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -1977,24 +2008,24 @@ export class CentralServerService {
    */
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     const body = (args ?
-        `{
+      `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-        `{
+      `{
         "chargeBoxID": "${id}"
       }`
     );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${action}`, body,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
@@ -2003,54 +2034,54 @@ export class CentralServerService {
    */
   public getChargingStationOCPPConfiguration(id: string) {
     // Verify init
-    this._checkInit();
+    this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.get<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public getIntegrationConnections(userId: string): Observable<DataResult<IntegrationConnection>> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.get<DataResult<IntegrationConnection>>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnections?userId=${userId}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public createIntegrationConnection(connection: UserConnection) {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/IntegrationConnectionCreate`, connection,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
   public deleteIntegrationConnection(userId: string, connectorId: string): Observable<ActionResponse> {
-    this._checkInit();
+    this.checkInit();
     return this.httpClient.delete<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 
-  private _checkInit(): void {
+  private checkInit(): void {
     // initialized?
     if (!this.initialized) {
       // No: Process the init
@@ -2070,7 +2101,7 @@ export class CentralServerService {
     }
   }
 
-  private _buildHttpHeaders(tenant?: string): HttpHeaders {
+  private buildHttpHeaders(tenant?: string): HttpHeaders {
     const header = {
       'Content-Type': 'application/json',
     };
@@ -2087,7 +2118,7 @@ export class CentralServerService {
     return new HttpHeaders(header);
   }
 
-  private _getSorting(ordering: Ordering[], queryParams: { [param: string]: string | string[]; }) {
+  private getSorting(ordering: Ordering[], queryParams: { [param: string]: string | string[]; }) {
     // Check
     if (ordering && ordering.length) {
       const sortFields: String[] = [];
@@ -2103,7 +2134,7 @@ export class CentralServerService {
     }
   }
 
-  private _getPaging(paging: Paging, queryParams: { [param: string]: string | string[]; }) {
+  private getPaging(paging: Paging, queryParams: { [param: string]: string | string[]; }) {
     // Limit
     if (paging.limit) {
       queryParams['Limit'] = paging.limit.toString();
@@ -2114,7 +2145,7 @@ export class CentralServerService {
     }
   }
 
-  private _handleHttpError(error: HttpErrorResponse): Observable<never> {
+  private handleHttpError(error: HttpErrorResponse): Observable<never> {
     // In a real world app, we might use a remote logging infrastructure
     const errMsg = { status: 0, message: '', details: undefined };
     if (error) {

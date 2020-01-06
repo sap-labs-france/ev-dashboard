@@ -3,33 +3,33 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class LocalStorageService {
-  private _isInIFrame = false;
-  private _requestId = 0;
-  private _requests = [];
+  private isInIFrame = false;
+  private requestId = 0;
+  private requests = [];
 
   constructor() {
     // Init
     if (self !== top) {
-      this._isInIFrame = true;
+      this.isInIFrame = true;
     }
     // Register event to listen from the iFrame
-    window.addEventListener('message', this._receiveMessage.bind(this), false);
+    window.addEventListener('message', this.receiveMessage.bind(this), false);
   }
 
-  public setItem(key:string, value: string) {
+  public setItem(key: string, value: string) {
     // iFrame?
-    if (this._isInIFrame) {
+    if (this.isInIFrame) {
       // Build request
       const data = {
         request: {
-          id: this._requestId++,
+          id: this.requestId++,
           type: 'set',
           key,
           value,
         },
       };
       // Send
-      this._sendRequest(data);
+      this.sendRequest(data);
     } else {
       // Not in iFrame: use it rightaway
       localStorage.setItem(key, value);
@@ -40,17 +40,17 @@ export class LocalStorageService {
     // Exec
     return new Observable((observer) => {
       // iFrame?
-      if (this._isInIFrame) {
+      if (this.isInIFrame) {
         const data = {
           request: {
-            id: this._requestId++,
+            id: this.requestId++,
             type: 'get',
             key,
           },
           callback: observer,
         };
         // Send request
-        this._sendRequest(data);
+        this.sendRequest(data);
       } else {
         // Not in iFrame: use it rightaway
         observer.next(localStorage.getItem(key));
@@ -61,16 +61,16 @@ export class LocalStorageService {
 
   public removeItem(key: string) {
     // iFrame?
-    if (this._isInIFrame) {
+    if (this.isInIFrame) {
       const data = {
         request: {
-          id: this._requestId++,
+          id: this.requestId++,
           type: 'remove',
           key,
         },
       };
       // Send request
-      this._sendRequest(data);
+      this.sendRequest(data);
     } else {
       // Not in iFrame: use it rightaway
       localStorage.removeItem(key);
@@ -79,30 +79,30 @@ export class LocalStorageService {
 
   public clear() {
     // iFrame?
-    if (this._isInIFrame) {
+    if (this.isInIFrame) {
       const data = {
         request: {
-          id: this._requestId++,
+          id: this.requestId++,
           type: 'clear',
         },
       };
       // Send request
-      this._sendRequest(data);
+      this.sendRequest(data);
     } else {
       // Not in iFrame: use it rightaway
       localStorage.clear();
     }
   }
 
-  private _sendRequest(data: any) {
+  private sendRequest(data: any) {
     // Keep call back
     // @ts-ignore
-    this._requests[data.request.id] = data.callback;
+    this.requests[data.request.id] = data.callback;
     // Post
     parent.postMessage(JSON.stringify(data.request), '*');
   }
 
-  private _receiveMessage(event: any) {
+  private receiveMessage(event: any) {
     let data;
     try {
       // Parse the data
@@ -111,12 +111,12 @@ export class LocalStorageService {
       // ignore
     }
     if (data) {
-      if (this._requests[data.id]) {
+      if (this.requests[data.id]) {
         // Call back
-        this._requests[data.id].next(data.value);
-        this._requests[data.id].complete();
+        this.requests[data.id].next(data.value);
+        this.requests[data.id].complete();
         // Clear
-        delete this._requests[data.id];
+        delete this.requests[data.id];
       }
     }
   }

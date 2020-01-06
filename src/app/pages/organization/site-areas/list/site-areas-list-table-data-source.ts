@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, DataResult, SiteArea, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -19,6 +18,11 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -166,28 +170,28 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showSiteAreaDialog();
+        this.showSiteAreaDialog();
         break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: SiteArea) {
     switch (actionDef.id) {
       case 'edit':
       case 'view':
-        this._showSiteAreaDialog(rowItem);
+        this.showSiteAreaDialog(rowItem);
         break;
       case 'edit_chargers':
       case 'display_chargers':
-        this._showChargersDialog(rowItem);
+        this.showChargersDialog(rowItem);
         break;
       case 'delete':
-        this._deleteSiteArea(rowItem);
+        this.deleteSiteArea(rowItem);
         break;
       case 'open_in_maps':
-        this._showPlace(rowItem);
+        this.showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -207,13 +211,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     ];
   }
 
-  private _showPlace(siteArea: SiteArea) {
+  private showPlace(siteArea: SiteArea) {
     if (siteArea && siteArea.address && siteArea.address.coordinates) {
       window.open(`http://maps.google.com/maps?q=${siteArea.address.coordinates[1]},${siteArea.address.coordinates[0]}`);
     }
   }
 
-  private _showSiteAreaDialog(siteArea?: SiteArea) {
+  private showSiteAreaDialog(siteArea?: SiteArea) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -233,12 +237,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     });
   }
 
-  private _showChargersDialog(charger?: Charger) {
+  private showChargersDialog(siteArea: SiteArea) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (charger) {
-      dialogConfig.data = charger;
+    if (siteArea) {
+      dialogConfig.data = siteArea;
     }
     // disable outside click close
     dialogConfig.disableClose = true;
@@ -246,7 +250,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     this.dialog.open(SiteAreaChargersDialogComponent, dialogConfig);
   }
 
-  private _deleteSiteArea(siteArea) {
+  private deleteSiteArea(siteArea: SiteArea) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('site_areas.delete_title'),
       this.translateService.instant('site_areas.delete_confirm', {siteAreaName: siteArea.name}),

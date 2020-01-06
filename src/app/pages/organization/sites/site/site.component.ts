@@ -264,9 +264,9 @@ export class SiteComponent implements OnInit {
 
   public saveSite(site) {
     if (this.currentSiteID) {
-      this._updateSite(site);
+      this.updateSite(site);
     } else {
-      this._createSite(site);
+      this.createSite(site);
     }
   }
 
@@ -326,7 +326,7 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  private _createSite(site) {
+  private createSite(site) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -364,7 +364,7 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  private _updateSite(site) {
+  private updateSite(site) {
     // Show
     this.spinnerService.show();
     // Set the image

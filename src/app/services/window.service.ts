@@ -71,7 +71,7 @@ export class WindowService {
     // Add
     urlSearchParams.append(name, value);
     // Set it back
-    this._setSearchQueryParams(urlSearchParams.toString());
+    this.setSearchQueryParams(urlSearchParams.toString());
   }
 
   setSearch(name: string, value: string): void {
@@ -80,7 +80,7 @@ export class WindowService {
     // Set
     urlSearchParams.set(name, value);
     // Set it back
-    this._setSearchQueryParams(urlSearchParams.toString());
+    this.setSearchQueryParams(urlSearchParams.toString());
   }
 
   deleteSearch(name: string): void {
@@ -89,14 +89,14 @@ export class WindowService {
     // Delete
     urlSearchParams.delete(name);
     // Set it back
-    this._setSearchQueryParams(urlSearchParams.toString());
+    this.setSearchQueryParams(urlSearchParams.toString());
   }
 
   clearSearch() {
-    this._setSearchQueryParams(null);
+    this.setSearchQueryParams(null);
   }
 
-  private _setSearchQueryParams(queryParams: string | null) {
+  private setSearchQueryParams(queryParams: string | null) {
     // Set the Query params
     if (history.pushState) {
       // Without page reload

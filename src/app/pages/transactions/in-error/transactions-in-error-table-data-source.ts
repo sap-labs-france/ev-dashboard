@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
+import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { ErrorMessage, TransactionInError } from 'app/types/InError';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Transaction } from 'app/types/Transaction';
+import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionInError, User } from '../../../common.types';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { ErrorMessage } from '../../../shared/dialogs/error-code-details/error-code-details-dialog.component';
 import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
@@ -243,13 +247,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
               {user: this.appUserNamePipe.transform(transaction.user)}),
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
-              this._deleteTransaction(transaction);
+              this.deleteTransaction(transaction);
             }
           });
         }
         break;
       case 'open':
-        this._openSession(transaction);
+        this.openSession(transaction);
         break;
       default:
         super.rowActionTriggered(actionDef, transaction);
@@ -263,7 +267,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     ];
   }
 
-  protected _deleteTransaction(transaction: Transaction) {
+  protected deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
@@ -277,7 +281,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private formatErrorMessages(transactions: TransactionInError[]) {
     transactions.forEach((transaction) => {
       const path = `transactions.errors.${transaction.errorCode}`;
-      const errorMessage = new ErrorMessage(`${path}.title`, {}, `${path}.description`, {}, `${path}.action`, {});
+      const errorMessage: ErrorMessage = {
+        title: `${path}.title`,
+        titleParameters: {},
+        description: `${path}.description`,
+        descriptionParameters: {},
+        action: `${path}.action`,
+        actionParameters: {},
+      };
       switch (transaction.errorCode) {
         case'noConsumption':
           // nothing to do
@@ -287,7 +298,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
-  private _openSession(transaction: Transaction) {
+  private openSession(transaction: Transaction) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';

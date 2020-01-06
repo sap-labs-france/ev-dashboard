@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillingSettings } from 'app/common.types';
+import { BillingTax } from 'app/types/Billing';
+import { BillingSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
-import { StripeToolBox } from './StripeToolbox';
+import { CentralServerService } from '../../../../services/central-server.service';
 
 export class StripeBillingConstants {
   public static BILLING_METHOD_IMMEDIATE = 'immediate';
@@ -14,81 +15,114 @@ export class StripeBillingConstants {
   templateUrl: 'settings-stripe.component.html',
 })
 export class SettingsStripeComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() billingSettings: BillingSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() billingSettings!: BillingSettings;
 
-  public stripe: FormGroup;
-  public stripeUrl: AbstractControl;
-  public stripeSecretKey: AbstractControl;
-  public stripePublicKey: AbstractControl;
-  public stripeImmediateBillingAllowed: AbstractControl;
-  public stripePeriodicBillingAllowed: AbstractControl;
-  public stripeLastSynchronizedOn: AbstractControl;
+  public stripe!: FormGroup;
+  public url!: AbstractControl;
+  public secretKey!: AbstractControl;
+  public publicKey!: AbstractControl;
+  public immediateBillingAllowed!: AbstractControl;
+  public periodicBillingAllowed!: AbstractControl;
+  public lastSynchronizedOn!: AbstractControl;
+  public taxID!: AbstractControl;
+  public taxes: BillingTax[] = [];
 
   ngOnInit() {
-    this.formGroup.addControl('stripe',
-      new FormGroup({
-        url: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(200),
-            Validators.pattern(Constants.URL_PATTERN),
-          ]),
-        ),
-        secretKey: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100),
-            //  StripeToolBox.validateSecretKey
-          ]),
-        ),
-        publicKey: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(100),
-            StripeToolBox.validatePublicKey,
-          ]),
-        ),
-        immediateBillingAllowed: new FormControl(''),
-        periodicBillingAllowed: new FormControl(''),
-        lastSynchronizedOn: new FormControl(''),
-      }),
-    );
+    this.stripe = new FormGroup({
+      url: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(Constants.URL_PATTERN),
+        ]),
+      ),
+      secretKey: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(100),
+           // StripeToolBox.validateSecretKey
+        ]),
+      ),
+      publicKey: new FormControl('',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(100),
+          this.validatePublicKey,
+        ]),
+      ),
+      immediateBillingAllowed: new FormControl(''),
+      periodicBillingAllowed: new FormControl(''),
+      lastSynchronizedOn: new FormControl(''),
+      taxID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ]),
+      ),
+    });
+
+    this.formGroup.addControl('stripe', this.stripe);
+
     // Keep
-    this.stripe = (this.formGroup.controls['stripe'] as FormGroup);
-    this.stripeUrl = this.stripe.controls['url'];
-    this.stripeSecretKey = this.stripe.controls['secretKey'];
-    this.stripePublicKey = this.stripe.controls['publicKey'];
-    this.stripeImmediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
-    this.stripePeriodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
-    this.stripeLastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
+    this.url = this.stripe.controls['url'];
+    this.secretKey = this.stripe.controls['secretKey'];
+    this.publicKey = this.stripe.controls['publicKey'];
+    this.immediateBillingAllowed = this.stripe.controls['immediateBillingAllowed'];
+    this.periodicBillingAllowed = this.stripe.controls['periodicBillingAllowed'];
+    this.lastSynchronizedOn = this.stripe.controls['lastSynchronizedOn'];
+    this.taxID = this.stripe.controls['taxID'];
+
     // Set data
     this.updateFormData(true);
   }
 
-  ngOnChanges() {
-    this.updateFormData();
-
+  constructor(private centralServerService: CentralServerService) {
+    this.centralServerService.getBillingTaxes().subscribe((taxes) => {
+      this.taxes = taxes;
+    });
   }
 
-  updateFormData(firstTime = false) {
-    // Set data
+  ngOnChanges() {
+    this.updateFormData();
+  }
+
+  private updateFormData(firstTime = false) {
     if (this.stripe) {
-      this.stripeUrl.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
-      //      if (firstTime) {
-      this.stripeSecretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
-      //      }
-      this.stripePublicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
-      this.stripeImmediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
+      // Set data
+      this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
+      this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
+      this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
+      this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
         ? this.billingSettings.stripe.immediateBillingAllowed : '');
-      this.stripePeriodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
+      this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
         ? this.billingSettings.stripe.periodicBillingAllowed : '');
-      this.stripeLastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
+      this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
+      this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
     }
   }
 
-  openUrl() {
-    window.open(this.stripeUrl.value);
+  public validatePublicKey(control: AbstractControl) {
+    // Check
+    if (!control.value || /(^pk_test_)/.test(control.value) || /(^pk_live_)/.test(control.value)) {
+      // Ok
+      return null;
+    }
+    return { invalid: true };
+  }
+
+  public validateSecretKey(control: AbstractControl) {
+    // Check
+    if (!control.value || /(^sk_test_)/.test(control.value) || /(^sk_live_)/.test(control.value)) {
+      // Ok
+      return null;
+    }
+    return { invalid: true };
+  }
+
+  public openUrl() {
+    if (this.url) {
+      window.open(this.url.value);
+    }
   }
 }

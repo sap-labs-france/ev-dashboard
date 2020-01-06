@@ -8,6 +8,8 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { ScheduleSlot } from 'app/types/ChargingProfile';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -46,7 +48,7 @@ export const PROFILE_TYPE_MAP =
 })
 
 export class ChargingStationChargingProfileLimitComponent implements OnInit {
-  @Input() charger!: Charger;
+  @Input() charger!: ChargingStation;
 
   @ViewChildren('powerSliders') powerSliders!: QueryList<ChargingStationPowerSliderComponent>;
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
@@ -61,7 +63,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   public profileIdControl!: AbstractControl;
   public durationControl!: AbstractControl;
 
-  private _defaultLimit!: number;
+  private defaultLimit!: number;
 
   dataSource = this.slotsSchedule;
 
@@ -85,9 +87,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : ChargingRateUnitType.AMPERE);
     // Calculate default slider value which is maximum Power of the charger
     if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
-      this._defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
+      this.defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
     } else {
-      this._defaultLimit = this.charger.maximumPower;
+      this.defaultLimit = this.charger.maximumPower;
     }
     // Init the form
     this.formGroup = new FormGroup({
@@ -130,13 +132,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       const date = new Date();
       date.setSeconds(0);
       date.setMilliseconds(0);
-      slot = { start: date, end: date, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+      slot = { start: date, end: date, limit: this.defaultLimit, displayedLimitInkW: this.getDisplayedLimit(this.defaultLimit) };
     } else {
       // change previous slot
       const previousSlot = this.slotsSchedule[this.slotsSchedule.length - 1];
       if (previousSlot.duration > 0) {
         const start = new Date(previousSlot.slot.start.getTime() + previousSlot.duration * 1000);
-        slot = { start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
+        slot = { start, end: start, limit: this.defaultLimit, displayedLimitInkW: this.getDisplayedLimit(this.defaultLimit) };
       } else {
         const start = new Date(this.slotsSchedule[this.slotsSchedule.length - 1].slot.start.getTime() + 3600000);
         slot = { start, end: start, limit: this._defaultLimit, displayedLimitInkW: this._getDisplayedLimit(this._defaultLimit) };
@@ -195,7 +197,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     if (slot.slot.end) {
       if (slot.slot.end.getTime() < slot.slot.start.getTime()) {
         slot.slot.end = slot.slot.start;
-        slot.displayedEndValue = this._buildDisplayDateTimePickerValue(slot.slot.end);
+        slot.displayedEndValue = this.buildDisplayDateTimePickerValue(slot.slot.end);
       }
     }
     for(let i = 0 ;i < this.slotsSchedule.length-1; i++){
@@ -223,15 +225,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   changeSlotDuration(value: number, slot: DisplayedScheduleSlot) {
     // update current slot end date
     slot.slot.end = new Date(slot.slot.start.getTime() + value * 1000);
-    slot.displayedEndValue = this._buildDisplayDateTimePickerValue(slot.slot.end);
+    slot.displayedEndValue = this.buildDisplayDateTimePickerValue(slot.slot.end);
     slot.duration = value;
     // update next slots start date
     for (let index = slot.id + 1; index < this.slotsSchedule.length; index++) {
       const slotSchedule = this.slotsSchedule[index];
       slotSchedule.slot.start = this.slotsSchedule[index - 1].slot.end;
       slotSchedule.slot.end = new Date(this.slotsSchedule[index - 1].slot.end.getTime() + slotSchedule.duration * 1000);
-      slotSchedule.displayedStartValue = this._buildDisplayDateTimePickerValue(slotSchedule.slot.start);
-      slotSchedule.displayedEndValue = this._buildDisplayDateTimePickerValue(slotSchedule.slot.end);
+      slotSchedule.displayedStartValue = this.buildDisplayDateTimePickerValue(slotSchedule.slot.start);
+      slotSchedule.displayedEndValue = this.buildDisplayDateTimePickerValue(slotSchedule.slot.end);
     }
     this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
@@ -246,7 +248,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
           // Build OCPP planning
-          const chargingProfile = this._buildProfile();
+          const chargingProfile = this.buildProfile();
           // call REST service
           this.centralServerService.chargingStationSetChargingProfile(this.charger, 0, chargingProfile).subscribe((response) => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
@@ -324,13 +326,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     return profile;
   }
 
-  _buildDisplayDateTimePickerValue(date: Date) {
+  private buildDisplayDateTimePickerValue(date: Date) {
     // tslint:disable-next-line:max-line-length
     const dateStr = `${date.getFullYear()}-${(date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)}-${(date.getDate() < 10 ? '0' + date.getDate() : date.getDate())}T${(date.getHours() < 10 ? '0' + date.getHours() : date.getHours())}:${(date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())}`;
     return date;
   }
 
-  private _getDisplayedLimit(value: number) {
+  private getDisplayedLimit(value: number) {
     if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
       return ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, value);
     } else {

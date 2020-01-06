@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserToken } from 'app/common.types';
+import { UserToken } from 'app/types/User';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { RouteGuardService } from '../guard/route-guard';
@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
       this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => {
         return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, []);
-      }).map((route) => route && route.data ? route.data.menu : null);      
+      }).map((route) => route && route.data ? route.data.menu : null);
     }
 
     // Set admin
@@ -89,7 +89,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
         this.loggedUserImage = (image && image.image ? image.image : Constants.USER_NO_PICTURE).toString();
-      });      
+      });
     }
   }
 

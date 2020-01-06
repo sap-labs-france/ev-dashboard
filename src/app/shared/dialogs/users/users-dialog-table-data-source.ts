@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult } from 'app/types/DataResult';
+import { TableColumnDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
-import { DataResult, TableColumnDef, User } from '../../../common.types';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';

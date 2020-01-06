@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { StatisticData } from '../../../common.types';
+import { StatisticData } from 'app/types/Statistic';
+import * as moment from 'moment';
 import { LocaleService } from '../../../services/locale.service';
 import { ChartConstants, ChartData } from './chart-utilities';
-
-import * as moment from 'moment';
 
 export interface StatisticsBuildValueWithUnit {
   value: number;
@@ -16,7 +15,7 @@ export class StatisticsBuildService {
   private totalLabel: string;
   private monthLabel: string;
   private unitLabel: string;
-  private language: string;
+  private language!: string;
 
   constructor(
     private translateService: TranslateService,
@@ -45,10 +44,10 @@ export class StatisticsBuildService {
     let monthIndex = 0;
     let countMonths = 0;
     let newKey = '';
-    let numberArray = [];
+    let numberArray: any = [];
     let sum = 0;
 
-    const totalDataArray = [];
+    const totalDataArray: number[] = [];
     const transactionValues = statisticsData;
 
     if (roundingDecimals !== 0) {
@@ -64,17 +63,18 @@ export class StatisticsBuildService {
     }
 
     if (transactionValues && transactionValues.length > 0) {
+      // tslint:disable-next-line: cyclomatic-complexity
       transactionValues.forEach((transactionValue) => {
         // for each month (sorted from 0 to 11, but attention, multiple month values are possible if multiple units!):
         let totalValuePerMonth = 0;
         let newMonth = false;
 
         monthIndex = transactionValue.month;
+        // @ts-ignore
         monthString = moment().locale(this.language).month(monthIndex).format('MMMM');
 
-        const currentIndex = stackedChartData.labels.indexOf(monthString);
-
-        if (currentIndex < 0) {
+        const currentIndex = stackedChartData.labels ? stackedChartData.labels.indexOf(monthString) : -1;
+        if (currentIndex < 0 && stackedChartData.labels) {
           countMonths++;
           newMonth = true;
           stackedChartData.labels.push(monthString);
@@ -97,9 +97,8 @@ export class StatisticsBuildService {
                 newKey = key;
               }
 
-              dataSetIndex = stackedChartData.datasets.findIndex((dataset) => dataset['label'] === newKey);
-
-              if (dataSetIndex < 0) {
+              dataSetIndex = stackedChartData.datasets ? stackedChartData.datasets.findIndex((dataset) => dataset['label'] === newKey) : -1;
+              if (dataSetIndex < 0 && stackedChartData.datasets) {
                 numberArray = [];
 
                 for (let i = 1; i < countMonths; i++) {
@@ -110,7 +109,9 @@ export class StatisticsBuildService {
                 numberArray.push(transactionValue[key]);
                 stackedChartData.datasets.push({ label: newKey, data: numberArray, stack: ChartConstants.STACKED_ITEM });
               } else {
-                numberArray = stackedChartData.datasets[dataSetIndex].data;
+                if (stackedChartData.datasets) {
+                  numberArray = stackedChartData.datasets[dataSetIndex].data;
+                }
                 if (newMonth) {
                   numberArray.push(transactionValue[key]);
                 } else {
@@ -120,7 +121,9 @@ export class StatisticsBuildService {
                     numberArray[countMonths - 1] = monthlyNumber;
                   }
                 }
-                stackedChartData.datasets[dataSetIndex].data = numberArray;
+                if (stackedChartData.datasets) {
+                  stackedChartData.datasets[dataSetIndex].data = numberArray;
+                }
               }
 
               totalValuePerMonth += transactionValue[key];
@@ -129,17 +132,19 @@ export class StatisticsBuildService {
         }
 
         // add trailing zero if no activity in the current month:
-        stackedChartData.datasets.forEach((dataset) => {
-          if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
-            numberArray = dataset.data;
-            if (numberArray.length < countMonths) {
-              for (let i = numberArray.length; i < countMonths; i++) {
-                numberArray.push(0);
+        if (stackedChartData.datasets) {
+          stackedChartData.datasets.forEach((dataset) => {
+            if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
+              numberArray = dataset.data;
+              if (numberArray.length < countMonths) {
+                for (let i = numberArray.length; i < countMonths; i++) {
+                  numberArray.push(0);
+                }
+                dataset.data = numberArray;
               }
-              dataset.data = numberArray;
             }
-          }
-        });
+          });
+        }
 
         // Deferred update for totals:
         if (newMonth) {
@@ -154,7 +159,7 @@ export class StatisticsBuildService {
       });
 
       // sort datasets:
-      if (sortedBy.startsWith('size-')) {
+      if (sortedBy.startsWith('size-') && stackedChartData.datasets) {
         // add totals at index position 0, to be used for sorting:
         stackedChartData.datasets.forEach((dataset) => {
           numberArray = dataset.data;
@@ -169,59 +174,61 @@ export class StatisticsBuildService {
         });
       }
 
-      stackedChartData.datasets.sort((dataset1, dataset2) => {
-        switch (sortedBy) {
-          case 'label-asc':
-            if (dataset1.label < dataset2.label) {
-              return -1;
-            } else {
-              if (dataset1.label > dataset2.label) {
-                return 1;
-              } else {
-                return 0;
-              }
-            }
-          case 'label-desc':
-            if (dataset1.label > dataset2.label) {
-              return -1;
-            } else {
+      if (stackedChartData.datasets) {
+        stackedChartData.datasets.sort((dataset1, dataset2) => {
+          switch (sortedBy) {
+            case 'label-asc':
               if (dataset1.label < dataset2.label) {
-                return 1;
+                return -1;
               } else {
-                return 0;
+                if (dataset1.label > dataset2.label) {
+                  return 1;
+                } else {
+                  return 0;
+                }
               }
-            }
-          case 'size-asc':
-            if (dataset1.data[0] < dataset2.data[0]) {
-              return -1;
-            } else {
-              if (dataset1.data[0] > dataset2.data[0]) {
-                return 1;
+            case 'label-desc':
+              if (dataset1.label > dataset2.label) {
+                return -1;
               } else {
-                return 0;
+                if (dataset1.label < dataset2.label) {
+                  return 1;
+                } else {
+                  return 0;
+                }
               }
-            }
-          case 'size-desc':
-            if (dataset1.data[0] > dataset2.data[0]) {
-              return -1;
-            } else {
+            case 'size-asc':
               if (dataset1.data[0] < dataset2.data[0]) {
-                return 1;
+                return -1;
               } else {
-                return 0;
+                if (dataset1.data[0] > dataset2.data[0]) {
+                  return 1;
+                } else {
+                  return 0;
+                }
               }
-            }
-        }
-      });
+            case 'size-desc':
+              if (dataset1.data[0] > dataset2.data[0]) {
+                return -1;
+              } else {
+                if (dataset1.data[0] < dataset2.data[0]) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              }
+          }
+        });
+      }
 
-      if (sortedBy.startsWith('size-')) {
+      if (sortedBy.startsWith('size-') && stackedChartData.datasets) {
         // remove calculated totals again:
         stackedChartData.datasets.forEach((dataset) => {
           dataset.data.splice(0, 1);
         });
       }
 
-      if (maxNumberOfItems > 0 && stackedChartData.datasets.length > maxNumberOfItems) {
+      if (maxNumberOfItems > 0 && stackedChartData.datasets && stackedChartData.datasets.length > maxNumberOfItems) {
         // push everything into the last dataset:
         const lastValidIndex = maxNumberOfItems - 1;
         let dataItem: any;
@@ -238,9 +245,10 @@ export class StatisticsBuildService {
           stackedChartData.datasets.pop();
         }
       }
-
       // Last chart dataset for totals:
-      stackedChartData.datasets.push({ label: this.totalLabel, data: totalDataArray, stack: ChartConstants.STACKED_TOTAL });
+      if (stackedChartData.datasets) {
+        stackedChartData.datasets.push({ label: this.totalLabel, data: totalDataArray, stack: ChartConstants.STACKED_TOTAL });
+      }
     }
 
     return stackedChartData;
@@ -251,12 +259,24 @@ export class StatisticsBuildService {
     let dataSetIndex = 0;
     let numberArray = [];
 
-    // is the chart a stacked chart (with totals)?
-    dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
-    if (dataSetIndex < 0) {
-      // no, it is a simple chart
-      if (chartData.datasets.length > 0) {
-        numberArray = chartData.datasets[0].data;
+    if (chartData.datasets) {
+      // is the chart a stacked chart (with totals)?
+      dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
+      if (dataSetIndex < 0) {
+        // no, it is a simple chart
+        if (chartData.datasets.length > 0) {
+          numberArray = chartData.datasets[0].data;
+          if (Array.isArray(numberArray)) {
+            numberArray.forEach((numberValue) => {
+              if (typeof (numberValue) === 'number') {
+                totalValue += numberValue;
+              }
+            });
+          }
+        }
+      } else {
+        // yes, it is a stacked chart with totals
+        numberArray = chartData.datasets[dataSetIndex].data;
         if (Array.isArray(numberArray)) {
           numberArray.forEach((numberValue) => {
             if (typeof (numberValue) === 'number') {
@@ -264,16 +284,6 @@ export class StatisticsBuildService {
             }
           });
         }
-      }
-    } else {
-      // yes, it is a stacked chart with totals
-      numberArray = chartData.datasets[dataSetIndex].data;
-      if (Array.isArray(numberArray)) {
-        numberArray.forEach((numberValue) => {
-          if (typeof (numberValue) === 'number') {
-            totalValue += numberValue;
-          }
-        });
       }
     }
     return totalValue;
@@ -284,55 +294,55 @@ export class StatisticsBuildService {
     let totalValue = 0;
     let numberArray = [];
 
-    stackedChartData.datasets.forEach((dataset) => {
-      if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
-        totalChartData.labels.push(dataset.label);
+    if (stackedChartData.datasets &&  totalChartData.labels) {
+      stackedChartData.datasets.forEach((dataset) => {
+        if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
+          totalChartData.labels.push(dataset.label);
 
-        totalValue = 0;
-        numberArray = dataset.data;
-        if (Array.isArray(numberArray)) {
-          numberArray.forEach((numberValue) => {
-            if (typeof (numberValue) === 'number') {
-              totalValue += numberValue;
-            }
-          });
+          totalValue = 0;
+          numberArray = dataset.data;
+          if (Array.isArray(numberArray)) {
+            numberArray.forEach((numberValue) => {
+              if (typeof (numberValue) === 'number') {
+                totalValue += numberValue;
+              }
+            });
+          }
+
+          if (totalChartData.datasets.length === 0) {
+            numberArray = [];
+            numberArray.push(totalValue);
+            totalChartData.datasets.push({ data: numberArray }); // no 'label, no 'stack'
+          } else {
+            numberArray = totalChartData.datasets[0].data;
+            numberArray.push(totalValue);
+            totalChartData.datasets[0].data = numberArray;
+          }
         }
-
-        if (totalChartData.datasets.length === 0) {
-          numberArray = [];
-          numberArray.push(totalValue);
-          totalChartData.datasets.push({ data: numberArray }); // no 'label, no 'stack'
-        } else {
-          numberArray = totalChartData.datasets[0].data;
-          numberArray.push(totalValue);
-          totalChartData.datasets[0].data = numberArray;
-        }
-      }
-    });
-
+      });
+    }
     return totalChartData;
   }
 
   public countNumberOfChartItems(chartData: ChartData): number {
     let count = 0;
 
-    if (chartData.datasets.length === 1) {
-      count = chartData.datasets[0].data.length;
-    } else {
-      chartData.datasets.forEach((dataset) => {
-        if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
-          count++;
-        }
-      });
+    if (chartData.datasets) {
+      if (chartData.datasets.length === 1) {
+        count = chartData.datasets[0].data.length;
+      } else {
+        chartData.datasets.forEach((dataset) => {
+          if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
+            count++;
+          }
+        });
+      }
     }
-
     return count;
   }
 
   public calculateTotalsWithUnits(statisticsData: any,
-                                  roundingDecimals: number = 0,
-                                  ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
-
+      roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
     let roundingFactor = 1;
     let index = 0;
     let localString: any;
@@ -424,8 +434,6 @@ export class StatisticsBuildService {
         totalsWithUnit[0].value += totalOfLastUnit;
       }
     }
-
     return totalsWithUnit;
   }
-
 }

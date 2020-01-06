@@ -79,6 +79,7 @@ export class FooterModule {
     SiteAreasDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
+    GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,

@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
 import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
-import { TableFilterDef } from '../../../common.types';
+import { TableFilterDef } from 'app/types/Table';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -21,24 +21,24 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
 
 export class StatisticsConsumptionComponent implements OnInit {
   public totalConsumption = 0;
-  public selectedChart: string;
-  public selectedCategory: string;
-  public selectedDateFrom: Date;
-  public selectedDateTo: Date;
-  public selectedYear: number;
+  public selectedChart!: string;
+  public selectedCategory!: string;
+  public selectedDateFrom!: Date;
+  public selectedDateTo!: Date;
+  public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('consumptionBarChart', {static: true}) ctxBarChart: ElementRef;
-  @ViewChild('consumptionPieChart', {static: true}) ctxPieChart: ElementRef;
+  @ViewChild('consumptionBarChart', {static: true}) ctxBarChart!: ElementRef;
+  @ViewChild('consumptionPieChart', {static: true}) ctxPieChart!: ElementRef;
 
-  private filterParams: { [param: string]: string | string[]; };
-  private barChart: SimpleChart;
-  private pieChart: SimpleChart;
-  private barChartData: ChartData;
-  private pieChartData: ChartData;
-  private language: string;
+  private filterParams!: { [param: string]: string | string[]; };
+  private barChart!: SimpleChart;
+  private pieChart!: SimpleChart;
+  private barChartData!: ChartData;
+  private pieChartData!: ChartData;
+  private language!: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -76,23 +76,23 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.initCharts();
   }
 
-  scopeChanged(chartName): void {
+  scopeChanged(chartName: string): void {
     this.selectedChart = chartName;
   }
 
-  categoryChanged(category): void {
+  categoryChanged(category: string): void {
     this.selectedCategory = category;
   }
 
-  dateFromChange(date) {
+  dateFromChange(date: Date) {
     this.selectedDateFrom = date;
   }
 
-  dateToChange(date) {
+  dateToChange(date: Date) {
     this.selectedDateTo = date;
   }
 
-  yearChanged(year): void {
+  yearChanged(year: number): void {
     this.selectedYear = year;
   }
 

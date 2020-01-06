@@ -1,5 +1,5 @@
 import { Component, ComponentFactoryResolver, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
-import { Data, TableColumnDef, TableDef } from '../../../common.types';
+import { Data, TableColumnDef, TableDef } from 'app/types/Table';
 import { CellContentTemplateComponent } from './cell-content-template.component';
 
 @Component({
@@ -10,11 +10,11 @@ import { CellContentTemplateComponent } from './cell-content-template.component'
 
 // tslint:disable-next-line:component-class-suffix
 export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
-  @Input() row: Data;
-  @Input() columnDef: TableColumnDef;
-  @Input() tableDef: TableDef;
+  @Input() row!: Data;
+  @Input() columnDef!: TableColumnDef;
+  @Input() tableDef!: TableDef;
 
-  private cellComponent: CellContentTemplateComponent;
+  private cellComponent!: CellContentTemplateComponent;
   private cellComponentRef: any;
 
   constructor(

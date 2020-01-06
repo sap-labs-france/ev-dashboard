@@ -5,11 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { Connector } from 'app/types/ChargingStation';
+import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Transaction } from 'app/types/Transaction';
+import { User } from 'app/types/User';
 // @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { ActionResponse, Connector, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, TransactionDataResult, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -215,7 +220,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
-      new TransactionsInactivityStatusFilter().getFilterDef()
+      new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
 
     // Show Site Area Filter If Organization component is active
@@ -268,7 +273,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
               {user: this.appUserNamePipe.transform(transaction.user)}),
           ).subscribe((response) => {
             if (response === Constants.BUTTON_TYPE_YES) {
-              this._deleteTransaction(transaction);
+              this.deleteTransaction(transaction);
             }
           });
         }
@@ -332,7 +337,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
-  protected _deleteTransaction(transaction: Transaction) {
+  protected deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length

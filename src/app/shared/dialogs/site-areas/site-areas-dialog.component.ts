@@ -1,6 +1,7 @@
-import { Component, Inject, Self } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { KeyValue,  SiteArea } from '../../../common.types';
+import { KeyValue } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { SiteAreasDialogTableDataSource } from './site-areas-dialog-table-data-source';
 
@@ -11,7 +12,7 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
   constructor(
     public dialogDataSource: SiteAreasDialogTableDataSource,
     protected dialogRef: MatDialogRef<SiteAreasDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
     super(data, dialogRef, dialogDataSource);
     // Default title
@@ -22,7 +23,7 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
   }
 
   getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {
-    const items = [];
+    const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
         items.push({key: row.id, value: row.name, objectRef: row});

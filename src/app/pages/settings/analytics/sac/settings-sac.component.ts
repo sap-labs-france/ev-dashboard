@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AnalyticsSettings } from 'app/common.types';
+import { AnalyticsSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
-import * as moment from 'moment-timezone';
+// @ts-ignore
+import moment from 'moment-timezone';
 import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links-table-data-source';
 
 @Component({
@@ -10,11 +11,12 @@ import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links
   templateUrl: 'settings-sac.component.html',
 })
 export class SettingsSacComponent implements OnInit, OnChanges {
-  @Input() formGroup: FormGroup;
-  @Input() analyticsSettings: AnalyticsSettings;
+  @Input() formGroup!: FormGroup;
+  @Input() analyticsSettings!: AnalyticsSettings;
 
-  public mainUrl: AbstractControl;
-  public timezone: AbstractControl;
+  public sac!: FormGroup;
+  public mainUrl!: AbstractControl;
+  public timezone!: AbstractControl;
   public timezoneList: any = [];
 
   constructor(
@@ -25,18 +27,20 @@ export class SettingsSacComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     // Add control
-    this.formGroup.addControl(
-      'mainUrl', new FormControl('',
-        Validators.compose([
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-    );
-    this.formGroup.addControl(
-      'timezone', new FormControl('',
-        Validators.required),
-    );
-    this.mainUrl = this.formGroup.controls['mainUrl'];
-    this.timezone = this.formGroup.controls['timezone'];
+    this.sac = new FormGroup({
+      mainUrl: new FormControl('',
+        Validators.pattern(Constants.URL_PATTERN),
+      ),
+      timezone: new FormControl('',
+        Validators.required,
+      ),
+    });
+
+    this.formGroup.addControl('sac', this.sac);
+
+    // Keep
+    this.mainUrl = this.sac.controls['mainUrl'];
+    this.timezone = this.sac.controls['timezone'];
     // Set data
     this.updateFormData();
   }

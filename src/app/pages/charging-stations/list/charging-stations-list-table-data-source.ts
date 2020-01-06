@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Charger, DataResult, DropdownItem, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -16,6 +15,10 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStation, Connector } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 // @ts-ignore
@@ -29,13 +32,13 @@ import { ChargingStationsRebootAction } from '../actions/charging-stations-reboo
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
-import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 
 @Injectable()
-export class ChargingStationsListTableDataSource extends TableDataSource<Charger> {
+export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private rebootAction = new ChargingStationsRebootAction().getActionDef();
@@ -66,15 +69,15 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 
-  public loadDataImpl(): Observable<DataResult<Charger>> {
+  public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getChargers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
         // Update details status
-        chargers.result.forEach((charger) => {
+        chargers.result.forEach((charger: ChargingStation) => {
           // At first filter out the connectors that are null
-          charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
+          charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNull(connector));
           charger.connectors.forEach((connector) => {
             connector.hasDetails = connector.activeTransactionID > 0;
           });
@@ -228,7 +231,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Charger, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStation, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
         this.showChargingStationDialog(rowItem);
@@ -294,7 +297,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     return [];
   }
 
-  public showChargingStationDialog(chargingStation?: Charger) {
+  public showChargingStationDialog(chargingStation?: ChargingStation) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -315,7 +318,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     });
   }
 
-  buildTableDynamicRowActions(charger: Charger): TableActionDef[] {
+  buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
     if (!charger) {
       return [];
     }
@@ -333,7 +336,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     return [openInMaps];
   }
 
-  private simpleActionChargingStation(action: string, charger: Charger, args: any, title: string, message: string, successMessage: string, errorMessage: string) {
+  private simpleActionChargingStation(action: string, charger: ChargingStation, args: any, title: string,
+      message: string, successMessage: string, errorMessage: string) {
     if (charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -365,8 +369,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     }
   }
 
-  private deleteChargingStation(chargingStation: Charger) {
-    if (!chargingStation.inactive && chargingStation.connectors.findIndex((connector) => connector.activeTransactionID > 0) >= 0) {
+  private deleteChargingStation(chargingStation: ChargingStation) {
+    if (!chargingStation.inactive && chargingStation.connectors.findIndex((connector: Connector) => connector.activeTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       this.dialogService.createAndShowOkDialog(
         this.translateService.instant('chargers.action_error.delete_title'),
@@ -394,7 +398,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     }
   }
 
-  private dialogSmartCharging(chargingStation?: Charger) {
+  private dialogSmartCharging(chargingStation?: ChargingStation) {
     if (chargingStation && (chargingStation.inactive || parseFloat(chargingStation.ocppVersion) < 1.6)) {
       if (chargingStation.inactive) {
         // Charger is not connected
@@ -427,7 +431,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     }
   }
 
-  private dialogMoreActions(chargingStation?: Charger) {
+  private dialogMoreActions(chargingStation?: ChargingStation) {
     if (chargingStation && chargingStation.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -464,13 +468,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
       });
   }
 
-  private showPlace(charger: Charger) {
+  private showPlace(charger: ChargingStation) {
     if (charger && charger.coordinates && charger.coordinates.length === 2) {
       window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
     }
   }
 
-  private openGeoMap(charger?: Charger) {
+  private openGeoMap(charger?: ChargingStation) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -505,7 +509,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Charger
     this.dialog.open(GeoMapDialogComponent, dialogConfig);
   }
 
-  private getChargerLatitudeLongitude(charger: Charger) {
+  private getChargerLatitudeLongitude(charger: ChargingStation) {
     let latitude = 0;
     let longitude = 0;
     if (charger && charger.coordinates && charger.coordinates.length === 2) {

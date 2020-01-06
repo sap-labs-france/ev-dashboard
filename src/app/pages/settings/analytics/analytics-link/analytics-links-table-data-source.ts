@@ -1,48 +1,39 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'lodash';
-import { Observable } from 'rxjs';
-
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {
-  AnalyticsLink,
-  DataResult,
-  DropdownItem,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Constants } from 'app/utils/Constants';
-
 import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { SettingLink } from 'app/types/Setting';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Constants } from 'app/utils/Constants';
+import { Observable } from 'rxjs';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
-export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink> {
+export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
   @Output() changed = new EventEmitter<boolean>();
-  private analyticsLinks: AnalyticsLink[];
+  private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private translateService: TranslateService,
-      private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
-      private dialogService: DialogService,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService) {
+    public spinnerService: SpinnerService,
+    private translateService: TranslateService,
+    private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
+    private dialogService: DialogService,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService) {
     super(spinnerService);
     // Init
     this.initDataSource();
@@ -52,19 +43,21 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return this.centralServerNotificationService.getSubjectAnalyticsLinks();
   }
 
-  public setLinks(analyticsLinks: AnalyticsLink[]) {
+  public setLinks(analyticsLinks: SettingLink[]) {
     this.analyticsLinks = analyticsLinks ? analyticsLinks : [];
   }
 
-  public getLinks(): AnalyticsLink[] {
+  public getLinks(): SettingLink[] {
     return this.analyticsLinks;
   }
 
-  public loadDataImpl(): Observable<DataResult<AnalyticsLink>> {
+  public loadDataImpl(): Observable<DataResult<SettingLink>> {
     return new Observable((observer) => {
       // Check
       if (this.analyticsLinks) {
-        this.analyticsLinks = _.orderBy(this.analyticsLinks, 'name', 'asc');
+        this.analyticsLinks.sort((a, b) => {
+          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
+        });
         const links = [];
         for (let index = 0; index < this.analyticsLinks.length; index++) {
           const _link = this.analyticsLinks[index];
@@ -122,7 +115,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
       {
         id: 'role',
         name: 'analytics.link.role',
-        formatter: (role) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
+        formatter: (role: string) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: false,
@@ -163,7 +156,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: SettingLink, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case 'edit':
         this.showLinksDialog(rowItem);
@@ -189,7 +182,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     return [];
   }
 
-  private showLinksDialog(analyticsLink?: AnalyticsLink) {
+  private showLinksDialog(analyticsLink?: SettingLink) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -204,7 +197,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // find object
-        const index = _.findIndex(this.analyticsLinks, { id: result.id });
+        const index = this.analyticsLinks.findIndex((link) => link.id === result.id);
         if (index >= 0) {
           this.analyticsLinks.splice(index, 1, result);
         } else {
@@ -216,20 +209,23 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<AnalyticsLink
     });
   }
 
-  private deleteLink(analyticsLink) {
+  private deleteLink(analyticsLink: SettingLink) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('analytics.delete_title'),
       this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
-        _.remove(this.analyticsLinks, (o: AnalyticsLink) => (o.id === analyticsLink.id));
+        const index = this.analyticsLinks.findIndex((link) => link.id === analyticsLink.id);
+        if (index > -1) {
+          this.analyticsLinks.splice(index, 1);
+        }
         this.refreshData().subscribe();
         this.changed.emit(true);
       }
     });
   }
 
-  private viewLink(analyticsLink) {
+  private viewLink(analyticsLink: SettingLink) {
     window.open(analyticsLink.url);
   }
 }

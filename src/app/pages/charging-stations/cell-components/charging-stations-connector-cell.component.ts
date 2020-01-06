@@ -1,6 +1,6 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
-import { Connector } from 'app/common.types';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { Connector } from 'app/types/ChargingStation';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
@@ -9,7 +9,7 @@ import { Constants } from 'app/utils/Constants';
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
       <div class="row mx-0 px-0 align-items-center detail-connector">
-        <div appTooltip data-toogle="tooltip" data-offset="0px, 8px" data-placement="bottom"
+        <div appTooltip data-offset="0px, 8px"
             [title]="row | appChargingStationsFormatConnector:'text' | translate"
             class="charger-connector-container">
           <div [class]="row | appChargingStationsFormatConnector:'class'">
@@ -17,12 +17,10 @@ import { Constants } from 'app/utils/Constants';
           </div>
         </div>
         <!-- Connector Type -->
-        <div class="d-inline-block" appTooltip data-offset="-15px, 8px" data-placement="bottom" data-toogle="tooltip"
-            [title]="row.type | appConnectorType:'text' | translate">
+        <div class="d-inline-block" appTooltip data-offset="-15px, 8px" [title]="row.type | appConnectorType:'text' | translate">
           <div *ngIf="row.type && row.type !== null"
               class="charger-connector-container charger-connector-container-image d-flex align-items-center justify-content-center charger-connector-container-image-small charger-connector-type-background">
-            <mat-icon *ngIf="row.type !== null" [svgIcon]="row.type | appConnectorType:'icon'" class="d-flex"></mat-icon>
-            <mat-icon *ngIf="row.type === null" class="d-flex">not_interested</mat-icon>
+            <mat-icon [svgIcon]="row.type | appConnectorType:'icon'" class="d-flex"></mat-icon>
           </div>
         </div>
       </div>
@@ -43,6 +41,7 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
     if (type === 'text') {
       return this.buildConnectorText(connector);
     }
+    return '';
   }
 
   buildConnectorClasses(connector: Connector): string {

@@ -1,34 +1,27 @@
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import {
-  Company,
-  DataResult,
-  SubjectInfo,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  TableFilterDef,
-} from 'app/common.types';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Utils } from 'app/utils/Utils';
-
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Company } from 'app/types/Company';
+import { DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 
@@ -171,24 +164,24 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     switch (actionDef.id) {
       // Add
       case 'create':
-        this._showCompanyDialog();
+        this.showCompanyDialog();
         break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: Company) {
     switch (actionDef.id) {
       case 'edit':
       case 'view':
-        this._showCompanyDialog(rowItem);
+        this.showCompanyDialog(rowItem);
         break;
       case 'delete':
-        this._deleteCompany(rowItem);
+        this.deleteCompany(rowItem);
         break;
       case 'open_in_maps':
-        this._showPlace(rowItem);
+        this.showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -206,13 +199,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return [];
   }
 
-  private _showPlace(company: Company) {
+  private showPlace(company: Company) {
     if (company && company.address && company.address.coordinates) {
       window.open(`http://maps.google.com/maps?q=${company.address.coordinates[1]},${company.address.coordinates[0]}`);
     }
   }
 
-  private _showCompanyDialog(company?: Company) {
+  private showCompanyDialog(company?: Company) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -232,7 +225,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     });
   }
 
-  private _deleteCompany(company) {
+  private deleteCompany(company: Company) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('companies.delete_title'),
       this.translateService.instant('companies.delete_confirm', {companyName: company.name}),

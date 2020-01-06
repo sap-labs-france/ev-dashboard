@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { User } from '../../../common.types';
+import { User } from 'app/types/User';
 import { Constants } from '../../../utils/Constants';
 import { userStatuses } from '../model/users.model';
 

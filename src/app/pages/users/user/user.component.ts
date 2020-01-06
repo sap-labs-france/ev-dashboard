@@ -4,9 +4,13 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { IntegrationConnection } from 'app/types/Connection';
+import { ActionResponse } from 'app/types/DataResult';
+import { KeyValue } from 'app/types/GlobalType';
+import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
+import { User } from 'app/types/User';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
-import { ActionResponse, IntegrationConnection, KeyValue, PricingSettingsType, Setting, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -21,7 +25,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../model/users.model';
+import { userStatuses, UserRoles } from '../model/users.model';
 import { UserTagsTableDataSource } from './user-tags-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
@@ -70,7 +74,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public country!: AbstractControl;
   public latitude!: AbstractControl;
   public longitude!: AbstractControl;
-  public refundSetting!: Setting;
+  public refundSetting!: RefundSettings;
   public integrationConnections!: IntegrationConnection[];
   public concurConnection!: IntegrationConnection;
   public passwords!: FormGroup;
@@ -90,6 +94,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
+  public sendBillingSynchronizationFailed!: AbstractControl;
   public user!: User;
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -175,6 +180,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOcpiPatchStatusError: new FormControl(true),
         sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
+        sendBillingSynchronizationFailed: new FormControl(true),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -295,6 +301,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
+    this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
 
     this.userTagsTableDataSource.setFormArray(this.tags);
 
@@ -482,6 +489,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
+      if (user.notifications && user.notifications.hasOwnProperty('sendBillingSynchronizationFailed')) {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
+      } else {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+      }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);
       }
@@ -649,7 +661,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // if (this.authorizationService.canListSettings()) {
     this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
       if (settingResult && settingResult.result && settingResult.result.length > 0) {
-        this.refundSetting = settingResult.result[0];
+        this.refundSetting = settingResult.result[0] as RefundSettings;
       }
     });
     if (this.currentUserID) {

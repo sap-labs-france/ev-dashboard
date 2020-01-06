@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Data, TableActionDef, TableDef } from '../../common.types';
+import { Data, TableActionDef, TableDef } from 'app/types/Table';
 import { TableDataSource } from '../table/table-data-source';
 
 @Injectable()

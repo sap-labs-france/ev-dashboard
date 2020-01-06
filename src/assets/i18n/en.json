@@ -24,7 +24,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.1.18",
+    "last_update": "Version 2.1.19",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -1169,7 +1169,9 @@
         "invalid_secret_key": "Secret API key is not plausible",
         "billing_method": "Billing Method",
         "immediate_billing": "Immediate Billing",
-        "periodic_billing": "Periodic Billing (not yet implemented)"
+        "periodic_billing": "Periodic Billing (not yet implemented)",
+        "tax": "Tax",
+        "no_tax": "No Tax"
       }
     },
     "analytics": {
@@ -1551,6 +1553,7 @@
     "charging-stations-offline": "Notify me when a charging station is offline",
     "preparing-session-not-started": "Notify me when a session has not been started (site owner only)",
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
-    "smtp-auth-error": "Notify me if the backend authentication to the email server has failed"
+    "smtp-auth-error": "Notify me if the backend authentication to the email server has failed",
+    "billing-synchronization-failed": "Notify me when a synchronization with billing provider has failed"
   }
 }

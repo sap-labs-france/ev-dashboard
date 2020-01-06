@@ -24,6 +24,23 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.1.19',
+        date: new Date('2019-12-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `TypeScript: migration of Settings`,
+              `Billing: Add User synchronization in User's list`,
+              `Billing: Add a job to synchronize Billing information`,
+              `eMSP Locations: Store CPO Charging Stations`,
+              `Notification: Admins are notified when billing user's synchronization has failed`,
+              `All Lists: Optimized performances by optimizing third party libs import usages`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.1.18',
         date: new Date('2019-12-14'),
         componentChanges: [
@@ -35,7 +52,7 @@ export class ReleaseNotesComponent {
               `Add Smart Charging Settings section in Tenant`,
               `New Charging Station are automatically registered and enriched with template`,
               `Fixed Users synchronization in Billing system`,
-              `Stop a Session in progress in Session list`
+              `Stop a Session in progress in Session list`,
             ],
           },
         ],

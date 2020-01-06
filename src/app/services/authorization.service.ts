@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SiteArea, UserToken } from '../common.types';
+import { SiteArea } from 'app/types/SiteArea';
+import { UserToken } from 'app/types/User';
 import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
 import { ComponentService, ComponentType } from './component.service';
@@ -44,6 +45,10 @@ export class AuthorizationService {
 
   public canUpdateUser(): boolean {
     return this.canAccess(Constants.ENTITY_USER, Constants.ACTION_UPDATE);
+  }
+
+  public canSynchronizeUsers(): boolean {
+    return this.canAccess(Constants.ENTITY_BILLING, Constants.ACTION_SYNCHRONIZE_USERS_BILLING);
   }
 
   public canAccess(resource: string, action: string): boolean {

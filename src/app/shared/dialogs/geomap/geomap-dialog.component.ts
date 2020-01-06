@@ -1,4 +1,4 @@
-import {} from '@agm/core';
+import { MapTypeId, MouseEvent } from '@agm/core';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -47,7 +47,7 @@ export class GeoMapDialogComponent {
     });
   }
 
-  mapClick(event) {
+  mapClick(event: MouseEvent) {
     if (event && event.coords) {
       if (event.coords.lat) {
         this.markerLatitude = event.coords.lat;
@@ -58,12 +58,10 @@ export class GeoMapDialogComponent {
     }
   }
 
-  mapTypeIdChange(event) {
-    switch (event) {
-      case 'hybrid':
-        this.labelFormatted = { text: this.label, color: 'white', fontWeight: 'bold' };
-        break;
-      case 'satellite':
+  mapTypeIdChange(mapTypeId: MapTypeId) {
+    switch (mapTypeId) {
+      case MapTypeId.HYBRID:
+      case MapTypeId.SATELLITE:
         this.labelFormatted = { text: this.label, color: 'white', fontWeight: 'bold' };
         break;
       default:

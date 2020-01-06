@@ -2,10 +2,11 @@ import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
-import * as _ from 'lodash';
+import { DataResult, Ordering, Paging } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { Data, DataResult, DropdownItem, Ordering, Paging, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../common.types';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
@@ -606,9 +607,16 @@ export abstract class TableDataSource<T extends Data> {
       for (const tableColumnDef of this.tableColumnDefs) {
         // Check for complex column id with dot
         if (tableColumnDef.id.indexOf('.') !== -1) {
+          const keys = tableColumnDef.id.split('.');
+          let value = freshRow;
+          keys.forEach((key) => {
+            if (value) {
+              value = value[key];
+            }
+          });
           // Create new var for direct access
           // @ts-ignore
-          freshRow[tableColumnDef.id] = _.get(freshRow, tableColumnDef.id);
+          freshRow[tableColumnDef.id] = value;
         }
       }
       // Check dynamic row actions

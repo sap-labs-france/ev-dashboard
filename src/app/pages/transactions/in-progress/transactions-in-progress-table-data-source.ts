@@ -4,8 +4,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { SubjectInfo } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Transaction } from 'app/types/Transaction';
+import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
-import { ActionResponse, DataResult, SubjectInfo, TableActionDef, TableColumnDef, TableDef, TableFilterDef, Transaction, User } from '../../../common.types';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -183,7 +187,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           this.translateService.instant('transactions.dialog.soft_stop.confirm', { user: this.appUserNamePipe.transform(transaction.user) }),
         ).subscribe((response) => {
           if (response === Constants.BUTTON_TYPE_YES) {
-            this._stopTransaction(transaction);
+            this.stopTransaction(transaction);
           }
         });
         break;
@@ -246,7 +250,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
-  protected _remoteStopTransaction(transaction: Transaction) {
+  protected remoteStopTransaction(transaction: Transaction) {
     this.centralServerService.chargingStationStopTransaction(
       transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Rejected') {
@@ -264,7 +268,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     });
   }
 
-  protected _softStopTransaction(transaction: Transaction) {
+  protected softStopTransaction(transaction: Transaction) {
     this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
       if (response.status === 'Invalid') {
         this.messageService.showErrorMessage(
@@ -282,21 +286,21 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     });
   }
 
-  private _stopTransaction(transaction: Transaction) {
+  private stopTransaction(transaction: Transaction) {
     this.centralServerService.getCharger(transaction.chargeBoxID).subscribe((chargingStation) => {
       if (chargingStation && !chargingStation.inactive) {
         for (const connector of chargingStation.connectors) {
           if (connector && connector.activeTransactionID === transaction.id) {
-            this._remoteStopTransaction(transaction);
+            this.remoteStopTransaction(transaction);
             return;
           }
         }
       }
-      this._softStopTransaction(transaction);
+      this.softStopTransaction(transaction);
     }, (error) => {
       // Charger not found
       if (error.status === 550) {
-        this._softStopTransaction(transaction);
+        this.softStopTransaction(transaction);
       } else {
         Utils.handleHttpError(error, this.router, this.messageService,
           this.centralServerService, 'transactions.notification.soft_stop.error');

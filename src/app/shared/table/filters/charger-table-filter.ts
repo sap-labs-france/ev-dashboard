@@ -1,4 +1,4 @@
-import { TableFilterDef } from '../../../common.types';
+import { TableFilterDef } from 'app/types/Table';
 import { Constants } from '../../../utils/Constants';
 import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog.component';
 import { TableFilter } from './table-filter';

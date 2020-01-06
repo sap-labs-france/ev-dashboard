@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  DataResult,
-  Site,
-  TableActionDef,
-  TableColumnDef,
-  TableDef,
-  UserSite,
-} from 'app/common.types';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -18,6 +10,10 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { Site, UserSite } from 'app/types/Site';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -27,7 +23,7 @@ import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component
 
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
-  private _site: Site;
+  private site!: Site;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -45,10 +41,10 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   public loadDataImpl(): Observable<DataResult<UserSite>> {
     return new Observable((observer) => {
       // Site provided?
-      if (this._site) {
+      if (this.site) {
         // Yes: Get data
         this.centralServerService.getSiteUsers(
-          {...this.buildFilterValues(), SiteID: this._site.id},
+          {...this.buildFilterValues(), SiteID: this.site.id},
           this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
           // Ok
           observer.next(siteUsers);
@@ -126,7 +122,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   }
 
   public setSite(site: Site) {
-    this._site = site;
+    this.site = site;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -143,7 +139,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     switch (actionDef.id) {
       // Add
       case 'add':
-        this._showAddUsersDialog();
+        this.showAddUsersDialog();
         break;
 
       // Remove
@@ -160,7 +156,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
               // Remove
-              this._removeUsers(this.getSelectedRows().map((row) => row.user.id));
+              this.removeUsers(this.getSelectedRows().map((row) => row.user.id));
             }
           });
         }
@@ -174,24 +170,24 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     }
   }
 
-  public _showAddUsersDialog() {
+  private showAddUsersDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
     dialogConfig.data = {
       staticFilter: {
-        ExcludeSiteID: this._site.id,
+        ExcludeSiteID: this.site.id,
       },
     };
     // Show
     const dialogRef = this.dialog.open(UsersDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe((users) => this._addUsers(users));
+    dialogRef.afterClosed().subscribe((users) => this.addUsers(users));
   }
 
-  private _removeUsers(userIDs) {
+  private removeUsers(userIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeUsersFromSite(this._site.id, userIDs).subscribe((response) => {
+    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe((response) => {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
@@ -210,13 +206,13 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     });
   }
 
-  private _addUsers(users) {
+  private addUsers(users: User[]) {
     // Check
     if (users && users.length > 0) {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
       // Yes: Update
-      this.centralServerService.addUsersToSite(this._site.id, userIDs).subscribe((response) => {
+      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe((response) => {
         // Ok?
         if (response.status === Constants.REST_RESPONSE_SUCCESS) {
           // Ok

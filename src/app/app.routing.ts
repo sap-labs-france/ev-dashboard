@@ -17,7 +17,7 @@ export const AppRoutes: Routes = [
     path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
   },
   {
-    path: 'reset-password', redirectTo: 'auth/reset-password', pathMatch: 'full',
+    path: 'define-password', redirectTo: 'auth/define-password', pathMatch: 'full',
   },
   {
     path: '', component: AdminLayoutComponent,

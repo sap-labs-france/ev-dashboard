@@ -1006,7 +1006,7 @@
       }
     },
     "errors": {
-      "unactive_user": {
+      "inactive_user": {
         "title": "Inactive Users",
         "description": "This user is not active.",
         "action": "Check the status of this user."

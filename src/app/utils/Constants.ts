@@ -41,7 +41,7 @@ export class Constants {
   public static CHARGER_IN_ERROR_MISSING_SITE_AREA = 'missingSiteArea';
   public static CHARGER_IN_ERROR_CONNECTOR_ERROR = 'connectorError';
 
-  public static USER_IN_ERROR_NOT_ACTIVE = 'unactive_user';
+  public static USER_IN_ERROR_NOT_ACTIVE = 'inactive_user';
   public static USER_IN_ERROR_NOT_ASSIGNED = 'unassigned_user';
 
   /* Authorization */

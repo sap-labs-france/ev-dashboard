@@ -1006,7 +1006,7 @@
       }
     },
     "errors": {
-      "unactive_user": {
+      "inactive_user": {
         "title": "Utilisateurs non Actif",
         "description": "Le compte de cet utilisateur n'est pas activé.",
         "action": "Contrôler le statut de ce compte utilisateur."

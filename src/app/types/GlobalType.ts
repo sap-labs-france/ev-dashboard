@@ -26,4 +26,5 @@ export interface KeyValue {
   key: string;
   value: string;
   objectRef?: any;
+  readonly?: boolean;
 }

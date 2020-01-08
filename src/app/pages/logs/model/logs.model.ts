@@ -115,6 +115,7 @@ export const logActions: KeyValue[] = [
   {key: 'Logging', value: 'Logging'},
   {key: 'Vehicles', value: 'Vehicles'},
   {key: 'ChargingStation', value: 'ChargingStation'},
+  {key: 'ChangeConfiguration', value: 'ChangeConfiguration'},
   {key: 'Transaction', value: 'Transaction'},
   {key: 'GetDiagnostics', value: 'GetDiagnostics'},
   {key: 'IntegrationConnections', value: 'IntegrationConnections'},

@@ -572,6 +572,7 @@ export class CentralServerService {
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
     // Verify init
     this.checkInit();
+    params['Issuer'] = 'true';
     // Build Paging
     this.getPaging(paging, params);
     // Build Ordering

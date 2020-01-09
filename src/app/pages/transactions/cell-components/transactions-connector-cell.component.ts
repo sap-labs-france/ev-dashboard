@@ -1,5 +1,6 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
 import { Transaction } from 'app/types/Transaction';
+import { Constants } from 'app/utils/Constants';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 
 @Component({
@@ -8,9 +9,9 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
     <div class="d-flex justify-content-center">
       <div class="row mx-0 px-0 align-items-center">
         <div appTooltip data-offset="0px, 8px"
-            [title]="row.currentConsumption | appTransactionsFormatConnector:'text' | translate"
+            [title]="row | appTransactionsFormatConnector:'text' | translate"
             class="charger-connector-container">
-          <div [class]="row.currentConsumption | appTransactionsFormatConnector:'class'">
+          <div [class]="row | appTransactionsFormatConnector:'class'">
             {{row.connectorId | appConnectorId}}
           </div>
         </div>
@@ -25,32 +26,69 @@ export class TransactionsConnectorCellComponent extends CellContentTemplateCompo
 
 @Pipe({name: 'appTransactionsFormatConnector'})
 export class AppTransactionsFormatConnector implements PipeTransform {
-  transform(currentConsumption: number, type: string): string {
+  transform(transaction: Transaction, type: string): string {
     if (type === 'class') {
-      return this.buildConnectorClasses(currentConsumption);
+      return this.buildConnectorClasses(transaction);
     }
     if (type === 'text') {
-      return this.buildConnectorText(currentConsumption);
+      return this.buildConnectorText(transaction);
     }
     return '';
   }
 
-  buildConnectorClasses(currentConsumption: number): string {
+  buildConnectorClasses(transaction: Transaction): string {
     let classNames = 'charger-connector-background charger-connector-text ';
-    // Check if charging
-    if (currentConsumption > 0) {
-      classNames += 'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
-    } else {
-      classNames += 'charger-connector-charging';
+    switch (transaction.status) {
+      case Constants.CONN_STATUS_AVAILABLE: {
+        classNames += 'charger-connector-available charger-connector-charging-available-text';
+        break;
+      }
+      case Constants.CONN_STATUS_PREPARING: {
+        classNames += 'charger-connector-preparing';
+        break;
+      }
+      case Constants.CONN_STATUS_SUSPENDED_EVSE: {
+        classNames += 'charger-connector-suspended-evse';
+        break;
+      }
+      case Constants.CONN_STATUS_SUSPENDED_EV: {
+        classNames += 'charger-connector-suspended-ev';
+        break;
+      }
+      case Constants.CONN_STATUS_FINISHING: {
+        classNames += 'charger-connector-finishing';
+        break;
+      }
+      case Constants.CONN_STATUS_RESERVED: {
+        classNames += 'charger-connector-reserved';
+        break;
+      }
+      case Constants.CONN_STATUS_CHARGING:
+      case Constants.CONN_STATUS_OCCUPIED: {
+        // Check if charging
+        if (transaction.currentConsumption > 0) {
+          classNames += 'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
+        } else {
+          classNames += 'charger-connector-charging';
+        }
+        break;
+      }
+      case Constants.CONN_STATUS_UNAVAILABLE: {
+        classNames += 'charger-connector-unavailable';
+        break;
+      }
+      case Constants.CONN_STATUS_FAULTED: {
+        classNames += 'charger-connector-faulted';
+        break;
+      }
+      default: {
+        classNames += 'charger-connector-charging-inactive';
+        break;
+      }
     }
-    return classNames;
-  }
+    return classNames;  }
 
-  buildConnectorText(currentConsumption: number): string {
-    if (currentConsumption > 0) {
-      return `chargers.status_charging`;
-    } else {
-      return `chargers.status_suspendedev`;
-    }
+  buildConnectorText(transaction: Transaction): string {
+    return `chargers.status_${transaction.status.toLowerCase()}`;
   }
 }

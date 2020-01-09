@@ -19,6 +19,16 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
     };
   }
 
+  setContent(content: Tag[]) {
+    if (content.length === 0) {
+      const tag = this.addData();
+      tag.id = this.generateTagID();
+      tag.issuer = true;
+      content.push(tag);
+    }
+    super.setContent(content);
+  }
+
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
@@ -57,5 +67,9 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
       description: '',
       issuer: false,
     };
+  }
+
+  private generateTagID() {
+    return 'VB' + Math.floor((Math.random() * 2147483648) + 1);
   }
 }

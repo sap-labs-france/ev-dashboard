@@ -8,7 +8,7 @@ import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
 import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
-  private editableContent: T[] = [];
+  private editableContent: T[];
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
@@ -46,6 +46,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   public setFormArray(formArray: FormArray) {
     this.formArray = formArray;
+    if (!this.editableContent) {
+      this.setContent([]);
+    }
   }
 
   // tslint:disable-next-line:no-empty

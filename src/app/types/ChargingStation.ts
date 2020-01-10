@@ -57,7 +57,7 @@ export enum PowerLimitUnits {
 export interface ChargingStationConfiguration {
   id: string;
   timestamp: Date;
-  configuration: KeyValue[]
+  configuration: KeyValue[];
 }
 
 export interface ConsumptionValue {

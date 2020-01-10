@@ -1012,6 +1012,11 @@
         "title": "Not Assigned to a Site",
         "description": "This user is not assigned to a site.",
         "action": "Assign this user to at least one site as the organization component is active."
+      },
+      "snoozed_user": {
+        "title": "Inactive for at least 6 months",
+        "description": "This user has been offline for at least 6 months.",
+        "action": "Delete or disable this user account."
       }
     }
   },

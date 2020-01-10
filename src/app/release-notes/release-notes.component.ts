@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `eMSP Locations: Store CPO Charging Stations`,
               `Notification: Admins are notified when billing user's synchronization has failed`,
               `All Lists: Optimized performances by optimizing third party libs import usages`,
+              `Connector's transaction is not clean until it becomes available`,
               `TypeScript: Alignment between front-end and backend types`,
               `TypeScript: migration of Settings`,
               `TypeScript migration of Logging`,

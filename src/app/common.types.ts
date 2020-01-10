@@ -1,7 +1,8 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
 import { ComponentType } from './services/component.service';
-import { ErrorMessage } from './shared/dialogs/error-code-details/error-code-details-dialog.component';
+import { ErrorMessage } from 'app/types/InError';
+import { PowerLimitUnits } from './types/ChargingStation';
 
 export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
 export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
@@ -518,7 +519,7 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
-  editType?: 'radiobutton'|'checkbox'|'input'|'datepicker';
+  editType?: 'radiobutton'|'checkbox'|'input'|'datetimepicker';
   validators?: ValidatorFn[];
   errorMessage?: string;
   headerClass?: string;
@@ -876,9 +877,9 @@ export interface SmartChargingSettings {
 
 export interface ChargingProfile extends Data {
   id: number;
-  chargingProfileId: Number;
-  transactionId?: Number;
-  stackLevel: Number;
+  chargingProfileId: number;
+  transactionId?: number;
+  stackLevel: number;
   chargingProfilePurpose: ChargingProfilePurposeType;
   chargingProfileKind: ChargingProfileKindType;
   recurrencyKind: RecurrencyKindType;
@@ -888,16 +889,16 @@ export interface ChargingProfile extends Data {
 }
 
 export interface ChargingSchedule {
-  duration?: Number;
+  duration?: number;
   startSchedule?: Date;
-  chargingRateUnit: ChargingRateUnitType;
+  chargingRateUnit: PowerLimitUnits;
   chargingSchedulePeriod: ChargingSchedulePeriod[]
-  minChargeRate?: Number;
+  minChargeRate?: number;
 }
 
-export interface ChargingSchedulePeriod extends Data {
-  startPeriod: Number;
-  limit: Number;
+export interface ChargingSchedulePeriod {
+  startPeriod: number;
+  limit: number;
   numberPhases?: Number;
 }
 
@@ -921,5 +922,13 @@ export enum ChargingProfilePurposeType {
 export enum RecurrencyKindType {
   DAILY = 'Daily',
   WEEKLY = 'Weekly'
+}
+
+export interface Slot extends Data{
+  id: number;
+  displayedStartValue: Date;
+  duration: Number;
+  limit: number;
+  displayedLimitInkW: number;
 }
 

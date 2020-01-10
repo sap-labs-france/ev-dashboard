@@ -7,6 +7,7 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { DisplayedScheduleSlot } from './charging-station-charging-profile-limit.component';
+import { Slot } from 'app/common.types';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -22,7 +23,7 @@ import { DisplayedScheduleSlot } from './charging-station-charging-profile-limit
   `,
 })
 export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit {
-  @Input() scheduleSlots!: DisplayedScheduleSlot[];
+  @Input() scheduleSlots!: Slot[];
   @Input() ratio!: number;
   @ViewChild('chart', { static: false }) chartComponent!: ChartComponent;
   public data: any;
@@ -55,7 +56,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     }
   }
 
-  setLimitPlannerData(scheduleSlots: DisplayedScheduleSlot[]) {
+  setLimitPlannerData(scheduleSlots: Slot[]) {
     this.scheduleSlots = scheduleSlots;
     if (scheduleSlots && scheduleSlots.length > 0) {
       this.createGraphData(this.scheduleSlots);
@@ -66,7 +67,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     }
   }
 
-  createGraphData(scheduleSlots: DisplayedScheduleSlot[]) {
+  createGraphData(scheduleSlots: Slot[]) {
     this.options = this.createOptions(scheduleSlots);
     this.data = {
       labels: [],
@@ -88,29 +89,29 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     for (let index = 0; index < scheduleSlots.length; index++) {
       const connectorPlanning = scheduleSlots[index];
       // Add slot
-      const limit = connectorPlanning.slot;
-      this.data.labels.push(limit.start.getTime());
+      const limit = connectorPlanning;
+      this.data.labels.push(limit.displayedStartValue.getTime());
       limitPowerDataSet.data.push({
-        x: limit.start.getTime(), y: limit.displayedLimitInkW,
+        x: limit.displayedStartValue.getTime(), y: limit.displayedLimitInkW,
       });
-      if (index === scheduleSlots.length - 1) {
+      if (index === scheduleSlots.length - 1 && scheduleSlots[index+1]) {
         // Add last limit
-        if (limit.end && limit.end.getTime() !== limit.start.getTime()) {
-          this.data.labels.push(limit.end.getTime());
+        if (scheduleSlots[index+1].displayedStartValue && scheduleSlots[index+1].displayedStartValue .getTime() !== limit.displayedStartValue.getTime()) {
+          this.data.labels.push(scheduleSlots[index+1].displayedStartValue .getTime());
           limitPowerDataSet.data.push({
-            x: limit.end.getTime(), y: limit.displayedLimitInkW,
+            x: scheduleSlots[index+1].displayedStartValue .getTime(), y: limit.displayedLimitInkW,
           });
         } else {
-          this.data.labels.push(limit.start.getTime() + 3600000); // Add one hour
+          this.data.labels.push(limit.displayedStartValue.getTime() + 3600000); // Add one hour
           limitPowerDataSet.data.push({
-            x: limit.start.getTime() + 3600000, y: limit.displayedLimitInkW,
+            x: limit.displayedStartValue.getTime() + 3600000, y: limit.displayedLimitInkW,
           });
         }
       }
     }
   }
 
-  createOptions(scheduleSlots: DisplayedScheduleSlot[]) {
+  createOptions(scheduleSlots: Slot[]) {
     const options: any = {
       legend: {
         position: 'bottom',

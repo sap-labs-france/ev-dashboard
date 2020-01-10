@@ -102,7 +102,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   protected addRow() {
     const data = this.addData();
-    this.editableContent.unshift(data);
+    this.editableContent.push(data);
     this.refreshData(false).subscribe();
   }
 

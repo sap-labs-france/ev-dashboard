@@ -24,7 +24,7 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActionResponse, Charger, ChargerConfiguration, ChargerInError, Company, CurrentMetrics, DataResult, EndUserLicenseAgreement, Image, IntegrationConnection, KeyValue, Log, LoginResponse, Logo, OcpiEndpoint, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, RegistrationToken, Report, Setting, Site, SiteArea, SiteUser, StatisticData, SynchronizeResponse, Tenant, Transaction, TransactionInError, User, UserConnection, UserSite, UserToken, ValidateBillingConnectionResponse, ChargingProfile } from '../common.types';
+import { Charger, ChargerConfiguration, ChargerInError, ChargingProfile } from '../common.types';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -270,15 +270,18 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfile():Observable<DataResult<ChargingProfile>> {
-    this._checkInit();
-    return this.httpClient.get<DataResult<ChargingProfile>>(
+  public getChargingProfile(ChargeBoxID: string): Observable<ChargingProfile> {
+    const params: { [param: string]: string } = {};
+    params['ChargeBoxID'] = ChargeBoxID;
+    this.checkInit();
+    return this.httpClient.get<ChargingProfile>(
       `${this.centralRestServerServiceSecuredURL}/ChargingProfile`,
       {
-        headers: this._buildHttpHeaders(),
+        headers: this.buildHttpHeaders(),
+        params,
       })
       .pipe(
-        catchError(this._handleHttpError),
+        catchError(this.handleHttpError),
       );
   }
 

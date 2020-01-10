@@ -9,8 +9,18 @@
           <h3 class="card-title text-left">
             {{'chargers.smart_charging.planning_energy_limit' | translate: {chargeBoxID: charger.id} }}
           </h3>
+          <div class="right-actions d-flex flex-row mat-toolbar-row">
+            <button mat-raised-button color="primary" (click)="applyPowerLimit()">
+              <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
+            </button>
+            <button mat-raised-button color="primary" (click)="clearChargingProfile()">
+              <mat-icon>delete</mat-icon><span>{{'general.clear' | translate}}</span>
+            </button>
+          </div>
         </div>
         <div class="card-body">
+          <div class="card-body">
+          </div>
           <div class="row col-md-12 text-left">
             <div class="form-group col-md-4">
               <mat-form-field>
@@ -34,149 +44,19 @@
                   placeholder="{{'chargers.smart_charging.profile_id' | translate}}" required />
               </mat-form-field>
             </div>
-            <div class="form-group col-md-2">
+            <!-- <div class="form-group col-md-2">
               <mat-form-field>
                 <input matInput [formControl]="durationControl" type="number" min=0
                   placeholder="{{'chargers.smart_charging.duration' | translate}}" />
               </mat-form-field>
-            </div>
-          </div>
-          <div class="card-body">
-          </div>
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; text-align: left;">
-
-            <ng-container matColumnDef="displayedStartValue" >
-              <th mat-header-cell *matHeaderCellDef> Starting slot date </th>
-              <td mat-cell *matCellDef="let element">
-                <mat-form-field style="width: 80%;">
-                  <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                  </mat-datetimepicker>
-                  <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                  <input matInput (dateChange)="changeStartSlotDate($event.target.value, element)"
-                    [placeholder]="'chargers.smart_charging.start_date' | translate" [matDatetimepicker]="picker"
-                    [value]="element.displayedStartValue" required autocomplete="false">
-                </mat-form-field>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="duration">
-              <th mat-header-cell *matHeaderCellDef> Slot duration(s) </th>
-              <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="slot">
-              <th mat-header-cell *matHeaderCellDef> Slot power limit </th>
-              <td mat-cell *matCellDef="let element">
-                <div >
-                  <app-charging-station-power-slider #powerSliders [charger]="charger"
-                    (powerSliderChanged)="powerSliderChanged($event, element)">
-                  </app-charging-station-power-slider>
-                </div>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="['displayedStartValue', 'duration', 'slot']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['displayedStartValue', 'duration', 'slot'];"></tr>
-          </table>
-          <div class="align-items-center">
-            <!-- <div class="table-responsive flex-grow-1">
-              <div class="ocpp-param-component">
-
-
-
-
-                <!-- Header of slots chedule
-                <ng-container *ngIf="slotsSchedule && slotsSchedule.length > 0">
-                  <div class="row col-md-12 text-left">
-                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-3' : 'col-md-2')">
-                      <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseSlotHeader">
-                        <!-- Date selector
-                        {{'chargers.smart_charging.slot_start_header' | translate}}
-                      </ng-container>
-                      <ng-template #elseSlotHeader>
-                        {{'chargers.smart_charging.slot_index_header' | translate}}
-                      </ng-template>
-                    </div>
-                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-2' : 'col-md-3')">
-                      {{'chargers.smart_charging.slot_duration_header' | translate}}
-                    </div>
-                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
-                      {{'chargers.smart_charging.slot_limit_header' | translate}}
-                    </div>
-                  </div>
-                </ng-container>
-                <!-- Slots schedule definition
-                <ng-container *ngFor="let slot of slotsSchedule">
-                  <div class="row col-md-12 text-left align-items-center">
-                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-3' : 'col-md-2')">
-                      <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseSlot">
-                        <!-- Date selector
-                        <mat-form-field>
-                          <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait"
-                            timeInterval="1"></mat-datetimepicker>
-                          <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                          <input matInput (dateChange)="changeStartSlotDate($event.target.value, slot)"
-                            [placeholder]="'chargers.smart_charging.start_date' | translate"
-                            [matDatetimepicker]="picker" [value]="slot.displayedStartValue" required
-                            autocomplete="false">
-                        </mat-form-field>
-                      </ng-container>
-                      <ng-template #elseSlot>
-                        {{slot.id+1}}
-                      </ng-template>
-                    </div>
-                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-2' : 'col-md-3') + ' '">
-                      <ng-container *ngIf="profileTypeControl.value==='Absolute'; else elseDuration">
-                        {{slot.duration}}
-                      </ng-container>
-                      <ng-template #elseDuration>
-                        <mat-form-field>
-                          <input matInput type="number" (input)="changeSlotDuration($event.target.value, slot)"
-                            [placeholder]="'chargers.smart_charging.duration' | translate" [value]="slot.duration">
-                        </mat-form-field>
-                      </ng-template>
-                    </div>
-                    <div [class]="(profileTypeControl.value==='Absolute' ? 'col-md-7' : 'col-md-7')">
-                      <app-charging-station-power-slider #powerSliders [charger]="charger"
-                        (powerSliderChanged)="powerSliderChanged($event)">
-                      </app-charging-station-power-slider>
-                    </div>
-                  </div>
-                  <div *ngIf="false && slot.id === slotsSchedule.length-1" class="row col-md-12 text-left">
-                    <div class="col-md-6">
-                      <mat-form-field>
-                        <input matInput type="datetime-local" (input)="changeEndSlotDate($event.target.value, slot)"
-                          [placeholder]="'chargers.smart_charging.end_date' | translate"
-                          [value]="slot.displayedEndValue">
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </ng-container>
-
-              </div>
             </div> -->
-            <div class="left-actions d-flex flex-row mat-toolbar-row">
-              <button mat-raised-button color="primary" (click)="addSlot()">
-                <mat-icon>add</mat-icon><span>{{'chargers.smart_charging.add_slot_button' | translate}}</span>
-              </button>
-              <button mat-raised-button color="primary" (click)="removeSlot()">
-                <mat-icon>remove</mat-icon><span>{{'chargers.smart_charging.remove_slot_button' | translate}}</span>
-              </button>
-              <button mat-raised-button color="primary" class="mr-2" (click)="resetSlots()">
-                <mat-icon>clear</mat-icon><span>
-                  {{'chargers.smart_charging.reset_button' | translate}}
-                </span>
-              </button>
-              <button mat-raised-button color="primary" (click)="applyPowerLimit()">
-                <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
-              </button>
-            </div>
-          </div>
-          <div class="col-md-11">
-          <app-charging-station-smart-charging-limit-planner-chart #limitChart [scheduleSlots]="slotsSchedule"
-            ratio="4">
-          </app-charging-station-smart-charging-limit-planner-chart>
           </div>
           <app-table [dataSource]="chargingPeriodListTableDataSource"></app-table>
+          <div class="col-md-11">
+            <app-charging-station-smart-charging-limit-planner-chart #limitChart [scheduleSlots]="slotsSchedule"
+              ratio="4">
+            </app-charging-station-smart-charging-limit-planner-chart>
+            </div>
         </div>
       </div>
     </div>

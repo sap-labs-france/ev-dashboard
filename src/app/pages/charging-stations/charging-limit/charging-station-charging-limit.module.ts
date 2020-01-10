@@ -50,8 +50,5 @@ import { ChargingPeriodListTableDataSource } from './charging-profile-limit/list
   exports: [
     ChargingStationSmartChargingDialogComponent,
   ],
-  // providers: [
-  //   ChargingPeriodListTableDataSource,
-  // ],
 })
 export class ChargingStationSmartChargingModule { }

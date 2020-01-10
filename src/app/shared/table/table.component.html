@@ -281,10 +281,15 @@
                                   (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
 
-                <mat-form-field *ngIf="tableColumnDef.editType === 'datepicker'">
-                  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
+                <mat-form-field *ngIf="tableColumnDef.editType === 'datetimepicker'">
+                  <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                  </mat-datetimepicker>
+                  <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                  <input matInput
+                          (dateChange)="updateRow($event.value._d, rowIndex, tableColumnDef)"
+                          [matDatetimepicker]="picker"
+                          autocomplete="false"
+                          [value]="row[tableColumnDef.id]">
                 </mat-form-field>
 
               </td>

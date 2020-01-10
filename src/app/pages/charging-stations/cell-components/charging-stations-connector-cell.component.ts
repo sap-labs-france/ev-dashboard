@@ -1,6 +1,6 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Connector, ChargingStation } from 'app/types/ChargingStation';
+import { Connector } from 'app/types/ChargingStation';
 import { Constants } from 'app/utils/Constants';
 
 @Component({
@@ -29,7 +29,7 @@ import { Constants } from 'app/utils/Constants';
 })
 @Injectable()
 export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {
-  @Input() row!: ChargingStation;
+  @Input() row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatConnector'})

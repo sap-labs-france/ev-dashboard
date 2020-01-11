@@ -1781,13 +1781,13 @@ export class CentralServerService {
       );
   }
 
-  chargingStationStartTransaction(chargeBoxId: string, connectorID: number, tagID: string): Observable<ActionResponse> {
+  chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
       args: {
         tagID,
-        connectorID,
+        connectorId,
       },
     };
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationRemoteStartTransaction`, body,
@@ -1840,9 +1840,6 @@ export class CentralServerService {
       );
   }
 
-  /**
-   * updateChargingStationOCPPConfiguration
-   */
   public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -1988,9 +1985,6 @@ export class CentralServerService {
       );
   }
 
-  /**
-   *
-   */
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -2014,16 +2008,36 @@ export class CentralServerService {
       );
   }
 
-  /**
-   * getChargingStationOCPPConfiguration
-   */
-  public getChargingStationOCPPConfiguration(id: string) {
+  public requestChargingStationOCPPConfiguration(id: string) {
     // Verify init
     this.checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.get<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration?ChargeBoxID=${id}`,
+    return this.httpClient.post<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      {
+        chargeBoxID: id,
+        forceUpdateOCPPParamsFromTemplate: false,
+      },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateChargingStationOCPPParamWithTemplate(id: string) {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    // Execute
+    return this.httpClient.post<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      {
+        chargeBoxID: id,
+        forceUpdateOCPPParamsFromTemplate: true,
+      },
       {
         headers: this.buildHttpHeaders(),
       })

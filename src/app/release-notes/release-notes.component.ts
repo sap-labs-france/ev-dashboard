@@ -32,6 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Automatic technical configuration of new Charging Station`,
               `Automatic set of OCPP parameters of new Charging Station`,
+              `Force set of OCPP parameters from Template`,
+              `Change of an OCPP parameter is now reflected in the UI`,
               `Billing: Add User synchronization in User's list`,
               `Billing: Add a job to synchronize Billing information`,
               `eMSP Locations: Store CPO Charging Stations`,

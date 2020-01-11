@@ -28,7 +28,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
   @Input() charger!: ChargingStation;
   @ViewChild('searchInput', {static: false}) searchInput!: ElementRef;
   public searchPlaceholder = '';
-  public chargerConfiguration: any;
+  public chargerConfiguration!: KeyValue[];
   public loadedChargerConfiguration: any;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
@@ -212,12 +212,12 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
-        let csv = `Parameter${Constants.CSV_SEPARATOR}Value\r\nid,${this.charger.id}\r\n`;
+        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}\r\n`;
         for (const parameter of this.chargerConfiguration) {
-          csv += `${parameter.key}${Constants.CSV_SEPARATOR}"${parameter.value}"\r\n`;
+          csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${parameter.value}"\r\n`;
         }
         const blob = new Blob([csv]);
-        saveAs(blob, 'exported-charging-station-configuration.csv');
+        saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);
       }
     });
   }

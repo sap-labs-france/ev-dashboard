@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Automatic technical configuration of new Charging Station`,
               `Automatic set of OCPP parameters of new Charging Station`,
               `Force set of OCPP parameters from Template`,
+              `Add Charging Station's name in export OCPP parameters`,
               `Change of an OCPP parameter is now reflected in the UI`,
               `Billing: Add User synchronization in User's list`,
               `Billing: Add a job to synchronize Billing information`,

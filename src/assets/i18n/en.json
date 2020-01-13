@@ -1015,6 +1015,11 @@
         "title": "Not Assigned to a Site",
         "description": "This user is not assigned to a site.",
         "action": "Assign this user to at least one site as the organization component is active."
+      },
+      "inactive_user_account": {
+        "title": "Inactive User Account",
+        "description": "This user has not logged in for at least 6 months.",
+        "action": "Delete or disable this user account."
       }
     }
   },

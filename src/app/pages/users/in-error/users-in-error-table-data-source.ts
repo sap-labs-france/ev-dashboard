@@ -215,6 +215,10 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       key: Constants.USER_IN_ERROR_NOT_ASSIGNED,
       value: `users.errors.${Constants.USER_IN_ERROR_NOT_ASSIGNED}.title`,
     });
+    errorTypes.push({
+      key: Constants.INACTIVE_USER_ACCOUNT,
+      value: `users.errors.${Constants.INACTIVE_USER_ACCOUNT}.title`,
+    });
 
     const filters: TableFilterDef[] = [
       new UserRoleFilter(this.centralServerService).getFilterDef(),

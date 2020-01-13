@@ -216,8 +216,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       value: `users.errors.${Constants.USER_IN_ERROR_NOT_ASSIGNED}.title`,
     });
     errorTypes.push({
-      key: Constants.USER_IN_ERROR_SNOOZED,
-      value: `users.errors.${Constants.USER_IN_ERROR_SNOOZED}.title`,
+      key: Constants.INACTIVE_USER_ACCOUNT,
+      value: `users.errors.${Constants.INACTIVE_USER_ACCOUNT}.title`,
     });
 
     const filters: TableFilterDef[] = [

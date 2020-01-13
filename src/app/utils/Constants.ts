@@ -43,7 +43,7 @@ export class Constants {
 
   public static USER_IN_ERROR_NOT_ACTIVE = 'inactive_user';
   public static USER_IN_ERROR_NOT_ASSIGNED = 'unassigned_user';
-  public static USER_IN_ERROR_SNOOZED = 'snoozed_user';
+  public static INACTIVE_USER_ACCOUNT = 'inactive_user_account';
 
 
   /* Authorization */

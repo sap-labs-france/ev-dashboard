@@ -1827,6 +1827,19 @@ export class CentralServerService {
       );
   }
 
+  updateChargingChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileUpdate`, chargingProfile,
+      {
+        headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public deleteChargingStation(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

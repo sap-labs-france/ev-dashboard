@@ -107,6 +107,7 @@ export interface TableColumnDef {
   isAngularComponent?: boolean;
   angularComponent?: any;
   defaultValue?: any;
+  additionalParameters?: any;
 }
 
 export interface TableSearch {

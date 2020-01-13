@@ -53,7 +53,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   @ViewChildren('powerSliders') powerSliders!: QueryList<ChargingStationPowerSliderComponent>;
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
 
-
   public profileTypeMap = PROFILE_TYPE_MAP;
   public powerUnit!: PowerLimitUnits;
   public slotsSchedule!: Slot[];
@@ -154,6 +153,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getChargingProfile(this.charger.id).subscribe((chargingProfile) => {
       this.formGroup.markAsPristine();
+      if(chargingProfile){
       // Init form
       if (chargingProfile.chargingProfileId) {
         this.formGroup.controls.profileIdControl.setValue(chargingProfile.chargingProfileId);
@@ -193,6 +193,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
         this.chargingPeriodListTableDataSource.setContent(this.slotsSchedule);
         //this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
       }
+    }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -346,12 +347,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     const startOfSchedule = this.chargingPeriodListTableDataSource.data[0].displayedStartValue;
     profile.chargingSchedule.startSchedule = startOfSchedule;
     profile.chargingSchedule.chargingSchedulePeriod = [];
-    const currentDate = new Date();
 
     for (const slot of this.chargingPeriodListTableDataSource.data) {
 
       const period = {} as ChargingSchedulePeriod;
-      period.startPeriod = Math.round((slot.displayedStartValue.getTime() - currentDate.getTime()) / 1000);
+      period.startPeriod = Math.round((slot.displayedStartValue.getTime() - startOfSchedule.getTime()) / 1000);
       if (period.startPeriod >= 0) {
         period.limit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, ChargingStations.provideLimit(this.charger, slot.displayedLimitInkW*1000));
         profile.chargingSchedule.chargingSchedulePeriod.push(period);

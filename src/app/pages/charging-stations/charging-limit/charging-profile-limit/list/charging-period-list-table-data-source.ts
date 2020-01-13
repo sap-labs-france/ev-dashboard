@@ -20,7 +20,7 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
   @ViewChildren('powerSliders') powerSliders!: QueryList<ChargingStationPowerSliderComponent>;
 
   constructor(public spinnerService: SpinnerService) {
-    super(spinnerService);
+    super(spinnerService)
   }
 
   public buildTableDef(): TableDef {
@@ -36,7 +36,6 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
         id: 'displayedStartValue',
         name: 'Starting slot date',
         editType: 'datetimepicker',
-        sorted: true,
         headerClass: 'col-30p',
         class: 'text-left col-30p',
       },
@@ -54,6 +53,7 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
         // angularComponent: ChargingStationPowerSliderComponent,
         headerClass: 'col-20p',
         class: 'col-20p',
+        additionalParameters: this.charger,
       },
     ];
     return tableColumnDef;
@@ -67,7 +67,7 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
       displayedLimitInkW: 0,
     };
     if(this.data[this.data.length-1]){
-      chargingSchedulePeriod.displayedStartValue = new Date(this.data[this.data.length-1].displayedStartValue.getHours);
+      chargingSchedulePeriod.displayedStartValue = new Date(this.data[this.data.length-1].displayedStartValue.setHours(this.data[this.data.length-1].displayedStartValue.getHours()+1));
       chargingSchedulePeriod.displayedLimitInkW = this.data[this.data.length-1].displayedLimitInkW;
     }
     return chargingSchedulePeriod;

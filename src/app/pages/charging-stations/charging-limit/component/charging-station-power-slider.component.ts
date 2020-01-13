@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
+import { TableColumnDef, TableDef } from 'app/types/Table';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { ChargingStations } from 'app/utils/ChargingStations';
@@ -11,6 +12,7 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: ChargingStation;
   @Input() currentAmpValue = 0;
+  @Input() tableColumnDef!: TableColumnDef;
   @Output() powerSliderChanged = new EventEmitter<number>();
 
   public minAmp = 0;
@@ -24,7 +26,9 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.charger);
+    if(!this.charger){
+      this.charger = this.tableColumnDef.additionalParameters;
+    }
     // Init
     if (this.charger) {
       this.minAmp = 6;

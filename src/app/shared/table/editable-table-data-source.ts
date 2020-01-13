@@ -13,8 +13,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
   constructor(
-    public spinnerService: SpinnerService) {
-    super(spinnerService);
+    public spinnerService: SpinnerService,
+    public additionalParameters?: any) {
+    super(spinnerService, additionalParameters);
     this.initDataSource();
   }
 

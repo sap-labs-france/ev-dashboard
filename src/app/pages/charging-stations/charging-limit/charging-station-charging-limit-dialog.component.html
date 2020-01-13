@@ -27,7 +27,8 @@
           <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
         </ng-template>
         <div class="card-body" style="margin-top: 15px">
-          <div class="row" *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
+          <div class="row">
+          <!-- *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported"> -->
             <div class="col-md-12">
               <app-charging-station-charging-profile-limit [charger]="charger"></app-charging-station-charging-profile-limit>
             </div>

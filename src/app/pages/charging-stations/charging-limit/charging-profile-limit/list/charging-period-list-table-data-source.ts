@@ -15,9 +15,7 @@ import { CurrencyPipe } from '@angular/common';
 
 
 @Injectable()
-export class ChargingPeriodListTableDataSource extends EditableTableDataSource<any> {
-  @Input() charger!: Charger;
-  @ViewChildren('powerSliders') powerSliders!: QueryList<ChargingStationPowerSliderComponent>;
+export class ChargingPeriodListTableDataSource extends EditableTableDataSource<any> {;
 
   constructor(public spinnerService: SpinnerService) {
     super(spinnerService)
@@ -53,7 +51,7 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
         // angularComponent: ChargingStationPowerSliderComponent,
         headerClass: 'col-20p',
         class: 'col-20p',
-        additionalParameters: this.charger,
+        //additionalParameters: this.charger,
       },
     ];
     return tableColumnDef;

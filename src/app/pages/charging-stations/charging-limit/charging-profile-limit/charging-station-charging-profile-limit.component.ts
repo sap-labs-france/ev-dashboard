@@ -88,7 +88,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   ngOnInit(): void {
     this.slotsSchedule = [];
     // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : Constants.OCPP_UNIT_AMPER);
+    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : PowerLimitUnits.AMPERE);
     // Calculate default slider value which is macimum Power of the charger
     // TODO: To handle numberOfConnectedPhase per connector now
     // if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
@@ -177,7 +177,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
           displayedStartValue: new Date(this.startSchedule),
           duration : chargingProfile.chargingSchedule.chargingSchedulePeriod[0].startPeriod,
           limit : chargingProfile.chargingSchedule.chargingSchedulePeriod[0].limit,
-          displayedLimitInkW: ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, chargingProfile.chargingSchedule.chargingSchedulePeriod[0].limit/1000) * this.charger.connectors.length,
+          displayedLimitInkW: ChargingStations.convertAmpToW(this.charger.connectors.length, chargingProfile.chargingSchedule.chargingSchedulePeriod[0].limit/1000) * this.charger.connectors.length,
         };
         this.slotsSchedule.push(slot)
         for(let i = 1; i < chargingProfile.chargingSchedule.chargingSchedulePeriod.length; i++){
@@ -186,7 +186,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             displayedStartValue: new Date(this.startSchedule),
             duration : chargingProfile.chargingSchedule.chargingSchedulePeriod[i].startPeriod - chargingProfile.chargingSchedule.chargingSchedulePeriod[i-1].startPeriod,
             limit : chargingProfile.chargingSchedule.chargingSchedulePeriod[i].limit,
-            displayedLimitInkW: ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, chargingProfile.chargingSchedule.chargingSchedulePeriod[i].limit/1000) * this.charger.connectors.length,
+            displayedLimitInkW: ChargingStations.convertAmpToW(this.charger.connectors.length, chargingProfile.chargingSchedule.chargingSchedulePeriod[i].limit/1000) * this.charger.connectors.length,
           };
           slot.displayedStartValue.setSeconds(slot.displayedStartValue.getSeconds() + chargingProfile.chargingSchedule.chargingSchedulePeriod[i].startPeriod)
           this.slotsSchedule.push(slot)
@@ -354,7 +354,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       const period = {} as ChargingSchedulePeriod;
       period.startPeriod = Math.round((slot.displayedStartValue.getTime() - startOfSchedule.getTime()) / 1000);
       if (period.startPeriod >= 0) {
-        period.limit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, ChargingStations.provideLimit(this.charger, slot.displayedLimitInkW*1000));
+        period.limit = ChargingStations.convertWToAmp(this.charger.connectors.length, ChargingStations.provideLimit(this.charger, slot.displayedLimitInkW*1000));
         profile.chargingSchedule.chargingSchedulePeriod.push(period);
       } else {
         throw new Error('Invalid schedule');

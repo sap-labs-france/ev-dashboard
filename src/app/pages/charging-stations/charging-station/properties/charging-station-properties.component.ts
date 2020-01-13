@@ -1,6 +1,7 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStation, OcppAdvancedCommands, ChargingStationCapabilities } from 'app/types/ChargingStation';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { KeyValue } from 'app/types/GlobalType';
 
 export interface PropertyDisplay {
   key: string;
@@ -37,11 +38,13 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities) => {
+      key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities: ChargingStationCapabilities) => {
         if (capabilities) {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
-            formatterValues.push(`${key}: ${capabilities[key]}`);
+            if (formatterValues.hasOwnProperty(key)) {
+              formatterValues.push(`${key}: ${formatterValues[key]}`);
+            }
           }
           return formatterValues.join(', ');
         }
@@ -49,7 +52,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'ocppStandardParameters', title: 'chargers.ocpp_standard_params', formatter: (ocppStandardParameters) => {
+      key: 'ocppStandardParameters', title: 'chargers.ocpp_standard_params', formatter: (ocppStandardParameters: KeyValue[]) => {
         if (ocppStandardParameters) {
           const formatterValues: string[] = [];
           for (const ocppStandardParameter of ocppStandardParameters) {
@@ -61,7 +64,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'ocppVendorParameters', title: 'chargers.ocpp_vendor_params', formatter: (ocppVendorParameters) => {
+      key: 'ocppVendorParameters', title: 'chargers.ocpp_vendor_params', formatter: (ocppVendorParameters: KeyValue[]) => {
         if (ocppVendorParameters) {
           const formatterValues: string[] = [];
           for (const ocppVendorParameter of ocppVendorParameters) {
@@ -73,7 +76,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'ocppAdvancedCommands', title: 'chargers.ocpp_advanced_command', formatter: (ocppAdvancedCommands) => {
+      key: 'ocppAdvancedCommands', title: 'chargers.ocpp_advanced_command', formatter: (ocppAdvancedCommands: OcppAdvancedCommands[]) => {
         if (ocppAdvancedCommands) {
           const formatterValues: string[] = [];
           for (const ocppAdvancedCommand of ocppAdvancedCommands) {

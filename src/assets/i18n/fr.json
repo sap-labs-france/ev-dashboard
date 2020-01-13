@@ -1015,6 +1015,11 @@
         "title": "Utilisateurs non Assignés a un Site",
         "description": "Cet utilisateur n'est pas assigné à au moins un site.",
         "action": "La gestion des organisations étant activée, veuillez assigner cet utilisateur à au moins un site."
+      },
+      "inactive_user_account": {
+        "title": "Compte Utilisateur Inactif",
+        "description": "Cet utilisateur ne s'est pas connecté depuis au moins 6 mois.",
+        "action": "Veuillez supprimer ou desactiver le compte cet utilisateur ."
       }
     }
   },

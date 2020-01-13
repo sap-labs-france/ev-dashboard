@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStation, Connector } from 'app/types/ChargingStation';
 import { ChargingStations } from 'app/utils/ChargingStations';
 
 @Component({
@@ -11,6 +11,7 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: ChargingStation;
+  @Input() connector!: Connector;
   @Input() currentAmpValue = 0;
   @Input() tableColumnDef!: TableColumnDef;
   @Output() powerSliderChanged = new EventEmitter<number>();
@@ -37,7 +38,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
         this.maxAmp += connector.amperage ? connector.amperage : 0;
       }
       // Set the current value
-      // TODO: Add maximumAmperage prop to Charger
+      // TODO: Add maximumAmperage prop to Charger to store the applied or should it be calculated?
       if (!this.currentAmpValue) {
         this.currentAmpValue = this.maxAmp;
       }
@@ -66,7 +67,10 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   }
 
   private convertAmpToPower(ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    return this.appUnitFormatter.transform(
-      ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
+    if (this.connector.numberOfConnectedPhase) {
+      return this.appUnitFormatter.transform(
+        ChargingStations.convertAmpToW(this.connector.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
+    }
+    return 'N/A';
   }
 }

@@ -106,7 +106,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
           // Go to reset password
-          this.router.navigate(['auth/reset-password'], {queryParams: {hash: this.resetToken}});
+          this.router.navigate(['auth/define-password'], {queryParams: {hash: this.resetToken}});
         } else {
           // Show message
           // @ts-ignore

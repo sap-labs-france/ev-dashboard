@@ -20,7 +20,6 @@ export interface ChargingStation extends Data {
   lastHeartBeat: Date;
   inactive: boolean;
   chargingStationURL: string;
-  numberOfConnectedPhase: number;
   connectors: Connector[];
   siteArea: SiteArea;
   cannotChargeInParallel: boolean;
@@ -30,7 +29,15 @@ export interface ChargingStation extends Data {
   currentIPAddress: string;
   capabilities?: ChargingStationCapabilities;
   ocppAdvancedCommands?: OcppAdvancedCommands[];
-  ocppParameters?: KeyValue[];
+  ocppStandardParameters?: KeyValue[];
+  ocppVendorParameters?: KeyValue[];
+  currentType: ChargingStationCurrentType;
+}
+
+export enum ChargingStationCurrentType {
+  AC = 'AC',
+  DC = 'DC',
+  AC_DC = 'AC/DC',
 }
 
 export interface OcppCommand {
@@ -48,14 +55,9 @@ export enum PowerLimitUnits {
 }
 
 export interface ChargingStationConfiguration {
-  chargeBoxID: string;
+  id: string;
   timestamp: Date;
-  configuration: [
-    {
-      value: string;
-      readonly: boolean;
-      key: string;
-    }];
+  configuration: KeyValue[];
 }
 
 export interface ConsumptionValue {
@@ -104,7 +106,7 @@ export enum ConnectorCurrentType {
 }
 
 export interface ChargingStationCapabilities {
-  supportStaticLimitationForChargingStation: boolean;
-  supportStaticLimitationPerConnector: boolean;
-  supportChargingProfiles: boolean;
+  supportStaticLimitationForChargingStation?: boolean;
+  supportStaticLimitationPerConnector?: boolean;
+  supportChargingProfiles?: boolean;
 }

@@ -847,20 +847,4 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
     }
   }
-
-  private generateTagID(user?: User) {
-    let tagID = '';
-    if (user) {
-      if (user.name && user.name.length > 0) {
-        tagID = user.name[0].toUpperCase();
-      }
-      if (user.firstName && user.firstName.length > 0) {
-        tagID += user.firstName[0].toUpperCase();
-      }
-    } else {
-      tagID = 'SF';
-    }
-    tagID += Math.floor((Math.random() * 2147483648) + 1);
-    return tagID;
-  }
 }

@@ -29,7 +29,7 @@ import { Constants } from 'app/utils/Constants';
 })
 @Injectable()
 export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {
-  @Input() row: any;
+  @Input() row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatConnector'})

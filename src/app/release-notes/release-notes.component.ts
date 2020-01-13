@@ -25,17 +25,22 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.19',
-        date: new Date('2019-12-27'),
+        date: new Date('2020-01-08'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `TypeScript: migration of Settings`,
+              `Automatic technical configuration of new Charging Station`,
+              `Automatic set of OCPP parameters of new Charging Station`,
               `Billing: Add User synchronization in User's list`,
               `Billing: Add a job to synchronize Billing information`,
               `eMSP Locations: Store CPO Charging Stations`,
               `Notification: Admins are notified when billing user's synchronization has failed`,
               `All Lists: Optimized performances by optimizing third party libs import usages`,
+              `Connector's transaction is not clean until it becomes available`,
+              `TypeScript: Alignment between front-end and backend types`,
+              `TypeScript: migration of Settings`,
+              `TypeScript migration of Logging`,
             ],
           },
         ],

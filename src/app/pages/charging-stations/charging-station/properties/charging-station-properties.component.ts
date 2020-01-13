@@ -42,8 +42,8 @@ export class ChargingStationPropertiesComponent implements OnInit {
         if (capabilities) {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
-            if (formatterValues.hasOwnProperty(key)) {
-              formatterValues.push(`${key}: ${formatterValues[key]}`);
+            if (capabilities.hasOwnProperty(key)) {
+              formatterValues.push(`${key}: ${capabilities[key]}`);
             }
           }
           return formatterValues.join(', ');

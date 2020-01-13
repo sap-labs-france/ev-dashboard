@@ -48,6 +48,46 @@ export class ChargingStationPropertiesComponent implements OnInit {
         return '';
       },
     },
+    {
+      key: 'ocppStandardParameters', title: 'chargers.ocpp_standard_params', formatter: (ocppStandardParameters) => {
+        if (ocppStandardParameters) {
+          const formatterValues: string[] = [];
+          for (const ocppStandardParameter of ocppStandardParameters) {
+            formatterValues.push(`${ocppStandardParameter.key}: ${ocppStandardParameter.value}`);
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
+      },
+    },
+    {
+      key: 'ocppVendorParameters', title: 'chargers.ocpp_vendor_params', formatter: (ocppVendorParameters) => {
+        if (ocppVendorParameters) {
+          const formatterValues: string[] = [];
+          for (const ocppVendorParameter of ocppVendorParameters) {
+            formatterValues.push(`${ocppVendorParameter.key}: ${ocppVendorParameter.value}`);
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
+      },
+    },
+    {
+      key: 'ocppAdvancedCommands', title: 'chargers.ocpp_advanced_command', formatter: (ocppAdvancedCommands) => {
+        if (ocppAdvancedCommands) {
+          const formatterValues: string[] = [];
+          for (const ocppAdvancedCommand of ocppAdvancedCommands) {
+            if (typeof ocppAdvancedCommand === 'object') {
+              formatterValues.push(JSON.stringify(ocppAdvancedCommand));
+            } else {
+              formatterValues.push(ocppAdvancedCommand);
+            }
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
+      },
+    },
   ];
 
   displayedColumns: string[] = ['title', 'value'];

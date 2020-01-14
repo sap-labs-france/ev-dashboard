@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.19',
-        date: new Date('2020-01-13'),
+        date: new Date('2020-01-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Activate notifications to new registered users`,
               `Automatic technical configuration of new Charging Station`,
               `Automatic set of OCPP parameters of new Charging Station`,
               `Force set of OCPP parameters from Template`,

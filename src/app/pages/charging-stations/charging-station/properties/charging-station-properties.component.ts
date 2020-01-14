@@ -1,6 +1,7 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStation, OcppAdvancedCommands, ChargingStationCapabilities } from 'app/types/ChargingStation';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { KeyValue } from 'app/types/GlobalType';
 
 export interface PropertyDisplay {
   key: string;
@@ -37,11 +38,53 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities) => {
+      key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities: ChargingStationCapabilities) => {
         if (capabilities) {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
-            formatterValues.push(`${key}: ${capabilities[key]}`);
+            if (capabilities.hasOwnProperty(key)) {
+              formatterValues.push(`${key}: ${capabilities[key]}`);
+            }
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
+      },
+    },
+    {
+      key: 'ocppStandardParameters', title: 'chargers.ocpp_standard_params', formatter: (ocppStandardParameters: KeyValue[]) => {
+        if (ocppStandardParameters) {
+          const formatterValues: string[] = [];
+          for (const ocppStandardParameter of ocppStandardParameters) {
+            formatterValues.push(`${ocppStandardParameter.key}: ${ocppStandardParameter.value}`);
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
+      },
+    },
+    {
+      key: 'ocppVendorParameters', title: 'chargers.ocpp_vendor_params', formatter: (ocppVendorParameters: KeyValue[]) => {
+        if (ocppVendorParameters) {
+          const formatterValues: string[] = [];
+          for (const ocppVendorParameter of ocppVendorParameters) {
+            formatterValues.push(`${ocppVendorParameter.key}: ${ocppVendorParameter.value}`);
+          }
+          return formatterValues.join(', ');
+        }
+        return '';
+      },
+    },
+    {
+      key: 'ocppAdvancedCommands', title: 'chargers.ocpp_advanced_command', formatter: (ocppAdvancedCommands: OcppAdvancedCommands[]) => {
+        if (ocppAdvancedCommands) {
+          const formatterValues: string[] = [];
+          for (const ocppAdvancedCommand of ocppAdvancedCommands) {
+            if (typeof ocppAdvancedCommand === 'object') {
+              formatterValues.push(JSON.stringify(ocppAdvancedCommand));
+            } else {
+              formatterValues.push(ocppAdvancedCommand);
+            }
           }
           return formatterValues.join(', ');
         }

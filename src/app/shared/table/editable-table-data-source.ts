@@ -78,7 +78,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
           formRow.get(columnDef.id).setValue(false);
         });
       }
-
       const rowGroup: FormGroup = this.formArray.at(index) as FormGroup;
       // @ts-ignore
       rowGroup.get(columnDef.id).setValue(value);

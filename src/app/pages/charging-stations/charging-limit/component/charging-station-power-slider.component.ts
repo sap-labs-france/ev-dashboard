@@ -13,7 +13,8 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
   @Input() currentAmpValue = 0;
-  @Input() tableColumnDef!: TableColumnDef;
+  @Input() columnDef!: TableColumnDef;
+  @Input() row!: any;
   @Output() powerSliderChanged = new EventEmitter<number>();
 
   public minAmp = 0;
@@ -28,7 +29,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
 
   ngOnInit(): void {
     if(!this.charger){
-      this.charger = this.tableColumnDef.additionalParameters;
+      this.charger = this.columnDef.additionalParameters;
     }
     // Init
     if (this.charger) {
@@ -41,6 +42,9 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       // TODO: Add maximumAmperage prop to Charger to store the applied or should it be calculated?
       if (!this.currentAmpValue) {
         this.currentAmpValue = this.maxAmp;
+      }
+      if (this.row) {
+        this.currentAmpValue = this.row.displayedLimitInkW;
       }
       // Convert
       this.updateDisplayedPowerKW();
@@ -57,6 +61,9 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
       // Notify
       this.powerSliderChanged.emit(value);
+      this.row.limit = value
+      this.row.displayedLimitInkW = this.convertAmpToPower(value, 'W');;
+      console.log(value);
     }
   }
 
@@ -67,10 +74,12 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   }
 
   private convertAmpToPower(ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    if (this.connector.numberOfConnectedPhase) {
+    // if (this.connector.numberOfConnectedPhase) {
+    //   return this.appUnitFormatter.transform(
+    //     ChargingStations.convertAmpToW(this.connector.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
+    // }
       return this.appUnitFormatter.transform(
-        ChargingStations.convertAmpToW(this.connector.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
-    }
-    return 'N/A';
+        ChargingStations.convertAmpToW(0, ampValue), 'W', unit, displayUnit, 1, 0);
+    // return 'N/A';
   }
 }

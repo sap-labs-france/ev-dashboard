@@ -94,20 +94,20 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       limitPowerDataSet.data.push({
         x: limit.displayedStartValue.getTime(), y: limit.displayedLimitInkW,
       });
-      if (index === scheduleSlots.length - 1 && scheduleSlots[index+1]) {
-        // Add last limit
-        if (scheduleSlots[index+1].displayedStartValue && scheduleSlots[index+1].displayedStartValue .getTime() !== limit.displayedStartValue.getTime()) {
-          this.data.labels.push(scheduleSlots[index+1].displayedStartValue .getTime());
-          limitPowerDataSet.data.push({
-            x: scheduleSlots[index+1].displayedStartValue .getTime(), y: limit.displayedLimitInkW,
-          });
-        } else {
-          this.data.labels.push(limit.displayedStartValue.getTime() + 3600000); // Add one hour
-          limitPowerDataSet.data.push({
-            x: limit.displayedStartValue.getTime() + 3600000, y: limit.displayedLimitInkW,
-          });
-        }
-      }
+      // if (index === scheduleSlots.length - 1 && scheduleSlots[index+1]) {
+      //   // Add last limit
+      //   if (scheduleSlots[index+1].displayedStartValue && scheduleSlots[index+1].displayedStartValue .getTime() !== limit.displayedStartValue.getTime()) {
+      //     this.data.labels.push(scheduleSlots[index+1].displayedStartValue .getTime());
+      //     limitPowerDataSet.data.push({
+      //       x: scheduleSlots[index+1].displayedStartValue .getTime(), y: limit.displayedLimitInkW,
+      //     });
+      //   } else {
+      //     this.data.labels.push(limit.displayedStartValue.getTime() + 3600000); // Add one hour
+      //     limitPowerDataSet.data.push({
+      //       x: limit.displayedStartValue.getTime() + 3600000, y: limit.displayedLimitInkW,
+      //     });
+      //   }
+      // }
     }
   }
 

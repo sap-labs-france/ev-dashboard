@@ -1,5 +1,6 @@
 import { Injectable, QueryList, ViewChildren, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import {
   Slot,
@@ -39,22 +40,25 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
       },
       // {
       //   id: 'duration',
-      //   name: 'Slot duration',
-      //   headerClass: 'col-20p',
-      //   class: 'col-20p',
+      //   name: 'Duration in min',
+      //   headerClass: 'col-30p',
+      //   class: 'text-left col-30p',
       // },
       {
         id: 'displayedLimitInkW',
         name: 'Slot power limit',
         editType: 'input',
-        // isAngularComponent: true,
-        // angularComponent: ChargingStationPowerSliderComponent,
+        isAngularComponent: true,
+        angularComponent: ChargingStationPowerSliderComponent,
         headerClass: 'col-20p',
         class: 'col-20p',
-        //additionalParameters: this.charger,
       },
     ];
     return tableColumnDef;
+  }
+
+  public addCharger(charger: ChargingStation){
+    this.tableColumnDefs[1].additionalParameters = charger;
   }
 
   public addData() {
@@ -62,12 +66,31 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<a
     currentDate.setHours(currentDate.getHours() + 1)
     const chargingSchedulePeriod = <Slot> {
       displayedStartValue: currentDate,
-      displayedLimitInkW: 0,
+      displayedLimitInkW: this.tableColumnDefs[2].additionalParameters.maximumPower/1000,
     };
     if(this.data[this.data.length-1]){
-      chargingSchedulePeriod.displayedStartValue = new Date(this.data[this.data.length-1].displayedStartValue.setHours(this.data[this.data.length-1].displayedStartValue.getHours()+1));
+      var previousDate = new Date(this.data[this.data.length-1].displayedStartValue);
+      chargingSchedulePeriod.displayedStartValue = new Date(previousDate.setHours(previousDate.getHours()+1));
       chargingSchedulePeriod.displayedLimitInkW = this.data[this.data.length-1].displayedLimitInkW;
     }
     return chargingSchedulePeriod;
   }
+
+  // public updateRow(value: any, index: number, columnDef: TableColumnDef) {
+  //   console.log("update");
+  //   this.refreshData();
+  //   if (columnDef.editType === 'datetimepicker'){
+  //     if (this.data[index+1]){
+  //       this.data[index].duration = this.data[index+1].getTime() - this.data[index].startPeriod.getTime();
+  //     }
+  //   }
+  //   if (this.formArray) {
+  //     const rowGroup: FormGroup = this.formArray.at(index) as FormGroup;
+  //     // @ts-ignore
+  //     rowGroup.get(columnDef.id).setValue(value);
+  //     // @ts-ignore
+  //     this.editableContent[index][columnDef.id] = value;
+  //     this.formArray.markAsDirty();
+  //   }
+  // }
 }

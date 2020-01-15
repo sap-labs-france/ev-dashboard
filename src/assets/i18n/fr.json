@@ -1048,8 +1048,8 @@
     "delete_title": "Supprimer l'organisation",
     "delete_success": "L'organisation '{{name}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
-    "save_error_refund": "Pricing doit être actif pour utiliser Remboursement",
-    "save_error_billing": "Pricing doit être actif pour utiliser Billing",
+    "save_error_refund": "La Tarification doit être active pour utiliser le Remboursement",
+    "save_error_billing": "La Tarification doit être active pour utiliser la Facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging"
   },
   "settings": {
@@ -1057,9 +1057,9 @@
       "ocpi": "Itinérance",
       "charging_station": "Borne",
       "refund": "Remboursement",
-      "pricing": "Pricing",
-      "billing": "Billing",
-      "analytics": "Analytics",
+      "pricing": "Tarification",
+      "billing": "Facturation",
+      "analytics": "Statistiques",
       "smartCharging": "Charge Intelligente"
     },
     "ocpi": {
@@ -1129,12 +1129,12 @@
       }
     },
     "pricing": {
-      "description": "L'interface de Pricing permet aux fournisseurs de bornes de valoriser leurs services.",
-      "not_found": "La configuration Pricing n'est pas disponible",
-      "create_success": "La configuration Pricing a été créé avec succès",
-      "create_error": "Une erreur est survenue pendant la creation de la configuration Pricing",
-      "update_success": "La configuration Pricing a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Pricing",
+      "description": "L'interface de tarification permet aux fournisseurs de bornes de valoriser leurs services.",
+      "not_found": "La configuration de la tarification n'est pas disponible",
+      "create_success": "La configuration de la tarification a été créée avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration de tarification",
+      "update_success": "La configuration de la tarification a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de tarification",
       "full_description_part_1": "E-Mobility provides two ways to compute the price of an EV session. The simple one allows you to setup a fixed price per kW.h of your charging infrastructure. E-Mobility provides also advanced Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). More technical information available at ",
       "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
       "convergentcharging": {
@@ -1153,18 +1153,18 @@
       }
     },
     "billing" : {
-      "description": "L'interface de Billing permet aux fournisseurs de bornes de facturer leurs services.",
-      "not_found": "La configuration Billing n'est pas disponible",
-      "create_success": "La configuration Billing a été créée avec succès",
-      "create_error": "Une erreur est survenue pendant la creation de la configuration Billing",
-      "update_success": "La configuration Billing a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration Billing",
+      "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
+      "not_found": "La configuration de la facturation n'est pas disponible",
+      "create_success": "La configuration de la facturation a été créée avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration de la facturation",
+      "update_success": "La configuration de la facturation a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de la facturation",
       "check_connection": "Vérifier connexion",
-      "connection_success": "Connexion vers l'application Billing vérifiée avec succès",
-      "connection_error": "Connexion vers l'application Billing impossible",
+      "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
+      "connection_error": "Connexion vers l'application de facturation impossible",
       "synchronize_users": "Synchronizer utilisateurs",
-      "synchronize_users_dialog_title": "Synchronizer utilisateurs pour Billing",
-      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchronizer les utilisateurs pour Billing ?",
+      "synchronize_users_dialog_title": "Synchronizer utilisateurs pour la facturation",
+      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchronizer les utilisateurs pour la facturation ?",
       "synchronize_users_started": "La synchronization des utilisateurs a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
       "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",
@@ -1192,11 +1192,11 @@
       },
       "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
       "setting_not_found": "La configuration n'a pas été trouvée",
-      "create_success": "La configuration SAP Analytics Cloud a été créé avec succès",
-      "create_error": "Une erreur est survenue pendant la creation de la configuration SAP Analytics Cloud",
-      "setting_do_not_exist": "La configuration SAP Analytics Cloud n'est pas disponible",
-      "update_success": "La configuration SAP Analytics Cloud a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Analytics Cloud"
+      "create_success": "La configuration de SAP Analytics Cloud a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Analytics Cloud",
+      "setting_do_not_exist": "La configuration de SAP Analytics Cloud n'est pas disponible",
+      "update_success": "La configuration de SAP Analytics Cloud a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de SAP Analytics Cloud"
     },
     "smartCharging": {
       "sapSmartCharging": {
@@ -1347,18 +1347,18 @@
     "description": "Interface de Remboursement"
   },
   "pricing": {
-    "title": "Pricing",
+    "title": "Tarification",
     "type_placeholder": "Type",
-    "description": "Pricing Interface",
+    "description": "Interface de Tarification",
     "price_kw_h_label": "Prix kW.h",
     "price_unit_label": "Monnaie",
     "update_success": "Le prix a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du prix"
   },
   "billing": {
-    "title": "Billing",
+    "title": "Facturation",
     "type_placeholder": "Type",
-    "description": "Billing Interface"
+    "description": "Interface de Facturation"
   },
   "transactions": {
     "id": "Id",
@@ -1565,6 +1565,6 @@
     "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
     "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
-    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de Billing a échoué"
+    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué"
   }
 }

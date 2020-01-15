@@ -112,12 +112,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
-      id: 'id',
-      name: 'users.id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'd-none d-xl-table-cell',
-    },
-    {
       id: 'role',
       name: 'users.role',
       formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),

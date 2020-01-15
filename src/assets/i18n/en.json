@@ -593,6 +593,9 @@
     "serial_number": "Serial Number",
     "last_reboot": "Last Reboot",
     "capabilities": "Capabilities",
+    "ocpp_standard_params": "OCPP Standard Params",
+    "ocpp_vendor_params": "OCPP Advanced Params",
+    "ocpp_advanced_command": "OCPP Advanced Commands",
     "unassigned": "Unassigned",
     "unassigned_chargers": "Chargers",
     "maximum_energy": "Maximum Power (Watts)",
@@ -748,6 +751,8 @@
     "reboot_error": "Error occurred while rebooting the charging station",
     "get_configuration_title": "Get Configuration",
     "get_configuration_confirm": "Do you really want to retrieve the configuration from the charging station '{{chargeBoxID}}'?",
+    "ocpp_params_update_from_template_title": "Update OCPP Params",
+    "ocpp_params_update_from_template_confirm": "Do you really want to update the OCPP parameters of the charging station '{{chargeBoxID}}' with the provided template?",
     "set_configuration_title": "Save Change Configuration",
     "set_configuration_confirm": "Do you really want to change the configuration of {{key}} on the charging station '{{chargeBoxID}}'?",
     "soft_reset_confirm": "Do you really want to reset the charging station '{{chargeBoxID}}'?",
@@ -811,6 +816,7 @@
     "changes_cancelled": "Changes have been cancelled",
     "unsaved_changes": "You have unsaved changes. Save or cancel them.",
     "button_get_configuration": "Get Configuration",
+    "button_force_ocpp_params_update_from_template": "Force OCPP Template Update",
     "created_on": "Creation date",
     "start_transaction_admin_title": "Start session as Administrator",
     "start_transaction_admin_message": "Do you want to start a session for:",
@@ -1016,6 +1022,11 @@
         "title": "Not Assigned to a Site",
         "description": "This user is not assigned to a site.",
         "action": "Assign this user to at least one site as the organization component is active."
+      },
+      "inactive_user_account": {
+        "title": "Inactive User Account",
+        "description": "This user has not logged in for at least 6 months.",
+        "action": "Delete or disable this user account."
       }
     }
   },

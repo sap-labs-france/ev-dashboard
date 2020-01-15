@@ -1,9 +1,14 @@
 <div class="d-flex flex-column">
   <div class="left-actions d-flex flex-row mat-toolbar-row">
-    <button mat-raised-button color="primary" class="mb-2" (click)="getConfiguration()"
+    <button mat-raised-button color="primary" class="mb-2" (click)="requestOCPPConfiguration()"
             [disabled]="!isGetConfigurationActive">
       <mat-icon>get_app</mat-icon>
       <span>{{'chargers.button_get_configuration' | translate}}</span>
+    </button>
+    <button mat-raised-button color="primary" class="mb-2" (click)="updateOCPPParamsFromTemplate()"
+            [disabled]="!isGetConfigurationActive">
+      <mat-icon>input</mat-icon>
+      <span>{{'chargers.button_force_ocpp_params_update_from_template' | translate}}</span>
     </button>
     <button mat-raised-button color="primary" class="mb-2" (click)="exportConfiguration()">
       <mat-icon>cloud_download</mat-icon>
@@ -23,11 +28,11 @@
           <tr *ngFor="let item of chargerConfiguration" class="mat-row" role="row">
             <th class="text-left">{{item.key | translate}}</th>
             <td class="d-flex flex-grow-1 justify-content-center">
-              <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="changeParameter(item)"
+              <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="changeOCPPParameter(item)"
                       appTooltip [title]="item.tooltip | translate">
                 <mat-icon>{{item.icon}}</mat-icon>
               </button>
-              <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="clearParameter(item)"
+              <button mat-icon-button color="primary" *ngIf="!item.readonly" (click)="clearOCPPParameter(item)"
                       [hidden]="item.icon === 'edit'" appTooltip [title]="'general.cancel' | translate">
                 <mat-icon>clear</mat-icon>
               </button>

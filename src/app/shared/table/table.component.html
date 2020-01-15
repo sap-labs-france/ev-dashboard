@@ -213,6 +213,10 @@
             class="col-3em details-column-header">
           <!-- Empty -->
         </th>
+        <!-- Actions Header -->
+        <th *ngIf="dataSource.hasRowActions" class="table-header text-center col-5em">
+          {{'general.actions' | translate}}
+        </th>
         <!-- Text Header -->
         <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
             (click)="sortChanged(tableColumnDef)"
@@ -222,10 +226,6 @@
           <mat-icon *ngIf="sort.active === tableColumnDef.id">
             {{sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
           </mat-icon>
-        </th>
-        <!-- Actions Header -->
-        <th *ngIf="dataSource.hasRowActions" class="table-header text-center col-5em">
-          {{'general.actions' | translate}}
         </th>
       </tr>
       </thead>
@@ -344,6 +344,42 @@
               </ng-container>
             </ng-container>
           </td>
+          <!-- Cells -->
+          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+            <!-- Angular Component Cell -->
+            <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
+              <td *ngIf="!dataSource.tableDef.isEditable"
+                  [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+              </td>
+              <td *ngIf="dataSource.tableDef.isEditable"
+                  [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                  [class.table-field-invalid]="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors">
+                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'input'"
+                       [id]="tableColumnDef.id" [name]="tableColumnDef.id"
+                       class="form-control text-line"
+                       [placeholder]="tableColumnDef.name | translate"
+                       [ngModel]="row[tableColumnDef.id]"
+                       (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
+                       type="text">
+                <mat-checkbox *ngIf="tableColumnDef.editType === 'checkbox'"
+                              [(ngModel)]="row[tableColumnDef.id]"
+                              (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)">
+                </mat-checkbox>
+
+                <mat-radio-button *ngIf="tableColumnDef.editType === 'radiobutton'"
+                                  [checked]="row[tableColumnDef.id]"
+                                  (change)="$event.source.checked  = !$event.source.checked;"
+                                  (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
+                </mat-radio-button>
+              </td>
+            </ng-template>
+            <td *ngIf="tableColumnDef.isAngularComponent"
+                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
+              <app-cell-content-template-container [columnDef]="tableColumnDef"
+                                                   [row]="row"></app-cell-content-template-container>
+            </td>
+          </ng-template>
         </tr>
         <!-- Error Row -->
         <tr *ngIf="dataSource.tableDef.isEditable" class="row-validation">

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Injectable, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,7 +28,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
   @Input() charger!: ChargingStation;
   @ViewChild('searchInput', {static: false}) searchInput!: ElementRef;
   public searchPlaceholder = '';
-  public chargerConfiguration: any;
+  public chargerConfiguration!: KeyValue[];
   public loadedChargerConfiguration: any;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
@@ -158,9 +158,6 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     });
   }
 
-  /**
-   * saveConfiguration
-   */
   public saveConfiguration(item: any) {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
@@ -215,17 +212,17 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
-        let csv = `Parameter${Constants.CSV_SEPARATOR}Value\r\nid,${this.charger.id}\r\n`;
+        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}\r\n`;
         for (const parameter of this.chargerConfiguration) {
-          csv += `${parameter.key}${Constants.CSV_SEPARATOR}"${parameter.value}"\r\n`;
+          csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${parameter.value}"\r\n`;
         }
         const blob = new Blob([csv]);
-        saveAs(blob, 'exported-charging-station-configuration.csv');
+        saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);
       }
     });
   }
 
-  public changeParameter(item: any) {
+  public changeOCPPParameter(item: any) {
     if (item.icon === 'edit') {
       if (this.charger.inactive) {
         // Charger is not connected
@@ -256,20 +253,61 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     }
   }
 
-  public clearParameter(item: any) {
+  public clearOCPPParameter(item: any) {
     // activate get configuration button
     this.isGetConfigurationActive = true;
     // Cancel input changes
     item.icon = 'edit';
     this.formGroup.controls[item.key].reset();
-    this.formGroup.controls[item.key].setValue(this.loadedChargerConfiguration.find((element) => {
+    this.formGroup.controls[item.key].setValue(this.loadedChargerConfiguration.find((element: any) => {
       return element.key === item.key;
     }).value);
     this.formGroup.controls[item.key].disable();
     this.formGroup.markAsPristine();
   }
 
-  public getConfiguration() {
+  public updateOCPPParamsFromTemplate() {
+    if (this.charger.inactive) {
+      // Charger is not connected
+      this.dialogService.createAndShowOkDialog(
+        this.translateService.instant('chargers.action_error.command_title'),
+        this.translateService.instant('chargers.action_error.command_charger_disconnected'));
+    } else {
+      // Show yes/no dialog
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('chargers.ocpp_params_update_from_template_title'),
+        this.translateService.instant('chargers.ocpp_params_update_from_template_confirm', { chargeBoxID: this.charger.id }),
+      ).subscribe((result) => {
+        if (result === Constants.BUTTON_TYPE_YES) {
+          // Show
+          this.spinnerService.show();
+          // Yes: Update
+          this.centralServerService.updateChargingStationOCPPParamWithTemplate(this.charger.id).subscribe((response) => {
+            // Hide
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+              // Ok
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
+              this.refresh();
+            } else {
+              this.refresh();
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, this.messages['change_config_error']);
+            }
+          }, (error: any) => {
+            this.refresh();
+            // Hide
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              this.messages['change_config_error']);
+          });
+        }
+      });
+    }
+  }
+
+  public requestOCPPConfiguration() {
     if (this.charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -285,7 +323,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
           // Show
           this.spinnerService.show();
           // Yes: Update
-          this.centralServerService.getChargingStationOCPPConfiguration(this.charger.id).subscribe((response) => {
+          this.centralServerService.requestChargingStationOCPPConfiguration(this.charger.id).subscribe((response) => {
             // Hide
             this.spinnerService.hide();
             // Ok?

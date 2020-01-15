@@ -1205,7 +1205,7 @@
         "user": "Utilisateur",
         "password": "Mot de passe"
       },
-      "description": "E-Mobility est capable d'utiliser des algorithmes de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des évènements divers",
+      "description": "E-Mobility est capable d'utiliser des algorithmes de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des critères multiples",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration n'a pas été trouvée",
       "create_success": "La configuration de SAP Smart Charging a été créé avec succès",

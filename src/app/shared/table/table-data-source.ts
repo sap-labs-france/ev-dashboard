@@ -611,6 +611,7 @@ export abstract class TableDataSource<T extends Data> {
           let value = freshRow;
           keys.forEach((key) => {
             if (value) {
+              // @ts-ignore
               value = value[key];
             }
           });

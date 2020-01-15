@@ -118,8 +118,8 @@
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
-    "reset_filters" : "Réinitialiser les Filtres",
-    "browser_not_supported" : "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
+    "reset_filters": "Réinitialiser les Filtres",
+    "browser_not_supported": "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -410,7 +410,11 @@
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "maximum_energy": "Limite de puissance (Watts)"
+    "maximum_energy": "Limite de puissance (Watts)",
+    "exportAllParams": {
+      "title": "Exporter les paramètres de tout les bornes",
+      "confirm": "Voulez-vous vraiment exporter les paramètres de tout les bornes de ce site areas ?"
+    }
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -1152,7 +1156,7 @@
         "currency": "Devise"
       }
     },
-    "billing" : {
+    "billing": {
       "description": "L'interface de Billing permet aux fournisseurs de bornes de facturer leurs services.",
       "not_found": "La configuration Billing n'est pas disponible",
       "create_success": "La configuration Billing a été créée avec succès",
@@ -1171,13 +1175,13 @@
       "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (veuillez voir les logs)",
       "synchronize_users_error": "Une erreur est survenue durant la synchronization des utilisateurs",
       "stripe": {
-        "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
-        "title" : "Stripe",
-        "url" : "URL du terminal Stripe",
-        "public_key" : "Clé API publique",
-        "invalid_public_key" : "La clé API publique n'est pas plausible",
-        "secret_key" : "Clé API secrète",
-        "invalid_secret_key" : "La clé API secrète n'est pas plausible",
+        "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
+        "title": "Stripe",
+        "url": "URL du terminal Stripe",
+        "public_key": "Clé API publique",
+        "invalid_public_key": "La clé API publique n'est pas plausible",
+        "secret_key": "Clé API secrète",
+        "invalid_secret_key": "La clé API secrète n'est pas plausible",
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
         "periodic_billing": "Facturation périodique (pas encore implémentée)",
@@ -1533,7 +1537,7 @@
       "incorrect_starting_date": {
         "title": "Date de début de Transaction Incorrecte",
         "description": "La date de début de la transaction est incorrecte ou impossible.",
-        "action" : "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
+        "action": "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
       }
     }
   },

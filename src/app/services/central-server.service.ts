@@ -921,6 +921,20 @@ export class CentralServerService {
       );
   }
 
+  public exportOCCPParamsPerSiteAreas(siteAreaID: string): Observable<Blob> {
+    // Verify init
+    this.checkInit();
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/OCPPParamsExport`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params: { SiteAreaID: siteAreaID },
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTransactionsInError(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
     // Verify init

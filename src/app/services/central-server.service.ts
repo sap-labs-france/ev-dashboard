@@ -921,10 +921,10 @@ export class CentralServerService {
       );
   }
 
-  public exportOCCPParamsPerSiteAreas(siteAreaID: string): Observable<Blob> {
+  public exportAllChargingStationsOCCPParams(siteAreaID: string): Observable<Blob> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/OCPPParamsExport`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',

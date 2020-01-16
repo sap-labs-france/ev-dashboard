@@ -371,6 +371,7 @@
     "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
   },
   "site_areas": {
+    "export_all_ocpp_params": "Exporter tous les paramètres OCPP",
     "no_site_areas": "Aucune zone n'a été trouvée",
     "site_areas_number": "Zone(s)",
     "show_all_chargers": "Afficher Toutes Les Bornes",
@@ -411,10 +412,8 @@
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "maximum_energy": "Limite de puissance (Watts)",
-    "exportAllParams": {
-      "title": "Exporter les paramètres de tous les bornes",
-      "confirm": "Voulez-vous vraiment exporter les paramètres de tous les bornes de ce site areas ?"
-    }
+    "export_all_params_title": "Exporter les paramètres OCPP",
+    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à cette zone ?"
   },
   "authentication": {
     "accept": "J'accepte les",

@@ -13,6 +13,12 @@ export interface ConnectorSchedule {
 }
 
 export interface ChargingProfile extends Data {
+  chargingStationID: string;
+  connectorID?: string;
+  profile: Profile;
+}
+
+export interface Profile extends Data  {
   id: number;
   chargingProfileId: number;
   transactionId?: number;
@@ -57,7 +63,7 @@ export enum RecurrencyKindType {
   WEEKLY = 'Weekly'
 }
 
-export interface Slot {
+export interface Slot extends Data {
   id: number;
   displayedStartValue: Date;
   duration: number;

@@ -711,7 +711,7 @@
       "slot_limit_header": "Slot power limit",
       "profile_types": {
         "relative": "Relative",
-        "absolute": "Absolute",
+        "absolute": "Temporary Planning",
         "recurring_daily": "Daily recurring",
         "recurring_weekly": "Weekly recurring"
       }

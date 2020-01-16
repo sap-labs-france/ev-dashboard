@@ -24,7 +24,8 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Charger, ChargerConfiguration, ChargerInError, ChargingProfile } from '../common.types';
+import { Charger, ChargerConfiguration, ChargerInError } from '../common.types';
+import { Slot, ScheduleSlot, ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType,  ChargingSchedule, RecurrencyKindType, ChargingSchedulePeriod } from 'app/types/ChargingProfile';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -1828,13 +1829,26 @@ export class CentralServerService {
       );
   }
 
-  updateChargingChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
+  updateChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileUpdate`, chargingProfile,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  deleteChargingProfile(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1953,6 +1967,7 @@ export class CentralServerService {
         catchError(this.handleHttpError),
       );
   }
+
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
     // Verify init

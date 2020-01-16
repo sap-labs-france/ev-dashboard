@@ -252,54 +252,6 @@
               {{row.isExpanded ? "expand_more" : "chevron_right"}}
             </mat-icon>
           </td>
-          <!-- Cells -->
-          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
-            <!-- Angular Component Cell -->
-            <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
-              <td *ngIf="!dataSource.tableDef.isEditable"
-                  [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
-              </td>
-              <td *ngIf="dataSource.tableDef.isEditable"
-                  [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [class.table-field-invalid]="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors">
-                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'input'"
-                       [id]="tableColumnDef.id" [name]="tableColumnDef.id"
-                       class="form-control text-line"
-                       [placeholder]="tableColumnDef.name | translate"
-                       [ngModel]="row[tableColumnDef.id]"
-                       (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
-                       type="text">
-                <mat-checkbox *ngIf="tableColumnDef.editType === 'checkbox'"
-                              [(ngModel)]="row[tableColumnDef.id]"
-                              (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)">
-                </mat-checkbox>
-
-                <mat-radio-button *ngIf="tableColumnDef.editType === 'radiobutton'"
-                                  [checked]="row[tableColumnDef.id]"
-                                  (change)="$event.source.checked  = !$event.source.checked;"
-                                  (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
-                </mat-radio-button>
-
-                <mat-form-field *ngIf="tableColumnDef.editType === 'datetimepicker'">
-                  <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                  </mat-datetimepicker>
-                  <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                  <input matInput
-                          (dateChange)="updateRow($event.value._d, rowIndex, tableColumnDef)"
-                          [matDatetimepicker]="picker"
-                          autocomplete="false"
-                          [value]="row[tableColumnDef.id]">
-                </mat-form-field>
-
-              </td>
-            </ng-template>
-            <td *ngIf="tableColumnDef.isAngularComponent"
-                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-              <app-cell-content-template-container [columnDef]="tableColumnDef"
-                                                   [row]="row"></app-cell-content-template-container>
-            </td>
-          </ng-template>
           <!-- Action Cell -->
           <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
             <ng-container
@@ -372,6 +324,27 @@
                                   (change)="$event.source.checked  = !$event.source.checked;"
                                   (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
+
+                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'displayonly'"
+                        enabled = "false"
+                       [id]="tableColumnDef.id" [name]="tableColumnDef.id"
+                       class="form-control text-line"
+                       [placeholder]="tableColumnDef.name | translate"
+                       [ngModel]="row[tableColumnDef.id]"
+                       (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
+                       type="text">
+
+                <mat-form-field *ngIf="tableColumnDef.editType === 'datetimepicker'">
+                  <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                  </mat-datetimepicker>
+                  <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                  <input matInput
+                          (dateChange)="updateRow($event.value._d, rowIndex, tableColumnDef)"
+                          [matDatetimepicker]="picker"
+                          autocomplete="false"
+                          [value]="row[tableColumnDef.id]">
+                </mat-form-field>
+
               </td>
             </ng-template>
             <td *ngIf="tableColumnDef.isAngularComponent"

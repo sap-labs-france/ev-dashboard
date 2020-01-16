@@ -16,23 +16,20 @@
             <button mat-raised-button color="primary" (click)="clearChargingProfile()">
               <mat-icon>delete</mat-icon><span>{{'general.clear' | translate}}</span>
             </button>
-          </div>
+              <div class="form-group col-md-4">
+                <mat-form-field>
+                  <mat-select [formControl]="profileTypeControl"
+                    placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
+                    <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
+                      {{type.description | translate}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
         </div>
-        <div class="card-body">
-          <div class="card-body">
-          </div>
-          <div class="row col-md-12 text-left">
-            <div class="form-group col-md-4">
-              <mat-form-field>
-                <mat-select [formControl]="profileTypeControl"
-                  placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
-                  <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
-                    {{type.description | translate}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <!-- <div class="form-group col-md-2">
+      </div>
+        <!-- <div class="card-body">
+            <div class="form-group col-md-2">
               <mat-form-field>
                 <input matInput [formControl]="stackLevelControl" type="number" min=0 max=10
                   placeholder="{{'chargers.smart_charging.stack_level' | translate}}" required />
@@ -49,17 +46,18 @@
                 <input matInput [formControl]="durationControl" type="number" min=0
                   placeholder="{{'chargers.smart_charging.duration' | translate}}" />
               </mat-form-field>
-              </div> -->
-          </div>
-          <div class="card-body">
+              </div>
+          </div> -->
+          <div class="card-body" >
+            <div>
             <app-table [dataSource]="chargingPeriodListTableDataSource"></app-table>
           </div>
-          <div class="col-md-11">
+          <div>
             <app-charging-station-smart-charging-limit-planner-chart #limitChart [scheduleSlots]="slotsSchedule"
               ratio="4">
             </app-charging-station-smart-charging-limit-planner-chart>
           </div>
-        </div>
+          </div>
       </div>
     </div>
   </form>

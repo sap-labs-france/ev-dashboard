@@ -13,9 +13,7 @@ import { Slot } from 'app/common.types';
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
     <div class="chart-container">
-      <div class="smart-charging-limit-chart">
         <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
-      </div>
       <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">
         <a mat-icon-button (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>

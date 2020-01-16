@@ -44,7 +44,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
         this.currentAmpValue = this.maxAmp;
       }
       if (this.row) {
-        this.currentAmpValue = this.row.displayedLimitInkW;
+        this.currentAmpValue = this.row.limit;
       }
       // Convert
       this.updateDisplayedPowerKW();
@@ -78,8 +78,12 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     //   return this.appUnitFormatter.transform(
     //     ChargingStations.convertAmpToW(this.connector.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
     // }
+    if (this.charger.numberOfConnectedPhase){
       return this.appUnitFormatter.transform(
-        ChargingStations.convertAmpToW(0, ampValue), 'W', unit, displayUnit, 1, 0);
-    // return 'N/A';
+        ChargingStations.convertAmpToW(this.charger.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);}
+    else{
+    return 'N/A';
+
+      }
   }
 }

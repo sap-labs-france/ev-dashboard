@@ -155,7 +155,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         id: 'stop.totalConsumption',
         name: 'transactions.consumption',
         formatter: (totalConsumption: number) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
-      });
+      },
+      {
+        id: 'stateOfCharge',
+        name: 'transactions.state_of_charge',
+        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+      },
+    );
     if (this.isAdmin || this.isSiteAdmin) {
       columns.splice(1, 0, {
         id: 'user',

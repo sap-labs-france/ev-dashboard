@@ -371,6 +371,7 @@
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
+    "export_all_ocpp_params":"Export All OCPP Params",
     "no_site_areas": "No site areas found",
     "site_areas_number": "Site Area(s)",
     "show_all_chargers": "Show All Charging Stations",

@@ -111,3 +111,12 @@ export interface ChargingStationCapabilities {
   supportStaticLimitationPerConnector?: boolean;
   supportChargingProfiles?: boolean;
 }
+
+export enum ChargingStationButtonAction {
+  REBOOT = 'reboot',
+  SOFT_RESET = 'soft_reset',
+  CLEAR_CACHE = 'clear_cache',
+  SMART_CHARGING = 'smart_charging',
+  EDIT_CHARGERS = 'edit_chargers',
+  DISPLAY_CHARGERS = 'display_chargers',
+}

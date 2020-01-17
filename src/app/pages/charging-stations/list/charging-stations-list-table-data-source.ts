@@ -15,9 +15,9 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, Connector } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { ACTION_CLEAR_CACHE, ACTION_MORE_ACTIONS, ACTION_SMART_CHARGING, ACTION_SOFT_RESET, ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
+import { ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
@@ -35,7 +35,6 @@ import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../
 import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
-import { ChargingStationsMoreActionsDialogComponent } from '../more-actions/charging-stations-more-actions-dialog.component';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -214,7 +213,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case 'export':
+      case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('chargers.dialog.export.title'),
           this.translateService.instant('chargers.dialog.export.confirm'),
@@ -224,7 +223,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           }
         });
         break;
-      case 'open_in_maps':
+      case ButtonAction.OPEN_IN_MAPS:
         this.openGeoMap();
         break;
     }
@@ -233,10 +232,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStation, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showChargingStationDialog(rowItem);
         break;
-      case 'reboot':
+      case ChargingStationButtonAction.REBOOT:
         this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
@@ -244,20 +243,20 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           'chargers.reset_error',
         );
         break;
-      case 'open_in_maps':
+      case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
         // this.openGeoMap(rowItem);
         break;
-      case 'more':
+      case ButtonAction.MORE:
         // @ts-ignore
         switch (dropdownItem.id) {
-          case ACTION_SMART_CHARGING:
+          case ChargingStationButtonAction.SMART_CHARGING:
             this.dialogSmartCharging(rowItem);
             break;
-          case 'delete':
+          case ButtonAction.DELETE:
             this.deleteChargingStation(rowItem);
             break;
-          case ACTION_SOFT_RESET:
+          case ChargingStationButtonAction.SOFT_RESET:
             this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
               this.translateService.instant('chargers.soft_reset_title'),
               this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
@@ -265,17 +264,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
               'chargers.soft_reset_error',
             );
             break;
-          case ACTION_CLEAR_CACHE:
+          case ChargingStationButtonAction.CLEAR_CACHE:
             this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
               this.translateService.instant('chargers.clear_cache_title'),
               this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: rowItem.id}),
               this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: rowItem.id}),
               'chargers.clear_cache_error',
             );
-            break;
-
-          case ACTION_MORE_ACTIONS:
-            this.dialogMoreActions(rowItem);
             break;
           default:
             break;
@@ -428,28 +423,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.refreshData().subscribe();
         }
       });
-    }
-  }
-
-  private dialogMoreActions(chargingStation?: ChargingStation) {
-    if (chargingStation && chargingStation.inactive) {
-      // Charger is not connected
-      this.dialogService.createAndShowOkDialog(
-        this.translateService.instant('chargers.action_error.command_title'),
-        this.translateService.instant('chargers.action_error.command_charger_disconnected'));
-    } else {
-      // Create the dialog
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.minWidth = '80vw';
-      dialogConfig.minHeight = '80vh';
-      dialogConfig.panelClass = 'transparent-dialog-container';
-      if (chargingStation) {
-        dialogConfig.data = chargingStation;
-      }
-      // disable outside click close
-      dialogConfig.disableClose = true;
-      // Open
-      this.dialog.open(ChargingStationsMoreActionsDialogComponent, dialogConfig);
     }
   }
 

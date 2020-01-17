@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
@@ -167,7 +167,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case 'create':
+      case ButtonAction.CREATE:
         this.createRegistrationToken();
         break;
       default:
@@ -177,10 +177,10 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: RegistrationToken) {
     switch (actionDef.id) {
-      case 'revoke':
+      case ButtonAction.REVOKE:
         this.revokeToken(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteToken(rowItem);
         break;
       default:

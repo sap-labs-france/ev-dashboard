@@ -13,6 +13,7 @@ import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { OcpiEndpoint, OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -175,17 +176,17 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
-      case 'send':
+      case ButtonAction.SEND:
         if (this.ocpiEndpoint.role === Constants.OCPI_ROLE_CPO) {
           this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
         } else {
           this.sendTokensOcpiEndpoint(rowItem.ocpiendpoint);
         }
         break;
-      case 'start':
+      case ButtonAction.START:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
         break;
-      case 'stop':
+      case ButtonAction.STOP:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, false);
         break;
       default:

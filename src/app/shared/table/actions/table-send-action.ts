@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableSendAction implements TableAction {
   private action: TableActionDef = {
-    id: 'send',
+    id: ButtonAction.SEND,
     type: 'button',
     icon: 'cast',
     color: ButtonColor.PRIMARY,

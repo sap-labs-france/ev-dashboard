@@ -38,3 +38,7 @@ export interface SiteUser extends Data {
   siteAdmin: boolean;
   siteOwner: boolean;
 }
+
+export enum SiteButtonAction {
+  ASSIGN_SITE = 'assign_site',
+}

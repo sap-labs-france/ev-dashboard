@@ -1,9 +1,10 @@
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableEditChargersAction implements TableAction {
   private action: TableActionDef = {
-    id: 'edit_chargers',
+    id: ChargingStationButtonAction.EDIT_CHARGERS,
     type: 'button',
     icon: 'ev_station',
     color: ButtonColor.PRIMARY,

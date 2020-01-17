@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 // @ts-ignore
@@ -183,7 +183,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case 'export':
+      case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('logs.dialog.export.title'),
           this.translateService.instant('logs.dialog.export.confirm'),

@@ -1,4 +1,5 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 export const ACTION_SEND = 'send';
@@ -6,7 +7,7 @@ export const ACTION_STOP_START_JOB = 'stop_start_job';
 
 export class SettingsOcpiEnpointsMoreAction implements TableAction {
   private action: TableActionDef = {
-    id: 'more',
+    id: ButtonAction.MORE,
     type: 'button',
     icon: 'more_horiz',
     color: ButtonColor.PRIMARY,

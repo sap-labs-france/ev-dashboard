@@ -1,9 +1,10 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 export class ChargingStationsResetAction implements TableAction {
   private action: TableActionDef = {
-    id: 'soft_reset',
+    id: ChargingStationButtonAction.SOFT_RESET,
     type: 'button',
     icon: 'refresh',
     color: ButtonColor.PRIMARY,

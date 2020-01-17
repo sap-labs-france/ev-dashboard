@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, DropdownItem, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableMultiCreateAction implements TableAction {
   private action: TableActionDef = {
-    id: 'multi-create',
+    id: ButtonAction.MULTI_CREATE,
     type: 'dropdown-button',
     icon: 'more_vert',
     color: ButtonColor.PRIMARY,
@@ -17,7 +18,6 @@ export class TableMultiCreateAction implements TableAction {
     this.action.dropdownItems = dropdownItems;
   }
 
-  // Return an action
   public getActionDef(): TableActionDef {
     return this.action;
   }

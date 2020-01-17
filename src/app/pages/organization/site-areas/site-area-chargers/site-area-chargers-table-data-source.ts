@@ -13,6 +13,7 @@ import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action'
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -136,12 +137,12 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
     // Action
     switch (actionDef.id) {
       // Add
-      case 'add':
+      case ButtonAction.ADD:
         this.showAddChargersDialog();
         break;
 
       // Remove
-      case 'remove':
+      case ButtonAction.REMOVE:
         // Empty?
         if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));

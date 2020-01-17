@@ -1,11 +1,12 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DataResult } from 'app/types/DataResult';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { of, Observable } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
 import { TableDataSource } from './table-data-source';
+import { ButtonAction } from 'app/types/GlobalType';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   private editableContent: T[];
@@ -54,7 +55,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   // tslint:disable-next-line:no-empty
   public rowActionTriggered(actionDef: TableActionDef, row: T, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'inline-delete':
+      case ButtonAction.INLINE_DELETE:
         const index = this.editableContent.indexOf(row);
         this.editableContent.splice(index, 1);
         this.refreshData(false).subscribe();
@@ -67,7 +68,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   public updateRow(value: any, index: number, columnDef: TableColumnDef) {
     if (this.formArray) {
-      if (columnDef.editType === 'radiobutton') {
+      if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         this.editableContent.forEach((row) => {
           // @ts-ignore
           row[columnDef.id] = false;
@@ -116,12 +117,12 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.tableColumnDefs.forEach((tableColumnDef) => {
       let value;
       switch (tableColumnDef.editType) {
-        case 'checkbox':
-        case 'radiobutton':
+        case TableEditType.CHECK_BOX:
+        case TableEditType.RADIO_BUTTON:
           // @ts-ignore
           value = data[tableColumnDef.id] ? data[tableColumnDef.id] : false;
           break;
-        case 'input':
+        case TableEditType.INPUT:
         default:
           // @ts-ignore
           value = data[tableColumnDef.id] ? data[tableColumnDef.id] : '';

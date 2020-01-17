@@ -78,3 +78,8 @@ export interface UserToken {
   activeComponents?: string[];
   sitesOwner?: string[];
 }
+
+export enum UserButtonAction {
+  SYNCHRONIZE = 'synchronize',
+  EDIT_USERS = 'edit_users',
+}

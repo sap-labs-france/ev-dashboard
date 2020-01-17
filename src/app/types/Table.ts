@@ -1,6 +1,10 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
-import { KeyValue } from './GlobalType';
+import { KeyValue, ButtonAction } from './GlobalType';
+import { ChargingStationButtonAction } from './ChargingStation';
+import { UserButtonAction } from './User';
+import { TransactionButtonAction } from './Transaction';
+import { SiteButtonAction } from './Site';
 
 export interface Data {
   id: string|number;
@@ -49,7 +53,7 @@ export enum ButtonColor {
 }
 
 export interface TableActionDef {
-  id: string;
+  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;
@@ -95,7 +99,7 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
-  editType?: 'radiobutton'|'checkbox'|'input';
+  editType?: TableEditType;
   validators?: ValidatorFn[];
   errorMessage?: string;
   headerClass?: string;
@@ -111,4 +115,10 @@ export interface TableColumnDef {
 
 export interface TableSearch {
   search: string;
+}
+
+export enum TableEditType {
+  RADIO_BUTTON = 'radiobutton',
+  CHECK_BOX = 'checkbox',
+  INPUT = 'input',
 }

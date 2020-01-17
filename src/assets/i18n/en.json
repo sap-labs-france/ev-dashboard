@@ -118,8 +118,8 @@
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
-    "reset_filters" : "Reset Filters",
-    "browser_not_supported" : "This browser is not supported! Use Chrome or Firefox.",
+    "reset_filters": "Reset Filters",
+    "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -371,6 +371,7 @@
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
+    "export_all_ocpp_params": "Export All OCPP Params",
     "no_site_areas": "No site areas found",
     "site_areas_number": "Site Area(s)",
     "show_all_chargers": "Show All Charging Stations",
@@ -410,7 +411,9 @@
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power Limitation (Watts)"
+    "maximum_energy": "Maximum Power Limitation (Watts)",
+    "export_all_params_title": "Export OCPP parameters",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to this site area?"
   },
   "authentication": {
     "accept": "I accept the",
@@ -1152,7 +1155,7 @@
         "currency": "Currency"
       }
     },
-    "billing" : {
+    "billing": {
       "description": "The Billing interface enables billing capabilities for charging station providers.",
       "not_found": "Billing settings not found",
       "create_success": "Billing settings have been created successfully",
@@ -1533,7 +1536,7 @@
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",
         "description": "The starting date value is incorrect or impossible.",
-        "action" : "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
+        "action": "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
       }
     }
   },

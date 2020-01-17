@@ -35,6 +35,9 @@ export interface User extends Data {
   sitesOwner: string[];
   userHashID: number;
   tenantHashID: number;
+  eulaAcceptedHash: string;
+  eulaAcceptedVersion: number;
+  eulaAcceptedOn: Date;
 }
 
 export interface UserNotifications {

@@ -93,6 +93,10 @@
                     <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16Url)">
                       <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_url' | translate}}</span>
                     </button>
+                    <button mat-raised-button color="primary" class="ml-2" (click)="exportAllOCPPParams()">
+                      <mat-icon>cloud_download</mat-icon>
+                      <span>{{'site_areas.export_all_ocpp_params' | translate}}</span>
+                    </button>
                   </div>
                 </div>
               </div>

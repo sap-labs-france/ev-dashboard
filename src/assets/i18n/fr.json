@@ -371,7 +371,7 @@
     "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
   },
   "site_areas": {
-    "export_all_ocpp_params": "Exporter tous les paramètres OCPP",
+    "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "no_site_areas": "Aucune zone n'a été trouvée",
     "site_areas_number": "Zone(s)",
     "show_all_chargers": "Afficher Toutes Les Bornes",

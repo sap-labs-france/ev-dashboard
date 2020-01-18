@@ -1,7 +1,8 @@
 <table class="col-md-12">
     <tr>
         <td class="text-right col-5em">
-            {{displayedMinPowerKW}}
+            {{displayedMinPowerKW}}<br/>
+            {{this.minAmp}} A
         </td>
         <td>
             <mat-slider
@@ -12,14 +13,15 @@
                 (change)="sliderChanged($event.value)">
             </mat-slider>
             <div *ngIf="!notSupported" class="current-power-text text-center" colspan="3">
-                {{displayedCurrentPowerW}}
+                {{displayedCurrentPowerW}} / {{this.currentAmp}} A
             </div>
             <div *ngIf="notSupported" class="current-power-text current-power-text-not-supported text-center" colspan="3">
                 {{'chargers.smart_charging.slider_power_disabled' | translate }}
             </div>
         </td>
         <td class="text-left col-5em">
-            {{displayedMaxPowerKW}}
+            {{displayedMaxPowerKW}}<br/>
+            {{this.maxAmp}} A
         </td>
     </tr>
 </table>

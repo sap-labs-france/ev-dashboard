@@ -38,7 +38,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       return;
     }
     this.minAmp = 6;
-    this.maxAmp = 6;
+    this.maxAmp = 0;
     this.currentAmp = 0;
     // Connector Provided?
     if (this.connector) {
@@ -66,6 +66,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
 
   public sliderChanged(value: number) {
     if (value) {
+      this.currentAmp = value;
       // Update Power
       this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
       // Notify

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargingStation, Connector } from 'app/types/ChargingStation';
-import { ChargingStations } from 'app/utils/ChargingStations';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { ChargingStation, ChargingStationCurrentType, Connector } from 'app/types/ChargingStation';
+import { ChargingStations } from 'app/utils/ChargingStations';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-power-slider',
@@ -12,7 +13,7 @@ import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
-  @Input() currentAmpValue = 0;
+  @Input() currentAmp = 0;
   @Output() powerSliderChanged = new EventEmitter<number>();
 
   public minAmp = 0;
@@ -27,22 +28,34 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     private decimalPipe: AppDecimalPipe) {
   }
 
-  ngOnInit(): void {
-    // Init
-    if (this.charger) {
-      this.minAmp = 6;
-      this.maxAmp = 6;
-      this.currentAmpValue = 6;
+  ngOnInit() {
+    // Check
+    if (!this.charger ||
+        !this.charger.connectors ||
+        Utils.isEmptyArray(this.charger.connectors) ||
+        this.charger.currentType !== ChargingStationCurrentType.AC) {
+      this.notSupported = true;
+      return;
+    }
+    this.minAmp = 6;
+    this.maxAmp = 0;
+    this.currentAmp = 6;
+    // Connector Provided?
+    if (this.connector) {
+      this.maxAmp = this.connector.amperage;
+      this.currentAmp = this.connector.amperageLimit;
+    } else {
       // Add all connector's amps
       for (const connector of this.charger.connectors) {
         this.maxAmp += connector.amperage ? connector.amperage : 0;
-        this.currentAmpValue += connector.amperageLimit;
+        this.currentAmp += connector.amperageLimit;
       }
-      // Convert
-      this.updateDisplayedPowerKW();
-      if (this.minAmp === this.maxAmp) {
-        this.notSupported = true;
-      }
+    }
+    // Convert
+    this.updateDisplayedPowerKW();
+    // Check
+    if (!this.maxAmp) {
+      this.notSupported = true;
     }
   }
 
@@ -63,13 +76,13 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   private updateDisplayedPowerKW() {
     this.displayedMinPowerKW = this.convertAmpToPower(this.minAmp);
     this.displayedMaxPowerKW = this.convertAmpToPower(this.maxAmp);
-    this.displayedCurrentPowerW = this.convertAmpToPower(this.currentAmpValue, 'W');
+    this.displayedCurrentPowerW = this.convertAmpToPower(this.currentAmp, 'W');
   }
 
   private convertAmpToPower(ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    if (this.connector.numberOfConnectedPhase) {
+    if (this.charger.connectors[0].numberOfConnectedPhase) {
       return this.appUnitFormatter.transform(
-        ChargingStations.convertAmpToW(this.connector.numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
+        ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
     }
     return 'N/A';
   }

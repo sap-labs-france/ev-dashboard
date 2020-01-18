@@ -1,5 +1,5 @@
 // tslint:disable-next-line:max-line-length
-import { Component, Injectable, Input, ViewChild } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,19 +11,19 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
-import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
+import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-static-limit',
   templateUrl: './charging-station-static-limit.component.html',
 })
 @Injectable()
-export class ChargingStationStaticLimitComponent {
+export class ChargingStationStaticLimitComponent implements OnInit {
   @Input() charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
-
-  @ViewChild('powerSlider', { static: true }) powerSliderComponent!: ChargingStationPowerSliderComponent;
+  public ampCurrentLimit = 0;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -47,41 +47,43 @@ export class ChargingStationStaticLimitComponent {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
+  ngOnInit() {
+    // Set
+    for (const connector of this.charger.connectors) {
+      this.ampCurrentLimit += connector.amperageLimit;
+    }
+  }
+
   public applyPowerLimit() {
-    // // show yes/no dialog
-    // const self = this;
-    // this.dialogService.createAndShowYesNoDialog(
-    //   this.translateService.instant('chargers.smart_charging.power_limit_title'),
-    //   this.translateService.instant('chargers.smart_charging.power_limit_confirm',
-    //     { chargeBoxID: this.charger.id, power: this.powerSliderComponent.getDisplayedValue('kW') }),
-    // ).subscribe((result) => {
-    //   if (result === Constants.BUTTON_TYPE_YES) {
-    //     // call REST service
-    //     // tslint:disable-next-line:max-line-length
-    //     this.centralServerService.chargingStationLimitPower(this.charger, 0, this.powerUnit, ChargingStations.provideLimit(this.charger, this.powerSliderComponent.powerSliderValue), 0).subscribe((response) => {
-    //       if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-    //         // success + reload
-    //         this.messageService.showSuccessMessage(
-    //           this.translateService.instant('chargers.smart_charging.power_limit_success',
-    //             { chargeBoxID: self.charger.id, power: this.powerSliderComponent.getDisplayedValue('kW') }),
-    //         );
-    //       } else {
-    //         Utils.handleError(JSON.stringify(response),
-    //           this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
-    //       }
-    //     }, (error) => {
-    //       this.spinnerService.hide();
-    //       this.dialog.closeAll();
-    //       Utils.handleHttpError(
-    //         error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
-    //     });
-    //   }
-    // });
+    // show yes/no dialog
+    const self = this;
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.smart_charging.power_limit_title'),
+      this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.charger.id }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Apply to charger
+        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit).subscribe((response) => {
+          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            // success + reload
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: self.charger.id }),
+            );
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+          }
+        }, (error: any) => {
+          this.spinnerService.hide();
+          this.dialog.closeAll();
+          Utils.handleHttpError(
+            error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
+        });
+      }
+    });
   }
 
   public powerSliderChanged(ampValue: number) {
-    console.log('powerSliderChanged====================================');
-    console.log(ampValue);
-    console.log('====================================');
+    this.ampCurrentLimit = ampValue;
   }
 }

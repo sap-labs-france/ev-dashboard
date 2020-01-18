@@ -7,7 +7,7 @@
             <mat-slider
                 [disabled]="notSupported"
                 thumbLabel class="col-md-12"
-                [min]="minAmp" [max]="maxAmp" [step]="charger?.connectors.length" [value]="currentAmpValue"
+                [min]="minAmp" [max]="maxAmp" [step]="connector ? 1 : charger?.connectors.length" [value]="currentAmp"
                 [displayWith]="formatSlideLabelPowerKW"
                 (change)="sliderChanged($event.value)">
             </mat-slider>

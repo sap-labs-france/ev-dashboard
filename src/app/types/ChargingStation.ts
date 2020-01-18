@@ -85,8 +85,8 @@ export interface Connector extends Data {
   vendorErrorCode?: string;
   power: number;
   type: string;
-  voltage?: number;
-  amperage?: number;
+  voltage: number;
+  amperage: number;
   amperageLimit: number;
   activeTransactionID: number;
   activeTransactionDate: Date;

@@ -1,20 +1,22 @@
 <table class="col-md-12">
     <tr>
-        <td class="current-power-text text-center" colspan="3">
-            {{displayedCurrentPowerW}}
-        </td>
-    </tr>
-    <tr>
         <td class="text-right col-5em">
             {{displayedMinPowerKW}}
         </td>
         <td>
             <mat-slider
+                [disabled]="notSupported"
                 thumbLabel class="col-md-12"
-                [min]="minAmp" [max]="maxAmp" step="1" [value]="currentAmpValue"
+                [min]="minAmp" [max]="maxAmp" [step]="charger?.connectors.length" [value]="currentAmpValue"
                 [displayWith]="formatSlideLabelPowerKW"
                 (change)="sliderChanged($event.value)">
             </mat-slider>
+            <div *ngIf="!notSupported" class="current-power-text text-center" colspan="3">
+                {{displayedCurrentPowerW}}
+            </div>
+            <div *ngIf="notSupported" class="current-power-text current-power-text-not-supported text-center" colspan="3">
+                {{'chargers.smart_charging.slider_power_disabled' | translate }}
+            </div>
         </td>
         <td class="text-left col-5em">
             {{displayedMaxPowerKW}}

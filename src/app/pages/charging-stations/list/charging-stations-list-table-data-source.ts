@@ -329,11 +329,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.editAction,
         this.rebootAction,
         new TableMoreAction([
-          openInMaps,
           this.smartChargingAction,
           this.clearCacheAction,
           this.resetAction,
           this.deleteAction,
+          openInMaps,
         ]).getActionDef()
       ,
       ];

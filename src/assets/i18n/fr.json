@@ -670,6 +670,7 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
+      "slider_power_disabled": "Limite Désactivée",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",

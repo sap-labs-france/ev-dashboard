@@ -1,9 +1,13 @@
 .current-power-text {
+  margin-top: -10px;
   font-size: 1.2em;
-  font-weight: bold;
 }
 
 .bottom-position {
   position: relative;
   top: -20px;
+}
+
+.current-power-text-not-supported {
+  color: $brand-warn;
 }

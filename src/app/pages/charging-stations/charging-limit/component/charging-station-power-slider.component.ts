@@ -2,6 +2,7 @@ import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@ang
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStation, Connector } from 'app/types/ChargingStation';
 import { ChargingStations } from 'app/utils/ChargingStations';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-charging-station-power-slider',
@@ -19,31 +20,35 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   public displayedMinPowerKW = '';
   public displayedMaxPowerKW = '';
   public displayedCurrentPowerW = '';
+  public notSupported = false;
 
   constructor(
-    private appUnitFormatter: AppUnitPipe) {
+    private appUnitFormatter: AppUnitPipe,
+    private decimalPipe: AppDecimalPipe) {
   }
 
   ngOnInit(): void {
     // Init
     if (this.charger) {
       this.minAmp = 6;
+      this.maxAmp = 6;
+      this.currentAmpValue = 6;
       // Add all connector's amps
       for (const connector of this.charger.connectors) {
         this.maxAmp += connector.amperage ? connector.amperage : 0;
-      }
-      // Set the current value
-      // TODO: Add maximumAmperage prop to Charger to store the applied or should it be calculated?
-      if (!this.currentAmpValue) {
-        this.currentAmpValue = this.maxAmp;
+        this.currentAmpValue += connector.amperageLimit;
       }
       // Convert
       this.updateDisplayedPowerKW();
+      if (this.minAmp === this.maxAmp) {
+        this.notSupported = true;
+      }
     }
   }
 
-  public formatSlideLabelPowerKW = (currentAmp: number): string => {
-    return this.convertAmpToPower(currentAmp, 'kW', false);
+  public formatSlideLabelPowerKW = (currentAmp: number): string|null => {
+    const powerKW = Math.floor(parseInt(this.convertAmpToPower(currentAmp, 'W', false), 10));
+    return this.decimalPipe.transform(powerKW);
   }
 
   public sliderChanged(value: number) {

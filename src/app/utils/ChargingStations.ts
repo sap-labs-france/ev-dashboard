@@ -5,31 +5,30 @@ export class ChargingStations {
     // Compute it
     if (numberOfConnectedPhase === 0 ) {
       return Math.floor(400 * maxIntensityInAmper * Math.sqrt(3));
-    } else if (numberOfConnectedPhase === 3 ) {
-      return Math.floor(400 * maxIntensityInAmper * Math.sqrt(3));
-    } else {
-      return Math.floor(230 * maxIntensityInAmper);
     }
+    if (numberOfConnectedPhase === 3 ) {
+      return Math.floor(400 * maxIntensityInAmper * Math.sqrt(3));
+    }
+    return Math.floor(230 * maxIntensityInAmper);
   }
 
   public static convertWToAmp(numberOfConnectedPhase: number, maxIntensityInW: number) {
     // Compute it
     if (numberOfConnectedPhase === 0) {
       return Math.round(maxIntensityInW / (400 * Math.sqrt(3)));
-    } else if ( numberOfConnectedPhase === 3) {
-      return Math.round(maxIntensityInW / (400 * Math.sqrt(3)));
-    } else {
-      return Math.round(maxIntensityInW / 230);
     }
+    if ( numberOfConnectedPhase === 3) {
+      return Math.round(maxIntensityInW / (400 * Math.sqrt(3)));
+    }
+    return Math.round(maxIntensityInW / 230);
   }
 
   public static provideLimit(charger: ChargingStation, value: number) {
     // Test purpose as it seems that schneider needs to have the power value for each connector
     if (charger.chargePointVendor === 'Schneider Electric' && charger.chargePointModel === 'MONOBLOCK') {
       return Math.round(value / 2);
-    } else {
-      return value;
     }
+    return value;
   }
 
   public static getListOfMissingSettings(charger: ChargingStation) {

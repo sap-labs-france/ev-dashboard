@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.19',
-        date: new Date('2020-01-17'),
+        date: new Date('2020-01-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Static Power Limitation for Schneider vendor`,
               `Activate notifications to new registered users`,
               `Automatic technical configuration of new Charging Station`,
               `Automatic set of OCPP parameters of new Charging Station`,

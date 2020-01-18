@@ -11,11 +11,11 @@ export class TableMultiCreateAction implements TableAction {
     name: 'general.create',
     tooltip: 'general.tooltips.create',
     isDropdownMenu: true,
-    dropdownItems: [],
+    dropdownActions: [],
   };
 
-  constructor(dropdownItems: DropdownItem[]) {
-    this.action.dropdownItems = dropdownItems;
+  constructor(dropdownActions: TableActionDef[]) {
+    this.action.dropdownActions = dropdownActions;
   }
 
   public getActionDef(): TableActionDef {

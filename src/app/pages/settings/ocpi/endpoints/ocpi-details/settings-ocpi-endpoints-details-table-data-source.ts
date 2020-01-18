@@ -196,8 +196,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   private sendEVSEStatusesOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { name: ocpiendpoint.name }),
+      this.translateService.instant('ocpiendpoints.send_evse_statuses_title'),
+      this.translateService.instant('ocpiendpoints.send_evse_statuses_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Ping

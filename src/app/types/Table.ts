@@ -5,6 +5,7 @@ import { ChargingStationButtonAction } from './ChargingStation';
 import { UserButtonAction } from './User';
 import { TransactionButtonAction } from './Transaction';
 import { SiteButtonAction } from './Site';
+import { OcpiButtonAction } from './OCPIEndpoint';
 
 export interface Data {
   id: string|number;
@@ -53,7 +54,7 @@ export enum ButtonColor {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction;
+  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;
@@ -61,7 +62,7 @@ export interface TableActionDef {
   color?: ButtonColor;
   disabled?: boolean;
   isDropdownMenu?: boolean;
-  dropdownItems?: DropdownItem[];
+  dropdownActions?: TableActionDef[];
   tooltip: string;
   action?(...args: any[]): void;
 }

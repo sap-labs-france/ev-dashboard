@@ -234,16 +234,16 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: ChargingStationInError) {
-    if (action.dropdownItems) {
-      action.dropdownItems.forEach((dropDownItem) => {
-        if (dropDownItem.id === ChargingStationButtonAction.SMART_CHARGING) {
+    if (action.dropdownActions) {
+      action.dropdownActions.forEach((dropdownAction) => {
+        if (dropdownAction.id === ChargingStationButtonAction.SMART_CHARGING) {
           // Check charging station version
-          dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
+          dropdownAction.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
             row.ocppVersion === Constants.OCPP_VERSION_15 ||
             row.inactive;
         } else {
           // Check active status of CS
-          dropDownItem.disabled = row.inactive;
+          dropdownAction.disabled = row.inactive;
         }
       });
     }

@@ -10,7 +10,9 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
@@ -27,8 +29,10 @@ import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { ChargingStationsMoreAction } from '../actions/charging-stations-more-action';
+import { ChargingStationsClearCacheAction } from '../actions/charging-stations-clear-cache-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
+import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
+import { ChargingStationsSmartChargingAction } from '../actions/charging-stations-smart-charging-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
@@ -41,7 +45,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private readonly isOrganizationComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private rebootAction = new ChargingStationsRebootAction().getActionDef();
-  private moreAction = new ChargingStationsMoreAction().getActionDef();
+  private smartChargingAction = new ChargingStationsSmartChargingAction().getActionDef();
+  private clearCacheAction = new ChargingStationsClearCacheAction().getActionDef();
+  private resetAction = new ChargingStationsResetAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -243,41 +250,39 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           'chargers.reset_error',
         );
         break;
+      case ChargingStationButtonAction.SMART_CHARGING:
+        this.dialogSmartCharging(rowItem);
+        break;
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
-        // this.openGeoMap(rowItem);
         break;
-      case ButtonAction.MORE:
-        // @ts-ignore
-        switch (dropdownItem.id) {
-          case ChargingStationButtonAction.SMART_CHARGING:
-            this.dialogSmartCharging(rowItem);
-            break;
-          case ButtonAction.DELETE:
-            this.deleteChargingStation(rowItem);
-            break;
-          case ChargingStationButtonAction.SOFT_RESET:
-            this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
-              this.translateService.instant('chargers.soft_reset_title'),
-              this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
-              this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: rowItem.id}),
-              'chargers.soft_reset_error',
-            );
-            break;
-          case ChargingStationButtonAction.CLEAR_CACHE:
-            this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
-              this.translateService.instant('chargers.clear_cache_title'),
-              this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: rowItem.id}),
-              this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: rowItem.id}),
-              'chargers.clear_cache_error',
-            );
-            break;
-          default:
-            break;
-        }
+      case ButtonAction.DELETE:
+        this.deleteChargingStation(rowItem);
+        break;
+      case ChargingStationButtonAction.SOFT_RESET:
+        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
+          this.translateService.instant('chargers.soft_reset_title'),
+          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: rowItem.id}),
+          'chargers.soft_reset_error',
+        );
+        break;
+      case ChargingStationButtonAction.CLEAR_CACHE:
+        this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
+          this.translateService.instant('chargers.clear_cache_title'),
+          this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: rowItem.id}),
+          'chargers.clear_cache_error',
+        );
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
+    }
+  }
+
+  private showPlace(charger: ChargingStation) {
+    if (charger && charger.coordinates && charger.coordinates.length === 2) {
+      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
     }
   }
 
@@ -318,14 +323,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       return [];
     }
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
     openInMaps.disabled = !(charger && charger.coordinates && charger.coordinates.length === 2);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
-        openInMaps,
         this.rebootAction,
-        this.moreAction,
+        new TableMoreAction([
+          openInMaps,
+          this.smartChargingAction,
+          this.clearCacheAction,
+          this.resetAction,
+          this.deleteAction,
+        ]).getActionDef()
+      ,
       ];
     }
     return [openInMaps];
@@ -439,12 +449,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
       });
-  }
-
-  private showPlace(charger: ChargingStation) {
-    if (charger && charger.coordinates && charger.coordinates.length === 2) {
-      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
-    }
   }
 
   private openGeoMap(charger?: ChargingStation) {

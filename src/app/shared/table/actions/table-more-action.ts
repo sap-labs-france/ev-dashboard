@@ -10,7 +10,15 @@ export class TableMoreAction implements TableAction {
     color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
+    isDropdownMenu: true,
+    dropdownActions: [],
   };
+
+  constructor(dropdownActions: TableActionDef[]) {
+    if (this.action.dropdownActions) {
+      this.action.dropdownActions.push(...dropdownActions);
+    }
+  }
 
   public getActionDef(): TableActionDef {
     return this.action;

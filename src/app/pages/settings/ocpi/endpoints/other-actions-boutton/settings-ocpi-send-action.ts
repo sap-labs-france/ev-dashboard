@@ -1,15 +1,15 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
+import { OcpiButtonAction } from 'app/types/OCPIEndpoint';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
-export class ChargingStationsResetAction implements TableAction {
+export class SettingsOCPISendAction implements TableAction {
   private action: TableActionDef = {
-    id: ChargingStationButtonAction.SOFT_RESET,
+    id: OcpiButtonAction.SEND,
     type: 'button',
-    icon: 'refresh',
+    icon: 'cast',
     color: ButtonColor.PRIMARY,
-    name: 'chargers.soft_reset_action',
-    tooltip: 'general.tooltips.soft_reset',
+    name: 'ocpiendpoints.send_evse_statuses_title',
+    tooltip: 'ocpiendpoints.send_evse_statuses_title',
   };
 
   public getActionDef(): TableActionDef {

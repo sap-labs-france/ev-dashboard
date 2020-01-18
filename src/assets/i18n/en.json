@@ -662,13 +662,11 @@
         "callbackURLforOCPP": "Callback URL to send HTTP request to the charging station"
       }
     },
-    "more_actions_items": {
-      "reboot_item": "Reboot",
-      "soft_reset_item": "Soft Reset",
-      "clear_cache_item": "Clear cache",
-      "smart_charging_item": "Charge Limitation",
-      "more_actions_item": "More"
-    },
+    "reboot_action": "Reboot",
+    "soft_reset_action": "Soft Reset",
+    "clear_cache_action": "Clear cache",
+    "smart_charging_action": "Charge Limitation",
+    "more_actions_action": "More",
     "assign_sitearea_action": "Assign",
     "assign_sitearea_action_tooltip": "Assign site area",
     "smart_charging": {
@@ -1257,9 +1255,9 @@
     "unregister_success": "The IOP '{{name}}' has been unregistered successfully",
     "register_error": "Error occurred while registring the IOP",
     "unregister_error": "Error occurred while unregistring the IOP",
-    "sendEVSEStatuses_title": "Send EVSE Statuses",
+    "send_evse_statuses_title": "Send EVSE Statuses",
     "sendTokens_title": "Send User Tokens",
-    "sendEVSEStatuses_confirm": "Do you want to send All EVSE statuses to IOP '{{name}}'?",
+    "send_evse_statuses_confirm": "Do you want to send All EVSE statuses to IOP '{{name}}'?",
     "sendTokens_confirm": "Do you want to send all user tokens to IOP '{{name}}'?",
     "success_ping": "Ping successfull",
     "error_ping_401": "Ping failed: Unauthorized",

@@ -32,14 +32,14 @@
           <div *ngIf="actionDef.type === 'dropdown-button'">
             <mat-menu #dropDownMenu="matMenu" xPosition="before">
               <ng-template matMenuContent>
-                <ng-container *ngFor="let dropdownItem of actionDef.dropdownItems">
+                <ng-container *ngFor="let dropdownAction of actionDef.dropdownActions">
                   <button mat-menu-item
                           (click)="actionTriggered(actionDef)"
-                          [disabled]="dropdownItem.disabled" appTooltip
-                          [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
+                          [disabled]="dropdownAction.disabled" appTooltip
+                          [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
                     <mat-icon
-                      *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
-                    <span>{{dropdownItem.name | translate}}</span>
+                      *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                    <span>{{dropdownAction.name | translate}}</span>
                   </button>
                 </ng-container>
               </ng-template>
@@ -263,14 +263,14 @@
                   <mat-menu #rowActionMenu="matMenu" xPosition="before">
                     <ng-template matMenuContent>
                       <ng-container
-                        *ngFor="let dropdownItem of rowAction.dropdownItems">
+                        *ngFor="let dropdownAction of rowAction.dropdownActions">
                         <button mat-menu-item
-                                (click)="rowActionTriggered(rowAction, row, dropdownItem)"
-                                [disabled]="dropdownItem.disabled" appTooltip
-                                [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
+                                (click)="rowActionTriggered(dropdownAction, row)"
+                                [disabled]="dropdownAction.disabled" appTooltip
+                                [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
                           <mat-icon
-                            *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
-                          <span>{{dropdownItem.name | translate}}</span>
+                            *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                          <span>{{dropdownAction.name | translate}}</span>
                         </button>
                       </ng-container>
                     </ng-template>

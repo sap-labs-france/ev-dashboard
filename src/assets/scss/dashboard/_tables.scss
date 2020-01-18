@@ -425,7 +425,14 @@ tr.element-row:not(.expanded-row):active {
   }
 
   .table-cell-angular-big-component {
-    padding: 5px 8px 0px 8px;
+    padding: 5px 8px 4px 8px;
+    button {
+      margin-top: -2px !important;
+    }
+  }
+
+  .table-cell-angular-buttons-component {
+    padding: 0px 8px 0px 8px;
     button {
       margin-top: -2px !important;
     }

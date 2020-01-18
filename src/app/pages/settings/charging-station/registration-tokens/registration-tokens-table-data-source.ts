@@ -138,7 +138,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         id: 'ocpp15Url',
         name: 'settings.charging_station.url',
         headerClass: 'col-10p text-center',
-        class: 'col-10p table-cell-angular-big-component pt-0',
+        class: 'col-10p table-cell-angular-buttons-component',
         isAngularComponent: true,
         angularComponent: RegistrationTokenUrlComponent,
       }];

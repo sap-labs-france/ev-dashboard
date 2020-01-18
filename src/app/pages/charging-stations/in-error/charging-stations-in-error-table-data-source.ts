@@ -161,7 +161,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
         headerClass: 'text-center',
-        class: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
         sortable: false,
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorsCellComponent,
@@ -171,7 +171,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         name: 'errors.details',
         sortable: false,
         headerClass: 'text-center',
-        class: 'action-cell text-center',
+        class: 'action-cell text-center table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
@@ -295,10 +295,10 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   buildTableDynamicRowActions(charger: ChargingStationInError) {
     if (this.isAdmin && charger.errorCode) {
+      // @ts-ignore
       return this.actions[charger.errorCode];
-    } else {
-      return [];
     }
+    return [];
   }
 
   private formatErrorMessages(chargersInError: ChargingStationInError[]) {

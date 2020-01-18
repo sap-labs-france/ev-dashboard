@@ -101,7 +101,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailJobStatusFomatterComponent,
         headerClass: 'text-center',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
       {
@@ -122,7 +122,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sorted: false,
       },
       {
@@ -132,7 +132,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailSuccessEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sorted: false,
       },
       {
@@ -142,7 +142,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailFailureEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sorted: false,
       },
     ];

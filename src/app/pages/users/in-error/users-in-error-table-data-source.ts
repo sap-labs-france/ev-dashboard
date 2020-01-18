@@ -105,7 +105,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       isAngularComponent: true,
       angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p text-center',
-      class: 'col-10p',
+      class: 'col-10p table-cell-angular-big-component',
       sortable: true,
     },
     {

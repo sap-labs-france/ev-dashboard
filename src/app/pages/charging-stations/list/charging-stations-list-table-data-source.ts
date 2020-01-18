@@ -141,7 +141,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
         headerClass: 'text-center',
-        class: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
         sortable: false,
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorsCellComponent,

@@ -144,6 +144,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         id: 'connectorId',
         name: 'transactions.connector',
         headerClass: 'text-center',
+        class: 'table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },

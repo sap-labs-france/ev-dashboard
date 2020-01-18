@@ -118,7 +118,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         name: 'chargers.connector',
         sortable: false,
         headerClass: 'text-center',
-        class: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorCellComponent,
       },
@@ -126,7 +126,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         id: 'status',
         name: 'chargers.connector_status',
         headerClass: 'text-center',
-        class: '',
+        class: 'table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorStatusCellComponent,
         sortable: false,
@@ -156,13 +156,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        formatter: (errorCode, row) => this.formatError(errorCode, row.info, row.vendorErrorCode),
+        formatter: (errorCode: string, row: Connector) => this.formatError(errorCode, row.info, row.vendorErrorCode),
         sortable: false,
       },
     ];
   }
 
-  public formatError(errorCode: string, info: string, vendorErrorCode: string) {
+  public formatError(errorCode: string, info: string|undefined, vendorErrorCode: string|undefined) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info && info !== '' ? ` > ${info}` : '';
     const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';

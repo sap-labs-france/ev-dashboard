@@ -109,7 +109,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       isAngularComponent: true,
       angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p',
-      class: 'col-10p',
+      class: 'col-10p table-cell-angular-big-component',
       sortable: true,
     },
     {

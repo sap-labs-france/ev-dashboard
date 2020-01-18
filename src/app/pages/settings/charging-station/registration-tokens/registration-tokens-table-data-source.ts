@@ -86,7 +86,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         isAngularComponent: true,
         angularComponent: RegistrationTokenStatusComponent,
         headerClass: 'col-5p',
-        class: 'col-5p',
+        class: 'col-5p table-cell-angular-big-component',
         sortable: true,
       },
       {
@@ -138,7 +138,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         id: 'ocpp15Url',
         name: 'settings.charging_station.url',
         headerClass: 'col-10p text-center',
-        class: 'col-10p',
+        class: 'col-10p table-cell-angular-big-component pt-0',
         isAngularComponent: true,
         angularComponent: RegistrationTokenUrlComponent,
       }];

@@ -137,7 +137,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         isAngularComponent: true,
         angularComponent: OcpiEndpointStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
       {
@@ -146,7 +146,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         isAngularComponent: true,
         angularComponent: OcpiPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
       {
@@ -155,7 +155,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         isAngularComponent: true,
         angularComponent: OcpiPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
     ];

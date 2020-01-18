@@ -14,7 +14,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
   @Output() powerSliderChanged = new EventEmitter<number>();
-  private currentAmp = 0;
+  public currentAmp = 0;
 
   public minAmp = 0;
   public maxAmp = 0;

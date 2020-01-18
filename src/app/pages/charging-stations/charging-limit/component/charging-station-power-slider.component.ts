@@ -13,8 +13,8 @@ import { Utils } from 'app/utils/Utils';
 export class ChargingStationPowerSliderComponent implements OnInit {
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
-  @Input() currentAmp = 0;
   @Output() powerSliderChanged = new EventEmitter<number>();
+  private currentAmp = 0;
 
   public minAmp = 0;
   public maxAmp = 0;
@@ -38,8 +38,8 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       return;
     }
     this.minAmp = 6;
-    this.maxAmp = 0;
-    this.currentAmp = 6;
+    this.maxAmp = 6;
+    this.currentAmp = 0;
     // Connector Provided?
     if (this.connector) {
       this.maxAmp = this.connector.amperage;

@@ -16,7 +16,7 @@ import { TableRegisterAction } from 'app/shared/table/actions/table-register-act
 import { TableUnregisterAction } from 'app/shared/table/actions/table-unregister-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -137,7 +137,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         isAngularComponent: true,
         angularComponent: OcpiEndpointStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
       {
@@ -146,7 +146,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         isAngularComponent: true,
         angularComponent: OcpiPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
       {
@@ -155,7 +155,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         isAngularComponent: true,
         angularComponent: OcpiPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
     ];
@@ -182,7 +182,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     // Action
     switch (actionDef.id) {
       // Add
-      case 'create':
+      case ButtonAction.CREATE:
         this.showOcpiEndpointDialog();
         break;
     }
@@ -191,16 +191,16 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpoint, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showOcpiEndpointDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteOcpiEndpoint(rowItem);
         break;
-      case 'register':
+      case ButtonAction.REGISTER:
         this.registerOcpiEndpoint(rowItem);
         break;
-      case 'unregister':
+      case ButtonAction.UNREGISTER:
         this.unregisterOcpiEndpoint(rowItem);
         break;
       default:

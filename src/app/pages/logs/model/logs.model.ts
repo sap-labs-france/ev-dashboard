@@ -124,6 +124,7 @@ export const logActions: KeyValue[] = [
   {key: 'RemotePushNotification', value: 'RemotePushNotification'},
   {key: 'CleanupTransaction', value: 'CleanupTransaction'},
   {key: 'TransactionsCompleted', value: 'TransactionsCompleted'},
+  {key: 'PowerLimitation', value: 'PowerLimitation'},
   {key: 'UpdateUserMobileToken', value: 'UpdateUserMobileToken'},
   {key: 'NotifyOptimalChargeReached', value: 'NotifyOptimalChargeReached'},
   {key: 'ExtraInactivity', value: 'ExtraInactivity'},

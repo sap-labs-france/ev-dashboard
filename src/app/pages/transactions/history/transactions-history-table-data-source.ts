@@ -7,9 +7,9 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Transaction } from 'app/types/Transaction';
+import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 // @ts-ignore
 import saveAs from 'file-saver';
@@ -252,9 +252,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case 'delete':
+      case ButtonAction.DELETE:
         return this.isAdmin;
-      case 'refund':
+      case TransactionButtonAction.REFUND:
         if (transaction.hasOwnProperty('refund')) {
           return false;
         }
@@ -266,7 +266,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case 'delete':
+      case ButtonAction.DELETE:
         if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
           transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
           this.dialogService.createAndShowOkDialog(
@@ -284,7 +284,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           });
         }
         break;
-      case 'open':
+      case ButtonAction.OPEN:
         this.openSession(transaction);
         break;
       default:
@@ -313,7 +313,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case 'export':
+      case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm'),

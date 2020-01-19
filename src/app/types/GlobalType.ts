@@ -28,3 +28,29 @@ export interface KeyValue {
   objectRef?: any;
   readonly?: boolean;
 }
+
+export enum ButtonAction {
+  EDIT = 'edit',
+  OPEN_IN_MAPS = 'open_in_maps',
+  MORE = 'more',
+  DELETE = 'delete',
+  INLINE_DELETE = 'inline-delete',
+  REFRESH = 'refresh',
+  AUTO_REFRESH = 'auto-refresh',
+  EXPORT = 'export',
+  ADD = 'add',
+  CREATE = 'create',
+  MULTI_CREATE = 'multi-create',
+  NO_ACTION = 'block',
+  OPEN = 'open',
+  REGISTER = 'register',
+  REMOVE = 'remove',
+  RESET_FILTERS = 'reset-filters',
+  REVOKE = 'revoke',
+  SEND = 'send',
+  SETTINGS = 'settings',
+  START = 'start',
+  STOP = 'stop',
+  UNREGISTER = 'unregister',
+  VIEW = 'view',
+}

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
@@ -144,6 +144,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         id: 'connectorId',
         name: 'transactions.connector',
         headerClass: 'text-center',
+        class: 'table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },
@@ -181,7 +182,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case 'stop':
+      case ButtonAction.STOP:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.soft_stop.title'),
           this.translateService.instant('transactions.dialog.soft_stop.confirm', { user: this.appUserNamePipe.transform(transaction.user) }),
@@ -191,7 +192,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           }
         });
         break;
-      case 'open':
+      case ButtonAction.OPEN:
         this.openSession(transaction);
         break;
       default:

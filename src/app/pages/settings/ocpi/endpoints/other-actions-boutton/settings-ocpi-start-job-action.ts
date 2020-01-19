@@ -1,15 +1,15 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
+import { OcpiButtonAction } from 'app/types/OCPIEndpoint';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
-export class ChargingStationsResetAction implements TableAction {
+export class SettingsOCPIStartJobAction implements TableAction {
   private action: TableActionDef = {
-    id: ChargingStationButtonAction.SOFT_RESET,
+    id: OcpiButtonAction.START_JOB,
     type: 'button',
-    icon: 'refresh',
+    icon: 'av_timer',
     color: ButtonColor.PRIMARY,
-    name: 'chargers.soft_reset_action',
-    tooltip: 'general.tooltips.soft_reset',
+    name: 'ocpiendpoints.start_stop_job',
+    tooltip: 'ocpiendpoints.start_stop_job',
   };
 
   public getActionDef(): TableActionDef {

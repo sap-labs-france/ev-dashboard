@@ -14,11 +14,11 @@ import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+// @ts-ignore
+import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
-// @ts-ignore
-import saveAs from 'file-saver';
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',

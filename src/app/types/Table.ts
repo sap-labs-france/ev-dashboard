@@ -1,11 +1,11 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
-import { KeyValue, ButtonAction } from './GlobalType';
 import { ChargingStationButtonAction } from './ChargingStation';
-import { UserButtonAction } from './User';
-import { TransactionButtonAction } from './Transaction';
-import { SiteButtonAction } from './Site';
+import { ButtonAction, KeyValue } from './GlobalType';
 import { OcpiButtonAction } from './OCPIEndpoint';
+import { SiteButtonAction } from './Site';
+import { TransactionButtonAction } from './Transaction';
+import { UserButtonAction } from './User';
 
 export interface Data {
   id: string|number;

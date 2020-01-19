@@ -7,7 +7,7 @@ import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 
 export class Utils {
-  public static isEmptyArray(array: Array<any>): boolean {
+  public static isEmptyArray(array: any[]): boolean {
     if (Array.isArray(array) && array.length > 0) {
       return false;
     }

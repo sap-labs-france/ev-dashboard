@@ -45,7 +45,6 @@ export class Constants {
   public static USER_IN_ERROR_NOT_ASSIGNED = 'unassigned_user';
   public static INACTIVE_USER_ACCOUNT = 'inactive_user_account';
 
-
   /* Authorization */
   public static ROLE_ADMIN = 'A';
   public static ROLE_SUPER_ADMIN = 'S';

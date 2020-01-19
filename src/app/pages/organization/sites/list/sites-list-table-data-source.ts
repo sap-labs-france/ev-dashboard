@@ -28,8 +28,6 @@ import { Observable } from 'rxjs';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
 
-
-
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
   private editAction = new TableEditAction().getActionDef();

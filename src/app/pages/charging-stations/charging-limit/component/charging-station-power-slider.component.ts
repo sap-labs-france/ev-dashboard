@@ -15,7 +15,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
 
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
-  @Input() currentAmp = 0;
+  @Input() currentAmp!: number;
   @Input() forChargingProfile = false;
   @Output() powerSliderChanged = new EventEmitter<number>();
 
@@ -51,7 +51,9 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       }
     } else {
       this.maxAmp = 0;
-      this.currentAmp = 0;
+      if (!this.forChargingProfile) {
+        this.currentAmp = 0;
+      }
       // Add all connector's amps
       for (const connector of this.charger.connectors) {
         // Charging Profile?

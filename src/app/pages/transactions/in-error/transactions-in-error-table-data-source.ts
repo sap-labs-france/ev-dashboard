@@ -9,6 +9,7 @@ import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError } from 'app/types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
@@ -87,12 +88,51 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
+    if (this.authorizationService.isAdmin()) {
+      return [
+        new TableRemoveAction().getActionDef(),
+        ...tableActionsDef,
+      ];
+    }
+    return tableActionsDef;
+  }
   public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true,
       },
+      rowSelection: {
+        enabled: true,
+        multiple: true,
+      }
     };
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      // Remove
+      case 'remove':
+        // Empty?
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          // Confirm
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('transactions.delete_transactions_title'),
+            this.translateService.instant('transactions.delete_transactions_confirm'),
+          ).subscribe((response) => {
+            // Check
+            if (response === Constants.BUTTON_TYPE_YES) {
+              // Remove
+              this.deleteTransactions(this.getSelectedRows().map((row) => row.id));
+            }
+          });
+        }
+        break;
+    }
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -275,6 +315,27 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
+    });
+  }
+
+  private deleteTransactions(transactionsIDs: number[]) {
+    // Yes: Update
+    this.centralServerService.deleteTransactions(transactionsIDs).subscribe((response) => {
+      // Ok?
+      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        // Ok
+        this.messageService.showSuccessMessage(this.translateService.instant('transactions.delete_transactions_success'));
+        // Refresh
+        this.refreshData().subscribe();
+        // Clear selection
+        this.clearSelectedRows();
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, this.translateService.instant('transactions.delete_transactions_success'));
+      }
+    }, (error) => {
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.delete_transactions_error');
     });
   }
 

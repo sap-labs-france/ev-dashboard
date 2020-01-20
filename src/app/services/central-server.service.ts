@@ -67,6 +67,20 @@ export class CentralServerService {
       );
   }
 
+  public deleteTransactions(transactionsIDs: number[]): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { transactionsIDs: transactionsIDs }
+    }
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsDelete`, options)
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public addChargersToSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

@@ -87,13 +87,18 @@
                     </button>
                   </div>
                   <div *ngIf="registrationToken" class="d-flex justify-content-start">
-                    <button mat-raised-button color="primary" (click)="copyUrl(registrationToken.ocpp15Url)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_15_url' | translate}}</span>
+                    <button mat-raised-button color="primary" (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_15_soap_url' | translate}}</span>
                     </button>
-                    <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16Url)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_url' | translate}}</span>
+                    <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_soap_url' | translate}}</span>
                     </button>
-                    <button mat-raised-button color="primary" class="ml-2" (click)="exportAllOCPPParams()">
+                    <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
+                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_json_url' | translate}}</span>
+                    </button>
+                  </div>
+                  <div class="d-flex justify-content-start mt-2">
+                    <button mat-raised-button color="primary" (click)="exportAllOCPPParams()">
                       <mat-icon>cloud_download</mat-icon>
                       <span>{{'site_areas.export_all_ocpp_params' | translate}}</span>
                     </button>

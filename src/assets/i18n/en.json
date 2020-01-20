@@ -1099,8 +1099,9 @@
       "copy_url_tooltip": "Copy OCPP URL",
       "url_copied": "OCPP Url has been copied to your clipboard",
       "generate_connection_url": "Connect a Charging Station",
-      "copy_ocpp_15_url": "Copy OCPP 1.5 URL",
-      "copy_ocpp_16_url": "Copy OCPP 1.6 URL"
+      "copy_ocpp_15_soap_url": "Copy OCPP 1.5 SOAP URL",
+      "copy_ocpp_16_json_url": "Copy OCPP 1.6 JSON URL",
+      "copy_ocpp_16_soap_url": "Copy OCPP 1.6 SOAP URL"
     },
     "refund": {
       "description": "E-Mobility provides Refunds APIs for an external expense system.<br/>This feature allow the Electric Vehicle driver to push any sessions he has done to an expense system and get reimbursed of the electricity he consumed.<br/><br/>E-Mobility is currently using SAP Concur. More technical information <a href='https://www.concur.com/' target='_blank'><u>here</u></a>.",

@@ -7,6 +7,7 @@ export interface RegistrationToken extends Data {
   expirationDate: Date;
   revocationDate?: Date;
   siteAreaID: string;
-  ocpp15Url: string;
-  ocpp16Url: string;
+  ocpp15SOAPUrl: string;
+  ocpp16SOAPUrl: string;
+  ocpp16JSONUrl: string;
 }

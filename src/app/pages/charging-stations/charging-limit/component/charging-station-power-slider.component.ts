@@ -11,13 +11,16 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit {
+  private static MIN_AMP = 6;
+
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
+  @Input() currentAmp = 0;
+  @Input() forChargingProfile = false;
   @Output() powerSliderChanged = new EventEmitter<number>();
-  public currentAmp = 0;
 
-  public minAmp = 0;
-  public maxAmp = 0;
+  public minAmp = ChargingStationPowerSliderComponent.MIN_AMP;
+  public maxAmp = ChargingStationPowerSliderComponent.MIN_AMP;
   public displayedMinPowerKW = '';
   public displayedMaxPowerKW = '';
   public displayedCurrentPowerW = '';
@@ -37,19 +40,32 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.notSupported = true;
       return;
     }
-    this.minAmp = 6;
-    this.maxAmp = 0;
-    this.currentAmp = 0;
     // Connector Provided?
     if (this.connector) {
-      this.maxAmp = this.connector.amperage;
-      this.currentAmp = this.connector.amperageLimit;
+      // Charging Profile?
+      if (this.forChargingProfile) {
+        this.maxAmp = this.connector.amperageLimit;
+      } else {
+        this.maxAmp = this.connector.amperage;
+        this.currentAmp = this.connector.amperageLimit;
+      }
     } else {
+      this.maxAmp = 0;
+      this.currentAmp = 0;
       // Add all connector's amps
       for (const connector of this.charger.connectors) {
-        this.maxAmp += connector.amperage ? connector.amperage : 0;
-        this.currentAmp += connector.amperageLimit;
+        // Charging Profile?
+        if (this.forChargingProfile) {
+          this.maxAmp += connector.amperageLimit;
+        } else {
+          this.maxAmp += connector.amperage;
+          this.currentAmp += connector.amperageLimit;
+        }
       }
+    }
+    // Default
+    if (!this.currentAmp) {
+      this.currentAmp = this.maxAmp;
     }
     // Convert
     this.updateDisplayedPowerKW();

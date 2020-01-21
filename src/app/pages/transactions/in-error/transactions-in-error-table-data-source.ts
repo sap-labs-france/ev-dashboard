@@ -114,7 +114,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // Action
     switch (actionDef.id) {
       // Remove
-      case 'remove':
+      case ButtonAction.REMOVE:
         // Empty?
         if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));

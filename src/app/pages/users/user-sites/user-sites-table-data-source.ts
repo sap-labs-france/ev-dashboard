@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { Site, SiteUser } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User } from 'app/types/User';
@@ -147,12 +148,12 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'add':
+      case ButtonAction.ADD:
         this.showAddSitesDialog();
         break;
 
       // Remove
-      case 'remove':
+      case ButtonAction.REMOVE:
         // Empty?
         if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));

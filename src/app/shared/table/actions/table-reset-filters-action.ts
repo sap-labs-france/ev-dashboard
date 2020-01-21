@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableResetFiltersAction implements TableAction {
   private action: TableActionDef = {
-    id: 'reset-filters',
+    id: ButtonAction.RESET_FILTERS,
     type: 'button',
     icon: 'cancel',
     color: ButtonColor.PRIMARY,

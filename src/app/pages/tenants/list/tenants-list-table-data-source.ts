@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tenant } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
@@ -129,7 +129,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'create':
+      case ButtonAction.CREATE:
         this.showTenantDialog();
         break;
       default:
@@ -139,13 +139,13 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: Tenant) {
     switch (actionDef.id) {
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showTenantDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteTenant(rowItem);
         break;
-      case 'open':
+      case ButtonAction.OPEN:
         this.openTenant(rowItem);
         break;
       default:

@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableExportAction implements TableAction {
   private action: TableActionDef = {
-    id: 'export',
+    id: ButtonAction.EXPORT,
     type: 'button',
     icon: 'cloud_download',
     name: 'general.export',

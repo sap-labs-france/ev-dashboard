@@ -1,15 +1,15 @@
+import { TableAction } from 'app/shared/table/actions/table-action';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
-import { TableAction } from './table-action';
 
-export class TableEditChargersAction implements TableAction {
+export class ChargingStationsClearCacheAction implements TableAction {
   private action: TableActionDef = {
-    id: ChargingStationButtonAction.EDIT_CHARGERS,
+    id: ChargingStationButtonAction.CLEAR_CACHE,
     type: 'button',
-    icon: 'ev_station',
+    icon: 'layers_clear',
     color: ButtonColor.PRIMARY,
-    name: 'general.edit',
-    tooltip: 'general.tooltips.edit_chargers',
+    name: 'chargers.clear_cache_action',
+    tooltip: 'general.tooltips.clear_cache',
   };
 
   public getActionDef(): TableActionDef {

@@ -5,10 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { SiteButtonAction } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
-import { User, UserToken } from 'app/types/User';
+import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -108,14 +109,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       isAngularComponent: true,
       angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p',
-      class: 'col-10p',
+      class: 'col-10p table-cell-angular-big-component',
       sortable: true,
-    },
-    {
-      id: 'id',
-      name: 'users.id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'd-none d-xl-table-cell',
     },
     {
       id: 'role',
@@ -164,9 +159,32 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
+      id: 'eulaAcceptedOn',
+      name: 'users.eula_accepted_on',
+      formatter: (eulaAcceptedOn: Date, row: User) => this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})`,
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true,
+    },
+    {
       id: 'createdOn',
       name: 'users.created_on',
       formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true,
+    },
+    {
+      id: 'lastChangedOn',
+      name: 'users.changed_on',
+      formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true,
+    },
+    {
+      id: 'lastChangedBy',
+      name: 'users.changed_by',
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -207,10 +225,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case 'create':
+      case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case 'synchronize':
+      case UserButtonAction.SYNCHRONIZE:
         if (this.tableSyncBillingUsersAction.action) {
           this.tableSyncBillingUsersAction.action(
             this.dialogService,
@@ -228,13 +246,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: User) {
     switch (actionDef.id) {
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showUserDialog(rowItem);
         break;
-      case 'assign_site':
+      case SiteButtonAction.ASSIGN_SITE:
         this.showSitesDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
       default:

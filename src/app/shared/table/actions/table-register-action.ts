@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableRegisterAction implements TableAction {
   private action: TableActionDef = {
-    id: 'register',
+    id: ButtonAction.REGISTER,
     type: 'button',
     icon: 'link',
     color: ButtonColor.PRIMARY,

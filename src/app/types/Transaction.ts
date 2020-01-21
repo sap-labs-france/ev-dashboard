@@ -52,3 +52,8 @@ export enum InactivityStatus {
   WARNING = 'W',
   ERROR = 'E',
 }
+
+export enum TransactionButtonAction {
+  REFUND = 'refund',
+  OPEN_IN_CONCUR = 'open_in_concur',
+}

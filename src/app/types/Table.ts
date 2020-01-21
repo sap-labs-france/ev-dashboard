@@ -1,6 +1,11 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
-import { KeyValue } from './GlobalType';
+import { ChargingStationButtonAction } from './ChargingStation';
+import { ButtonAction, KeyValue } from './GlobalType';
+import { OcpiButtonAction } from './OCPIEndpoint';
+import { SiteButtonAction } from './Site';
+import { TransactionButtonAction } from './Transaction';
+import { UserButtonAction } from './User';
 
 export interface Data {
   id: string|number;
@@ -49,7 +54,7 @@ export enum ButtonColor {
 }
 
 export interface TableActionDef {
-  id: string;
+  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;
@@ -57,7 +62,7 @@ export interface TableActionDef {
   color?: ButtonColor;
   disabled?: boolean;
   isDropdownMenu?: boolean;
-  dropdownItems?: DropdownItem[];
+  dropdownActions?: TableActionDef[];
   tooltip: string;
   action?(...args: any[]): void;
 }
@@ -95,7 +100,7 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
-  editType?: 'radiobutton'|'checkbox'|'input';
+  editType?: TableEditType;
   validators?: ValidatorFn[];
   errorMessage?: string;
   headerClass?: string;
@@ -111,4 +116,10 @@ export interface TableColumnDef {
 
 export interface TableSearch {
   search: string;
+}
+
+export enum TableEditType {
+  RADIO_BUTTON = 'radiobutton',
+  CHECK_BOX = 'checkbox',
+  INPUT = 'input',
 }

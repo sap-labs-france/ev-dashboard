@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableInlineDeleteAction implements TableAction {
   private action: TableActionDef = {
-    id: 'inline-delete',
+    id: ButtonAction.INLINE_DELETE,
     type: 'button',
     icon: 'delete',
     color: ButtonColor.WARN,

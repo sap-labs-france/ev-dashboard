@@ -13,6 +13,7 @@ import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { OcpiEndpoint, OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -100,7 +101,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailJobStatusFomatterComponent,
         headerClass: 'text-center',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sortable: false,
       },
       {
@@ -121,7 +122,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailTotalEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sorted: false,
       },
       {
@@ -131,7 +132,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailSuccessEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sorted: false,
       },
       {
@@ -141,7 +142,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         isAngularComponent: true,
         angularComponent: OcpiDetailFailureEvsesStatusFormatterComponent,
         headerClass: 'text-center col-10p',
-        class: '',
+        class: 'table-cell-angular-big-component',
         sorted: false,
       },
     ];
@@ -175,17 +176,17 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
-      case 'send':
+      case ButtonAction.SEND:
         if (this.ocpiEndpoint.role === Constants.OCPI_ROLE_CPO) {
           this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
         } else {
           this.sendTokensOcpiEndpoint(rowItem.ocpiendpoint);
         }
         break;
-      case 'start':
+      case ButtonAction.START:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
         break;
-      case 'stop':
+      case ButtonAction.STOP:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, false);
         break;
       default:
@@ -195,8 +196,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   private sendEVSEStatusesOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_title'),
-      this.translateService.instant('ocpiendpoints.sendEVSEStatuses_confirm', { name: ocpiendpoint.name }),
+      this.translateService.instant('ocpiendpoints.send_evse_statuses_title'),
+      this.translateService.instant('ocpiendpoints.send_evse_statuses_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Ping

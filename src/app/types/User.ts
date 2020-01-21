@@ -13,22 +13,7 @@ export interface User extends Data {
   phone: Date;
   mobile: string;
   notificationsActive: boolean;
-  notifications: {
-    sendSessionStarted?: boolean;
-    sendOptimalChargeReached?: boolean;
-    sendEndOfCharge?: boolean;
-    sendEndOfSession?: boolean;
-    sendUserAccountStatusChanged?: boolean;
-    sendUnknownUserBadged?: boolean;
-    sendChargingStationStatusError?: boolean;
-    sendChargingStationRegistered?: boolean;
-    sendOcpiPatchStatusError?: boolean;
-    sendSmtpAuthError?: boolean;
-    sendUserAccountInactivity?: boolean;
-    sendPreparingSessionNotStarted?: boolean;
-    sendOfflineChargingStations?: boolean;
-    sendBillingSynchronizationFailed?: boolean;
-  };
+  notifications: UserNotifications;
   address: Address;
   iNumber: string;
   costCenter: boolean;
@@ -50,6 +35,27 @@ export interface User extends Data {
   sitesOwner: string[];
   userHashID: number;
   tenantHashID: number;
+  eulaAcceptedHash: string;
+  eulaAcceptedVersion: number;
+  eulaAcceptedOn: Date;
+}
+
+export interface UserNotifications {
+  sendSessionStarted: boolean;
+  sendOptimalChargeReached: boolean;
+  sendEndOfCharge: boolean;
+  sendEndOfSession: boolean;
+  sendUserAccountStatusChanged: boolean;
+  sendNewRegisteredUser: boolean;
+  sendUnknownUserBadged: boolean;
+  sendChargingStationStatusError: boolean;
+  sendChargingStationRegistered: boolean;
+  sendOcpiPatchStatusError: boolean;
+  sendSmtpAuthError: boolean;
+  sendUserAccountInactivity: boolean;
+  sendPreparingSessionNotStarted: boolean;
+  sendOfflineChargingStations: boolean;
+  sendBillingUserSynchronizationFailed: boolean;
 }
 
 export interface UserToken {
@@ -71,4 +77,9 @@ export interface UserToken {
   sitesAdmin?: string[];
   activeComponents?: string[];
   sitesOwner?: string[];
+}
+
+export enum UserButtonAction {
+  SYNCHRONIZE = 'synchronize',
+  EDIT_USERS = 'edit_users',
 }

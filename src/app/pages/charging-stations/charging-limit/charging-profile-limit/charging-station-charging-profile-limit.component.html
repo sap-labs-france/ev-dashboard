@@ -26,6 +26,17 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+                <div class="form-group col-md-4">
+                <mat-form-field>
+                  <mat-datetimepicker  #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                  </mat-datetimepicker>
+                  <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                  <input matInput
+                  placeholder="{{'chargers.smart_charging.start_date' | translate}}"
+                    (dateChange)="dateFilterChanged($event)" [matDatetimepicker]="picker"
+                    [value]="startSchedule" autocomplete="false">
+                </mat-form-field>
+              </div>
         </div>
       </div>
         <!-- <div class="card-body">

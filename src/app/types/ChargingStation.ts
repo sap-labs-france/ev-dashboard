@@ -111,4 +111,5 @@ export interface ChargingStationCapabilities {
   supportStaticLimitationForChargingStation?: boolean;
   supportStaticLimitationPerConnector?: boolean;
   supportChargingProfiles?: boolean;
+  supportTxDefaultProfile?: boolean;
 }

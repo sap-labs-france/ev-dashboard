@@ -1,7 +1,7 @@
 import { Injectable, QueryList, ViewChildren, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { TableColumnDef, TableDef } from 'app/types/Table';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { ChargingProfile, Slot } from 'app/types/ChargingProfile'
 import { SpinnerService } from 'app/services/spinner.service';
 import { EditableTableDataSource } from '../../../../../shared/table/editable-table-data-source';
@@ -16,7 +16,8 @@ import { MessageService } from 'app/services/message.service';
 
 @Injectable()
 export class ChargingPeriodListTableDataSource extends EditableTableDataSource<Slot> {
-  ;
+
+  public startDate!: Date;
 
   constructor(public spinnerService: SpinnerService,
     private messageService: MessageService, ) {
@@ -33,17 +34,24 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<S
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
+        id: 'connectorID',
+        name: 'Connector',
+        editType: 'displayonly',
+        headerClass: 'col-10p',
+        class: 'text-center col-10p',
+      },
+      {
         id: 'displayedStartValue',
         name: 'Starting slot date',
-        editType: 'datetimepicker',
+        editType: 'displayonlydate',
         headerClass: 'col-30p',
-        class: 'text-left col-30p',
+        class: 'text-center col-30p',
       },
       {
         id: 'duration',
         name: 'Duration in min',
         headerClass: 'col-30p',
-        editType: 'displayonly',
+        editType: 'input',
         class: 'text-left col-30p',
       },
       {
@@ -59,58 +67,64 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<S
   }
 
   public addCharger(charger: ChargingStation) {
-    this.tableColumnDefs[2].additionalParameters = charger;
+    this.tableColumnDefs[3].additionalParameters = charger;
   }
 
   public addData() {
-    var currentDate = new Date();
-    currentDate.setHours(currentDate.getHours() + 1)
     const chargingSchedulePeriod = <Slot>{
-
-      displayedStartValue: currentDate,
-      displayedLimitInkW: this.tableColumnDefs[2].additionalParameters.maximumPower / 1000,
+      displayedStartValue: this.startDate,
+      displayedLimitInkW: this.tableColumnDefs[3].additionalParameters.maximumPower / 1000,
+      connectorID: 'all',
       limit: 0,
       key: '',
       id: 0,
-      duration: 0,
+      duration: 60,
     };
-    for (const connector of this.tableColumnDefs[2].additionalParameters.connectors) {
+    for (const connector of this.tableColumnDefs[3].additionalParameters.connectors) {
       chargingSchedulePeriod.limit += connector.amperage ? connector.amperage : 0;
     }
     if (this.data[this.data.length - 1]) {
       var previousDate = new Date(this.data[this.data.length - 1].displayedStartValue);
       chargingSchedulePeriod.displayedStartValue = new Date(previousDate.setHours(previousDate.getHours() + 1));
       chargingSchedulePeriod.displayedLimitInkW = this.data[this.data.length - 1].displayedLimitInkW;
-      this.data[this.data.length-1].duration = 60;
+      this.data[this.data.length - 1].duration = 60;
     }
     return chargingSchedulePeriod;
   }
 
+  public rowActionTriggered(actionDef: TableActionDef, row: any, dropdownItem?: DropdownItem){
+    super.rowActionTriggered(actionDef, row, dropdownItem);
+    for (let i = this.data.length-1; i >= 0; i--) {
+      if (this.data[i - 1]) {
+        let duration: number = 0;
+        let date1 = new Date(this.data[i-1].displayedStartValue);
+        let date2 = new Date(this.data[i].displayedStartValue);
+        duration = (date2.getTime() - date1.getTime())/60/1000;
+        this.data[i - 1].duration = duration;
+      }
+    }
+  }
+
+
   public updateRow(value: any, index: number, columnDef: TableColumnDef) {
+    super.updateRow(value, index, columnDef);
+    // let duration: number;
     // if (this.data[index - 1]) {
-    //   if (value < this.data[index - 1].displayedStartValue || value > this.data[index - 1].displayedStartValue) {
-    //     this.data[index].displayedStartValue = this.data[index-1].displayedStartValue
-    //     this.messageService.showErrorMessage("Invalid Schedule");
-    //     throw new Error('Invalid schedule');
-    //   }
+    //   duration = Math.round((this.data[index].displayedStartValue.getTime() - this.data[index - 1].displayedStartValue.getTime()) / 1000 / 60);
+    //   this.data[index - 1].duration = duration;
     // }
     // else if (index == 0) {
-    //   if (value > this.data[index + 1].displayedStartValue) {
-    //     this.data[index].displayedStartValue = this.data[index+1].displayedStartValue
-    //     this.messageService.showErrorMessage("Invalid Schedule");
-    //     throw new Error('Invalid schedule');
-    //   }
+    //   duration = Math.round((this.data[index + 1].displayedStartValue.getTime() - this.data[index].displayedStartValue.getTime()) / 1000 / 60);
+    //   this.data[index].duration = duration;
     // }
-    super.updateRow(value, index, columnDef);
-    let duration: number;
-    if (this.data[index - 1]) {
-      duration = Math.round((this.data[index].displayedStartValue.getTime() - this.data[index - 1].displayedStartValue.getTime()) / 1000 / 60);
-      this.data[index - 1].duration = duration;
-    }
-    else if (index == 0) {
-      duration = Math.round((this.data[index + 1].displayedStartValue.getTime() - this.data[index].displayedStartValue.getTime()) / 1000 / 60);
-      this.data[index].duration = duration;
-    }
+      this.data[index].duration = value
 
+    for (let i = index; i < this.data.length; i++) {
+      if (this.data[i + 1]) {
+        let date = new Date(this.data[i].displayedStartValue)
+        date.setSeconds((date.getSeconds() + this.data[i].duration * 60));
+        this.data[i + 1].displayedStartValue = date;
+      }
+    }
   }
 }

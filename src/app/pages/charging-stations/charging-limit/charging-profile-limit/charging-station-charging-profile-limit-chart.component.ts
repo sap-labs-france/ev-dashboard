@@ -7,7 +7,7 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 import { DisplayedScheduleSlot } from './charging-station-charging-profile-limit.component';
-import { Slot } from 'app/common.types';
+import { Slot } from 'app/types/ChargingProfile';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -34,11 +34,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private language!: string;
 
   constructor(private centralServerService: CentralServerService,
-              private translateService: TranslateService,
-              private durationPipe: AppDurationPipe,
-              private localeService: LocaleService,
-              private datePipe: AppDatePipe,
-              private decimalPipe: AppDecimalPipe) {
+    private translateService: TranslateService,
+    private durationPipe: AppDurationPipe,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -92,20 +92,13 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       limitPowerDataSet.data.push({
         x: limit.displayedStartValue.getTime(), y: limit.displayedLimitInkW,
       });
-      // if (index === scheduleSlots.length - 1 && scheduleSlots[index+1]) {
-      //   // Add last limit
-      //   if (scheduleSlots[index+1].displayedStartValue && scheduleSlots[index+1].displayedStartValue .getTime() !== limit.displayedStartValue.getTime()) {
-      //     this.data.labels.push(scheduleSlots[index+1].displayedStartValue .getTime());
-      //     limitPowerDataSet.data.push({
-      //       x: scheduleSlots[index+1].displayedStartValue .getTime(), y: limit.displayedLimitInkW,
-      //     });
-      //   } else {
-      //     this.data.labels.push(limit.displayedStartValue.getTime() + 3600000); // Add one hour
-      //     limitPowerDataSet.data.push({
-      //       x: limit.displayedStartValue.getTime() + 3600000, y: limit.displayedLimitInkW,
-      //     });
-      //   }
-      // }
+      if (index === scheduleSlots.length-1) {
+        // Add last limit
+        this.data.labels.push(scheduleSlots[index].displayedStartValue.setSeconds(scheduleSlots[index].displayedStartValue.getSeconds() + scheduleSlots[index].duration));
+        limitPowerDataSet.data.push({
+          x: scheduleSlots[index].displayedStartValue.setSeconds(scheduleSlots[index].displayedStartValue.getSeconds() + scheduleSlots[index].duration*60) , y: limit.displayedLimitInkW,
+        });
+      }
     }
   }
 
@@ -141,7 +134,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
             const currentDate = data.labels[tooltipItems[0].index];
 
             return this.datePipe.transform(currentDate) +
-            ' - ' + this.durationPipe.transform((new Date(currentDate).getTime() - new Date(firstDate).getTime()) / 1000);
+              ' - ' + this.durationPipe.transform((new Date(currentDate).getTime() - new Date(firstDate).getTime()) / 1000);
           },
         },
       },

@@ -712,7 +712,7 @@
       "profile_types": {
         "relative": "Relative",
         "absolute": "Temporary Planning",
-        "recurring_daily": "Daily recurring",
+        "recurring_daily": "Daily Planning",
         "recurring_weekly": "Weekly recurring"
       }
     },

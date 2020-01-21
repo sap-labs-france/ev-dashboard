@@ -95,7 +95,7 @@ export interface TableColumnDef {
   name: string;
   footerName?: string;
   type?: string;
-  editType?: 'radiobutton'|'checkbox'|'input'|'datetimepicker'|'displayonly';
+  editType?: 'radiobutton'|'checkbox'|'input'|'datetimepicker'|'displayonlydate'|'displayonly'|'timepicker'|'displayonlytime';
   validators?: ValidatorFn[];
   errorMessage?: string;
   headerClass?: string;

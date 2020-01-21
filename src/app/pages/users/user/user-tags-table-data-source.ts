@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { TableColumnDef, TableDef } from 'app/types/Table';
+import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import { SpinnerService } from '../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
@@ -34,7 +34,7 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
       {
         id: 'id',
         name: 'tags.id',
-        editType: 'input',
+        editType: TableEditType.INPUT,
         validators: [Validators.required,
           Validators.minLength(8),
           Validators.maxLength(16),
@@ -46,14 +46,14 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
       {
         id: 'description',
         name: 'general.description',
-        editType: 'input',
+        editType: TableEditType.INPUT,
         headerClass: 'text-left col-50p',
         class: 'text-left col-50p',
       },
       {
         id: 'issuer',
         name: 'tags.issuer',
-        editType: 'radiobutton',
+        editType: TableEditType.RADIO_BUTTON,
         headerClass: 'col-15p',
         class: 'text-center col-15p',
       },

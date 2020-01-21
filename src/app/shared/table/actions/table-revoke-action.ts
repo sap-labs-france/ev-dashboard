@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableRevokeAction implements TableAction {
   private action: TableActionDef = {
-    id: 'revoke',
+    id: ButtonAction.REVOKE,
     type: 'button',
     icon: 'link_off',
     color: ButtonColor.WARN,

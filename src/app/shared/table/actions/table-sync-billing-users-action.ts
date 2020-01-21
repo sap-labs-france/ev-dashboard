@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
+import { UserButtonAction } from 'app/types/User';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -10,7 +11,7 @@ import { TableAction } from './table-action';
 
 export class TableSyncBillingUsersAction implements TableAction {
   private action: TableActionDef = {
-    id: 'synchronize',
+    id: UserButtonAction.SYNCHRONIZE,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,

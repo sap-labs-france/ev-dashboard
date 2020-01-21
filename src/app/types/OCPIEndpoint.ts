@@ -26,3 +26,8 @@ export interface OcpiEndpointDetail extends Data {
   failureNbr: number;
   totalNbr: number;
 }
+
+export enum OcpiButtonAction {
+  SEND = 'send',
+  START_JOB = 'stop_start_job',
+}

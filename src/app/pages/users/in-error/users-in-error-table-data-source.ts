@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, UserInError } from 'app/types/InError';
+import { SiteButtonAction } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
@@ -104,7 +105,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       isAngularComponent: true,
       angularComponent: UserStatusFormatterComponent,
       headerClass: 'col-10p text-center',
-      class: 'col-10p',
+      class: 'col-10p table-cell-angular-big-component',
       sortable: true,
     },
     {
@@ -173,7 +174,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case 'create':
+      case ButtonAction.CREATE:
         this.showUserDialog();
         break;
       default:
@@ -183,13 +184,13 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: UserInError) {
     switch (actionDef.id) {
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showUserDialog(rowItem);
         break;
-      case 'assign_site':
+      case SiteButtonAction.ASSIGN_SITE:
         this.showSitesDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
       default:

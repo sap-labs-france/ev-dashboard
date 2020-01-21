@@ -404,15 +404,46 @@ tr.element-row:not(.expanded-row):active {
     cursor: pointer !important;
   }
 
-  > thead > tr > th,
-  > tbody > tr > th,
-  > tfoot > tr > th,
   > thead > tr > td,
   > tbody > tr > td,
   > tfoot > tr > td {
     font-size: $font-size-sm;
+    padding: 10px 8px 0px 8px;
+    vertical-align: top;
+  }
+
+  > thead > tr > th,
+  > tbody > tr > th,
+  > tfoot > tr > th {
+    font-size: $font-size-sm;
     padding: 5px 8px 2px 8px;
     vertical-align: middle;
+  }
+
+  .table-cell-angular-component {
+    padding: 9px 8px 0px 8px;
+  }
+
+  .table-cell-angular-big-component {
+    padding: 5px 8px 4px 8px;
+    button {
+      margin-top: -2px !important;
+    }
+  }
+
+  .table-cell-angular-buttons-component {
+    padding: 0px 8px 0px 8px;
+    button {
+      margin-top: -2px !important;
+    }
+  }
+
+  .table-angular-details-component {
+    padding: 0;
+  }
+
+  .table-mat-error {
+    font-size: $font-size-xxs;
   }
 
   .th-description {

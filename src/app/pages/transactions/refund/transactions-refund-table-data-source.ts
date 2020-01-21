@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { RefundSettings } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Transaction } from 'app/types/Transaction';
+import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 // @ts-ignore
 import saveAs from 'file-saver';
@@ -243,7 +243,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case 'refund':
+      case TransactionButtonAction.REFUND:
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else if (this.getSelectedRows().length === 0) {
@@ -259,7 +259,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           });
         }
         break;
-      case 'open_in_concur':
+      case TransactionButtonAction.OPEN_IN_CONCUR:
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else {
@@ -268,7 +268,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           }
         }
         break;
-      case 'export':
+      case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm'),

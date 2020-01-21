@@ -14,9 +14,9 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Connector } from 'app/types/ChargingStation';
+import { ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ChargingStationInError, ErrorMessage } from 'app/types/InError';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -27,7 +27,6 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ChargingStations } from '../../../utils/ChargingStations';
-import { ACTION_SMART_CHARGING } from '../actions/charging-stations-more-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
@@ -162,7 +161,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
         headerClass: 'text-center',
-        class: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
         sortable: false,
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorsCellComponent,
@@ -172,7 +171,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         name: 'errors.details',
         sortable: false,
         headerClass: 'text-center',
-        class: 'action-cell text-center',
+        class: 'action-cell text-center table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
@@ -207,7 +206,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStationInError, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'reboot':
+      case ChargingStationButtonAction.REBOOT:
         this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
@@ -215,7 +214,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           'chargers.reboot_error',
         );
         break;
-      case 'soft_reset':
+      case ChargingStationButtonAction.SOFT_RESET:
         this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
           this.translateService.instant('chargers.soft_reset_title'),
           this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
@@ -223,10 +222,10 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           'chargers.soft_reset_error',
         );
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteChargingStation(rowItem);
         break;
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showChargingStationDialog(rowItem);
         break;
       default:
@@ -235,16 +234,16 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   }
 
   public onRowActionMenuOpen(action: TableActionDef, row: ChargingStationInError) {
-    if (action.dropdownItems) {
-      action.dropdownItems.forEach((dropDownItem) => {
-        if (dropDownItem.id === ACTION_SMART_CHARGING) {
+    if (action.dropdownActions) {
+      action.dropdownActions.forEach((dropdownAction) => {
+        if (dropdownAction.id === ChargingStationButtonAction.SMART_CHARGING) {
           // Check charging station version
-          dropDownItem.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
+          dropdownAction.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
             row.ocppVersion === Constants.OCPP_VERSION_15 ||
             row.inactive;
         } else {
           // Check active status of CS
-          dropDownItem.disabled = row.inactive;
+          dropdownAction.disabled = row.inactive;
         }
       });
     }
@@ -296,10 +295,10 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   buildTableDynamicRowActions(charger: ChargingStationInError) {
     if (this.isAdmin && charger.errorCode) {
+      // @ts-ignore
       return this.actions[charger.errorCode];
-    } else {
-      return [];
     }
+    return [];
   }
 
   private formatErrorMessages(chargersInError: ChargingStationInError[]) {

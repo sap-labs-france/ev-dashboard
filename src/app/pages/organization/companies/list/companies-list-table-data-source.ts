@@ -17,7 +17,7 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Company } from 'app/types/Company';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -163,7 +163,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'create':
+      case ButtonAction.CREATE:
         this.showCompanyDialog();
         break;
       default:
@@ -173,14 +173,14 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: Company) {
     switch (actionDef.id) {
-      case 'edit':
-      case 'view':
+      case ButtonAction.EDIT:
+      case ButtonAction.VIEW:
         this.showCompanyDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteCompany(rowItem);
         break;
-      case 'open_in_maps':
+      case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
         break;
       default:
@@ -190,7 +190,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

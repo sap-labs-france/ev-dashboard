@@ -6,7 +6,7 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError } from 'app/types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
@@ -274,7 +274,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case 'delete':
+      case ButtonAction.DELETE:
         if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
           transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
           this.dialogService.createAndShowOkDialog(
@@ -292,7 +292,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           });
         }
         break;
-      case 'open':
+      case ButtonAction.OPEN:
         this.openSession(transaction);
         break;
       default:
@@ -351,7 +351,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         actionParameters: {},
       };
       switch (transaction.errorCode) {
-        case'noConsumption':
+        case 'noConsumption':
           // nothing to do
           break;
       }

@@ -8,6 +8,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation, Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
@@ -117,7 +118,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         name: 'chargers.connector',
         sortable: false,
         headerClass: 'text-center',
-        class: 'text-center',
+        class: 'text-center table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorCellComponent,
       },
@@ -125,7 +126,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         id: 'status',
         name: 'chargers.connector_status',
         headerClass: 'text-center',
-        class: '',
+        class: 'table-cell-angular-big-component',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorStatusCellComponent,
         sortable: false,
@@ -155,13 +156,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
-        formatter: (errorCode, row) => this.formatError(errorCode, row.info, row.vendorErrorCode),
+        formatter: (errorCode: string, row: Connector) => this.formatError(errorCode, row.info, row.vendorErrorCode),
         sortable: false,
       },
     ];
   }
 
-  public formatError(errorCode: string, info: string, vendorErrorCode: string) {
+  public formatError(errorCode: string, info: string|undefined, vendorErrorCode: string|undefined) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info && info !== '' ? ` > ${info}` : '';
     const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
@@ -205,7 +206,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public rowActionTriggered(actionDef: TableActionDef, connector: Connector) {
     switch (actionDef.id) {
       // Start Transaction
-      case 'start':
+      case ButtonAction.START:
         if (!connector.isStartAuthorized) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
@@ -239,7 +240,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         break;
 
       // Open Transaction
-      case 'open':
+      case ButtonAction.OPEN:
         // Check
         if (!connector.isTransactionDisplayAuthorized) {
           this.dialogService.createAndShowOkDialog(
@@ -252,7 +253,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         break;
 
       // Stop Transaction
-      case 'stop':
+      case ButtonAction.STOP:
         if (!connector.isStopAuthorized) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_stop_title'),
@@ -298,10 +299,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           }
         });
         break;
-
-      case 'more':
-        break;
-      default:
     }
   }
 

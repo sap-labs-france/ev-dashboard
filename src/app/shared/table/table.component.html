@@ -313,6 +313,15 @@
                   (change)="$event.source.checked  = !$event.source.checked;"
                   (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
+                <span *ngIf="tableColumnDef.editType === 'displayonlydate'" class="text-center">
+                  {{row[tableColumnDef.id] | date: 'dd.MM.yyyy HH:mm'}}
+                </span>
+                <span *ngIf="tableColumnDef.editType === 'displayonlytime'" class="text-center">
+                  {{row[tableColumnDef.id] | date: 'HH:mm'}}
+                </span>
+                <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">
+                  {{row[tableColumnDef.id]}}
+                </span>
                 <mat-error *ngIf="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors as errors">
                   <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
                   <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"

@@ -22,6 +22,8 @@ import { TransactionsHistoryTableDataSource } from 'app/pages/transactions/histo
 import { ChargingPeriodListTableDataSource } from './list/charging-period-list-table-data-source';
 import { mergeMap } from 'rxjs/operators';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
+import { TableEditType } from 'app/types/Table';
+import { TableRevokeAction } from 'app/shared/table/actions/table-revoke-action';
 
 
 interface DisplayedSlot extends ScheduleSlot {
@@ -211,7 +213,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             this.slotsSchedule[this.slotsSchedule.length - 1].duration = (this.startSchedule.getTime() / 1000 + chargingProfile.profile.chargingSchedule.duration - this.slotsSchedule[this.slotsSchedule.length - 1].displayedStartValue.getTime() / 1000) / 60
           }
           if (chargingProfile.profile.chargingProfileKind != ChargingProfileKindType.ABSOLUTE) {
-            this.chargingPeriodListTableDataSource.tableColumnDefs[1].editType = 'displayonlytime'
+            this.chargingPeriodListTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
           }
         }
         this.chargingPeriodListTableDataSource.setContent(this.slotsSchedule);
@@ -233,10 +235,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
         this.profileIdControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).id);
 
         if (this.profileTypeControl.value === ChargingProfileKindType.ABSOLUTE) {
-          this.chargingPeriodListTableDataSource.tableColumnDefs[1].editType = 'displayonlydate'
+          this.chargingPeriodListTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_DATE;
         }
         else {
-          this.chargingPeriodListTableDataSource.tableColumnDefs[1].editType = 'displayonlytime'
+          this.chargingPeriodListTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
         }
 
       });
@@ -371,14 +373,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
 
     // build schedule
     let duration: number = 0;
-    const startOfSchedule = this.chargingPeriodListTableDataSource.data[0].displayedStartValue;
+    const startOfSchedule = new Date(this.chargingPeriodListTableDataSource.data[0].displayedStartValue);
     chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
     chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
 
     for (const slot of this.chargingPeriodListTableDataSource.data) {
 
       const period = {} as ChargingSchedulePeriod;
-      period.startPeriod = Math.round((slot.displayedStartValue.getTime() - startOfSchedule.getTime()) / 1000);
+      const startOfPeriod = new Date(slot.displayedStartValue);
+      period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);
       if (period.startPeriod >= 0) {
         period.limit = slot.limit;
         chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);

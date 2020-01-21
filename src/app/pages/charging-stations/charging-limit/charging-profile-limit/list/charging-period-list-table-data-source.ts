@@ -1,7 +1,7 @@
 import { Injectable, QueryList, ViewChildren, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { ChargingProfile, Slot } from 'app/types/ChargingProfile'
 import { SpinnerService } from 'app/services/spinner.service';
 import { EditableTableDataSource } from '../../../../../shared/table/editable-table-data-source';
@@ -36,14 +36,14 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<S
       {
         id: 'connectorID',
         name: 'Connector',
-        editType: 'displayonly',
+        editType: TableEditType.DISPLAY_ONLY,
         headerClass: 'col-10p',
         class: 'text-center col-10p',
       },
       {
         id: 'displayedStartValue',
         name: 'Starting slot date',
-        editType: 'displayonlydate',
+        editType: TableEditType.DISPLAY_ONLY_DATE,
         headerClass: 'col-30p',
         class: 'text-center col-30p',
       },
@@ -51,7 +51,7 @@ export class ChargingPeriodListTableDataSource extends EditableTableDataSource<S
         id: 'duration',
         name: 'Duration in min',
         headerClass: 'col-30p',
-        editType: 'input',
+        editType: TableEditType.INPUT,
         class: 'text-left col-30p',
       },
       {

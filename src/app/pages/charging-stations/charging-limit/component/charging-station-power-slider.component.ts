@@ -37,6 +37,8 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   ngOnInit() {
     if(!this.charger){
       this.charger = this.columnDef.additionalParameters;
+      this.currentAmp = this.row.limit;
+      this.forChargingProfile = true;
     }
     // Check
     if (!this.charger ||
@@ -46,6 +48,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.notSupported = true;
       return;
     }
+
     // Connector Provided?
     if (this.connector) {
       // Charging Profile?
@@ -58,7 +61,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     } else {
       this.maxAmp = 0;
       if (!this.forChargingProfile) {
-        this.currentAmp = 0;
+         this.currentAmp = 0;
       }
       // Add all connector's amps
       for (const connector of this.charger.connectors) {
@@ -79,7 +82,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     this.updateDisplayedPowerKW();
     // Check
     if (!this.maxAmp) {
-      this.notSupported = true;
+      // this.notSupported = true;
 
     }
   }

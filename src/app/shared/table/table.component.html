@@ -1,154 +1,180 @@
 <div *ngIf="dataSource" class="h-100 d-flex flex-column">
   <ng-container *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
-
     <!-- Toolbar -->
-    <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled" class="mat-toolbar">
-
+    <div *ngIf="dataSource.hasActions || dataSource.hasFilters || dataSource.isSearchEnabled"
+         class="mat-toolbar">
       <!-- Actions  -->
       <div class="left-actions d-flex flex-row mat-toolbar-row ">
-
         <!-- Create Left Actions -->
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
-            (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')" appTooltip
-            [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+          <button mat-raised-button
+              *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
+              (click)="actionTriggered(actionDef)"
+              [color]="(actionDef.color ? actionDef.color : '')"
+              appTooltip [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
           <!-- Reset Filters -->
-          <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
-            (click)="resetFilters()" [color]="(actionDef.color ? actionDef.color : '')" appTooltip
-            [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+          <button mat-raised-button
+              *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
+              (click)="resetFilters()"
+              [color]="(actionDef.color ? actionDef.color : '')" appTooltip
+              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
-
           <div *ngIf="actionDef.type === 'dropdown-button'">
             <mat-menu #dropDownMenu="matMenu" xPosition="before">
               <ng-template matMenuContent>
-                <ng-container *ngFor="let dropdownItem of actionDef.dropdownItems">
-                  <button mat-menu-item (click)="actionTriggered(actionDef)" [disabled]="dropdownItem.disabled"
-                    appTooltip [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
-                    <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
-                    <span>{{dropdownItem.name | translate}}</span>
+                <ng-container *ngFor="let dropdownAction of actionDef.dropdownActions">
+                  <button mat-menu-item
+                      (click)="actionTriggered(actionDef)"
+                      [disabled]="dropdownAction.disabled" appTooltip
+                      [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
+                    <mat-icon
+                      *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                    <span>{{dropdownAction.name | translate}}</span>
                   </button>
                 </ng-container>
               </ng-template>
             </mat-menu>
             <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
-              [color]="(actionDef.color ? actionDef.color : '')" appTooltip [title]="'analytics.links' | translate">
+                    [color]="(actionDef.color ? actionDef.color : '')" appTooltip
+                    [title]="'analytics.links' | translate">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
           </div>
         </ng-container>
-
         <!-- Spacer -->
         <span class="toolbar-spacer"></span>
-
         <!-- Create Right Actions -->
-        <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
-          <ng-container *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
+        <div
+          class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
+          <ng-container
+            *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
             <!-- Action Slide -->
             <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
               <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
-                *ngIf="actionRightDef.type === 'slide'" [checked]="actionRightDef.currentValue">
+                  *ngIf="actionRightDef.type === 'slide'"
+                  [checked]="actionRightDef.currentValue">
                 {{actionRightDef.name| translate}}
               </mat-slide-toggle>
             </ng-container>
             <!-- Action Button -->
             <ng-container *ngIf="actionRightDef.id !== 'refresh'">
               <button mat-raised-button *ngIf="actionRightDef.type === 'button'"
-                [color]="(actionRightDef.color ? actionRightDef.color : '')" (click)="actionTriggered(actionRightDef)"
-                appTooltip [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
-                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
+                  [color]="(actionRightDef.color ? actionRightDef.color : '')"
+                  (click)="actionTriggered(actionRightDef)" appTooltip
+                  [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                <mat-icon
+                  *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
                 <ng-container *ngIf="actionRightDef.name">
                   <span>{{actionRightDef.name | translate}}</span>
                 </ng-container>
               </button>
             </ng-container>
             <!-- Refresh -->
-            <button mat-raised-button *ngIf="actionRightDef.id === 'refresh'" class="button-refresh" (click)="refresh()"
-              [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
-              [title]="actionRightDef.tooltip | translate">
+            <button mat-raised-button *ngIf="actionRightDef.id === 'refresh'"
+                class="button-refresh" (click)="refresh()"
+                [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
+                [title]="actionRightDef.tooltip | translate">
               <div *ngIf="ongoingAutoRefresh" class="spinner-autorefresh2">
                 <div class="loader"></div>
               </div>
               <div *ngIf="!ongoingAutoRefresh" class="refresh-icon">
-                <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
+                <mat-icon
+                  *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
               </div>
             </button>
             <!-- Auto Refresh -->
             <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
-              <mat-slide-toggle (change)="toggleAutoRefresh($event)" [checked]="actionRightDef.currentValue" appTooltip
-                [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)" class="auto-refresh-slider">
+              <mat-slide-toggle (change)="toggleAutoRefresh($event)"
+                  [checked]="actionRightDef.currentValue" appTooltip
+                  [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)"
+                  class="auto-refresh-slider">
                 {{actionRightDef.name| translate}}
               </mat-slide-toggle>
             </ng-container>
           </ng-container>
         </div>
       </div>
-
       <!-- Filters Row -->
       <div *ngIf="(dataSource.hasFilters || dataSource.isSearchEnabled)"
-        class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
-
+          class="d-flex flex-row mr-auto flex-wrap mat-toolbar-row filter-row">
         <!-- Create Filters -->
         <div *ngFor="let filterDef of dataSource.tableFiltersDef; let i=index"
-          [class]="(filterDef.class ? filterDef.class : '')">
+             [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
-          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && !filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-              [placeholder]="filterDef.name | translate">
-              <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && !filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef)"
+                [(value)]="filterDef.currentValue"
+                [placeholder]="filterDef.name | translate">
+              <mat-option *ngFor="let item of filterDef.items"
+                [value]="item.key">{{item.value | translate}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <!-- Dropdown Filter with multiple selections-->
-          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-              [placeholder]="filterDef.name | translate" multiple disableRipple>
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple">
+            <mat-select (selectionChange)="filterChanged(filterDef)"
+                [(value)]="filterDef.currentValue"
+                [placeholder]="filterDef.name | translate" multiple
+                disableRipple>
               <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
-              <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
+              <mat-option *ngFor="let item of filterDef.items"
+                [value]="item">{{item.value | translate}}</mat-option>
             </mat-select>
           </mat-form-field>
           <!-- Dialog Table Filter -->
-          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-              [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
-              class="form-field-popup" matInput readonly=true type="text" />
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)"
+              [placeholder]="filterDef.name | translate"
+              [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+              class="form-field-popup" matInput readonly=true type="text"/>
+            <button mat-icon-button matSuffix
+                (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
           <!-- Dialog Table Filter with multiple selections-->
-          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple">
-            <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-              [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
-            <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
+          <mat-form-field
+            *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple">
+            <input (click)="showDialogTableFilter(filterDef)"
+              [placeholder]="filterDef.name | translate"
+              [value]="filterDef.label"
+              class="form-field-popup" matInput readonly=true type="text"/>
+            <button mat-icon-button matSuffix
+                (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
               <mat-icon>clear</mat-icon>
             </button>
           </mat-form-field>
           <!-- Date Filter -->
           <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DATE">
-            <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+            <mat-datetimepicker #picker type="datetime" openOnFocus="false"
+              mode="portrait" timeInterval="1">
             </mat-datetimepicker>
             <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-            <input [id]="filterDef.id" matInput [placeholder]="filterDef.name | translate"
-              (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
+            <input [id]="filterDef.id" matInput
+              [placeholder]="filterDef.name | translate"
+              (dateChange)="dateFilterChanged(filterDef, $event)"
+              [matDatetimepicker]="picker"
               [value]="filterDef.currentValue" autocomplete="false">
           </mat-form-field>
           <!-- All key filter -->
           <mat-form-field *ngIf="filterDef.type === Constants.FILTER_ALL_KEY">
-            <input [placeholder]="filterDef.name | translate" matInput>
+            <input [placeholder]="filterDef.name | translate" matInput>
           </mat-form-field>
         </div>
-
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>
-            <input #searchInput [placeholder]="searchPlaceholder | translate" matInput>
+            <input #searchInput [placeholder]="searchPlaceholder | translate" matInput>
           </mat-form-field>
         </div>
       </div>
@@ -157,204 +183,186 @@
 
   <!-- Table -->
   <div *ngIf="dataSource.tableDef"
-    [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
+       [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table class="table">
       <!-- Headers -->
       <thead *ngIf="dataSource.tableColumnDefs">
-        <tr>
-          <!-- Select Header -->
-          <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
+      <tr>
+        <!-- Select Header -->
+        <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
             class="text-left col-5em pt-2">
-            <mat-checkbox (change)="$event ? toggleMasterSelect() : null"
-              *ngIf="dataSource.tableDef.rowSelection.multiple" [disabled]="dataSource.totalNumberOfRecords <= 0"
-              [checked]="dataSource.selectedRows > 0 && dataSource.selectedRows === dataSource.data.length"
-              [indeterminate]="dataSource.selectedRows > 0 && dataSource.selectedRows !== dataSource.data.length">
-            </mat-checkbox>
-          </th>
-          <!-- Detail Header -->
-          <th *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
+          <mat-checkbox (change)="$event ? toggleMasterSelect() : null"
+            *ngIf="dataSource.tableDef.rowSelection.multiple"
+            [disabled]="dataSource.totalNumberOfRecords <= 0"
+            [checked]="dataSource.selectedRows > 0 && dataSource.selectedRows === dataSource.data.length"
+            [indeterminate]="dataSource.selectedRows > 0 && dataSource.selectedRows !== dataSource.data.length">
+          </mat-checkbox>
+        </th>
+        <!-- Detail Header -->
+        <th *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
             class="col-3em details-column-header">
-            <!-- Empty -->
-          </th>
-          <!-- Actions Header -->
-          <th *ngIf="dataSource.hasRowActions" class="table-header text-center col-5em">
-            {{'general.actions' | translate}}
-          </th>
-          <!-- Text Header -->
-          <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs" (click)="sortChanged(tableColumnDef)"
+          <!-- Empty -->
+        </th>
+        <!-- Actions Header -->
+        <th *ngIf="dataSource.hasRowActions" class="table-header text-center col-5em">
+          {{'general.actions' | translate}}
+        </th>
+        <!-- Text Header -->
+        <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
+            (click)="sortChanged(tableColumnDef)"
             [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
             [class.sortable]="tableColumnDef.sortable">
-            {{tableColumnDef.name | translate}}
-            <mat-icon *ngIf="sort.active === tableColumnDef.id">
-              {{sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
-            </mat-icon>
-          </th>
-        </tr>
+          {{tableColumnDef.name | translate}}
+          <mat-icon *ngIf="sort.active === tableColumnDef.id">
+            {{sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
+          </mat-icon>
+        </th>
+      </tr>
       </thead>
       <!-- Rows -->
       <tbody *ngIf="dataSource.data.length > 0">
-        <ng-template ngFor let-row [ngForOf]="dataSource.data"
-          [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId" let-rowIndex="index">
-          <tr>
-            <!-- Select Cell -->
-            <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
+      <ng-template ngFor let-row [ngForOf]="dataSource.data"
+        [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId"
+        let-rowIndex="index">
+        <tr>
+          <!-- Select Cell -->
+          <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
               class="text-left col-5em col-select pt-2">
-              <mat-checkbox (change)="toggleRowSelection(row, $event)" (click)="$event.stopPropagation()"
-                [checked]="row.isSelected" [disabled]="!row.isSelectable">
-              </mat-checkbox>
-            </td>
-            <!-- Detail Cell -->
-            <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
+            <mat-checkbox (change)="toggleRowSelection(row, $event)"
+              (click)="$event.stopPropagation()"
+              [checked]="row.isSelected" [disabled]="!row.isSelectable">
+            </mat-checkbox>
+          </td>
+          <!-- Detail Cell -->
+          <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
               class="col-3em details-column-row">
-              <mat-icon
-                *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
-                (click)="showHideDetailsClicked(row)">
-                {{row.isExpanded ? "expand_more" : "chevron_right"}}
-              </mat-icon>
-            </td>
-            <!-- Action Cell -->
-            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
+            <mat-icon
+              *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
+              (click)="showHideDetailsClicked(row)">
+              {{row.isExpanded ? "expand_more" : "chevron_right"}}
+            </mat-icon>
+          </td>
+          <!-- Action Cell -->
+          <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
+            <ng-container
+              *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
               <ng-container
-                *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
-                <ng-container *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
-                  <!-- Drop Down Action -->
-                  <ng-container *ngIf="rowAction.isDropdownMenu">
-                    <mat-menu #rowActionMenu="matMenu" xPosition="before">
-                      <ng-template matMenuContent>
-                        <ng-container *ngFor="let dropdownItem of rowAction.dropdownItems">
-                          <button mat-menu-item (click)="rowActionTriggered(rowAction, row, dropdownItem)"
-                            [disabled]="dropdownItem.disabled" appTooltip
-                            [title]="(dropdownItem.name ? '' : dropdownItem.tooltip | translate)">
-                            <mat-icon *ngIf="dropdownItem.icon">{{dropdownItem.icon}}</mat-icon>
-                            <span>{{dropdownItem.name | translate}}</span>
-                          </button>
-                        </ng-container>
-                      </ng-template>
-                    </mat-menu>
-                    <button mat-icon-button (menuOpened)="onRowActionMenuOpen(rowAction, row)"
-                      [matMenuTriggerFor]="rowActionMenu" appTooltip [title]="rowAction.tooltip | translate">
+                *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
+                <!-- Drop Down Action -->
+                <ng-container *ngIf="rowAction.isDropdownMenu">
+                  <mat-menu #rowActionMenu="matMenu" xPosition="before">
+                    <ng-template matMenuContent>
+                      <ng-container
+                        *ngFor="let dropdownAction of rowAction.dropdownActions">
+                        <button mat-menu-item
+                            (click)="rowActionTriggered(dropdownAction, row)"
+                            [disabled]="dropdownAction.disabled" appTooltip
+                            [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
+                          <mat-icon
+                            *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                          <span>{{dropdownAction.name | translate}}</span>
+                        </button>
+                      </ng-container>
+                    </ng-template>
+                  </mat-menu>
+                  <button mat-icon-button
+                      (menuOpened)="onRowActionMenuOpen(rowAction, row)"
+                      [matMenuTriggerFor]="rowActionMenu" appTooltip
+                      [title]="rowAction.tooltip | translate">
+                    <mat-icon>{{rowAction.icon}}</mat-icon>
+                  </button>
+                </ng-container>
+                <!-- Button Action -->
+                <ng-container *ngIf="!rowAction.isDropdownMenu">
+                  <div class="d-inline-block" appTooltip [title]="rowAction.tooltip | translate">
+                    <button mat-icon-button
+                        [color]="(rowAction.color ? rowAction.color : '')"
+                        (click)="rowActionTriggered(rowAction, row)"
+                        [disabled]="rowAction.disabled">
                       <mat-icon>{{rowAction.icon}}</mat-icon>
                     </button>
-                  </ng-container>
-                  <!-- Button Action -->
-                  <ng-container *ngIf="!rowAction.isDropdownMenu">
-                    <div class="d-inline-block" appTooltip [title]="rowAction.tooltip | translate">
-                      <button mat-icon-button [color]="(rowAction.color ? rowAction.color : '')"
-                        (click)="rowActionTriggered(rowAction, row)" [disabled]="rowAction.disabled">
-                        <mat-icon>{{rowAction.icon}}</mat-icon>
-                      </button>
-                    </div>
-                  </ng-container>
+                  </div>
                 </ng-container>
               </ng-container>
-            </td>
-            <!-- Cells -->
-            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
-              <!-- Angular Component Cell -->
-              <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
-                <td *ngIf="!dataSource.tableDef.isEditable" [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
-                </td>
-                <td *ngIf="dataSource.tableDef.isEditable" [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [class.table-field-invalid]="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors">
-                  <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'input'"
-                    [id]="tableColumnDef.id" [name]="tableColumnDef.id" class="form-control text-line"
-                    [placeholder]="tableColumnDef.name | translate" [ngModel]="row[tableColumnDef.id]"
-                    (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100" type="text">
-                  <mat-checkbox *ngIf="tableColumnDef.editType === 'checkbox'" [(ngModel)]="row[tableColumnDef.id]"
-                    (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)">
-                  </mat-checkbox>
-
-                  <mat-radio-button *ngIf="tableColumnDef.editType === 'radiobutton'" [checked]="row[tableColumnDef.id]"
-                    (change)="$event.source.checked  = !$event.source.checked;"
-                    (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
-                  </mat-radio-button>
-
-                  <mat-form-field *ngIf="tableColumnDef.editType === 'datetimepicker'">
-                    <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                    </mat-datetimepicker>
-                    <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                    <input matInput (dateChange)="updateRow($event.value._d, rowIndex, tableColumnDef)"
-                      [matDatetimepicker]="picker" autocomplete="false" [value]="row[tableColumnDef.id]">
-                  </mat-form-field>
-
-                  <mat-form-field *ngIf="tableColumnDef.editType === 'timepicker'">
-                    <mat-datetimepicker #picker type="time" openOnFocus="false" mode="portrait" timeInterval="1">
-                    </mat-datetimepicker>
-                    <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                    <input matInput (dateChange)="updateRow($event.value._d, rowIndex, tableColumnDef)"
-                      [matDatetimepicker]="picker" autocomplete="false" [value]="row[tableColumnDef.id]">
-                  </mat-form-field>
-
-                  <span *ngIf="tableColumnDef.editType === 'displayonlydate'" class="text-center">
-                    {{row[tableColumnDef.id] | date: 'dd.MM.yyyy HH:mm'}}
-                  </span>
-
-                  <span *ngIf="tableColumnDef.editType === 'displayonlytime'" class="text-center">
-                    {{row[tableColumnDef.id] | date: 'HH:mm'}}
-                  </span>
-
-                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">
-                    {{row[tableColumnDef.id]}}
-                  </span>
-
-                </td>
-              </ng-template>
-              <td *ngIf="tableColumnDef.isAngularComponent"
-                [class]="(tableColumnDef.class ? tableColumnDef.class : '')">
-                <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row">
-                </app-cell-content-template-container>
+            </ng-container>
+          </td>
+          <!-- Cells -->
+          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+            <!-- Angular Component Cell -->
+            <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
+              <td *ngIf="!dataSource.tableDef.isEditable"
+                [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
               </td>
-            </ng-template>
-          </tr>
-          <!-- Error Row -->
-          <tr *ngIf="dataSource.tableDef.isEditable" class="row-validation">
-            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
-              <td>
+              <td *ngIf="dataSource.tableDef.isEditable"
+                  [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                  [class.table-field-invalid]="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors">
+                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'input'"
+                  [id]="tableColumnDef.id" [name]="tableColumnDef.id"
+                  class="form-control text-line"
+                  [placeholder]="tableColumnDef.name | translate"
+                  [ngModel]="row[tableColumnDef.id]"
+                  (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
+                  type="text">
+                <mat-checkbox *ngIf="tableColumnDef.editType === 'checkbox'"
+                  [(ngModel)]="row[tableColumnDef.id]"
+                  (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)">
+                </mat-checkbox>
+                <mat-radio-button *ngIf="tableColumnDef.editType === 'radiobutton'"
+                  [checked]="row[tableColumnDef.id]"
+                  (change)="$event.source.checked  = !$event.source.checked;"
+                  (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
+                </mat-radio-button>
                 <mat-error *ngIf="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors as errors">
-                  <div *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
-                  <div *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
-                    [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
-                  <div *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
-                    [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
-                  <div *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
+                  <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
+                  <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
+                       [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
+                  <div class="table-mat-error" *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
+                       [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
+                  <div class="table-mat-error" *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
                 </mat-error>
               </td>
             </ng-template>
-          </tr>
-          <!-- Detail Row -->
-          <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
-            <!-- Text Details -->
-            <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
-              <td class="col-3em details-column-row"></td>
-              <td [attr.colspan]="numberOfColumns-1">
-                <div
-                  [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
-                  class="row-detail">
-                </div>
-              </td>
-            </ng-container>
-            <!-- Angular Component Details -->
-            <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
-              <td [attr.colspan]="numberOfColumns">
-                <app-cell-content-template-container [tableDef]="dataSource.tableDef" [row]="row">
-                </app-cell-content-template-container>
-              </td>
-            </ng-container>
-          </tr>
-        </ng-template>
+            <td *ngIf="tableColumnDef.isAngularComponent"
+                [class]="(tableColumnDef.class ? tableColumnDef.class + ' table-cell-angular-component' : 'table-cell-angular-component')">
+              <app-cell-content-template-container [columnDef]="tableColumnDef"
+                [row]="row"></app-cell-content-template-container>
+            </td>
+          </ng-template>
+        </tr>
+        <!-- Detail Row -->
+        <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
+          <!-- Text Details -->
+          <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
+            <td class="col-3em details-column-row"></td>
+            <td [attr.colspan]="numberOfColumns-1">
+              <div
+                [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
+                class="row-detail">
+              </div>
+            </td>
+          </ng-container>
+          <!-- Angular Component Details -->
+          <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
+            <td [attr.colspan]="numberOfColumns" class="table-angular-details-component">
+              <app-cell-content-template-container [tableDef]="dataSource.tableDef"
+                [row]="row"></app-cell-content-template-container>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-template>
       </tbody>
     </table>
     <!-- More Records -->
-    <div *ngIf="!loading && dataSource.totalNumberOfRecords !== dataSource.data.length" (click)="displayMoreRecords()"
-      class="more-records">
+    <div *ngIf="!loading && dataSource.totalNumberOfRecords !== dataSource.data.length"
+         (click)="displayMoreRecords()" class="more-records">
       <mat-icon>keyboard_arrow_down</mat-icon>
       {{'general.more_records' | translate}}
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
     <!-- Message for no data in table -->
     <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
-      class="m-auto text-center table-no-record-found">
+         class="m-auto text-center table-no-record-found">
       <mat-error *ngIf="dataSource.formArray?.errors as errors; else noRecordFound">
         <div *ngIf="dataSource.tableDef.errorMessage; else defaultError">
           {{dataSource.tableDef.errorMessage | translate}}
@@ -393,14 +401,12 @@
         {{dataSource.data.length}} / -
       </span>
       <!-- n records / Max Records -->
-      <span
-        *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
-        {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | appDecimal}}
+      <span *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length !== dataSource.totalNumberOfRecords)">
+          {{dataSource.data.length}} / {{dataSource.totalNumberOfRecords | appDecimal}}
       </span>
       <!-- n records === Max Records -->
-      <span
-        *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)">
-        {{dataSource.data.length}}
+      <span *ngIf="(dataSource.totalNumberOfRecords !== maxRecords) && (dataSource.data.length === dataSource.totalNumberOfRecords)">
+          {{dataSource.data.length}}
       </span>
     </div>
   </div>

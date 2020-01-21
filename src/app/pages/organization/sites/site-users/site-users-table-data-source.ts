@@ -11,6 +11,7 @@ import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { Site, UserSite } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User } from 'app/types/User';
@@ -138,12 +139,12 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'add':
+      case ButtonAction.ADD:
         this.showAddUsersDialog();
         break;
 
       // Remove
-      case 'remove':
+      case ButtonAction.REMOVE:
         // Empty?
         if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
@@ -162,7 +163,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         }
         break;
 
-      case 'reset-filters':
+      case ButtonAction.RESET_FILTERS:
         this.setSearchValue('');
         this.resetFilters();
         this.refreshData().subscribe();

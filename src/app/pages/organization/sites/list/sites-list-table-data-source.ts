@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -20,9 +18,10 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { UserButtonAction } from 'app/types/User';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -161,7 +160,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'create':
+      case ButtonAction.CREATE:
         this.showSiteDialog();
         break;
       default:
@@ -171,17 +170,17 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: Site) {
     switch (actionDef.id) {
-      case 'edit':
-      case 'view':
+      case ButtonAction.EDIT:
+      case ButtonAction.VIEW:
         this.showSiteDialog(rowItem);
         break;
-      case 'edit_users':
+      case UserButtonAction.EDIT_USERS:
         this.showUsersDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteSite(rowItem);
         break;
-      case 'open_in_maps':
+      case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
         break;
       default:
@@ -191,7 +190,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

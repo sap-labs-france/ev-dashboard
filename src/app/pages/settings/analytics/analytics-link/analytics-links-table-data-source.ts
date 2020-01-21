@@ -11,7 +11,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -149,7 +149,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     // Action
     switch (actionDef.id) {
       // Add
-      case 'create':
+      case ButtonAction.CREATE:
         this.showLinksDialog();
         break;
     }
@@ -158,13 +158,13 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: SettingLink, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
-      case 'edit':
+      case ButtonAction.EDIT:
         this.showLinksDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteLink(rowItem);
         break;
-      case 'view':
+      case ButtonAction.VIEW:
         this.viewLink(rowItem);
         break;
       default:

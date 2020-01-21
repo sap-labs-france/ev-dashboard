@@ -7,6 +7,13 @@ import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 
 export class Utils {
+  public static isEmptyArray(array: any[]): boolean {
+    if (Array.isArray(array) && array.length > 0) {
+      return false;
+    }
+    return true;
+  }
+
   public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {
     const field1: FormControl = formGroup.controls[firstField] as FormControl;
     const field2: FormControl = formGroup.controls[secondField] as FormControl;

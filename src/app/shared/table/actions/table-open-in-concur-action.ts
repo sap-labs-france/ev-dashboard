@@ -1,9 +1,10 @@
 import { ButtonColor, TableActionDef } from 'app/types/Table';
+import { TransactionButtonAction } from 'app/types/Transaction';
 import { TableAction } from './table-action';
 
 export class TableOpenInConcurAction implements TableAction {
   private action: TableActionDef = {
-    id: 'open_in_concur',
+    id: TransactionButtonAction.OPEN_IN_CONCUR,
     type: 'button',
     icon: 'open_in_new',
     color: ButtonColor.PRIMARY,

@@ -18,9 +18,9 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -169,7 +169,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     // Action
     switch (actionDef.id) {
       // Add
-      case 'create':
+      case ButtonAction.CREATE:
         this.showSiteAreaDialog();
         break;
       default:
@@ -179,18 +179,18 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: SiteArea) {
     switch (actionDef.id) {
-      case 'edit':
-      case 'view':
+      case ButtonAction.EDIT:
+      case ButtonAction.VIEW:
         this.showSiteAreaDialog(rowItem);
         break;
-      case 'edit_chargers':
-      case 'display_chargers':
+      case ChargingStationButtonAction.EDIT_CHARGERS:
+      case ChargingStationButtonAction.DISPLAY_CHARGERS:
         this.showChargersDialog(rowItem);
         break;
-      case 'delete':
+      case ButtonAction.DELETE:
         this.deleteSiteArea(rowItem);
         break;
-      case 'open_in_maps':
+      case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
         break;
       default:
@@ -200,7 +200,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
-      // new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

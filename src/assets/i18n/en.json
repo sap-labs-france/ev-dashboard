@@ -119,8 +119,8 @@
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
-    "reset_filters" : "Reset Filters",
-    "browser_not_supported" : "This browser is not supported! Use Chrome or Firefox.",
+    "reset_filters": "Reset Filters",
+    "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -373,6 +373,7 @@
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
   },
   "site_areas": {
+    "export_all_ocpp_params": "Export All OCPP Params",
     "no_site_areas": "No site areas found",
     "site_areas_number": "Site Area(s)",
     "show_all_chargers": "Show All Charging Stations",
@@ -412,7 +413,9 @@
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power Limitation (Watts)"
+    "maximum_energy": "Maximum Power Limitation (Watts)",
+    "export_all_params_title": "Export OCPP parameters",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to this site area?"
   },
   "authentication": {
     "accept": "I accept the",
@@ -661,24 +664,23 @@
         "callbackURLforOCPP": "Callback URL to send HTTP request to the charging station"
       }
     },
-    "more_actions_items": {
-      "reboot_item": "Reboot",
-      "soft_reset_item": "Soft Reset",
-      "clear_cache_item": "Clear cache",
-      "smart_charging_item": "Charge Limitation",
-      "more_actions_item": "More"
-    },
+    "reboot_action": "Reboot",
+    "soft_reset_action": "Soft Reset",
+    "clear_cache_action": "Clear cache",
+    "smart_charging_action": "Charge Limitation",
+    "more_actions_action": "More",
     "assign_sitearea_action": "Assign",
     "assign_sitearea_action_tooltip": "Assign site area",
     "smart_charging": {
+      "slider_power_disabled": "Limit is Disabled",
       "not_supported": "This feature is not supported by this brand of charging station",
       "static_limit": "Static Limitation",
       "charging_profile_limit": "Charging Profile",
       "reset_button": "Reset",
       "maximum_energy_limit": "Power limit of '{{chargeBoxID}}'",
       "power_limit_title": "Limit power",
-      "power_limit_confirm": "Do you really want to limit power of '{{chargeBoxID}}' to {{power}}?",
-      "power_limit_success": "Charging station '{{chargeBoxID}}' power was limited successfully",
+      "power_limit_confirm": "Do you really want to limit power of '{{chargeBoxID}}'?",
+      "power_limit_success": "The power of the charging station '{{chargeBoxID}}' has been limited successfully",
       "power_limit_error": "Error occurred while limiting charging station power",
       "power_limit_plan_title": "Planner Limit power",
       "power_limit_plan_confirm": "Do you really want to limit power of '{{chargeBoxID}}' with the defined schedule?",
@@ -1156,7 +1158,7 @@
         "currency": "Currency"
       }
     },
-    "billing" : {
+    "billing": {
       "description": "The Billing interface enables billing capabilities for charging station providers.",
       "not_found": "Billing settings not found",
       "create_success": "Billing settings have been created successfully",
@@ -1258,9 +1260,9 @@
     "unregister_success": "The IOP '{{name}}' has been unregistered successfully",
     "register_error": "Error occurred while registring the IOP",
     "unregister_error": "Error occurred while unregistring the IOP",
-    "sendEVSEStatuses_title": "Send EVSE Statuses",
+    "send_evse_statuses_title": "Send EVSE Statuses",
     "sendTokens_title": "Send User Tokens",
-    "sendEVSEStatuses_confirm": "Do you want to send All EVSE statuses to IOP '{{name}}'?",
+    "send_evse_statuses_confirm": "Do you want to send All EVSE statuses to IOP '{{name}}'?",
     "sendTokens_confirm": "Do you want to send all user tokens to IOP '{{name}}'?",
     "success_ping": "Ping successfull",
     "error_ping_401": "Ping failed: Unauthorized",
@@ -1537,7 +1539,7 @@
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",
         "description": "The starting date value is incorrect or impossible.",
-        "action" : "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
+        "action": "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
       }
     }
   },

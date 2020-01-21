@@ -938,6 +938,20 @@ export class CentralServerService {
       );
   }
 
+  public exportAllChargingStationsOCCPParams(siteAreaID: string): Observable<Blob> {
+    // Verify init
+    this.checkInit();
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params: { SiteAreaID: siteAreaID },
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTransactionsInError(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
     // Verify init
@@ -1931,41 +1945,21 @@ export class CentralServerService {
       );
   }
 
-
-  public chargingStationLimitPower(charger: Charger, connectorId: number, unit: string, powerValue: number, stackLevel: number): Observable<ActionResponse> {
+  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
-    // Build default charging profile json
-    const date = new Date('01/01/2018').toISOString();
-    let body: string;
-    body = `{
-      "chargeBoxID": "${charger.id}",
-      "args": {
-        "connectorId": 0,
-        "csChargingProfiles": {
-          "chargingProfileId": 1,
-          "stackLevel": ${stackLevel},
-          "chargingProfilePurpose": "TxDefaultProfile",
-          "chargingProfileKind": "Relative",
-          "chargingSchedule": {
-            "chargingRateUnit": "${unit}",
-            "chargingSchedulePeriod": [{
-              "startPeriod": 0,
-              "limit": ${powerValue}
-            }
-          ]
-          }
-        }
-      }
-    }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
+      chargeBoxID: charger.id,
+      connectorId,
+      ampLimitValue,
+    },
+    {
+      headers: this.buildHttpHeaders(),
+    })
+    .pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
 

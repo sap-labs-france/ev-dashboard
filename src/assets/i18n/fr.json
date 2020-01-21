@@ -118,8 +118,8 @@
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
-    "reset_filters" : "Réinitialiser les Filtres",
-    "browser_not_supported" : "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
+    "reset_filters": "Réinitialiser les Filtres",
+    "browser_not_supported": "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -371,6 +371,7 @@
     "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
   },
   "site_areas": {
+    "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "no_site_areas": "Aucune zone n'a été trouvée",
     "site_areas_number": "Zone(s)",
     "show_all_chargers": "Afficher Toutes Les Bornes",
@@ -410,7 +411,9 @@
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "maximum_energy": "Limite de puissance (Watts)"
+    "maximum_energy": "Limite de puissance (Watts)",
+    "export_all_params_title": "Exporter les paramètres OCPP",
+    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à cette zone ?"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -659,27 +662,26 @@
         "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
       }
     },
-    "more_actions_items": {
-      "reboot_item": "Redémarrer",
-      "soft_reset_item": "Réinitialiser (Soft)",
-      "clear_cache_item": "Effacer le cache",
-      "smart_charging_item": "Limitation Charge",
-      "more_actions_item": "Autres"
-    },
+    "reboot_action": "Redémarrer",
+    "soft_reset_action": "Réinitialiser (Soft)",
+    "clear_cache_action": "Effacer le cache",
+    "smart_charging_action": "Limitation Charge",
+    "more_actions_action": "Autres",
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
+      "slider_power_disabled": "Limite Désactivée",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",
       "reset_button": "Rafraichir",
       "maximum_energy_limit": "Puissance Limite de '{{chargeBoxID}}' à",
       "power_limit_title": "Limite de puissance",
-      "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
-      "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
+      "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
+      "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été limitée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
       "power_limit_plan_title": "Limite de puissance",
-      "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' à {{power}}{{unit}}?",
+      "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
       "power_limit_plan_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
       "power_limit_plan_error": "Erreur pendant la limitation de la puissance de la borne",
       "clear_profile_title": "Effacer les profiles de charge",
@@ -1171,13 +1173,13 @@
       "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (veuillez voir les logs)",
       "synchronize_users_error": "Une erreur est survenue durant la synchronization des utilisateurs",
       "stripe": {
-        "description" : "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
-        "title" : "Stripe",
-        "url" : "URL du terminal Stripe",
-        "public_key" : "Clé API publique",
-        "invalid_public_key" : "La clé API publique n'est pas plausible",
-        "secret_key" : "Clé API secrète",
-        "invalid_secret_key" : "La clé API secrète n'est pas plausible",
+        "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
+        "title": "Stripe",
+        "url": "URL du terminal Stripe",
+        "public_key": "Clé API publique",
+        "invalid_public_key": "La clé API publique n'est pas plausible",
+        "secret_key": "Clé API secrète",
+        "invalid_secret_key": "La clé API secrète n'est pas plausible",
         "billing_method": "Méthode de facturation",
         "immediate_billing": "Facturation immédiate",
         "periodic_billing": "Facturation périodique (pas encore implémentée)",
@@ -1254,9 +1256,9 @@
     "unregister_success": "L'IOP '{{name}}' a été désenregistré avec succès",
     "register_error": "Une erreur est survenue pendant la procédure d'enregistrement avec l'IOP",
     "unregister_error": "Une erreur est survenue pendant la procédure de désenregistrement avec l'IOP",
-    "sendEVSEStatuses_title": "Envoi des statuts des EVSEs",
+    "send_evse_statuses_title": "Envoi des statuts des EVSEs",
     "sendTokens_title": "Envoi des jetons des utilisateurs",
-    "sendEVSEStatuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
+    "send_evse_statuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
     "sendTokens_confirm": "Voulez-vous vraiment envoyer les jetons de tous les utilisateurs à l'IOP '{{name}}'?",
     "success_ping": "Serveur accessible",
     "error_ping_401": "Serveur non accessible: Accès non autorisé",
@@ -1533,7 +1535,7 @@
       "incorrect_starting_date": {
         "title": "Date de début de Transaction Incorrecte",
         "description": "La date de début de la transaction est incorrecte ou impossible.",
-        "action" : "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
+        "action": "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
       }
     }
   },

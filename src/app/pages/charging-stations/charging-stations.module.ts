@@ -36,8 +36,6 @@ import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stat
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
-import { ChargingStationsMoreActionsDialogComponent } from './more-actions/charging-stations-more-actions-dialog.component';
-import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diagnostics-component/charging-stations-get-diagnostics.component';
 
 @NgModule({
   imports: [
@@ -74,8 +72,6 @@ import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diag
     ChargingStationsConnectorStatusCellComponent,
     ChargingStationsConnectorsCellComponent,
     ChargingStationsConnectorCellComponent,
-    ChargingStationsMoreActionsDialogComponent,
-    ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
@@ -100,15 +96,12 @@ import { ChargingStationsGetDiagnosticsComponent } from './more-actions/get-diag
     ChargingStationsComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
-    ChargingStationsMoreActionsDialogComponent,
-    ChargingStationsGetDiagnosticsComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,
-    ChargingStationsMoreActionsDialogComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

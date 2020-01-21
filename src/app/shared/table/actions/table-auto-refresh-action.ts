@@ -1,9 +1,10 @@
+import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
 export class TableAutoRefreshAction implements TableAction {
   private action: TableActionDef = {
-    id: 'auto-refresh',
+    id: ButtonAction.AUTO_REFRESH,
     type: 'slide',
     currentValue: true,
     name: 'general.auto_refresh',

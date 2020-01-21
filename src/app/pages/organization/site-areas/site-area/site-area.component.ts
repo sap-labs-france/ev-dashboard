@@ -14,10 +14,11 @@ import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+// @ts-ignore
+import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
-
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
@@ -102,7 +103,7 @@ export class SiteAreaComponent implements OnInit {
         department: new FormControl(''),
         region: new FormControl(''),
         country: new FormControl(''),
-        coordinates: new FormArray ([
+        coordinates: new FormArray([
           new FormControl('',
             Validators.compose([
               Validators.max(180),
@@ -178,7 +179,7 @@ export class SiteAreaComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableSites.count; i++) {
-        this.sites.push({id: availableSites.result[i].id, name: availableSites.result[i].name});
+        this.sites.push({ id: availableSites.result[i].id, name: availableSites.result[i].name });
       }
     });
   }
@@ -335,7 +336,7 @@ export class SiteAreaComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('site_areas.image_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('site_areas.image_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -386,6 +387,25 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
+  public exportAllOCPPParams() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('site_areas.export_all_params_title'),
+      this.translateService.instant('site_areas.export_all_params_confirm'),
+    ).subscribe((response) => {
+      if (response === Constants.BUTTON_TYPE_YES) {
+        this.spinnerService.show();
+        this.centralServerService.exportAllChargingStationsOCCPParams(this.currentSiteAreaID)
+          .subscribe((result) => {
+            this.spinnerService.hide();
+            saveAs(result, 'exported-occp-params.csv');
+          }, (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          });
+      }
+    });
+  }
+
   private loadRegistrationToken() {
     if (!this.currentSiteAreaID) {
       return;
@@ -424,7 +444,7 @@ export class SiteAreaComponent implements OnInit {
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.create_success',
-          {siteAreaName: siteArea.name});
+          { siteAreaName: siteArea.name });
         // Close
         this.currentSiteAreaID = siteArea.id;
         this.closeDialog(true);
@@ -461,7 +481,7 @@ export class SiteAreaComponent implements OnInit {
       // Ok?
       if (response.status === Constants.REST_RESPONSE_SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('site_areas.update_success', {siteAreaName: siteArea.name});
+        this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

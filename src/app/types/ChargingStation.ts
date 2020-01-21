@@ -86,9 +86,9 @@ export interface Connector extends Data {
   vendorErrorCode?: string;
   power: number;
   type: string;
-  voltage?: number;
-  amperage?: number;
-  amperageLimit?: number;
+  voltage: number;
+  amperage: number;
+  amperageLimit: number;
   activeTransactionID: number;
   activeTransactionDate: Date;
   activeTagID: string;
@@ -112,4 +112,13 @@ export interface ChargingStationCapabilities {
   supportStaticLimitationPerConnector?: boolean;
   supportChargingProfiles?: boolean;
   supportTxDefaultProfile?: boolean;
+}
+
+export enum ChargingStationButtonAction {
+  REBOOT = 'reboot',
+  SOFT_RESET = 'soft_reset',
+  CLEAR_CACHE = 'clear_cache',
+  SMART_CHARGING = 'smart_charging',
+  EDIT_CHARGERS = 'edit_chargers',
+  DISPLAY_CHARGERS = 'display_chargers',
 }

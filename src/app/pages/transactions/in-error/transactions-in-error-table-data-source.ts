@@ -331,11 +331,11 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         this.clearSelectedRows();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('transactions.delete_transactions_success'));
+          this.messageService, this.translateService.instant('transactions.delete_transactions_error'));
       }
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.delete_transactions_error');
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.delete_transactions_error');
     });
   }
 

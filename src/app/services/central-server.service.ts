@@ -935,14 +935,25 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(siteAreaID: string): Observable<Blob> {
+  public exportAllChargingStationsOCCPParams(siteAreaID?: string, siteID?: string): Observable<Blob> {
     // Verify init
     this.checkInit();
+    let params={};
+    if (siteID) {
+      params = {
+        SiteID: siteID
+      }
+    }
+    else {
+      params = {
+        SiteAreaID: siteAreaID
+      }
+    }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
-        params: { SiteAreaID: siteAreaID },
+        params: params,
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1923,12 +1934,12 @@ export class CentralServerService {
       connectorId,
       ampLimitValue,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    })
-    .pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {

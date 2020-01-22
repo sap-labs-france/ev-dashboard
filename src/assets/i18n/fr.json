@@ -147,6 +147,7 @@
       "template": "Modeles"
     },
     "tooltips": {
+      "export": "Exporter OCPP params",
       "assign_site_area": "Assigner un site",
       "more": "Actions supplémentaires",
       "smart_charging": "Smart charging",

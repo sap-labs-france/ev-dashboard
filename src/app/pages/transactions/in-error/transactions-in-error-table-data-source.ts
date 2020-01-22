@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { ActionResponse, DataResult, ActionsResponse } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError } from 'app/types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -122,7 +122,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('transactions.delete_transactions_title'),
-            this.translateService.instant('transactions.delete_transactions_confirm'),
+            this.translateService.instant('transactions.delete_transactions_confirm', { quantity: this.getSelectedRows().length }),
           ).subscribe((response) => {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
@@ -320,19 +320,25 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   private deleteTransactions(transactionsIDs: number[]) {
     // Yes: Update
-    this.centralServerService.deleteTransactions(transactionsIDs).subscribe((response) => {
-      // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('transactions.delete_transactions_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
+    this.spinnerService.show();
+    this.centralServerService.deleteTransactions(transactionsIDs).subscribe((response: ActionsResponse) => {
+      if (response.inError) {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.delete_transactions_partial',
+            {
+              inSuccess: response.inSuccess,
+              inError: response.inError,
+            },
+          ));
       } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('transactions.delete_transactions_error'));
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.delete_transactions_success',
+            { inSuccess: response.inSuccess }
+          ));
       }
+      this.spinnerService.hide();
+      this.clearSelectedRows();
+      this.refreshData().subscribe();
     }, (error) => {
       // No longer exists!
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.delete_transactions_error');

@@ -7,7 +7,7 @@ import { BillingTax } from 'app/types/Billing';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, DataResult, LoginResponse, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, DataResult, LoginResponse, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse, ActionsResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -67,12 +67,12 @@ export class CentralServerService {
       );
   }
 
-  public deleteTransactions(transactionsIDs: number[]): Observable<ActionResponse> {
+  public deleteTransactions(transactionsIDs: number[]): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { transactionsIDs: transactionsIDs }
+      body: { transactionsIDs }
     }
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsDelete`, options)
@@ -1756,7 +1756,7 @@ export class CentralServerService {
       );
   }
 
-  refundTransactions(ids: number[]): Observable<ActionResponse> {
+  refundTransactions(ids: number[]): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },

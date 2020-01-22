@@ -179,6 +179,11 @@
       "send": "Send"
     }
   },
+  "issuer": {
+    "title": "Issuer",
+    "local": "Local",
+    "foreign": "Foreign"
+  },
   "vehicles": {
     "vehicle_number": "Vehicle(s)",
     "no_vehicles": "No vehicle found",

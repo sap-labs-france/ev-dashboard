@@ -179,6 +179,11 @@
       "send": "Envoyer"
     }
   },
+  "issuer": {
+    "title": "Emetteur",
+    "local": "Local",
+    "foreign": "Externe"
+  },
   "vehicles": {
     "vehicle_number": "Véhicule(s)",
     "no_vehicles": "Aucun véhicule n'a été trouvé",

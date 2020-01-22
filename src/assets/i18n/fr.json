@@ -1116,7 +1116,8 @@
       "synchronize_error": "Une erreur est survenue durant la synchronization des transactions remboursées",
       "concur": {
         "title": "SAP Concur",
-        "authentication_url": "Url d'authentification",
+        "authentication_url": "Url d'Authentification",
+        "app_url": "Url Applicative",
         "api_url": "Url d'api",
         "client_id": "Client ID",
         "client_secret": "Client Secret",

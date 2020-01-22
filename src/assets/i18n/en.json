@@ -1117,6 +1117,7 @@
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Authentication Url",
+        "app_url": "Application Url",
         "api_url": "API Url",
         "client_id": "Client ID",
         "client_secret": "Client Secret",

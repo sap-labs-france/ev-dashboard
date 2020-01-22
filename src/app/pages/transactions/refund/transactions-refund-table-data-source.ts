@@ -264,7 +264,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else {
           if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
-            window.open(this.refundSetting.content.concur.apiUrl, '_blank');
+            window.open(this.refundSetting.content.concur.appUrl ?
+              this.refundSetting.content.concur.appUrl :
+              this.refundSetting.content.concur.apiUrl, '_blank');
           }
         }
         break;

@@ -131,6 +131,7 @@ export interface RefundSettings extends Setting {
 export interface ConcurRefundSetting {
   authenticationUrl: string;
   apiUrl: string;
+  appUrl: string;
   clientId: string;
   clientSecret: string;
   paymentTypeId: string;

@@ -17,7 +17,12 @@ export interface LoginResponse extends ActionResponse {
   token: string;
 }
 
-export interface OCPIEVSEStatusesResponse extends ActionResponse {
+export interface OCPITriggerJobsResponse extends ActionResponse {
+  tokens: OCPIJobStatusesResponse;
+  locations: OCPIJobStatusesResponse;
+}
+
+export interface OCPIJobStatusesResponse extends ActionResponse {
   success: number;
   failure: number;
   total: number;

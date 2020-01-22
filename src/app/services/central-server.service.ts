@@ -24,7 +24,6 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
 import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Charger, ChargerConfiguration, ChargerInError } from '../common.types';
 import { Slot, ScheduleSlot, ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType,  ChargingSchedule, RecurrencyKindType, ChargingSchedulePeriod } from 'app/types/ChargingProfile';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';

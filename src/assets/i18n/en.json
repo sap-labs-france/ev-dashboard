@@ -179,6 +179,11 @@
       "send": "Send"
     }
   },
+  "issuer": {
+    "title": "Issuer",
+    "local": "Local",
+    "foreign": "Foreign"
+  },
   "vehicles": {
     "vehicle_number": "Vehicle(s)",
     "no_vehicles": "No vehicle found",
@@ -1261,6 +1266,9 @@
     "sendTokens_title": "Send User Tokens",
     "send_evse_statuses_confirm": "Do you want to send All EVSE statuses to IOP '{{name}}'?",
     "sendTokens_confirm": "Do you want to send all user tokens to IOP '{{name}}'?",
+    "triggerJobs_title": "Execute Jobs",
+    "triggerJobs_confirm": "Do you want to trigger all jobs of IOP '{{name}}'?",
+    "error_trigger_jobs": "Error occurred while executing jobs - see logs for more details",
     "success_ping": "Ping successfull",
     "error_ping_401": "Ping failed: Unauthorized",
     "error_ping_404": "Ping failed: Not Found",

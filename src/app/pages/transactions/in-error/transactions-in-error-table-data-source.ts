@@ -37,6 +37,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { RefundStatus } from 'app/types/Refund';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
@@ -275,8 +276,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
-        if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
-          transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
+        if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
+          transaction.refundData.status === RefundStatus.APPROVED)) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('transactions.dialog.delete.title'),
             this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));

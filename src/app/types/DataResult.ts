@@ -9,8 +9,8 @@ export interface ActionResponse {
 }
 
 export interface ActionsResponse extends ActionResponse {
-  inSuccess: number;
-  inError: number;
+  inSuccess?: number;
+  inError?: number;
 }
 
 export interface LoginResponse extends ActionResponse {

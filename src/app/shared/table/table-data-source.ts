@@ -43,7 +43,8 @@ export abstract class TableDataSource<T extends Data> {
   private staticFilters: object[] = [];
 
   constructor(
-    public spinnerService: SpinnerService) {
+    public spinnerService: SpinnerService,
+    public additionalParameters?: any) {
   }
 
   public isRowSelectionEnabled(): boolean {

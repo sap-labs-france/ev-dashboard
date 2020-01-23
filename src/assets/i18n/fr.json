@@ -84,6 +84,7 @@
     "yes": "Oui",
     "no": "Non",
     "apply": "Appliquer",
+    "clear": "Effacer",
     "warning": "Avertissement",
     "success": "Succès",
     "error": "Erreur",
@@ -176,7 +177,8 @@
       "start": "Démarrer",
       "stop": "Arrêter",
       "view": "Voir",
-      "send": "Envoyer"
+      "send": "Envoyer",
+      "clear": "Effacer"
     }
   },
   "issuer": {
@@ -683,10 +685,11 @@
       "maximum_energy_limit": "Puissance Limite de '{{chargeBoxID}}' à",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
-      "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été limitée avec succès",
+      "power_limit_success": "La puissance de la borne '{{chargeBoxID}}' a été limitée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
       "power_limit_plan_title": "Limite de puissance",
       "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
+      "power_limit_plan_clear": "Voulez-vous vraiment effacer les profiles de charges de '{{chargeBoxID}}'?",
       "power_limit_plan_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
       "power_limit_plan_error": "Erreur pendant la limitation de la puissance de la borne",
       "clear_profile_title": "Effacer les profiles de charge",
@@ -696,7 +699,7 @@
       "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
-      "limit_title": "Limite",
+      "limit_title": "Limite (kW)",
       "no_current_limit": "Aucun planning de charge trouvé",
       "planning_energy_limit": "Planification de limite de puissance",
       "from_date": "De",
@@ -704,19 +707,20 @@
       "profile_type": "type de profile",
       "stack_level": "Niveau",
       "profile_id": "Identifiant",
-      "duration": "Durée (secondes)",
+      "duration": "Durée (mins)",
       "start_date": "Début",
       "end_date": "Fin",
       "add_slot_button": "Ajouter un créneau",
+      "remove_slot_button": "Effacer un créneau",
       "slot_start_header": "Date de début du créneau",
       "slot_index_header": "Numéro du créneau",
       "slot_duration_header": "Durée du créneau (s)",
       "slot_limit_header": "Limite de puissance du créneau",
       "profile_types": {
-        "relative": "Relatif",
-        "absolute": "Absolu",
-        "recurring_daily": "Recurrence journalière",
-        "recurring_weekly": "Recurrence hebdomadaire"
+        "relative": "Planification Relative",
+        "absolute": "Planification Temporaire",
+        "recurring_daily": "Planification Journalière",
+        "recurring_weekly": "Planification Hebdomadaire"
       }
     },
     "more_actions": {
@@ -1481,7 +1485,7 @@
       },
       "refund": {
         "title": "Remboursement",
-        "confirm": "Voulez-vous vraiment transférer {{quantity}} sessions vers votre système de remboursement ?"
+        "confirm": "Voulez-vous vraiment transférer {{quantity}} session(s) vers votre système de remboursement ?"
       },
       "session": {
         "tooltips": {

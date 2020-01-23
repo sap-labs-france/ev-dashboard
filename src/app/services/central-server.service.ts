@@ -283,6 +283,21 @@ export class CentralServerService {
       );
   }
 
+  public getChargingProfile(ChargeBoxID: string): Observable<ChargingProfile> {
+    const params: { [param: string]: string } = {};
+    params['ChargeBoxID'] = ChargeBoxID;
+    this.checkInit();
+    return this.httpClient.get<ChargingProfile>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingProfile`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getSite(siteId: string, withImage: boolean = false): Observable<Site> {
     const params: { [param: string]: string } = {};
     params['ID'] = siteId;
@@ -1847,6 +1862,32 @@ export class CentralServerService {
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateParams`, chargingStation,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  updateChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileUpdate`, chargingProfile,
+      {
+        headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  deleteChargingProfile(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         catchError(this.handleHttpError),

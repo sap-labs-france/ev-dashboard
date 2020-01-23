@@ -2,6 +2,7 @@ import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@ang
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStation, ChargingStationCurrentType, Connector } from 'app/types/ChargingStation';
+import { TableColumnDef } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 
@@ -15,6 +16,8 @@ export class ChargingStationPowerSliderComponent implements OnInit {
 
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
+  @Input() columnDef!: TableColumnDef;
+  @Input() row!: any;
   @Input() currentAmp!: number;
   @Input() forChargingProfile = false;
   @Output() powerSliderChanged = new EventEmitter<number>();
@@ -32,6 +35,11 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.charger) {
+      this.charger = this.columnDef.additionalParameters;
+      this.currentAmp = this.row.limit;
+      this.forChargingProfile = true;
+    }
     // Check
     if (!this.charger ||
         !this.charger.connectors ||
@@ -40,6 +48,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.notSupported = true;
       return;
     }
+
     // Connector Provided?
     if (this.connector) {
       // Charging Profile?
@@ -52,7 +61,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     } else {
       this.maxAmp = 0;
       if (!this.forChargingProfile) {
-        this.currentAmp = 0;
+         this.currentAmp = 0;
       }
       // Add all connector's amps
       for (const connector of this.charger.connectors) {
@@ -73,7 +82,8 @@ export class ChargingStationPowerSliderComponent implements OnInit {
     this.updateDisplayedPowerKW();
     // Check
     if (!this.maxAmp) {
-      this.notSupported = true;
+      // this.notSupported = true;
+
     }
   }
 
@@ -89,6 +99,9 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
       // Notify
       this.powerSliderChanged.emit(value);
+      this.row.limit = value;
+      this.row.displayedLimitInkW = this.convertAmpToPower(value, 'W');
+      console.log(value);
     }
   }
 
@@ -104,5 +117,6 @@ export class ChargingStationPowerSliderComponent implements OnInit {
         ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
     }
     return 'N/A';
+
+      }
   }
-}

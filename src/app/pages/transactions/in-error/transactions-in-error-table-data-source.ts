@@ -93,7 +93,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableRemoveAction().getActionDef(),
+        new TableDeleteAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -115,7 +115,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // Action
     switch (actionDef.id) {
       // Remove
-      case ButtonAction.REMOVE:
+      case ButtonAction.DELETE:
         // Empty?
         if (this.getSelectedRows().length === 0) {
           this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
@@ -127,7 +127,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           ).subscribe((response) => {
             // Check
             if (response === Constants.BUTTON_TYPE_YES) {
-              // Remove
               this.deleteTransactions(this.getSelectedRows().map((row) => row.id));
             }
           });

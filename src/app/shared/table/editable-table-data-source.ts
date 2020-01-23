@@ -14,8 +14,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
   constructor(
-    public spinnerService: SpinnerService) {
-    super(spinnerService);
+    public spinnerService: SpinnerService,
+    public additionalParameters?: any) {
+    super(spinnerService, additionalParameters);
     this.initDataSource();
   }
 
@@ -78,7 +79,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
           formRow.get(columnDef.id).setValue(false);
         });
       }
-
       const rowGroup: FormGroup = this.formArray.at(index) as FormGroup;
       // @ts-ignore
       rowGroup.get(columnDef.id).setValue(value);
@@ -106,7 +106,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   protected addRow() {
     const data = this.addData();
-    this.editableContent.unshift(data);
+    this.editableContent.push(data);
     this.refreshData(false).subscribe();
   }
 

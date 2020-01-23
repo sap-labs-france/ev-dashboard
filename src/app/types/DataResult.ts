@@ -9,15 +9,20 @@ export interface ActionResponse {
 }
 
 export interface ActionsResponse extends ActionResponse {
-  inSuccess: number;
-  inError: number;
+  inSuccess?: number;
+  inError?: number;
 }
 
 export interface LoginResponse extends ActionResponse {
   token: string;
 }
 
-export interface OCPIEVSEStatusesResponse extends ActionResponse {
+export interface OCPITriggerJobsResponse extends ActionResponse {
+  tokens: OCPIJobStatusesResponse;
+  locations: OCPIJobStatusesResponse;
+}
+
+export interface OCPIJobStatusesResponse extends ActionResponse {
   success: number;
   failure: number;
   total: number;

@@ -84,6 +84,7 @@
     "yes": "Oui",
     "no": "Non",
     "apply": "Appliquer",
+    "clear": "Effacer",
     "warning": "Avertissement",
     "success": "Succès",
     "error": "Erreur",
@@ -177,8 +178,14 @@
       "start": "Démarrer",
       "stop": "Arrêter",
       "view": "Voir",
-      "send": "Envoyer"
+      "send": "Envoyer",
+      "clear": "Effacer"
     }
+  },
+  "issuer": {
+    "title": "Emetteur",
+    "local": "Local",
+    "foreign": "Externe"
   },
   "vehicles": {
     "vehicle_number": "Véhicule(s)",
@@ -679,10 +686,11 @@
       "maximum_energy_limit": "Puissance Limite de '{{chargeBoxID}}' à",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
-      "power_limit_success": "La puisance de la borne '{{chargeBoxID}}' a été limitée avec succès",
+      "power_limit_success": "La puissance de la borne '{{chargeBoxID}}' a été limitée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
       "power_limit_plan_title": "Limite de puissance",
       "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
+      "power_limit_plan_clear": "Voulez-vous vraiment effacer les profiles de charges de '{{chargeBoxID}}'?",
       "power_limit_plan_success": "La puisance de la borne '{{chargeBoxID}}' a été effectuée avec succès",
       "power_limit_plan_error": "Erreur pendant la limitation de la puissance de la borne",
       "clear_profile_title": "Effacer les profiles de charge",
@@ -692,7 +700,7 @@
       "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
-      "limit_title": "Limite",
+      "limit_title": "Limite (kW)",
       "no_current_limit": "Aucun planning de charge trouvé",
       "planning_energy_limit": "Planification de limite de puissance",
       "from_date": "De",
@@ -700,19 +708,20 @@
       "profile_type": "type de profile",
       "stack_level": "Niveau",
       "profile_id": "Identifiant",
-      "duration": "Durée (secondes)",
+      "duration": "Durée (mins)",
       "start_date": "Début",
       "end_date": "Fin",
       "add_slot_button": "Ajouter un créneau",
+      "remove_slot_button": "Effacer un créneau",
       "slot_start_header": "Date de début du créneau",
       "slot_index_header": "Numéro du créneau",
       "slot_duration_header": "Durée du créneau (s)",
       "slot_limit_header": "Limite de puissance du créneau",
       "profile_types": {
-        "relative": "Relatif",
-        "absolute": "Absolu",
-        "recurring_daily": "Recurrence journalière",
-        "recurring_weekly": "Recurrence hebdomadaire"
+        "relative": "Planification Relative",
+        "absolute": "Planification Temporaire",
+        "recurring_daily": "Planification Journalière",
+        "recurring_weekly": "Planification Hebdomadaire"
       }
     },
     "more_actions": {
@@ -1117,7 +1126,8 @@
       "synchronize_error": "Une erreur est survenue durant la synchronization des transactions remboursées",
       "concur": {
         "title": "SAP Concur",
-        "authentication_url": "Url d'authentification",
+        "authentication_url": "Url d'Authentification",
+        "app_url": "Url Applicative",
         "api_url": "Url d'api",
         "client_id": "Client ID",
         "client_secret": "Client Secret",
@@ -1261,18 +1271,21 @@
     "sendTokens_title": "Envoi des jetons des utilisateurs",
     "send_evse_statuses_confirm": "Voulez-vous vraiment envoyer le statut de tous les EVSEs à l'IOP '{{name}}'?",
     "sendTokens_confirm": "Voulez-vous vraiment envoyer les jetons de tous les utilisateurs à l'IOP '{{name}}'?",
+    "triggerJobs_title": "Execution des Processus",
+    "triggerJobs_confirm": "Voulez-vous vraiment exécuter tous les processus de IOP '{{name}}'?",
+    "error_trigger_jobs": "Une erreur est survenue lors de l'exécution des processus de l'IOP - voir les logs pour plus de détails",
     "success_ping": "Serveur accessible",
     "error_ping_401": "Serveur non accessible: Accès non autorisé",
     "error_ping_404": "Serveur non accessible: Ressource non trouvée",
     "error_ping_412": "Serveur non accessible: Reponse invalide",
     "error_ping": "Serveur non accessible",
     "error_generate_local_token": "Une erreur est survenue pendant la generation du nouveau jeton",
-    "success_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès",
-    "partial_send_evse_statuses": "Le status de {{success}} EVSE(s) a été envoyé avec succès - {{error}} EVSE(s) en erreur - voir les logs pour plus de détails",
-    "success_send_tokens": "{{success}} jeton(s) ont été envoyés avec succès",
-    "partial_send_tokens": "{{success}} jeton(s) ont été envoyés avec succès - {{error}} Jeton(s) en erreur - voir les logs pour plus de détails",
+    "success_send_evse_statuses": "Le status de {{success}} EVSE(s) a été mis à jour avec succès",
+    "partial_send_evse_statuses": "Le status de {{success}} EVSE(s) a été mis à jour avec succès - {{error}} EVSE(s) en erreur - voir les logs pour plus de détails",
+    "success_send_tokens": "{{success}} jeton(s) ont été mis à jour avec succès",
+    "partial_send_tokens": "{{success}} jeton(s) ont été mis à jour avec succès - {{error}} Jeton(s) en erreur - voir les logs pour plus de détails",
     "error_send_evse_statuses": "Une erreur est survenue lors de la mise à jour des status des EVSE(s) - voir les logs pour plus de détails",
-    "error_send_tokens": "Une erreur est survenue lors de l'envoi des jetons des utilisateurs - voir les logs pour plus de détails",
+    "error_send_tokens": "Une erreur est survenue lors de la mise à jour des jetons des utilisateurs - voir les logs pour plus de détails",
     "start_stop_job": "Activer/Désactiver le processus",
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
     "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
@@ -1404,8 +1417,8 @@
     "delete_transaction_error": "Une erreur est survenue pendant la suppression de la session",
     "delete_transactions_title": "Supprimer Session(s)",
     "delete_transactions_confirm": "Voulez-vous vraiment supprimer les sessions sélectionnées ?",
-    "delete_transactions_success": "Les sessions ont été supprimées avec succès",
-    "delete_transactions_error": "Une erreur est survenue pendant la suppression des sessions",
+    "delete_transactions_success": "{{inSuccess}} sessions ont été supprimées avec succès",
+    "delete_transactions_partial": "{{inSuccess}} sessions ont été supprimées avec succès et {{inError}} sessions ont rencontrés une erreur",
     "inactivity_info": "Toutes les Inactivités",
     "inactivity_warning": "Inactivités Moyennes",
     "inactivity_error": "Inactivités Importantes",
@@ -1473,7 +1486,7 @@
       },
       "refund": {
         "title": "Remboursement",
-        "confirm": "Voulez-vous vraiment transférer {{quantity}} sessions vers votre système de remboursement ?"
+        "confirm": "Voulez-vous vraiment transférer {{quantity}} session(s) vers votre système de remboursement ?"
       },
       "session": {
         "tooltips": {
@@ -1489,16 +1502,16 @@
     },
     "notification": {
       "delete": {
-        "success": "La session de {{user}} est supprimée avec succès",
+        "success": "La session de {{user}} a été supprimée avec succès",
         "error": "Une erreur est survenue pendant la suppression de la session"
       },
       "soft_stop": {
-        "success": "La session de {{user}} est arrétée avec succès.",
+        "success": "La session de {{user}} a été arrétée avec succès.",
         "error": "Une erreur est survenue pendant l'arret de la session."
       },
       "refund": {
         "success": "{{inSuccess}} sessions ont été transmises avec succés",
-        "partial": "{{inError}} sur {{total}} sessions ont rencontré une erreur",
+        "partial": "{{inSuccess}} sessions ont été tranférées avec succès et {{inError}} session(s) ont rencontré une erreur",
         "forbidden_refund_another_user": "Vous ne pouvez pas demander le remboursement de la session d'un autre utilisateur",
         "not_authorized": "Vous n'etes pas autorisé à effectuer cette opération",
         "error": "L'application E-Mobility n'a pas pu se connecter au systéme de remboursement. Veuillez contacter un administrateur.",

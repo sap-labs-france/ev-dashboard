@@ -12,6 +12,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
 
   public concur!: FormGroup;
   public concurAuthenticationUrl!: AbstractControl;
+  public concurAppUrl!: AbstractControl;
   public concurApiUrl!: AbstractControl;
   public concurClientId!: AbstractControl;
   public concurClientSecret!: AbstractControl;
@@ -30,6 +31,12 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
           ]),
         ),
         apiUrl: new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(100),
+          ]),
+        ),
+        appUrl: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(100),
@@ -76,6 +83,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
     // Keep
     this.concur = (this.formGroup.controls['concur'] as FormGroup);
     this.concurAuthenticationUrl = this.concur.controls['authenticationUrl'];
+    this.concurAppUrl = this.concur.controls['appUrl'];
     this.concurApiUrl = this.concur.controls['apiUrl'];
     this.concurClientId = this.concur.controls['clientId'];
     this.concurClientSecret = this.concur.controls['clientSecret'];
@@ -93,9 +101,11 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
 
   updateFormData() {
     // Set data
-    if (this.refundSettings && this.refundSettings.concur) {
-      this.concurAuthenticationUrl.setValue(this.refundSettings.concur.authenticationUrl);
+    if (this.refundSettings && this.refundSettings.concur && this.concur) {
+      this.concurAuthenticationUrl.setValue(
+        this.refundSettings.concur.authenticationUrl ? this.refundSettings.concur.authenticationUrl : '');
       this.concurApiUrl.setValue(this.refundSettings.concur.apiUrl ? this.refundSettings.concur.apiUrl : '');
+      this.concurAppUrl.setValue(this.refundSettings.concur.appUrl ? this.refundSettings.concur.appUrl : '');
       this.concurClientId.setValue(this.refundSettings.concur.clientId ? this.refundSettings.concur.clientId : '');
       this.concurClientSecret.setValue(this.refundSettings.concur.clientSecret ? this.refundSettings.concur.clientSecret : '');
       this.concurPaymentTypeId.setValue(this.refundSettings.concur.paymentTypeId ? this.refundSettings.concur.paymentTypeId : '');

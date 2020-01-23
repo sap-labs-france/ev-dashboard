@@ -67,7 +67,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
 
   private defaultLimit!: number;
 
-
   constructor(
     public chargingSlotTableDataSource: ChargingSlotTableDataSource,
     private authorizationService: AuthorizationService,
@@ -124,14 +123,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.durationControl = this.formGroup.controls['durationControl'];
     this.chargingPeriod = this.formGroup.controls['chargingPeriod'] as FormArray;
 
-
-
     this.chargingSlotTableDataSource.setFormArray(this.chargingPeriod);
-
     this.loadChargingProfile();
     this.chargingSlotTableDataSource.addCharger(this.charger);
-
-    //this.onChanges();
   }
 
   dateFilterChanged(event: MatDatetimepickerInputEvent<any>) {
@@ -257,7 +251,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     });
   }
 
-
   clearChargingProfile() {
     // show yes/no dialog
     const self = this;
@@ -305,7 +298,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       if (result === Constants.BUTTON_TYPE_YES) {
         try {
           // Build OCPP planning
-          const chargingProfile = this._buildProfile();
+          const chargingProfile = this.buildProfile();
           // call REST service
           this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
             if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
@@ -331,8 +324,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     });
   }
 
-
-  public _buildProfile() {
+  private buildProfile() {
     this.chargingSlotTableDataSource.refreshData()
     const chargingProfile = {} as ChargingProfile;
     chargingProfile.profile = {} as Profile;
@@ -384,5 +376,4 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     chargingProfile.profile.chargingSchedule.duration = duration;
     return chargingProfile;
   }
-
 }

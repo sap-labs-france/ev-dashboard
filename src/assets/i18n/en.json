@@ -181,6 +181,11 @@
       "clear": "Clear"
     }
   },
+  "issuer": {
+    "title": "Issuer",
+    "local": "Local",
+    "foreign": "Foreign"
+  },
   "vehicles": {
     "vehicle_number": "Vehicle(s)",
     "no_vehicles": "No vehicle found",
@@ -1121,6 +1126,7 @@
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Authentication Url",
+        "app_url": "Application Url",
         "api_url": "API Url",
         "client_id": "Client ID",
         "client_secret": "Client Secret",
@@ -1264,6 +1270,9 @@
     "sendTokens_title": "Send User Tokens",
     "send_evse_statuses_confirm": "Do you want to send All EVSE statuses to IOP '{{name}}'?",
     "sendTokens_confirm": "Do you want to send all user tokens to IOP '{{name}}'?",
+    "triggerJobs_title": "Execute Jobs",
+    "triggerJobs_confirm": "Do you want to trigger all jobs of IOP '{{name}}'?",
+    "error_trigger_jobs": "Error occurred while executing jobs - see logs for more details",
     "success_ping": "Ping successfull",
     "error_ping_401": "Ping failed: Unauthorized",
     "error_ping_404": "Ping failed: Not Found",
@@ -1405,6 +1414,10 @@
     "delete_transaction_confirm": "Do you really want to delete the session that belongs to '{{userFullName}}' on '{{chargeBoxID}}'?",
     "delete_transaction_success": "The session has been deleted successfully",
     "delete_transaction_error": "Error occurred while deleting the session",
+    "delete_transactions_title": "Delete Session(s)",
+    "delete_transactions_confirm": "Do you really want to delete {{quantity}} session(s)?",
+    "delete_transactions_success": "{{inSuccess}} sessions have been deleted successfully",
+    "delete_transactions_partial": "{{inSuccess}} sessions have been deleted successfully and {{inError}} sessions have encountered an error",
     "inactivity_info": "All Inactivities",
     "inactivity_warning": "Medium Inactivities",
     "inactivity_error": "High Inactivities",
@@ -1488,16 +1501,16 @@
     },
     "notification": {
       "delete": {
-        "success": "Session of {{user}} deleted successfully",
-        "error": "An error occurred during session deletion"
+        "success": "The session of {{user}} has been deleted successfully",
+        "error": "An error occurred during the deletion of the session"
       },
       "soft_stop": {
-        "success": "Session of {{user}} stopped successfully.",
+        "success": "The session of {{user}} has been stopped successfully.",
         "error": "An error occurred during session stop."
       },
       "refund": {
         "success": "{{inSuccess}} sessions have been transferred successfully",
-        "partial": "{{inError}} out of {{total}} sessions have encountered an error",
+        "partial": "{{inSuccess}} sessions have been transferred successfully and {{inError}} session(s) have encountered an error",
         "forbidden_refund_another_user": "You cannot transfer another user's session",
         "not_authorized": "You are not authorized to perform this request",
         "error": "The E-Mobility application couldn't connect to the refunding system. Contact an administrator.",

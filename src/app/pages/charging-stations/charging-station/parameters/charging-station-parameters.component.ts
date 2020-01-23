@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -140,7 +140,7 @@ export class ChargingStationParametersComponent implements OnInit {
     this.currentType.disable();
     this.maximumPower.disable();
     // URL not editable in case OCPP v1.6 or above
-    if (Number(this.charger.ocppVersion) >= 1.6) {
+    if (this.charger.ocppProtocol === OCPPProtocol.JSON) {
       this.chargingStationURL.disable();
       this.chargingStationURLTooltip = 'chargers.dialog.settings.fixedURLforOCPP';
     } else {

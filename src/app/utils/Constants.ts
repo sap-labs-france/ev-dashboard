@@ -5,11 +5,6 @@ export class Constants {
 
   public static CSV_SEPARATOR = '\t';
 
-  public static readonly REFUND_STATUS_SUBMITTED = 'submitted';
-  public static readonly REFUND_STATUS_NOT_SUBMITTED = 'notSubmitted';
-  public static readonly REFUND_STATUS_CANCELLED = 'cancelled';
-  public static readonly REFUND_STATUS_APPROVED = 'approved';
-
   public static DEFAULT_PAGE_SIZE = 100;
   public static INFINITE_RECORDS = -1;
   public static DEFAULT_POLLING_MILLIS = 10000;
@@ -127,6 +122,7 @@ export class Constants {
   public static NOTIF_TYPE_TRANSACTION_METER_VALUES = 'MeterValues';
   public static NOTIF_TYPE_CHARGING_STATION = 'ChargingStation';
   public static NOTIF_TYPE_CHARGING_STATION_CONFIGURATION = 'Configuration';
+  
   /* Users */
   public static USER_STATUS_PENDING = 'P';
   public static USER_STATUS_ACTIVE = 'A';
@@ -220,5 +216,4 @@ export class Constants {
   /* RegEx validation rule */
   public static REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;
   public static REGEX_VALIDATION_LONGITUDE = /^-?([1]?[0-7][0-9]|[1]?[0-8][0]|[1-9]?[0-9])\.{0,1}[0-9]*$/;
-
 }

@@ -8,6 +8,7 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { RefundStatus } from 'app/types/Refund';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
@@ -267,8 +268,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
-        if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
-          transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
+        if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
+          transaction.refundData.status === RefundStatus.APPROVED)) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('transactions.dialog.delete.title'),
             this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
@@ -347,7 +348,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+        this.translateService.instant('transactions.notification.delete.success', 
+          {
+            user: this.appUserNamePipe.transform(transaction.user)
+          }));
       this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');

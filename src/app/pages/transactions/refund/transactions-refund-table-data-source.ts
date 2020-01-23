@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
+import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { RefundSettings } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -299,20 +299,20 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   protected refundTransactions(transactions: Transaction[]) {
     this.spinnerService.show();
     this.centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
-      // @ts-ignore
       .subscribe((response: ActionsResponse) => {
-        if (response.inError > 0) {
+        if (response.inError) {
           this.messageService.showErrorMessage(
             this.translateService.instant('transactions.notification.refund.partial',
               {
+                inSuccess: response.inSuccess,
                 inError: response.inError,
-                total: response.inError + response.inSuccess,
               },
             ));
         } else {
           this.messageService.showSuccessMessage(
             this.translateService.instant('transactions.notification.refund.success',
-              { inSuccess: response.inSuccess }));
+              { inSuccess: response.inSuccess }
+            ));
         }
         this.spinnerService.hide();
         this.clearSelectedRows();

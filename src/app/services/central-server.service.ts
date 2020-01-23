@@ -7,7 +7,7 @@ import { BillingTax } from 'app/types/Billing';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, DataResult, LoginResponse, Ordering, OCPIEVSEStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, DataResult, LoginResponse, Ordering, OCPIJobStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse, OCPITriggerJobsResponse, ActionsResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -62,6 +62,20 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
       })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteTransactions(transactionsIDs: number[]): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { transactionsIDs }
+    }
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsDelete`, options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -572,7 +586,6 @@ export class CentralServerService {
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
     // Verify init
     this.checkInit();
-    params['Issuer'] = 'true';
     // Build Paging
     this.getPaging(paging, params);
     // Build Ordering
@@ -1572,11 +1585,11 @@ export class CentralServerService {
       );
   }
 
-  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
+  public sendEVSEStatusesOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<OCPIEVSEStatusesResponse>(
+    return this.httpClient.post<OCPIJobStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendEVSEStatuses`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
@@ -1586,11 +1599,25 @@ export class CentralServerService {
       );
   }
 
-  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIEVSEStatusesResponse> {
+  public triggerJobsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPITriggerJobsResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<OCPIEVSEStatusesResponse>(
+    return this.httpClient.post<OCPITriggerJobsResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointTriggerJobs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointSendTokens`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
@@ -1742,7 +1769,7 @@ export class CentralServerService {
       );
   }
 
-  refundTransactions(ids: number[]): Observable<ActionResponse> {
+  refundTransactions(ids: number[]): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },

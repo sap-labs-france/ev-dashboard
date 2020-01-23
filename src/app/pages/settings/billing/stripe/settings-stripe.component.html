@@ -12,8 +12,7 @@
         <mat-form-field>
           <input appAutofocus matInput type="text" [formControl]="url"
                  placeholder="{{'settings.billing.stripe.url' | translate}}" required>
-          <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field"
-            | translate}}</mat-error>
+          <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="url.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 200}"></div>
           </mat-error>
@@ -33,8 +32,7 @@
           <input appAutofocus matInput type="password"
                  placeholder="{{'settings.billing.stripe.secret_key' | translate}}"
                  [formControl]="secretKey" required>
-          <mat-error *ngIf="secretKey.errors?.required">{{"general.mandatory_field"
-            | translate}}</mat-error>
+          <mat-error *ngIf="secretKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="secretKey.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
           </mat-error>
@@ -49,8 +47,7 @@
         <mat-form-field>
           <input appAutofocus matInput type="text" [formControl]="publicKey"
                  placeholder="{{'settings.billing.stripe.public_key' | translate}}" required>
-          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field"
-            | translate}}</mat-error>
+          <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="publicKey.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
           </mat-error>

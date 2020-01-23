@@ -1481,7 +1481,7 @@
       },
       "refund": {
         "title": "Remboursement",
-        "confirm": "Voulez-vous vraiment transférer {{quantity}} sessions vers votre système de remboursement ?"
+        "confirm": "Voulez-vous vraiment transférer {{quantity}} session(s) vers votre système de remboursement ?"
       },
       "session": {
         "tooltips": {

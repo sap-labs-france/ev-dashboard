@@ -5,15 +5,14 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
-import { DisplayedScheduleSlot } from './charging-station-charging-profile-limit.component';
 import { Slot } from 'app/types/ChargingProfile';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
     <div class="chart-container">
-        <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
+      <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
       <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">
         <a mat-icon-button (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>
@@ -88,15 +87,15 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       const connectorPlanning = scheduleSlots[index];
       // Add slot
       const limit = connectorPlanning;
-      this.data.labels.push(limit.displayedStartValue.getTime());
+      this.data.labels.push(limit.startDate.getTime());
       limitPowerDataSet.data.push({
-        x: limit.displayedStartValue.getTime(), y: limit.displayedLimitInkW,
+        x: limit.startDate.getTime(), y: limit.limitInkW,
       });
       if (index === scheduleSlots.length-1) {
         // Add last limit
-        this.data.labels.push(scheduleSlots[index].displayedStartValue.setSeconds(scheduleSlots[index].displayedStartValue.getSeconds() + scheduleSlots[index].duration));
+        this.data.labels.push(scheduleSlots[index].startDate.setSeconds(scheduleSlots[index].startDate.getSeconds() + scheduleSlots[index].duration));
         limitPowerDataSet.data.push({
-          x: scheduleSlots[index].displayedStartValue.setSeconds(scheduleSlots[index].displayedStartValue.getSeconds() + scheduleSlots[index].duration*60) , y: limit.displayedLimitInkW,
+          x: scheduleSlots[index].startDate.setSeconds(scheduleSlots[index].startDate.getSeconds() + scheduleSlots[index].duration*60) , y: limit.limitInkW,
         });
       }
     }

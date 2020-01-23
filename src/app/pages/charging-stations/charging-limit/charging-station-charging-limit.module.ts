@@ -16,7 +16,6 @@ import { ChargingStationChargingProfileLimitComponent } from './charging-profile
 import { ChargingStationSmartChargingDialogComponent } from './charging-station-charging-limit-dialog.component';
 import { ChargingStationPowerSliderComponent } from './component/charging-station-power-slider.component';
 import { ChargingStationStaticLimitComponent } from './static-limit/charging-station-static-limit.component';
-import { ChargingPeriodListTableDataSource } from './charging-profile-limit/list/charging-period-list-table-data-source'
 @NgModule({
   imports: [
     CommonModule,

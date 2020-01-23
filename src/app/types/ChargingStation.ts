@@ -33,7 +33,6 @@ export interface ChargingStation extends Data {
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
   currentType: ChargingStationCurrentType;
-  numberOfConnectedPhase?: number;
 }
 
 export enum OCPPProtocol {

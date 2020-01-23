@@ -7,7 +7,7 @@ import { BillingTax } from 'app/types/Billing';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, DataResult, LoginResponse, Ordering, OCPIJobStatusesResponse, OCPIGenerateLocalTokenResponse, OCPIPingResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse, OCPITriggerJobsResponse, ActionsResponse } from 'app/types/DataResult';
+import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -72,8 +72,8 @@ export class CentralServerService {
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { transactionsIDs }
-    }
+      body: { transactionsIDs },
+    };
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsDelete`, options)
       .pipe(

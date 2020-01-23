@@ -348,9 +348,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.delete.success', 
+        this.translateService.instant('transactions.notification.delete.success',
           {
-            user: this.appUserNamePipe.transform(transaction.user)
+            user: this.appUserNamePipe.transform(transaction.user),
           }));
       this.refreshData().subscribe();
     }, (error) => {

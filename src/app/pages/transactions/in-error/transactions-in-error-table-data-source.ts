@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { ActionResponse, DataResult, ActionsResponse } from 'app/types/DataResult';
+import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError } from 'app/types/InError';
+import { RefundStatus } from 'app/types/Refund';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
@@ -37,7 +38,6 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { RefundStatus } from 'app/types/Refund';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
@@ -107,7 +107,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       rowSelection: {
         enabled: true,
         multiple: true,
-      }
+      },
     };
   }
 
@@ -334,7 +334,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       } else {
         this.messageService.showSuccessMessage(
           this.translateService.instant('transactions.delete_transactions_success',
-            { inSuccess: response.inSuccess }
+            { inSuccess: response.inSuccess },
           ));
       }
       this.spinnerService.hide();

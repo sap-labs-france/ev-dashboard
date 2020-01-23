@@ -311,7 +311,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         } else {
           this.messageService.showSuccessMessage(
             this.translateService.instant('transactions.notification.refund.success',
-              { inSuccess: response.inSuccess }
+              { inSuccess: response.inSuccess },
             ));
         }
         this.spinnerService.hide();

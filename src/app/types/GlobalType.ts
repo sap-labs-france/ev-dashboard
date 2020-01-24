@@ -52,6 +52,5 @@ export enum ButtonAction {
   START = 'start',
   STOP = 'stop',
   UNREGISTER = 'unregister',
-  VIEW = 'view',
-  EXPORT_OCPP_PARAMS = 'export-ocpp-params'
+  VIEW = 'view'
 }

@@ -81,24 +81,29 @@
                   </div>
                 </div>
                 <div *ngIf="isAdmin && currentSiteAreaID">
-                  <div *ngIf="!registrationToken" class="d-flex justify-content-start">
-                    <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
-                      <mat-icon>link</mat-icon><span>{{'settings.charging_station.generate_connection_url' | translate}}</span>
-                    </button>
-                  </div>
-                  <div *ngIf="registrationToken" class="d-flex justify-content-start">
-                    <button mat-raised-button color="primary" (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_15_soap_url' | translate}}</span>
-                    </button>
-                    <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_soap_url' | translate}}</span>
-                    </button>
-                    <button mat-raised-button color="primary" class="ml-2" (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
-                      <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_ocpp_16_json_url' | translate}}</span>
-                    </button>
-                  </div>
-                  <div class="d-flex justify-content-start mt-2">
-                    <button mat-raised-button color="primary" (click)="exportAllOCPPParams()">
+                  <div class="d-flex justify-content-start">
+                    <div *ngIf="registrationToken" class="mr-2">
+                      <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
+                        <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_url_tooltip' | translate}}</span>
+                      </button>
+                      <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
+                        <button mat-menu-item (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
+                          <mat-icon color="primary">file_copy</mat-icon><span>{{'settings.charging_station.ocpp_15_soap' | translate}}</span>
+                        </button>
+                        <button mat-menu-item (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
+                          <mat-icon color="primary">file_copy</mat-icon><span>{{'settings.charging_station.ocpp_16_soap' | translate}}</span>
+                        </button>
+                        <button mat-menu-item (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
+                          <mat-icon color="primary">file_copy</mat-icon><span>{{'settings.charging_station.ocpp_16_json' | translate}}</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+                    <div *ngIf="!registrationToken">
+                      <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
+                        <mat-icon>link</mat-icon><span>{{'settings.charging_station.generate_connection_url' | translate}}</span>
+                      </button>
+                    </div>
+                    <button mat-raised-button color="primary" (click)="exportAllOCPPParams()" class="ml-2">
                       <mat-icon>cloud_download</mat-icon>
                       <span>{{'site_areas.export_all_ocpp_params' | translate}}</span>
                     </button>

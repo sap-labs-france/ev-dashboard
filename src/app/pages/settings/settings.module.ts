@@ -15,7 +15,6 @@ import { SettingsAnalyticsComponent } from './analytics/settings-analytics.compo
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { AppRegistrationTokenStatusPipe, RegistrationTokenStatusComponent } from './charging-station/registration-tokens/registration-token-status.component';
-import { RegistrationTokenUrlComponent } from './charging-station/registration-tokens/registration-token-url.component';
 import { RegistrationTokenComponent } from './charging-station/registration-tokens/registration-token.component';
 import { SettingsOcppComponent } from './charging-station/settings-ocpp.component';
 import { SettingsOcpiEnpointDialogComponent } from './ocpi/endpoints/dialog/settings-ocpi-endpoint-dialog.component';
@@ -92,7 +91,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEnpointsDetailsComponent,
     RegistrationTokenComponent,
     RegistrationTokenStatusComponent,
-    RegistrationTokenUrlComponent,
     AppRegistrationTokenStatusPipe,
   ],
   entryComponents: [
@@ -123,7 +121,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEnpointsDetailsComponent,
     RegistrationTokenComponent,
     RegistrationTokenStatusComponent,
-    RegistrationTokenUrlComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,

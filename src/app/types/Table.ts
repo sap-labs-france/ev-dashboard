@@ -48,6 +48,7 @@ export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL'
 export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
 
 export enum ButtonColor {
+  BASIC = '',
   PRIMARY = 'primary',
   ACCENT = 'accent',
   WARN = 'warn',

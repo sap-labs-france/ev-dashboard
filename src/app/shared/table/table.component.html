@@ -258,14 +258,14 @@
                             (click)="rowActionTriggered(dropdownAction, row)"
                             [disabled]="dropdownAction.disabled" appTooltip
                             [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
-                          <mat-icon
-                            *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                          <mat-icon *ngIf="dropdownAction.icon"
+                            [color]="(dropdownAction.color && !dropdownAction.disabled) ? dropdownAction.color : ''">{{dropdownAction.icon}}</mat-icon>
                           <span>{{dropdownAction.name | translate}}</span>
                         </button>
                       </ng-container>
                     </ng-template>
                   </mat-menu>
-                  <button mat-icon-button
+                  <button mat-icon-button [color]="(rowAction.color ? rowAction.color : '')"
                       (menuOpened)="onRowActionMenuOpen(rowAction, row)"
                       [matMenuTriggerFor]="rowActionMenu" appTooltip
                       [title]="rowAction.tooltip | translate">

@@ -1108,8 +1108,9 @@
       "copy_url_tooltip": "Copier l'URL OCPP",
       "url_copied": "L'URL OCPP a été copiée dans votre presse-papiers",
       "generate_connection_url": "Connecter une Borne",
-      "copy_ocpp_15_url": "Copier l'URL OCPP 1.5",
-      "copy_ocpp_16_url": "Copier l'URL OCPP 1.6"
+      "copy_ocpp_15_soap_url": "Copier l'URL OCPP 1.5 SOAP",
+      "copy_ocpp_16_json_url": "Copier l'URL OCPP 1.6 JSON",
+      "copy_ocpp_16_soap_url": "Copier l'URL OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility fournit des APIs de remboursement pour des systèmes externes.<br/> Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.<br/><br/>E-Mobility utilise actuellement SAP Concur. De plus amples informations techniques sont disponibles <a href='https://www.concur.com/' target='_blank'><u>ici</u></a>.",

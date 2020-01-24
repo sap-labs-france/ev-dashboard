@@ -82,7 +82,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     }
 
     if (this.data[this.data.length - 1]) {
-      let previousDate = new Date(this.data[this.data.length - 1].startDate);
+      const previousDate = new Date(this.data[this.data.length - 1].startDate);
       chargingSchedulePeriod.startDate = new Date(previousDate.setHours(previousDate.getHours() + 1));
       chargingSchedulePeriod.limitInkW = this.data[this.data.length - 1].limitInkW;
       this.data[this.data.length - 1].duration = 60;

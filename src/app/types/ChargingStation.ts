@@ -16,7 +16,8 @@ export interface ChargingStation extends Data {
   meterType: string;
   meterSerialnumber: string;
   endpoint: string;
-  ocppVersion: string;
+  ocppVersion: OCPPVersion;
+  ocppProtocol: OCPPProtocol;
   lastHeartBeat: Date;
   inactive: boolean;
   chargingStationURL: string;
@@ -32,6 +33,16 @@ export interface ChargingStation extends Data {
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
   currentType: ChargingStationCurrentType;
+}
+
+export enum OCPPProtocol {
+  SOAP = 'soap',
+  JSON = 'json',
+}
+
+export enum OCPPVersion {
+  VERSION_16 = '1.6',
+  VERSION_15 = '1.5',
 }
 
 export enum ChargingStationCurrentType {
@@ -110,6 +121,7 @@ export interface ChargingStationCapabilities {
   supportStaticLimitationForChargingStation?: boolean;
   supportStaticLimitationPerConnector?: boolean;
   supportChargingProfiles?: boolean;
+  supportTxDefaultProfile?: boolean;
 }
 
 export enum ChargingStationButtonAction {

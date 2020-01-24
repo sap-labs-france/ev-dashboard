@@ -112,6 +112,7 @@ export interface TableColumnDef {
   isAngularComponent?: boolean;
   angularComponent?: any;
   defaultValue?: any;
+  additionalParameters?: any;
 }
 
 export interface TableSearch {
@@ -122,4 +123,9 @@ export enum TableEditType {
   RADIO_BUTTON = 'radiobutton',
   CHECK_BOX = 'checkbox',
   INPUT = 'input',
+  DATE_TIME_PICKER = 'datetimepicker',
+  DISPLAY_ONLY = 'displayonly',
+  DISPLAY_ONLY_DATE = 'displayonlydate',
+  DISPLAY_ONLY_TIME = 'displayonlytime',
+
 }

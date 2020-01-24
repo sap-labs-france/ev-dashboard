@@ -5,10 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { ActionResponse, DataResult, ActionsResponse } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError } from 'app/types/InError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
@@ -36,6 +37,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { RefundStatus } from 'app/types/Refund';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
@@ -87,12 +89,50 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
+    if (this.authorizationService.isAdmin()) {
+      return [
+        new TableDeleteAction().getActionDef(),
+        ...tableActionsDef,
+      ];
+    }
+    return tableActionsDef;
+  }
   public buildTableDef(): TableDef {
     return {
       search: {
         enabled: true,
       },
+      rowSelection: {
+        enabled: true,
+        multiple: true,
+      }
     };
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      // Remove
+      case ButtonAction.DELETE:
+        // Empty?
+        if (this.getSelectedRows().length === 0) {
+          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+        } else {
+          // Confirm
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('transactions.delete_transactions_title'),
+            this.translateService.instant('transactions.delete_transactions_confirm', { quantity: this.getSelectedRows().length }),
+          ).subscribe((response) => {
+            // Check
+            if (response === Constants.BUTTON_TYPE_YES) {
+              this.deleteTransactions(this.getSelectedRows().map((row) => row.id));
+            }
+          });
+        }
+        break;
+    }
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -235,8 +275,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
-        if (transaction.refundData && (transaction.refundData.status === Constants.REFUND_STATUS_SUBMITTED ||
-          transaction.refundData.status === Constants.REFUND_STATUS_APPROVED)) {
+        if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
+          transaction.refundData.status === RefundStatus.APPROVED)) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('transactions.dialog.delete.title'),
             this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
@@ -275,6 +315,33 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
+    });
+  }
+
+  private deleteTransactions(transactionsIDs: number[]) {
+    // Yes: Update
+    this.spinnerService.show();
+    this.centralServerService.deleteTransactions(transactionsIDs).subscribe((response: ActionsResponse) => {
+      if (response.inError) {
+        this.messageService.showErrorMessage(
+          this.translateService.instant('transactions.delete_transactions_partial',
+            {
+              inSuccess: response.inSuccess,
+              inError: response.inError,
+            },
+          ));
+      } else {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.delete_transactions_success',
+            { inSuccess: response.inSuccess }
+          ));
+      }
+      this.spinnerService.hide();
+      this.clearSelectedRows();
+      this.refreshData().subscribe();
+    }, (error) => {
+      // No longer exists!
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.delete_transactions_error');
     });
   }
 

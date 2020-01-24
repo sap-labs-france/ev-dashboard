@@ -42,7 +42,10 @@ export class Utils {
   public static buildUserFullName(user: User) {
     let fullName: string;
     if (!user || !user.name) {
-      return 'Unknown';
+      return '######';
+    }
+    if (user.name.length === 0 && user.firstName.length === 0) {
+      return '######';
     }
     if (user.firstName) {
       fullName = `${user.name}, ${user.firstName}`;

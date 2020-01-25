@@ -956,19 +956,20 @@ export class CentralServerService {
     let params={};
     if (siteID) {
       params = {
-        SiteID: siteID
+        SiteID: siteID,
+        WithSite: true
       }
-    }
-    else {
+    } else {
       params = {
-        SiteAreaID: siteAreaID
+        SiteAreaID: siteAreaID,
+        WithSite: true
       }
     }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
-        params: params,
+        params: params=params,
       })
       .pipe(
         catchError(this.handleHttpError),

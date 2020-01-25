@@ -171,8 +171,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       this.viewAction,
       this.displayChargersAction,
       new TableMoreAction([
-        openInMaps,
-        this.exportOCPPParamsAction
+        openInMaps
       ]).getActionDef()
     ];
   }
@@ -205,7 +204,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
         break;
-      case ButtonAction.EXPORT_OCPP_PARAMS:
+      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         this.exportOCOPPParams(rowItem);
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -286,16 +285,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   private exportOCOPPParams(siteArea: SiteArea) {
-    const actionDef = new TableExportOCPPParamsAction().getActionDef();
-    if (actionDef && actionDef.action) {
-      actionDef.action(
+    if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
+      this.exportOCPPParamsAction.action(
         this.dialogService,
         this.translateService,
         this.messageService,
         this.centralServerService,
         this.router,
         this.spinnerService,
-        siteArea.id,
+        siteArea,
         null
       );
     }

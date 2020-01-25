@@ -9,7 +9,8 @@ import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-
+import { SiteArea } from 'app/types/SiteArea';
+import { Site } from 'app/types/Site';
 // @ts-ignore
 import saveAs from 'file-saver';
 
@@ -25,10 +26,14 @@ export class TableExportOCPPParamsAction implements TableAction {
   };
 
   private exportOCPPParameters(dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService, currentSiteAreaID?: string, currentSiteID?: string) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('site_areas.export_all_params_title'),
-      translateService.instant('site_areas.export_all_params_confirm'),
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService, currentSiteArea?: SiteArea, currentSite?: Site) {
+      const dialogTitle =   (currentSiteArea) ? translateService.instant('site_areas.export_all_params_title') : translateService.instant('sites.export_all_params_title');
+      const dialogMessage =   (currentSiteArea) ? translateService.instant('site_areas.export_all_params_confirm', {siteAreaName : currentSiteArea.name}) : translateService.instant('sites.export_all_params_confirm', {siteName : currentSite!.name});
+      const currentSiteAreaID =   (currentSiteArea) ? currentSiteArea.id : undefined;
+      const currentSiteID =   (currentSite) ? currentSite.id : undefined;
+      dialogService.createAndShowYesNoDialog(
+      translateService.instant(dialogTitle),
+      translateService.instant(dialogMessage),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
         spinnerService.show();

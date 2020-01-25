@@ -29,6 +29,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
@@ -141,26 +142,26 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   buildTableDynamicRowActions(site: Site) {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
+    let moreActions;
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) ? false : true;
 
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
       actions.push(this.editUsersAction);
-    } else {
-      actions.push(this.viewAction);
-    }
-    let moreActions = new TableMoreAction([
-      openInMaps,
-      this.exportOCPPParamsAction
-    ]).getActionDef();
-
-    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
       moreActions = new TableMoreAction([
         openInMaps,
-        this.deleteAction,
         this.exportOCPPParamsAction
       ]).getActionDef();
+    } else {
+      actions.push(this.viewAction);
+      moreActions = new TableMoreAction([
+        openInMaps
+      ]).getActionDef();
+    }
+
+    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
+      moreActions.dropdownActions!.push(this.deleteAction);
     }
     actions.push(moreActions);
     return actions;
@@ -192,7 +193,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
-      case ButtonAction.EXPORT_OCPP_PARAMS:
+      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         this.exportOCOPPParams(rowItem);
         break;
       default:
@@ -273,9 +274,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     });
   }
   private exportOCOPPParams(site: Site) {
-    const actionDef = new TableExportOCPPParamsAction().getActionDef();
-    if (actionDef && actionDef.action) {
-      actionDef.action(
+    if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
+      this.exportOCPPParamsAction.action(
         this.dialogService,
         this.translateService,
         this.messageService,
@@ -283,7 +283,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         this.router,
         this.spinnerService,
         null,
-        site.id
+        site
       );
     }
   }

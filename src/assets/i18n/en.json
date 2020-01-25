@@ -376,7 +376,9 @@
     "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'",
     "update_set_site_owner_success": "The user '{{userName}}' is now owner on this site",
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
-    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
+    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner",
+    "export_all_params_title": "Export OCPP parameters",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
   },
   "site_areas": {
     "export_all_ocpp_params": "Export All OCPP Params",
@@ -421,7 +423,7 @@
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy": "Maximum Power Limitation (Watts)",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to this site area?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?"
   },
   "authentication": {
     "accept": "I accept the",

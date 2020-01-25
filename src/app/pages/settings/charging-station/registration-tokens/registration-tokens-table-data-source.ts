@@ -17,20 +17,28 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableCopyAction } from '../../../../shared/table/actions/table-copy-action';
 import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
+import { TableMultiCopyAction } from '../../../../shared/table/actions/table-multi-copy-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableRevokeAction } from '../../../../shared/table/actions/table-revoke-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 import { RegistrationTokenStatusComponent } from './registration-token-status.component';
-import { RegistrationTokenUrlComponent } from './registration-token-url.component';
 import { RegistrationTokenComponent } from './registration-token.component';
 
 @Injectable()
 export class RegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
   private deleteAction = new TableDeleteAction().getActionDef();
   private revokeAction = new TableRevokeAction().getActionDef();
+  private copySOAP15Action = new TableCopyAction('settings.charging_station.ocpp_15_soap').getActionDef();
+  private copySOAP16Action = new TableCopyAction('settings.charging_station.ocpp_16_soap').getActionDef();
+  private copyJSON16Action = new TableCopyAction('settings.charging_station.ocpp_16_json').getActionDef();
+  private copyUrlAction = new TableMultiCopyAction(
+    [this.copySOAP15Action, this.copySOAP16Action, this.copyJSON16Action],
+    'settings.charging_station.copy_url_tooltip',
+    'settings.charging_station.copy_url_tooltip').getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -133,14 +141,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
-      },
-      {
-        id: 'ocpp15Url',
-        name: 'settings.charging_station.url',
-        headerClass: 'col-10p text-center',
-        class: 'col-10p table-cell-angular-buttons-component',
-        isAngularComponent: true,
-        angularComponent: RegistrationTokenUrlComponent,
       }];
     return columns as TableColumnDef[];
   }
@@ -159,6 +159,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       return [this.deleteAction];
     }
     return [
+      this.copyUrlAction,
       this.revokeAction,
       this.deleteAction,
     ];
@@ -182,6 +183,22 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         break;
       case ButtonAction.DELETE:
         this.deleteToken(rowItem);
+        break;
+      case ButtonAction.COPY:
+        let url;
+        switch (actionDef.name) {
+          case 'settings.charging_station.ocpp_15_soap':
+            url = rowItem.ocpp15SOAPUrl;
+            break;
+          case 'settings.charging_station.ocpp_16_soap':
+            url = rowItem.ocpp16SOAPUrl;
+            break;
+          case 'settings.charging_station.ocpp_16_json':
+            url = rowItem.ocpp16JSONUrl;
+            break;
+        }
+        Utils.copyToClipboard(url);
+        this.messageService.showInfoMessage('settings.charging_station.url_copied');
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);

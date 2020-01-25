@@ -112,7 +112,7 @@
             *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && !filterDef.multiple">
             <mat-select (selectionChange)="filterChanged(filterDef)"
                 [(value)]="filterDef.currentValue"
-                [placeholder]="filterDef.name | translate">
+                [placeholder]="filterDef.name | translate">
               <mat-option *ngFor="let item of filterDef.items"
                 [value]="item.key">{{item.value | translate}}
               </mat-option>
@@ -123,7 +123,7 @@
             *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple">
             <mat-select (selectionChange)="filterChanged(filterDef)"
                 [(value)]="filterDef.currentValue"
-                [placeholder]="filterDef.name | translate" multiple
+                [placeholder]="filterDef.name | translate" multiple
                 disableRipple>
               <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
               <mat-option *ngFor="let item of filterDef.items"
@@ -134,8 +134,8 @@
           <mat-form-field
             *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)"
-              [placeholder]="filterDef.name | translate"
-              [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
+              [placeholder]="filterDef.name | translate"
+              [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
               class="form-field-popup" matInput readonly=true type="text"/>
             <button mat-icon-button matSuffix
                 (click)="resetDialogTableFilter(filterDef)" aria-label="Add">
@@ -146,7 +146,7 @@
           <mat-form-field
             *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)"
-              [placeholder]="filterDef.name | translate"
+              [placeholder]="filterDef.name | translate"
               [value]="filterDef.label"
               class="form-field-popup" matInput readonly=true type="text"/>
             <button mat-icon-button matSuffix
@@ -161,20 +161,20 @@
             </mat-datetimepicker>
             <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
             <input [id]="filterDef.id" matInput
-              [placeholder]="filterDef.name | translate"
+              [placeholder]="filterDef.name | translate"
               (dateChange)="dateFilterChanged(filterDef, $event)"
               [matDatetimepicker]="picker"
               [value]="filterDef.currentValue" autocomplete="false">
           </mat-form-field>
           <!-- All key filter -->
           <mat-form-field *ngIf="filterDef.type === Constants.FILTER_ALL_KEY">
-            <input [placeholder]="filterDef.name | translate" matInput>
+            <input [placeholder]="filterDef.name | translate" matInput>
           </mat-form-field>
         </div>
         <!-- Search -->
         <div *ngIf="dataSource.isSearchEnabled" class="col search-form">
           <mat-form-field>
-            <input #searchInput [placeholder]="searchPlaceholder | translate" matInput>
+            <input #searchInput [placeholder]="searchPlaceholder | translate" matInput>
           </mat-form-field>
         </div>
       </div>
@@ -258,14 +258,14 @@
                             (click)="rowActionTriggered(dropdownAction, row)"
                             [disabled]="dropdownAction.disabled" appTooltip
                             [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
-                          <mat-icon
-                            *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
+                          <mat-icon *ngIf="dropdownAction.icon"
+                            [color]="(dropdownAction.color && !dropdownAction.disabled) ? dropdownAction.color : ''">{{dropdownAction.icon}}</mat-icon>
                           <span>{{dropdownAction.name | translate}}</span>
                         </button>
                       </ng-container>
                     </ng-template>
                   </mat-menu>
-                  <button mat-icon-button
+                  <button mat-icon-button [color]="(rowAction.color ? rowAction.color : '')"
                       (menuOpened)="onRowActionMenuOpen(rowAction, row)"
                       [matMenuTriggerFor]="rowActionMenu" appTooltip
                       [title]="rowAction.tooltip | translate">
@@ -300,7 +300,7 @@
                 <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'input'"
                   [id]="tableColumnDef.id" [name]="tableColumnDef.id"
                   class="form-control text-line"
-                  [placeholder]="tableColumnDef.name | translate"
+                  [placeholder]="tableColumnDef.name | translate"
                   [ngModel]="row[tableColumnDef.id]"
                   (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
                   type="text">
@@ -313,6 +313,15 @@
                   (change)="$event.source.checked  = !$event.source.checked;"
                   (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
+                <span *ngIf="tableColumnDef.editType === 'displayonlydate'" class="text-center">
+                  {{row[tableColumnDef.id] | date: 'dd.MM.yyyy HH:mm'}}
+                </span>
+                <span *ngIf="tableColumnDef.editType === 'displayonlytime'" class="text-center">
+                  {{row[tableColumnDef.id] | date: 'HH:mm'}}
+                </span>
+                <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">
+                  {{row[tableColumnDef.id]}}
+                </span>
                 <mat-error *ngIf="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors as errors">
                   <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
                   <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"

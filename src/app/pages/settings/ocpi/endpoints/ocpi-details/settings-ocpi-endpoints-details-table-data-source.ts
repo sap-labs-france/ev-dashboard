@@ -32,13 +32,13 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private sendAction = new TableSendAction().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      private centralServerService: CentralServerService,
-      private translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private dialogService: DialogService,
-      private datePipe: AppDatePipe) {
+    public spinnerService: SpinnerService,
+    private centralServerService: CentralServerService,
+    private translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private dialogService: DialogService,
+    private datePipe: AppDatePipe) {
     super(spinnerService);
     // Init
     this.initDataSource();
@@ -177,11 +177,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case ButtonAction.SEND:
-        if (this.ocpiEndpoint.role === Constants.OCPI_ROLE_CPO) {
-          this.sendEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
-        } else {
-          this.sendTokensOcpiEndpoint(rowItem.ocpiendpoint);
-        }
+        this.triggerJobsOcpiEndpoint(rowItem.ocpiendpoint);
         break;
       case ButtonAction.START:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
@@ -223,6 +219,49 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
+  private triggerJobsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.triggerJobs_title'),
+      this.translateService.instant('ocpiendpoints.triggerJobs_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Ping
+        this.centralServerService.triggerJobsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.tokens) {
+            if (response.tokens.failure === 0 && response.tokens.success >= 0) {
+              this.messageService.showSuccessMessage('ocpiendpoints.success_send_tokens', { success: response.tokens.success });
+            } else if (response.tokens.failure > 0 && response.tokens.success > 0) {
+              this.messageService.showWarningMessage('ocpiendpoints.partial_send_tokens',
+                { success: response.tokens.success, error: response.tokens.failure });
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.error_send_tokens');
+            }
+          }
+          if (response.locations) {
+            if (response.locations.failure === 0 && response.locations.success > 0) {
+              this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.locations.success });
+            } else if (response.locations.failure > 0 && response.locations.success > 0) {
+              this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
+                { success: response.locations.success, error: response.locations.failure });
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                this.messageService, 'ocpiendpoints.error_send_evse_statuses');
+            }
+          }
+
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.error_trigger_jobs');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
   private sendTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendTokens_title'),
@@ -255,10 +294,10 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private enableDisableBackgroundJob(ocpiendpoint: OcpiEndpoint, enable: boolean) {
     // update it with dialog
     this.dialogService.createAndShowYesNoDialog(
-      (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_title')
-                : this.translateService.instant('ocpiendpoints.stop_background_job_title'),
-      (enable)  ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { name: ocpiendpoint.name })
-                : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { name: ocpiendpoint.name }),
+      (enable) ? this.translateService.instant('ocpiendpoints.start_background_job_title')
+        : this.translateService.instant('ocpiendpoints.stop_background_job_title'),
+      (enable) ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { name: ocpiendpoint.name })
+        : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Switch background job state
@@ -278,7 +317,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.update_error');
-          });
+        });
       }
     });
   }

@@ -1,6 +1,7 @@
 import { ChargingStation, ConsumptionValue } from './ChargingStation';
 import { Data } from './Table';
 import { User } from './User';
+import { RefundType, RefundStatus } from './Refund';
 
 export interface Transaction extends Data {
   id: number;
@@ -26,9 +27,10 @@ export interface Transaction extends Data {
   priceUnit: string;
   refundData: {
     reportId: string;
-    refundId: string;
     refundedAt: Date;
-    status: string;
+    type: RefundType;
+    refundId: string;
+    status: RefundStatus;
   };
   stop: {
     user: User;

@@ -56,7 +56,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       lastSynchronizedOn: new FormControl(''),
       taxID: new FormControl('',
         Validators.compose([
-          Validators.required,
+          // Validators.required,
         ]),
       ),
     });

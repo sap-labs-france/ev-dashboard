@@ -40,6 +40,8 @@ export enum ButtonAction {
   EXPORT = 'export',
   ADD = 'add',
   CREATE = 'create',
+  COPY = 'copy',
+  MULTI_COPY = 'multi-copy',
   MULTI_CREATE = 'multi-create',
   NO_ACTION = 'block',
   OPEN = 'open',

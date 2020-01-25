@@ -131,4 +131,5 @@ export enum ChargingStationButtonAction {
   SMART_CHARGING = 'smart_charging',
   EDIT_CHARGERS = 'edit_chargers',
   DISPLAY_CHARGERS = 'display_chargers',
+  EXPORT_OCPP_PARAMS = 'export_ocpp_params',
 }

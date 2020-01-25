@@ -387,25 +387,6 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
-  public exportAllOCPPParams() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('site_areas.export_all_params_title'),
-      this.translateService.instant('site_areas.export_all_params_confirm'),
-    ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
-        this.centralServerService.exportAllChargingStationsOCCPParams(this.currentSiteAreaID)
-          .subscribe((result) => {
-            this.spinnerService.hide();
-            saveAs(result, 'exported-occp-params.csv');
-          }, (error) => {
-            this.spinnerService.hide();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          });
-      }
-    });
-  }
-
   private loadRegistrationToken() {
     if (!this.currentSiteAreaID) {
       return;

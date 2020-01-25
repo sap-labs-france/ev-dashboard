@@ -148,6 +148,7 @@
       "template": "Modeles"
     },
     "tooltips": {
+      "export": "Exporter OCPP params",
       "assign_site_area": "Assigner un site",
       "more": "Actions supplémentaires",
       "smart_charging": "Smart charging",
@@ -375,7 +376,9 @@
     "update_site_users_role_error": "Une erreur est survenue pendant la mise à jour des droits d'accès au site de l'utilisateur '{{userName}}'",
     "update_set_site_owner_success": "L'utilisateur '{{userName}}' est désormais propriétaire du site",
     "update_remove_site_owner_success": "L'utilisateur '{{userName}}' n'est désormais plus le propriétaire du site",
-    "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site"
+    "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site",
+    "export_all_params_title": "Exporter les paramètres OCPP",
+    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant au site '{{siteName}}' ?"
   },
   "site_areas": {
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
@@ -420,7 +423,7 @@
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "maximum_energy": "Limite de puissance (Watts)",
     "export_all_params_title": "Exporter les paramètres OCPP",
-    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à cette zone ?"
+    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?"
   },
   "authentication": {
     "accept": "J'accepte les",

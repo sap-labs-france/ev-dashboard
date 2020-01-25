@@ -212,9 +212,9 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
       if (response === Constants.BUTTON_TYPE_YES) {
-        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}Site${Constants.CSV_SEPARATOR}Site Area${Constants.CSV_SEPARATOR}\r\n`;
+        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}Site Area${Constants.CSV_SEPARATOR}Site\r\n`;
         for (const parameter of this.chargerConfiguration) {
-          csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${parameter.value}"${Constants.CSV_SEPARATOR}${this.charger.siteArea.site.name}${Constants.CSV_SEPARATOR}${this.charger.siteArea.name}\r\n`;
+          csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${Utils.replaceSpecialCharsInCSVValueParam(parameter.value)}"${Constants.CSV_SEPARATOR}${this.charger.siteArea.name}${Constants.CSV_SEPARATOR}${this.charger.siteArea.site.name}\r\n`;
         }
         const blob = new Blob([csv]);
         saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);

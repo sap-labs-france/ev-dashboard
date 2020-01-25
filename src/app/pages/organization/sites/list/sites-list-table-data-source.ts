@@ -12,13 +12,14 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
+import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
@@ -29,7 +30,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
@@ -150,18 +150,19 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       actions.push(this.editAction);
       actions.push(this.editUsersAction);
       moreActions = new TableMoreAction([
+        this.exportOCPPParamsAction,
         openInMaps,
-        this.exportOCPPParamsAction
       ]).getActionDef();
     } else {
       actions.push(this.viewAction);
       moreActions = new TableMoreAction([
-        openInMaps
+        openInMaps,
       ]).getActionDef();
     }
-
     if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
-      moreActions.dropdownActions!.push(this.deleteAction);
+      if (moreActions.dropdownActions) {
+        moreActions.dropdownActions.splice(0, 0, this.deleteAction);
+      }
     }
     actions.push(moreActions);
     return actions;
@@ -283,7 +284,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         this.router,
         this.spinnerService,
         null,
-        site
+        site,
       );
     }
   }

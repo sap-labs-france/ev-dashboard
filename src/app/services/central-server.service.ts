@@ -953,23 +953,18 @@ export class CentralServerService {
   public exportAllChargingStationsOCCPParams(siteAreaID?: string, siteID?: string): Observable<Blob> {
     // Verify init
     this.checkInit();
-    let params={};
+    const params: { [param: string]: string } = {};
     if (siteID) {
-      params = {
-        SiteID: siteID,
-        WithSite: true
-      }
-    } else {
-      params = {
-        SiteAreaID: siteAreaID,
-        WithSite: true
-      }
+      params['SiteID'] = siteID;
+    }
+    if (siteAreaID) {
+      params['SiteAreaID'] = siteAreaID;
     }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
-        params: params=params,
+        params,
       })
       .pipe(
         catchError(this.handleHttpError),

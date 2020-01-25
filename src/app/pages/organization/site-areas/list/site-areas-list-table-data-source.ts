@@ -150,10 +150,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.editChargersAction,
         new TableMoreAction([
-          openInMaps,
           this.deleteAction,
-          this.exportOCPPParamsAction
-        ]).getActionDef()
+          this.exportOCPPParamsAction,
+          openInMaps,
+        ]).getActionDef(),
       ];
     }
     if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
@@ -161,18 +161,18 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.displayChargersAction,
         new TableMoreAction([
-          openInMaps,
           this.deleteAction,
-          this.exportOCPPParamsAction
-        ]).getActionDef()
+          this.exportOCPPParamsAction,
+          openInMaps,
+        ]).getActionDef(),
       ];
     }
     return [
       this.viewAction,
       this.displayChargersAction,
       new TableMoreAction([
-        openInMaps
-      ]).getActionDef()
+        openInMaps,
+      ]).getActionDef(),
     ];
   }
 

@@ -13,6 +13,8 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-chargers-action';
+import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
@@ -36,6 +38,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private displayChargersAction = new TableDisplayChargersAction().getActionDef();
+  private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -49,7 +52,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private authorizationService: AuthorizationService) {
     super(spinnerService);
     // Init
-    this.setStaticFilters([{WithSite: true}]);
+    this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
   }
 
@@ -62,15 +65,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       // Get Site Areas
       this.centralServerService.getSiteAreas(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((siteAreas) => {
-        // Ok
-        observer.next(siteAreas);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+          // Ok
+          observer.next(siteAreas);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -146,22 +149,30 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       return [
         this.editAction,
         this.editChargersAction,
-        openInMaps,
-        this.deleteAction,
+        new TableMoreAction([
+          this.deleteAction,
+          this.exportOCPPParamsAction,
+          openInMaps,
+        ]).getActionDef(),
       ];
     }
     if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
       return [
         this.editAction,
         this.displayChargersAction,
-        openInMaps,
-        this.deleteAction,
+        new TableMoreAction([
+          this.deleteAction,
+          this.exportOCPPParamsAction,
+          openInMaps,
+        ]).getActionDef(),
       ];
     }
     return [
       this.viewAction,
       this.displayChargersAction,
-      openInMaps,
+      new TableMoreAction([
+        openInMaps,
+      ]).getActionDef(),
     ];
   }
 
@@ -193,6 +204,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
         break;
+      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
+        this.exportOCOPPParams(rowItem);
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -252,12 +265,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private deleteSiteArea(siteArea: SiteArea) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('site_areas.delete_title'),
-      this.translateService.instant('site_areas.delete_confirm', {siteAreaName: siteArea.name}),
+      this.translateService.instant('site_areas.delete_confirm', { siteAreaName: siteArea.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteSiteArea(siteArea.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('site_areas.delete_success', {siteAreaName: siteArea.name});
+            this.messageService.showSuccessMessage('site_areas.delete_success', { siteAreaName: siteArea.name });
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -269,5 +282,20 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         });
       }
     });
+  }
+
+  private exportOCOPPParams(siteArea: SiteArea) {
+    if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
+      this.exportOCPPParamsAction.action(
+        this.dialogService,
+        this.translateService,
+        this.messageService,
+        this.centralServerService,
+        this.router,
+        this.spinnerService,
+        siteArea,
+        null
+      );
+    }
   }
 }

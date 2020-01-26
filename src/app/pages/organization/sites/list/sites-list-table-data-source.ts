@@ -12,11 +12,14 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
+import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
@@ -34,6 +37,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private editUsersAction = new TableEditUsersAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
+  private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -46,7 +50,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
     super(spinnerService);
-    this.setStaticFilters([{WithCompany: true}]);
+    this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
 
@@ -59,15 +63,15 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Get Sites
       this.centralServerService.getSites(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((sites) => {
-        // Ok
-        observer.next(sites);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+          // Ok
+          observer.next(sites);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -138,21 +142,29 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   buildTableDynamicRowActions(site: Site) {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
+    let moreActions;
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) ? false : true;
 
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
       actions.push(this.editUsersAction);
+      moreActions = new TableMoreAction([
+        this.exportOCPPParamsAction,
+        openInMaps,
+      ]).getActionDef();
     } else {
       actions.push(this.viewAction);
+      moreActions = new TableMoreAction([
+        openInMaps,
+      ]).getActionDef();
     }
-
-    actions.push(openInMaps);
-
     if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
-      actions.push(this.deleteAction);
+      if (moreActions.dropdownActions) {
+        moreActions.dropdownActions.splice(0, 0, this.deleteAction);
+      }
     }
+    actions.push(moreActions);
     return actions;
   }
 
@@ -182,6 +194,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
+      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
+        this.exportOCOPPParams(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -242,12 +256,12 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private deleteSite(site: Site) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('sites.delete_title'),
-      this.translateService.instant('sites.delete_confirm', {siteName: site.name}),
+      this.translateService.instant('sites.delete_confirm', { siteName: site.name }),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         this.centralServerService.deleteSite(site.id).subscribe((response) => {
           if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-            this.messageService.showSuccessMessage('sites.delete_success', {siteName: site.name});
+            this.messageService.showSuccessMessage('sites.delete_success', { siteName: site.name });
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -259,5 +273,19 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         });
       }
     });
+  }
+  private exportOCOPPParams(site: Site) {
+    if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
+      this.exportOCPPParamsAction.action(
+        this.dialogService,
+        this.translateService,
+        this.messageService,
+        this.centralServerService,
+        this.router,
+        this.spinnerService,
+        null,
+        site,
+      );
+    }
   }
 }

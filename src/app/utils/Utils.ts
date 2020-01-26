@@ -39,6 +39,10 @@ export class Utils {
     return Utils.getMobileVendor() !== null;
   }
 
+  public static replaceSpecialCharsInCSVValueParam(value: string): string {
+    return value ? value.replace(/\n/g, '') : '';
+  }
+
   public static buildUserFullName(user: User) {
     let fullName: string;
     if (!user || !user.name) {

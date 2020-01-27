@@ -1766,7 +1766,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Set the tenant
-    params['tenant'] = this.windowService.getSubdomain();
+    params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get<ActionResponse>(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,

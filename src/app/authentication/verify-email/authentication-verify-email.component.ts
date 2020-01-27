@@ -100,7 +100,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       // Success
       if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-
         if (this.resetToken) {
           // Show message
           // @ts-ignore

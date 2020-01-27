@@ -28,6 +28,10 @@ export interface OcpiEndpointDetail extends Data {
 }
 
 export enum OcpiButtonAction {
-  SEND = 'send',
+  PUSH_TOKENS = 'push_tokens',
+  PUSH_LOCATIONS = 'push_locations',
+  GET_TOKENS = 'get_tokens',
+  GET_LOCATIONS = 'get_locations',
+  SYNC_ALL = 'sync_all',
   START_JOB = 'stop_start_job',
 }

@@ -19,15 +19,6 @@ import { ChargingStationPowerSliderComponent } from '../component/charging-stati
 import { ChargingSlotTableDataSource } from './charging-slot-table-data-source';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 
-interface DisplayedSlot extends ScheduleSlot {
-  limitInkW: number;
-}
-export interface DisplayedScheduleSlot {
-  slot: DisplayedSlot;
-  id: number;
-  startDate: Date;
-  duration: number;
-}
 
 export const PROFILE_TYPE_MAP =
   [
@@ -61,8 +52,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   public chargingProfilePurposeControl!: AbstractControl;
   public chargingPeriod!: FormArray;
   public startSchedule!: Date;
-
-  public chartSlotsSchedule!: DisplayedScheduleSlot;
 
   private defaultLimit!: number;
 
@@ -245,7 +234,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
 
   onChanges(): void {
   this.chargingSlotTableDataSource.rowChanged.subscribe(val => {
-      this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
+      //this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
       console.log('upate2');
     });
   }

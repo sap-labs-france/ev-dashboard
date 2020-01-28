@@ -60,7 +60,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     if (Utils.isInMobileApp()) {
       // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
-        `verifyAccount/${this.windowService.getSubdomain()}/${this.email}/${this.verificationToken}/${this.resetToken}`);
+        `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
       window.location.href = mobileAppURL;
     }
   }

@@ -2,9 +2,11 @@ import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@ang
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStation, ChargingStationCurrentType, Connector } from 'app/types/ChargingStation';
+import { Slot } from 'app/types/ChargingProfile';
 import { TableColumnDef } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-charging-station-power-slider',
@@ -13,11 +15,12 @@ import { Utils } from 'app/utils/Utils';
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit {
   private static MIN_AMP = 6;
+  public rowChanged!: Subject<any>;
 
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
   @Input() columnDef!: TableColumnDef;
-  @Input() row!: any;
+  @Input() row!: Slot;
   @Input() currentAmp!: number;
   @Input() forChargingProfile = false;
   @Output() powerSliderChanged = new EventEmitter<number>();
@@ -32,10 +35,11 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   constructor(
     private appUnitFormatter: AppUnitPipe,
     private decimalPipe: AppDecimalPipe) {
+      this.rowChanged = new Subject();
   }
 
   ngOnInit() {
-    if(!this.charger){
+    if(this.columnDef){
       this.charger = this.columnDef.additionalParameters;
       this.currentAmp = this.row.limit;
       this.forChargingProfile = true;
@@ -99,9 +103,11 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
       // Notify
       this.powerSliderChanged.emit(value);
-      this.row.limit = value
-      this.row.displayedLimitInkW = this.convertAmpToPower(value, 'W');;
-      console.log(value);
+      this.rowChanged.next(value);
+      if (this.row) {
+      this.row.limit = value;
+      this.row.limitInkW = parseInt(this.convertAmpToPower(value, 'W'), 10);
+      }
     }
   }
 
@@ -120,4 +126,3 @@ export class ChargingStationPowerSliderComponent implements OnInit {
 
       }
   }
-

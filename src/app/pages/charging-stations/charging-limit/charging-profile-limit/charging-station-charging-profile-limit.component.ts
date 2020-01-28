@@ -19,7 +19,6 @@ import { ChargingStationPowerSliderComponent } from '../component/charging-stati
 import { ChargingSlotTableDataSource } from './charging-slot-table-data-source';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 
-
 interface DisplayedSlot extends ScheduleSlot {
   limitInkW: number;
 }
@@ -84,13 +83,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.slotsSchedule = [];
     // Initialize slider values
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : PowerLimitUnits.AMPERE);
-    // Calculate default slider value which is macimum Power of the charger
-    // TODO: To handle numberOfConnectedPhase per connector now
-    // if (this.powerUnit === Constants.OCPP_UNIT_AMPER) {
-    //   this.defaultLimit = ChargingStations.convertWToAmp(this.charger.numberOfConnectedPhase, this.charger.maximumPower);
-    // } else {
-    //   this.defaultLimit = this.charger.maximumPower;
-    // }
+
     // Init the form
     this.formGroup = new FormGroup({
       profileTypeControl: new FormControl('',
@@ -123,9 +116,31 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.durationControl = this.formGroup.controls['durationControl'];
     this.chargingPeriod = this.formGroup.controls['chargingPeriod'] as FormArray;
 
+    this.startSchedule = new Date();
+    this.profileTypeControl.setValue(ChargingProfileKindType.ABSOLUTE);
+
     this.chargingSlotTableDataSource.setFormArray(this.chargingPeriod);
     this.loadChargingProfile();
+    // JUST FOR MOCK UP
+    this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
     this.chargingSlotTableDataSource.addCharger(this.charger);
+
+    this.profileTypeControl.valueChanges.subscribe(() => {
+      // Set default values
+      // @ts-ignore
+      this.stackLevelControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).stackLevel);
+      // @ts-ignore
+      this.profileIdControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).id);
+
+      if (this.profileTypeControl.value === ChargingProfileKindType.ABSOLUTE) {
+        this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_DATE;
+      }
+      else {
+        this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
+      }
+
+    });
+     this.onChanges();
   }
 
   dateFilterChanged(event: MatDatetimepickerInputEvent<any>) {
@@ -204,29 +219,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     //     this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
     //     // this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
     //   }
-    //   else {
-    //     this.startSchedule = new Date();
-    //   }
-    //   this.chargingSlotTableDataSource.startDate = this.startSchedule;
+    this.chargingSlotTableDataSource.startDate = this.startSchedule;
     //   this.chargingProfile = chargingProfile;
 
 
     //   // });
-    //   this.profileTypeControl.valueChanges.subscribe(() => {
-    //     // Set default values
-    //     // @ts-ignore
-    //     this.stackLevelControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).stackLevel);
-    //     // @ts-ignore
-    //     this.profileIdControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).id);
-
-    //     if (this.profileTypeControl.value === ChargingProfileKindType.ABSOLUTE) {
-    //       this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_DATE;
-    //     }
-    //     else {
-    //       this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
-    //     }
-
-    //   });
+    //
     // }, (error) => {
     //   // Hide
     //   this.spinnerService.hide();
@@ -246,8 +244,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.formGroup.valueChanges.subscribe(val => {
+  this.chargingSlotTableDataSource.rowChanged.subscribe(val => {
       this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
+      console.log('upate2');
     });
   }
 

@@ -716,6 +716,7 @@
       "slot_index_header": "Slot number",
       "slot_duration_header": "Slot duration (s)",
       "slot_limit_header": "Slot power limit",
+      "connectors_all": "all",
       "profile_types": {
         "relative": "Relative",
         "absolute": "Temporary Planning",

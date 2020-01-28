@@ -35,17 +35,18 @@
                 <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
                 </mat-datetimepicker>
                 <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}"
+                <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
                   (dateChange)="dateFilterChanged($event)" [matDatetimepicker]="picker" [value]="startSchedule"
                   autocomplete="false">
               </mat-form-field>
             </div>
           </div>
           <app-table [dataSource]="chargingSlotTableDataSource"></app-table>
-          <div>
-            <app-charging-station-smart-charging-limit-planner-chart #limitChart [scheduleSlots]="slotsSchedule" ratio="4">
-            </app-charging-station-smart-charging-limit-planner-chart>
-          </div>
+        </div>
+        <div class="col-md-12 text-right">
+          <app-charging-station-smart-charging-limit-planner-chart #limitChart [scheduleSlots]="slotsSchedule"
+            ratio="4">
+          </app-charging-station-smart-charging-limit-planner-chart>
         </div>
       </div>
     </div>

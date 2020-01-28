@@ -297,30 +297,29 @@
               <td *ngIf="dataSource.tableDef.isEditable"
                   [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
                   [class.table-field-invalid]="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors">
-                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === 'input'"
+                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                   [id]="tableColumnDef.id" [name]="tableColumnDef.id"
                   class="form-control text-line"
                   [placeholder]="tableColumnDef.name | translate"
                   [ngModel]="row[tableColumnDef.id]"
                   (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
                   type="text">
-                <mat-checkbox *ngIf="tableColumnDef.editType === 'checkbox'"
+                <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
                   [(ngModel)]="row[tableColumnDef.id]"
                   (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)">
                 </mat-checkbox>
-                <mat-radio-button *ngIf="tableColumnDef.editType === 'radiobutton'"
+                <mat-radio-button *ngIf="tableColumnDef.editType === TableEditType.RADIO_BUTTON"
                   [checked]="row[tableColumnDef.id]"
                   (change)="$event.source.checked  = !$event.source.checked;"
                   (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
-                <span *ngIf="tableColumnDef.editType === 'displayonlydate'" class="text-center">
-                  {{row[tableColumnDef.id] | date: 'dd.MM.yyyy HH:mm'}}
+                <span *ngIf="tableColumnDef.editType === TableEditType.DISPLAY_ONLY_DATE" class="text-center">
+                  {{row[tableColumnDef.id] | date: 'MMM d, y, h:mm a'}}
                 </span>
-                <span *ngIf="tableColumnDef.editType === 'displayonlytime'" class="text-center">
-                  {{row[tableColumnDef.id] | date: 'HH:mm'}}
+                <span *ngIf="tableColumnDef.editType === TableEditType.DISPLAY_ONLY_TIME" class="text-center">
+                  {{row[tableColumnDef.id] | date: 'shortTime'}}
                 </span>
-                <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center">
-                  {{row[tableColumnDef.id]}}
+                <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                 </span>
                 <mat-error *ngIf="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors as errors">
                   <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>

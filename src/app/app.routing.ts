@@ -6,6 +6,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { BrowserNotSupportedComponent } from './pages/browser-not-supported/browser-not-supported.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { ComponentType } from './services/component.service';
+import { Actions, Entities } from './types/Authorization';
 import { Constants } from './utils/Constants';
 
 export const AppRoutes: Routes = [
@@ -35,8 +36,8 @@ export const AppRoutes: Routes = [
             path: '/dashboard',
           },
           auth: {
-            entity: Constants.ENTITY_CHARGING_STATIONS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.CHARGING_STATIONS,
+            action: Actions.LIST,
           },
           options: {
             onlyDev: true,
@@ -55,8 +56,8 @@ export const AppRoutes: Routes = [
             path: '/charging-stations',
           },
           auth: {
-            entity: Constants.ENTITY_CHARGING_STATIONS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.CHARGING_STATIONS,
+            action: Actions.LIST,
           },
         },
       },
@@ -71,8 +72,8 @@ export const AppRoutes: Routes = [
             path: '/transactions',
           },
           auth: {
-            entity: Constants.ENTITY_TRANSACTIONS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.TRANSACTIONS,
+            action: Actions.LIST,
           },
         },
       },
@@ -87,8 +88,8 @@ export const AppRoutes: Routes = [
             path: '/statistics',
           },
           auth: {
-            entity: Constants.ENTITY_TRANSACTIONS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.TRANSACTIONS,
+            action: Actions.LIST,
           },
           component: ComponentType.STATISTICS,
         },
@@ -104,8 +105,8 @@ export const AppRoutes: Routes = [
             path: '/tenants',
           },
           auth: {
-            entity: Constants.ENTITY_TENANTS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.TENANTS,
+            action: Actions.LIST,
           },
         },
       },
@@ -120,8 +121,8 @@ export const AppRoutes: Routes = [
             path: '/users',
           },
           auth: {
-            entity: Constants.ENTITY_USER,
-            action: Constants.ACTION_CREATE,
+            entity: Entities.USER,
+            action: Actions.CREATE,
           },
         },
       },
@@ -136,8 +137,8 @@ export const AppRoutes: Routes = [
             path: '/organization',
           },
           auth: {
-            entity: Constants.ENTITY_COMPANIES,
-            action: Constants.ACTION_LIST,
+            entity: Entities.COMPANIES,
+            action: Actions.LIST,
           },
           component: ComponentType.ORGANIZATION,
         },
@@ -153,8 +154,8 @@ export const AppRoutes: Routes = [
             path: '/settings',
           },
           auth: {
-            entity: Constants.ENTITY_SETTING,
-            action: Constants.ACTION_CREATE,
+            entity: Entities.SETTING,
+            action: Actions.CREATE,
           },
         },
       },
@@ -169,8 +170,8 @@ export const AppRoutes: Routes = [
             path: '/logs',
           },
           auth: {
-            entity: Constants.ENTITY_LOGGINGS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.LOGGINGS,
+            action: Actions.LIST,
           },
         },
       },
@@ -189,8 +190,8 @@ export const AppRoutes: Routes = [
             path: '/template',
           },
           auth: {
-            entity: Constants.ENTITY_LOGGINGS,
-            action: Constants.ACTION_LIST,
+            entity: Entities.LOGGINGS,
+            action: Actions.LIST,
           },
           options: {
             onlyDev: true,

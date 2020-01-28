@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
 
 import { RouteGuardService } from '../../guard/route-guard';
-import { Constants } from '../../utils/Constants';
+import { Actions, Entities } from '../../types/Authorization';
 import { TenantsListComponent } from './list/tenants-list.component';
 
 export const TenantsRoutes: Routes = [
   {
     path: '', component: TenantsListComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Constants.ENTITY_TENANTS,
-        action: Constants.ACTION_LIST,
+        entity: Entities.TENANTS,
+        action: Actions.LIST,
       },
     },
   },

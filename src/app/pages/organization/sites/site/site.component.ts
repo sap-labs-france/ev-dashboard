@@ -10,6 +10,7 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Entities } from 'app/types/Authorization';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
@@ -121,7 +122,7 @@ export class SiteComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.coordinates = this.address.controls['coordinates'] as FormArray;
 
-    this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE);
+    this.isAdmin = this.authorizationService.canAccess(Entities.SITE, Constants.ACTION_CREATE);
 
     if (this.currentSiteID) {
       this.loadSite();

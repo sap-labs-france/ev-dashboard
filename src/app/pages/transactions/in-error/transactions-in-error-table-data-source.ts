@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { ActionResponse, DataResult, ActionsResponse } from 'app/types/DataResult';
+import { Entities } from 'app/types/Authorization';
+import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError } from 'app/types/InError';
+import { RefundStatus } from 'app/types/Refund';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
@@ -37,7 +39,6 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-import { RefundStatus } from 'app/types/Refund';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
@@ -263,10 +264,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   buildTableRowActions(): TableActionDef[] {
     const actions = [];
-    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_READ)) {
+    if (this.authorizationService.canAccess(Entities.TRANSACTION, Constants.ACTION_READ)) {
       actions.push(this.openAction);
     }
-    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_DELETE)) {
+    if (this.authorizationService.canAccess(Entities.TRANSACTION, Constants.ACTION_DELETE)) {
       actions.push(this.deleteAction);
     }
     return actions;

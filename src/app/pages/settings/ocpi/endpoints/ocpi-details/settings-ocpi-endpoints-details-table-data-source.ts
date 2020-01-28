@@ -34,7 +34,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private synchronizeAllAction = new TableUploadAction(OcpiButtonAction.SYNC_ALL, 'ocpi.sync_all').getActionDef();
   private pushLocationsAction = new TableUploadAction(OcpiButtonAction.PUSH_LOCATIONS, 'ocpi.push_locations').getActionDef();
   private pushTokensAction = new TableUploadAction(OcpiButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
+  private getCdrsAction = new TableDownloadAction(OcpiButtonAction.GET_CDRS, 'ocpi.get_cdrs').getActionDef();
   private getLocationsAction = new TableDownloadAction(OcpiButtonAction.GET_LOCATIONS, 'ocpi.get_locations').getActionDef();
+  private getSessionsAction = new TableDownloadAction(OcpiButtonAction.GET_SESSIONS, 'ocpi.get_sessions').getActionDef();
   private getTokensAction = new TableUploadAction(OcpiButtonAction.GET_TOKENS, 'ocpi.get_tokens').getActionDef();
 
   constructor(
@@ -173,9 +175,17 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       }
       let syncActions: TableActionDef;
       if (rowItem.ocpiendpoint.role === Constants.OCPI_ROLE_CPO) {
-        syncActions = new TableMultiSyncAction([this.synchronizeAllAction, this.pushLocationsAction, this.getTokensAction]).getActionDef();
+        syncActions = new TableMultiSyncAction([
+          this.synchronizeAllAction,
+          this.pushLocationsAction,
+          this.getTokensAction]).getActionDef();
       } else {
-        syncActions = new TableMultiSyncAction([this.synchronizeAllAction, this.getLocationsAction, this.pushTokensAction]).getActionDef();
+        syncActions = new TableMultiSyncAction([
+          this.synchronizeAllAction,
+          this.getLocationsAction,
+          this.getSessionsAction,
+          this.getCdrsAction,
+          this.pushTokensAction]).getActionDef();
       }
       // add send all EVSE Statuses
       _actionRowButtons.push(syncActions);
@@ -198,8 +208,14 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       case OcpiButtonAction.PUSH_LOCATIONS:
         this.pushEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
         break;
+      case OcpiButtonAction.GET_CDRS:
+        this.getCdrsOcpiEndpoint(rowItem.ocpiendpoint);
+        break;
       case OcpiButtonAction.GET_LOCATIONS:
         this.getLocationsOcpiEndpoint(rowItem.ocpiendpoint);
+        break;
+      case OcpiButtonAction.GET_SESSIONS:
+        this.getSessionsOcpiEndpoint(rowItem.ocpiendpoint);
         break;
       case ButtonAction.START:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
@@ -335,6 +351,64 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.getLocations_error');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private getSessionsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.getSessions_title'),
+      this.translateService.instant('ocpiendpoints.getSessions_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Ping
+        this.centralServerService.getSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.getSessions_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.getSessions_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.getSessions_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.getSessions_error');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private getCdrsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.getCdrs_title'),
+      this.translateService.instant('ocpiendpoints.getCdrs_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Ping
+        this.centralServerService.getCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.getCdrs_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.getCdrs_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.getCdrs_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.getCdrs_error');
           // reload data
           this.refreshData().subscribe();
         });

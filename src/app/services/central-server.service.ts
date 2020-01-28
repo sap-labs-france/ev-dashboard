@@ -73,8 +73,8 @@ export class CentralServerService {
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { transactionsIDs }
-    }
+      body: { transactionsIDs },
+    };
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsDelete`, options)
       .pipe(
@@ -1664,6 +1664,34 @@ export class CentralServerService {
       );
   }
 
+  public getSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullSessions`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this.checkInit();
@@ -1966,7 +1994,6 @@ export class CentralServerService {
   }
 
 
-
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string, loadAllConnectors: boolean): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -1997,10 +2024,10 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
-      chargeBoxID: charger.id,
-      connectorId,
-      ampLimitValue,
-    },
+        chargeBoxID: charger.id,
+        connectorId,
+        ampLimitValue,
+      },
       {
         headers: this.buildHttpHeaders(),
       })

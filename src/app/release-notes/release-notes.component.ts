@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.1.19',
-        date: new Date('2020-01-24'),
+        date: new Date('2020-01-28'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -43,6 +43,7 @@ export class ReleaseNotesComponent {
               `Notification: Admins are notified when billing user's synchronization has failed`,
               `Connector's data is not cleaned until it becomes available`,
               `Move the action row at the beginning of the list`,
+              `Added account activation in mobile app`,
               `Enable Charging Station's URL field if the protocol is SOAP`,
               `TypeScript: Alignment between front-end and backend types`,
               `TypeScript: Migration of Settings anf Logging API`,

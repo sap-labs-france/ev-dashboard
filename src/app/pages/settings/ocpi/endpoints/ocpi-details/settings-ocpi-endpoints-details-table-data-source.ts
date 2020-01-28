@@ -8,17 +8,19 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableSendAction } from 'app/shared/table/actions/table-send-action';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
+import { TableUploadAction } from 'app/shared/table/actions/table-upload-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
-import { OcpiEndpoint, OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
+import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
+import { TableMultiSyncAction } from '../../../../../shared/table/actions/table-multi-sync-action';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { OcpiDetailJobStatusFomatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-success-evses-status-formatter.component';
@@ -29,7 +31,11 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private ocpiEndpoint!: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
-  private sendAction = new TableSendAction().getActionDef();
+  private synchronizeAllAction = new TableUploadAction(OcpiButtonAction.SYNC_ALL, 'ocpi.sync_all').getActionDef();
+  private pushLocationsAction = new TableUploadAction(OcpiButtonAction.PUSH_LOCATIONS, 'ocpi.push_locations').getActionDef();
+  private pushTokensAction = new TableUploadAction(OcpiButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
+  private getLocationsAction = new TableDownloadAction(OcpiButtonAction.GET_LOCATIONS, 'ocpi.get_locations').getActionDef();
+  private getTokensAction = new TableUploadAction(OcpiButtonAction.GET_TOKENS, 'ocpi.get_tokens').getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -157,15 +163,22 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   public buildTableDynamicRowActions(rowItem: OcpiEndpointDetail): TableActionDef[] {
     const _actionRowButtons = [];
+
     if (rowItem && rowItem.ocpiendpoint) {
-      // add send all EVSE Statuses
-      _actionRowButtons.push(this.sendAction);
       // Check is background job is active for the ocpi endpoint
       if (rowItem.ocpiendpoint.backgroundPatchJob) {
         _actionRowButtons.push(this.stopAction);
       } else {
         _actionRowButtons.push(this.startAction);
       }
+      let syncActions: TableActionDef;
+      if (rowItem.ocpiendpoint.role === Constants.OCPI_ROLE_CPO) {
+        syncActions = new TableMultiSyncAction([this.synchronizeAllAction, this.pushLocationsAction, this.getTokensAction]).getActionDef();
+      } else {
+        syncActions = new TableMultiSyncAction([this.synchronizeAllAction, this.getLocationsAction, this.pushTokensAction]).getActionDef();
+      }
+      // add send all EVSE Statuses
+      _actionRowButtons.push(syncActions);
     }
     return _actionRowButtons;
   }
@@ -176,8 +189,17 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
     switch (actionDef.id) {
-      case ButtonAction.SEND:
+      case OcpiButtonAction.SYNC_ALL:
         this.triggerJobsOcpiEndpoint(rowItem.ocpiendpoint);
+        break;
+      case OcpiButtonAction.PUSH_TOKENS:
+        this.pushTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        break;
+      case OcpiButtonAction.PUSH_LOCATIONS:
+        this.pushEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
+        break;
+      case OcpiButtonAction.GET_LOCATIONS:
+        this.getLocationsOcpiEndpoint(rowItem.ocpiendpoint);
         break;
       case ButtonAction.START:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
@@ -190,7 +212,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     }
   }
 
-  private sendEVSEStatusesOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pushEVSEStatusesOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.send_evse_statuses_title'),
       this.translateService.instant('ocpiendpoints.send_evse_statuses_confirm', { name: ocpiendpoint.name }),
@@ -262,7 +284,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     });
   }
 
-  private sendTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+  private pushTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('ocpiendpoints.sendTokens_title'),
       this.translateService.instant('ocpiendpoints.sendTokens_confirm', { name: ocpiendpoint.name }),
@@ -284,6 +306,35 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.error_send_tokens');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private getLocationsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.getLocations_title'),
+      this.translateService.instant('ocpiendpoints.getLocations_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === Constants.BUTTON_TYPE_YES) {
+        // Ping
+        this.centralServerService.getLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.getLocations_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.getLocations_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.getLocations_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.getLocations_error');
           // reload data
           this.refreshData().subscribe();
         });

@@ -1,7 +1,6 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
-import { SettingsOCPISendAction } from './settings-ocpi-send-action';
 import { SettingsOCPIStartJobAction } from './settings-ocpi-start-job-action';
 
 export class SettingsOcpiEnpointsMoreAction implements TableAction {
@@ -14,7 +13,6 @@ export class SettingsOcpiEnpointsMoreAction implements TableAction {
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,
     dropdownActions: [
-      new SettingsOCPISendAction().getActionDef(),
       new SettingsOCPIStartJobAction().getActionDef(),
     ],
   };

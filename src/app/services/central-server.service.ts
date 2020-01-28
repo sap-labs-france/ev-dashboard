@@ -1649,6 +1649,20 @@ export class CentralServerService {
       );
   }
 
+  public getLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullLocations`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this.checkInit();
@@ -1751,7 +1765,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Set the tenant
-    params['tenant'] = this.windowService.getSubdomain();
+    params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get<ActionResponse>(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,

@@ -250,7 +250,7 @@
                 *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
                 <!-- Drop Down Action -->
                 <ng-container *ngIf="rowAction.isDropdownMenu">
-                  <mat-menu #rowActionMenu="matMenu" xPosition="before">
+                  <mat-menu #rowActionMenu="matMenu" xPosition="after">
                     <ng-template matMenuContent>
                       <ng-container
                         *ngFor="let dropdownAction of rowAction.dropdownActions">

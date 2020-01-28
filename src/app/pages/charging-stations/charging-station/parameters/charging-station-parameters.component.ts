@@ -267,9 +267,6 @@ export class ChargingStationParametersComponent implements OnInit {
     } else if (!currentTypeDC && currentTypeAC) {
       this.currentType.setValue(ChargingStationCurrentType.AC);
     }
-    console.log('====================================');
-    console.log({currentTypeDC, currentTypeAC});
-    console.log('====================================');
   }
 
   public loadChargingStation() {

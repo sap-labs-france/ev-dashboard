@@ -75,7 +75,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       card.classList.remove('card-hidden');
     }, 700);
     // Check email
-    if (this.verificationEmail) {
+    if (this.verificationEmail && !Utils.isInMobileApp()) {
       // Set email
       this.formGroup.controls.email.setValue(this.verificationEmail);
       // Check if verificationToken
@@ -172,15 +172,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
         return;
       }
-      // Show
       this.spinnerService.show();
       // Resend
       this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
-        // Hide
         this.spinnerService.hide();
         // Success
         if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-          // Show message
           // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login

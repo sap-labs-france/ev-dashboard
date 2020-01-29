@@ -84,26 +84,26 @@ export class Constants {
   // public static ACTION_SYNCHRONIZE_USERS_BILLING = 'SynchronizeUsersBilling';
 
   /* Company */
-  public static COMPANY_WITH_LOGO = true;
-  public static COMPANY_WITH_NO_LOGO = false;
+  public static COMPANY_WITH_LOGO = true; // not used
+  public static COMPANY_WITH_NO_LOGO = false; // not used
   public static COMPANY_NO_LOGO = 'assets/img/theme/no-logo.png';
 
   /* Site */
-  public static SITE_WITH_COMPANY = true;
-  public static SITE_WITH_NO_COMPANY = false;
-  public static SITE_WITH_IMAGE = true;
-  public static SITE_WITH_NO_IMAGE = false;
-  public static SITE_WITH_SITE_AREAS = true;
-  public static SITE_WITH_NO_SITE_AREAS = false;
-  public static SITE_WITH_CHARGERS = true;
-  public static SITE_WITH_NO_CHARGERS = false;
-  public static SITE_WITH_USERS = true;
-  public static SITE_WITH_NO_USERS = false;
+  public static SITE_WITH_COMPANY = true; // not used
+  public static SITE_WITH_NO_COMPANY = false; // not used
+  public static SITE_WITH_IMAGE = true; // not used
+  public static SITE_WITH_NO_IMAGE = false; // not used
+  public static SITE_WITH_SITE_AREAS = true; // not used
+  public static SITE_WITH_NO_SITE_AREAS = false; // not used
+  public static SITE_WITH_CHARGERS = true; // not used
+  public static SITE_WITH_NO_CHARGERS = false; // not used
+  public static SITE_WITH_USERS = true; // not used
+  public static SITE_WITH_NO_USERS = false; // not used
   public static SITE_NO_IMAGE = 'assets/img/theme/no-logo.png';
 
   /* Site Area */
-  public static SITE_AREA_WITH_IMAGE = true;
-  public static SITE_AREA_WITH_NO_IMAGE = false;
+  public static SITE_AREA_WITH_IMAGE = true; // not used
+  public static SITE_AREA_WITH_NO_IMAGE = false; // not used
   public static SITE_AREA_NO_IMAGE = 'assets/img/theme/no-logo.png';
 
   /* Data Service */
@@ -113,15 +113,15 @@ export class Constants {
   public static DEFAULT_PAGING = {limit: Constants.DEFAULT_LIMIT, skip: Constants.DEFAULT_SKIP};
 
   /* Notification */
-  // public static NOTIF_ACTION_CREATE = 'Create';
-  // public static NOTIF_ACTION_UPDATE = 'Update';
+  public static NOTIF_ACTION_CREATE = 'Create'; // not used
+  public static NOTIF_ACTION_UPDATE = 'Update'; // not used
   public static NOTIF_ACTION_DELETE = 'Delete';
-  // public static NOTIF_TYPE_USER = 'User';
-  // public static NOTIF_TYPE_TRANSACTION = 'Transaction';
-  // public static NOTIF_TYPE_TRANSACTION_STOP = 'Stop';
-  // public static NOTIF_TYPE_TRANSACTION_METER_VALUES = 'MeterValues';
-  // public static NOTIF_TYPE_CHARGING_STATION = 'ChargingStation';
-  // public static NOTIF_TYPE_CHARGING_STATION_CONFIGURATION = 'Configuration';
+  public static NOTIF_TYPE_USER = 'User'; // not used
+  public static NOTIF_TYPE_TRANSACTION = 'Transaction'; // not used
+  public static NOTIF_TYPE_TRANSACTION_STOP = 'Stop'; // not used
+  public static NOTIF_TYPE_TRANSACTION_METER_VALUES = 'MeterValues'; // not used
+  public static NOTIF_TYPE_CHARGING_STATION = 'ChargingStation'; // not used
+  public static NOTIF_TYPE_CHARGING_STATION_CONFIGURATION = 'Configuration'; // not used
 
   /* Users */
   // public static USER_STATUS_PENDING = 'P';
@@ -136,25 +136,25 @@ export class Constants {
   // public static USER_ROLE_BASIC = 'B';
   // public static USER_ROLE_DEMO = 'D';
   // public static USER_ROLE_UNKNOWN = 'U';
-  public static USER_LOCALE_UNKNOWN = 'U';
+  public static USER_LOCALE_UNKNOWN = 'U'; // not used
   public static USER_NO_PICTURE = 'assets/img/theme/no-photo.png';
-  public static NO_USER = 'assets/img/theme/no-user.png';
-  public static USER_WITH_NO_PICTURE = false;
-  public static USER_WITH_PICTURE = true;
+  public static NO_USER = 'assets/img/theme/no-user.png'; // not used
+  public static USER_WITH_NO_PICTURE = false; // not used
+  public static USER_WITH_PICTURE = true; // not used
 
   /* Vehicle Manufacturer */
-  public static VEHICLE_MANUFACTURER_WITH_LOGO = true;
-  public static VEHICLE_MANUFACTURER_WITH_NO_LOGO = false;
-  public static VEHICLE_MANUFACTURER_WITH_VEHICLES = true;
-  public static VEHICLE_MANUFACTURER_WITH_NO_VEHICLE = false;
+  public static VEHICLE_MANUFACTURER_WITH_LOGO = true; // not used
+  public static VEHICLE_MANUFACTURER_WITH_NO_LOGO = false; // not used
+  public static VEHICLE_MANUFACTURER_WITH_VEHICLES = true; // not used
+  public static VEHICLE_MANUFACTURER_WITH_NO_VEHICLE = false; // not used
   public static VEHICLE_MANUFACTURER_NO_LOGO = 'assets/img/theme/no-logo.jpg';
 
   /* Vehicle */
-  public static VEHICLE_TYPE_CAR = 'C';
-  public static VEHICLE_WITH_IMAGES = true;
-  public static VEHICLE_WITH_NO_IMAGES = false;
-  public static VEHICLE_NO_IMAGE = 'assets/img/theme/no-logo.jpg';
-  public static VEHICLE_NO_LOGO = 'assets/img/theme/no-logo.jpg';
+  public static VEHICLE_TYPE_CAR = 'C'; // not used
+  public static VEHICLE_WITH_IMAGES = true; // not used
+  public static VEHICLE_WITH_NO_IMAGES = false; // not used
+  public static VEHICLE_NO_IMAGE = 'assets/img/theme/no-logo.jpg'; // not used
+  public static VEHICLE_NO_LOGO = 'assets/img/theme/no-logo.jpg'; // not used
 
   /* Filter */
   public static FILTER_ALL_KEY = 'all';
@@ -196,8 +196,8 @@ export class Constants {
 
   public static OCPP_RESPONSE_ACCEPTED = 'Accepted';
   public static OCPP_RESPONSE_REJECTED = 'Rejected';
-  public static OCPP_UNIT_AMPER = 'A';
-  public static OCPP_UNIT_WATT = 'W';
+  public static OCPP_UNIT_AMPER = 'A';  // not used
+  public static OCPP_UNIT_WATT = 'W'; // not used
   /* Settings */
 
   /* OCPI status */

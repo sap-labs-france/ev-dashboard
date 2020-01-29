@@ -69,6 +69,19 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     this.tableColumnDefs[3].additionalParameters = charger;
   }
 
+  public recomputeChargingSlots() {
+    const chargingSlots = this.getContent();
+    if (chargingSlots.length > 0) {
+      chargingSlots[0].startDate = this.startDate;
+      // Recompute charging plan
+      for (let i = 0; i < chargingSlots.length - 1; i++) {
+        const date = new Date(chargingSlots[i].startDate);
+        date.setSeconds((date.getSeconds() + chargingSlots[i].duration * 60));
+        chargingSlots[i + 1].startDate = date;
+      }
+    }
+  }
+
   public createRow() {
     const chargingSchedulePeriod = {
       startDate: this.startDate,

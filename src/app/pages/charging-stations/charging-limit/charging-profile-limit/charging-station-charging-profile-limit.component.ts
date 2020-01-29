@@ -126,18 +126,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     });
   }
 
-  public dateFilterChanged(value: Date) {
+  public startDateFilterChanged(value: Date) {
     this.chargingSlotTableDataSource.startDate = value;
-    const chargingSlot = this.chargingSlotTableDataSource.getContent();
-    if (chargingSlot.length > 0) {
-      chargingSlot[0].startDate = value;
-      // Recompute charging plan
-      for (let i = 0; i < chargingSlot.length - 1; i++) {
-        const date = new Date(this.chargingSlotTableDataSource.data[i].startDate);
-        date.setSeconds((date.getSeconds() + this.chargingSlotTableDataSource.data[i].duration * 60));
-        this.chargingSlotTableDataSource.data[i + 1].startDate = date;
-      }
-    }
+    this.chargingSlotTableDataSource.recomputeChargingSlots();
   }
 
   public loadChargingProfile() {
@@ -228,136 +219,129 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     // });
   }
 
-  onChanges(): void {
-    console.log('====================================');
-    console.log('Changes');
-    console.log('====================================');
-    this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
+  public clearChargingProfile() {
+    // // show yes/no dialog
+    // const self = this;
+    // this.dialogService.createAndShowYesNoDialog(
+    //   this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
+    //   this.translateService.instant('chargers.smart_charging.power_limit_plan_clear', { chargeBoxID: this.charger.id }),
+    // ).subscribe((result) => {
+    //   if (result === Constants.BUTTON_TYPE_YES) {
+    //     try {
+    //       // call REST service
+    //       this.centralServerService.deleteChargingProfile(this.charger.id).subscribe((response) => {
+    //         if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+    //           // success + reload
+    //           this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
+    //             { chargeBoxID: self.charger.id, power: 'plan' }));
+    //         } else {
+    //           Utils.handleError(JSON.stringify(response),
+    //             this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
+    //         }
+    //       }, (error: any) => {
+    //         this.spinnerService.hide();
+    //         this.dialog.closeAll();
+    //         Utils.handleHttpError(
+    //           error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
+    //       });
+    //     } catch (error) {
+    //       console.log(error);
+    //       Utils.handleError(JSON.stringify(error),
+    //         this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+    //     }
+    //     this.slotsSchedule = [];
+    //     this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
+    //   }
+    // }
+    // );
   }
 
-  clearChargingProfile() {
-    // show yes/no dialog
-    const self = this;
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_clear', { chargeBoxID: this.charger.id }),
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        try {
-          // call REST service
-          this.centralServerService.deleteChargingProfile(this.charger.id).subscribe((response) => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-              // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                { chargeBoxID: self.charger.id, power: 'plan' }));
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
-            }
-          }, (error: any) => {
-            this.spinnerService.hide();
-            this.dialog.closeAll();
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
-          });
-        } catch (error) {
-          console.log(error);
-          Utils.handleError(JSON.stringify(error),
-            this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
-        }
-        this.slotsSchedule = [];
-        this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
-      }
-    }
-    );
+  public saveAndApplyChargingProfile() {
+    // // show yes/no dialog
+    // const self = this;
+    // this.dialogService.createAndShowYesNoDialog(
+    //   this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
+    //   this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
+    // ).subscribe((result) => {
+    //   if (result === Constants.BUTTON_TYPE_YES) {
+    //     try {
+    //       // Build OCPP planning
+    //       const chargingProfile = this.buildChargingProfile();
+    //       // call REST service
+    //       this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
+    //         if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+    //           // success + reload
+    //           this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
+    //             { chargeBoxID: self.charger.id, power: 'plan' }));
+    //         } else {
+    //           Utils.handleError(JSON.stringify(response),
+    //             this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
+    //         }
+    //       }, (error) => {
+    //         this.spinnerService.hide();
+    //         this.dialog.closeAll();
+    //         Utils.handleHttpError(
+    //           error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
+    //       });
+    //     } catch (error) {
+    //       console.log(error);
+    //       Utils.handleError(JSON.stringify(error),
+    //         this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+    //     }
+    //   }
+    // });
   }
 
-  applyPowerLimit() {
-    // show yes/no dialog
-    const self = this;
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
-    ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
-        try {
-          // Build OCPP planning
-          const chargingProfile = this.buildProfile();
-          // call REST service
-          this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
-              // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                { chargeBoxID: self.charger.id, power: 'plan' }));
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
-            }
-          }, (error) => {
-            this.spinnerService.hide();
-            this.dialog.closeAll();
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
-          });
-        } catch (error) {
-          console.log(error);
-          Utils.handleError(JSON.stringify(error),
-            this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
-        }
-      }
-    });
-  }
+  private buildChargingProfile() {
+    // this.chargingSlotTableDataSource.refreshData()
+    // const chargingProfile = {} as ChargingProfile;
+    // chargingProfile.profile = {} as Profile;
+    // chargingProfile.chargingStationID = this.charger.id;
+    // if (this.profileIdControl.value > 0 && this.profileIdControl.value <= 10) {
+    //   chargingProfile.profile.chargingProfileId = this.profileIdControl.value;
+    // } else {
+    //   throw new Error('Invalid profile Id');
+    // }
+    // if (this.stackLevelControl.value > 0 && this.stackLevelControl.value <= 10) {
+    //   chargingProfile.profile.stackLevel = this.stackLevelControl.value;
+    // } else {
+    //   throw new Error('Invalid stack level');
+    // }
+    // chargingProfile.profile.chargingProfilePurpose = ChargingProfilePurposeType.TX_DEFAULT_PROFILE;
+    // chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.ABSOLUTE;
+    // // set profile type
+    // if (this.profileTypeControl.value === PROFILE_TYPE_MAP[1].key) {
+    //   chargingProfile.profile.recurrencyKind = this.profileTypeControl.value;
+    //   chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.RECURRING;
+    // }
+    // // build charging schedule header
+    // chargingProfile.profile.chargingSchedule = {} as ChargingSchedule;
+    // if (this.durationControl.value > 0) {
+    //   chargingProfile.profile.chargingSchedule.duration = this.durationControl.value;
+    // }
 
-  private buildProfile() {
-    this.chargingSlotTableDataSource.refreshData()
-    const chargingProfile = {} as ChargingProfile;
-    chargingProfile.profile = {} as Profile;
-    chargingProfile.chargingStationID = this.charger.id;
-    if (this.profileIdControl.value > 0 && this.profileIdControl.value <= 10) {
-      chargingProfile.profile.chargingProfileId = this.profileIdControl.value;
-    } else {
-      throw new Error('Invalid profile Id');
-    }
-    if (this.stackLevelControl.value > 0 && this.stackLevelControl.value <= 10) {
-      chargingProfile.profile.stackLevel = this.stackLevelControl.value;
-    } else {
-      throw new Error('Invalid stack level');
-    }
-    chargingProfile.profile.chargingProfilePurpose = ChargingProfilePurposeType.TX_DEFAULT_PROFILE;
-    chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.ABSOLUTE;
-    // set profile type
-    if (this.profileTypeControl.value === PROFILE_TYPE_MAP[1].key) {
-      chargingProfile.profile.recurrencyKind = this.profileTypeControl.value;
-      chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.RECURRING;
-    }
-    // build charging schedule header
-    chargingProfile.profile.chargingSchedule = {} as ChargingSchedule;
-    if (this.durationControl.value > 0) {
-      chargingProfile.profile.chargingSchedule.duration = this.durationControl.value;
-    }
+    // chargingProfile.profile.chargingSchedule.chargingRateUnit = this.powerUnit;
 
-    chargingProfile.profile.chargingSchedule.chargingRateUnit = this.powerUnit;
+    // // build schedule
+    // let duration: number = 0;
+    // const startOfSchedule = new Date(this.chargingSlotTableDataSource.data[0].startDate);
+    // chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
+    // chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
 
-    // build schedule
-    let duration: number = 0;
-    const startOfSchedule = new Date(this.chargingSlotTableDataSource.data[0].startDate);
-    chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
-    chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
+    // for (const slot of this.chargingSlotTableDataSource.data) {
 
-    for (const slot of this.chargingSlotTableDataSource.data) {
-
-      const period = {} as ChargingSchedulePeriod;
-      const startOfPeriod = new Date(slot.startDate);
-      period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);
-      if (period.startPeriod >= 0) {
-        period.limit = slot.limit;
-        chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);
-        duration = duration + slot.duration * 60;
-      } else {
-        throw new Error('Invalid schedule');
-      }
-    }
-    chargingProfile.profile.chargingSchedule.duration = duration;
-    return chargingProfile;
+    //   const period = {} as ChargingSchedulePeriod;
+    //   const startOfPeriod = new Date(slot.startDate);
+    //   period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);
+    //   if (period.startPeriod >= 0) {
+    //     period.limit = slot.limit;
+    //     chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);
+    //     duration = duration + slot.duration * 60;
+    //   } else {
+    //     throw new Error('Invalid schedule');
+    //   }
+    // }
+    // chargingProfile.profile.chargingSchedule.duration = duration;
+    // return chargingProfile;
   }
 }

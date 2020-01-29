@@ -143,29 +143,29 @@ export class Utils {
   }
 
   public static convertToInteger(value: any) {
-    let changedID = value;
+    let changedValue = value;
     if (!value) {
       return 0;
     }
     // Check
     if (typeof value === 'string') {
       // Create Object
-      changedID = parseInt(value, 10);
+      changedValue = parseInt(value, 10);
     }
-    return changedID;
+    return changedValue;
   }
 
   public static convertToFloat(value: any) {
-    let changedID = value;
+    let changedValue = value;
     if (!value) {
       return 0;
     }
     // Check
     if (typeof value === 'string') {
       // Create Object
-      changedID = parseFloat(value);
+      changedValue = parseFloat(value);
     }
-    return changedID;
+    return changedValue;
   }
 
   public static isNull(obj: any) {

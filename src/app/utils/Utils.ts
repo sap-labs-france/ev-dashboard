@@ -142,28 +142,28 @@ export class Utils {
     return date;
   }
 
-  public static convertToInteger(id: any) {
-    let changedID = id;
-    if (!id) {
+  public static convertToInteger(value: any) {
+    let changedID = value;
+    if (!value) {
       return 0;
     }
     // Check
-    if (typeof id === 'string') {
+    if (typeof value === 'string') {
       // Create Object
-      changedID = parseInt(id, 10);
+      changedID = parseInt(value, 10);
     }
     return changedID;
   }
 
-  public static convertToFloat(id: any) {
-    let changedID = id;
-    if (!id) {
+  public static convertToFloat(value: any) {
+    let changedID = value;
+    if (!value) {
       return 0;
     }
     // Check
-    if (typeof id === 'string') {
+    if (typeof value === 'string') {
       // Create Object
-      changedID = parseFloat(id);
+      changedID = parseFloat(value);
     }
     return changedID;
   }

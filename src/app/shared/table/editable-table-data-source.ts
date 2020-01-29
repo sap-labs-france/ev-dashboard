@@ -2,7 +2,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { of, Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
@@ -10,6 +10,8 @@ import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   private editableRows: T[] = [];
+  private tableChangedSubject: Subject<T[]> = new Subject<T[]>();
+  private rowChangedSubject: Subject<T> = new Subject<T>();
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
@@ -50,11 +52,16 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return this.editableRows;
   }
 
+  getTableChangedSubject(): Subject<T[]> {
+    return this.tableChangedSubject;
+  }
+
+  getRowChangedSubject(): Subject<T> {
+    return this.rowChangedSubject;
+  }
+
   public setFormArray(formArray: FormArray) {
     this.formArray = formArray;
-    if (!this.editableRows) {
-      this.setContent([]);
-    }
   }
 
   // tslint:disable-next-line:no-empty
@@ -71,7 +78,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  public updateRowCell(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
     if (this.formArray) {
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const editableRow of this.editableRows) {
@@ -90,6 +97,8 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       this.editableRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
+    this.tableChangedSubject.next(this.editableRows);
+    this.rowChangedSubject.next(this.editableRows[cellIndex]);
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
@@ -114,6 +123,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     const data = this.createRow();
     this.editableRows.push(data);
     this.refreshData(false).subscribe();
+    this.tableChangedSubject.next(this.editableRows);
   }
 
   protected abstract createRow(): T;

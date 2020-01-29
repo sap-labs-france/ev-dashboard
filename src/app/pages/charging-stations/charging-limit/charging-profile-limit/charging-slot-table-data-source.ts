@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Slot } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Subject } from 'rxjs';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
 
 @Injectable()
 export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
-
   public startDate!: Date;
-  public rowChanged!: Subject<any>;
+  public charger!: ChargingStation;
 
   constructor(
     public spinnerService: SpinnerService,
     private translateService: TranslateService,
     private datePipe: AppDatePipe,
-    private messageService: MessageService ) {
+  ) {
     super(spinnerService);
-    this.rowChanged = new Subject();
   }
 
   public buildTableDef(): TableDef {
@@ -68,32 +64,32 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     return tableColumnDef;
   }
 
-  public addCharger(charger: ChargingStation) {
+  public setCharger(charger: ChargingStation) {
+    this.charger = charger;
     this.tableColumnDefs[3].additionalParameters = charger;
   }
 
   public createRow() {
     const chargingSchedulePeriod = {
       startDate: this.startDate,
-      limitInkW: this.tableColumnDefs[3].additionalParameters.connectors[0].amperageLimit,
+      limitInkW: this.charger.connectors[0].amperageLimit,
       connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
       limit: 0,
       key: '',
       id: 0,
       duration: 60,
     } as Slot;
-
-    for (const connector of this.tableColumnDefs[3].additionalParameters.connectors) {
+    // Build the limit
+    for (const connector of this.charger.connectors) {
       chargingSchedulePeriod.limit += connector.amperageLimit ? connector.amperageLimit : 0;
     }
-
+    // Init fields from
     if (this.data[this.data.length - 1]) {
-      var previousDate = new Date(this.data[this.data.length - 1].startDate);
+      const previousDate = new Date(this.data[this.data.length - 1].startDate);
       chargingSchedulePeriod.startDate = new Date(previousDate.setHours(previousDate.getHours() + 1));
       chargingSchedulePeriod.limitInkW = this.data[this.data.length - 1].limitInkW;
       this.data[this.data.length - 1].duration = 60;
     }
-    this.rowChanged.next(this.data);
     return chargingSchedulePeriod;
   }
 
@@ -101,35 +97,32 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     super.rowActionTriggered(actionDef, row, dropdownItem);
     for (let i = this.data.length - 1; i >= 0; i--) {
       if (this.data[i - 1]) {
-        let duration: number = 0;
-        let date1 = new Date(this.data[i-1].startDate);
-        let date2 = new Date(this.data[i].startDate);
-        duration = (date2.getTime() - date1.getTime())/60/1000;
+        let duration = 0;
+        const date1 = new Date(this.data[i - 1].startDate);
+        const date2 = new Date(this.data[i].startDate);
+        duration = (date2.getTime() - date1.getTime()) / 60 * 1000;
         this.data[i - 1].duration = duration;
       }
     }
-    this.rowChanged.next(this.data);
   }
 
-  public updateRowCell(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
-    super.updateRowCell(cellValue, cellIndex, columnDef);
+  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
+    super.rowCellUpdated(cellValue, cellIndex, columnDef);
     let duration: number;
     if (this.data[cellIndex - 1]) {
       duration = Math.round((this.data[cellIndex].startDate.getTime() - this.data[cellIndex - 1].startDate.getTime()) / 1000 / 60);
       this.data[cellIndex - 1].duration = duration;
-    } else if (cellIndex == 0) {
+    } else if (cellIndex === 0) {
       duration = Math.round((this.data[cellIndex + 1].startDate.getTime() - this.data[cellIndex].startDate.getTime()) / 1000 / 60);
       this.data[cellIndex].duration = duration;
     }
     this.data[cellIndex].duration = cellValue;
     for (let i = cellIndex; i < this.data.length; i++) {
       if (this.data[i + 1]) {
-        let date = new Date(this.data[i].startDate);
+        const date = new Date(this.data[i].startDate);
         date.setSeconds((date.getSeconds() + this.data[i].duration * 60));
         this.data[i + 1].startDate = date;
       }
     }
-    this.rowChanged.next(this.data);
-    console.log('upate1')
   }
 }

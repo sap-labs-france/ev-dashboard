@@ -119,8 +119,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadData();
   }
 
-  public updateRowCell(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
-    this.dataSource.updateRowCell(cellValue, cellIndex, columnDef);
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+    this.dataSource.rowCellUpdated(cellValue, cellIndex, columnDef);
   }
 
   public filterChanged(filterDef: TableFilterDef) {

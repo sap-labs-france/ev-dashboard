@@ -5,7 +5,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { SubjectInfo } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -287,7 +287,7 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   // tslint:disable-next-line:no-empty
-  public updateRowCell(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
   }
 
   // tslint:disable-next-line:no-empty

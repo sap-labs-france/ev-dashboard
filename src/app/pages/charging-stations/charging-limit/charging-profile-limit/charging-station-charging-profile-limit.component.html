@@ -36,7 +36,7 @@
                 </mat-datetimepicker>
                 <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
                 <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                  (dateChange)="dateFilterChanged($event)" [matDatetimepicker]="picker" [value]="startSchedule"
+                  (dateChange)="dateFilterChanged($event.value)" [matDatetimepicker]="picker" [value]="startSchedule"
                   autocomplete="false">
               </mat-form-field>
             </div>

@@ -10,7 +10,7 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Entities } from 'app/types/Authorization';
+import { Actions, Entities } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Site, UserSite } from 'app/types/Site';
@@ -110,7 +110,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       },
     ];
 
-    if (this.authorisationService.canAccess(Entities.SITE, Constants.ACTION_CREATE)) {
+    if (this.authorisationService.canAccess(Entities.SITE, Actions.CREATE)) {
       columns.push({
         id: 'siteOwner',
         isAngularComponent: true,

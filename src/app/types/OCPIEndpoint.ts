@@ -35,3 +35,19 @@ export enum OcpiButtonAction {
   SYNC_ALL = 'sync_all',
   START_JOB = 'stop_start_job',
 }
+
+export enum OcpiEndpointStatus {
+  NEW = 'new',
+  REGISTERED = 'registered',
+  UNREGISTERED = 'unregistered',
+}
+
+export enum OcpiRole {
+  CPO = 'CPO',
+  EMSP = 'EMSP',
+}
+
+export enum OcpiEndpointPatchJobStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}

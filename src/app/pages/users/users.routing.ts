@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { RouteGuardService } from '../../guard/route-guard';
-import { Constants } from '../../utils/Constants';
-import { Entities } from './../../types/Authorization';
+import { Actions, Entities } from './../../types/Authorization';
 import { UserConnectionComponent } from './connections/user-connection.component';
 import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users.component';
@@ -12,7 +11,7 @@ export const UserRoutes: Routes = [
     path: 'connections', component: UserConnectionComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entities.USER,
-        action: Constants.ACTION_UPDATE,
+        action: Actions.UPDATE,
       },
     },
   },
@@ -20,7 +19,7 @@ export const UserRoutes: Routes = [
     path: ':id', component: UserComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entities.USER,
-        action: Constants.ACTION_UPDATE,
+        action: Actions.UPDATE,
       },
     },
   },
@@ -28,7 +27,7 @@ export const UserRoutes: Routes = [
     path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entities.USER,
-        action: Constants.ACTION_CREATE,
+        action: Actions.CREATE,
       },
     },
   },

@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Entities } from 'app/types/Authorization';
+import { Actions, Entities } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Site, SiteUser } from 'app/types/Site';
@@ -115,7 +115,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       },
 
     ];
-    if (this.authorisationService.canAccess(Entities.SITE, Constants.ACTION_CREATE)) {
+    if (this.authorisationService.canAccess(Entities.SITE, Actions.CREATE)) {
       columns.push({
         id: 'siteOwner',
         isAngularComponent: true,

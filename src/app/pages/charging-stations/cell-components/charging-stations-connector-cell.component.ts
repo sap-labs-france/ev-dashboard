@@ -1,7 +1,6 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Connector } from 'app/types/ChargingStation';
-import { Constants } from 'app/utils/Constants';
+import { Connector, ConnStatus } from 'app/types/ChargingStation';
 
 @Component({
   selector: 'app-charging-stations-connector-cell',
@@ -47,32 +46,32 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
   buildConnectorClasses(connector: Connector): string {
     let classNames = 'charger-connector-background charger-connector-text ';
     switch (connector.status) {
-      case Constants.CONN_STATUS_AVAILABLE: {
+      case ConnStatus.AVAILABLE: {
         classNames += 'charger-connector-available charger-connector-charging-available-text';
         break;
       }
-      case Constants.CONN_STATUS_PREPARING: {
+      case ConnStatus.PREPARING: {
         classNames += 'charger-connector-preparing';
         break;
       }
-      case Constants.CONN_STATUS_SUSPENDED_EVSE: {
+      case ConnStatus.SUSPENDED_EVSE: {
         classNames += 'charger-connector-suspended-evse';
         break;
       }
-      case Constants.CONN_STATUS_SUSPENDED_EV: {
+      case ConnStatus.SUSPENDED_EV: {
         classNames += 'charger-connector-suspended-ev';
         break;
       }
-      case Constants.CONN_STATUS_FINISHING: {
+      case ConnStatus.FINISHING: {
         classNames += 'charger-connector-finishing';
         break;
       }
-      case Constants.CONN_STATUS_RESERVED: {
+      case ConnStatus.RESERVED: {
         classNames += 'charger-connector-reserved';
         break;
       }
-      case Constants.CONN_STATUS_CHARGING:
-      case Constants.CONN_STATUS_OCCUPIED: {
+      case ConnStatus.CHARGING:
+      case ConnStatus.OCCUPIED: {
         // Check if charging
         if (connector.currentConsumption > 0) {
           classNames += 'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
@@ -81,11 +80,11 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
         }
         break;
       }
-      case Constants.CONN_STATUS_UNAVAILABLE: {
+      case ConnStatus.UNAVAILABLE: {
         classNames += 'charger-connector-unavailable';
         break;
       }
-      case Constants.CONN_STATUS_FAULTED: {
+      case ConnStatus.FAULTED: {
         classNames += 'charger-connector-faulted';
         break;
       }

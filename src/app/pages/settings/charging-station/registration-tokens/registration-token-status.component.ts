@@ -1,8 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { ChipType } from 'app/types/GlobalType';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import * as moment from 'moment';
-import { Constants } from '../../../../utils/Constants';
 
 @Component({
   template: `
@@ -32,11 +32,11 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
   buildStatusClasses(registrationToken: RegistrationToken): string {
     let classNames = 'chip-width-5em ';
     if (this.isExpired(registrationToken)) {
-      classNames += Constants.CHIP_TYPE_DANGER;
+      classNames += ChipType.DANGER;
     } else if (this.isRevoked(registrationToken)) {
-      classNames += Constants.CHIP_TYPE_WARNING;
+      classNames += ChipType.WARNING;
     } else {
-      classNames += Constants.CHIP_TYPE_SUCCESS;
+      classNames += ChipType.SUCCESS;
     }
     return classNames;
   }

@@ -24,3 +24,26 @@ export interface ChargingStationInError extends ChargingStation, InError {
 
 export interface TransactionInError extends Transaction, InError {
 }
+
+export enum TransactionInErrorType {
+  NO_CONSUMPTION = 'no_consumption',
+  OVER_CONSUMPTION = 'average_consumption_greater_than_connector_capacity',
+  NEGATIVE_ACTIVITY = 'negative_inactivity',
+  LONG_INACTIVITY = 'long_inactivity',
+  NEGATIVE_DURATION = 'negative_duration',
+  INVALID_START_DATE = 'incorrect_starting_date',
+  MISSING_PRICE = 'missing_price',
+}
+
+export enum ChargingStationInErrorType {
+  MISSING_SETTINGS = 'missingSettings',
+  CONNECTION_BROKEN = 'connectionBroken',
+  MISSING_SITE_AREA = 'missingSiteArea',
+  CONNECTOR_ERROR = 'connectorError',
+}
+
+export enum UserInErrorType {
+  NOT_ACTIVE = 'inactive_user',
+  NOT_ASSIGNED = 'unassigned_user',
+  INACTIVE_USER_ACCOUNT = 'inactive_user_account',
+}

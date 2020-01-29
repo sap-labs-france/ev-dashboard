@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Action, Entity, Role } from 'app/types/Authorization';
 import { SiteArea } from 'app/types/SiteArea';
 import { UserToken } from 'app/types/User';
 import { Constants } from '../utils/Constants';
@@ -23,32 +24,32 @@ export class AuthorizationService {
   }
 
   public canUpdateChargingStation(): boolean {
-    return this.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_UPDATE);
+    return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
 
   public canUpdateCompany(): boolean {
-    return this.canAccess(Constants.ENTITY_COMPANY, Constants.ACTION_UPDATE);
+    return this.canAccess(Entity.COMPANY, Action.UPDATE);
   }
 
   public canUpdateSite(): boolean {
-    return this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE);
+    return this.canAccess(Entity.SITE, Action.UPDATE);
   }
 
   public canUpdateSiteArea(): boolean {
-    return this.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_UPDATE);
+    return this.canAccess(Entity.SITE_AREA, Action.UPDATE);
   }
 
   public canListSettings(): boolean {
-    return this.canAccess(Constants.ENTITY_SETTINGS,
-      Constants.ACTION_LIST);
+    return this.canAccess(Entity.SETTINGS,
+      Action.LIST);
   }
 
   public canUpdateUser(): boolean {
-    return this.canAccess(Constants.ENTITY_USER, Constants.ACTION_UPDATE);
+    return this.canAccess(Entity.USER, Action.UPDATE);
   }
 
   public canSynchronizeUsers(): boolean {
-    return this.canAccess(Constants.ENTITY_BILLING, Constants.ACTION_SYNCHRONIZE_USERS_BILLING);
+    return this.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING);
   }
 
   public canAccess(resource: string, action: string): boolean {
@@ -56,7 +57,7 @@ export class AuthorizationService {
   }
 
   public canStopTransaction(siteArea: SiteArea, badgeID: string) {
-    if (this.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_REMOTE_STOP_TRANSACTION)) {
+    if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_STOP_TRANSACTION)) {
       if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
@@ -69,7 +70,7 @@ export class AuthorizationService {
   }
 
   public canStartTransaction(siteArea: SiteArea) {
-    if (this.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_REMOTE_START_TRANSACTION)) {
+    if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_START_TRANSACTION)) {
       if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
         if (!siteArea) {
           return false;
@@ -83,7 +84,7 @@ export class AuthorizationService {
   }
 
   public canReadTransaction(siteArea: SiteArea, badgeID: string) {
-    if (this.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_READ)) {
+    if (this.canAccess(Entity.TRANSACTION, Action.READ)) {
       if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
@@ -110,7 +111,7 @@ export class AuthorizationService {
     if (this.isAdmin()) {
       return true;
     }
-    if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_READ)) {
+    if (this.canAccess(Entity.SITE, Action.READ)) {
       return !!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteID);
     }
     return false;
@@ -118,13 +119,13 @@ export class AuthorizationService {
 
   public isAdmin(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Constants.ROLE_ADMIN;
+      return this.loggedUser.role === Role.ADMIN;
     }
     return false;
   }
 
   public hasSitesAdminRights(): boolean {
-    if (this.canAccess(Constants.ENTITY_SITE, Constants.ACTION_UPDATE)) {
+    if (this.canAccess(Entity.SITE, Action.UPDATE)) {
       return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.length > 0;
     }
     return false;
@@ -136,21 +137,21 @@ export class AuthorizationService {
 
   public isSuperAdmin(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Constants.ROLE_SUPER_ADMIN;
+      return this.loggedUser.role === Role.SUPER_ADMIN;
     }
     return false;
   }
 
   public isBasic(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Constants.ROLE_BASIC;
+      return this.loggedUser.role === Role.BASIC;
     }
     return false;
   }
 
   public isDemo(): boolean {
     if (this.loggedUser) {
-      return this.loggedUser.role === Constants.ROLE_DEMO;
+      return this.loggedUser.role === Role.DEMO;
     }
     return false;
   }

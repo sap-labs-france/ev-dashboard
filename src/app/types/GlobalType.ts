@@ -56,3 +56,19 @@ export enum ButtonAction {
   UNREGISTER = 'unregister',
   VIEW = 'view',
 }
+
+export enum ChipType {
+  PRIMARY = 'chip-primary',
+  DEFAULT = 'chip-default',
+  INFO = 'chip-info',
+  SUCCESS = 'chip-success',
+  DANGER = 'chip-danger',
+  WARNING = 'chip-warning',
+  GREY = 'chip-grey',
+}
+
+export enum LevelText {
+  INFO = 'text-success',
+  DANGER = 'text-danger',
+  WARNING = 'text-warning',
+}

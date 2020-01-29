@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { User } from 'app/types/User';
-import { Constants } from '../../../utils/Constants';
+import { ChipType } from 'app/types/GlobalType';
+import { User, UserStatus } from 'app/types/User';
 import { userStatuses } from '../model/users.model';
 
 @Component({
@@ -33,23 +33,23 @@ export class AppFormatUserStatusPipe implements PipeTransform {
   buildUserStatusClasses(status: string): string {
     let classNames = 'chip-width-5em ';
     switch (status) {
-      case Constants.USER_STATUS_ACTIVE:
-        classNames += Constants.CHIP_TYPE_SUCCESS;
+      case UserStatus.ACTIVE:
+        classNames += ChipType.SUCCESS;
         break;
 
-      case Constants.USER_STATUS_PENDING:
-        classNames += Constants.CHIP_TYPE_WARNING;
+      case UserStatus.PENDING:
+        classNames += ChipType.WARNING;
         break;
 
-      case Constants.USER_STATUS_BLOCKED:
-      case Constants.USER_STATUS_DELETED:
-      case Constants.USER_STATUS_LOCKED:
-      case Constants.USER_STATUS_INACTIVE:
-        classNames += Constants.CHIP_TYPE_DANGER;
+      case UserStatus.BLOCKED:
+      case UserStatus.DELETED:
+      case UserStatus.LOCKED:
+      case UserStatus.INACTIVE:
+        classNames += ChipType.DANGER;
         break;
 
       default:
-        classNames += Constants.CHIP_TYPE_DEFAULT;
+        classNames += ChipType.DEFAULT;
     }
     return classNames;
   }

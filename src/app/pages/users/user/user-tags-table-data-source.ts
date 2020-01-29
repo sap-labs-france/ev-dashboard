@@ -22,8 +22,6 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
   setContent(content: Tag[]) {
     if (content.length === 0) {
       const tag = this.createRow();
-      tag.id = this.generateTagID();
-      tag.issuer = true;
       content.push(tag);
     }
     super.setContent(content);
@@ -62,10 +60,10 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
 
   public createRow() {
     return {
-      id: '',
+      id: this.generateTagID(),
       key: '',
       description: '',
-      issuer: false,
+      issuer: this.getContent().length === 0 ? true : false,
     };
   }
 

@@ -9,7 +9,7 @@ import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
 import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
-  private editableRows!: T[];
+  private editableRows: T[] = [];
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
@@ -44,6 +44,10 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   public setContent(editableRows: T[]) {
     this.editableRows = editableRows;
     this.loadData(false).subscribe();
+  }
+
+  public getContent(): T[] {
+    return this.editableRows;
   }
 
   public setFormArray(formArray: FormArray) {
@@ -83,7 +87,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       // @ts-ignore
       rowGroup.get(columnDef.id).setValue(cellValue);
       // @ts-ignore
-      this.editableRows[index][columnDef.id] = cellValue;
+      this.editableRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
   }

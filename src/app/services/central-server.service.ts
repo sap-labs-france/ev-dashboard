@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { BillingTax } from 'app/types/Billing';
+import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
@@ -1663,6 +1664,34 @@ export class CentralServerService {
       );
   }
 
+  public getSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullSessions`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this.checkInit();
@@ -1994,10 +2023,10 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
-      chargeBoxID: charger.id,
-      connectorId,
-      ampLimitValue,
-    },
+        chargeBoxID: charger.id,
+        connectorId,
+        ampLimitValue,
+      },
       {
         headers: this.buildHttpHeaders(),
       })

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
 import { AnalyticsSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import { Utils } from 'app/utils/Utils';
 // tslint:disable-next-line:max-line-length
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
@@ -59,7 +60,7 @@ export class ComponentService {
           if (config.simple) {
             pricingSettings.type = PricingSettingsType.SIMPLE;
             pricingSettings.simple = {
-              price: config.simple.price ? parseFloat(config.simple.price) : 0,
+              price: config.simple.price ? Utils.convertToFloat(config.simple.price) : 0,
               currency: config.simple.currency ? config.simple.currency : '',
             };
           }

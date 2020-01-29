@@ -14,7 +14,7 @@ import { TableUploadAction } from 'app/shared/table/actions/table-upload-action'
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
-import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
+import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from 'app/types/OCPIEndpoint';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -174,7 +174,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         _actionRowButtons.push(this.startAction);
       }
       let syncActions: TableActionDef;
-      if (rowItem.ocpiendpoint.role === Constants.OCPI_ROLE_CPO) {
+      if (rowItem.ocpiendpoint.role === OcpiRole.CPO) {
         syncActions = new TableMultiSyncAction([
           this.synchronizeAllAction,
           this.pushLocationsAction,

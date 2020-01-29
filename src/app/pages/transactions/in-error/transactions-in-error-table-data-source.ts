@@ -6,9 +6,10 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
+import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { ErrorMessage, TransactionInError } from 'app/types/InError';
+import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { RefundStatus } from 'app/types/Refund';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction } from 'app/types/Transaction';
@@ -197,34 +198,34 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     // Create error type
     const errorTypes = [];
     errorTypes.push({
-      key: Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_INVALID_START_DATE}.title`,
+      key: TransactionInErrorType.INVALID_START_DATE,
+      value: `transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`,
     });
     errorTypes.push({
-      key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_ACTIVITY}.title`,
+      key: TransactionInErrorType.NEGATIVE_ACTIVITY,
+      value: `transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`,
     });
     errorTypes.push({
-      key: Constants.TRANSACTION_IN_ERROR_LONG_INACTIVITY,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_LONG_INACTIVITY}.title`,
+      key: TransactionInErrorType.LONG_INACTIVITY,
+      value: `transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`,
     });
     errorTypes.push({
-      key: Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NO_CONSUMPTION}.title`,
+      key: TransactionInErrorType.NO_CONSUMPTION,
+      value: `transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`,
     });
     errorTypes.push({
-      key: Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_OVER_CONSUMPTION}.title`,
+      key: TransactionInErrorType.OVER_CONSUMPTION,
+      value: `transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`,
     });
     errorTypes.push({
-      key: Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION,
-      value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_NEGATIVE_DURATION}.title`,
+      key: TransactionInErrorType.NEGATIVE_DURATION,
+      value: `transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`,
     });
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(ComponentType.PRICING)) {
       errorTypes.push({
-        key: Constants.TRANSACTION_IN_ERROR_MISSING_PRICE,
-        value: `transactions.errors.${Constants.TRANSACTION_IN_ERROR_MISSING_PRICE}.title`,
+        key: TransactionInErrorType.MISSING_PRICE,
+        value: `transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`,
       });
     }
     // Sort
@@ -263,10 +264,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   buildTableRowActions(): TableActionDef[] {
     const actions = [];
-    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_READ)) {
+    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
       actions.push(this.openAction);
     }
-    if (this.authorizationService.canAccess(Constants.ENTITY_TRANSACTION, Constants.ACTION_DELETE)) {
+    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
       actions.push(this.deleteAction);
     }
     return actions;

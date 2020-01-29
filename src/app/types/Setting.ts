@@ -15,7 +15,20 @@ export interface Setting extends Data {
   id: string;
   identifier: ComponentType;
   sensitiveData: string[];
-  content: any;
+  category?: 'business' | 'technical';
+  content: SettingContent;
+}
+
+export interface SettingContent {
+  type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType;
+  ocpi?: OcpiSetting;
+  simple?: SimplePricingSetting;
+  convergentCharging?: ConvergentChargingPricingSetting;
+  stripe?: StripeBillingSetting;
+  sac?: SacAnalyticsSetting;
+  links?: SettingLink[];
+  concur?: ConcurRefundSetting;
+  sapSmartCharging?: SapSmartChargingSetting;
 }
 
 export interface SettingLink extends Data {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Entity } from 'app/types/Authorization';
 import { SubjectInfo } from 'app/types/GlobalType';
 import { Observable, Subject } from 'rxjs';
 // @ts-ignore
@@ -141,114 +142,114 @@ export class CentralServerNotificationService {
       this.socket = io(`${this.centralRestServerServiceURL}?tenantID=${tenantID}`);
 
       // Monitor Companies`
-      this.socket.on(Constants.ENTITY_COMPANIES, () => {
+      this.socket.on(Entity.COMPANIES, () => {
         // Notify
         this.subjectCompanies.next();
       });
 
       // Monitor Company
-      this.socket.on(Constants.ENTITY_COMPANY, (notifInfo) => {
+      this.socket.on(Entity.COMPANY, (notifInfo) => {
         this.subjectCompany.next(notifInfo);
       });
 
       // Monitor Tenants
-      this.socket.on(Constants.ENTITY_TENANTS, () => {
+      this.socket.on(Entity.TENANTS, () => {
         // Notify
         this.subjectTenants.next();
       });
 
       // Monitor Tenant
-      this.socket.on(Constants.ENTITY_TENANT, (notifInfo) => {
+      this.socket.on(Entity.TENANT, (notifInfo) => {
         // Notify
         this.subjectTenant.next(notifInfo);
       });
 
       // Monitor Sites
-      this.socket.on(Constants.ENTITY_SITES, () => {
+      this.socket.on(Entity.SITES, () => {
         // Notify
         this.subjectSites.next();
       });
 
       // Monitor Site
-      this.socket.on(Constants.ENTITY_SITE, (notifInfo) => {
+      this.socket.on(Entity.SITE, (notifInfo) => {
         // Notify
         this.subjectSite.next(notifInfo);
       });
 
       // Monitor Site Areas
-      this.socket.on(Constants.ENTITY_SITE_AREAS, () => {
+      this.socket.on(Entity.SITE_AREAS, () => {
         // Notify
         this.subjectSiteAreas.next();
       });
 
       // Monitor Site Area
-      this.socket.on(Constants.ENTITY_SITE_AREA, (notifInfo) => {
+      this.socket.on(Entity.SITE_AREA, (notifInfo) => {
         // Notify
         this.subjectSiteArea.next(notifInfo);
       });
 
       // Monitor Users
-      this.socket.on(Constants.ENTITY_USERS, () => {
+      this.socket.on(Entity.USERS, () => {
         // Notify
         this.subjectUsers.next();
       });
 
       // Monitor User
-      this.socket.on(Constants.ENTITY_USER, (notifInfo) => {
+      this.socket.on(Entity.USER, (notifInfo) => {
         // Notify
         this.subjectUser.next(notifInfo);
       });
 
       // Monitor Vehicles
-      this.socket.on(Constants.ENTITY_VEHICLES, () => {
+      this.socket.on(Entity.VEHICLES, () => {
         // Notify
         this.subjectVehicles.next();
       });
 
       // Monitor Vehicle
-      this.socket.on(Constants.ENTITY_VEHICLE, (notifInfo) => {
+      this.socket.on(Entity.VEHICLE, (notifInfo) => {
         // Notify
         this.subjectVehicle.next(notifInfo);
       });
 
       // Monitor Vehicle Manufacturers
-      this.socket.on(Constants.ENTITY_VEHICLE_MANUFACTURERS, () => {
+      this.socket.on(Entity.VEHICLE_MANUFACTURERS, () => {
         // Notify
         this.subjectVehicleManufacturers.next();
       });
 
       // Monitor Vehicle Manufacturer
-      this.socket.on(Constants.ENTITY_VEHICLE_MANUFACTURER, (notifInfo) => {
+      this.socket.on(Entity.VEHICLE_MANUFACTURER, (notifInfo) => {
         // Notify
         this.subjectVehicleManufacturer.next(notifInfo);
       });
 
       // Monitor Transactions
-      this.socket.on(Constants.ENTITY_TRANSACTIONS, () => {
+      this.socket.on(Entity.TRANSACTIONS, () => {
         // Notify
         this.subjectTransactions.next();
       });
 
       // Monitor Transaction
-      this.socket.on(Constants.ENTITY_TRANSACTION, (notifInfo) => {
+      this.socket.on(Entity.TRANSACTION, (notifInfo) => {
         // Notify
         this.subjectTransaction.next(notifInfo);
       });
 
       // Monitor Charging Stations
-      this.socket.on(Constants.ENTITY_CHARGING_STATIONS, () => {
+      this.socket.on(Entity.CHARGING_STATIONS, () => {
         // Notify
         this.subjectChargingStations.next();
       });
 
       // Monitor Charging Station
-      this.socket.on(Constants.ENTITY_CHARGING_STATION, (notifInfo) => {
+      this.socket.on(Entity.CHARGING_STATION, (notifInfo) => {
         // Notify
         this.subjectChargingStation.next(notifInfo);
       });
 
       // Monitor Logging
-      this.socket.on(Constants.ENTITY_LOGGINGS, () => {
+      this.socket.on(Entity.LOGGINGS, () => {
         // Notify
         this.subjectLoggings.next();
       });

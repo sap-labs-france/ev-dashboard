@@ -18,7 +18,7 @@ export interface User extends Data {
   iNumber: string;
   costCenter: boolean;
   status: string;
-  image: string|null;
+  image: string | null;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;
@@ -82,4 +82,22 @@ export interface UserToken {
 export enum UserButtonAction {
   SYNCHRONIZE = 'synchronize',
   EDIT_USERS = 'edit_users',
+}
+
+export enum UserStatus {
+  PENDING = 'P',
+  ACTIVE = 'A',
+  DELETED = 'D',
+  INACTIVE = 'I',
+  BLOCKED = 'B',
+  LOCKED = 'L',
+  UNKNOWN = 'U',
+}
+
+export enum UserRole {
+  SUPER_ADMIN = 'S',
+  ADMIN = 'A',
+  BASIC = 'B',
+  DEMO = 'D',
+  UNKNOWN = 'U',
 }

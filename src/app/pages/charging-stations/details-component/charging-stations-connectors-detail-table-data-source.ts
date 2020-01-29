@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, Connector } from 'app/types/ChargingStation';
+import { ChargingStation, Connector, ConnStatus } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
@@ -219,7 +219,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
             this.translateService.instant('chargers.action_error.transaction_start_charger_inactive'));
           return;
         }
-        if (connector.status === Constants.CONN_STATUS_UNAVAILABLE) {
+        if (connector.status === ConnStatus.UNAVAILABLE) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_start_title'),
             this.translateService.instant('chargers.action_error.transaction_start_not_available'));
@@ -265,7 +265,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
             this.translateService.instant('chargers.action_error.transaction_stop_charger_inactive'));
           return;
         }
-        if (connector.status === Constants.CONN_STATUS_UNAVAILABLE) {
+        if (connector.status === ConnStatus.UNAVAILABLE) {
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.action_error.transaction_stop_title'),
             this.translateService.instant('chargers.action_error.transaction_stop_not_available'));

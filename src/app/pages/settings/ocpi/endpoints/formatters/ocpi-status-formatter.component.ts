@@ -1,8 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { KeyValue } from 'app/types/GlobalType';
-import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { Constants } from 'app/utils/Constants';
+import { ChipType, KeyValue } from 'app/types/GlobalType';
+import { OcpiEndpoint, OcpiEndpointStatus } from 'app/types/OCPIEndpoint';
 
 export const ocpiStatuses: KeyValue[] = [
   {key: 'new', value: 'ocpiendpoints.new'},
@@ -30,17 +29,17 @@ export class AppFormatOcpiStatusPipe implements PipeTransform {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
       switch (status) {
-        case Constants.OCPI_ENDPOINT_STATUS_NEW:
-          classNames += Constants.CHIP_TYPE_INFO;
+        case OcpiEndpointStatus.NEW:
+          classNames += ChipType.INFO;
           break;
-        case Constants.OCPI_ENDPOINT_STATUS_REGISTERED:
-          classNames += Constants.CHIP_TYPE_SUCCESS;
+        case OcpiEndpointStatus.REGISTERED:
+          classNames += ChipType.SUCCESS;
           break;
-        case Constants.OCPI_ENDPOINT_STATUS_UNREGISTERED:
-          classNames += Constants.CHIP_TYPE_WARNING;
+        case OcpiEndpointStatus.UNREGISTERED:
+          classNames += ChipType.WARNING;
           break;
         default:
-          classNames += Constants.CHIP_TYPE_GREY;
+          classNames += ChipType.GREY;
       }
       return classNames;
     }

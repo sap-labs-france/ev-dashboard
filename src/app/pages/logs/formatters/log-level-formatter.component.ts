@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { ChipType } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
-import { Constants } from 'app/utils/Constants';
 import { logLevels } from '../model/logs.model';
 
 @Component({
@@ -33,23 +33,23 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     let classNames = 'chip-width-5em ';
     switch (logLevel) {
       case 'E':
-        classNames += Constants.CHIP_TYPE_DANGER;
+        classNames += ChipType.DANGER;
         break;
 
       case 'W':
-        classNames += Constants.CHIP_TYPE_WARNING;
+        classNames += ChipType.WARNING;
         break;
 
       case 'I':
-        classNames += Constants.CHIP_TYPE_SUCCESS;
+        classNames += ChipType.SUCCESS;
         break;
 
       case 'D':
-        classNames += Constants.CHIP_TYPE_INFO;
+        classNames += ChipType.INFO;
         break;
 
       default:
-        classNames += Constants.CHIP_TYPE_DEFAULT;
+        classNames += ChipType.DEFAULT;
     }
     return classNames;
   }

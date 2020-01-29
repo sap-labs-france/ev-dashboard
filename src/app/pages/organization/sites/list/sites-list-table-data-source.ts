@@ -19,6 +19,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
@@ -130,7 +131,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_CREATE)) {
+    if (this.authorizationService.canAccess(Entity.SITE, Action.CREATE)) {
       return [
         new TableCreateAction().getActionDef(),
         ...tableActionsDef,
@@ -159,7 +160,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         openInMaps,
       ]).getActionDef();
     }
-    if (this.authorizationService.canAccess(Constants.ENTITY_SITE, Constants.ACTION_DELETE)) {
+    if (this.authorizationService.canAccess(Entity.SITE, Action.DELETE)) {
       if (moreActions.dropdownActions) {
         moreActions.dropdownActions.splice(0, 0, this.deleteAction);
       }

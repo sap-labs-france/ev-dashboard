@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { ChipType } from 'app/types/GlobalType';
 import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 import { Constants } from 'app/utils/Constants';
 
@@ -22,9 +23,9 @@ export class AppFormatOcpiEvsesFailurePipe implements PipeTransform {
     if (type === 'class') {
       let classNames = 'chip-width-4em ';
       if (failureNbr > 0) {
-        classNames += Constants.CHIP_TYPE_DANGER;
+        classNames += ChipType.DANGER;
       } else {
-        classNames += Constants.CHIP_TYPE_GREY;
+        classNames += ChipType.GREY;
       }
       return classNames;
     }

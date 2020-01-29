@@ -8,10 +8,9 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, ScheduleSlot, Slot } from 'app/types/ChargingProfile';
+import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, Slot } from 'app/types/ChargingProfile';
 import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
 import { TableEditType } from 'app/types/Table';
-import { ChargingStations } from 'app/utils/ChargingStations';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -36,7 +35,6 @@ export const PROFILE_TYPE_MAP =
 export class ChargingStationChargingProfileLimitComponent implements OnInit {
   @Input() charger!: ChargingStation;
 
-  @ViewChildren('powerSliders') powerSliders!: QueryList<ChargingStationPowerSliderComponent>;
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
 
   public profileTypeMap = PROFILE_TYPE_MAP;
@@ -52,8 +50,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   public chargingProfilePurposeControl!: AbstractControl;
   public chargingPeriod!: FormArray;
   public startSchedule!: Date;
-
-  private defaultLimit!: number;
 
   constructor(
     public chargingSlotTableDataSource: ChargingSlotTableDataSource,
@@ -127,9 +123,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       else {
         this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
-
     });
-     this.onChanges();
   }
 
   dateFilterChanged(event: MatDatetimepickerInputEvent<any>) {
@@ -233,9 +227,14 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   }
 
   onChanges(): void {
-  this.chargingSlotTableDataSource.rowChanged.subscribe(val => {
-      //this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
-      console.log('upate2');
+    console.log('====================================');
+    console.log('onChanges()');
+    console.log('====================================');
+    this.chargingSlotTableDataSource.rowChanged.subscribe(val => {
+      console.log('====================================');
+      console.log(val);
+      console.log('====================================');
+      this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
     });
   }
 

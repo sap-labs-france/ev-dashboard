@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Slot } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Subject } from 'rxjs';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
@@ -72,7 +72,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     this.tableColumnDefs[3].additionalParameters = charger;
   }
 
-  public addData() {
+  public createRow() {
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       limitInkW: this.tableColumnDefs[3].additionalParameters.connectors[0].amperageLimit,
@@ -111,19 +111,18 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     this.rowChanged.next(this.data);
   }
 
-  public updateRow(value: number, index: number, columnDef: TableColumnDef) {
-    super.updateRow(value, index, columnDef);
+  public updateRowCell(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
+    super.updateRowCell(cellValue, cellIndex, columnDef);
     let duration: number;
-    if (this.data[index - 1]) {
-      duration = Math.round((this.data[index].startDate.getTime() - this.data[index - 1].startDate.getTime()) / 1000 / 60);
-      this.data[index - 1].duration = duration;
+    if (this.data[cellIndex - 1]) {
+      duration = Math.round((this.data[cellIndex].startDate.getTime() - this.data[cellIndex - 1].startDate.getTime()) / 1000 / 60);
+      this.data[cellIndex - 1].duration = duration;
+    } else if (cellIndex == 0) {
+      duration = Math.round((this.data[cellIndex + 1].startDate.getTime() - this.data[cellIndex].startDate.getTime()) / 1000 / 60);
+      this.data[cellIndex].duration = duration;
     }
-    else if (index == 0) {
-      duration = Math.round((this.data[index + 1].startDate.getTime() - this.data[index].startDate.getTime()) / 1000 / 60);
-      this.data[index].duration = duration;
-    }
-    this.data[index].duration = value;
-    for (let i = index; i < this.data.length; i++) {
+    this.data[cellIndex].duration = cellValue;
+    for (let i = cellIndex; i < this.data.length; i++) {
       if (this.data[i + 1]) {
         let date = new Date(this.data[i].startDate);
         date.setSeconds((date.getSeconds() + this.data[i].duration * 60));

@@ -302,16 +302,16 @@
                   class="form-control text-line"
                   [placeholder]="tableColumnDef.name | translate"
                   [ngModel]="row[tableColumnDef.id]"
-                  (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)" class="w-100"
+                  (ngModelChange)="updateRowCell($event, rowIndex, tableColumnDef)" class="w-100"
                   type="text">
                 <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
                   [(ngModel)]="row[tableColumnDef.id]"
-                  (ngModelChange)="updateRow($event, rowIndex, tableColumnDef)">
+                  (ngModelChange)="updateRowCell($event, rowIndex, tableColumnDef)">
                 </mat-checkbox>
                 <mat-radio-button *ngIf="tableColumnDef.editType === TableEditType.RADIO_BUTTON"
                   [checked]="row[tableColumnDef.id]"
                   (change)="$event.source.checked  = !$event.source.checked;"
-                  (click)="updateRow(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
+                  (click)="updateRowCell(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
                 <span *ngIf="tableColumnDef.editType === TableEditType.DISPLAY_ONLY_DATE" class="text-center">
                   {{row[tableColumnDef.id] | date: 'MMM d, y, h:mm a'}}

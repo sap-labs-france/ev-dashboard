@@ -9,7 +9,7 @@ import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
 import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
-  private editableContent!: T[];
+  private editableRows!: T[];
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
@@ -41,24 +41,24 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  public setContent(content: T[]) {
-    this.editableContent = content;
+  public setContent(editableRows: T[]) {
+    this.editableRows = editableRows;
     this.loadData(false).subscribe();
   }
 
   public setFormArray(formArray: FormArray) {
     this.formArray = formArray;
-    if (!this.editableContent) {
+    if (!this.editableRows) {
       this.setContent([]);
     }
   }
 
   // tslint:disable-next-line:no-empty
-  public rowActionTriggered(actionDef: TableActionDef, row: T, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ButtonAction.INLINE_DELETE:
-        const index = this.editableContent.indexOf(row);
-        this.editableContent.splice(index, 1);
+        const index = this.editableRows.indexOf(editableRow);
+        this.editableRows.splice(index, 1);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();
@@ -67,35 +67,37 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  public updateRow(value: any, index: number, columnDef: TableColumnDef) {
+  public updateRowCell(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
     if (this.formArray) {
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
-        this.editableContent.forEach((row) => {
+        for (const editableRow of this.editableRows) {
           // @ts-ignore
-          row[columnDef.id] = false;
-        });
-        this.formArray.controls.forEach((formRow) => {
+          editableRow[columnDef.id] = false;
+        }
+        for (const control of this.formArray.controls) {
           // @ts-ignore
-          formRow.get(columnDef.id).setValue(false);
-        });
+          control.get(columnDef.id).setValue(false);
+        }
       }
-      const rowGroup: FormGroup = this.formArray.at(index) as FormGroup;
+      const rowGroup: FormGroup = this.formArray.at(cellIndex) as FormGroup;
       // @ts-ignore
-      rowGroup.get(columnDef.id).setValue(value);
+      rowGroup.get(columnDef.id).setValue(cellValue);
       // @ts-ignore
-      this.editableContent[index][columnDef.id] = value;
+      this.editableRows[index][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
-    if (this.editableContent) {
+    if (this.editableRows) {
       if (this.formArray) {
         this.formArray.clear();
         // @ts-ignore
-        this.editableContent.forEach((data) => this.formArray.push(this.getFormGroupDefinition(data)));
+        for (const editableRow of this.editableRows) {
+          this.formArray.push(this.createFormGroupDefinition(editableRow));
+        }
       }
-      return of({ count: this.editableContent.length, result: this.editableContent });
+      return of({ count: this.editableRows.length, result: this.editableRows });
     }
     return of({ count: 0, result: [] });
   }
@@ -104,32 +106,32 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return [this.inlineRemoveAction];
   }
 
-  protected addRow() {
-    const data = this.addData();
-    this.editableContent.push(data);
+  private addRow() {
+    const data = this.createRow();
+    this.editableRows.push(data);
     this.refreshData(false).subscribe();
   }
 
-  protected abstract addData(): T;
+  protected abstract createRow(): T;
 
-  protected getFormGroupDefinition(data: T): FormGroup {
+  private createFormGroupDefinition(editableRow: T): FormGroup {
     const controls = {};
-    this.tableColumnDefs.forEach((tableColumnDef) => {
+    for (const tableColumnDef of this.tableColumnDefs) {
       let value;
       switch (tableColumnDef.editType) {
         case TableEditType.CHECK_BOX:
         case TableEditType.RADIO_BUTTON:
           // @ts-ignore
-          value = data[tableColumnDef.id] ? data[tableColumnDef.id] : false;
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : false;
           break;
         case TableEditType.INPUT:
         default:
           // @ts-ignore
-          value = data[tableColumnDef.id] ? data[tableColumnDef.id] : '';
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
       }
       // @ts-ignore
       controls[tableColumnDef.id] = new FormControl(value, tableColumnDef.validators);
-    });
+    }
     return new FormGroup(controls);
   }
 }

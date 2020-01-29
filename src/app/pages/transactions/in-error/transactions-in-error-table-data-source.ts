@@ -6,7 +6,7 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { Actions, Entities } from 'app/types/Authorization';
+import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
@@ -264,10 +264,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   buildTableRowActions(): TableActionDef[] {
     const actions = [];
-    if (this.authorizationService.canAccess(Entities.TRANSACTION, Actions.READ)) {
+    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
       actions.push(this.openAction);
     }
-    if (this.authorizationService.canAccess(Entities.TRANSACTION, Actions.DELETE)) {
+    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
       actions.push(this.deleteAction);
     }
     return actions;

@@ -1,11 +1,11 @@
-export enum Roles {
+export enum Role {
   ADMIN = 'A',
   SUPER_ADMIN = 'S',
   BASIC = 'B',
   DEMO = 'D',
 }
 
-export enum Entities {
+export enum Entity {
   VEHICLE_MANUFACTURER = 'VehicleManufacturer',
   VEHICLE_MANUFACTURERS = 'VehicleManufacturers',
   VEHICLE = 'Vehicle',
@@ -31,7 +31,7 @@ export enum Entities {
   LOGGINGS = 'Loggings',
 }
 
-export enum Actions {
+export enum Action {
   CREATE = 'Create',
   READ = 'Read',
   UPDATE = 'Update',

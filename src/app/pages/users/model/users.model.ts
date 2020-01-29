@@ -1,4 +1,4 @@
-import { Roles } from 'app/types/Authorization';
+import { Role } from 'app/types/Authorization';
 import { KeyValue } from 'app/types/GlobalType';
 
 export const userStatuses: KeyValue[] = [
@@ -11,7 +11,7 @@ export const userStatuses: KeyValue[] = [
 
 export class UserRoles {
   public static getAvailableRoles(role?: string): KeyValue[] {
-    if (role === Roles.SUPER_ADMIN) {
+    if (role === Role.SUPER_ADMIN) {
       return [
         {key: 'S', value: 'users.role_super_admin'},
       ];

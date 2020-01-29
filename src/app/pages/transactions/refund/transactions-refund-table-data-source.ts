@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { Actions, Entities } from 'app/types/Authorization';
+import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { RefundSettings } from 'app/types/Setting';
@@ -66,7 +66,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
-    this.refundTransactionEnabled = this.authorizationService.canAccess(Entities.TRANSACTION, Actions.REFUND_TRANSACTION);
+    this.refundTransactionEnabled = this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
     // Check
     this.checkConcurConnection();
     // Init

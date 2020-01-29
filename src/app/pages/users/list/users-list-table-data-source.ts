@@ -27,7 +27,7 @@ import { TableEditAction } from '../../../shared/table/actions/table-edit-action
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Actions, Entities } from '../../../types/Authorization';
+import { Action, Entity } from '../../../types/Authorization';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
@@ -217,7 +217,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.editAction,
       ];
     }
-    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entities.USER, Actions.DELETE)) {
+    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
       actions.push(this.deleteAction);
     }
     return actions;

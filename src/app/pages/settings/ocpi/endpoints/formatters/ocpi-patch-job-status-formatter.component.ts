@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { ChipType } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { Constants } from 'app/utils/Constants';
 
 @Component({
   template: `
@@ -23,9 +23,9 @@ export class AppFormatOcpiPatchJobStatusPipe implements PipeTransform {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
       if (backgroundPatchJob > 0) {
-        classNames += Constants.CHIP_TYPE_SUCCESS;
+        classNames += ChipType.SUCCESS;
       } else {
-        classNames += Constants.CHIP_TYPE_GREY;
+        classNames += ChipType.GREY;
       }
       return classNames;
     }

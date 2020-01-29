@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
-import { Constants } from '../../../utils/Constants';
 import { ChargingStationOcppParametersComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
@@ -48,7 +48,7 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Check auth
-    if (!this.authorizationService.canAccess(Constants.ENTITY_CHARGING_STATION, Constants.ACTION_UPDATE)
+    if (!this.authorizationService.canAccess(Entity.CHARGING_STATION, Action.UPDATE)
       && !this.authorizationService.isDemo()) {
       // Not authorized
       this.messageService.showErrorMessage(this.translateService.instant('chargers.action_error.not_authorize'));

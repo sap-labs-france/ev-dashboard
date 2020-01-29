@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { LevelText } from 'app/types/GlobalType';
 import { InactivityStatus } from 'app/types/Transaction';
-import { Constants } from 'app/utils/Constants';
 
 @Pipe({ name: 'appColorByStatus' })
 export class AppColorByStatusPipe implements PipeTransform {
@@ -9,13 +9,13 @@ export class AppColorByStatusPipe implements PipeTransform {
     let classResult = 'ml-1 ';
     switch (status) {
       case InactivityStatus.INFO:
-        classResult += Constants.LEVEL_TEXT_INFO;
+        classResult += LevelText.INFO;
         break;
       case InactivityStatus.ERROR:
-        classResult += Constants.LEVEL_TEXT_DANGER;
+        classResult += LevelText.DANGER;
         break;
       case InactivityStatus.WARNING:
-        classResult += Constants.LEVEL_TEXT_WARNING;
+        classResult += LevelText.WARNING;
         break;
     }
     return classResult;

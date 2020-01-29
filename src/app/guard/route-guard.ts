@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Role } from 'app/types/Authorization';
 import { environment } from 'environments/environment';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ComponentService } from '../services/component.service';
 import { MessageService } from '../services/message.service';
-import { Constants } from '../utils/Constants';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
@@ -111,12 +111,12 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     let route = RouteGuardService.LOGIN_ROUTE;
     if (this.userRole) {
       switch (this.userRole) {
-        case Constants.ROLE_SUPER_ADMIN:
+        case Role.SUPER_ADMIN:
           route = RouteGuardService.TENANT_ROUTE;
           break;
-        case Constants.ROLE_ADMIN:
-        case Constants.ROLE_BASIC:
-        case Constants.ROLE_DEMO:
+        case Role.ADMIN:
+        case Role.BASIC:
+        case Role.DEMO:
         default:
           route = RouteGuardService.CHARGING_STATION_ROUTE;
       }

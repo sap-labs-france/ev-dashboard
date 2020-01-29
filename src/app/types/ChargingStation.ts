@@ -57,7 +57,7 @@ export interface OcppCommand {
 }
 
 export interface OcppAdvancedCommands {
-  command: string|OcppCommand;
+  command: string | OcppCommand;
 }
 
 export enum PowerLimitUnits {
@@ -132,4 +132,17 @@ export enum ChargingStationButtonAction {
   EDIT_CHARGERS = 'edit_chargers',
   DISPLAY_CHARGERS = 'display_chargers',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
+}
+
+export enum ConnStatus {
+  AVAILABLE = 'Available',
+  OCCUPIED = 'Occupied',
+  CHARGING = 'Charging',
+  FAULTED = 'Faulted',
+  RESERVED = 'Reserved',
+  FINISHING = 'Finishing',
+  PREPARING = 'Preparing',
+  SUSPENDED_EVSE = 'SuspendedEVSE',
+  SUSPENDED_EV = 'SuspendedEV',
+  UNAVAILABLE = 'Unavailable',
 }

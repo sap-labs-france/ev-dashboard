@@ -128,7 +128,10 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
           value = data[tableColumnDef.id] ? data[tableColumnDef.id] : '';
       }
       if (tableColumnDef.unique) {
-        tableColumnDef.validators.push(uniqValidator(this.formArray));
+        if (!tableColumnDef.validators) {
+          tableColumnDef.validators = [];
+        }
+        tableColumnDef.validators.push(uniqValidator(this.formArray, tableColumnDef.id));
       }
       // @ts-ignore
       controls[tableColumnDef.id] = new FormControl(value, tableColumnDef.validators);
@@ -137,9 +140,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 }
 
-export function uniqValidator(formArray: FormArray): ValidatorFn {
+export function uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
-    const duplicate = formArray.value.find((row) => row.id === control.value);
+    const duplicate = formArray.value.find((row) => row[controlId] === control.value);
     return duplicate ? {duplicate: true} : null;
   };
 }

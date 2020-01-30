@@ -37,6 +37,7 @@
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
     "error_not_a_number": "La valeur n'est pas un nombre",
+    "error_duplicate": "La valeur existe déjà",
     "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",

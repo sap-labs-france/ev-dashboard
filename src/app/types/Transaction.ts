@@ -1,7 +1,7 @@
 import { ChargingStation, ConsumptionValue } from './ChargingStation';
+import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
-import { RefundType, RefundStatus } from './Refund';
 
 export interface Transaction extends Data {
   id: number;

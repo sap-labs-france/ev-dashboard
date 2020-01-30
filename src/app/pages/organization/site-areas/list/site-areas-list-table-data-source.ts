@@ -295,7 +295,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.router,
         this.spinnerService,
         siteArea,
-        null
+        null,
       );
     }
   }

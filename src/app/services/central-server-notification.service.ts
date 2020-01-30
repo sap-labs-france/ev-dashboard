@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Entity } from 'app/types/Authorization';
 import { SubjectInfo } from 'app/types/GlobalType';
 import { Observable, Subject } from 'rxjs';
 // @ts-ignore
 import io from 'socket.io-client';
 import { Constants } from '../utils/Constants';
-import { Entity } from 'app/types/Authorization';
 
 @Injectable()
 export class CentralServerNotificationService {

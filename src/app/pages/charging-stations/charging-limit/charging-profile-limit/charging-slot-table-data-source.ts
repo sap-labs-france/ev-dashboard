@@ -82,7 +82,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     }
 
     if (this.data[this.data.length - 1]) {
-      var previousDate = new Date(this.data[this.data.length - 1].startDate);
+      const previousDate = new Date(this.data[this.data.length - 1].startDate);
       chargingSchedulePeriod.startDate = new Date(previousDate.setHours(previousDate.getHours() + 1));
       chargingSchedulePeriod.limitInkW = this.data[this.data.length - 1].limitInkW;
       this.data[this.data.length - 1].duration = 60;
@@ -90,7 +90,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem){
+  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem) {
     super.rowActionTriggered(actionDef, row, dropdownItem);
     // for (let i = this.data.length - 1; i >= 0; i--) {
     //   if (this.data[i - 1]) {
@@ -102,7 +102,6 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     //   }
     // }
   }
-
 
   public updateRow(value: Slot, index: number, columnDef: TableColumnDef) {
     super.updateRow(value, index, columnDef);

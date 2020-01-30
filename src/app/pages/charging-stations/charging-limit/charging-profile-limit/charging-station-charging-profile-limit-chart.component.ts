@@ -91,11 +91,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       limitPowerDataSet.data.push({
         x: limit.startDate.getTime(), y: limit.limitInkW,
       });
-      if (index === scheduleSlots.length-1) {
+      if (index === scheduleSlots.length - 1) {
         // Add last limit
         this.data.labels.push(scheduleSlots[index].startDate.setSeconds(scheduleSlots[index].startDate.getSeconds() + scheduleSlots[index].duration));
         limitPowerDataSet.data.push({
-          x: scheduleSlots[index].startDate.setSeconds(scheduleSlots[index].startDate.getSeconds() + scheduleSlots[index].duration*60) , y: limit.limitInkW,
+          x: scheduleSlots[index].startDate.setSeconds(scheduleSlots[index].startDate.getSeconds() + scheduleSlots[index].duration * 60) , y: limit.limitInkW,
         });
       }
     }

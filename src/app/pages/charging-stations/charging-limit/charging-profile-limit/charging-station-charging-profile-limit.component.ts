@@ -19,7 +19,6 @@ import { ChargingStationPowerSliderComponent } from '../component/charging-stati
 import { ChargingSlotTableDataSource } from './charging-slot-table-data-source';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 
-
 interface DisplayedSlot extends ScheduleSlot {
   limitInkW: number;
 }
@@ -133,7 +132,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.chargingSlotTableDataSource.data[0].startDate = event.value;
     for (let i = 0; i < this.chargingSlotTableDataSource.data.length; i++) {
       if (this.chargingSlotTableDataSource.data[i + 1]) {
-        let date = new Date(this.chargingSlotTableDataSource.data[i].startDate)
+        const date = new Date(this.chargingSlotTableDataSource.data[i].startDate);
         date.setSeconds((date.getSeconds() + this.chargingSlotTableDataSource.data[i].duration * 60));
         this.chargingSlotTableDataSource.data[i + 1].startDate = date;
       }
@@ -210,7 +209,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     //   this.chargingSlotTableDataSource.startDate = this.startSchedule;
     //   this.chargingProfile = chargingProfile;
 
-
     //   // });
     //   this.profileTypeControl.valueChanges.subscribe(() => {
     //     // Set default values
@@ -246,7 +244,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.formGroup.valueChanges.subscribe(val => {
+    this.formGroup.valueChanges.subscribe((val) => {
       this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
     });
   }
@@ -284,7 +282,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
         this.slotsSchedule = [];
         this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
       }
-    }
+    },
     );
   }
 
@@ -325,7 +323,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   }
 
   private buildProfile() {
-    this.chargingSlotTableDataSource.refreshData()
+    this.chargingSlotTableDataSource.refreshData();
     const chargingProfile = {} as ChargingProfile;
     chargingProfile.profile = {} as Profile;
     chargingProfile.chargingStationID = this.charger.id;
@@ -355,7 +353,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     chargingProfile.profile.chargingSchedule.chargingRateUnit = this.powerUnit;
 
     // build schedule
-    let duration: number = 0;
+    let duration = 0;
     const startOfSchedule = new Date(this.chargingSlotTableDataSource.data[0].startDate);
     chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
     chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];

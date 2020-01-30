@@ -35,7 +35,7 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.charger){
+    if (!this.charger) {
       this.charger = this.columnDef.additionalParameters;
       this.currentAmp = this.row.limit;
       this.forChargingProfile = true;
@@ -99,8 +99,8 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
       // Notify
       this.powerSliderChanged.emit(value);
-      this.row.limit = value
-      this.row.displayedLimitInkW = this.convertAmpToPower(value, 'W');;
+      this.row.limit = value;
+      this.row.displayedLimitInkW = this.convertAmpToPower(value, 'W');
       console.log(value);
     }
   }
@@ -120,4 +120,3 @@ export class ChargingStationPowerSliderComponent implements OnInit {
 
       }
   }
-

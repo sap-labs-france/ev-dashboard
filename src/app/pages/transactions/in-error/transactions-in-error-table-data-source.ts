@@ -108,7 +108,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       rowSelection: {
         enabled: true,
         multiple: true,
-      }
+      },
     };
   }
 
@@ -334,7 +334,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       } else {
         this.messageService.showSuccessMessage(
           this.translateService.instant('transactions.delete_transactions_success',
-            { inSuccess: response.inSuccess }
+            { inSuccess: response.inSuccess },
           ));
       }
       this.spinnerService.hide();

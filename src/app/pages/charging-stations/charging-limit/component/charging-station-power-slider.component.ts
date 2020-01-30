@@ -1,29 +1,25 @@
 import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargingStation, ChargingStationCurrentType, Connector } from 'app/types/ChargingStation';
+import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import { Slot } from 'app/types/ChargingProfile';
+import { ChargingStation, ChargingStationCurrentType, Connector } from 'app/types/ChargingStation';
 import { TableColumnDef } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-charging-station-power-slider',
   templateUrl: 'charging-station-power-slider.component.html',
 })
 @Injectable()
-export class ChargingStationPowerSliderComponent implements OnInit {
+export class ChargingStationPowerSliderComponent extends CellContentTemplateComponent implements OnInit {
   private static MIN_AMP = 6;
-  public rowChanged!: Subject<any>;
-
+  @Input() row!: Slot;
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
-  @Input() columnDef!: TableColumnDef;
-  @Input() row!: Slot;
   @Input() currentAmp!: number;
   @Input() forChargingProfile = false;
-  @Output() powerSliderChanged = new EventEmitter<number>();
 
   public minAmp = ChargingStationPowerSliderComponent.MIN_AMP;
   public maxAmp = ChargingStationPowerSliderComponent.MIN_AMP;
@@ -33,13 +29,14 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   public notSupported = false;
 
   constructor(
-    private appUnitFormatter: AppUnitPipe,
-    private decimalPipe: AppDecimalPipe) {
-      this.rowChanged = new Subject();
+      private appUnitFormatter: AppUnitPipe,
+      private decimalPipe: AppDecimalPipe) {
+    super();
   }
 
   ngOnInit() {
-    if(this.columnDef){
+    // Slider in table?
+    if (this.columnDef){
       this.charger = this.columnDef.additionalParameters;
       this.currentAmp = this.row.limit;
       this.forChargingProfile = true;
@@ -102,11 +99,10 @@ export class ChargingStationPowerSliderComponent implements OnInit {
       // Update Power
       this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
       // Notify
-      this.powerSliderChanged.emit(value);
-      this.rowChanged.next(value);
+      this.componentChanged.emit(value);
       if (this.row) {
-      this.row.limit = value;
-      this.row.limitInkW = parseInt(this.convertAmpToPower(value, 'W'), 10);
+        this.row.limit = value;
+        this.row.limitInkW = parseInt(this.convertAmpToPower(value, 'W'), 10);
       }
     }
   }
@@ -123,6 +119,5 @@ export class ChargingStationPowerSliderComponent implements OnInit {
         ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
     }
     return 'N/A';
-
-      }
   }
+}

@@ -296,7 +296,7 @@
               </td>
               <td *ngIf="dataSource.tableDef.isEditable"
                   [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [class.table-field-invalid]="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors">
+                  [class.table-field-invalid]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors">
                 <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                   [id]="tableColumnDef.id" [name]="tableColumnDef.id"
                   class="form-control text-line"
@@ -321,7 +321,7 @@
                 </span>
                 <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                 </span>
-                <mat-error *ngIf="dataSource.formArray?.at(rowIndex)?.get(tableColumnDef.id)?.errors as errors">
+                <mat-error *ngIf="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors as errors">
                   <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
                   <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
                        [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
@@ -333,8 +333,8 @@
             </ng-template>
             <td *ngIf="tableColumnDef.isAngularComponent"
                 [class]="(tableColumnDef.class ? tableColumnDef.class + ' table-cell-angular-component' : 'table-cell-angular-component')">
-              <app-cell-content-template-container [columnDef]="tableColumnDef"
-                [row]="row"></app-cell-content-template-container>
+              <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row" (componentChanged)="rowCellUpdated($event, rowIndex, tableColumnDef)">
+              </app-cell-content-template-container>
             </td>
           </ng-template>
         </tr>

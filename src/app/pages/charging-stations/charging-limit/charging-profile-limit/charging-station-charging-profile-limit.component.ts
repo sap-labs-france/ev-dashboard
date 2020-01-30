@@ -121,6 +121,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     });
     // Register to table change
     this.chargingSlotTableDataSource.getTableChangedSubject().subscribe((chargingSlots: Slot[]) => {
+      console.log('====================================');
+      console.log(chargingSlots);
+      console.log('====================================');
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);
     });

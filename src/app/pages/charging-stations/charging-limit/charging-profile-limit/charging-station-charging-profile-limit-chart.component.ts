@@ -13,14 +13,14 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
   template: `
     <div class="chart-container">
       <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
-      <div *ngIf="scheduleSlots && scheduleSlots.length > 0" class="icon-left">
+      <div *ngIf="chargingSlots && chargingSlots.length > 0" class="icon-left">
         <a mat-icon-button (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>
     </div>
   `,
 })
 export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit {
-  @Input() scheduleSlots!: Slot[];
+  @Input() chargingSlots!: Slot[];
   @Input() ratio!: number;
   @ViewChild('chart', { static: false }) chartComponent!: ChartComponent;
   public data: any;
@@ -48,15 +48,15 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   }
 
   ngOnInit(): void {
-    if (this.scheduleSlots && this.scheduleSlots.length > 0) {
-      this.createGraphData(this.scheduleSlots);
+    if (this.chargingSlots && this.chargingSlots.length > 0) {
+      this.createGraphData(this.chargingSlots);
     }
   }
 
-  setLimitPlannerData(scheduleSlots: Slot[]) {
-    this.scheduleSlots = scheduleSlots;
-    if (scheduleSlots && scheduleSlots.length > 0) {
-      this.createGraphData(this.scheduleSlots);
+  setLimitPlannerData(chargingSlots: Slot[]) {
+    this.chargingSlots = chargingSlots;
+    if (chargingSlots && chargingSlots.length > 0) {
+      this.createGraphData(this.chargingSlots);
     } else {
       // clear graph
       this.options = null;
@@ -64,8 +64,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     }
   }
 
-  createGraphData(scheduleSlots: Slot[]) {
-    this.options = this.createOptions(scheduleSlots);
+  createGraphData(chargingSlots: Slot[]) {
+    this.options = this.createOptions(chargingSlots);
     this.data = {
       labels: [],
       datasets: [],
@@ -83,26 +83,26 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     // Push in the graph
     this.data.datasets.push(limitPowerDataSet);
     // build for each connectors
-    for (let index = 0; index < scheduleSlots.length; index++) {
-      const connectorPlanning = scheduleSlots[index];
+    for (let index = 0; index < chargingSlots.length; index++) {
+      const connectorPlanning = chargingSlots[index];
       // Add slot
       const limit = connectorPlanning;
       this.data.labels.push(limit.startDate.getTime());
       limitPowerDataSet.data.push({
         x: limit.startDate.getTime(), y: limit.limitInkW,
       });
-      if (index === scheduleSlots.length-1) {
+      if (index === chargingSlots.length-1) {
         // Add last limit
-        let lastDate = scheduleSlots[index].startDate;
-        this.data.labels.push(lastDate.setSeconds(lastDate.getSeconds() + scheduleSlots[index].duration));
+        let lastDate = chargingSlots[index].startDate;
+        this.data.labels.push(lastDate.setSeconds(lastDate.getSeconds() + chargingSlots[index].duration));
         limitPowerDataSet.data.push({
-          x: lastDate.setSeconds(lastDate.getSeconds() + scheduleSlots[index].duration * 60) , y: limit.limitInkW,
+          x: lastDate.setSeconds(lastDate.getSeconds() + chargingSlots[index].duration * 60) , y: limit.limitInkW,
         });
       }
     }
   }
 
-  createOptions(scheduleSlots: Slot[]) {
+  createOptions(chargingSlots: Slot[]) {
     const options: any = {
       legend: {
         position: 'bottom',
@@ -182,10 +182,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         enabled: true,
         mode: 'x',
         // rangeMin: {
-        //   x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[0].start.getTime() : 0,
+        //   x: chargingSlots.length > 0 ? chargingSlots[0].slots[0].start.getTime() : 0,
         // },
         // rangeMax: {
-        //   x: scheduleSlots.length > 0 ? scheduleSlots[0].slots[scheduleSlots[0].slots.length - 1].start.getTime() : 0,
+        //   x: chargingSlots.length > 0 ? chargingSlots[0].slots[chargingSlots[0].slots.length - 1].start.getTime() : 0,
         // },
       },
       zoom: {

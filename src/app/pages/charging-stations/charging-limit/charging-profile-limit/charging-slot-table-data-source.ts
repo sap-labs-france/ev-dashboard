@@ -121,21 +121,22 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
 
   public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
     super.rowCellUpdated(cellValue, cellIndex, columnDef);
-    let duration: number;
-    if (this.data[cellIndex - 1]) {
-      duration = Math.round((this.data[cellIndex].startDate.getTime() - this.data[cellIndex - 1].startDate.getTime()) / 1000 / 60);
-      this.data[cellIndex - 1].duration = duration;
-    } else if (cellIndex === 0) {
-      duration = Math.round((this.data[cellIndex + 1].startDate.getTime() - this.data[cellIndex].startDate.getTime()) / 1000 / 60);
-      this.data[cellIndex].duration = duration;
-    }
-    this.data[cellIndex].duration = cellValue;
-    for (let i = cellIndex; i < this.data.length; i++) {
-      if (this.data[i + 1]) {
-        const date = new Date(this.data[i].startDate);
-        date.setSeconds((date.getSeconds() + this.data[i].duration * 60));
-        this.data[i + 1].startDate = date;
-      }
-    }
+    this.recomputeChargingSlots();
+    // let duration: number;
+    // if (this.data[cellIndex - 1]) {
+    //   duration = Math.round((this.data[cellIndex].startDate.getTime() - this.data[cellIndex - 1].startDate.getTime()) / 1000 / 60);
+    //   this.data[cellIndex - 1].duration = duration;
+    // } else if (cellIndex === 0) {
+    //   duration = Math.round((this.data[cellIndex + 1].startDate.getTime() - this.data[cellIndex].startDate.getTime()) / 1000 / 60);
+    //   this.data[cellIndex].duration = duration;
+    // }
+    // this.data[cellIndex].duration = cellValue;
+    // for (let i = cellIndex; i < this.data.length; i++) {
+    //   if (this.data[i + 1]) {
+    //     const date = new Date(this.data[i].startDate);
+    //     date.setSeconds((date.getSeconds() + this.data[i].duration * 60));
+    //     this.data[i + 1].startDate = date;
+    //   }
+    // }
   }
 }

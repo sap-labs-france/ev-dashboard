@@ -28,14 +28,14 @@ export interface Profile extends Data  {
   recurrencyKind: RecurrencyKindType;
   validFrom?: Date;
   validTo?: Date;
-  chargingSchedule: ChargingSchedule
+  chargingSchedule: ChargingSchedule;
 }
 
 export interface ChargingSchedule {
   duration?: number;
   startSchedule?: Date;
   chargingRateUnit: PowerLimitUnits;
-  chargingSchedulePeriod: ChargingSchedulePeriod[]
+  chargingSchedulePeriod: ChargingSchedulePeriod[];
   minChargeRate?: number;
 }
 
@@ -45,22 +45,21 @@ export interface ChargingSchedulePeriod {
   numberPhases?: number;
 }
 
-
-export enum ChargingProfileKindType{
+export enum ChargingProfileKindType {
   ABSOLUTE = 'Absolute',
   RECURRING = 'Recurring',
-  RELATIVE = 'Relative'
+  RELATIVE = 'Relative',
 }
 
 export enum ChargingProfilePurposeType {
   CHARGE_POINT_MAX_PROFILE = 'ChargePointMaxProfile',
   TX_DEFAULT_PROFILE = 'TxDefaultProfile',
-  TX_PROFILE = 'TxProfile'
+  TX_PROFILE = 'TxProfile',
 }
 
 export enum RecurrencyKindType {
   DAILY = 'Daily',
-  WEEKLY = 'Weekly'
+  WEEKLY = 'Weekly',
 }
 
 export interface Slot extends Data {
@@ -71,4 +70,3 @@ export interface Slot extends Data {
   limit: number;
   limitInkW: number;
 }
-

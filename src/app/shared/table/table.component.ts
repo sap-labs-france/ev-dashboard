@@ -120,7 +120,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
-    this.dataSource.rowCellUpdated(cellValue, cellIndex, columnDef);
+    if (this.dataSource.tableDef && this.dataSource.tableDef.isEditable) {
+      this.dataSource.rowCellUpdated(cellValue, cellIndex, columnDef);
+    }
   }
 
   public filterChanged(filterDef: TableFilterDef) {

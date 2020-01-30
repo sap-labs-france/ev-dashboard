@@ -42,6 +42,10 @@ export class Utils {
     return Utils.getMobileVendor() !== null;
   }
 
+  public static replaceSpecialCharsInCSVValueParam(value: string): string {
+    return value ? value.replace(/\n/g, '') : '';
+  }
+  
   public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
     const result: ChargingStationPowers = {
       notSupported: false,

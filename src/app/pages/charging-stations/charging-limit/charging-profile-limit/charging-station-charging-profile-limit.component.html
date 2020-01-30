@@ -10,7 +10,7 @@
             {{'chargers.smart_charging.planning_energy_limit' | translate: {chargeBoxID: charger.id} }}
           </h3>
           <div class="right-actions d-flex flex-row mat-toolbar-row pt-3">
-            <button mat-raised-button color="primary" (click)="applyPowerLimit()">
+            <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
             <button mat-raised-button color="primary" (click)="clearChargingProfile()">
@@ -35,17 +35,17 @@
                 <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
                 </mat-datetimepicker>
                 <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}"
-                  (dateChange)="dateFilterChanged($event)" [matDatetimepicker]="picker" [value]="startSchedule"
+                <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
+                  (dateChange)="startDateFilterChanged($event.value)" [matDatetimepicker]="picker" [value]="startSchedule"
                   autocomplete="false">
               </mat-form-field>
             </div>
           </div>
           <app-table [dataSource]="chargingSlotTableDataSource"></app-table>
-          <div>
-            <app-charging-station-smart-charging-limit-planner-chart #limitChart [scheduleSlots]="slotsSchedule" ratio="4">
-            </app-charging-station-smart-charging-limit-planner-chart>
-          </div>
+        </div>
+        <div class="col-md-12 text-right">
+          <app-charging-station-smart-charging-limit-planner-chart #limitChart ratio="4">
+          </app-charging-station-smart-charging-limit-planner-chart>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableFilterDef } from 'app/types/Table';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableFilterDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -36,6 +36,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private alive!: boolean;
 
   private readonly Constants = Constants;
+  private readonly TableEditType = TableEditType;
 
   constructor(
     private configService: ConfigService,
@@ -118,8 +119,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadData();
   }
 
-  public updateRow(value: any, index: number, columnDef: TableColumnDef) {
-    this.dataSource.updateRow(value, index, columnDef);
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+    if (this.dataSource.tableDef && this.dataSource.tableDef.isEditable) {
+      this.dataSource.rowCellUpdated(cellValue, cellIndex, columnDef);
+    }
   }
 
   public filterChanged(filterDef: TableFilterDef) {

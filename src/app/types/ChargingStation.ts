@@ -51,6 +51,13 @@ export enum ChargingStationCurrentType {
   AC_DC = 'AC/DC',
 }
 
+export interface ChargingStationPowers {
+  notSupported: boolean;
+  minAmp: number;
+  maxAmp: number;
+  currentAmp: number;
+}
+
 export interface OcppCommand {
   command: string;
   parameters: string[];

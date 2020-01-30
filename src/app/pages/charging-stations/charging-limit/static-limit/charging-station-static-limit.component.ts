@@ -54,7 +54,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     }
   }
 
-  public applyPowerLimit() {
+  public saveAndApplyChargingProfile() {
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(

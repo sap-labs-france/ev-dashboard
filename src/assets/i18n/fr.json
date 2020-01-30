@@ -722,6 +722,7 @@
       "slot_index_header": "Numéro du créneau",
       "slot_duration_header": "Durée du créneau (s)",
       "slot_limit_header": "Limite de puissance du créneau",
+      "connectors_all": "all",
       "profile_types": {
         "relative": "Planification Relative",
         "absolute": "Planification Temporaire",

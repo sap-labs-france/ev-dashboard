@@ -1582,6 +1582,11 @@
         "title": "Date de début de Transaction Incorrecte",
         "description": "La date de début de la transaction est incorrecte ou impossible.",
         "action": "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
+      },
+      "missing_user": {
+        "title": "Transaction non assigné",
+        "description": "Aucun utilisateur n'est assigné à cette transaction.",
+        "action": "Supprimez cette transaction ou désactivez le contrôle d'accès de cette zone."
       }
     }
   },

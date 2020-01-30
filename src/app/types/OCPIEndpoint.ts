@@ -28,6 +28,28 @@ export interface OcpiEndpointDetail extends Data {
 }
 
 export enum OcpiButtonAction {
-  SEND = 'send',
+  PUSH_TOKENS = 'push_tokens',
+  PUSH_LOCATIONS = 'push_locations',
+  GET_CDRS = 'get_cdrs',
+  GET_LOCATIONS = 'get_locations',
+  GET_SESSIONS = 'get_sessions',
+  GET_TOKENS = 'get_tokens',
+  SYNC_ALL = 'sync_all',
   START_JOB = 'stop_start_job',
+}
+
+export enum OcpiEndpointStatus {
+  NEW = 'new',
+  REGISTERED = 'registered',
+  UNREGISTERED = 'unregistered',
+}
+
+export enum OcpiRole {
+  CPO = 'CPO',
+  EMSP = 'EMSP',
+}
+
+export enum OcpiEndpointPatchJobStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }

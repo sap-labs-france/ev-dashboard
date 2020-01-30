@@ -7,7 +7,7 @@ export class TableMoreAction implements TableAction {
     id: ButtonAction.MORE,
     type: 'button',
     icon: 'more_horiz',
-    color: ButtonColor.PRIMARY,
+    color: ButtonColor.BASIC,
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'app/services/window.service';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
@@ -31,6 +32,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
+    private windowService: WindowService,
     private translateService: TranslateService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private configService: ConfigService) {
@@ -54,6 +56,13 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
+    // Handle Deep Linking
+    if (Utils.isInMobileApp()) {
+      // Forward to Mobile App
+      const mobileAppURL: string = Utils.buildMobileAppDeepLink(
+        `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
+      window.location.href = mobileAppURL;
+    }
   }
 
   ngOnInit() {
@@ -66,7 +75,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       card.classList.remove('card-hidden');
     }, 700);
     // Check email
-    if (this.verificationEmail) {
+    if (this.verificationEmail && !Utils.isInMobileApp()) {
       // Set email
       this.formGroup.controls.email.setValue(this.verificationEmail);
       // Check if verificationToken
@@ -100,7 +109,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       this.spinnerService.hide();
       // Success
       if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-
         if (this.resetToken) {
           // Show message
           // @ts-ignore
@@ -164,15 +172,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
         return;
       }
-      // Show
       this.spinnerService.show();
       // Resend
       this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
-        // Hide
         this.spinnerService.hide();
         // Success
         if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
-          // Show message
           // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login

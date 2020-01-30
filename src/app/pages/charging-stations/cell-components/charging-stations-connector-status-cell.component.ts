@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Connector } from 'app/types/ChargingStation';
-import { Constants } from 'app/utils/Constants';
+import { Connector, ConnStatus } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
 const TYPE_SUCCESS = 'chip-success';
@@ -37,40 +36,40 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
   buildConnectorStatusClasses(status: string): string {
     let classNames = 'chip-width-10em ';
     switch (status) {
-      case Constants.CONN_STATUS_AVAILABLE: {
+      case ConnStatus.AVAILABLE: {
         classNames += TYPE_SUCCESS;
         break;
       }
-      case Constants.CONN_STATUS_PREPARING: {
+      case ConnStatus.PREPARING: {
         classNames += TYPE_WARNING;
         break;
       }
-      case Constants.CONN_STATUS_SUSPENDED_EVSE: {
+      case ConnStatus.SUSPENDED_EVSE: {
         classNames += TYPE_INFO;
         break;
       }
-      case Constants.CONN_STATUS_SUSPENDED_EV: {
+      case ConnStatus.SUSPENDED_EV: {
         classNames += TYPE_INFO;
         break;
       }
-      case Constants.CONN_STATUS_FINISHING: {
+      case ConnStatus.FINISHING: {
         classNames += TYPE_WARNING;
         break;
       }
-      case Constants.CONN_STATUS_RESERVED: {
+      case ConnStatus.RESERVED: {
         classNames += TYPE_INFO;
         break;
       }
-      case Constants.CONN_STATUS_CHARGING:
-      case Constants.CONN_STATUS_OCCUPIED: {
+      case ConnStatus.CHARGING:
+      case ConnStatus.OCCUPIED: {
         classNames += TYPE_INFO;
         break;
       }
-      case Constants.CONN_STATUS_UNAVAILABLE: {
+      case ConnStatus.UNAVAILABLE: {
         classNames += TYPE_GREY;
         break;
       }
-      case Constants.CONN_STATUS_FAULTED: {
+      case ConnStatus.FAULTED: {
         classNames += TYPE_DANGER;
         break;
       }

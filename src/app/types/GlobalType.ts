@@ -40,6 +40,8 @@ export enum ButtonAction {
   EXPORT = 'export',
   ADD = 'add',
   CREATE = 'create',
+  COPY = 'copy',
+  MULTI_COPY = 'multi-copy',
   MULTI_CREATE = 'multi-create',
   NO_ACTION = 'block',
   OPEN = 'open',
@@ -53,4 +55,20 @@ export enum ButtonAction {
   STOP = 'stop',
   UNREGISTER = 'unregister',
   VIEW = 'view',
+}
+
+export enum ChipType {
+  PRIMARY = 'chip-primary',
+  DEFAULT = 'chip-default',
+  INFO = 'chip-info',
+  SUCCESS = 'chip-success',
+  DANGER = 'chip-danger',
+  WARNING = 'chip-warning',
+  GREY = 'chip-grey',
+}
+
+export enum LevelText {
+  INFO = 'text-success',
+  DANGER = 'text-danger',
+  WARNING = 'text-warning',
 }

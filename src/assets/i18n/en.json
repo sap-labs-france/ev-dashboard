@@ -67,6 +67,8 @@
     "delete": "Delete",
     "export": "Export",
     "synchronize": "Synchronize",
+    "download": "Download",
+    "upload": "Upload",
     "change": "Changer",
     "reload": "Reload",
     "stop": "Stop",
@@ -148,6 +150,7 @@
       "template": "Templates"
     },
     "tooltips": {
+      "export": "Export OCPP params",
       "assign_site_area": "Assign site",
       "more": "More actions",
       "smart_charging": "Smart charging",
@@ -174,6 +177,7 @@
       "remove": "Remove",
       "revoke": "Revoke",
       "settings": "Settings",
+      "synchronize": "Synchronize",
       "start": "Start",
       "stop": "Stop",
       "view": "View",
@@ -375,7 +379,9 @@
     "update_site_users_role_error": "Error occurred while trying to update the access right of the user '{{userName}}'",
     "update_set_site_owner_success": "The user '{{userName}}' is now owner on this site",
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
-    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner"
+    "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner",
+    "export_all_params_title": "Export OCPP parameters",
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
   },
   "site_areas": {
     "export_all_ocpp_params": "Export All OCPP Params",
@@ -420,7 +426,7 @@
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy": "Maximum Power Limitation (Watts)",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to this site area?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?"
   },
   "authentication": {
     "accept": "I accept the",
@@ -1109,9 +1115,9 @@
       "copy_url_tooltip": "Copy OCPP URL",
       "url_copied": "OCPP Url has been copied to your clipboard",
       "generate_connection_url": "Connect a Charging Station",
-      "copy_ocpp_15_soap_url": "Copy OCPP 1.5 SOAP URL",
-      "copy_ocpp_16_json_url": "Copy OCPP 1.6 JSON URL",
-      "copy_ocpp_16_soap_url": "Copy OCPP 1.6 SOAP URL"
+      "ocpp_15_soap": "OCPP 1.5 SOAP",
+      "ocpp_16_json": "OCPP 1.6 JSON",
+      "ocpp_16_soap": "OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility provides Refunds APIs for an external expense system.<br/>This feature allow the Electric Vehicle driver to push any sessions he has done to an expense system and get reimbursed of the electricity he consumed.<br/><br/>E-Mobility is currently using SAP Concur. More technical information <a href='https://www.concur.com/' target='_blank'><u>here</u></a>.",
@@ -1274,6 +1280,21 @@
     "sendTokens_confirm": "Do you want to send all user tokens to IOP '{{name}}'?",
     "triggerJobs_title": "Execute Jobs",
     "triggerJobs_confirm": "Do you want to trigger all jobs of IOP '{{name}}'?",
+    "getLocations_title": "Pull Locations",
+    "getLocations_confirm": "Do you want to retrieve all locations from IOP '{{name}}'?",
+    "getLocations_success": "Successfully updated {{success}} locations from IOP",
+    "getLocations_partial": "{{success}} location(s) updated - {{error}} location(s) not updated - see logs for more details",
+    "getLocations_error": "Error occurred while updating the IOP locations - see logs for more details",
+    "getSessions_title": "Pull Sessions",
+    "getSessions_confirm": "Do you want to retrieve all sessions from IOP '{{name}}'?",
+    "getSessions_success": "Successfully updated {{success}} sessions from IOP",
+    "getSessions_partial": "{{success}} sessions(s) updated - {{error}} sessions(s) not updated - see logs for more details",
+    "getSessions_error": "Error occurred while updating the IOP sessions - see logs for more details",
+    "getCdrs_title": "Pull Charge Detail Records",
+    "getCdrs_confirm": "Do you want to retrieve all charge detail records from IOP '{{name}}'?",
+    "getCdrs_success": "Successfully updated {{success}} charge detail records from IOP",
+    "getCdrs_partial": "{{success}} charge detail record(s) updated - {{error}} charge detail record(s) not updated - see logs for more details",
+    "getCdrs_error": "Error occurred while updating the IOP charge detail records - see logs for more details",
     "error_trigger_jobs": "Error occurred while executing jobs - see logs for more details",
     "success_ping": "Ping successfull",
     "error_ping_401": "Ping failed: Unauthorized",
@@ -1313,6 +1334,13 @@
     "party_id": "Party ID",
     "business_details": "Business Details",
     "logo": "Image",
+    "sync_all": "Synchronize All",
+    "push_locations": "Push Locations",
+    "push_tokens": "Push Tokens",
+    "get_cdrs": "Get CDRs",
+    "get_locations": "Get Locations",
+    "get_sessions": "Get Sessions",
+    "get_tokens": "Get Tokens",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",
@@ -1555,6 +1583,11 @@
         "title": "Incorrect Starting Date",
         "description": "The starting date value is incorrect or impossible.",
         "action": "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
+      },
+      "missing_user": {
+        "title": "Session with no User",
+        "description": "The User is unknown for this Session.",
+        "action": "Delete the Session or disable the access control in the corresponding Site Area."
       }
     }
   },

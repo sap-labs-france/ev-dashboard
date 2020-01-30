@@ -8,7 +8,7 @@ import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -23,7 +23,7 @@ import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
-import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
+import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -73,8 +73,8 @@ export class CentralServerService {
     this.checkInit();
     const options = {
       headers: this.buildHttpHeaders(),
-      body: { transactionsIDs }
-    }
+      body: { transactionsIDs },
+    };
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsDelete`, options)
       .pipe(
@@ -950,14 +950,21 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(siteAreaID: string): Observable<Blob> {
+  public exportAllChargingStationsOCCPParams(siteAreaID?: string, siteID?: string): Observable<Blob> {
     // Verify init
     this.checkInit();
+    const params: { [param: string]: string } = {};
+    if (siteID) {
+      params['SiteID'] = siteID;
+    }
+    if (siteAreaID) {
+      params['SiteAreaID'] = siteAreaID;
+    }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
-        params: { SiteAreaID: siteAreaID },
+        params,
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1643,6 +1650,48 @@ export class CentralServerService {
       );
   }
 
+  public getLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullLocations`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullSessions`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this.checkInit();
@@ -1745,7 +1794,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Set the tenant
-    params['tenant'] = this.windowService.getSubdomain();
+    params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
     return this.httpClient.get<ActionResponse>(
       `${this.centralRestServerServiceAuthURL}/VerifyEmail`,
@@ -1944,8 +1993,6 @@ export class CentralServerService {
       );
   }
 
-
-
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string, loadAllConnectors: boolean): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -1976,18 +2023,17 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
-      chargeBoxID: charger.id,
-      connectorId,
-      ampLimitValue,
-    },
-    {
-      headers: this.buildHttpHeaders(),
-    })
-    .pipe(
-      catchError(this.handleHttpError),
-    );
+        chargeBoxID: charger.id,
+        connectorId,
+        ampLimitValue,
+      },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
   }
-
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
     // Verify init

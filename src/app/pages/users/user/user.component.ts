@@ -8,7 +8,7 @@ import { IntegrationConnection } from 'app/types/Connection';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue } from 'app/types/GlobalType';
 import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
-import { User } from 'app/types/User';
+import { User, UserRole, UserStatus } from 'app/types/User';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -211,12 +211,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.pattern('^[0-9]*$'),
         ])),
-      status: new FormControl(Constants.USER_STATUS_ACTIVE,
+      status: new FormControl(UserStatus.ACTIVE,
         Validators.compose([
           Validators.required,
         ])),
       role: new FormControl(
-        this.isSuperAdmin ? Constants.USER_ROLE_SUPER_ADMIN : Constants.USER_ROLE_BASIC,
+        this.isSuperAdmin ? UserRole.SUPER_ADMIN : UserRole.BASIC,
         Validators.compose([
           Validators.required,
         ])),

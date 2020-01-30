@@ -17,7 +17,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { ChargingStationInError, ErrorMessage } from 'app/types/InError';
+import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -253,21 +253,21 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     // Create error type
     const errorTypes = [];
     errorTypes.push({
-      key: Constants.CHARGER_IN_ERROR_MISSING_SETTINGS,
-      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SETTINGS}.title`,
+      key: ChargingStationInErrorType.MISSING_SETTINGS,
+      value: `chargers.errors.${ChargingStationInErrorType.MISSING_SETTINGS}.title`,
     });
     errorTypes.push({
-      key: Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN,
-      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTION_BROKEN}.title`,
+      key: ChargingStationInErrorType.CONNECTION_BROKEN,
+      value: `chargers.errors.${ChargingStationInErrorType.CONNECTION_BROKEN}.title`,
     });
     errorTypes.push({
-      key: Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR,
-      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_CONNECTOR_ERROR}.title`,
+      key: ChargingStationInErrorType.CONNECTOR_ERROR,
+      value: `chargers.errors.${ChargingStationInErrorType.CONNECTOR_ERROR}.title`,
     });
     if (this.isOrganizationComponentActive) {
       errorTypes.push({
-      key: Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA,
-      value: `chargers.errors.${Constants.CHARGER_IN_ERROR_MISSING_SITE_AREA}.title`,
+      key: ChargingStationInErrorType.MISSING_SITE_AREA,
+      value: `chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`,
       });
     }
     // Sort

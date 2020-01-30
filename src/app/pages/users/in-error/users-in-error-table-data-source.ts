@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { ErrorMessage, UserInError } from 'app/types/InError';
+import { ErrorMessage, UserInError, UserInErrorType } from 'app/types/InError';
 import { SiteButtonAction } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { User } from 'app/types/User';
@@ -209,16 +209,16 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     // Create error type
     const errorTypes = [];
     errorTypes.push({
-      key: Constants.USER_IN_ERROR_NOT_ACTIVE,
-      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ACTIVE}.title`,
+      key: UserInErrorType.NOT_ACTIVE,
+      value: `users.errors.${UserInErrorType.NOT_ACTIVE}.title`,
     });
     errorTypes.push({
-      key: Constants.USER_IN_ERROR_NOT_ASSIGNED,
-      value: `users.errors.${Constants.USER_IN_ERROR_NOT_ASSIGNED}.title`,
+      key: UserInErrorType.NOT_ASSIGNED,
+      value: `users.errors.${UserInErrorType.NOT_ASSIGNED}.title`,
     });
     errorTypes.push({
-      key: Constants.INACTIVE_USER_ACCOUNT,
-      value: `users.errors.${Constants.INACTIVE_USER_ACCOUNT}.title`,
+      key: UserInErrorType.INACTIVE_USER_ACCOUNT,
+      value: `users.errors.${UserInErrorType.INACTIVE_USER_ACCOUNT}.title`,
     });
 
     const filters: TableFilterDef[] = [

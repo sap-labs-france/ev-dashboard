@@ -9,6 +9,7 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Action, Entity } from 'app/types/Authorization';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
@@ -135,7 +136,7 @@ export class SiteAreaComponent implements OnInit {
     this.country = this.address.controls['country'];
     this.coordinates = this.address.controls['coordinates'] as FormArray;
 
-    this.isAdmin = this.authorizationService.canAccess(Constants.ENTITY_SITE_AREA, Constants.ACTION_CREATE);
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
 
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
@@ -385,25 +386,6 @@ export class SiteAreaComponent implements OnInit {
     } else {
       this.closeDialog();
     }
-  }
-
-  public exportAllOCPPParams() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('site_areas.export_all_params_title'),
-      this.translateService.instant('site_areas.export_all_params_confirm'),
-    ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
-        this.spinnerService.show();
-        this.centralServerService.exportAllChargingStationsOCCPParams(this.currentSiteAreaID)
-          .subscribe((result) => {
-            this.spinnerService.hide();
-            saveAs(result, 'exported-occp-params.csv');
-          }, (error) => {
-            this.spinnerService.hide();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          });
-      }
-    });
   }
 
   private loadRegistrationToken() {

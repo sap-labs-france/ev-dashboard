@@ -198,7 +198,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.chargingSlotTableDataSource.startDate = this.startSchedule;
     //   this.chargingProfile = chargingProfile;
 
-
     //   // });
     //
     // }, (error) => {

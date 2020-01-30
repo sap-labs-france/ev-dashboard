@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { ChipType } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { Constants } from 'app/utils/Constants';
 
@@ -23,16 +24,16 @@ export class AppFormatOcpiPatchJobResultPipe implements PipeTransform {
       let classNames = 'chip-width-10em ';
       if (lastPatchJobResult) {
         if (lastPatchJobResult.successNbr === 0 && lastPatchJobResult.failureNbr > 0) {
-          classNames += Constants.CHIP_TYPE_DANGER;
+          classNames += ChipType.DANGER;
         } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr === 0) {
-          classNames += Constants.CHIP_TYPE_SUCCESS;
+          classNames += ChipType.SUCCESS;
         } else if (lastPatchJobResult.successNbr > 0 && lastPatchJobResult.failureNbr > 0) {
-          classNames += Constants.CHIP_TYPE_WARNING;
+          classNames += ChipType.WARNING;
         } else {
-          classNames += Constants.CHIP_TYPE_SUCCESS;
+          classNames += ChipType.SUCCESS;
         }
       } else {
-        classNames += Constants.CHIP_TYPE_GREY;
+        classNames += ChipType.GREY;
       }
       return classNames;
     }

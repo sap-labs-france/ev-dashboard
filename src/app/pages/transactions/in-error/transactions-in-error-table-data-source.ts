@@ -221,6 +221,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       key: TransactionInErrorType.NEGATIVE_DURATION,
       value: `transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`,
     });
+    errorTypes.push({
+      key: TransactionInErrorType.MISSING_USER,
+      value: `transactions.errors.${TransactionInErrorType.MISSING_USER}.title`,
+    });
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(ComponentType.PRICING)) {
       errorTypes.push({

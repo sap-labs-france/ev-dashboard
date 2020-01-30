@@ -1582,6 +1582,11 @@
         "title": "Incorrect Starting Date",
         "description": "The starting date value is incorrect or impossible.",
         "action": "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
+      },
+      "missing_user": {
+        "title": "Session with no User",
+        "description": "The User is unknown for this Session.",
+        "action": "Delete the Session or disable the access control in the corresponding Site Area."
       }
     }
   },

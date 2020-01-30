@@ -1,4 +1,4 @@
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
@@ -127,9 +127,19 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
           // @ts-ignore
           value = data[tableColumnDef.id] ? data[tableColumnDef.id] : '';
       }
+      if (tableColumnDef.unique) {
+        tableColumnDef.validators.push(uniqValidator(this.formArray));
+      }
       // @ts-ignore
       controls[tableColumnDef.id] = new FormControl(value, tableColumnDef.validators);
     });
     return new FormGroup(controls);
   }
+}
+
+export function uniqValidator(formArray: FormArray): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const duplicate = formArray.value.find((row) => row.id === control.value);
+    return duplicate ? {duplicate: true} : null;
+  };
 }

@@ -37,6 +37,7 @@
     "error_url_pattern": "Incorrect URL pattern",
     "error_number_pattern": "Invalid Number",
     "error_not_a_number": "Not a valid number",
+    "error_duplicate": "Duplicate entry",
     "id": "Id",
     "ok": "Ok",
     "cancel": "Cancel",

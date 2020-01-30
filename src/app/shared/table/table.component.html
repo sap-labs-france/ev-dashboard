@@ -328,6 +328,7 @@
                        [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
                   <div class="table-mat-error" *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
                        [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
+                  <div class="table-mat-error" *ngIf="errors?.duplicate" [translate]="'general.error_duplicate'"></div>
                   <div class="table-mat-error" *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
                 </mat-error>
               </td>

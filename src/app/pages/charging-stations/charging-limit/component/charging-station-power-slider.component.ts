@@ -1,11 +1,9 @@
-import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
 import { Slot } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationCurrentType, Connector } from 'app/types/ChargingStation';
-import { TableColumnDef } from 'app/types/Table';
-import { ChargingStations } from 'app/utils/ChargingStations';
+import { ChargingStation, Connector } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -41,55 +39,18 @@ export class ChargingStationPowerSliderComponent extends CellContentTemplateComp
       this.currentAmp = this.row.limit;
       this.forChargingProfile = true;
     }
-    // Check
-    if (!this.charger ||
-        !this.charger.connectors ||
-        Utils.isEmptyArray(this.charger.connectors) ||
-        this.charger.currentType !== ChargingStationCurrentType.AC) {
-      this.notSupported = true;
-      return;
-    }
-
-    // Connector Provided?
-    if (this.connector) {
-      // Charging Profile?
-      if (this.forChargingProfile) {
-        this.maxAmp = this.connector.amperageLimit;
-      } else {
-        this.maxAmp = this.connector.amperage;
-        this.currentAmp = this.connector.amperageLimit;
-      }
-    } else {
-      this.maxAmp = 0;
-      if (!this.forChargingProfile) {
-         this.currentAmp = 0;
-      }
-      // Add all connector's amps
-      for (const connector of this.charger.connectors) {
-        // Charging Profile?
-        if (this.forChargingProfile) {
-          this.maxAmp += connector.amperageLimit;
-        } else {
-          this.maxAmp += connector.amperage;
-          this.currentAmp += connector.amperageLimit;
-        }
-      }
-    }
-    // Default
-    if (!this.currentAmp) {
-      this.currentAmp = this.maxAmp;
-    }
+    // Get powers
+    const chargerPowers = Utils.getChargingStationPowers(this.charger, this.connector, false);
+    this.currentAmp = chargerPowers.currentAmp;
+    this.minAmp = chargerPowers.minAmp;
+    this.maxAmp = chargerPowers.maxAmp;
+    this.notSupported = chargerPowers.notSupported;
     // Convert
     this.updateDisplayedPowerKW();
-    // Check
-    if (!this.maxAmp) {
-      // this.notSupported = true;
-
-    }
   }
 
   public formatSlideLabelPowerKW = (currentAmp: number): string|null => {
-    const powerKW = Math.floor(parseInt(this.convertAmpToPower(currentAmp, 'W', false), 10));
+    const powerKW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, currentAmp) / 1000);
     return this.decimalPipe.transform(powerKW);
   }
 
@@ -97,27 +58,19 @@ export class ChargingStationPowerSliderComponent extends CellContentTemplateComp
     if (value) {
       this.currentAmp = value;
       // Update Power
-      this.displayedCurrentPowerW = this.convertAmpToPower(value, 'W');
-      // Notify
-      this.componentChanged.emit(value);
+      this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, value, 'W');
       if (this.row) {
         this.row.limit = value;
-        this.row.limitInkW = parseInt(this.convertAmpToPower(value, 'W'), 10);
+        this.row.limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, value) / 1000);
       }
+      // Notify
+      this.componentChanged.emit(value);
     }
   }
 
   private updateDisplayedPowerKW() {
-    this.displayedMinPowerKW = this.convertAmpToPower(this.minAmp);
-    this.displayedMaxPowerKW = this.convertAmpToPower(this.maxAmp);
-    this.displayedCurrentPowerW = this.convertAmpToPower(this.currentAmp, 'W');
-  }
-
-  private convertAmpToPower(ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    if (this.charger.connectors[0].numberOfConnectedPhase) {
-      return this.appUnitFormatter.transform(
-        ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase, ampValue), 'W', unit, displayUnit, 1, 0);
-    }
-    return 'N/A';
+    this.displayedMinPowerKW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, this.minAmp);
+    this.displayedMaxPowerKW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, this.maxAmp);
+    this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, this.currentAmp, 'W');
   }
 }

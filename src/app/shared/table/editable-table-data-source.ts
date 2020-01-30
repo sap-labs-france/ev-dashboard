@@ -97,6 +97,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       this.editableRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
+    // Notify
     this.tableChangedSubject.next(this.editableRows);
     this.rowChangedSubject.next(this.editableRows[cellIndex]);
   }

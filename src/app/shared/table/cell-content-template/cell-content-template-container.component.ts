@@ -13,7 +13,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
   @Input() row!: Data;
   @Input() columnDef!: TableColumnDef;
   @Input() tableDef!: TableDef;
-  @Output() componentChanged = new EventEmitter<Data>();
+  @Output() componentChanged = new EventEmitter<any>();
 
   private cellComponent!: CellContentTemplateComponent;
   private cellComponentRef: any;
@@ -54,7 +54,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
       this.cellComponent.columnDef = this.columnDef;
       // Listen
       this.cellComponent.componentChanged.subscribe((data: any) => {
-        this.componentChanged.emit(this.row);
+        this.componentChanged.emit(data);
       });
     }
   }

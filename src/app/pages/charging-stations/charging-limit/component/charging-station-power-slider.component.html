@@ -11,10 +11,10 @@
                 [displayWith]="formatSlideLabelPowerKW"
                 (change)="sliderChanged($event.value)">
             </mat-slider>
-            <div *ngIf="!notSupported" [class]="forChargingProfile ? 'current-power-text-in-list text-center': 'current-power-text text-center'" colspan="3">
-                {{displayedCurrentPowerW}} / {{this.currentAmp}} A
+            <div *ngIf="!notSupported" [class]="forChargingProfile ? 'current-power-text-in-list text-center' : 'current-power-text text-center'" colspan="3">
+                {{displayedCurrentPowerW}} ({{this.currentAmp}} A)
             </div>
-            <div *ngIf="notSupported" class="current-power-text current-power-text-not-supported text-center" colspan="3">
+            <div *ngIf="notSupported" [class]="forChargingProfile ? 'current-power-text-in-list current-power-text-not-supported text-center' : 'current-power-text current-power-text-not-supported text-center'" colspan="3">
                 {{'chargers.smart_charging.slider_power_disabled' | translate }}
             </div>
         </td>

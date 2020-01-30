@@ -5,6 +5,9 @@ import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
+import { ChargingStation, Connector, ChargingStationCurrentType, ChargingStationPowers } from 'app/types/ChargingStation';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { ChargingStations } from './ChargingStations';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -37,6 +40,68 @@ export class Utils {
 
   public static isInMobileApp(): boolean {
     return Utils.getMobileVendor() !== null;
+  }
+
+  public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
+    const result: ChargingStationPowers = {
+      notSupported: false,
+      minAmp: 6,
+      maxAmp: 6,
+      currentAmp: 0,
+    };
+    // Check
+    if (!charger ||
+        !charger.connectors ||
+        Utils.isEmptyArray(charger.connectors) ||
+        charger.currentType !== ChargingStationCurrentType.AC) {
+      result.notSupported = true;
+      return result;
+    }
+    // Connector Provided?
+    if (connector) {
+      // Charging Profile?
+      if (forChargingProfile) {
+        result.maxAmp = connector.amperageLimit;
+      } else {
+        result.maxAmp = connector.amperage;
+        result.currentAmp = connector.amperageLimit;
+      }
+    } else {
+      result.maxAmp = 0;
+      if (!forChargingProfile) {
+        result.currentAmp = 0;
+      }
+      // Add all connector's amps
+      for (const chargerConnector of charger.connectors) {
+        // Charging Profile?
+        if (forChargingProfile) {
+          result.maxAmp += chargerConnector.amperageLimit;
+        } else {
+          result.maxAmp += chargerConnector.amperage;
+          result.currentAmp += chargerConnector.amperageLimit;
+        }
+      }
+    }
+    // Default
+    if (!result.currentAmp) {
+      result.currentAmp = result.maxAmp;
+    }
+    return result;
+  }
+
+  public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
+    if (charger.connectors[0].numberOfConnectedPhase) {
+      return ChargingStations.convertAmpToW(charger.connectors[0].numberOfConnectedPhase, ampValue);
+    }
+    return 0;
+  }
+
+  public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
+    if (charger.connectors[0].numberOfConnectedPhase) {
+      return appUnitFormatter.transform(
+        Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, 0);
+    }
+    return 'N/A';
   }
 
   public static buildUserFullName(user: User) {

@@ -13,14 +13,13 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
   template: `
     <div class="chart-container">
       <chart #chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
-      <div *ngIf="chargingSlots && chargingSlots.length > 0" class="icon-left">
+      <div class="icon-left">
         <a mat-icon-button (click)="resetZoom()"><mat-icon>zoom_out_map</mat-icon></a>
       </div>
     </div>
   `,
 })
 export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnInit {
-  @Input() chargingSlots!: Slot[];
   @Input() ratio!: number;
   @ViewChild('chart', { static: false }) chartComponent!: ChartComponent;
   public data: any;
@@ -33,30 +32,26 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private language!: string;
 
   constructor(private centralServerService: CentralServerService,
-    private translateService: TranslateService,
-    private durationPipe: AppDurationPipe,
-    private localeService: LocaleService,
-    private datePipe: AppDatePipe,
-    private decimalPipe: AppDecimalPipe) {
+      private translateService: TranslateService,
+      private durationPipe: AppDurationPipe,
+      private localeService: LocaleService,
+      private datePipe: AppDatePipe,
+      private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
   }
 
-  resetZoom() {
+  public resetZoom() {
     this.chartComponent.chart.resetZoom();
   }
 
   ngOnInit(): void {
-    if (this.chargingSlots && this.chargingSlots.length > 0) {
-      this.createGraphData(this.chargingSlots);
-    }
   }
 
-  setLimitPlannerData(chargingSlots: Slot[]) {
-    this.chargingSlots = chargingSlots;
+  public setLimitPlannerData(chargingSlots: Slot[]) {
     if (chargingSlots && chargingSlots.length > 0) {
-      this.createGraphData(this.chargingSlots);
+      this.createGraphData(chargingSlots);
     } else {
       // clear graph
       this.options = null;
@@ -64,45 +59,42 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     }
   }
 
-  createGraphData(chargingSlots: Slot[]) {
+  private createGraphData(chargingSlots: Slot[]) {
     this.options = this.createOptions(chargingSlots);
+    // Clear
     this.data = {
       labels: [],
       datasets: [],
     };
-    // Build single connector data set
     // Line label
     const connectorLabel = this.translateService.instant('chargers.connector0');
     const axisId = 'power';
-    const limitPowerDataSet = {
+    const chargingSlotDataSet = {
       data: [],
       yAxisID: axisId,
       ...this.formatLineColor(this.colors[0]),
       label: connectorLabel,
     };
-    // Push in the graph
-    this.data.datasets.push(limitPowerDataSet);
-    // build for each connectors
-    for (let index = 0; index < chargingSlots.length; index++) {
-      const connectorPlanning = chargingSlots[index];
-      // Add slot
-      const limit = connectorPlanning;
-      this.data.labels.push(limit.startDate.getTime());
-      limitPowerDataSet.data.push({
-        x: limit.startDate.getTime(), y: limit.limitInkW,
+    // Build slots
+    for (const chargingSlot of chargingSlots) {
+      // Add a point
+      this.data.labels.push(chargingSlot.startDate.getTime());
+      chargingSlotDataSet.data.push({
+        x: chargingSlot.startDate.getTime(),
+        y: chargingSlot.limitInkW,
       });
-      if (index === chargingSlots.length-1) {
-        // Add last limit
-        let lastDate = chargingSlots[index].startDate;
-        this.data.labels.push(lastDate.setSeconds(lastDate.getSeconds() + chargingSlots[index].duration));
-        limitPowerDataSet.data.push({
-          x: lastDate.setSeconds(lastDate.getSeconds() + chargingSlots[index].duration * 60) , y: limit.limitInkW,
-        });
-      }
+      // Add a second point for the duration
+      this.data.labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
+      chargingSlotDataSet.data.push({
+        x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
+        y: chargingSlot.limitInkW,
+      });
     }
+    // Push in the graph
+    this.data.datasets.push(chargingSlotDataSet);
   }
 
-  createOptions(chargingSlots: Slot[]) {
+  private createOptions(chargingSlots: Slot[]) {
     const options: any = {
       legend: {
         position: 'bottom',
@@ -214,7 +206,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     return options;
   }
 
-  formatLineColor(colors: number[]): any {
+  private formatLineColor(colors: number[]): any {
     return {
       backgroundColor: this.rgba(colors, 0.4),
       borderColor: this.rgba(colors, 1),
@@ -224,8 +216,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     };
   }
 
-  rgba(colour: number[], alpha: number): string {
+  private rgba(colour: number[], alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
-
 }

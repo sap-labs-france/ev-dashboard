@@ -45,7 +45,6 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
       },
       {
         id: 'description',
-        unique: true,
         name: 'general.description',
         editType: TableEditType.INPUT,
         headerClass: 'text-left col-50p',

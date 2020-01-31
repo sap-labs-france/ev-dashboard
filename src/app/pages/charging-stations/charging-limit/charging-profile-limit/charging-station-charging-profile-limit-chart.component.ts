@@ -131,6 +131,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
   private createOptions(): ChartOptions {
     const locale = moment.localeData(this.language);
     const options: ChartOptions = {
+      animation: {
+        duration: 0,
+      },
       legend: {
         display: false,
       },
@@ -210,10 +213,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => {
-                const result = this.decimalPipe.transform(value / 1000, '1.0-0');
-                return result ? parseFloat(result) : 0;
-              },
               fontColor: this.defaultColor,
             },
             gridLines: {

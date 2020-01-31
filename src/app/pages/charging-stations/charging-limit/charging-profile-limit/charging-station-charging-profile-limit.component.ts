@@ -63,7 +63,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.slotsSchedule = [];
     // Initialize slider values
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : PowerLimitUnits.AMPERE);
-
     // Init the form
     this.formGroup = new FormGroup({
       profileTypeControl: new FormControl('',
@@ -88,24 +87,25 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
           Validators.required,
         ])),
     });
-
     // Form
     this.profileTypeControl = this.formGroup.controls['profileTypeControl'];
     this.stackLevelControl = this.formGroup.controls['stackLevelControl'];
     this.profileIdControl = this.formGroup.controls['profileIdControl'];
     this.durationControl = this.formGroup.controls['durationControl'];
     this.chargingSlots = this.formGroup.controls['chargingSlots'] as FormArray;
-
+    // Default values
     this.startSchedule = new Date();
     this.profileTypeControl.setValue(ChargingProfileKindType.ABSOLUTE);
-
+    // Assign for to editable data source
     this.chargingSlotTableDataSource.setFormArray(this.chargingSlots);
+    // Load
     this.loadChargingProfile();
     // JUST FOR MOCK UP
     this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
     this.chargingSlotTableDataSource.setCharger(this.charger);
+    // Change the date formatting
     this.profileTypeControl.valueChanges.subscribe(() => {
-      // Set default values
+      // Set values
       // @ts-ignore
       this.stackLevelControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).stackLevel);
       // @ts-ignore
@@ -116,7 +116,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
         this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
     });
-    // Register to table change
+    // Register to table changes
     this.chargingSlotTableDataSource.getTableChangedSubject().subscribe((chargingSlots: Slot[]) => {
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);

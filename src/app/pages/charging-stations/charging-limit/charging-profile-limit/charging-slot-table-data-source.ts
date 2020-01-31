@@ -115,10 +115,8 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     this.refreshChargingSlots();
   }
 
-  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef, postDataProcess?: () => void) {
     // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef);
-    // Recompute cells
-    this.refreshChargingSlots();
+    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSlots.bind(this));
   }
 }

@@ -78,7 +78,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcess?: () => void) {
     if (this.formArray) {
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const editableRow of this.editableRows) {
@@ -96,6 +96,10 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       // @ts-ignore
       this.editableRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
+    }
+    // Call post process
+    if (postDataProcess) {
+      postDataProcess();
     }
     // Notify
     this.tableChangedSubject.next(this.editableRows);

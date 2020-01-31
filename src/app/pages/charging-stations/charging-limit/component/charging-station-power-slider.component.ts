@@ -34,13 +34,13 @@ export class ChargingStationPowerSliderComponent extends CellContentTemplateComp
 
   ngOnInit() {
     // Slider in table?
-    if (this.columnDef){
+    if (this.columnDef) {
       this.charger = this.columnDef.additionalParameters;
       this.currentAmp = this.row.limit;
       this.forChargingProfile = true;
     }
     // Get powers
-    const chargerPowers = Utils.getChargingStationPowers(this.charger, this.connector, false);
+    const chargerPowers = Utils.getChargingStationPowers(this.charger, this.connector, this.forChargingProfile);
     this.currentAmp = chargerPowers.currentAmp;
     this.minAmp = chargerPowers.minAmp;
     this.maxAmp = chargerPowers.maxAmp;

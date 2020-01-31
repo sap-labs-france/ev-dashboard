@@ -103,6 +103,7 @@ export interface TableColumnDef {
   type?: string;
   editType?: TableEditType;
   validators?: ValidatorFn[];
+  unique?: boolean;
   errorMessage?: string;
   headerClass?: string;
   class?: string;

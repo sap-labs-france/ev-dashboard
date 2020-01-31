@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { AbstractControl, FormArray, ValidatorFn, Validators } from '@angular/forms';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -21,9 +21,7 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
 
   setContent(content: Tag[]) {
     if (content.length === 0) {
-      const tag = this.addData();
-      tag.id = this.generateTagID();
-      tag.issuer = true;
+      const tag = this.createRow();
       content.push(tag);
     }
     super.setContent(content);
@@ -38,7 +36,9 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         validators: [Validators.required,
           Validators.minLength(8),
           Validators.maxLength(16),
-          Validators.pattern('^[a-zA-Z0-9]*$')],
+          Validators.pattern('^[a-zA-Z0-9]*$'),
+        ],
+        unique: true,
         errorMessage: 'users.invalid_tag_id',
         headerClass: 'text-left col-30p',
         class: 'text-left col-30p',
@@ -60,12 +60,12 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
     ];
   }
 
-  public addData() {
+  public createRow() {
     return {
-      id: '',
+      id: this.generateTagID(),
       key: '',
       description: '',
-      issuer: false,
+      issuer: this.getContent().length === 0 ? true : false,
     };
   }
 

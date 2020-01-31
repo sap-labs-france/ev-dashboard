@@ -58,7 +58,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       let ocpiEndpointDetail;
       if (this.ocpiEndpoint) {
         // Set
-        console.log(this.ocpiEndpoint.id);
         ocpiEndpointDetail = ({
           id: this.ocpiEndpoint.id,
           ocpiendpoint: this.ocpiEndpoint,

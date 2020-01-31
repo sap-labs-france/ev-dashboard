@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnChanges, OnInit, SimpleChanges, ViewContainerRef, Output, EventEmitter } from '@angular/core';
 import { Data, TableColumnDef, TableDef } from 'app/types/Table';
 import { CellContentTemplateComponent } from './cell-content-template.component';
 
@@ -13,6 +13,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
   @Input() row!: Data;
   @Input() columnDef!: TableColumnDef;
   @Input() tableDef!: TableDef;
+  @Output() componentChanged = new EventEmitter<any>();
 
   private cellComponent!: CellContentTemplateComponent;
   private cellComponentRef: any;
@@ -24,7 +25,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {
-      // Set the row
+        // Set the row
       this.cellComponent.row = this.row;
       // Propagate the changes
       this.cellComponent.ngOnChanges(changes);
@@ -51,6 +52,10 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
       // Pass the data
       this.cellComponent.row = this.row;
       this.cellComponent.columnDef = this.columnDef;
+      // Listen
+      this.cellComponent.componentChanged.subscribe((data: any) => {
+        this.componentChanged.emit(data);
+      });
     }
   }
 }

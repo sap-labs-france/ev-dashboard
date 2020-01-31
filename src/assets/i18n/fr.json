@@ -37,6 +37,7 @@
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
     "error_not_a_number": "La valeur n'est pas un nombre",
+    "error_duplicate": "La valeur existe déjà",
     "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",
@@ -722,6 +723,7 @@
       "slot_index_header": "Numéro du créneau",
       "slot_duration_header": "Durée du créneau (s)",
       "slot_limit_header": "Limite de puissance du créneau",
+      "connectors_all": "all",
       "profile_types": {
         "relative": "Planification Relative",
         "absolute": "Planification Temporaire",
@@ -1582,6 +1584,11 @@
         "title": "Date de début de Transaction Incorrecte",
         "description": "La date de début de la transaction est incorrecte ou impossible.",
         "action": "Verifiez la configuration de la borne. Assurez vous que la date émise en début de transaction est correcte."
+      },
+      "missing_user": {
+        "title": "Transaction non assigné",
+        "description": "Aucun utilisateur n'est assigné à cette transaction.",
+        "action": "Supprimez cette transaction ou désactivez le contrôle d'accès de cette zone."
       }
     }
   },

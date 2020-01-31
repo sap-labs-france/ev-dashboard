@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
-import { MessageService } from 'app/services/message.service';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Slot } from 'app/types/ChargingProfile';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
 
 @Injectable()
 export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
-
   public startDate!: Date;
+  public charger!: ChargingStation;
+  private chargerPowers!: ChargingStationPowers;
 
-  constructor(public spinnerService: SpinnerService,
+  constructor(
+    public spinnerService: SpinnerService,
+    private translateService: TranslateService,
     private datePipe: AppDatePipe,
-    private messageService: MessageService ) {
+  ) {
     super(spinnerService);
+    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
   public buildTableDef(): TableDef {
@@ -38,10 +43,10 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
       {
         id: 'startDate',
         name: 'chargers.smart_charging.start_date',
-        editType: TableEditType.DISPLAY_ONLY_DATE,
+        editType: TableEditType.DISPLAY_ONLY,
         headerClass: 'col-30p',
         class: 'text-center col-30p',
-        formatter: (value: Date) => this.datePipe.transform(value),
+        formatter: (value: Date) => this.datePipe.transform(value, 'MMM d, y, h:mm a'),
       },
       {
         id: 'duration',
@@ -51,7 +56,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
         class: 'text-left col-15p',
       },
       {
-        id: 'limitInkW',
+        id: 'limit',
         name: 'chargers.smart_charging.limit_title',
         isAngularComponent: true,
         angularComponent: ChargingStationPowerSliderComponent,
@@ -62,65 +67,62 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     return tableColumnDef;
   }
 
-  public addCharger(charger: ChargingStation) {
+  public setCharger(charger: ChargingStation) {
+    this.charger = charger;
     this.tableColumnDefs[3].additionalParameters = charger;
   }
 
-  public addData() {
+  public refreshChargingSlots() {
+    const chargingSlots = this.getContent();
+    if (chargingSlots.length > 0) {
+      chargingSlots[0].startDate = this.startDate;
+      // Recompute charging plan date
+      for (let i = 0; i < chargingSlots.length; i++) {
+        // Update the date of the next records
+        if (i < chargingSlots.length - 1) {
+          chargingSlots[i + 1].startDate = new Date(
+            chargingSlots[i].startDate.getTime() + Utils.convertToInteger(chargingSlots[i].duration) * 60 * 1000);
+        }
+        // Update the limit in kW
+        chargingSlots[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSlots[i].limit) / 1000);
+      }
+    }
+  }
+
+  public createRow() {
     const chargingSchedulePeriod = {
       startDate: this.startDate,
-      limitInkW: this.tableColumnDefs[3].additionalParameters.maximumPower / 1000,
-      connectorID: 'all',
-      limit: 0,
+      limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
+      connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
+      limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,
       duration: 60,
     } as Slot;
-
-    for (const connector of this.tableColumnDefs[3].additionalParameters.connectors) {
-      chargingSchedulePeriod.limit += connector.amperage ? connector.amperage : 0;
-    }
-
-    if (this.data[this.data.length - 1]) {
-      const previousDate = new Date(this.data[this.data.length - 1].startDate);
-      chargingSchedulePeriod.startDate = new Date(previousDate.setHours(previousDate.getHours() + 1));
-      chargingSchedulePeriod.limitInkW = this.data[this.data.length - 1].limitInkW;
-      this.data[this.data.length - 1].duration = 60;
+    // Overwrite fields with last but one row
+    const chargingSlots = this.getContent();
+    if (chargingSlots.length > 0) {
+      chargingSchedulePeriod.startDate =
+        new Date(chargingSlots[chargingSlots.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
+      chargingSchedulePeriod.limitInkW =
+        chargingSlots[chargingSlots.length - 1].limitInkW;
+      chargingSchedulePeriod.limit =
+        chargingSlots[chargingSlots.length - 1].limit;
     }
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem){
+    // Call parent
     super.rowActionTriggered(actionDef, row, dropdownItem);
-    // for (let i = this.data.length - 1; i >= 0; i--) {
-    //   if (this.data[i - 1]) {
-    //     let duration: number = 0;
-    //     let date1 = new Date(this.data[i-1].startDate);
-    //     let date2 = new Date(this.data[i].startDate);
-    //     duration = (date2.getTime() - date1.getTime())/60/1000;
-    //     this.data[i - 1].duration = duration;
-    //   }
-    // }
+    // Recompute cells
+    this.refreshChargingSlots();
   }
 
-  public updateRow(value: Slot, index: number, columnDef: TableColumnDef) {
-    super.updateRow(value, index, columnDef);
-    // let duration: number;
-    // if (this.data[index - 1]) {
-    //   duration = Math.round((this.data[index].startDate.getTime() - this.data[index - 1].startDate.getTime()) / 1000 / 60);
-    //   this.data[index - 1].duration = duration;
-    // }
-    // else if (index == 0) {
-    //   duration = Math.round((this.data[index + 1].startDate.getTime() - this.data[index].startDate.getTime()) / 1000 / 60);
-    //   this.data[index].duration = duration;
-    // }
-    // this.data[index].duration = value;
-    // for (let i = index; i < this.data.length; i++) {
-    //   if (this.data[i + 1]) {
-    //     let date = new Date(this.data[i].startDate);
-    //     date.setSeconds((date.getSeconds() + this.data[i].duration * 60));
-    //     this.data[i + 1].startDate = date;
-    //   }
-    // }
+  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
+    // Call parent
+    super.rowCellUpdated(cellValue, cellIndex, columnDef);
+    // Recompute cells
+    this.refreshChargingSlots();
   }
 }

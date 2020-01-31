@@ -34,7 +34,7 @@ export class ChargingStationPowerSliderComponent extends CellContentTemplateComp
 
   ngOnInit() {
     // Slider in table?
-    if (this.columnDef){
+    if (this.columnDef) {
       this.charger = this.columnDef.additionalParameters;
       this.currentAmp = this.row.limit;
       this.forChargingProfile = true;

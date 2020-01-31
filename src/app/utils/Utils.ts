@@ -1,12 +1,12 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
 import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-import { ChargingStation, Connector, ChargingStationCurrentType, ChargingStationPowers } from 'app/types/ChargingStation';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStations } from './ChargingStations';
 
 export class Utils {
@@ -45,7 +45,7 @@ export class Utils {
   public static replaceSpecialCharsInCSVValueParam(value: string): string {
     return value ? value.replace(/\n/g, '') : '';
   }
-  
+
   public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
     const result: ChargingStationPowers = {
       notSupported: false,

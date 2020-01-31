@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormArray, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, Validators, ValidatorFn } from '@angular/forms';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import { SpinnerService } from '../../../services/spinner.service';

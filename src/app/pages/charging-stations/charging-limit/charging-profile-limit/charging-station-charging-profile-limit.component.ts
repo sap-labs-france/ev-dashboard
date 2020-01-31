@@ -7,15 +7,12 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, Slot } from 'app/types/ChargingProfile';
+import { ChargingProfile, ChargingProfileKindType, Slot } from 'app/types/ChargingProfile';
 import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
 import { TableEditType } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { ChargingSlotTableDataSource } from './charging-slot-table-data-source';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
-
 
 export const PROFILE_TYPE_MAP =
   [

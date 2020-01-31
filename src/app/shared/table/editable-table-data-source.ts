@@ -144,7 +144,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
           // @ts-ignore
           value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
       }
-      if (tableColumnDef.unique) {
+      if (this.formArray && tableColumnDef.unique) {
         if (!tableColumnDef.validators) {
           tableColumnDef.validators = [];
         }
@@ -159,7 +159,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
 export function uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
-    const duplicate = formArray.value.find((row) => row[controlId] === control.value);
+    const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
     return duplicate ? {duplicate: true} : null;
   };
 }

@@ -1,12 +1,12 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
 import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-import { ChargingStation, Connector, ChargingStationCurrentType, ChargingStationPowers } from 'app/types/ChargingStation';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStations } from './ChargingStations';
 
 export class Utils {
@@ -31,6 +31,40 @@ export class Utils {
     }
     // Not Equal
     return { notEqual: true };
+  }
+
+  public static toRgba(rgb: string, alpha: number): string {
+    if (!rgb) {
+      return '';
+    }
+    let rgba = rgb.replace(/rgb/i, 'rgba');
+    rgba = rgba.replace(/\)/i, `,${alpha})`);
+
+    return rgba;
+  }
+
+  public static formatBarColor(color: string): any {
+    return {
+      backgroundColor: Utils.toRgba(color, 1),
+      borderColor: Utils.toRgba(color, 1),
+      pointRadius: 0,
+      pointHoverBackgroundColor: Utils.toRgba(color, 1),
+      pointHoverBorderColor: '#fff',
+      hoverBackgroundColor: Utils.toRgba(color, 0.8),
+      hoverBorderColor: Utils.toRgba(color, 1),
+    };
+  }
+
+  public static formatLineColor(color: string): any {
+    return {
+      backgroundColor: Utils.toRgba(color, 0.2),
+      borderColor: Utils.toRgba(color, 1),
+      pointRadius: 0,
+      pointHoverBackgroundColor: Utils.toRgba(color, 1),
+      pointHoverBorderColor: '#fff',
+      hoverBackgroundColor: Utils.toRgba(color, 0.8),
+      hoverBorderColor: Utils.toRgba(color, 1),
+    };
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
@@ -59,6 +93,7 @@ export class Utils {
         Utils.isEmptyArray(charger.connectors) ||
         charger.currentType !== ChargingStationCurrentType.AC) {
       result.notSupported = true;
+      result.currentAmp = result.maxAmp;
       return result;
     }
     // Connector Provided?
@@ -87,7 +122,7 @@ export class Utils {
       }
     }
     // Default
-    if (!result.currentAmp) {
+    if (result.currentAmp === 0) {
       result.currentAmp = result.maxAmp;
     }
     return result;

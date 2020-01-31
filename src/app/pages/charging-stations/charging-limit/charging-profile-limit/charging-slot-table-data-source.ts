@@ -21,7 +21,6 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     private datePipe: AppDatePipe,
   ) {
     super(spinnerService);
-    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
   public buildTableDef(): TableDef {
@@ -70,6 +69,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
     this.tableColumnDefs[3].additionalParameters = charger;
+    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
   public refreshChargingSlots() {
@@ -99,15 +99,11 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
       id: 0,
       duration: 60,
     } as Slot;
-    // Overwrite fields with last but one row
+    // Fix the start date
     const chargingSlots = this.getContent();
     if (chargingSlots.length > 0) {
       chargingSchedulePeriod.startDate =
         new Date(chargingSlots[chargingSlots.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
-      chargingSchedulePeriod.limitInkW =
-        chargingSlots[chargingSlots.length - 1].limitInkW;
-      chargingSchedulePeriod.limit =
-        chargingSlots[chargingSlots.length - 1].limit;
     }
     return chargingSchedulePeriod;
   }

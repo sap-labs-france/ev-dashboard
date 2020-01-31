@@ -39,7 +39,6 @@ export class Utils {
     }
     let rgba = rgb.replace(/rgb/i, 'rgba');
     rgba = rgba.replace(/\)/i, `,${alpha})`);
-
     return rgba;
   }
 

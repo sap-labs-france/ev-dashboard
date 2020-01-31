@@ -255,7 +255,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         bodySpacing: 5,
         mode: 'index',
         position: 'nearest',
-        multiKeyBackground: 'rgba(0,0,0,0)',
+        multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
         intersect: false,
         callbacks: {
           labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => {

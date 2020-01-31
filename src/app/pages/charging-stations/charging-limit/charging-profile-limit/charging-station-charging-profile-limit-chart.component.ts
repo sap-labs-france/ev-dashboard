@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
@@ -18,7 +18,7 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
     </div>
   `,
 })
-export class ChargingStationSmartChargingLimitPlannerChartComponent implements AfterViewInit {
+export class ChargingStationSmartChargingLimitPlannerChartComponent {
   @Input() ratio!: number;
 
   @ViewChild('primary', {static: true}) primaryElement!: ElementRef;
@@ -48,10 +48,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements A
     });
   }
 
-  ngAfterViewInit(): void {
-    this.prepareOrUpdateGraph();
-  }
-
   private getStyleColor(element: Element): string {
     const style = getComputedStyle(element);
     return style && style.color ? style.color : '';
@@ -60,7 +56,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements A
   private prepareOrUpdateGraph() {
     if (!this.graphCreated) {
       this.graphCreated = true;
+      // Get colors
+      this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
+      this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
+      // Build chart options
       this.options = this.createOptions();
+      // Create Chart
       this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
         type: 'bar',
         data: this.data,
@@ -71,11 +72,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements A
   }
 
   public setLimitPlannerData(chargingSlots: Slot[]) {
+    this.prepareOrUpdateGraph();
     // Get colors
-    if (!this.instantPowerColor || !this.defaultColor) {
-      this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
-      this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
-    }
     // Keep list
     this.chargingSlots = chargingSlots;
     // Create chart
@@ -101,7 +99,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements A
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
-        label: this.translateService.instant('transactions.graph.power'),
       };
       // Build slots
       for (const chargingSlot of chargingSlots) {
@@ -144,7 +141,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements A
         bodySpacing: 5,
         mode: 'index',
         position: 'nearest',
-        multiKeyBackground: 'rgba(0,0,0,0)',
+        multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
         intersect: false,
         callbacks: {
           labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => {

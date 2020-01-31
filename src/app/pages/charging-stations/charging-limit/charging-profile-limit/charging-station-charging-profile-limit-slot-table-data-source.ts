@@ -10,7 +10,7 @@ import { EditableTableDataSource } from '../../../../shared/table/editable-table
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 
 @Injectable()
-export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
+export class ChargingStationChargingProfileLimitSlotTableDataSource extends EditableTableDataSource<Slot> {
   public startDate!: Date;
   public charger!: ChargingStation;
   private chargerPowers!: ChargingStationPowers;

@@ -7,7 +7,7 @@ import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStatio
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
+import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 
 @Injectable()
 export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
@@ -58,7 +58,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
         id: 'limit',
         name: 'chargers.smart_charging.limit_title',
         isAngularComponent: true,
-        angularComponent: ChargingStationPowerSliderComponent,
+        angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
         headerClass: 'col-50p',
         class: 'col-45p',
       },

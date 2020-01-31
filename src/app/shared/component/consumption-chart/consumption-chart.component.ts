@@ -74,7 +74,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     return style && style.color ? style.color : '';
   }
 
-  private refresh() {
+  public refresh() {
     this.centralServerService.getConsumptionFromTransaction(this.transactionId)
       .subscribe((transaction) => {
         this.transaction = transaction;

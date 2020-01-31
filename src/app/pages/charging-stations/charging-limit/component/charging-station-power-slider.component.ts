@@ -1,8 +1,6 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Slot } from 'app/types/ChargingProfile';
 import { ChargingStation, Connector } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
@@ -11,13 +9,14 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: 'charging-station-power-slider.component.html',
 })
 @Injectable()
-export class ChargingStationPowerSliderComponent extends CellContentTemplateComponent implements OnInit {
+export class ChargingStationPowerSliderComponent implements OnInit {
   private static MIN_AMP = 6;
-  @Input() row!: Slot;
+
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
   @Input() currentAmp!: number;
   @Input() forChargingProfile = false;
+  @Output() silderChanged = new EventEmitter<number>();
 
   public minAmp = ChargingStationPowerSliderComponent.MIN_AMP;
   public maxAmp = ChargingStationPowerSliderComponent.MIN_AMP;
@@ -29,16 +28,9 @@ export class ChargingStationPowerSliderComponent extends CellContentTemplateComp
   constructor(
       private appUnitFormatter: AppUnitPipe,
       private decimalPipe: AppDecimalPipe) {
-    super();
   }
 
   ngOnInit() {
-    // Slider in table?
-    if (this.columnDef) {
-      this.charger = this.columnDef.additionalParameters;
-      this.currentAmp = this.row.limit;
-      this.forChargingProfile = true;
-    }
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(this.charger, this.connector, this.forChargingProfile);
     this.currentAmp = chargerPowers.currentAmp;
@@ -59,12 +51,8 @@ export class ChargingStationPowerSliderComponent extends CellContentTemplateComp
       this.currentAmp = value;
       // Update Power
       this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, value, 'W');
-      if (this.row) {
-        this.row.limit = value;
-        this.row.limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, value) / 1000);
-      }
       // Notify
-      this.componentChanged.emit(value);
+      this.silderChanged.emit(value);
     }
   }
 

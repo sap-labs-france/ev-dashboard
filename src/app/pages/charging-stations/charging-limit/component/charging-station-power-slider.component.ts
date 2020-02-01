@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output, OnChanges } from '@angular/core';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStation, Connector } from 'app/types/ChargingStation';
@@ -9,7 +9,7 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: 'charging-station-power-slider.component.html',
 })
 @Injectable()
-export class ChargingStationPowerSliderComponent implements OnInit {
+export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   private static MIN_AMP = 6;
 
   @Input() charger!: ChargingStation;
@@ -28,6 +28,11 @@ export class ChargingStationPowerSliderComponent implements OnInit {
   constructor(
       private appUnitFormatter: AppUnitPipe,
       private decimalPipe: AppDecimalPipe) {
+  }
+
+  ngOnChanges() {
+    // Update Power
+    this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, this.currentAmp, 'W');
   }
 
   ngOnInit() {

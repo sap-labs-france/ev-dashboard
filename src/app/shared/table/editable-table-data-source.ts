@@ -11,7 +11,6 @@ import { TableDataSource } from './table-data-source';
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   private editableRows: T[] = [];
   private tableChangedSubject: Subject<T[]> = new Subject<T[]>();
-  private rowChangedSubject: Subject<T> = new Subject<T>();
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
@@ -56,10 +55,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return this.tableChangedSubject;
   }
 
-  getRowChangedSubject(): Subject<T> {
-    return this.rowChangedSubject;
-  }
-
   public setFormArray(formArray: FormArray) {
     this.formArray = formArray;
   }
@@ -69,11 +64,13 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     switch (actionDef.id) {
       case ButtonAction.INLINE_DELETE:
         const index = this.editableRows.indexOf(editableRow);
-        this.editableRows.splice(index, 1);
+        const deletedRows = this.editableRows.splice(index, 1);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();
         }
+        // Notify
+        this.tableChangedSubject.next(this.editableRows);
         break;
     }
   }
@@ -103,7 +100,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
     // Notify
     this.tableChangedSubject.next(this.editableRows);
-    this.rowChangedSubject.next(this.editableRows[cellIndex]);
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {

@@ -72,16 +72,16 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
   }
 
   public setLimitPlannerData(chargingSlots: Slot[]) {
+    // Init
     this.prepareOrUpdateGraph();
-    // Get colors
-    // Keep list
+    // Keep the Slots
     this.chargingSlots = chargingSlots;
     // Create chart
     if (this.data && this.data.datasets && this.data.labels) {
       this.data.labels.length = 0;
       this.data.datasets.length = 0;
       // Fill
-      if (chargingSlots && chargingSlots.length > 0) {
+      if (chargingSlots) {
         this.createGraphData(chargingSlots);
       }
     }

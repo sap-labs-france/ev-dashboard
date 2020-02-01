@@ -287,7 +287,7 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   // tslint:disable-next-line:no-empty
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcess?: () => void) {
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
   }
 
   // tslint:disable-next-line:no-empty

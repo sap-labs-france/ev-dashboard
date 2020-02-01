@@ -35,7 +35,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
   private instantPowerColor!: string;
   private defaultColor!: string;
   private lineTension = 0;
-  public chargingSlots!: Slot[];
 
   constructor(
       private translateService: TranslateService,
@@ -74,8 +73,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
   public setLimitPlannerData(chargingSlots: Slot[]) {
     // Init
     this.prepareOrUpdateGraph();
-    // Keep the Slots
-    this.chargingSlots = chargingSlots;
     // Create chart
     if (this.data && this.data.datasets && this.data.labels) {
       this.data.labels.length = 0;

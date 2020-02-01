@@ -60,7 +60,8 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   // tslint:disable-next-line:no-empty
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+    let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_DELETE:
         const index = this.editableRows.indexOf(editableRow);
@@ -69,13 +70,21 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
         if (this.formArray) {
           this.formArray.markAsDirty();
         }
-        // Notify
-        this.tableChangedSubject.next(this.editableRows);
+        actionDone = true;
         break;
+    }
+    // Call post process
+    if (actionDone) {
+      // Call post data processing
+      if (postDataProcessing) {
+        postDataProcessing();
+      }
+      // Notify
+      this.tableChangedSubject.next(this.editableRows);
     }
   }
 
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcess?: () => void) {
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
     if (this.formArray) {
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const editableRow of this.editableRows) {
@@ -94,9 +103,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       this.editableRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
-    // Call post process
-    if (postDataProcess) {
-      postDataProcess();
+    // Call post data processing
+    if (postDataProcessing) {
+      postDataProcessing();
     }
     // Notify
     this.tableChangedSubject.next(this.editableRows);

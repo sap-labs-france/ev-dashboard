@@ -110,12 +110,10 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
 
   public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem){
     // Call parent
-    super.rowActionTriggered(actionDef, row, dropdownItem);
-    // Recompute cells
-    this.refreshChargingSlots();
+    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSlots.bind(this));
   }
 
-  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef, postDataProcess?: () => void) {
+  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
     // Call parent
     super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSlots.bind(this));
   }

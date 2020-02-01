@@ -18,7 +18,7 @@ export class ChargingStationsChargingProfilePowerSliderCellComponent extends Cel
   @Input() charger!: ChargingStation;
 
   ngOnInit() {
-    this.charger = this.columnDef.additionalParameters as ChargingStation;
+    this.charger = this.columnDef.additionalParameters.charger as ChargingStation;
   }
 
   public sliderChanged(value: number) {

@@ -68,7 +68,7 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
 
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
-    this.tableColumnDefs[3].additionalParameters = charger;
+    this.tableColumnDefs[3].additionalParameters = { charger };
     this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 

@@ -24,14 +24,17 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.1.19',
-        date: new Date('2020-01-28'),
+        version: '2.2.0',
+        date: new Date('2020-02-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `CPO/eMSP first Gireve certification`,
+              `Charging Plan UI refactoring`,
               `Static Power Limitation for Schneider vendor`,
               `Set default notifications to new registered users`,
+              `The Charging Station's hearbeat is stored in the database`,
               `Zero technical and OCPP configuration of new Charging Station`,
               `Added the copy of the OCPP 1.6 SOAP supervision URL for Hager Charging Station`,
               `Changing the value of an OCPP parameter is now reflected in the UI`,

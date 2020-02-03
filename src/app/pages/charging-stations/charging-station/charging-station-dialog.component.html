@@ -31,6 +31,17 @@
           </div>
         </mat-tab>
       </ng-container>
+      <ng-container *ngIf="isAdmin">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>system_update_alt</mat-icon>
+            <span>{{'chargers.firmware_update_title' | translate}}</span>
+          </ng-template>
+          <div class="card-body">
+            <app-charging-station-firmware-update [charger]='currentCharger'></app-charging-station-firmware-update>
+          </div>
+        </mat-tab>
+      </ng-container>
       <mat-tab disabled>
         <ng-template mat-tab-label>
           <button mat-button

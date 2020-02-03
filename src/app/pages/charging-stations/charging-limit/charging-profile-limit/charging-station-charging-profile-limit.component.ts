@@ -7,15 +7,12 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, Slot } from 'app/types/ChargingProfile';
+import { ChargingProfile, ChargingProfileKindType, Slot } from 'app/types/ChargingProfile';
 import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
 import { TableEditType } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
 import { AuthorizationService } from '../../../../services/authorization.service';
-import { ChargingSlotTableDataSource } from './charging-slot-table-data-source';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
-
+import { ChargingStationChargingProfileLimitSlotTableDataSource } from './charging-station-charging-profile-limit-slot-table-data-source';
 
 export const PROFILE_TYPE_MAP =
   [
@@ -27,7 +24,7 @@ export const PROFILE_TYPE_MAP =
 @Component({
   selector: 'app-charging-station-charging-profile-limit',
   templateUrl: 'charging-station-charging-profile-limit.component.html',
-  providers: [ChargingSlotTableDataSource],
+  providers: [ChargingStationChargingProfileLimitSlotTableDataSource],
 })
 
 export class ChargingStationChargingProfileLimitComponent implements OnInit {
@@ -50,7 +47,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   public startSchedule!: Date;
 
   constructor(
-    public chargingSlotTableDataSource: ChargingSlotTableDataSource,
+    public slotTableDataSource: ChargingStationChargingProfileLimitSlotTableDataSource,
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private dialog: MatDialog,
@@ -66,7 +63,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.slotsSchedule = [];
     // Initialize slider values
     this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : PowerLimitUnits.AMPERE);
-
     // Init the form
     this.formGroup = new FormGroup({
       profileTypeControl: new FormControl('',
@@ -91,44 +87,45 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
           Validators.required,
         ])),
     });
-
     // Form
     this.profileTypeControl = this.formGroup.controls['profileTypeControl'];
     this.stackLevelControl = this.formGroup.controls['stackLevelControl'];
     this.profileIdControl = this.formGroup.controls['profileIdControl'];
     this.durationControl = this.formGroup.controls['durationControl'];
     this.chargingSlots = this.formGroup.controls['chargingSlots'] as FormArray;
-
+    // Default values
     this.startSchedule = new Date();
     this.profileTypeControl.setValue(ChargingProfileKindType.ABSOLUTE);
-
-    this.chargingSlotTableDataSource.setFormArray(this.chargingSlots);
+    // Assign for to editable data source
+    this.slotTableDataSource.setFormArray(this.chargingSlots);
+    // Load
     this.loadChargingProfile();
     // JUST FOR MOCK UP
-    this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
-    this.chargingSlotTableDataSource.setCharger(this.charger);
+    this.slotTableDataSource.setContent(this.slotsSchedule);
+    this.slotTableDataSource.setCharger(this.charger);
+    // Change the date formatting
     this.profileTypeControl.valueChanges.subscribe(() => {
-      // Set default values
+      // Set values
       // @ts-ignore
       this.stackLevelControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).stackLevel);
       // @ts-ignore
       this.profileIdControl.setValue(PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).id);
       if (this.profileTypeControl.value === ChargingProfileKindType.ABSOLUTE) {
-        this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_DATE;
+        this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_DATE;
       } else {
-        this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
+        this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
     });
-    // Register to table change
-    this.chargingSlotTableDataSource.getTableChangedSubject().subscribe((chargingSlots: Slot[]) => {
+    // Register to table changes
+    this.slotTableDataSource.getTableChangedSubject().subscribe((chargingSlots: Slot[]) => {
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);
     });
   }
 
   public startDateFilterChanged(value: Date) {
-    this.chargingSlotTableDataSource.startDate = value;
-    this.chargingSlotTableDataSource.refreshChargingSlots();
+    this.slotTableDataSource.startDate = value;
+    this.slotTableDataSource.refreshChargingSlots();
   }
 
   public loadChargingProfile() {
@@ -189,13 +186,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     //         this.slotsSchedule[this.slotsSchedule.length - 1].duration = (this.startSchedule.getTime() / 1000 + chargingProfile.profile.chargingSchedule.duration - this.slotsSchedule[this.slotsSchedule.length - 1].startDate.getTime() / 1000) / 60
     //       }
     //       if (chargingProfile.profile.chargingProfileKind != ChargingProfileKindType.ABSOLUTE) {
-    //         this.chargingSlotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
+    //         this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
     //       }
     //     }
-    //     this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
-    //     // this.limitChartPlannerComponent.setLimitPlannerData(this.chargingSlotTableDataSource.data);
+    //     this.slotTableDataSource.setContent(this.slotsSchedule);
+    //     // this.limitChartPlannerComponent.setLimitPlannerData(this.slotTableDataSource.data);
     //   }
-    this.chargingSlotTableDataSource.startDate = this.startSchedule;
+    this.slotTableDataSource.startDate = this.startSchedule;
     //   this.chargingProfile = chargingProfile;
 
     //   // });
@@ -249,7 +246,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     //         this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
     //     }
     //     this.slotsSchedule = [];
-    //     this.chargingSlotTableDataSource.setContent(this.slotsSchedule);
+    //     this.slotTableDataSource.setContent(this.slotsSchedule);
     //   }
     // }
     // );
@@ -292,7 +289,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   }
 
   private buildChargingProfile() {
-    // this.chargingSlotTableDataSource.refreshData()
+    // this.slotTableDataSource.refreshData()
     // const chargingProfile = {} as ChargingProfile;
     // chargingProfile.profile = {} as Profile;
     // chargingProfile.chargingStationID = this.charger.id;
@@ -323,11 +320,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
 
     // // build schedule
     // let duration: number = 0;
-    // const startOfSchedule = new Date(this.chargingSlotTableDataSource.data[0].startDate);
+    // const startOfSchedule = new Date(this.slotTableDataSource.data[0].startDate);
     // chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
     // chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
 
-    // for (const slot of this.chargingSlotTableDataSource.data) {
+    // for (const slot of this.slotTableDataSource.data) {
 
     //   const period = {} as ChargingSchedulePeriod;
     //   const startOfPeriod = new Date(slot.startDate);

@@ -11,7 +11,6 @@ import { TableDataSource } from './table-data-source';
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   private editableRows: T[] = [];
   private tableChangedSubject: Subject<T[]> = new Subject<T[]>();
-  private rowChangedSubject: Subject<T> = new Subject<T>();
 
   private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
@@ -56,29 +55,36 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return this.tableChangedSubject;
   }
 
-  getRowChangedSubject(): Subject<T> {
-    return this.rowChangedSubject;
-  }
-
   public setFormArray(formArray: FormArray) {
     this.formArray = formArray;
   }
 
   // tslint:disable-next-line:no-empty
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+    let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_DELETE:
         const index = this.editableRows.indexOf(editableRow);
-        this.editableRows.splice(index, 1);
+        const deletedRows = this.editableRows.splice(index, 1);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();
         }
+        actionDone = true;
         break;
+    }
+    // Call post process
+    if (actionDone) {
+      // Call post data processing
+      if (postDataProcessing) {
+        postDataProcessing();
+      }
+      // Notify
+      this.tableChangedSubject.next(this.editableRows);
     }
   }
 
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
     if (this.formArray) {
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const editableRow of this.editableRows) {
@@ -97,9 +103,12 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       this.editableRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
+    // Call post data processing
+    if (postDataProcessing) {
+      postDataProcessing();
+    }
     // Notify
     this.tableChangedSubject.next(this.editableRows);
-    this.rowChangedSubject.next(this.editableRows[cellIndex]);
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
@@ -144,7 +153,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
           // @ts-ignore
           value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
       }
-      if (tableColumnDef.unique) {
+      if (this.formArray && tableColumnDef.unique) {
         if (!tableColumnDef.validators) {
           tableColumnDef.validators = [];
         }
@@ -159,7 +168,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
 export function uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
-    const duplicate = formArray.value.find((row) => row[controlId] === control.value);
+    const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
     return duplicate ? {duplicate: true} : null;
   };
 }

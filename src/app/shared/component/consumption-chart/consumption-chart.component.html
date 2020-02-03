@@ -1,4 +1,3 @@
-<!--<ng-template *ngIf="consumptions; else noData">-->
 <div *ngIf="transaction?.values?.length === 0" class="graph-no-consumption">
   {{'transactions.graph.no_consumption' | translate}}
 </div>
@@ -10,10 +9,4 @@
     <div #success class='chart-success'></div>
     <canvas #chart></canvas>
   </div>
-  <div class="icon-zoom">
-    <a
-      (click)="resetZoom()"
-      [class]="'btn btn-link btn-just-icon'"><mat-icon>zoom_out_map</mat-icon></a>
-  </div>
 </div>
-<!--</ng-template>-->

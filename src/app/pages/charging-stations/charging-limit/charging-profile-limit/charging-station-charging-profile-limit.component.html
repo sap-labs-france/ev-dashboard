@@ -20,32 +20,38 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="form-group col-md-3">
-              <mat-form-field>
-                <mat-select [formControl]="profileTypeControl"
-                  placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
-                  <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
-                    {{type.description | translate}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+            <div class="form-group col-md-4">
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <mat-form-field>
+                    <mat-select [formControl]="profileTypeControl"
+                      placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
+                      <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
+                        {{type.description | translate}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-12">
+                  <mat-form-field>
+                    <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+                    </mat-datetimepicker>
+                    <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
+                    <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
+                      (dateChange)="startDateFilterChanged($event.value.toDate())" [matDatetimepicker]="picker" [value]="startSchedule"
+                      autocomplete="false">
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-            <div class="form-group col-md-3">
-              <mat-form-field>
-                <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                </mat-datetimepicker>
-                <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                  (dateChange)="startDateFilterChanged($event.value)" [matDatetimepicker]="picker" [value]="startSchedule"
-                  autocomplete="false">
-              </mat-form-field>
+            <div class="text-right col-md-8 chart-position-in-pop-up">
+              <app-charging-station-smart-charging-limit-planner-chart #limitChart>
+              </app-charging-station-smart-charging-limit-planner-chart>
             </div>
           </div>
-          <app-table [dataSource]="chargingSlotTableDataSource"></app-table>
-        </div>
-        <div class="col-md-12 text-right">
-          <app-charging-station-smart-charging-limit-planner-chart #limitChart ratio="4">
-          </app-charging-station-smart-charging-limit-planner-chart>
+          <div class="limit-planner-table-postion">
+            <app-table [dataSource]="slotTableDataSource"></app-table>
+          </div>
         </div>
       </div>
     </div>

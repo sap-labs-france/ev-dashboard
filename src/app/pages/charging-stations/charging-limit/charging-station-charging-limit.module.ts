@@ -11,6 +11,7 @@ import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/tran
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+import { ChargingStationsChargingProfilePowerSliderCellComponent } from './cell-components/charging-stations-charging-profile-power-slider-cell';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-profile-limit/charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitComponent } from './charging-profile-limit/charging-station-charging-profile-limit.component';
 import { ChargingStationSmartChargingDialogComponent } from './charging-station-charging-limit-dialog.component';
@@ -35,6 +36,7 @@ import { ChargingStationStaticLimitComponent } from './static-limit/charging-sta
     ChargingStationSmartChargingDialogComponent,
     ChargingStationChargingProfileLimitComponent,
     ChargingStationPowerSliderComponent,
+    ChargingStationsChargingProfilePowerSliderCellComponent,
     ChargingStationStaticLimitComponent,
     TransactionDialogComponent,
     ChargingStationSmartChargingLimitPlannerChartComponent,
@@ -43,6 +45,7 @@ import { ChargingStationStaticLimitComponent } from './static-limit/charging-sta
     ChargingStationSmartChargingDialogComponent,
     ChargingStationChargingProfileLimitComponent,
     ChargingStationPowerSliderComponent,
+    ChargingStationsChargingProfilePowerSliderCellComponent,
     ChargingStationStaticLimitComponent,
     ChargingStationSmartChargingLimitPlannerChartComponent,
   ],

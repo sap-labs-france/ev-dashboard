@@ -33,6 +33,39 @@ export class Utils {
     return { notEqual: true };
   }
 
+  public static toRgba(rgb: string, alpha: number): string {
+    if (!rgb) {
+      return '';
+    }
+    let rgba = rgb.replace(/rgb/i, 'rgba');
+    rgba = rgba.replace(/\)/i, `,${alpha})`);
+    return rgba;
+  }
+
+  public static formatBarColor(color: string): any {
+    return {
+      backgroundColor: Utils.toRgba(color, 1),
+      borderColor: Utils.toRgba(color, 1),
+      pointRadius: 0,
+      pointHoverBackgroundColor: Utils.toRgba(color, 1),
+      pointHoverBorderColor: '#fff',
+      hoverBackgroundColor: Utils.toRgba(color, 0.8),
+      hoverBorderColor: Utils.toRgba(color, 1),
+    };
+  }
+
+  public static formatLineColor(color: string): any {
+    return {
+      backgroundColor: Utils.toRgba(color, 0.2),
+      borderColor: Utils.toRgba(color, 1),
+      pointRadius: 0,
+      pointHoverBackgroundColor: Utils.toRgba(color, 1),
+      pointHoverBorderColor: '#fff',
+      hoverBackgroundColor: Utils.toRgba(color, 0.8),
+      hoverBorderColor: Utils.toRgba(color, 1),
+    };
+  }
+
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
     console.log(`Error: ${errorMessage}: ${error}`);
     messageService.showErrorMessage(errorMessage, params);
@@ -59,6 +92,7 @@ export class Utils {
         Utils.isEmptyArray(charger.connectors) ||
         charger.currentType !== ChargingStationCurrentType.AC) {
       result.notSupported = true;
+      result.currentAmp = result.maxAmp;
       return result;
     }
     // Connector Provided?
@@ -87,7 +121,7 @@ export class Utils {
       }
     }
     // Default
-    if (!result.currentAmp) {
+    if (result.currentAmp === 0) {
       result.currentAmp = result.maxAmp;
     }
     return result;

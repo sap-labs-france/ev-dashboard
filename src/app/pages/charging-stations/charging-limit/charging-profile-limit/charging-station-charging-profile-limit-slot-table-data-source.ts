@@ -7,10 +7,10 @@ import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStatio
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { ChargingStationPowerSliderComponent } from '../component/charging-station-power-slider.component';
+import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 
 @Injectable()
-export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
+export class ChargingStationChargingProfileLimitSlotTableDataSource extends EditableTableDataSource<Slot> {
   public startDate!: Date;
   public charger!: ChargingStation;
   private chargerPowers!: ChargingStationPowers;
@@ -21,7 +21,6 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
     private datePipe: AppDatePipe,
   ) {
     super(spinnerService);
-    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
   public buildTableDef(): TableDef {
@@ -59,7 +58,7 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
         id: 'limit',
         name: 'chargers.smart_charging.limit_title',
         isAngularComponent: true,
-        angularComponent: ChargingStationPowerSliderComponent,
+        angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
         headerClass: 'col-50p',
         class: 'col-45p',
       },
@@ -69,7 +68,8 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
 
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
-    this.tableColumnDefs[3].additionalParameters = charger;
+    this.tableColumnDefs[3].additionalParameters = { charger };
+    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
   public refreshChargingSlots() {
@@ -99,30 +99,22 @@ export class ChargingSlotTableDataSource extends EditableTableDataSource<Slot> {
       id: 0,
       duration: 60,
     } as Slot;
-    // Overwrite fields with last but one row
+    // Fix the start date
     const chargingSlots = this.getContent();
     if (chargingSlots.length > 0) {
       chargingSchedulePeriod.startDate =
         new Date(chargingSlots[chargingSlots.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
-      chargingSchedulePeriod.limitInkW =
-        chargingSlots[chargingSlots.length - 1].limitInkW;
-      chargingSchedulePeriod.limit =
-        chargingSlots[chargingSlots.length - 1].limit;
     }
     return chargingSchedulePeriod;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem) {
     // Call parent
-    super.rowActionTriggered(actionDef, row, dropdownItem);
-    // Recompute cells
-    this.refreshChargingSlots();
+    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSlots.bind(this));
   }
 
   public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
     // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef);
-    // Recompute cells
-    this.refreshChargingSlots();
+    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSlots.bind(this));
   }
 }

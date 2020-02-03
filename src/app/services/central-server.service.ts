@@ -36,6 +36,7 @@ export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceAuthURL!: string;
+  private centralRestServerServiceUtilURL!: string;
   private centralSystemServerConfig: any;
   private initialized = false;
   private currentUserToken!: string;
@@ -2098,6 +2099,32 @@ export class CentralServerService {
       );
   }
 
+  public chargingStationUpdateFirmware(charger: ChargingStation, fileName: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    const date = new Date().toISOString();
+    const body = (
+      `{
+        "chargeBoxID": "${charger.id}",
+        "args": {
+          "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?fileName=${fileName}",
+          "retries": 0,
+          "retrieveDate": "${date}",
+          "retryInterval": 0
+        }
+      }`
+    );
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateFirmware`, body,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -2208,6 +2235,8 @@ export class CentralServerService {
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      // Util URL
+      this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
       // Done
       this.initialized = true;
     }

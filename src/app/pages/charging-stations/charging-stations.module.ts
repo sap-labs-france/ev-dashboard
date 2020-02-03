@@ -23,6 +23,7 @@ import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPow
 import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
 import { ChargingStationSmartChargingModule } from './charging-limit/charging-station-charging-limit.module';
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
+import { ChargingStationFirmwareUpdateComponent } from './charging-station/firmware-update/charging-station-firmware-update.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
@@ -75,6 +76,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
+    ChargingStationFirmwareUpdateComponent,
   ],
   declarations: [
     ChargingStationDialogComponent,
@@ -99,6 +101,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
+    ChargingStationFirmwareUpdateComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,

@@ -281,8 +281,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     const chargingProfile = {} as ChargingProfile;
     chargingProfile.profile = {} as Profile;
     chargingProfile.profile.chargingSchedule = {} as ChargingSchedule;
-    // Set charging station ID
+    // Set charging station ID and ConnectorID 0 for whole station
     chargingProfile.chargingStationID = this.charger.id;
+    chargingProfile.connectorID = 0;
 
     if (this.profileId > 0 && this.profileId <= 10) {
       chargingProfile.profile.chargingProfileId = this.profileId;

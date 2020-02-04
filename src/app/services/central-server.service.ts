@@ -2108,7 +2108,7 @@ export class CentralServerService {
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?fileName=${fileName}",
+          "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0

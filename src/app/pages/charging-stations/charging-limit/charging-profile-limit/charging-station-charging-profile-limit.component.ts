@@ -9,7 +9,8 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Slot } from 'app/types/ChargingProfile';
 import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
-import { TableEditType } from 'app/types/Table';
+import { RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -210,11 +211,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
       this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         try {
           // call REST service
           this.centralServerService.deleteChargingProfile(this.charger.id).subscribe((response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            if (response.status === RestResponse.SUCCESS) {
               // success + reload
               this.messageService.showSuccessMessage(this.translateService.instant('chargers.clear_profile_success',
                 { chargeBoxID: self.charger.id, power: 'plan' }));
@@ -246,13 +247,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         try {
           // Build charging profile
           const chargingProfile = this.buildChargingProfile();
           // call REST service
           this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            if (response.status === RestResponse.SUCCESS) {
               // success + reload
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.smart_charging.power_limit_plan_success',

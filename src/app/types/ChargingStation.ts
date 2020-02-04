@@ -139,6 +139,8 @@ export enum ChargingStationButtonAction {
   EDIT_CHARGERS = 'edit_chargers',
   DISPLAY_CHARGERS = 'display_chargers',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
+  FORCE_AVAILABLE_STATUS = 'force_available_status',
+  FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
 }
 
 export enum ConnStatus {

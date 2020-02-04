@@ -236,8 +236,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
         }
       }
-    },
-    );
+    });
   }
 
   public saveAndApplyChargingProfile() {
@@ -255,7 +254,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
           this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
             if (response.status === Constants.REST_RESPONSE_SUCCESS) {
               // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
                 { chargeBoxID: self.charger.id, power: 'plan' }));
             } else {
               Utils.handleError(JSON.stringify(response),
@@ -276,7 +276,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     });
   }
 
-  private buildChargingProfile() {
+  private buildChargingProfile(): ChargingProfile {
     // Instantiate new charging profile
     const chargingProfile = {} as ChargingProfile;
     chargingProfile.profile = {} as Profile;
@@ -284,21 +284,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     // Set charging station ID and ConnectorID 0 for whole station
     chargingProfile.chargingStationID = this.charger.id;
     chargingProfile.connectorID = 0;
-
-    if (this.profileId > 0 && this.profileId <= 10) {
-      chargingProfile.profile.chargingProfileId = this.profileId;
-    } else {
-      throw new Error('Invalid profile Id');
-    }
-
-    if (this.stackLevel > 0 && this.stackLevel <= 10) {
-      chargingProfile.profile.stackLevel = this.stackLevel;
-    } else {
-      throw new Error('Invalid stack level');
-    }
-
+    chargingProfile.profile.chargingProfileId = this.profileId;
+    chargingProfile.profile.stackLevel = this.stackLevel;
     chargingProfile.profile.chargingProfilePurpose = ChargingProfilePurposeType.TX_DEFAULT_PROFILE;
-
     // Set profile type
     if (this.profileTypeControl.value === PROFILE_TYPE_MAP[1].key) {
       chargingProfile.profile.recurrencyKind = RecurrencyKindType.DAILY;
@@ -306,37 +294,26 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     } else {
       chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.ABSOLUTE;
     }
-
     // Set power unit
     chargingProfile.profile.chargingSchedule.chargingRateUnit = this.powerUnit;
-
     // Build schedule
     // Set start date
     const startOfSchedule = new Date(this.slotTableDataSource.data[0].startDate);
     chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
-
     // Instantiate chargingSchedulePeriods
     chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
-
     // Helper for duration
     let duration = 0;
-
     for (const slot of this.slotTableDataSource.data) {
-
       const period = {} as ChargingSchedulePeriod;
       const startOfPeriod = new Date(slot.startDate);
       period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);
-      if (period.startPeriod >= 0) {
-        period.limit = slot.limit;
-        chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);
-        duration = duration + slot.duration * 60;
-      } else {
-        throw new Error('Invalid schedule');
-      }
+      period.limit = slot.limit;
+      chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);
+      duration = duration + slot.duration * 60;
     }
     // Set duration
     chargingProfile.profile.chargingSchedule.duration = duration;
-
     return chargingProfile;
   }
 }

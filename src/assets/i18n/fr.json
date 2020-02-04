@@ -793,6 +793,7 @@
     "update_firmware_confirm": "Voulez-vous vraiment mettre à jour la borne '{{chargeBoxID}}'?",
     "button_update_firmware": "Mettre à Jour",
     "update_firmware_error": "Une erreur est survenue pendant l'envoi de la commande de mise à jour du firmware",
+    "update_firmware_success": "La demande de mise a jour du firmware de la borne '{{chargeBoxID}}' a bien été envoyée",
     "save_charger": "Sauvegarder",
     "stop_transaction_title": "Stopper",
     "stop_transaction_confirm": "Voulez-vous vraiment stopper la session de la borne '{{chargeBoxID}}'?",

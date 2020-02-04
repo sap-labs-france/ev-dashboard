@@ -64,6 +64,9 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         this.centralServerService.chargingStationUpdateFirmware(this.charger, fileName).subscribe(() => {
           // Hide
           this.spinnerService.hide();
+          // Ok
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('chargers.update_firmware_success', { chargeBoxID: this.charger.id }));
         }, (error) => {
           // Hide
           this.spinnerService.hide();

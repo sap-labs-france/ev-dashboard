@@ -5,11 +5,11 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { Constants } from 'app/utils/Constants';
-import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -54,7 +54,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     // Show Dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id})
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id}),
     ).subscribe((result) => {
       if (result === Constants.BUTTON_TYPE_YES) {
         // Show
@@ -64,6 +64,9 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         this.centralServerService.chargingStationUpdateFirmware(this.charger, fileName).subscribe(() => {
           // Hide
           this.spinnerService.hide();
+          // Ok
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('chargers.update_firmware_success', { chargeBoxID: this.charger.id }));
         }, (error) => {
           // Hide
           this.spinnerService.hide();

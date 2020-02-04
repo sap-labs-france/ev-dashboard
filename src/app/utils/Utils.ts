@@ -79,6 +79,10 @@ export class Utils {
     return value ? value.replace(/\n/g, '') : '';
   }
 
+  public static hasOwnProperty(object: object, key: string): boolean {
+    return Object.prototype.hasOwnProperty.call(object, key);
+  }
+
   public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
     const result: ChargingStationPowers = {
       notSupported: false,

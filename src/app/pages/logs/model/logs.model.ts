@@ -24,6 +24,7 @@ export const logActions: KeyValue[] = [
   {key: 'GetConfiguration', value: 'GetConfiguration'},
   {key: 'Initialization', value: 'Initialization'},
   {key: 'Login', value: 'Login'},
+  {key: 'FirmwareDownload', value: 'FirmwareDownload'},
   {key: 'LogsCleanup', value: 'LogsCleanup'},
   {key: 'MeterValues', value: 'MeterValues'},
   {key: 'Migration', value: 'Migration'},

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RestResponse } from 'app/types/GlobalType';
 import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -186,7 +187,7 @@ export class SettingsOcpiComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.saveOcpiSettings(this.ocpiSettings).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
           (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
         this.refresh();

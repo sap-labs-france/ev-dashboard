@@ -1,6 +1,5 @@
 import { TableFilter } from 'app/shared/table/filters/table-filter';
-import { TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { logHosts } from '../model/logs.model';
 
 export class LogHostTableFilter extends TableFilter {
@@ -10,7 +9,7 @@ export class LogHostTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'host',
       httpId: 'Host',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'logs.host',
       class: 'col-md-4 col-lg-4 col-xl-2',
       currentValue: [],

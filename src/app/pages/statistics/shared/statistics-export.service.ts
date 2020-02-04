@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
+import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import saveAs from 'file-saver';
 import { CentralServerService } from '../../../services/central-server.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Constants } from '../../../utils/Constants';
 
 @Injectable()
 export class StatisticsExportService {
@@ -27,7 +27,7 @@ export class StatisticsExportService {
 
   public exportDataWithDialog(filterParams: { [param: string]: string | string[]; }, dialogTitle: string, dialogQuestion: string) {
     this.dialogService.createAndShowYesNoDialog(dialogTitle, dialogQuestion).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
+      if (response === ButtonType.YES) {
         this.exportStatisticsData(filterParams);
       }
     });

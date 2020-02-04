@@ -3,11 +3,10 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingLink } from 'app/types/Setting';
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
-import { Constants } from '../../../utils/Constants';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -166,8 +165,8 @@ export class StatisticsFiltersComponent implements OnInit {
       // Reset all filter fields
       this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
         switch (filterDef.type) {
-          case Constants.FILTER_TYPE_DROPDOWN:
-          case Constants.FILTER_TYPE_DIALOG_TABLE:
+          case FilterType.DROPDOWN:
+          case FilterType.DIALOG_TABLE:
             const filterIsInitial = this.testIfFilterIsInitial(filterDef);
             if (!filterIsInitial) {
               filterIsChanged = true;
@@ -193,13 +192,13 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public resetDialogTableFilter(filterDef: StatisticsFilterDef): void {
     let filterIsChanged = false;
-    if (filterDef.type === Constants.FILTER_TYPE_DATE) {
+    if (filterDef.type === FilterType.DATE) {
       filterIsChanged = true;
       if (filterDef.reset) {
         filterDef.reset();
       }
-    } else if ((filterDef.type === Constants.FILTER_TYPE_DROPDOWN)
-      || (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE)) {
+    } else if ((filterDef.type === FilterType.DROPDOWN)
+      || (filterDef.type === FilterType.DIALOG_TABLE)) {
       filterIsChanged = !this.testIfFilterIsInitial(filterDef);
       if (filterDef.multiple) {
         filterDef.currentValue = [];
@@ -258,14 +257,14 @@ export class StatisticsFiltersComponent implements OnInit {
     if (this.statFiltersDef) {
       this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
         // Check the 'All' value
-        if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+        if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           // Date
-          if (filterDef.type === Constants.FILTER_TYPE_DATE) {
+          if (filterDef.type === FilterType.DATE) {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog without multiple selections
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
+          } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
+              if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
                   // Handle multiple key selection as a JSON array
                   const jsonKeys = [];
@@ -279,12 +278,12 @@ export class StatisticsFiltersComponent implements OnInit {
               }
             }
             // Dialog with multiple selections
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
+          } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
-          } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
+          } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
@@ -302,7 +301,7 @@ export class StatisticsFiltersComponent implements OnInit {
   // set Date Filter to corresponding year
   private setDateFilterYear(): void {
     this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
-      if (filterDef.type === Constants.FILTER_TYPE_DATE) {
+      if (filterDef.type === FilterType.DATE) {
         if (this.selectedYear === 0) {
           if (filterDef.id === 'dateFrom') {
             filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);

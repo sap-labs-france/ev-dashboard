@@ -10,9 +10,11 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
+import { RestResponse } from 'app/types/GlobalType';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Site } from 'app/types/Site';
-import { SiteArea } from 'app/types/SiteArea';
+import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
+import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 // @ts-ignore
@@ -30,7 +32,7 @@ export class SiteAreaComponent implements OnInit {
   @Input() inDialog!: boolean;
   @Input() dialogRef!: MatDialogRef<any>;
 
-  public image: any = Constants.SITE_AREA_NO_IMAGE;
+  public image: any = SiteAreaImage.NO_IMAGE;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -278,7 +280,7 @@ export class SiteAreaComponent implements OnInit {
 
   public updateSiteAreaImage(siteArea: SiteArea) {
     // Set the image
-    if (!this.image.endsWith(Constants.SITE_AREA_NO_IMAGE)) {
+    if (!this.image.endsWith(SiteAreaImage.NO_IMAGE)) {
       // Set to current image
       siteArea.image = this.image;
     } else {
@@ -301,7 +303,7 @@ export class SiteAreaComponent implements OnInit {
         this.translateService.instant('settings.charging_station.registration_token_creation_title'),
         this.translateService.instant('settings.charging_station.registration_token_creation_confirm'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           this.spinnerService.show();
 
           const selectedSite = this.sites.find((site: Site) => site.id === this.siteID.value);
@@ -351,7 +353,7 @@ export class SiteAreaComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = Constants.SITE_AREA_NO_IMAGE;
+    this.image = SiteAreaImage.NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -368,7 +370,7 @@ export class SiteAreaComponent implements OnInit {
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -377,9 +379,9 @@ export class SiteAreaComponent implements OnInit {
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+        if (result === ButtonType.SAVE_AND_CLOSE) {
           this.saveSiteArea(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -423,7 +425,7 @@ export class SiteAreaComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.create_success',
           { siteAreaName: siteArea.name });
@@ -461,7 +463,7 @@ export class SiteAreaComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
         this.closeDialog(true);

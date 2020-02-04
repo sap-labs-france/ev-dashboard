@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Constants } from '../../../utils/Constants';
+import { ButtonType } from 'app/types/Table';
 
 export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
 export const BUTTON_SELECT_USER = 'SELECT_USER';
@@ -31,6 +31,6 @@ export class ChargingStationsStartTransactionDialogComponent {
   }
 
   cancel() {
-    this.dialogRef.close(Constants.BUTTON_TYPE_CANCEL);
+    this.dialogRef.close(ButtonType.CANCEL);
   }
 }

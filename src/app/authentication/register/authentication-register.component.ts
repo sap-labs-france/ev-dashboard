@@ -3,12 +3,12 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
+import { RestResponse } from 'app/types/GlobalType';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { Constants } from '../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
@@ -133,7 +133,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
           // Hide
           this.spinnerService.hide();
           // Ok?
-          if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status && response.status === RestResponse.SUCCESS) {
             // Show success
             if (this.subDomain === '') {
               // Super User in Master Tenant

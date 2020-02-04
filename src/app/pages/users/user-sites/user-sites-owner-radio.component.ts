@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
 import { SiteUser } from 'app/types/Site';
 import { UserToken } from 'app/types/User';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -38,7 +38,7 @@ export class UserSitesOwnerRadioComponent extends CellContentTemplateComponent {
   private setUserSiteOwner(siteUser: SiteUser, siteOwner: boolean) {
     // Update
     this.centralServerService.updateSiteOwner(siteUser.site.id, siteUser.userID, siteOwner).subscribe((response) => {
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           if (siteOwner) {
             this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: siteUser.site.name});
           } else {

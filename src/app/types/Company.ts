@@ -11,3 +11,7 @@ export interface Company extends Data {
   lastChangedBy: string;
   lastChangedOn: Date;
 }
+
+export enum CompanyLogo {
+  NO_LOGO = 'assets/img/theme/no-logo.png',
+}

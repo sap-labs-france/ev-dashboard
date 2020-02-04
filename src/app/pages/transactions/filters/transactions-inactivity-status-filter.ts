@@ -1,6 +1,5 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
 import { transactionInactivityStatus } from '../model/transaction-inactivity-status.model';
 
 export class TransactionsInactivityStatusFilter extends TableFilter {
@@ -9,7 +8,7 @@ export class TransactionsInactivityStatusFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'inactivityStatus',
       httpId: 'InactivityStatus',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'transactions.inactivity',
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',

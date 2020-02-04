@@ -1,12 +1,12 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
 import { UserSite } from 'app/types/Site';
 import { UserToken } from 'app/types/User';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../../shared/table/cell-content-template/cell-content-template.component';
-import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -43,7 +43,7 @@ export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
   private setUserSiteOwner(userSite: UserSite, siteOwner: boolean) {
     // Update
     this.centralServerService.updateSiteOwner(userSite.siteID, userSite.user.id, siteOwner).subscribe((response) => {
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           if (siteOwner) {
             this.messageService.showSuccessMessage('sites.update_set_site_owner_success', {userName: Utils.buildUserFullName(userSite.user)});
           } else {

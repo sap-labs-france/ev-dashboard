@@ -1,5 +1,4 @@
-import { TableFilterDef } from 'app/types/Table';
-import { Constants } from '../../../utils/Constants';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog.component';
 import { TableFilter } from './table-filter';
 
@@ -10,7 +9,7 @@ export class ChargerTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'charger',
       httpId: 'ChargeBoxID',
-      type: Constants.FILTER_TYPE_DIALOG_TABLE,
+      type: FilterType.DIALOG_TABLE,
       label: '',
       defaultValue: 'general.all',
       name: 'chargers.titles',

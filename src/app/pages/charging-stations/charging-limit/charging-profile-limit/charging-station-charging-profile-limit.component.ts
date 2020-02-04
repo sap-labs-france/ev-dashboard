@@ -265,12 +265,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             this.spinnerService.hide();
             this.dialog.closeAll();
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
+              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
           });
         } catch (error) {
           console.log(error);
           Utils.handleError(JSON.stringify(error),
-            this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+            this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
         }
       }
     });

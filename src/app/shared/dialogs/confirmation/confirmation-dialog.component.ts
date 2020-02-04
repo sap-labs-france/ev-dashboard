@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Constants } from '../../../utils/Constants';
+import { ButtonType, DialogType } from 'app/types/Table';
 
 @Component({
   templateUrl: './confirmation-dialog.component.html',
@@ -40,10 +40,10 @@ export class ConfirmationDialogComponent implements AfterViewInit {
     // set name
     switch (data.dialogType) {
       // Ok / Cancel
-      case Constants.DIALOG_TYPE_OK_CANCEL:
-        this.buttonValidateID = Constants.BUTTON_TYPE_OK;
+      case DialogType.OK_CANCEL:
+        this.buttonValidateID = ButtonType.OK;
         this.buttonValidateName = this.translateService.instant('general.ok');
-        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelID = ButtonType.CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
         this.buttonNoID = null;
         this.buttonNoName = null;
@@ -52,10 +52,10 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         break;
 
       // Yes / No
-      case Constants.DIALOG_TYPE_YES_NO:
-        this.buttonValidateID = Constants.BUTTON_TYPE_YES;
+      case DialogType.YES_NO:
+        this.buttonValidateID = ButtonType.YES;
         this.buttonValidateName = this.translateService.instant('general.yes');
-        this.buttonNoID = Constants.BUTTON_TYPE_NO;
+        this.buttonNoID = ButtonType.NO;
         this.buttonNoName = this.translateService.instant('general.no');
         this.buttonCancelID = null;
         this.buttonCancelName = null;
@@ -63,8 +63,8 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         this.buttonNoColor = '';
         break;
       // Yes
-      case Constants.DIALOG_TYPE_OK:
-        this.buttonValidateID = Constants.BUTTON_TYPE_OK;
+      case DialogType.OK:
+        this.buttonValidateID = ButtonType.OK;
         this.buttonValidateName = this.translateService.instant('general.ok');
         this.buttonNoID = null;
         this.buttonNoName = null;
@@ -74,34 +74,34 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         this.buttonNoColor = '';
         break;
       // Yes / No / Cancel
-      case Constants.DIALOG_TYPE_YES_NO_CANCEL:
-        this.buttonValidateID = Constants.BUTTON_TYPE_YES;
+      case DialogType.YES_NO_CANCEL:
+        this.buttonValidateID = ButtonType.YES;
         this.buttonValidateName = this.translateService.instant('general.yes');
-        this.buttonNoID = Constants.BUTTON_TYPE_NO;
+        this.buttonNoID = ButtonType.NO;
         this.buttonNoName = this.translateService.instant('general.no');
-        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelID = ButtonType.CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
         this.buttonValidateColor = 'warn';
         this.buttonNoColor = 'primary';
         break;
       // Save and Close / Do Not Save and Close / Cancel
-      case Constants.DIALOG_TYPE_DIRTY_CHANGE:
-        this.buttonValidateID = Constants.BUTTON_TYPE_SAVE_AND_CLOSE;
+      case DialogType.DIRTY_CHANGE:
+        this.buttonValidateID = ButtonType.SAVE_AND_CLOSE;
         this.buttonValidateName = this.translateService.instant('general.save_and_close');
-        this.buttonNoID = Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE;
+        this.buttonNoID = ButtonType.DO_NOT_SAVE_AND_CLOSE;
         this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
-        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelID = ButtonType.CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
         this.buttonValidateColor = 'primary';
         this.buttonNoColor = 'warn';
         break;
       // Do Not Save and Close / Cancel
-      case Constants.DIALOG_TYPE_INVALID_CHANGE:
+      case DialogType.INVALID_CHANGE:
         this.buttonValidateID = null;
         this.buttonValidateName = null;
-        this.buttonNoID = Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE;
+        this.buttonNoID = ButtonType.DO_NOT_SAVE_AND_CLOSE;
         this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
-        this.buttonCancelID = Constants.BUTTON_TYPE_CANCEL;
+        this.buttonCancelID = ButtonType.CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
         this.buttonValidateColor = '';
         this.buttonNoColor = 'warn';

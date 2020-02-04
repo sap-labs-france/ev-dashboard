@@ -1,7 +1,6 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { KeyValue } from '../../../types/GlobalType';
-import { Constants } from '../../../utils/Constants';
 
 export class IssuerFilter extends TableFilter {
   constructor() {
@@ -10,7 +9,7 @@ export class IssuerFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'issuer',
       httpId: 'Issuer',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'issuer.title',
       class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
       label: '',

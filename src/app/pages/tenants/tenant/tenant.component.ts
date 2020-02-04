@@ -2,12 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
 import { Tenant } from 'app/types/Tenant';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -216,7 +216,7 @@ export class TenantComponent implements OnInit {
     this.spinnerService.show();
     this.centralServerService.createTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tenants.create_success', {name: tenant.name});
         this.dialogRef.close(true);
       } else {
@@ -232,7 +232,7 @@ export class TenantComponent implements OnInit {
     this.spinnerService.show();
     this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tenants.update_success', {name: tenant.name});
         this.dialogRef.close(true);
       } else {

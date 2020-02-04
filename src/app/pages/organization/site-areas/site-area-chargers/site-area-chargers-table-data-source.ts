@@ -13,10 +13,9 @@ import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action'
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
@@ -153,7 +152,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
             this.translateService.instant('site_areas.remove_chargers_confirm'),
           ).subscribe((response) => {
             // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               // Remove
               this.removeChargers(this.getSelectedRows().map((row) => row.id));
             }
@@ -182,7 +181,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
     // Yes: Update
     this.centralServerService.removeChargersFromSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
         // Refresh
@@ -207,7 +206,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
       // Yes: Update
       this.centralServerService.addChargersToSiteArea(this.siteArea.id, chargerIDs).subscribe((response) => {
         // Ok?
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
           // Refresh

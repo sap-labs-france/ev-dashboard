@@ -5,7 +5,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 // @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
@@ -188,7 +188,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
           this.translateService.instant('logs.dialog.export.title'),
           this.translateService.instant('logs.dialog.export.confirm'),
         ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
+          if (response === ButtonType.YES) {
             this.exportLogs();
           }
         });

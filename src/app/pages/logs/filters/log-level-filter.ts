@@ -1,6 +1,5 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
 import { logLevels } from '../model/logs.model';
 
 export class LogLevelTableFilter extends TableFilter {
@@ -10,7 +9,7 @@ export class LogLevelTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'level',
       httpId: 'Level',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'logs.levels',
       class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
       label: '',

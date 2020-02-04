@@ -5,9 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site, SiteUser } from 'app/types/Site';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -18,7 +18,6 @@ import { SitesDialogComponent } from '../../../shared/dialogs/sites/sites-dialog
 import { TableAddAction } from '../../../shared/table/actions/table-add-action';
 import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
 import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
@@ -165,7 +164,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
             this.translateService.instant('users.remove_sites_confirm'),
           ).subscribe((response) => {
             // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               // Remove
               this.removeSites(this.getSelectedRows().map((row) => row.site.id));
             }
@@ -194,7 +193,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     // Yes: Update
     this.centralServerService.removeSitesFromUser(this.user.id, siteIDs).subscribe((response) => {
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('users.remove_sites_success'));
         // Refresh
@@ -219,7 +218,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       // Yes: Update
       this.centralServerService.addSitesToUser(this.user.id, siteIDs).subscribe((response) => {
         // Ok?
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('users.update_sites_success'));
           // Refresh

@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
@@ -32,7 +32,6 @@ import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
@@ -187,7 +186,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           this.translateService.instant('transactions.dialog.soft_stop.title'),
           this.translateService.instant('transactions.dialog.soft_stop.confirm', { user: this.appUserNamePipe.transform(transaction.user) }),
         ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
+          if (response === ButtonType.YES) {
             this.stopTransaction(transaction);
           }
         });

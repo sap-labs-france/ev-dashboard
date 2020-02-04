@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
 import { SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -68,7 +68,7 @@ export class SettingsSmartChargingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.saveSmartChargingSettings(this.smartChargingSettings).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
           (!this.smartChargingSettings.id ? 'settings.smartCharging.create_success' : 'settings.smartCharging.update_success'));
         this.refresh();

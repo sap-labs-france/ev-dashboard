@@ -1,6 +1,5 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
 import { userStatuses } from '../model/users.model';
 
 export class UserStatusFilter extends TableFilter {
@@ -10,7 +9,7 @@ export class UserStatusFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'status',
       httpId: 'Status',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'users.status',
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',

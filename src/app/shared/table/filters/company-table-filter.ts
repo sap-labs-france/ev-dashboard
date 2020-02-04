@@ -1,5 +1,4 @@
-import { TableFilterDef } from 'app/types/Table';
-import { Constants } from '../../../utils/Constants';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dialog.component';
 import { TableFilter } from './table-filter';
 
@@ -10,7 +9,7 @@ export class CompanyTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'companies',
       httpId: 'CompanyID',
-      type: Constants.FILTER_TYPE_DIALOG_TABLE,
+      type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       multiple: true,

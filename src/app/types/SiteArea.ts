@@ -14,3 +14,7 @@ export interface SiteArea extends Data {
   site: Site;
   chargeBoxes: ChargingStation[];
 }
+
+export enum SiteAreaImage {
+  NO_IMAGE = 'assets/img/theme/no-logo.png',
+}

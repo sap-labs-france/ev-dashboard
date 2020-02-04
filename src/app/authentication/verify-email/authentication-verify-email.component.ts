@@ -3,12 +3,12 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
+import { RestResponse } from 'app/types/GlobalType';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
 @Component({
@@ -108,7 +108,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       // Hide
       this.spinnerService.hide();
       // Success
-      if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status && response.status === RestResponse.SUCCESS) {
         if (this.resetToken) {
           // Show message
           // @ts-ignore
@@ -177,7 +177,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
         this.spinnerService.hide();
         // Success
-        if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status && response.status === RestResponse.SUCCESS) {
           // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login

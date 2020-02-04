@@ -1,6 +1,5 @@
 import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
-import { TableFilterDef } from 'app/types/Table';
-import { Constants } from '../../../utils/Constants';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from './table-filter';
 
 export class SiteTableFilter extends TableFilter {
@@ -10,7 +9,7 @@ export class SiteTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'sites',
       httpId: 'SiteID',
-      type: Constants.FILTER_TYPE_DIALOG_TABLE,
+      type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       multiple: true,

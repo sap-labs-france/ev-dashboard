@@ -7,8 +7,9 @@ import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
+import { ButtonType } from 'app/types/Table';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../../services/component.service';
@@ -462,7 +463,7 @@ export class ChargingStationParametersComponent implements OnInit {
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -471,9 +472,9 @@ export class ChargingStationParametersComponent implements OnInit {
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+        if (result === ButtonType.SAVE_AND_CLOSE) {
           this.saveChargeBox();
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -490,7 +491,7 @@ export class ChargingStationParametersComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         // tslint:disable-next-line:max-line-length
         this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));

@@ -1,7 +1,6 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { CentralServerService } from '../../../services/central-server.service';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
 import { UserRoles } from '../model/users.model';
 
 export class UserRoleFilter extends TableFilter {
@@ -13,7 +12,7 @@ export class UserRoleFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'role',
       httpId: 'Role',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'users.roles',
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',

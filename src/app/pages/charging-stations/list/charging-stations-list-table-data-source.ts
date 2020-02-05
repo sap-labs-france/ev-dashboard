@@ -17,10 +17,11 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector, OCPPResponse } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 // @ts-ignore
@@ -230,7 +231,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.translateService.instant('chargers.dialog.export.title'),
           this.translateService.instant('chargers.dialog.export.confirm'),
         ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
+          if (response === ButtonType.YES) {
             this.exportChargingStations();
           }
         });
@@ -392,10 +393,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         title,
         message,
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           // Call REST service
           this.centralServerService.actionChargingStation(action, charger.id, args).subscribe((response) => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            if (response.status === OCPPResponse.ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(successMessage);
               this.refreshData().subscribe();
@@ -423,9 +424,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.translateService.instant('chargers.delete_title'),
         this.translateService.instant('chargers.delete_confirm', {chargeBoxID: chargingStation.id}),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe((response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            if (response.status === RestResponse.SUCCESS) {
               this.refreshData().subscribe();
               this.messageService.showSuccessMessage('chargers.delete_success', {chargeBoxID: chargingStation.id});
             } else {

@@ -6,8 +6,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { IntegrationConnection } from 'app/types/Connection';
 import { ActionResponse } from 'app/types/DataResult';
-import { KeyValue } from 'app/types/GlobalType';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
+import { ButtonType } from 'app/types/Table';
 import { User, UserRole, UserStatus } from 'app/types/User';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { mergeMap } from 'rxjs/operators';
@@ -591,7 +592,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   revokeConcurAccount() {
     this.centralServerService.deleteIntegrationConnection(this.currentUserID, 'concur').subscribe((response: ActionResponse) => {
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('settings.refund.concur.revoke_success');
         } else {
           Utils.handleError(JSON.stringify(response),
@@ -695,7 +696,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('users.assign_transactions_success', {userFullName: user.firstName + ' ' + user.name});
       } else {
@@ -723,7 +724,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
         // Refresh
@@ -770,7 +771,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('users.update_success', {userFullName: user.firstName + ' ' + user.name});
         // Init form
@@ -815,7 +816,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             this.translateService.instant('users.assign_transactions_title'),
             this.translateService.instant('users.assign_transactions_confirm', {count}),
           ).subscribe((result) => {
-            if (result === Constants.BUTTON_TYPE_YES) {
+            if (result === ButtonType.YES) {
               // Assign transactions
               this.assignTransactionsToUser(user);
             } else {

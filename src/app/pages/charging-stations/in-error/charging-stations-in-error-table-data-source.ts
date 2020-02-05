@@ -14,12 +14,11 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
+import { ChargingStationButtonAction, Connector, OCPPVersion, OCPPResponse } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
@@ -238,8 +237,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       action.dropdownActions.forEach((dropdownAction) => {
         if (dropdownAction.id === ChargingStationButtonAction.SMART_CHARGING) {
           // Check charging station version
-          dropdownAction.disabled = row.ocppVersion === Constants.OCPP_VERSION_12 ||
-            row.ocppVersion === Constants.OCPP_VERSION_15 ||
+          dropdownAction.disabled = row.ocppVersion === OCPPVersion.VERSION_12 ||
+            row.ocppVersion === OCPPVersion.VERSION_15 ||
             row.inactive;
         } else {
           // Check active status of CS
@@ -338,10 +337,10 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         title,
         message,
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           // Call REST service
           this.centralServerService.actionChargingStation(action, charger.id, args).subscribe((response) => {
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            if (response.status === OCPPResponse.ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(successMessage);
               this.refreshData().subscribe();
@@ -390,9 +389,9 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         this.translateService.instant('chargers.delete_title'),
         this.translateService.instant('chargers.delete_confirm', {chargeBoxID: chargingStation.id}),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           this.centralServerService.deleteChargingStation(chargingStation.id).subscribe((response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+            if (response.status === RestResponse.SUCCESS) {
               this.refreshData().subscribe();
               this.messageService.showSuccessMessage('chargers.delete_success', {chargeBoxID: chargingStation.id});
             } else {

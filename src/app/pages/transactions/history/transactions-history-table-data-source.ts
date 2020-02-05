@@ -9,7 +9,7 @@ import { Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { RefundStatus } from 'app/types/Refund';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 // @ts-ignore
@@ -279,7 +279,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             this.translateService.instant('transactions.dialog.delete.confirm',
               {user: this.appUserNamePipe.transform(transaction.user)}),
           ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               this.deleteTransaction(transaction);
             }
           });
@@ -319,7 +319,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm'),
         ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
+          if (response === ButtonType.YES) {
             this.exportTransactions();
           }
         });

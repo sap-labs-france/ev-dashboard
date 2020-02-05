@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RestResponse } from 'app/types/GlobalType';
 import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -78,7 +79,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.saveSacSettings(this.analyticsSettings).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
           (!this.analyticsSettings.id ? 'settings.analytics.create_success' : 'settings.analytics.update_success'));
         this.refresh();

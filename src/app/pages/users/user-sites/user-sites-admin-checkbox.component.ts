@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
 import { SiteUser } from 'app/types/Site';
 import { User, UserToken } from 'app/types/User';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -48,7 +48,7 @@ export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponen
     siteUser.siteAdmin = siteAdmin;
     // Update
     this.centralServerService.updateSiteUserAdmin(siteUser.site.id, siteUser.userID, siteAdmin).subscribe((response) => {
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           if (siteAdmin) {
             this.messageService.showSuccessMessage('users.update_set_site_admin_success', {siteName: siteUser.site.name});
           } else {

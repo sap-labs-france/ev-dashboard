@@ -4,12 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
+import { ButtonType } from 'app/types/Table';
 import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { Constants } from '../../utils/Constants';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
 
@@ -177,7 +177,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               this.translateService.instant('authentication.verify_email_title'),
               this.translateService.instant('authentication.verify_email_resend_confirm'),
             ).subscribe((response) => {
-              if (response === Constants.BUTTON_TYPE_YES) {
+              if (response === ButtonType.YES) {
                 // @ts-ignore
                 this.router.navigate(['/auth/verify-email'], {queryParams: {Email: user['email']}});
               }

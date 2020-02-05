@@ -15,11 +15,10 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Company } from 'app/types/Company';
+import { Company, CompanyLogo } from 'app/types/Company';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
@@ -60,7 +59,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         // lookup for logo otherwise assign default
         for (const company of companies.result) {
           if (!company.logo) {
-            company.logo = Constants.COMPANY_NO_LOGO;
+            company.logo = CompanyLogo.NO_LOGO;
           }
         }
         // Ok
@@ -229,9 +228,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       this.translateService.instant('companies.delete_title'),
       this.translateService.instant('companies.delete_confirm', {companyName: company.name}),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.deleteCompany(company.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('companies.delete_success', {companyName: company.name});
             this.refreshData().subscribe();
           } else {

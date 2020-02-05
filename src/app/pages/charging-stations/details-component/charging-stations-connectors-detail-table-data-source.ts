@@ -6,10 +6,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, Connector, ConnStatus } from 'app/types/ChargingStation';
+import { ChargingStation, Connector, ConnStatus, OCPPResponse } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
@@ -26,7 +26,6 @@ import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableStartAction } from '../../../shared/table/actions/table-start-action';
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
-import { Constants } from '../../../utils/Constants';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
@@ -281,11 +280,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           this.translateService.instant('chargers.stop_transaction_title'),
           this.translateService.instant('chargers.stop_transaction_confirm', {chargeBoxID: this.charger.id}),
         ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
+          if (response === ButtonType.YES) {
             this.centralServerService.chargingStationStopTransaction(
               this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
               // Ok?
-              if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+              if (response2.status === OCPPResponse.ACCEPTED) {
                 this.messageService.showSuccessMessage(
                   this.translateService.instant('chargers.stop_transaction_success', {chargeBoxID: this.charger.id}));
               } else {
@@ -310,13 +309,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         userName: Users.buildUserFullName(user ? user : loggedUser),
       }),
     ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
+      if (response === ButtonType.YES) {
         // To DO a selection of the badge to use??
         const tagID: string = user ? user.tags[0].id : loggedUser.tagIDs ? loggedUser.tagIDs[0] : '';
         this.centralServerService.chargingStationStartTransaction(
           this.charger.id, connector.connectorId, tagID).subscribe((response2: ActionResponse) => {
           // Ok?
-          if (response2.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+          if (response2.status === OCPPResponse.ACCEPTED) {
             // Ok
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.start_transaction_success', {chargeBoxID: this.charger.id}));

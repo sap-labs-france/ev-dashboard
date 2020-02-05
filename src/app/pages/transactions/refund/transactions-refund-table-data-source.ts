@@ -6,7 +6,7 @@ import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { RefundSettings } from 'app/types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 // @ts-ignore
@@ -254,7 +254,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
             this.translateService.instant('transactions.dialog.refund.title'),
             this.translateService.instant('transactions.dialog.refund.confirm', { quantity: this.getSelectedRows().length }),
           ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               this.refundTransactions(this.getSelectedRows());
             }
           });
@@ -276,7 +276,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           this.translateService.instant('transactions.dialog.export.title'),
           this.translateService.instant('transactions.dialog.export.confirm'),
         ).subscribe((response) => {
-          if (response === Constants.BUTTON_TYPE_YES) {
+          if (response === ButtonType.YES) {
             this.exportTransactionsToRefund();
           }
         });

@@ -42,3 +42,7 @@ export interface SiteUser extends Data {
 export enum SiteButtonAction {
   ASSIGN_SITE = 'assign_site',
 }
+
+export enum SiteImage {
+  NO_IMAGE = 'assets/img/theme/no-logo.png',
+}

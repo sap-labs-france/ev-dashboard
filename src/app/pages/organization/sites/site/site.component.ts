@@ -11,6 +11,9 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
+import { RestResponse } from 'app/types/GlobalType';
+import { SiteImage } from 'app/types/Site';
+import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
@@ -24,7 +27,7 @@ export class SiteComponent implements OnInit {
   @Input() inDialog: boolean;
   @Input() dialogRef: MatDialogRef<any>;
 
-  public image: any = Constants.SITE_NO_IMAGE;
+  public image: any = SiteImage.NO_IMAGE;
   public maxSize;
 
   public formGroup: FormGroup;
@@ -254,7 +257,7 @@ export class SiteComponent implements OnInit {
 
   public updateSiteImage(site) {
     // Check no image?
-    if (!this.image.endsWith(Constants.SITE_NO_IMAGE)) {
+    if (!this.image.endsWith(SiteImage.NO_IMAGE)) {
       // Set to site
       site.image = this.image;
     } else {
@@ -290,7 +293,7 @@ export class SiteComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = Constants.SITE_NO_IMAGE;
+    this.image = SiteImage.NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -307,7 +310,7 @@ export class SiteComponent implements OnInit {
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -316,9 +319,9 @@ export class SiteComponent implements OnInit {
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+        if (result === ButtonType.SAVE_AND_CLOSE) {
           this.saveSite(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -337,7 +340,7 @@ export class SiteComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.create_success',
           {siteName: site.name});
@@ -375,7 +378,7 @@ export class SiteComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.update_success', {siteName: site.name});
         this.closeDialog(true);

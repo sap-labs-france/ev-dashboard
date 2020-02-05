@@ -10,7 +10,7 @@ import UserConfiguration from './UserConfiguration';
 import VehicleConfiguration from './VehicleConfiguration';
 import VehicleManufacturerConfiguration from './VehicleManufacturerConfiguration';
 
-export default interface Configuration {
+export interface Configuration {
   Advanced: AdvancedConfiguration;
   Authorization: AuthorizationConfiguration;
   CentralSystemServer: CentralSystemServerConfiguration;

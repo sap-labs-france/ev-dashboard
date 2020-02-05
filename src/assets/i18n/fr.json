@@ -183,7 +183,9 @@
       "stop": "Arrêter",
       "view": "Voir",
       "send": "Envoyer",
-      "clear": "Effacer"
+      "clear": "Effacer",
+      "force_available_status": "Forcer le Statut en Disponible",
+      "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
   },
   "issuer": {
@@ -676,6 +678,8 @@
         "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
       }
     },
+    "force_available_status_action": "Forcer Statut en Disponible",
+    "force_unavailable_status_action": "Forcer Statut en Indisponible",
     "reboot_action": "Redémarrer",
     "soft_reset_action": "Réinitialiser (Soft)",
     "clear_cache_action": "Effacer le cache",
@@ -777,6 +781,14 @@
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
     "clear_cache_error": "Une erreur est survenue pendant l'effacement du cache de la borne",
+    "force_available_status_title": "Forcer le Statut Disponible",
+    "force_available_status_confirm": "Voulez-vous vraiment changer le statut de tous les connecteurs de la borne '{{chargeBoxID}}' en Disponible?",
+    "force_available_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
+    "force_available_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne",
+    "force_unavailable_status_title": "Forcer le Statut Indisponible",
+    "force_unavailable_status_confirm": "Voulez-vous vraiment changer le statut de tous les connecteurs de la borne '{{chargeBoxID}}' en Indisponible?",
+    "force_unavailable_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
+    "force_unavailable_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne",
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
     "change_config_error": "impossible de télécharger la configuration de la borne, vérifier les logs",
     "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",

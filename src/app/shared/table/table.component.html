@@ -109,7 +109,7 @@
              [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field
-            *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && !filterDef.multiple">
+            *ngIf="filterDef.type === FilterType.DROPDOWN && !filterDef.multiple">
             <mat-select (selectionChange)="filterChanged(filterDef)"
                 [(value)]="filterDef.currentValue"
                 [placeholder]="filterDef.name | translate">
@@ -120,7 +120,7 @@
           </mat-form-field>
           <!-- Dropdown Filter with multiple selections-->
           <mat-form-field
-            *ngIf="filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple">
+            *ngIf="filterDef.type === FilterType.DROPDOWN && filterDef.multiple">
             <mat-select (selectionChange)="filterChanged(filterDef)"
                 [(value)]="filterDef.currentValue"
                 [placeholder]="filterDef.name | translate" multiple
@@ -132,7 +132,7 @@
           </mat-form-field>
           <!-- Dialog Table Filter -->
           <mat-form-field
-            *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple">
+            *ngIf="filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)"
               [placeholder]="filterDef.name | translate"
               [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
@@ -144,7 +144,7 @@
           </mat-form-field>
           <!-- Dialog Table Filter with multiple selections-->
           <mat-form-field
-            *ngIf="filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple">
+            *ngIf="filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple">
             <input (click)="showDialogTableFilter(filterDef)"
               [placeholder]="filterDef.name | translate"
               [value]="filterDef.label"
@@ -155,7 +155,7 @@
             </button>
           </mat-form-field>
           <!-- Date Filter -->
-          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_TYPE_DATE">
+          <mat-form-field *ngIf="filterDef.type === FilterType.DATE">
             <mat-datetimepicker #picker type="datetime" openOnFocus="false"
               mode="portrait" timeInterval="1">
             </mat-datetimepicker>
@@ -167,7 +167,7 @@
               [value]="filterDef.currentValue" autocomplete="false">
           </mat-form-field>
           <!-- All key filter -->
-          <mat-form-field *ngIf="filterDef.type === Constants.FILTER_ALL_KEY">
+          <mat-form-field *ngIf="filterDef.type === FilterType.ALL_KEY">
             <input [placeholder]="filterDef.name | translate" matInput>
           </mat-form-field>
         </div>

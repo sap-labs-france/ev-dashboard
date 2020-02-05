@@ -2108,7 +2108,7 @@ export class CentralServerService {
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "https://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700",
+          "location": "http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0

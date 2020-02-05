@@ -678,8 +678,8 @@
         "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
       }
     },
-    "force_available_status_action": "Forcer Statut en Disponible",
-    "force_unavailable_status_action": "Forcer Statut en Indisponible",
+    "force_available_status_action": "Rendre Disponible",
+    "force_unavailable_status_action": "Rendre Indisponible",
     "reboot_action": "Redémarrer",
     "soft_reset_action": "Réinitialiser (Soft)",
     "clear_cache_action": "Effacer le cache",

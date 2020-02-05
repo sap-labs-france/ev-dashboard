@@ -18,7 +18,6 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPResponse } from 'app/types/ChargingStation';
-import { ChargingStation, ChargingStationButtonAction, Connector, OCPPResponse } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -31,6 +30,8 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ChargingStationsClearCacheAction } from '../actions/charging-stations-clear-cache-action';
+import { ChargingStationsForceAvailableStatusAction } from '../actions/charging-stations-force-available-status-action';
+import { ChargingStationsForceUnavailableStatusAction } from '../actions/charging-stations-force-unavailable-status-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsSmartChargingAction } from '../actions/charging-stations-smart-charging-action';
@@ -41,8 +42,6 @@ import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/c
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { IssuerFilter } from './issuer-filter';
-import { ChargingStationsForceAvailableStatusAction } from '../actions/charging-stations-force-available-status-action';
-import { ChargingStationsForceUnavailableStatusAction } from '../actions/charging-stations-force-unavailable-status-action';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -353,6 +352,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (!charger) {
       return [];
     }
+    // Check if both connectors are unavailable
     let isUnavailable = true;
     for (const connector of charger.connectors) {
       if (connector.status !== ConnStatus.UNAVAILABLE) {
@@ -370,7 +370,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.smartChargingAction,
           this.clearCacheAction,
           this.resetAction,
-          ( (isUnavailable && !charger.inactive) ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction),
+          isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
           this.deleteAction,
           openInMaps,
         ]).getActionDef()

@@ -6,7 +6,7 @@ export class ChargingStationsForceAvailableStatusAction implements TableAction {
   private action: TableActionDef = {
     id: ChargingStationButtonAction.FORCE_AVAILABLE_STATUS,
     type: 'button',
-    icon: 'check',
+    icon: 'play_arrow',
     color: ButtonColor.PRIMARY,
     name: 'chargers.force_available_status_action',
     tooltip: 'general.tooltip.force_available_status',

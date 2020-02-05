@@ -6,7 +6,7 @@ export class ChargingStationsForceUnavailableStatusAction implements TableAction
   private action: TableActionDef = {
     id: ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS,
     type: 'button',
-    icon: 'close',
+    icon: 'stop',
     color: ButtonColor.WARN,
     name: 'chargers.force_unavailable_status_action',
     tooltip: 'general.tooltip.force_unavailable_status',

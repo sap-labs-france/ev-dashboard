@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { RestResponse } from 'app/types/GlobalType';
 import { RefundSettings, RefundSettingsType } from 'app/types/Setting';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -74,7 +75,7 @@ export class SettingsRefundComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.saveRefundSettings(this.refundSettings).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
           (!this.refundSettings.id ? 'settings.refund.create_success' : 'settings.refund.update_success'));
         this.refresh();
@@ -100,10 +101,10 @@ export class SettingsRefundComponent implements OnInit {
       this.translateService.instant('settings.refund.synchronize_dialog_refund_title'),
       this.translateService.instant('settings.refund.synchronize_dialog_refund_confirm'),
     ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
+      if (response === ButtonType.YES) {
         this.messageService.showInfoMessage('settings.refund.synchronize_started');
         this.centralServerService.synchronizeRefundedTransactions().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('settings.refund.synchronize_success');
             this.refresh();
           } else {

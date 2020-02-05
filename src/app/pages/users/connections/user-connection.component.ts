@@ -2,11 +2,11 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionResponse } from 'app/types/DataResult';
+import { RestResponse } from 'app/types/GlobalType';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
 import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -45,7 +45,7 @@ export class UserConnectionComponent extends AbstractTabComponent {
           },
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe((response: ActionResponse) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('settings.refund.concur.link_success');
           } else {
             Utils.handleError(JSON.stringify(response),

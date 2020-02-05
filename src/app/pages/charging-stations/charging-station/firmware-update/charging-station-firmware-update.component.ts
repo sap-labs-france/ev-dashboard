@@ -9,7 +9,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
-import { Constants } from 'app/utils/Constants';
+import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -56,7 +56,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
       this.translateService.instant('chargers.update_firmware_title'),
       this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id}),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         // Show
         this.spinnerService.show();
         // Update Firmware

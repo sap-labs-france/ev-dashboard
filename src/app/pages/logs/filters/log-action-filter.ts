@@ -1,6 +1,5 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
 import { logActions } from '../model/logs.model';
 
 export class LogActionTableFilter extends TableFilter {
@@ -10,7 +9,7 @@ export class LogActionTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'action',
       httpId: 'Action',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'logs.actions',
       class: 'col-md-6 col-lg-4 col-xl-2',
       currentValue: [],

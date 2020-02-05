@@ -11,7 +11,9 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Company } from 'app/types/Company';
+import { Company, CompanyLogo } from 'app/types/Company';
+import { RestResponse } from 'app/types/GlobalType';
+import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
@@ -27,7 +29,7 @@ export class CompanyComponent implements OnInit {
   @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: any = Constants.COMPANY_NO_LOGO;
+  public logo: any = CompanyLogo.NO_LOGO;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -218,7 +220,7 @@ export class CompanyComponent implements OnInit {
 
   public updateCompanyLogo(company: Company) {
     // Check no company?
-    if (!this.logo.endsWith(Constants.COMPANY_NO_LOGO)) {
+    if (!this.logo.endsWith(CompanyLogo.NO_LOGO)) {
       // Set to company
       company.logo = this.logo;
     } else {
@@ -254,7 +256,7 @@ export class CompanyComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = Constants.COMPANY_NO_LOGO;
+    this.logo = CompanyLogo.NO_LOGO;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -271,7 +273,7 @@ export class CompanyComponent implements OnInit {
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -280,9 +282,9 @@ export class CompanyComponent implements OnInit {
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+        if (result === ButtonType.SAVE_AND_CLOSE) {
           this.saveCompany(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -301,7 +303,7 @@ export class CompanyComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('companies.create_success',
           { companyName: company.name });
@@ -339,7 +341,7 @@ export class CompanyComponent implements OnInit {
       // Hide
       this.spinnerService.hide();
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('companies.update_success', { companyName: company.name });
         this.closeDialog(true);

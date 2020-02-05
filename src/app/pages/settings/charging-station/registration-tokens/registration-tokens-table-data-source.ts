@@ -5,9 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { RegistrationToken } from 'app/types/RegistrationToken';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -23,7 +23,6 @@ import { TableMultiCopyAction } from '../../../../shared/table/actions/table-mul
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableRevokeAction } from '../../../../shared/table/actions/table-revoke-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 import { RegistrationTokenStatusComponent } from './registration-token-status.component';
 import { RegistrationTokenComponent } from './registration-token.component';
@@ -235,9 +234,9 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       this.translateService.instant('settings.charging_station.registration_token_delete_title'),
       this.translateService.instant('settings.charging_station.registration_token_delete_confirm'),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.deleteRegistrationToken(registrationToken.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.refreshData().subscribe();
             this.messageService.showSuccessMessage('settings.charging_station.registration_token_delete_success');
           } else {
@@ -257,9 +256,9 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       this.translateService.instant('settings.charging_station.registration_token_revoke_title'),
       this.translateService.instant('settings.charging_station.registration_token_revoke_confirm'),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.revokeRegistrationToken(registrationToken.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.refreshData().subscribe();
             this.messageService.showSuccessMessage('settings.charging_station.registration_token_revoke_success');
           } else {

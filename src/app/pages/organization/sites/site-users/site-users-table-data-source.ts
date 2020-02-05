@@ -12,11 +12,10 @@ import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action'
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site, UserSite } from 'app/types/Site';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User } from 'app/types/User';
-import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -156,7 +155,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
             this.translateService.instant('sites.remove_users_confirm'),
           ).subscribe((response) => {
             // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               // Remove
               this.removeUsers(this.getSelectedRows().map((row) => row.user.id));
             }
@@ -191,7 +190,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     // Yes: Update
     this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe((response) => {
       // Ok?
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
         // Refresh
@@ -216,7 +215,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       // Yes: Update
       this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe((response) => {
         // Ok?
-        if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
           // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
           // Refresh

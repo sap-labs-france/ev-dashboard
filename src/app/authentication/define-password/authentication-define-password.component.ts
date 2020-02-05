@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from 'app/services/config.service';
 import { WindowService } from 'app/services/window.service';
+import { RestResponse } from 'app/types/GlobalType';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { Constants } from '../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
@@ -109,7 +109,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         // Hide
         this.spinnerService.hide();
         // Success
-        if (response.status && response.status === Constants.REST_RESPONSE_SUCCESS) {
+        if (response.status && response.status === RestResponse.SUCCESS) {
           // Show message`
           this.messageService.showSuccessMessage('authentication.define_password_success');
           // Go back to login

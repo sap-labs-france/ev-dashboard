@@ -16,10 +16,9 @@ import { TableRegisterAction } from 'app/shared/table/actions/table-register-act
 import { TableUnregisterAction } from 'app/shared/table/actions/table-unregister-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
@@ -239,9 +238,9 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       this.translateService.instant('ocpiendpoints.delete_title'),
       this.translateService.instant('ocpiendpoints.delete_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { name: ocpiendpoint.name });
             this.refreshData().subscribe();
           } else {
@@ -261,9 +260,9 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       this.translateService.instant('ocpiendpoints.register_title'),
       this.translateService.instant('ocpiendpoints.register_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.register_success', { name: ocpiendpoint.name });
             this.refreshData().subscribe();
           } else {
@@ -283,9 +282,9 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       this.translateService.instant('ocpiendpoints.unregister_title'),
       this.translateService.instant('ocpiendpoints.unregister_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('ocpiendpoints.unregister_success', { name: ocpiendpoint.name });
             this.refreshData().subscribe();
           } else {

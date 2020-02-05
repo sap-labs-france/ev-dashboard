@@ -1,6 +1,5 @@
-import { TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { Constants } from '../../../utils/Constants';
 import { transactionRefundStatus } from '../model/transaction-refund-status.model';
 
 export class TransactionsRefundStatusFilter extends TableFilter {
@@ -9,7 +8,7 @@ export class TransactionsRefundStatusFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'transactionStatus',
       httpId: 'RefundStatus',
-      type: Constants.FILTER_TYPE_DROPDOWN,
+      type: FilterType.DROPDOWN,
       name: 'transactions.state',
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',

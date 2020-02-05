@@ -11,7 +11,7 @@ import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResul
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { RefundStatus } from 'app/types/Refund';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
@@ -35,7 +35,6 @@ import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-t
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
@@ -127,7 +126,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
             this.translateService.instant('transactions.delete_transactions_confirm', { quantity: this.getSelectedRows().length }),
           ).subscribe((response) => {
             // Check
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               this.deleteTransactions(this.getSelectedRows().map((row) => row.id));
             }
           });
@@ -291,7 +290,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
             this.translateService.instant('transactions.dialog.delete.confirm',
               {user: this.appUserNamePipe.transform(transaction.user)}),
           ).subscribe((response) => {
-            if (response === Constants.BUTTON_TYPE_YES) {
+            if (response === ButtonType.YES) {
               this.deleteTransaction(transaction);
             }
           });

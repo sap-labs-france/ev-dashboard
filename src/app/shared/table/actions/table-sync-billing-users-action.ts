@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
+import { RestResponse } from 'app/types/GlobalType';
+import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { UserButtonAction } from 'app/types/User';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
@@ -26,10 +26,10 @@ export class TableSyncBillingUsersAction implements TableAction {
       translateService.instant('settings.billing.synchronize_users_dialog_title'),
       translateService.instant('settings.billing.synchronize_users_dialog_confirm'),
     ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
+      if (response === ButtonType.YES) {
         messageService.showInfoMessage('settings.billing.synchronize_users_started');
         centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.synchronized) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.synchronize_users_success',
                 {number: synchronizeResponse.synchronized}));

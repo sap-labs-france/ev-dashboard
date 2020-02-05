@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Notification } from 'app/types/GlobalType';
 import { UserToken } from 'app/types/User';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -67,7 +68,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       // Update user?
       if (notifInfo['data']['id'] === this.loggedUser.id) {
         // Deleted?
-        if (notifInfo.action === Constants.NOTIF_ACTION_DELETE) {
+        if (notifInfo.action === Notification.DELETE) {
           // Log off user
           this.logout();
         } else {

@@ -23,10 +23,9 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
@@ -268,9 +267,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       this.translateService.instant('site_areas.delete_title'),
       this.translateService.instant('site_areas.delete_confirm', { siteAreaName: siteArea.name }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.deleteSiteArea(siteArea.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('site_areas.delete_success', { siteAreaName: siteArea.name });
             this.refreshData().subscribe();
           } else {

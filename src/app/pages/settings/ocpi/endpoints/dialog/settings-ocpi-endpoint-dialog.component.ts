@@ -4,7 +4,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
+import { RestResponse } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
@@ -139,7 +141,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     // Generate new local token
     this.centralServerService.generateLocalTokenOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.localToken.setValue(response.localToken);
         this.localToken.markAsDirty();
       } else {
@@ -158,7 +160,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     // Ping
     this.centralServerService.pingOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiendpoint.name });
       } else {
         // switch message according status code recieved
@@ -195,7 +197,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
         this.translateService.instant('general.change_invalid_pending_title'),
         this.translateService.instant('general.change_invalid_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -204,9 +206,9 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
         this.translateService.instant('general.change_pending_title'),
         this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_SAVE_AND_CLOSE) {
+        if (result === ButtonType.SAVE_AND_CLOSE) {
           this.save(this.formGroup.value);
-        } else if (result === Constants.BUTTON_TYPE_DO_NOT_SAVE_AND_CLOSE) {
+        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
       });
@@ -218,7 +220,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
   private createOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
     this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiEndpoint.name });
         this.closeDialog(true);
       } else {
@@ -235,7 +237,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
   private updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
     this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiEndpoint.name });
         this.closeDialog(true);
       } else {

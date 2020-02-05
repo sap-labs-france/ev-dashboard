@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
-import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationConfiguration, OCPPResponse } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
+import { ButtonType } from 'app/types/Table';
 // @ts-ignore
 import saveAs from 'file-saver';
 import { fromEvent } from 'rxjs';
@@ -164,7 +165,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.set_configuration_title'),
       this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: item.key }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         // Show
         this.spinnerService.show();
         // Yes: Update
@@ -173,7 +174,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            if (response.status === OCPPResponse.ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.change_params_success', { chargeBoxID: this.charger.id }));
@@ -211,7 +212,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.dialog.exportConfig.title'),
       this.translateService.instant('chargers.dialog.exportConfig.confirm'),
     ).subscribe((response) => {
-      if (response === Constants.BUTTON_TYPE_YES) {
+      if (response === ButtonType.YES) {
         let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}Site Area${Constants.CSV_SEPARATOR}Site\r\n`;
         for (const parameter of this.chargerConfiguration) {
           csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${Utils.replaceSpecialCharsInCSVValueParam(parameter.value)}"${Constants.CSV_SEPARATOR}${this.charger.siteArea.name}${Constants.CSV_SEPARATOR}${this.charger.siteArea.site.name}\r\n`;
@@ -278,7 +279,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         this.translateService.instant('chargers.ocpp_params_update_from_template_title'),
         this.translateService.instant('chargers.ocpp_params_update_from_template_confirm', { chargeBoxID: this.charger.id }),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           // Show
           this.spinnerService.show();
           // Yes: Update
@@ -286,7 +287,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            if (response.status === OCPPResponse.ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
@@ -319,7 +320,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         this.translateService.instant('chargers.get_configuration_title'),
         this.translateService.instant('chargers.get_configuration_confirm', { chargeBoxID: this.charger.id }),
       ).subscribe((result) => {
-        if (result === Constants.BUTTON_TYPE_YES) {
+        if (result === ButtonType.YES) {
           // Show
           this.spinnerService.show();
           // Yes: Update
@@ -327,7 +328,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === Constants.OCPP_RESPONSE_ACCEPTED) {
+            if (response.status === OCPPResponse.ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));

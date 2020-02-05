@@ -5,9 +5,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
+import { RestResponse } from 'app/types/GlobalType';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { SiteButtonAction } from 'app/types/Site';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
@@ -28,7 +29,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -311,9 +311,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       this.translateService.instant('users.delete_title'),
       this.translateService.instant('users.delete_confirm', {userFullName: this.appUserNamePipe.transform(user)}),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.deleteUser(user.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.refreshData().subscribe();
             this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.appUserNamePipe.transform(user)});
           } else {

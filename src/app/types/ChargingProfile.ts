@@ -14,7 +14,7 @@ export interface ConnectorSchedule {
 
 export interface ChargingProfile extends Data {
   chargingStationID: string;
-  connectorID?: string;
+  connectorID?: number;
   profile: Profile;
 }
 

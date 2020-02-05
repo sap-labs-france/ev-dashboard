@@ -1,5 +1,4 @@
-import { TableFilterDef } from 'app/types/Table';
-import { Constants } from '../../../utils/Constants';
+import { FilterType, TableFilterDef } from 'app/types/Table';
 import { ReportsDialogComponent } from '../../dialogs/reports/reports-dialog.component';
 import { TableFilter } from './table-filter';
 
@@ -12,7 +11,7 @@ export class ReportTableFilter extends TableFilter {
     const filterDef: TableFilterDef = {
       id: 'refundData',
       httpId: 'ReportIDs',
-      type: Constants.FILTER_TYPE_DIALOG_TABLE,
+      type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       name: 'transactions.reportId',

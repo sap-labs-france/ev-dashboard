@@ -5,8 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tenant } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -20,7 +20,6 @@ import { TableEditAction } from '../../../shared/table/actions/table-edit-action
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TenantComponent } from '../tenant/tenant.component';
 
@@ -192,9 +191,9 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       this.translateService.instant('tenants.delete_title'),
       this.translateService.instant('tenants.delete_confirm', {name: tenant.name}),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         this.centralServerService.deleteTenant(tenant.id).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('tenants.delete_success', {name: tenant.name});
             this.refreshData().subscribe();
           } else {

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
 import { PricingSettings, PricingSettingsType } from 'app/types/Setting';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -72,7 +72,7 @@ export class SettingsPricingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.savePricingSettings(this.pricingSettings).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+      if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
           (!this.pricingSettings.id ? 'settings.pricing.create_success' : 'settings.pricing.update_success'));
         this.refresh();

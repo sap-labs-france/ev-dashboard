@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { SubjectInfo } from 'app/types/GlobalType';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Constants } from '../../utils/Constants';
@@ -260,7 +260,7 @@ export abstract class TableDataSource<T extends Data> {
       // Reset all filter fields
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
-          case Constants.FILTER_TYPE_DROPDOWN:
+          case FilterType.DROPDOWN:
             if (filterDef.multiple) {
               filterDef.currentValue = [];
               filterDef.label = '';
@@ -268,7 +268,7 @@ export abstract class TableDataSource<T extends Data> {
               filterDef.currentValue = null;
             }
             break;
-          case Constants.FILTER_TYPE_DIALOG_TABLE:
+          case FilterType.DIALOG_TABLE:
             if (filterDef.multiple) {
               filterDef.currentValue = [];
               filterDef.label = '';
@@ -308,15 +308,15 @@ export abstract class TableDataSource<T extends Data> {
     if (this.tableFiltersDef) {
       this.tableFiltersDef.forEach((filterDef) => {
         // Check the 'All' value
-        if (filterDef.currentValue && filterDef.currentValue !== Constants.FILTER_ALL_KEY) {
+        if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           // Date
           if (filterDef.type === 'date') {
             // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && !filterDef.multiple) {
+          } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              if (filterDef.currentValue[0].key !== Constants.FILTER_ALL_KEY) {
+              if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
                 if (filterDef.currentValue.length > 1) {
                   // Handle multiple key selection as a JSON array
                   const jsonKeys = [];
@@ -332,13 +332,13 @@ export abstract class TableDataSource<T extends Data> {
               }
             }
             // Dialog with multiple selections
-          } else if (filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE && filterDef.multiple) {
+          } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
-          } else if (filterDef.type === Constants.FILTER_TYPE_DROPDOWN && filterDef.multiple) {
+          } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');

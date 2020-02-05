@@ -7,7 +7,7 @@ import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -153,11 +153,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.windowService.deleteSearch(filterIdInCap);
       } else {
         switch (filter.type) {
-          case Constants.FILTER_TYPE_DIALOG_TABLE: {
+          case FilterType.DIALOG_TABLE: {
             this.windowService.setSearch(filterIdInCap, filter.currentValue[0].key);
             break;
           }
-          case Constants.FILTER_TYPE_DROPDOWN: {
+          case FilterType.DROPDOWN: {
             this.windowService.setSearch(filterIdInCap, filter.currentValue);
             break;
           }
@@ -197,8 +197,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if ((filterDef.type === Constants.FILTER_TYPE_DIALOG_TABLE
-      || filterDef.type === Constants.FILTER_TYPE_DROPDOWN) && filterDef.multiple) {
+    if ((filterDef.type === FilterType.DIALOG_TABLE
+      || filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
       filterDef.cleared = true;
     } else {

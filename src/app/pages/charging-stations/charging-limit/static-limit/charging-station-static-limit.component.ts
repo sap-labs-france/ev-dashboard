@@ -10,8 +10,8 @@ import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { Constants } from 'app/utils/Constants';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -61,10 +61,10 @@ export class ChargingStationStaticLimitComponent implements OnInit {
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
-      if (result === Constants.BUTTON_TYPE_YES) {
+      if (result === ButtonType.YES) {
         // Apply to charger
         this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit).subscribe((response) => {
-          if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             // success + reload
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: self.charger.id }),

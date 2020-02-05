@@ -55,7 +55,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectSite();
+    return this.centralServerNotificationService.getSubjectSites();
   }
 
   public loadDataImpl(): Observable<DataResult<Site>> {

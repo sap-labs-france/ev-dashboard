@@ -237,9 +237,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createAutoRefreshTimer() {
     // Create timer only if socketIO is not active
-    if (this.autoRefreshPollEnabled && !this.autoRefreshSubscription) {
-      // Create timer
-      this.autoRefreshSubscription = interval(this.autoRefreshPollingIntervalMillis).pipe(
+    if (!this.autoRefreshSubscription) {
+      let refreshObservable;
+      if (this.autoRefreshPollEnabled) {
+        // Create timer
+        refreshObservable = interval(this.autoRefreshPollingIntervalMillis);
+      } else {
+        refreshObservable = this.dataSource.getDataChangeSubject();
+      }
+
+      this.autoRefreshSubscription = refreshObservable.pipe(
         takeWhile(() => this.alive),
       ).subscribe(() => {
         if (!this.ongoingRefresh) {

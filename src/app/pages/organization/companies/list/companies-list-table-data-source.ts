@@ -49,7 +49,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectCompany();
+    return this.centralServerNotificationService.getSubjectCompanies();
   }
 
   public loadDataImpl(): Observable<DataResult<Company>> {

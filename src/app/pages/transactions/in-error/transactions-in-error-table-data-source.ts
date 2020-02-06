@@ -22,7 +22,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';

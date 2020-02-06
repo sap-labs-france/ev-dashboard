@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transactions-dialog.component';
+import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
 import { LocaleService } from '../../../services/locale.service';
 import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
 

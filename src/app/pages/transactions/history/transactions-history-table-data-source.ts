@@ -23,7 +23,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';

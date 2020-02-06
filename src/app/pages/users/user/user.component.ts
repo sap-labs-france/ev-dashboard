@@ -11,8 +11,9 @@ import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
 import { ButtonType } from 'app/types/Table';
 import { User, UserRole, UserStatus } from 'app/types/User';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { mergeMap } from 'rxjs/operators';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
@@ -105,6 +106,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private userTagsTableDataSource: UserTagsTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private centralServerNotificationService: CentralServerNotificationService,
     private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
@@ -314,6 +316,14 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       });
     }
+
+    this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      // Update user?
+      if (notifInfo['data']['id'] === this.currentUserID) {
+        this.loadUser();
+      }
+    });
 
     this.loadApplicationSettings();
 

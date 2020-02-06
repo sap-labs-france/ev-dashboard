@@ -16,7 +16,8 @@ import { SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { mergeMap } from 'rxjs/operators';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
   selector: 'app-site',
@@ -51,6 +52,7 @@ export class SiteComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
@@ -94,7 +96,7 @@ export class SiteComponent implements OnInit {
         department: new FormControl(''),
         region: new FormControl(''),
         country: new FormControl(''),
-        coordinates: new FormArray ([
+        coordinates: new FormArray([
           new FormControl('',
             Validators.compose([
               Validators.max(180),
@@ -143,6 +145,14 @@ export class SiteComponent implements OnInit {
         this.onClose();
       }
     });
+
+    this.centralServerNotificationService.getSubjectSite().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      // Update user?
+      if (notifInfo['data']['id'] === this.currentSiteID) {
+        this.loadSite();
+      }
+    });
   }
 
   public isOpenInDialog(): boolean {
@@ -165,7 +175,10 @@ export class SiteComponent implements OnInit {
 
       // add available companies to dropdown
       for (let i = 0; i < availableCompanies.count; i++) {
-        this.companies.push({id: availableCompanies.result[i].id, name: availableCompanies.result[i].name});
+        this.companies.push({
+          id: availableCompanies.result[i].id,
+          name: availableCompanies.result[i].name
+        });
       }
     });
   }
@@ -279,7 +292,7 @@ export class SiteComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('sites.image_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('sites.image_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -343,7 +356,7 @@ export class SiteComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         // Ok
         this.messageService.showSuccessMessage('sites.create_success',
-          {siteName: site.name});
+          { siteName: site.name });
         // close
         this.currentSiteID = site.id;
         this.closeDialog(true);
@@ -380,7 +393,7 @@ export class SiteComponent implements OnInit {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('sites.update_success', {siteName: site.name});
+        this.messageService.showSuccessMessage('sites.update_success', { siteName: site.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),

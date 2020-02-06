@@ -52,13 +52,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user
-    this.loggedUser = this.centralServerService.getLoggedUser();
+    this.centralServerService.getCurrentUserSubject().subscribe((user) => {
+      this.loggedUser = user;
+    });
 
     if (authorizationService.canUpdateUser()) {
       this.canEditProfile = true;
     }
     // Read user
-    this.updateUserImage();
+    this.refreshUser();
   }
 
   ngOnInit() {
@@ -73,7 +75,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.logout();
         } else {
           // Same user: Update it
-          this.updateUserImage();
+          this.refreshUser();
         }
       }
     });
@@ -85,7 +87,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  updateUserImage() {
+  refreshUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {

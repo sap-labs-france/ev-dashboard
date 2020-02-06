@@ -10,6 +10,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Slot } from 'app/types/ChargingProfile';
 import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -227,7 +228,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             }
           }, (error: any) => {
             this.spinnerService.hide();
-            if (error.status === 554) {
+            if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
               Utils.handleHttpError(
                 error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_not_accepted', { chargeBoxID: self.charger.id });
             } else {
@@ -268,7 +269,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             }
           }, (error) => {
             this.spinnerService.hide();
-            if (error.status === 554) {
+            if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
               Utils.handleHttpError(
                 error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_not_accepted', { chargeBoxID: self.charger.id });
             } else {

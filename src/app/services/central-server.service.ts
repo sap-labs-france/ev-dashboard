@@ -2108,12 +2108,21 @@ export class CentralServerService {
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
+          "location": "http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0
         }
       }`
+      // `{
+      //   "chargeBoxID": "${charger.id}",
+      //   "args": {
+      //     "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
+      //     "retries": 0,
+      //     "retrieveDate": "${date}",
+      //     "retryInterval": 0
+      //   }
+      // }`
     );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateFirmware`, body,

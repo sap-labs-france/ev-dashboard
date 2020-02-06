@@ -35,6 +35,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
 
+  private	readonly FilterType = FilterType;
   private readonly Constants = Constants;
   private readonly TableEditType = TableEditType;
 

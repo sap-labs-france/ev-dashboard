@@ -222,9 +222,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             }
           }, (error: any) => {
             this.spinnerService.hide();
-            this.dialog.closeAll();
+            if (error.status === 554) {
+              Utils.handleHttpError(
+                error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_not_accepted', { chargeBoxID: self.charger.id });
+            } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
+            }
           });
         } catch (error) {
           console.log(error);
@@ -259,9 +263,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             }
           }, (error) => {
             this.spinnerService.hide();
-            this.dialog.closeAll();
+            if (error.status === 554) {
+              Utils.handleHttpError(
+                error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_not_accepted', { chargeBoxID: self.charger.id });
+            } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
+            }
           });
         } catch (error) {
           console.log(error);

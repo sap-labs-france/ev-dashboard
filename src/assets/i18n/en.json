@@ -183,7 +183,9 @@
       "stop": "Stop",
       "view": "View",
       "send": "Send",
-      "clear": "Clear"
+      "clear": "Clear",
+      "force_available_status": "Force Status to Available",
+      "force_unavailable_status": "Force Status to Unavailable"
     }
   },
   "issuer": {
@@ -676,6 +678,8 @@
         "callbackURLforOCPP": "Callback URL to send HTTP request to the charging station"
       }
     },
+    "force_available_status_action": "Set Available",
+    "force_unavailable_status_action": "Set Unavailable",
     "reboot_action": "Reboot",
     "soft_reset_action": "Soft Reset",
     "clear_cache_action": "Clear cache",
@@ -699,10 +703,12 @@
       "power_limit_plan_clear": "Do you really want to clear the charging profile of '{{chargeBoxID}}'?",
       "power_limit_plan_success": "Charging profiles for '{{chargeBoxID}}' have been applied successfully",
       "power_limit_plan_error": "Error occurred while applying the charging profiles",
+      "power_limit_plan_not_accepted": "The profile has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profile_title": "Clear Charging Profiles",
       "clear_profile_confirm": "Do you really want to clear ALL charging profiles of '{{chargeBoxID}}'?",
       "clear_profile_success": "Charging profiles of charging station '{{chargeBoxID}}' were cleared successfully",
       "clear_profile_error": "Error occurred while clearing charging profiles",
+      "clear_profile_not_accepted": "The request has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profiles_button": "Clear Profiles",
       "current_limit": "Actual power limit planning",
       "current_limit_title": "Actual power limit",
@@ -777,6 +783,14 @@
     "clear_cache_confirm": "Do you really want to clear the cache of the charging station '{{chargeBoxID}}'?",
     "clear_cache_success": "The cache of the charging station '{{chargeBoxID}}' has been cleared successfully",
     "clear_cache_error": "Error occurred while clearing the cache of the charging station",
+    "force_available_status_title": "Force Status to Available",
+    "force_available_status_confirm": "Do you really want to change the status of all the connectors of the charging station '{{chargeBoxID}}' to Available?",
+    "force_available_status_success": "The status of the connectors of the charging station '{{chargeBoxID}}' has been changed successfully",
+    "force_available_status_error": "Error occurred while changing the status of the connectors of the charging station",
+    "force_unavailable_status_title": "Force Status to Unavailable",
+    "force_unavailable_status_confirm": "Do you really want to change the status of all the connectors of the charging station '{{chargeBoxID}}' to Unavailable?",
+    "force_unavailable_status_success": "The status of the connectors of the charging station '{{chargeBoxID}}' has been changed successfully",
+    "force_unavailable_status_error": "Error occurred while changing the status of the connectors of the charging station",
     "retrieve_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
     "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
     "change_config_error": "Cannot retrieve the configuration of the charging station, check the logs",

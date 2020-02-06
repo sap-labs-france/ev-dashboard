@@ -17,7 +17,7 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPResponse } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -30,6 +30,8 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { ChargingStationsClearCacheAction } from '../actions/charging-stations-clear-cache-action';
+import { ChargingStationsForceAvailableStatusAction } from '../actions/charging-stations-force-available-status-action';
+import { ChargingStationsForceUnavailableStatusAction } from '../actions/charging-stations-force-unavailable-status-action';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsSmartChargingAction } from '../actions/charging-stations-smart-charging-action';
@@ -49,6 +51,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private smartChargingAction = new ChargingStationsSmartChargingAction().getActionDef();
   private clearCacheAction = new ChargingStationsClearCacheAction().getActionDef();
   private resetAction = new ChargingStationsResetAction().getActionDef();
+  private forceAvailableStatusAction = new ChargingStationsForceAvailableStatusAction().getActionDef();
+  private forceUnavailableStatusAction = new ChargingStationsForceUnavailableStatusAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
@@ -276,6 +280,30 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           'chargers.clear_cache_error',
         );
         break;
+      case ChargingStationButtonAction.FORCE_AVAILABLE_STATUS:
+        this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
+          JSON.stringify({
+            connectorId: 0,
+            type: ConnStatus.AVAILABLE,
+          }),
+          this.translateService.instant('chargers.force_available_status_title'),
+          this.translateService.instant('chargers.force_available_status_confirm', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.force_available_status_success', {chargeBoxID: rowItem.id}),
+          'chargers.force_available_status_error',
+          );
+        break;
+      case ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS:
+        this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
+          JSON.stringify({
+            connectorId: 0,
+            type: ConnStatus.UNAVAILABLE,
+          }),
+          this.translateService.instant('chargers.force_unavailable_status_title'),
+          this.translateService.instant('chargers.force_unavailable_status_confirm', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.force_unavailable_status_success', {chargeBoxID: rowItem.id}),
+          'chargers.force_unavailable_status_error',
+        );
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -324,6 +352,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (!charger) {
       return [];
     }
+    // Check if both connectors are unavailable
+    let isUnavailable = true;
+    for (const connector of charger.connectors) {
+      if (connector.status !== ConnStatus.UNAVAILABLE) {
+        isUnavailable = false;
+        break;
+      }
+    }
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !(charger && charger.coordinates && charger.coordinates.length === 2);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
@@ -334,6 +370,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.smartChargingAction,
           this.clearCacheAction,
           this.resetAction,
+          isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
           this.deleteAction,
           openInMaps,
         ]).getActionDef()

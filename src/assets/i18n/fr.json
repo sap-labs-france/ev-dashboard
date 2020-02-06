@@ -183,7 +183,9 @@
       "stop": "Arrêter",
       "view": "Voir",
       "send": "Envoyer",
-      "clear": "Effacer"
+      "clear": "Effacer",
+      "force_available_status": "Forcer le Statut en Disponible",
+      "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
   },
   "issuer": {
@@ -676,6 +678,8 @@
         "callbackURLforOCPP": "URL de retour pour envoyer les requêtes HHTP à la borne"
       }
     },
+    "force_available_status_action": "Rendre Disponible",
+    "force_unavailable_status_action": "Rendre Indisponible",
     "reboot_action": "Redémarrer",
     "soft_reset_action": "Réinitialiser (Soft)",
     "clear_cache_action": "Effacer le cache",
@@ -699,10 +703,12 @@
       "power_limit_plan_clear": "Voulez-vous vraiment effacer les profiles de charges de '{{chargeBoxID}}'?",
       "power_limit_plan_success": "Les plans de charge pour '{{chargeBoxID}}' ont été appliqués avec succès",
       "power_limit_plan_error": "Une erreur est survenue pendant l'application des plans de charge",
+      "power_limit_plan_not_accepted": "The profile has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profile_title": "Effacer les profiles de charge",
       "clear_profile_confirm": "Voulez-vous vraiment effacer tous les profiles de charges de la borne '{{chargeBoxID}}'?",
       "clear_profile_success": "Les profiles de charge de la borne '{{chargeBoxID}}' ont été effacés correctement",
       "clear_profile_error": "Une erreur est sruvenue pendant l'effacement des profiles de charge",
+      "clear_profile_not_accepted": "The request has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
@@ -777,6 +783,14 @@
     "clear_cache_confirm": "Voulez-vous vraiment effacer le cache de la borne '{{chargeBoxID}}'?",
     "clear_cache_success": "Le cache de la borne '{{chargeBoxID}}' a été effacé avec succès",
     "clear_cache_error": "Une erreur est survenue pendant l'effacement du cache de la borne",
+    "force_available_status_title": "Forcer le Statut Disponible",
+    "force_available_status_confirm": "Voulez-vous vraiment changer le statut de tous les connecteurs de la borne '{{chargeBoxID}}' en Disponible?",
+    "force_available_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
+    "force_available_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne",
+    "force_unavailable_status_title": "Forcer le Statut Indisponible",
+    "force_unavailable_status_confirm": "Voulez-vous vraiment changer le statut de tous les connecteurs de la borne '{{chargeBoxID}}' en Indisponible?",
+    "force_unavailable_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
+    "force_unavailable_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne",
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
     "change_config_error": "impossible de télécharger la configuration de la borne, vérifier les logs",
     "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",

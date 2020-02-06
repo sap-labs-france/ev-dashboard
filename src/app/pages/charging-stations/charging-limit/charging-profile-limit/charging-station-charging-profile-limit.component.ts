@@ -314,7 +314,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
     // Helper for duration
     let duration = 0;
-    for (const slot of this.slotTableDataSource.data) {
+    for (const slot of this.slotTableDataSource.getContent()) {
       const period = {} as ChargingSchedulePeriod;
       const startOfPeriod = new Date(slot.startDate);
       period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);

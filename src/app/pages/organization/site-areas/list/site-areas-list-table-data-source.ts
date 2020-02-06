@@ -57,7 +57,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   }
 
   public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectSite();
+    return this.centralServerNotificationService.getSubjectSiteAreas();
   }
 
   public loadDataImpl(): Observable<DataResult<SiteArea>> {

@@ -1301,6 +1301,19 @@ export class CentralServerService {
       );
   }
 
+  public refreshToken(): Observable<LoginResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.get<LoginResponse>(`${this.centralRestServerServiceSecuredURL}/UserRefreshToken`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public loginSucceeded(token: string): void {
     // Verify init
     this.checkInit();
@@ -1309,7 +1322,7 @@ export class CentralServerService {
     // Init Socket IO
     if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
       // @ts-ignore
-      this.centralServerNotificationService.initSocketIO(this.currentUser['']);
+      this.centralServerNotificationService.initSocketIO(token);
     }
   }
 
@@ -1401,7 +1414,7 @@ export class CentralServerService {
     this.getLoggedUserFromToken();
     // Init Socket IO
     if (!this.configService.getCentralSystemServer().pollEnabled) {
-      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+      this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
     }
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;
@@ -2108,12 +2121,21 @@ export class CentralServerService {
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
+          "location": "http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0
         }
       }`
+      // `{
+      //   "chargeBoxID": "${charger.id}",
+      //   "args": {
+      //     "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
+      //     "retries": 0,
+      //     "retrieveDate": "${date}",
+      //     "retryInterval": 0
+      //   }
+      // }`
     );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateFirmware`, body,
@@ -2130,11 +2152,11 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const body = (args ?
-      `{
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
     );

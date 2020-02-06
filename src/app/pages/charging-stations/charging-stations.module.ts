@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transactions-dialog.component';
+import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';

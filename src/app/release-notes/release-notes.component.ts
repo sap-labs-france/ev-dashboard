@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.0',
-        date: new Date('2020-02-03'),
+        date: new Date('2020-02-05'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `CPO/eMSP first Gireve certification`,
               `Refactored the Charging Plans for the next Smart Charging implementation`,
               `Charging Plan UI refactoring`,
+              `Change the availability of a charging station`,
               `Static Power Limitation for Schneider vendor`,
               `Show Sessions not assigned to a user when ACL is active in a Site Area`,
               `Set default notifications to new registered users`,

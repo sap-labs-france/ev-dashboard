@@ -33,7 +33,7 @@ export class CentralServerNotificationService {
   private subjectOcpiEndpoints = new Subject<SubjectInfo>();
   private subjectOcpiEndpoint = new Subject<SubjectInfo>();
   private subjectAnalyticsLinks = new Subject<SubjectInfo>();
-  private socket: any;
+  private socket: io.Socket;
 
   public setcentralRestServerServiceURL(url: string) {
     this.centralRestServerServiceURL = url;
@@ -135,11 +135,13 @@ export class CentralServerNotificationService {
     return this.subjectOcpiEndpoint.asObservable();
   }
 
-  public initSocketIO(tenantID: string) {
+  public initSocketIO(token: string) {
     // Check
-    if (!this.socket && tenantID) {
+    if (!this.socket && token) {
       // Connect to Socket IO
-      this.socket = io(`${this.centralRestServerServiceURL}?tenantID=${tenantID}`);
+      this.socket = io(this.centralRestServerServiceURL, {
+        query: 'token=' + token,
+      });
 
       // Monitor Companies`
       this.socket.on(Entity.COMPANIES, () => {

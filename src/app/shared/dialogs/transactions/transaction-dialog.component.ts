@@ -96,9 +96,9 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
         }, this.autoRefeshPollingIntervalMillis);
       } else {
         this.refreshSubcription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
-          this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+          this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           // Update user?
-          if (notifInfo['data']['id'] === this.transactionId.toString()) {
+          if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.transactionId.toString()) {
             this.refresh();
           }
         });

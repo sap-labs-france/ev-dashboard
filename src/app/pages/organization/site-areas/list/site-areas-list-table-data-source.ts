@@ -28,6 +28,7 @@ import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 
@@ -56,7 +57,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectSiteAreas();
   }
 

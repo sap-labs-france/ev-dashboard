@@ -140,9 +140,9 @@ export class CompanyComponent implements OnInit {
     });
 
     this.centralServerNotificationService.getSubjectCompany().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.currentCompanyID) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentCompanyID) {
         this.loadCompany();
       }
     });

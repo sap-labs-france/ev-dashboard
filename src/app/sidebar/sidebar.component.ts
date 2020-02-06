@@ -66,11 +66,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Subscribe to user's change
     this.userSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.loggedUser.id) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
         // Deleted?
-        if (notifInfo.action === Notification.DELETE) {
+        if (singleChangeNotification.action === Notification.DELETE) {
           // Log off user
           this.logout();
         } else {

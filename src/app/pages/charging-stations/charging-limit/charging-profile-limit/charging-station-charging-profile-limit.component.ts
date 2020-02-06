@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ export const PROFILE_TYPE_MAP =
   providers: [ChargingStationChargingProfileLimitSlotTableDataSource],
 })
 
-export class ChargingStationChargingProfileLimitComponent implements OnInit {
+export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
   @Input() charger!: ChargingStation;
 
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
@@ -88,11 +88,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.profileTypeControl.setValue(ChargingProfileKindType.ABSOLUTE);
     // Assign for to editable data source
     this.slotTableDataSource.setFormArray(this.chargingSlots);
-    // Load
-    this.loadChargingProfile();
     // JUST FOR MOCK UP
     this.slotTableDataSource.setContent(this.slotsSchedule);
     this.slotTableDataSource.setCharger(this.charger);
+    // Load
+    this.loadChargingProfile();
     // Change the date formatting
     this.profileTypeControl.valueChanges.subscribe(() => {
       // Set values
@@ -111,6 +111,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
 
   public startDateFilterChanged(value: Date) {
@@ -145,39 +149,38 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
         if (chargingProfile.profile.chargingSchedule.startSchedule) {
           this.startSchedule = new Date(chargingProfile.profile.chargingSchedule.startSchedule);
         }
+        this.slotTableDataSource.startDate = this.startSchedule;
         if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod) {
-          let slot: Slot = {
-            key: '',
-            id: 0,
-            connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
-            startDate: this.startSchedule,
-            duration: chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[1].startPeriod / 60,
-            limit: chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[0].limit,
-            limitInkW: ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0, chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[0].limit / 1000),
-          };
-          this.slotsSchedule.push(slot);
 
-          for (let i = 1; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
-            slot.limit = chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].limit;
-            slot.limitInkW = ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0, chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].limit / 1000);
-
+          for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
+            let slot: Slot = {
+              key: '',
+              id: 0,
+              connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
+              startDate: new Date(this.startSchedule),
+              duration: chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[1].startPeriod / 60,
+              limit: chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].limit,
+              limitInkW: ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0, chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].limit / 1000),
+            };
             if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
               slot.duration = (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1].startPeriod - chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].startPeriod) / 60;
             }
 
             slot.startDate.setSeconds(this.startSchedule.getSeconds() + chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].startPeriod)
             this.slotsSchedule.push(slot);
+            // this.slotTableDataSource.createRow(slot);
           }
 
           if (chargingProfile.profile.chargingSchedule.duration) {
             this.slotsSchedule[this.slotsSchedule.length - 1].duration = (this.startSchedule.getTime() / 1000 + chargingProfile.profile.chargingSchedule.duration - this.slotsSchedule[this.slotsSchedule.length - 1].startDate.getTime() / 1000) / 60
           }
         }
+        this.slotTableDataSource.setContent(this.slotsSchedule);
+        this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
       }
       if (chargingProfile.profile.chargingProfileKind !== ChargingProfileKindType.ABSOLUTE) {
         this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
-      this.slotTableDataSource.startDate = this.startSchedule;
     }, (error) => {
       // Hide
       this.spinnerService.hide();

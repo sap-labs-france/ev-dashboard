@@ -37,6 +37,7 @@ import { ReportTableFilter } from '../../../shared/table/filters/report-table-fi
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
@@ -75,7 +76,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     this.setStaticFilters([{ Statistics: 'refund' }]);
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 

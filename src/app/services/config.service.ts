@@ -1,6 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
+import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
+import CompanyConfiguration from '../types/configuration/CompanyConfiguration';
 import { Configuration } from '../types/configuration/Configuration';
+import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration';
+import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
+import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
+import SiteConfiguration from '../types/configuration/SiteConfiguration';
+import UserConfiguration from '../types/configuration/UserConfiguration';
+import VehicleConfiguration from '../types/configuration/VehicleConfiguration';
+import VehicleManufacturerConfiguration from '../types/configuration/VehicleManufacturerConfiguration';
 
 @Injectable()
 export class ConfigService {
@@ -14,47 +25,47 @@ export class ConfigService {
     this.config = await this.http.get<Configuration>('/assets/config.json').toPromise();
   }
 
-  public getCentralSystemServer() {
+  public getCentralSystemServer(): CentralSystemServerConfiguration {
     return this.config.CentralSystemServer;
   }
 
-  public getFrontEnd() {
+  public getFrontEnd(): FrontEndConfiguration {
     return (this.config.FrontEnd ? this.config.FrontEnd : {host: 'localhost'});
   }
 
-  public getLocales() {
+  public getLocales(): LocalesConfiguration {
     return this.config.Locales;
   }
 
-  public getAuthorization() {
+  public getAuthorization(): AuthorizationConfiguration {
     return this.config.Authorization;
   }
 
-  public getAdvanced() {
+  public getAdvanced(): AdvancedConfiguration {
     return this.config.Advanced;
   }
 
-  public getUser() {
+  public getUser(): UserConfiguration {
     return this.config.User;
   }
 
-  public getCompany() {
+  public getCompany(): CompanyConfiguration {
     return this.config.Company;
   }
 
-  public getVehicleManufacturer() {
+  public getVehicleManufacturer(): VehicleManufacturerConfiguration {
     return this.config.VehicleManufacturer;
   }
 
-  public getVehicle() {
+  public getVehicle(): VehicleConfiguration {
     return this.config.Vehicle;
   }
 
-  public getSite() {
+  public getSite(): SiteConfiguration {
     return this.config.Site;
   }
 
-  public getSiteArea() {
+  public getSiteArea(): SiteAreaConfiguration {
     return this.config.SiteArea;
   }
 }

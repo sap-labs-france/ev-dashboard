@@ -144,9 +144,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Companies`
-      this.socket.on(Entity.COMPANIES, () => {
+      this.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectCompanies.next();
+        this.subjectCompanies.next(changeNotification);
       });
 
       // Monitor Company
@@ -155,9 +155,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Tenants
-      this.socket.on(Entity.TENANTS, () => {
+      this.socket.on(Entity.TENANTS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectTenants.next();
+        this.subjectTenants.next(changeNotification);
       });
 
       // Monitor Tenant
@@ -167,9 +167,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Sites
-      this.socket.on(Entity.SITES, () => {
+      this.socket.on(Entity.SITES, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectSites.next();
+        this.subjectSites.next(changeNotification);
       });
 
       // Monitor Site
@@ -179,9 +179,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Site Areas
-      this.socket.on(Entity.SITE_AREAS, () => {
+      this.socket.on(Entity.SITE_AREAS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectSiteAreas.next();
+        this.subjectSiteAreas.next(changeNotification);
       });
 
       // Monitor Site Area
@@ -191,9 +191,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Users
-      this.socket.on(Entity.USERS, () => {
+      this.socket.on(Entity.USERS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectUsers.next();
+        this.subjectUsers.next(changeNotification);
       });
 
       // Monitor User
@@ -203,9 +203,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Vehicles
-      this.socket.on(Entity.VEHICLES, () => {
+      this.socket.on(Entity.VEHICLES, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectVehicles.next();
+        this.subjectVehicles.next(changeNotification);
       });
 
       // Monitor Vehicle
@@ -215,9 +215,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Vehicle Manufacturers
-      this.socket.on(Entity.VEHICLE_MANUFACTURERS, () => {
+      this.socket.on(Entity.VEHICLE_MANUFACTURERS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectVehicleManufacturers.next();
+        this.subjectVehicleManufacturers.next(changeNotification);
       });
 
       // Monitor Vehicle Manufacturer
@@ -227,9 +227,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Transactions
-      this.socket.on(Entity.TRANSACTIONS, () => {
+      this.socket.on(Entity.TRANSACTIONS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectTransactions.next();
+        this.subjectTransactions.next(changeNotification);
       });
 
       // Monitor Transaction
@@ -239,9 +239,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Charging Stations
-      this.socket.on(Entity.CHARGING_STATIONS, () => {
+      this.socket.on(Entity.CHARGING_STATIONS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectChargingStations.next();
+        this.subjectChargingStations.next(changeNotification);
       });
 
       // Monitor Charging Station
@@ -251,9 +251,9 @@ export class CentralServerNotificationService {
       });
 
       // Monitor Logging
-      this.socket.on(Entity.LOGGINGS, () => {
+      this.socket.on(Entity.LOGGINGS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectLoggings.next();
+        this.subjectLoggings.next(changeNotification);
       });
     }
   }

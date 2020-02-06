@@ -45,7 +45,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   public setContent(editableRows: T[]) {
     this.editableRows = editableRows;
     this.loadData(false).subscribe();
-    // this.tableChangedSubject.next(this.editableRows);
+    this.tableChangedSubject.next(this.editableRows);
   }
 
   public getContent(): T[] {

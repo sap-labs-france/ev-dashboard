@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ export const PROFILE_TYPE_MAP =
   providers: [ChargingStationChargingProfileLimitSlotTableDataSource],
 })
 
-export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
+export class ChargingStationChargingProfileLimitComponent implements OnInit {
   @Input() charger!: ChargingStation;
 
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
@@ -85,6 +85,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.stackLevel = 3;
     this.profileId = 3;
     this.startSchedule = new Date();
+    this.slotTableDataSource.startDate = this.startSchedule;
     this.profileTypeControl.setValue(ChargingProfileKindType.ABSOLUTE);
     // Assign for to editable data source
     this.slotTableDataSource.setFormArray(this.chargingSlots);
@@ -111,10 +112,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
 
   public startDateFilterChanged(value: Date) {
@@ -149,7 +146,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         if (chargingProfile.profile.chargingSchedule.startSchedule) {
           this.startSchedule = new Date(chargingProfile.profile.chargingSchedule.startSchedule);
         }
-        this.slotTableDataSource.startDate = this.startSchedule;
         if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod) {
 
           for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
@@ -174,12 +170,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           if (chargingProfile.profile.chargingSchedule.duration) {
             this.slotsSchedule[this.slotsSchedule.length - 1].duration = (this.startSchedule.getTime() / 1000 + chargingProfile.profile.chargingSchedule.duration - this.slotsSchedule[this.slotsSchedule.length - 1].startDate.getTime() / 1000) / 60
           }
+          if (chargingProfile.profile.chargingProfileKind !== ChargingProfileKindType.ABSOLUTE) {
+            this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
+          }
         }
+        this.slotTableDataSource.startDate = this.startSchedule;
         this.slotTableDataSource.setContent(this.slotsSchedule);
-        this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
-      }
-      if (chargingProfile.profile.chargingProfileKind !== ChargingProfileKindType.ABSOLUTE) {
-        this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
     }, (error) => {
       // Hide
@@ -212,7 +208,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.centralServerService.deleteChargingProfile(this.charger.id).subscribe((response) => {
             if (response.status === RestResponse.SUCCESS) {
               // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.clear_profile_success',
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
                 { chargeBoxID: self.charger.id, power: 'plan' }));
               this.slotTableDataSource.setContent([]);
               this.limitChartPlannerComponent.setLimitPlannerData([]);

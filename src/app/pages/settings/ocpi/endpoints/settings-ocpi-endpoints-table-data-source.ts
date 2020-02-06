@@ -21,6 +21,7 @@ import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
@@ -48,7 +49,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectOcpiEndpoints();
   }
 

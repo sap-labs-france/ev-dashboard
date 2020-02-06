@@ -21,6 +21,7 @@ import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 
@@ -48,7 +49,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectCompanies();
   }
 

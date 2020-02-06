@@ -25,8 +25,8 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
-  @ViewChild('ocppParameters', {static: false}) ocppParametersComponent!: ChargingStationOcppParametersComponent;
-  @ViewChild('chargerParameters', {static: true}) chargerParametersComponent!: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters', { static: false }) ocppParametersComponent!: ChargingStationOcppParametersComponent;
+  @ViewChild('chargerParameters', { static: true }) chargerParametersComponent!: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
   public isSaveButtonHidden!: boolean; // by default deactivate
@@ -113,9 +113,10 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     }
 
     this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (this.currentCharger && notifInfo['data']['id'] === this.currentCharger.id) {
+      if (this.currentCharger && singleChangeNotification && singleChangeNotification.data
+        && singleChangeNotification.data.id === this.currentCharger.id) {
         this.refresh();
       }
     });

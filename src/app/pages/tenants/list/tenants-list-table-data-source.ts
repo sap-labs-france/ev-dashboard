@@ -20,6 +20,7 @@ import { TableEditAction } from '../../../shared/table/actions/table-edit-action
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TenantComponent } from '../tenant/tenant.component';
 
@@ -44,7 +45,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectTenants();
   }
 

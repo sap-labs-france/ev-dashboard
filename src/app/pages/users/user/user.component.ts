@@ -318,9 +318,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
 
     this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.currentUserID) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentUserID) {
         this.loadUser();
       }
     });

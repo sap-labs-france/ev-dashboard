@@ -25,6 +25,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStations } from '../../../utils/ChargingStations';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
@@ -82,7 +83,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 

@@ -29,6 +29,7 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -70,7 +71,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     this.currentUser = this.centralServerService.getLoggedUser();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 

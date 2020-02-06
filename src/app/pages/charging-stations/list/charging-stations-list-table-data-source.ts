@@ -29,6 +29,7 @@ import { Observable } from 'rxjs';
 import { ComponentService, ComponentType } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationsClearCacheAction } from '../actions/charging-stations-clear-cache-action';
 import { ChargingStationsForceAvailableStatusAction } from '../actions/charging-stations-force-available-status-action';
 import { ChargingStationsForceUnavailableStatusAction } from '../actions/charging-stations-force-unavailable-status-action';
@@ -76,7 +77,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 

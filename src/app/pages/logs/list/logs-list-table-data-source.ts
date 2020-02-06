@@ -21,6 +21,7 @@ import { TableExportAction } from '../../../shared/table/actions/table-export-ac
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
@@ -49,7 +50,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }
 

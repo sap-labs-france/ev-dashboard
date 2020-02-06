@@ -161,9 +161,9 @@ export class SiteAreaComponent implements OnInit {
     });
 
     this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.currentSiteAreaID) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
         this.loadSiteArea();
       }
     });

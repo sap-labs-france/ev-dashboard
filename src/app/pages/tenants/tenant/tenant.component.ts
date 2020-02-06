@@ -120,9 +120,9 @@ export class TenantComponent implements OnInit {
     this.loadTenant();
 
     this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.tenantID) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.tenantID) {
         this.loadTenant();
       }
     });

@@ -147,9 +147,9 @@ export class SiteComponent implements OnInit {
     });
 
     this.centralServerNotificationService.getSubjectSite().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.currentSiteID) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteID) {
         this.loadSite();
       }
     });

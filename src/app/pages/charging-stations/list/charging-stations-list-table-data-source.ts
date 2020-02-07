@@ -17,7 +17,7 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPResponse, OCPPAvailabilityType } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -285,7 +285,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
           JSON.stringify({
             connectorId: 0,
-            type: ConnStatus.AVAILABLE,
+            type: OCPPAvailabilityType.OPERATIVE,
           }),
           this.translateService.instant('chargers.force_available_status_title'),
           this.translateService.instant('chargers.force_available_status_confirm', {chargeBoxID: rowItem.id}),
@@ -297,7 +297,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
           JSON.stringify({
             connectorId: 0,
-            type: ConnStatus.UNAVAILABLE,
+            type: OCPPAvailabilityType.INOPERATIVE,
           }),
           this.translateService.instant('chargers.force_unavailable_status_title'),
           this.translateService.instant('chargers.force_unavailable_status_confirm', {chargeBoxID: rowItem.id}),

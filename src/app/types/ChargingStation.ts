@@ -163,3 +163,8 @@ export enum ConnStatus {
   SUSPENDED_EV = 'SuspendedEV',
   UNAVAILABLE = 'Unavailable',
 }
+
+export enum OCPPAvailabilityType {
+  INOPERATIVE = 'Inoperative',
+  OPERATIVE = 'Operative'
+}

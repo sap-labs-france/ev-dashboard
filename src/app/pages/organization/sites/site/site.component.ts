@@ -177,7 +177,7 @@ export class SiteComponent implements OnInit {
       for (let i = 0; i < availableCompanies.count; i++) {
         this.companies.push({
           id: availableCompanies.result[i].id,
-          name: availableCompanies.result[i].name
+          name: availableCompanies.result[i].name,
         });
       }
     });

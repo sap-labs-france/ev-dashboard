@@ -1320,7 +1320,7 @@ export class CentralServerService {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
+    if (this.currentUser && this.configService.getCentralSystemServer().socketIOEnabled) {
       // @ts-ignore
       this.centralServerNotificationService.initSocketIO(token);
     }
@@ -1413,7 +1413,7 @@ export class CentralServerService {
     this.checkInit();
     this.getLoggedUserFromToken();
     // Init Socket IO
-    if (!this.configService.getCentralSystemServer().pollEnabled) {
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
       this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
     }
     // Return the user (should have already been initialized as the token is retrieved async)

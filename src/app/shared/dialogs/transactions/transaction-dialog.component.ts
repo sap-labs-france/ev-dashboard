@@ -42,7 +42,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   private autoRefeshTimer!: number;
   private autoRefeshPollEnabled!: boolean;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
-  private refreshSubcription: Subscription;
+  private refreshSubscription: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -95,7 +95,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
           this.refresh();
         }, this.autoRefeshPollingIntervalMillis);
       } else {
-        this.refreshSubcription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
+        this.refreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
           this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           // Update user?
           if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.transactionId.toString()) {
@@ -111,8 +111,8 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     if (this.autoRefeshTimer) {
       clearInterval(this.autoRefeshTimer);
     }
-    if (this.refreshSubcription) {
-      this.refreshSubcription.unsubscribe();
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
     }
   }
 

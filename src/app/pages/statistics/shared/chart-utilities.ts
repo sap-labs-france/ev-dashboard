@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Chart, ChartData, ChartOptions, ChartDataSets } from 'chart.js';
+import { Chart, ChartData, ChartDataSets, ChartOptions } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';

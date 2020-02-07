@@ -5,11 +5,11 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
-import { MessageService } from 'app/services/message.service';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -54,7 +54,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     // Show Dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id})
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         // Show

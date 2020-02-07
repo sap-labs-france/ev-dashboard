@@ -110,7 +110,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       }
       // Create the last point with the duration
       if (chargingSlotDataSet.data && chargingSlots.length > 0) {
-        const chargingSlot = chargingSlots[chargingSlots.length-1];
+        const chargingSlot = chargingSlots[chargingSlots.length - 1];
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,

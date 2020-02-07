@@ -108,7 +108,7 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem){
+  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem) {
     // Call parent
     super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSlots.bind(this));
   }

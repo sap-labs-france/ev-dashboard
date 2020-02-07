@@ -178,7 +178,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
           ticks: {
             callback: (value: number) => {
-              const result = this.appCurrencyPipe.transform(value, this.currencyCode)
+              const result = this.appCurrencyPipe.transform(value, this.currencyCode);
               return result ? result : '';
             },
             min: 0,

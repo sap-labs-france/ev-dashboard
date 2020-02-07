@@ -2117,25 +2117,18 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const date = new Date().toISOString();
+    const locationURL = encodeURI('http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk');
+    // const locationURL = encodeURI(`${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}`);
     const body = (
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk",
+          "location": "${locationURL}",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0
         }
       }`
-      // `{
-      //   "chargeBoxID": "${charger.id}",
-      //   "args": {
-      //     "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
-      //     "retries": 0,
-      //     "retrieveDate": "${date}",
-      //     "retryInterval": 0
-      //   }
-      // }`
     );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateFirmware`, body,

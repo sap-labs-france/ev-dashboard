@@ -10,7 +10,7 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
-  private static MIN_AMP = 6;
+  private static MIN_AMP = 8;
 
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;

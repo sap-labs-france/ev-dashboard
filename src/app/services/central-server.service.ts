@@ -2117,8 +2117,9 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const date = new Date().toISOString();
-    const locationURL = encodeURI('http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk');
+    // const locationURL = encodeURI('http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk');
     // const locationURL = encodeURI(`${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}`);
+    const locationURL = `http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700`;
     const body = (
       `{
         "chargeBoxID": "${charger.id}",

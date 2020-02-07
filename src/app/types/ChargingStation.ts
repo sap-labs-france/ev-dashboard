@@ -168,3 +168,7 @@ export enum OCPPAvailabilityType {
   INOPERATIVE = 'Inoperative',
   OPERATIVE = 'Operative'
 }
+
+export enum StaticLimitAmps {
+  MIN_LIMIT = 8,
+}

@@ -3,6 +3,7 @@
     "protocol": "http",
     "host": "server",
     "port": 81,
+    "socketIOEnabled": true,
     "pollEnabled": false,
     "pollIntervalSecs": 5
   },

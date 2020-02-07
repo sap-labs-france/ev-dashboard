@@ -166,5 +166,5 @@ export enum ConnStatus {
 
 export enum OCPPAvailabilityType {
   INOPERATIVE = 'Inoperative',
-  OPERATIVE = 'Operative'
+  OPERATIVE = 'Operative',
 }

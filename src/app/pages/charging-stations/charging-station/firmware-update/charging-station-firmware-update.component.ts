@@ -21,6 +21,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   private messages: any;
+  private url: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -50,18 +51,25 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   ngOnInit() {
   }
 
+  public urlChanged(value: string) {
+    this.url = value;
+    console.log('====================================');
+    console.log(value);
+    console.log('====================================');
+  }
+
   public updateFirmware() {
     // Show Dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.charger.id}),
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         // Show
         this.spinnerService.show();
         // Update Firmware
         const fileName = 'r7_update_3.3.0.10_d4.epk';
-        this.centralServerService.chargingStationUpdateFirmware(this.charger, fileName).subscribe(() => {
+        this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url).subscribe(() => {
           // Hide
           this.spinnerService.hide();
           // Ok

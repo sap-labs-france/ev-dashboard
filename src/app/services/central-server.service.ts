@@ -2121,7 +2121,7 @@ export class CentralServerService {
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "http://37.71.38.83:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk",
+          "location": "http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0

@@ -43,6 +43,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
             if (capabilities.hasOwnProperty(key)) {
+              // @ts-ignore
               formatterValues.push(`${key}: ${capabilities[key]}`);
             }
           }

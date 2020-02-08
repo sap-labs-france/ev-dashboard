@@ -42,7 +42,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   private autoRefeshTimer!: number;
   private autoRefeshPollEnabled!: boolean;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
-  private refreshSubscription: Subscription;
+  private refreshSubscription!: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,

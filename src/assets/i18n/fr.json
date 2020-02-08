@@ -816,7 +816,7 @@
     "stop_transaction_user_not_allowed": "Vous n'êtes pas autorisé à arrêter cette session",
     "start_transaction_title": "Démarrer",
     "start_transaction_button": "Démarrer",
-    "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session sur la borne '{{chargeBoxID}}'?",
+    "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session pour l'ultilisateur '{{userName}}' sur la borne '{{chargeBoxID}}'?",
     "start_transaction_success": "La session sur la borne '{{chargeBoxID}}' a été démarrée avec succès",
     "start_transaction_error": "Une erreur est survenue pendant la tentative de démarrage de la session",
     "start_transaction_user_not_allowed": "Vous n'êtes pas autorisé à demarrer une session sur cette borne",

@@ -105,12 +105,12 @@ export interface Connector extends Data {
   currentStateOfCharge?: number;
   totalInactivitySecs?: number;
   totalConsumption?: number;
-  status: string;
+  status: ConnStatus;
   errorCode?: string;
   info?: string;
   vendorErrorCode?: string;
   power: number;
-  type: string;
+  type: ConnectorType;
   voltage: number;
   amperage: number;
   amperageLimit: number;
@@ -125,6 +125,16 @@ export interface Connector extends Data {
   isTransactionDisplayAuthorized: boolean;
   numberOfConnectedPhase?: number;
   currentType?: ConnectorCurrentType;
+}
+
+export enum ConnectorType {
+  TYPE_2 = 'T2',
+  COMBO_CCS = 'CCS',
+  CHADEMO = 'C',
+  TYPE_1 = 'T1',
+  TYPE_1_CCS = 'T1CCS',
+  DOMESTIC = 'D',
+  UNKNOWN = 'U',
 }
 
 export enum ConnectorCurrentType {

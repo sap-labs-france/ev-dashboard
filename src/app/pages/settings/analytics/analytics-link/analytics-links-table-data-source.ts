@@ -16,6 +16,7 @@ import { SettingLink } from 'app/types/Setting';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
@@ -38,7 +39,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectAnalyticsLinks();
   }
 

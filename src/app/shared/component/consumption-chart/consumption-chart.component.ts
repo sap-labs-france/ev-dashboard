@@ -4,7 +4,7 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
-import { Chart, ChartColor, ChartData, ChartOptions, ChartTooltipItem } from 'chart.js';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -103,7 +103,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
-      this.data.datasets.push({
+      const datasets: ChartDataSets[] = [];
+      datasets.push({
         name: 'instantPower',
         type: 'line',
         data: [],
@@ -120,7 +121,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         },
       });
       if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
-        this.data.datasets.push({
+        datasets.push({
           name: 'stateOfCharge',
           type: 'line',
           data: [],
@@ -145,7 +146,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             },
           });
       }
-      this.data.datasets.push({
+      datasets.push({
         name: 'cumulatedConsumption',
         type: 'line',
         data: [],
@@ -156,7 +157,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant('transactions.graph.energy'),
       });
       if (this.transaction.values.find((c) => c.hasOwnProperty('pricingSource')) !== undefined) {
-        this.data.datasets.push({
+        datasets.push({
           name: 'cumulatedAmount',
           type: 'line',
           data: [],
@@ -177,7 +178,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
           ticks: {
             callback: (value: number) => {
-              const result = this.appCurrencyPipe.transform(value, this.currencyCode)
+              const result = this.appCurrencyPipe.transform(value, this.currencyCode);
               return result ? result : '';
             },
             min: 0,
@@ -185,6 +186,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
         });
       }
+      // Assign
+      this.data.labels = [];
+      this.data.datasets = datasets;
     }
   }
 
@@ -206,13 +210,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
         // @ts-ignore
         this.data.datasets[key].data = [];
       }
-      this.data.labels = [];
       const instantPowerDataSet = this.getDataSet('instantPower');
       const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
       const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
+      const labels: number[] = [];
       for (const consumption of this.transaction.values) {
-        this.data.labels.push(new Date(consumption.date).getTime());
+        labels.push(new Date(consumption.date).getTime());
         instantPowerDataSet.push(consumption.value);
         if (cumulatedConsumptionDataSet) {
           cumulatedConsumptionDataSet.push(consumption.cumulated);
@@ -236,6 +240,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           }
         }
       }
+      this.data.labels = labels;
     }
   }
 

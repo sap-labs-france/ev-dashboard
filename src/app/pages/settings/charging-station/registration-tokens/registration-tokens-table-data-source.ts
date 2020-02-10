@@ -23,6 +23,7 @@ import { TableMultiCopyAction } from '../../../../shared/table/actions/table-mul
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableRevokeAction } from '../../../../shared/table/actions/table-revoke-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { Utils } from '../../../../utils/Utils';
 import { RegistrationTokenStatusComponent } from './registration-token-status.component';
 import { RegistrationTokenComponent } from './registration-token.component';
@@ -55,7 +56,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 

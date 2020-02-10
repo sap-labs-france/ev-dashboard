@@ -7,7 +7,7 @@ import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableFilterDef, TableEditType } from 'app/types/Table';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
@@ -238,9 +238,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createAutoRefreshTimer() {
     // Create timer only if socketIO is not active
-    if (this.autoRefreshPollEnabled && !this.autoRefreshSubscription) {
-      // Create timer
-      this.autoRefreshSubscription = interval(this.autoRefreshPollingIntervalMillis).pipe(
+    if (!this.autoRefreshSubscription) {
+      let refreshObservable;
+      if (this.autoRefreshPollEnabled) {
+        // Create timer
+        refreshObservable = interval(this.autoRefreshPollingIntervalMillis);
+      } else {
+        refreshObservable = this.dataSource.getDataChangeSubject();
+      }
+
+      this.autoRefreshSubscription = refreshObservable.pipe(
         takeWhile(() => this.alive),
       ).subscribe(() => {
         if (!this.ongoingRefresh) {

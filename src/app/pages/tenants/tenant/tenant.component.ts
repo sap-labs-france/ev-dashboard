@@ -4,8 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
 import { Tenant } from 'app/types/Tenant';
+import { debounceTime } from 'rxjs/operators';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentType } from '../../../services/component.service';
+import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
@@ -21,8 +24,6 @@ export class TenantComponent implements OnInit {
   public email!: AbstractControl;
   public components!: FormGroup;
   public tenantID!: string;
-  private currentTenant!: Tenant;
-
   public pricingTypes = [
     {
       key: 'convergentCharging',
@@ -32,49 +33,47 @@ export class TenantComponent implements OnInit {
       description: 'settings.pricing.simple.title',
     },
   ];
-
   public billingTypes = [
     {
       key: 'stripe',
       description: 'settings.billing.stripe.title',
     },
   ];
-
   public refundTypes = [
     {
       key: 'concur',
       description: 'settings.refund.concur.title',
     },
   ];
-
   public ocpiTypes = [
     {
       key: 'gireve',
       description: 'settings.ocpi.gireve.title',
     },
   ];
-
   public analyticsTypes = [
     {
       key: 'sac',
       description: 'settings.analytics.sac.title',
     },
   ];
-
   public smartChargingTypes = [
     {
       key: 'sapSmartCharging',
       description: 'settings.smartCharging.sapSmartCharging.title',
     },
   ];
+  private currentTenant!: Tenant;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private messageService: MessageService,
-      private spinnerService: SpinnerService,
-      private router: Router,
-      protected dialogRef: MatDialogRef<TenantComponent>,
-      @Inject(MAT_DIALOG_DATA) data: any) {
+    private centralServerService: CentralServerService,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private configService: ConfigService,
+    private messageService: MessageService,
+    private spinnerService: SpinnerService,
+    private router: Router,
+    protected dialogRef: MatDialogRef<TenantComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Check if data is passed to the dialog
     if (data) {
       this.tenantID = data.id;
@@ -119,6 +118,14 @@ export class TenantComponent implements OnInit {
     }
     // Load
     this.loadTenant();
+
+    this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+      // Update user?
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.tenantID) {
+        this.loadTenant();
+      }
+    });
   }
 
   loadTenant() {
@@ -217,7 +224,7 @@ export class TenantComponent implements OnInit {
     this.centralServerService.createTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.create_success', {name: tenant.name});
+        this.messageService.showSuccessMessage('tenants.create_success', { name: tenant.name });
         this.dialogRef.close(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.create_error');
@@ -233,7 +240,7 @@ export class TenantComponent implements OnInit {
     this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tenants.update_success', {name: tenant.name});
+        this.messageService.showSuccessMessage('tenants.update_success', { name: tenant.name });
         this.dialogRef.close(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');

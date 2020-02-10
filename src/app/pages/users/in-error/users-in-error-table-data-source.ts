@@ -26,6 +26,7 @@ import { TableEditAction } from '../../../shared/table/actions/table-edit-action
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
@@ -58,7 +59,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 

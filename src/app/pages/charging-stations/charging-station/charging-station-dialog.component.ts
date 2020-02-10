@@ -4,7 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
+import { debounceTime } from 'rxjs/operators';
 import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { ConfigService } from '../../../services/config.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { ChargingStationOcppParametersComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
@@ -22,8 +25,8 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
-  @ViewChild('ocppParameters', {static: false}) ocppParametersComponent!: ChargingStationOcppParametersComponent;
-  @ViewChild('chargerParameters', {static: true}) chargerParametersComponent!: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters', { static: false }) ocppParametersComponent!: ChargingStationOcppParametersComponent;
+  @ViewChild('chargerParameters', { static: true }) chargerParametersComponent!: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
   public isSaveButtonHidden!: boolean; // by default deactivate
@@ -36,9 +39,11 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     private authorizationService: AuthorizationService,
+    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private localeService: LocaleService,
+    private configService: ConfigService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<ChargingStationDialogComponent>) {
 
@@ -106,6 +111,15 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
         }
       });
     }
+
+    this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+      // Update user?
+      if (this.currentCharger && singleChangeNotification && singleChangeNotification.data
+        && singleChangeNotification.data.id === this.currentCharger.id) {
+        this.refresh();
+      }
+    });
   }
 
   public refresh() {

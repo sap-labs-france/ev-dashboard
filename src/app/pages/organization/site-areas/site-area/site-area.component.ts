@@ -20,7 +20,8 @@ import { Utils } from 'app/utils/Utils';
 // @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
-import { mergeMap } from 'rxjs/operators';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
 @Component({
   selector: 'app-site-area',
@@ -59,6 +60,7 @@ export class SiteAreaComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
@@ -155,6 +157,14 @@ export class SiteAreaComponent implements OnInit {
       // check if escape
       if (keydownEvents && keydownEvents.code === 'Escape') {
         this.onClose();
+      }
+    });
+
+    this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+      // Update user?
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
+        this.loadSiteArea();
       }
     });
   }

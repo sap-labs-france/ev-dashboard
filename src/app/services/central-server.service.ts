@@ -1301,15 +1301,28 @@ export class CentralServerService {
       );
   }
 
+  public refreshToken(): Observable<LoginResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.get<LoginResponse>(`${this.centralRestServerServiceSecuredURL}/UserRefreshToken`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public loginSucceeded(token: string): void {
     // Verify init
     this.checkInit();
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO
-    if (this.currentUser && !this.configService.getCentralSystemServer().pollEnabled) {
+    if (this.currentUser && this.configService.getCentralSystemServer().socketIOEnabled) {
       // @ts-ignore
-      this.centralServerNotificationService.initSocketIO(this.currentUser['']);
+      this.centralServerNotificationService.initSocketIO(token);
     }
   }
 
@@ -1400,8 +1413,8 @@ export class CentralServerService {
     this.checkInit();
     this.getLoggedUserFromToken();
     // Init Socket IO
-    if (!this.configService.getCentralSystemServer().pollEnabled) {
-      this.centralServerNotificationService.initSocketIO(this.currentUser.tenantID);
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
     }
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;
@@ -2099,30 +2112,25 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationUpdateFirmware(charger: ChargingStation, fileName: string): Observable<ActionResponse> {
+  public chargingStationUpdateFirmware(charger: ChargingStation, locationURL: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
     const date = new Date().toISOString();
+    // const locationURL = encodeURI('http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk');
+    // const locationURL = encodeURI(`${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}`);
+    // const locationURL = `http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700`;
+    // const locationURL = `http://37.71.38.83:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk`;
     const body = (
       `{
         "chargeBoxID": "${charger.id}",
         "args": {
-          "location": "http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700",
+          "location": "${locationURL}",
           "retries": 0,
           "retrieveDate": "${date}",
           "retryInterval": 0
         }
       }`
-      // `{
-      //   "chargeBoxID": "${charger.id}",
-      //   "args": {
-      //     "location": "${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}",
-      //     "retries": 0,
-      //     "retrieveDate": "${date}",
-      //     "retryInterval": 0
-      //   }
-      // }`
     );
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationUpdateFirmware`, body,
@@ -2139,11 +2147,11 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const body = (args ?
-      `{
+        `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-      `{
+        `{
         "chargeBoxID": "${id}"
       }`
     );

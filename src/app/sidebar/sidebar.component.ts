@@ -52,28 +52,30 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user
-    this.loggedUser = this.centralServerService.getLoggedUser();
+    this.centralServerService.getCurrentUserSubject().subscribe((user) => {
+      this.loggedUser = user;
+    });
 
     if (authorizationService.canUpdateUser()) {
       this.canEditProfile = true;
     }
     // Read user
-    this.updateUserImage();
+    this.refreshUser();
   }
 
   ngOnInit() {
     // Subscribe to user's change
     this.userSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((notifInfo) => {
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (notifInfo['data']['id'] === this.loggedUser.id) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
         // Deleted?
-        if (notifInfo.action === Notification.DELETE) {
+        if (singleChangeNotification.action === Notification.DELETE) {
           // Log off user
           this.logout();
         } else {
           // Same user: Update it
-          this.updateUserImage();
+          this.refreshUser();
         }
       }
     });
@@ -85,7 +87,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  updateUserImage() {
+  refreshUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {

@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs/operators';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -17,6 +17,7 @@ import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
   selector: 'app-company',
@@ -48,6 +49,7 @@ export class CompanyComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
+    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private configService: ConfigService,
@@ -134,6 +136,14 @@ export class CompanyComponent implements OnInit {
       // check if escape
       if (keydownEvents && keydownEvents.code === 'Escape') {
         this.onClose();
+      }
+    });
+
+    this.centralServerNotificationService.getSubjectCompany().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+      // Update user?
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentCompanyID) {
+        this.loadCompany();
       }
     });
   }

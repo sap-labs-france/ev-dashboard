@@ -14,7 +14,7 @@ import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStationButtonAction, Connector, OCPPVersion, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStationButtonAction, Connector, OCPPResponse, OCPPVersion } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
@@ -25,6 +25,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStations } from '../../../utils/ChargingStations';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
@@ -82,7 +83,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectChargingStations();
   }
 

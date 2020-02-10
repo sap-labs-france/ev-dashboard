@@ -5,5 +5,12 @@
       <mat-icon>system_update_alt</mat-icon>
       <span>{{'chargers.button_update_firmware' | translate}}</span>
     </button>
+    <div class="col-md-10">
+      <div class="form-group">
+        <mat-form-field>
+          <input appAutofocus matInput placeholder="URL" (change)="urlChanged($event.target.value)" type="text">
+        </mat-form-field>
+      </div>
+    </div>
   </div>
 </div>

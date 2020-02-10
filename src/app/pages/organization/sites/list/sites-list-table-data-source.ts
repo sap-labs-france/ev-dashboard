@@ -28,6 +28,7 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import { UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
 
@@ -54,8 +55,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
-    return this.centralServerNotificationService.getSubjectSite();
+  public getDataChangeSubject(): Observable<ChangeNotification> {
+    return this.centralServerNotificationService.getSubjectSites();
   }
 
   public loadDataImpl(): Observable<DataResult<Site>> {

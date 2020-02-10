@@ -6,6 +6,9 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Connector } from 'app/types/ChargingStation';
 import { Image } from 'app/types/GlobalType';
 import { Transaction } from 'app/types/Transaction';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -15,7 +18,7 @@ import { ConsumptionChartComponent } from '../../component/consumption-chart/con
 import { AppPercentPipe } from '../../formatters/app-percent-pipe';
 
 @Component({
-  templateUrl: './transactions-dialog.component.html',
+  templateUrl: './transaction-dialog.component.html',
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction!: Transaction;
@@ -39,6 +42,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   private autoRefeshTimer!: number;
   private autoRefeshPollEnabled!: boolean;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
+  private refreshSubscription!: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -46,6 +50,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     private router: Router,
     private appPercentPipe: AppPercentPipe,
     private centralServerService: CentralServerService,
+    private centralServerNotificationService: CentralServerNotificationService,
     private configService: ConfigService,
     private localeService: LocaleService,
     protected dialogRef: MatDialogRef<TransactionDialogComponent>,
@@ -83,11 +88,21 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   createAutoRefreshTimer() {
     // Create timer only if socketio is not active
     if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
-      // Create timer
-      this.autoRefeshTimer = setInterval(() => {
-        // Reload
-        this.refresh();
-      }, this.autoRefeshPollingIntervalMillis);
+      if (this.autoRefeshPollEnabled) {
+        // Create timer
+        this.autoRefeshTimer = setInterval(() => {
+          // Reload
+          this.refresh();
+        }, this.autoRefeshPollingIntervalMillis);
+      } else {
+        this.refreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
+          this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+          // Update user?
+          if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.transactionId.toString()) {
+            this.refresh();
+          }
+        });
+      }
     }
   }
 
@@ -95,6 +110,9 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     // Clean up
     if (this.autoRefeshTimer) {
       clearInterval(this.autoRefeshTimer);
+    }
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
     }
   }
 

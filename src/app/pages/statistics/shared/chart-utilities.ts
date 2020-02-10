@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Chart, ChartData, ChartOptions } from 'chart.js';
+import { Chart, ChartData, ChartDataSets, ChartOptions } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Font } from 'chartjs-plugin-datalabels/types/options';
@@ -197,36 +197,30 @@ export class SimpleChart {
   public cloneChartData(chartData: ChartData, withZeroAmounts = false): ChartData {
     // cloning needed to display the same chart again (with animation)
     let newChartData: ChartData;
-
     let numberArray: number[];
     let anyArray: any[];
-
-    if (chartData) {
+    if (chartData && chartData.datasets && chartData.labels) {
       newChartData = { labels: [], datasets: [] };
       newChartData.labels = chartData.labels.slice();
-
+      const datasets: ChartDataSets[] = [];
       chartData.datasets.forEach((dataset) => {
         numberArray = [];
         anyArray = [];
-
         if (withZeroAmounts) {
           numberArray.fill(0, 0, dataset.data.length);
           anyArray = numberArray;
         } else {
-
           anyArray = dataset.data.slice();
         }
-
         if (dataset.stack) {
-          newChartData.datasets.push({ label: dataset.label, data: anyArray, stack: dataset.stack });
+          datasets.push({ label: dataset.label, data: anyArray, stack: dataset.stack });
         } else {
-          newChartData.datasets.push({ data: anyArray });
+          datasets.push({ data: anyArray });
         }
       });
-
+      newChartData.datasets = datasets;
       this.updateChartData(newChartData);
     }
-
     return newChartData;
   }
 

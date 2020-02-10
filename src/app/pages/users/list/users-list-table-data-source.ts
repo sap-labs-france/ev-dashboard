@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { RestResponse } from 'app/types/GlobalType';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
+import { RestResponse } from 'app/types/GlobalType';
 import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -29,6 +29,7 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -70,7 +71,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     this.currentUser = this.centralServerService.getLoggedUser();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 

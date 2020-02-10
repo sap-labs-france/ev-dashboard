@@ -79,8 +79,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.prepareOrUpdateGraph();
     // Create chart
     if (this.data && this.data.datasets && this.data.labels) {
-      this.data.labels.length = 0;
-      this.data.datasets.length = 0;
+      this.data.labels = [];
+      this.data.datasets = [];
       // Fill
       if (chargingSlots) {
         this.createGraphData(chargingSlots);
@@ -91,8 +91,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
   private createGraphData(chargingSlots: Slot[]) {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
-      this.data.labels.length = 0;
-      this.data.datasets.length = 0;
+      const labels: number[] = [];
+      const datasets: ChartDataSets[] = [];
       // Line label
       const chargingSlotDataSet: ChartDataSets = {
         type: 'line',
@@ -105,7 +105,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       for (const chargingSlot of chargingSlots) {
         // Add a point
         if (this.data.labels && chargingSlotDataSet.data) {
-          this.data.labels.push(chargingSlot.startDate.getTime());
+          labels.push(chargingSlot.startDate.getTime());
           chargingSlotDataSet.data.push({
             x: chargingSlot.startDate.getTime(),
             y: chargingSlot.limitInkW,
@@ -114,17 +114,19 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       }
       // Create the last point with the duration
       if (chargingSlotDataSet.data && chargingSlots.length > 0) {
-        const chargingSlot = chargingSlots[chargingSlots.length-1];
-        this.data.labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
+        const chargingSlot = chargingSlots[chargingSlots.length - 1];
+        labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
           y: chargingSlot.limitInkW,
         } as number & ChartPoint);
       }
       // Push in the graph
-      if (this.data.datasets) {
-        this.data.datasets.push(chargingSlotDataSet);
-      }
+      datasets.push(chargingSlotDataSet);
+      // Assign
+      this.data.labels = labels;
+      this.data.datasets = datasets;
+      // Update
       this.chart.update();
     }
   }

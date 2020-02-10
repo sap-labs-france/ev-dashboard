@@ -17,7 +17,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
@@ -32,6 +32,7 @@ import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
@@ -68,7 +69,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 

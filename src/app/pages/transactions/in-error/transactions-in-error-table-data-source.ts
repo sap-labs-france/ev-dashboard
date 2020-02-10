@@ -22,7 +22,7 @@ import { ComponentService, ComponentType } from '../../../services/component.ser
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transactions-dialog.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
@@ -35,6 +35,7 @@ import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-t
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
@@ -69,7 +70,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<SubjectInfo> {
+  public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectTransactions();
   }
 

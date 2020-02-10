@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Injectable, Input, OnInit, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargingStation, Connector } from 'app/types/ChargingStation';
+import { ChargingStation, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -10,16 +10,14 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
-  private static MIN_AMP = 6;
-
   @Input() charger!: ChargingStation;
   @Input() connector!: Connector;
   @Input() currentAmp!: number;
   @Input() forChargingProfile = false;
   @Output() silderChanged = new EventEmitter<number>();
 
-  public minAmp = ChargingStationPowerSliderComponent.MIN_AMP;
-  public maxAmp = ChargingStationPowerSliderComponent.MIN_AMP;
+  public minAmp = StaticLimitAmps.MIN_LIMIT;
+  public maxAmp = StaticLimitAmps.MIN_LIMIT;
   public displayedMinPowerKW = '';
   public displayedMaxPowerKW = '';
   public displayedCurrentPowerW = '';

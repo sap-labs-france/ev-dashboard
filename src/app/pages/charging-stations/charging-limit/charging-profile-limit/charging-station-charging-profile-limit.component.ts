@@ -148,12 +148,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       if (chargingProfiles) {
         this.chargingProfiles = chargingProfiles;
         if (chargingProfiles.length > 1) {
-          // Make table not read only
+          // Make table read only
           this.slotTableDataSource.tableDef.isEditable = false;
           this.slotTableDataSource.tableRowActionsDef = [];
           this.slotTableDataSource.hasActions = false;
           this.slotTableDataSource.hasRowActions = false;
-          this.slotTableDataSource.tableColumnDefs[2].additionalParameters.charger.capabilities.supportChargingProfiles = false;
+          this.slotTableDataSource.tableColumnDefs[2].additionalParameters.charger.capabilities.readOnly = true;
           this.profileTypeControl.disable();
           this.startDateControl.disable();
         }
@@ -210,7 +210,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
         const slot: Slot = {
           key: '',
           id: 0,
-          connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
           startDate: new Date(this.startSchedule),
           duration: chargingProfileForConnector.profile.chargingSchedule.chargingSchedulePeriod[1].startPeriod / 60,
           limit: chargingProfileForConnector.profile.chargingSchedule.chargingSchedulePeriod[i].limit,
@@ -218,9 +217,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
             this.charger.connectors[0].numberOfConnectedPhase : 0,
             chargingProfileForConnector.profile.chargingSchedule.chargingSchedulePeriod[i].limit / 1000),
         };
-        if (chargingProfileForConnector.connectorID && chargingProfileForConnector.connectorID !== 0) {
-          slot.connectorID = chargingProfileForConnector.connectorID.toString();
-        }
         if (chargingProfileForConnector.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
           slot.duration = (chargingProfileForConnector.profile.chargingSchedule.chargingSchedulePeriod[i + 1].startPeriod
             - chargingProfileForConnector.profile.chargingSchedule.chargingSchedulePeriod[i].startPeriod) / 60;

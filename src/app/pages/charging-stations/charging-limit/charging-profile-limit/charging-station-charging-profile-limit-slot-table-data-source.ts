@@ -13,7 +13,6 @@ import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell
 export class ChargingStationChargingProfileLimitSlotTableDataSource extends EditableTableDataSource<Slot> {
   public startDate!: Date;
   public charger!: ChargingStation;
-  public readOnly!: boolean;
   private chargerPowers!: ChargingStationPowers;
 
   constructor(
@@ -88,7 +87,6 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
-      connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,

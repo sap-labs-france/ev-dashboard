@@ -147,6 +147,7 @@ export interface ChargingStationCapabilities {
   supportStaticLimitationPerConnector?: boolean;
   supportChargingProfiles?: boolean;
   supportTxDefaultProfile?: boolean;
+  readOnly?: boolean;
 }
 
 export enum ChargingStationButtonAction {

@@ -105,7 +105,7 @@ export class Utils {
       if (forChargingProfile) {
         result.maxAmp = connector.amperageLimit;
         if (charger.capabilities) {
-          if (charger.capabilities.supportChargingProfiles === false) {
+          if (charger.capabilities.readOnly === true) {
             result.notSupported = true;
           }
         }
@@ -124,7 +124,7 @@ export class Utils {
         if (forChargingProfile) {
           result.maxAmp += chargerConnector.amperageLimit;
           if (charger.capabilities) {
-            if (charger.capabilities.supportChargingProfiles === false) {
+            if (charger.capabilities.readOnly === true) {
               result.notSupported = true;
             }
           }

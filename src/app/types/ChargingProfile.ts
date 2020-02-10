@@ -64,7 +64,6 @@ export enum RecurrencyKindType {
 
 export interface Slot extends Data {
   id: number;
-  connectorID: string;
   startDate: Date;
   duration: number;
   limit: number;

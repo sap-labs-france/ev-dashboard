@@ -26,7 +26,7 @@
                   <mat-form-field *ngIf="chargingProfiles && chargingProfiles.length > 1">
                     <mat-select [formControl]="connectorControl" placeholder="connectorID">
                       <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile.connectorID">
-                        Connector {{chargingProfile.connectorID}}
+                        {{'chargers.connector' | translate}} {{chargingProfile.connectorID}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

@@ -9,7 +9,7 @@
           <h3 class="card-title text-left">
             {{'chargers.smart_charging.planning_energy_limit' | translate: {chargeBoxID: charger.id} }}
           </h3>
-          <div class="right-actions d-flex flex-row mat-toolbar-row pt-3">
+          <div *ngIf="chargingProfiles && chargingProfiles.length <= 1" class="right-actions d-flex flex-row mat-toolbar-row pt-3">
             <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
@@ -23,6 +23,13 @@
             <div class="form-group col-md-4">
               <div class="row">
                 <div class="form-group col-md-12">
+                  <mat-form-field *ngIf="chargingProfiles && chargingProfiles.length > 1">
+                    <mat-select [formControl]="connectorControl" placeholder="connectorID">
+                      <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile.connectorID">
+                        Connector {{chargingProfile.connectorID}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                   <mat-form-field>
                     <mat-select [formControl]="profileTypeControl"
                       placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
@@ -39,6 +46,7 @@
                     <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
                     <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
                       (dateChange)="startDateFilterChanged($event.value.toDate())" [matDatetimepicker]="picker" [value]="startSchedule"
+                      [formControl]="startDateControl"
                       autocomplete="false">
                   </mat-form-field>
                 </div>

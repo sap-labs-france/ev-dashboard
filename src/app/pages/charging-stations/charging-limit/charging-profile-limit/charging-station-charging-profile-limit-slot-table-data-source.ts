@@ -13,6 +13,7 @@ import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell
 export class ChargingStationChargingProfileLimitSlotTableDataSource extends EditableTableDataSource<Slot> {
   public startDate!: Date;
   public charger!: ChargingStation;
+  public readOnly!: boolean;
   private chargerPowers!: ChargingStationPowers;
 
   constructor(
@@ -33,13 +34,6 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
-        id: 'connectorID',
-        name: 'chargers.connector',
-        editType: TableEditType.DISPLAY_ONLY,
-        headerClass: 'col-10p',
-        class: 'text-center col-10p',
-      },
-      {
         id: 'startDate',
         name: 'chargers.smart_charging.start_date',
         editType: TableEditType.DISPLAY_ONLY,
@@ -52,7 +46,7 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
         name: 'chargers.smart_charging.duration',
         headerClass: 'col-15p',
         editType: TableEditType.INPUT,
-        class: 'text-left col-15p',
+        class: 'text-center col-15p',
       },
       {
         id: 'limit',
@@ -68,9 +62,10 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
 
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
-    this.tableColumnDefs[3].additionalParameters = { charger };
+    this.tableColumnDefs[2].additionalParameters = { charger };
     this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
+
 
   public refreshChargingSlots() {
     const chargingSlots = this.getContent();
@@ -108,7 +103,7 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem){
+  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem) {
     // Call parent
     super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSlots.bind(this));
   }
@@ -117,4 +112,5 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     // Call parent
     super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSlots.bind(this));
   }
+
 }

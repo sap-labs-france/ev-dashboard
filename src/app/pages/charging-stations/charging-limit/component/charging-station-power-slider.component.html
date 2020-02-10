@@ -15,7 +15,7 @@
                 {{displayedCurrentPowerW}} ({{this.currentAmp}} A)
             </div>
             <div *ngIf="notSupported" [class]="forChargingProfile ? 'current-power-text-in-list current-power-text-not-supported text-center' : 'current-power-text current-power-text-not-supported text-center'" colspan="3">
-                {{'chargers.smart_charging.slider_power_disabled' | translate }}
+              {{displayedCurrentPowerW}} ({{this.currentAmp}} A) {{'chargers.smart_charging.slider_power_disabled' | translate }}
             </div>
         </td>
         <td class="text-left col-5em">

@@ -12,10 +12,12 @@ declare module '*.json' {
   export default value;
 }
 
-declare module '@ngx-translate/core' {
+declare module '@ngx-translate/cors' {
   interface TranslateService {
     get(key: string | string[], interpolateParams?: Object | undefined): Observable<any>;
     instant(key: string | string[], interpolateParams?: Object | undefined): string;
+    getBrowserLang(): string;
+    use(lang: string): Observable<any>;
   }
 }
 

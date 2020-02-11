@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LocaleService } from '../../services/locale.service';
 import { AppPercentPipe } from './app-percent-pipe';
 
 @Pipe({ name: 'appBatteryPercentage' })

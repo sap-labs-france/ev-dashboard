@@ -51,6 +51,7 @@ export class ReleaseNotesComponent {
               `Move the action row at the beginning of the list`,
               `Added account activation in mobile app`,
               `Enable Charging Station's URL field if the protocol is SOAP`,
+              `Handle change of OCPP params that requires the Charging Station to be rebooted`,
               `TypeScript: Alignment between front-end and backend types`,
               `TypeScript: Migration of Settings anf Logging API`,
               `All Lists: Optimized performances by optimizing third party libs import usages`,

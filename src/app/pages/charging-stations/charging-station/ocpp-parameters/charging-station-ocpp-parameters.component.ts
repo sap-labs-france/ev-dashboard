@@ -167,20 +167,16 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: item.key }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Show
         this.spinnerService.show();
-        // Yes: Update
         this.centralServerService.updateChargingStationOCPPConfiguration(
           this.charger.id, { key: item.key, value: this.formGroup.controls[item.key].value }).subscribe((response) => {
-            // Hide
             this.spinnerService.hide();
             // Ok?
             if (response.status === OCPPConfigurationStatus.ACCEPTED ||
                 response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-              // Ok
               this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.change_params_success', { chargeBoxID: this.charger.id }));
-              // Reboot Required
+                this.translateService.instant('chargers.change_params_success', { paramKey: item.key, chargeBoxID: this.charger.id }));
+              // Reboot Required?
               if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
                 // Show yes/no dialog
                 this.dialogService.createAndShowYesNoDialog(
@@ -196,27 +192,14 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             } else {
               this.refresh();
               Utils.handleError(JSON.stringify(response),
-              this.messageService, this.messages['change_params_error']);
+                this.messageService, this.messages['change_params_error']);
             }
             this.refresh();
           }, (error) => {
-            this.refresh();
-            // Hide
             this.spinnerService.hide();
-            // Check status
-            switch (error.status) {
-              case 401:
-                // Not Authorized
-                this.messageService.showErrorMessage(this.translateService.instant('chargers.change_params_error'));
-                break;
-              case 550:
-                // Does not exist
-                this.messageService.showErrorMessage(this.messages['change_params_error']);
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  this.messages['change_params_error']);
-            }
+            this.refresh();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+              this.messages['change_params_error']);
           });
       }
     });

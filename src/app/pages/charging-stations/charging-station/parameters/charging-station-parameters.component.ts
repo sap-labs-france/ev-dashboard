@@ -484,26 +484,21 @@ export class ChargingStationParametersComponent implements OnInit {
   }
 
   private updateChargeBoxID() {
-    // Show
     this.spinnerService.show();
     // Yes: Update
     this.centralServerService.updateChargingStationParams(this.charger).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         // tslint:disable-next-line:max-line-length
-        this.messageService.showSuccessMessage(this.translateService.instant('chargers.change_config_success', {chargeBoxID: this.charger.id}));
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.charger.id }));
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.messages['change_config_error']);
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
         case 560:
           // Not Authorized
@@ -520,5 +515,4 @@ export class ChargingStationParametersComponent implements OnInit {
       }
     });
   }
-
 }

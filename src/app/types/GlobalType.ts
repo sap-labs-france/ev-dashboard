@@ -27,6 +27,8 @@ export interface KeyValue {
   value: string;
   objectRef?: any;
   readonly?: boolean;
+  icon?: string;
+  tooltip?: string;
 }
 
 export enum ButtonAction {

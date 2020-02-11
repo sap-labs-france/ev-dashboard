@@ -30,14 +30,13 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
   @Input() charger!: ChargingStation;
   @ViewChild('searchInput', {static: false}) searchInput!: ElementRef;
   public searchPlaceholder = '';
-  public chargerConfiguration!: KeyValue[];
-  public loadedChargerConfiguration: any;
+  public chargerConfiguration: KeyValue[] = [];
+  public loadedChargerConfiguration: KeyValue[] = [];
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   public formGroup: FormGroup;
   isGetConfigurationActive = true;
   @ViewChildren('parameter') parameterInput!: QueryList<ElementRef>;
-  private messages: any;
   private searchValue = '';
   private alive!: boolean;
 
@@ -52,19 +51,13 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     private dialog: MatDialog,
     private router: Router,
     private dialogService: DialogService) {
-
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
-
     // Check auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized
       this.router.navigate(['/']);
     }
-    // Get translated messages
-    this.translateService.get('chargers', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     // Admin?
@@ -82,7 +75,9 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     this.searchInput.nativeElement.value = this.getSearchValue();
     // Observe the Search field
     fromEvent(this.searchInput.nativeElement, 'input').pipe(
+      // @ts-ignore
       takeWhile(() => this.alive),
+      // @ts-ignore
       map((e: KeyboardEvent) => e.target['value']),
       debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
       distinctUntilChanged(),
@@ -115,13 +110,14 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
-    this.centralServerService.getChargingStationConfiguration(this.charger.id).subscribe((configurationResult: ChargingStationConfiguration) => {
+    this.centralServerService.getChargingStationConfiguration(
+        this.charger.id).subscribe((configurationResult: ChargingStationConfiguration) => {
       if (configurationResult && Array.isArray(configurationResult.configuration)) {
         this.chargerConfiguration = configurationResult.configuration;
       } else {
         this.chargerConfiguration = [];
       }
-      this.loadedChargerConfiguration = JSON.parse(JSON.stringify(this.chargerConfiguration)); // keep a copy of teh original loaded data
+      this.loadedChargerConfiguration = JSON.parse(JSON.stringify(this.chargerConfiguration)); // keep a copy of the original loaded data
       // Search filter
       const filteredChargerConfiguration = [];
       for (const parameter of this.chargerConfiguration) {
@@ -136,8 +132,8 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         if (!parameter.readonly) {
           this.formGroup.addControl(parameter.key, new FormControl());
           this.formGroup.controls[parameter.key].disable();
-          parameter['icon'] = 'edit';
-          parameter['tooltip'] = 'general.save';
+          parameter.icon = 'edit';
+          parameter.tooltip = 'general.save';
         }
       }
       this.formGroup.markAsPristine();
@@ -150,8 +146,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         // Not found
         case 550:
           // Charger not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            this.messages['charger_not_found']);
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.charger_not_found');
           break;
         default:
           // Unexpected error`
@@ -191,15 +186,13 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
               }
             } else {
               this.refresh();
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.messages['change_params_error']);
+              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
             }
             this.refresh();
           }, (error) => {
             this.spinnerService.hide();
             this.refresh();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              this.messages['change_params_error']);
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
           });
       }
     });
@@ -241,7 +234,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     });
   }
 
-  public changeOCPPParameter(item: any) {
+  public changeOCPPParameter(item: KeyValue) {
     if (item.icon === 'edit') {
       if (this.charger.inactive) {
         // Charger is not connected
@@ -255,6 +248,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         item.icon = 'save';
         item.tooltip = 'general.save';
         this.formGroup.controls[item.key].enable();
+        // @ts-ignore
         this.parameterInput.find((element: ElementRef) => {
           return element.nativeElement.id === item.key;
         }).nativeElement.focus();
@@ -272,15 +266,17 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     }
   }
 
-  public clearOCPPParameter(item: any) {
+  public clearOCPPParameter(item: KeyValue) {
     // activate get configuration button
     this.isGetConfigurationActive = true;
     // Cancel input changes
     item.icon = 'edit';
     this.formGroup.controls[item.key].reset();
-    this.formGroup.controls[item.key].setValue(this.loadedChargerConfiguration.find((element: any) => {
-      return element.key === item.key;
-    }).value);
+    this.formGroup.controls[item.key].setValue(
+      // @ts-ignore
+      this.loadedChargerConfiguration.find((element: KeyValue) => {
+        return element.key === item.key;
+      }).value);
     this.formGroup.controls[item.key].disable();
     this.formGroup.markAsPristine();
   }
@@ -312,14 +308,12 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
               this.refresh();
             } else {
               this.refresh();
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.messages['change_config_error']);
+              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_config_error');
             }
           }, (error: any) => {
             this.refresh();
             // Hide
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              this.messages['change_config_error']);
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_config_error');
           });
         }
       });
@@ -353,8 +347,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
                 this.refresh();
               } else {
                 this.refresh();
-                Utils.handleError(JSON.stringify(response),
-                this.messageService, this.messages['change_config_error']);
+                Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_config_error');
             }
           }, (error) => {
             this.refresh();
@@ -364,15 +357,14 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             switch (error.status) {
               case 401:
                 // Not Authorized
-                this.messageService.showErrorMessage(this.messages['change_config_error']);
+                this.messageService.showErrorMessage('chargers.change_config_error');
                 break;
               case 550:
                 // Does not exist
-                this.messageService.showErrorMessage(this.messages['change_config_error']);
+                this.messageService.showErrorMessage('chargers.change_config_error');
                 break;
               default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  this.messages['change_config_error']);
+                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_config_error');
             }
           });
         }

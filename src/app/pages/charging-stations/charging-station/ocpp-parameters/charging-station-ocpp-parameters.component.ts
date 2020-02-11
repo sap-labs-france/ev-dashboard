@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Injectable, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
-import { ChargingStation, ChargingStationConfiguration, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationConfiguration, OCPPConfigurationStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 // @ts-ignore
@@ -174,16 +175,30 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === OCPPResponse.ACCEPTED) {
+            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.change_params_success', { chargeBoxID: this.charger.id }));
-              this.refresh();
+              // Reboot Required
+              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                // Show yes/no dialog
+                this.dialogService.createAndShowYesNoDialog(
+                    this.translateService.instant('chargers.reboot_required_title'),
+                    this.translateService.instant('chargers.reboot_required_confirm', { chargeBoxID: this.charger.id }),
+                  ).subscribe((result2) => {
+                    if (result2 === ButtonType.YES) {
+                      // Reboot
+                      this.rebootChargingStation();
+                    }
+                });
+              }
             } else {
               this.refresh();
               Utils.handleError(JSON.stringify(response),
-                this.messageService, this.messages['change_params_error']);
+              this.messageService, this.messages['change_params_error']);
             }
+            this.refresh();
           }, (error) => {
             this.refresh();
             // Hide
@@ -205,6 +220,26 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
           });
       }
     });
+  }
+
+  public rebootChargingStation() {
+    this.spinnerService.show();
+    // Reboot
+    this.centralServerService.rebootChargingStation(this.charger.id).subscribe((response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === OCPPGeneralResponse.ACCEPTED) {
+          // Ok
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('chargers.reboot_success', {chargeBoxID: this.charger.id}));
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, 'chargers.reset_error');
+        }
+      }, (error: any) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'chargers.reset_error');
+      });
   }
 
   public exportConfiguration() {
@@ -287,7 +322,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === OCPPResponse.ACCEPTED) {
+            if (response.status === OCPPGeneralResponse.ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
@@ -328,14 +363,14 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             // Hide
             this.spinnerService.hide();
             // Ok?
-            if (response.status === OCPPResponse.ACCEPTED) {
+            if (response.status === OCPPGeneralResponse.ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
-              this.refresh();
-            } else {
-              this.refresh();
-              Utils.handleError(JSON.stringify(response),
+                this.refresh();
+              } else {
+                this.refresh();
+                Utils.handleError(JSON.stringify(response),
                 this.messageService, this.messages['change_config_error']);
             }
           }, (error) => {

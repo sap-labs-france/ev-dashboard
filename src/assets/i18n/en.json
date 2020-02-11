@@ -772,6 +772,8 @@
     "reboot_error": "Error occurred while rebooting the charging station",
     "get_configuration_title": "Get Configuration",
     "get_configuration_confirm": "Do you really want to retrieve the configuration from the charging station '{{chargeBoxID}}'?",
+    "reboot_required_title": "Reboot Required",
+    "reboot_required_confirm": "Do you want to reboot the charging station '{{chargeBoxID}}'?",
     "ocpp_params_update_from_template_title": "Update OCPP Params",
     "ocpp_params_update_from_template_confirm": "Do you really want to update the OCPP parameters of the charging station '{{chargeBoxID}}' with the provided template?",
     "set_configuration_title": "Save Change Configuration",

@@ -47,11 +47,18 @@ export enum OCPPVersion {
   VERSION_20 = '2.0',
 }
 
-export enum OCPPResponse {
+export enum OCPPConfigurationStatus {
   ACCEPTED = 'Accepted',
   REJECTED = 'Rejected',
-
+  REBOOT_REQUIRED = 'RebootRequired',
+  NOT_SUPPORTED = 'NotSupported'
 }
+
+export enum OCPPGeneralResponse {
+  ACCEPTED = 'Accepted',
+  REJECTED = 'Rejected',
+}
+
 
 export enum ChargingStationCurrentType {
   AC = 'AC',

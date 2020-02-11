@@ -772,6 +772,8 @@
     "reboot_error": "Une erreur est survenue pendant le redémarrage de la borne",
     "get_configuration_title": "Configuration",
     "get_configuration_confirm": "Voulez-vous vraiment télécharger la configuration de la borne '{{chargeBoxID}}'?",
+    "reboot_required_title": "Redémarrage Nécessaire",
+    "reboot_required_confirm": "Voulez-vous redémarrer la borne '{{chargeBoxID}}' ?",
     "ocpp_params_update_from_template_title": "Paramètres OCPP",
     "ocpp_params_update_from_template_confirm": "Voulez-vous vraiment mettre à jour les paramètres OCPP de la borne '{{chargeBoxID}}' avec le template fourni?",
     "set_configuration_title": "Changement de Configuration",

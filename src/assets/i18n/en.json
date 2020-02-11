@@ -1099,7 +1099,8 @@
       "pricing": "Pricing",
       "billing": "Billing",
       "analytics": "Analytics",
-      "smartCharging": "Smart Charging"
+      "smartCharging": "Smart Charging",
+      "building": "Building"
     },
     "ocpi": {
       "gireve": {
@@ -1254,6 +1255,9 @@
       "update_success": "SAP Smart Charging settings have been updated successfully",
       "update_error": "Error occurred while updating the SAP Smart Charging settings"
     },
+    "building": {
+      "description": "This feature is currently in progress"
+    },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative."
   },
@@ -1383,6 +1387,10 @@
       "sites": "Sites",
       "siteareas": "Site Areas"
     }
+  },
+  "building": {
+    "title": "Building Management",
+    "description": "Manage the Site Areas charge power depending on the Building power"
   },
   "analytics": {
     "title": "Analytics",

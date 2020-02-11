@@ -1099,7 +1099,8 @@
       "pricing": "Tarification",
       "billing": "Facturation",
       "analytics": "Statistiques",
-      "smartCharging": "Charge Intelligente"
+      "smartCharging": "Charge Intelligente",
+      "building": "Bâtiment"
     },
     "ocpi": {
       "gireve": {
@@ -1254,6 +1255,9 @@
       "update_success": "La configuration SAP Smart Charging a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
     },
+    "building": {
+      "description": "Cette fonctionnalité est en cours de développement."
+    },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
   },
@@ -1383,6 +1387,10 @@
       "sites": "Sites",
       "siteareas": "Zones"
     }
+  },
+  "building": {
+    "title": "Gestion du Bâtiment",
+    "description": "Contrôler la puissance de chaque zone en rapport avec celle du bâtiment"
   },
   "analytics": {
     "title": "Analytique",

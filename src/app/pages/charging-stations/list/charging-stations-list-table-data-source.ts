@@ -391,12 +391,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     } else {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
-        title,
-        message,
+        title, message,
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
+          this.spinnerService.show();
           // Call REST service
           this.centralServerService.actionChargingStation(action, charger.id, args).subscribe((response) => {
+            this.spinnerService.hide();
             if (response.status === OCPPGeneralResponse.ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(successMessage);
@@ -406,8 +407,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
                 this.messageService, errorMessage);
             }
           }, (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              errorMessage);
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, errorMessage);
           });
         }
       });

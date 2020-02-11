@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -14,7 +13,6 @@ import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType, TableEditType } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitSlotTableDataSource } from './charging-station-charging-profile-limit-slot-table-data-source';
 
@@ -39,8 +37,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
   public profileTypeMap = PROFILE_TYPE_MAP;
   public powerUnit!: PowerLimitUnits;
   public slotsSchedule!: Slot[];
-  // public chargingProfile!: ChargingProfile;
-
   public formGroup!: FormGroup;
   public profileTypeControl!: AbstractControl;
   public connectorControl!: AbstractControl;
@@ -54,9 +50,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
 
   constructor(
     public slotTableDataSource: ChargingStationChargingProfileLimitSlotTableDataSource,
-    private authorizationService: AuthorizationService,
     private translateService: TranslateService,
-    private dialog: MatDialog,
     private router: Router,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
@@ -166,7 +160,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
       switch (error.status) {
         // Not found
         case 550:
-          // Transaction not found`
+          // Profile not found`
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargingProfile not found');
           break;
         default:
@@ -179,11 +173,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
 
   public loadProfileForConnectorID(connectorID: number) {
     this.slotsSchedule = [];
-
     const chargingProfileForConnector = this.chargingProfiles.find((chargingProfile) => {
       return chargingProfile.connectorID === connectorID;
     });
-
     if (chargingProfileForConnector) {
       // Init values
       if (chargingProfileForConnector.profile.chargingProfileKind) {

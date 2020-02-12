@@ -107,9 +107,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     if (!this.charger.id) {
       return;
     }
-    // Show spinner
     this.spinnerService.show();
-    // Yes, get it
     this.centralServerService.getChargingStationConfiguration(
         this.charger.id).subscribe((configurationResult: ChargingStationConfiguration) => {
       if (configurationResult && Array.isArray(configurationResult.configuration)) {
@@ -139,9 +137,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       this.formGroup.markAsPristine();
       this.spinnerService.hide();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
         // Not found
         case 550:
@@ -206,7 +202,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         if (response.status === OCPPGeneralResponse.ACCEPTED) {
           // Ok
           this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.reboot_success', {chargeBoxID: this.charger.id}));
+            this.translateService.instant('chargers.reboot_success', { chargeBoxID: this.charger.id }));
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'chargers.reset_error');
@@ -248,10 +244,14 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         item.icon = 'save';
         item.tooltip = 'general.save';
         this.formGroup.controls[item.key].enable();
+        this.formGroup.controls[item.key].setValue(item.value);
         // @ts-ignore
-        this.parameterInput.find((element: ElementRef) => {
+        const element:ElementRef = this.parameterInput.find((element: ElementRef) => {
           return element.nativeElement.id === item.key;
-        }).nativeElement.focus();
+        });
+        if (element) {
+          element.nativeElement.focus();
+        }
         this.formGroup.markAsDirty();
       }
     } else {

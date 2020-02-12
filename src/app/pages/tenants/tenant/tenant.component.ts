@@ -241,7 +241,6 @@ export class TenantComponent implements OnInit {
 
   private updateTenant(tenant: Tenant) {
     this.spinnerService.show();
-    console.log(tenant);
     this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {

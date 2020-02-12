@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, Connector, ConnStatus, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStation, Connector, ConnStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
@@ -284,7 +284,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
             this.centralServerService.chargingStationStopTransaction(
               this.charger.id, connector.activeTransactionID).subscribe((response2: ActionResponse) => {
               // Ok?
-              if (response2.status === OCPPResponse.ACCEPTED) {
+              if (response2.status === OCPPGeneralResponse.ACCEPTED) {
                 this.messageService.showSuccessMessage(
                   this.translateService.instant('chargers.stop_transaction_success', {chargeBoxID: this.charger.id}));
               } else {
@@ -315,7 +315,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         this.centralServerService.chargingStationStartTransaction(
           this.charger.id, connector.connectorId, tagID).subscribe((response2: ActionResponse) => {
           // Ok?
-          if (response2.status === OCPPResponse.ACCEPTED) {
+          if (response2.status === OCPPGeneralResponse.ACCEPTED) {
             // Ok
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.start_transaction_success', {chargeBoxID: this.charger.id}));

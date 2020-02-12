@@ -53,9 +53,6 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
 
   public urlChanged(value: string) {
     this.url = value;
-    console.log('====================================');
-    console.log(value);
-    console.log('====================================');
   }
 
   public updateFirmware() {

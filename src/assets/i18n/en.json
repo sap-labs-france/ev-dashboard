@@ -777,7 +777,7 @@
     "ocpp_params_update_from_template_title": "Update OCPP Params",
     "ocpp_params_update_from_template_confirm": "Do you really want to update the OCPP parameters of the charging station '{{chargeBoxID}}' with the provided template?",
     "set_configuration_title": "Save Change Configuration",
-    "set_configuration_confirm": "Do you really want to change the configuration of {{key}} on the charging station '{{chargeBoxID}}'?",
+    "set_configuration_confirm": "Do you really want to change the param '{{key}}' on charging station '{{chargeBoxID}}'?",
     "soft_reset_confirm": "Do you really want to reset the charging station '{{chargeBoxID}}'?",
     "soft_reset_success": "The charging station '{{chargeBoxID}}' has been reseted successfully",
     "soft_reset_error": "Error occurred while resetting the charging station",

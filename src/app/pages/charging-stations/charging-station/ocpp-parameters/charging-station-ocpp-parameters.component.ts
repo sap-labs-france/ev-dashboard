@@ -151,7 +151,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     });
   }
 
-  public saveConfiguration(item: any) {
+  public changeOcppParam(item: any) {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.set_configuration_title'),
@@ -258,7 +258,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       // activate get configuration button
       this.isGetConfigurationActive = true;
       // Save changes changes
-      this.saveConfiguration(item);
+      this.changeOcppParam(item);
       this.formGroup.controls[item.key].disable();
       item.icon = 'edit';
       item.tooltip = 'general.edit';

@@ -304,16 +304,16 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             if (response.status === OCPPGeneralResponse.ACCEPTED) {
               // Ok
               this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
+                this.translateService.instant('chargers.ocpp_params_update_from_template_success', { chargeBoxID: this.charger.id }));
               this.refresh();
             } else {
               this.refresh();
-              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_config_error');
+              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.ocpp_params_update_from_template_error');
             }
           }, (error: any) => {
             this.refresh();
             // Hide
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_config_error');
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.ocpp_params_update_from_template_error');
           });
         }
       });

@@ -9,6 +9,7 @@ export enum ComponentType {
   STATISTICS = 'statistics',
   ANALYTICS = 'analytics',
   SMART_CHARGING = 'smartCharging',
+  BUILDING = 'building',
 }
 
 export interface Setting extends Data {
@@ -20,7 +21,7 @@ export interface Setting extends Data {
 }
 
 export interface SettingContent {
-  type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType;
+  type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | BuildingSettingsType;
   ocpi?: OcpiSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
@@ -177,4 +178,12 @@ export interface StripeBillingSetting extends BillingSetting {
   advanceBillingAllowed: boolean;
   currency: string;
   taxID: string;
+}
+
+export interface BuildingSettings extends Setting {
+  identifier: ComponentType.BUILDING;
+  type: BuildingSettingsType;
+}
+
+export enum BuildingSettingsType {
 }

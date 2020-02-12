@@ -1256,7 +1256,9 @@
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
     },
     "building": {
-      "description": "Cette fonctionnalité est en cours de développement."
+      "description": "Cette fonctionnalité est en cours de développement.",
+      "setting_do_not_exist": "La configuration n'existe pas",
+      "setting_not_found": "La configuration n'a pas été trouvée"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."

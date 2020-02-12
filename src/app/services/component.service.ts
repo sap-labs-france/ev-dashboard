@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
-import { AnalyticsSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import { AnalyticsSettings, BillingSettings, BillingSettingsType, BuildingSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import { Utils } from 'app/utils/Utils';
 // tslint:disable-next-line:max-line-length
 import { Observable } from 'rxjs';
@@ -327,4 +327,26 @@ export class ComponentService {
     });
   }
 
+  public getBuildingSettings(): Observable<BuildingSettings> {
+    return new Observable((observer) => {
+      const buildingSettings = {
+        identifier: ComponentType.BUILDING,
+      } as BuildingSettings;
+      // Get the Pricing settings
+      this.centralServerService.getSettings(ComponentType.BUILDING).subscribe((settings) => {
+        // Get the currency
+        if (settings && settings.count > 0 && settings.result[0].content) {
+          const config = settings.result[0].content;
+          // ID
+          buildingSettings.id = settings.result[0].id;
+          // Sensitive data
+          buildingSettings.sensitiveData = settings.result[0].sensitiveData;
+        }
+        observer.next(buildingSettings);
+        observer.complete();
+      }, (error) => {
+        observer.error(error);
+      });
+    });
+  }
 }

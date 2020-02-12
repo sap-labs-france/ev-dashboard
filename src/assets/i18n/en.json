@@ -1256,7 +1256,9 @@
       "update_error": "Error occurred while updating the SAP Smart Charging settings"
     },
     "building": {
-      "description": "This feature is currently in progress"
+      "description": "This feature is currently in progress",
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Building Settings not found"
     },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative."

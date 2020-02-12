@@ -1,16 +1,16 @@
 <div class="d-flex flex-column">
   <div class="left-actions d-flex flex-row mat-toolbar-row">
-    <button mat-raised-button color="primary" class="mb-2" (click)="requestOCPPConfiguration()"
+    <button mat-raised-button color="primary" class="mb-2" (click)="requestOCPPParameters()"
             [disabled]="!isGetConfigurationActive">
       <mat-icon>get_app</mat-icon>
       <span>{{'chargers.button_get_configuration' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" class="mb-2" (click)="updateOCPPParamsFromTemplate()"
+    <button mat-raised-button color="primary" class="mb-2" (click)="updateOCPPParametersFromTemplate()"
             [disabled]="!isGetConfigurationActive">
       <mat-icon>input</mat-icon>
       <span>{{'chargers.button_force_ocpp_params_update_from_template' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" class="mb-2" (click)="exportConfiguration()">
+    <button mat-raised-button color="primary" class="mb-2" (click)="exportOCPPParameters()">
       <mat-icon>cloud_download</mat-icon>
       <span>{{'general.export' | translate}}</span>
     </button>

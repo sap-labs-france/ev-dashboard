@@ -151,7 +151,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     });
   }
 
-  public changeOcppParam(item: any) {
+  private changeOCPPParam(item: any) {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.set_configuration_title'),
@@ -214,7 +214,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       });
   }
 
-  public exportConfiguration() {
+  public exportOCPPParameters() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.dialog.exportConfig.title'),
       this.translateService.instant('chargers.dialog.exportConfig.confirm'),
@@ -258,7 +258,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
       // activate get configuration button
       this.isGetConfigurationActive = true;
       // Save changes changes
-      this.changeOcppParam(item);
+      this.changeOCPPParam(item);
       this.formGroup.controls[item.key].disable();
       item.icon = 'edit';
       item.tooltip = 'general.edit';
@@ -281,7 +281,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     this.formGroup.markAsPristine();
   }
 
-  public updateOCPPParamsFromTemplate() {
+  public updateOCPPParametersFromTemplate() {
     if (this.charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(
@@ -320,7 +320,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
     }
   }
 
-  public requestOCPPConfiguration() {
+  public requestOCPPParameters() {
     if (this.charger.inactive) {
       // Charger is not connected
       this.dialogService.createAndShowOkDialog(

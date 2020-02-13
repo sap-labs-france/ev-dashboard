@@ -6,12 +6,9 @@
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
-    <h4 align="justify" [innerHTML]="'settings.refund.description' | translate">
-    </h4>
-    <h4 *ngIf="!isActive" align="justify">
-      <br>
-      {{'settings.activation_contact_msg' | translate}}
-    </h4>
+    <span [innerHTML]="'settings.refund.description' | translate"></span>
+    <a href='https://www.concur.com/' target='_blank'><u>SAP Concur</u></a><br><br>
+    {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">

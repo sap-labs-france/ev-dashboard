@@ -6,14 +6,9 @@
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
-    <h4 align="justify">
-      {{'settings.pricing.full_description_part_1' | translate}} <a
-        href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent
-          Charging</u></a>.
-    </h4>
-    <h4 align="justify">
-      {{'settings.pricing.full_description_part_2' | translate}}
-    </h4>
+    <span [innerHTML]="'settings.pricing.full_description' | translate"></span>
+    <a href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a><br><br>
+    {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">

@@ -293,7 +293,7 @@ export class CentralServerService {
     }
     this.checkInit();
     return this.httpClient.get<DataResult<ChargingProfile>>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingProfile`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingProfiles`,
       {
         headers: this.buildHttpHeaders(),
         params,

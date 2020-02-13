@@ -46,28 +46,28 @@ export class LocaleService {
     return locales;
   }
 
-  public getLocaleByKey(localeKey: string) {
+  public getLocaleByKey(localeKey: string): KeyValue {
     // Return the found key
     const locales = this.getLocales().filter((locale) => {
       return locale.key === localeKey;
     });
     return (locales && locales.length > 0 ? locales[0] :
-      {key: 'U', description: this.translateService.instant('users.locale_unknown', {})});
+      {key: 'U', value: this.translateService.instant('users.locale_unknown', {})});
   }
 
-  public getI18nDay() {
+  public getI18nDay(): string {
     return this.translateService.instant('general.day');
   }
 
-  public getI18nHour() {
+  public getI18nHour(): string {
     return this.translateService.instant('general.hour');
   }
 
-  public getI18nMinute() {
+  public getI18nMinute(): string {
     return this.translateService.instant('general.minute');
   }
 
-  public getI18nSecond() {
+  public getI18nSecond(): string {
     return this.translateService.instant('general.second');
   }
 
@@ -98,7 +98,7 @@ export class LocaleService {
     }
   }
 
-  private getSupportedLanguage(language: string) {
+  private getSupportedLanguage(language: string): string {
     switch (language) {
       case 'fr':
       case 'en':
@@ -108,7 +108,7 @@ export class LocaleService {
     }
   }
 
-  private getCurrentLocale(language: string) {
+  private getCurrentLocale(language: string): string {
     switch (language) {
       case 'fr':
         return 'fr_FR';
@@ -118,7 +118,7 @@ export class LocaleService {
     }
   }
 
-  private getCurrentLocaleJS(language: string) {
+  private getCurrentLocaleJS(language: string): string {
     switch (language) {
       case 'fr':
         return 'fr-FR';
@@ -128,12 +128,13 @@ export class LocaleService {
     }
   }
 
-  private getLocaleDescription(localeFull: string) {
+  private getLocaleDescription(localeFull: string): string {
     switch (localeFull) {
       case 'en_US':
         return this.translateService.instant('users.locale_desc_english');
       case 'fr_FR':
         return this.translateService.instant('users.locale_desc_french');
     }
+    return '';
   }
 }

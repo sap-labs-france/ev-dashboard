@@ -29,6 +29,7 @@ export enum Entity {
   BILLING = 'Billing',
   LOGGING = 'Logging',
   LOGGINGS = 'Loggings',
+  BUILDING = 'Building',
 }
 
 export enum Action {

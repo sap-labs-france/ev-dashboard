@@ -175,6 +175,7 @@ export class TenantComponent implements OnInit {
     let billingActive = false;
     let smartChargingActive = false;
     let organizationActive = false;
+    let buildingActive = false;
 
     for (const component in tenant.components) {
       if (tenant.components.hasOwnProperty(component)) {
@@ -195,6 +196,9 @@ export class TenantComponent implements OnInit {
         }
         if (component === ComponentType.ORGANIZATION) {
           organizationActive = tenant.components[component].active;
+        }
+        if (component === ComponentType.BUILDING) {
+          buildingActive = tenant.components[component].active;
         }
       }
     }

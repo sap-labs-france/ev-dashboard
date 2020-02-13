@@ -285,9 +285,12 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(ChargeBoxID: string): Observable<ChargingProfile[]> {
+  public getChargingProfiles(chargeBoxID: string, connectorID?: number): Observable<ChargingProfile[]> {
     const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = ChargeBoxID;
+    params['ChargeBoxID'] = chargeBoxID;
+    if (connectorID) {
+      params['ConnectorID'] = connectorID + '';
+    }
     this.checkInit();
     return this.httpClient.get<ChargingProfile[]>(
       `${this.centralRestServerServiceSecuredURL}/ChargingProfile`,
@@ -2284,8 +2287,8 @@ export class CentralServerService {
   private getSorting(ordering: Ordering[], queryParams: { [param: string]: string | string[]; }) {
     // Check
     if (ordering && ordering.length) {
-      const sortFields: String[] = [];
-      const sortDirs: String[] = [];
+      const sortFields: string[] = [];
+      const sortDirs: string[] = [];
       ordering.forEach((order) => {
         sortFields.push(order.field);
         sortDirs.push(order.direction);

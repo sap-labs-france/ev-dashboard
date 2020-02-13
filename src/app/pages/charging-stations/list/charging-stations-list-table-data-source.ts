@@ -17,9 +17,9 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPAvailabilityType, OCPPResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPAvailabilityType, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -391,13 +391,14 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     } else {
       // Show yes/no dialog
       this.dialogService.createAndShowYesNoDialog(
-        title,
-        message,
+        title, message,
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
+          this.spinnerService.show();
           // Call REST service
           this.centralServerService.actionChargingStation(action, charger.id, args).subscribe((response) => {
-            if (response.status === OCPPResponse.ACCEPTED) {
+            this.spinnerService.hide();
+            if (response.status === OCPPGeneralResponse.ACCEPTED) {
               // Success + reload
               this.messageService.showSuccessMessage(successMessage);
               this.refreshData().subscribe();
@@ -406,8 +407,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
                 this.messageService, errorMessage);
             }
           }, (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              errorMessage);
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, errorMessage);
           });
         }
       });

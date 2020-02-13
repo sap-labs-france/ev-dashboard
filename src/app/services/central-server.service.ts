@@ -2142,6 +2142,11 @@ export class CentralServerService {
       );
   }
 
+  public rebootChargingStation(id: string, hard: boolean = true): Observable<ActionResponse> {
+    return this.actionChargingStation(
+      'ChargingStationReset', id ,JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
+  }
+
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

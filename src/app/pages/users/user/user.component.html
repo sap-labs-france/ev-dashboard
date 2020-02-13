@@ -201,6 +201,10 @@
                   <mat-checkbox [disabled]="!notificationsActive.value"
                                 [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox>
                 </div>
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendSessionNotStarted">{{"notifications.session-not-started" | translate}}</mat-checkbox>
+                </div>
               </div>
               <div class="row">
                 <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin-only" | translate}}</div>

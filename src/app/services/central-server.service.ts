@@ -285,11 +285,11 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(ChargeBoxID: string): Observable<ChargingProfile[]> {
+  public getChargingProfiles(ChargeBoxID: string): Observable<DataResult<ChargingProfile>> {
     const params: { [param: string]: string } = {};
     params['ChargeBoxID'] = ChargeBoxID;
     this.checkInit();
-    return this.httpClient.get<ChargingProfile[]>(
+    return this.httpClient.get<DataResult<ChargingProfile>>(
       `${this.centralRestServerServiceSecuredURL}/ChargingProfile`,
       {
         headers: this.buildHttpHeaders(),

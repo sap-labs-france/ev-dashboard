@@ -1198,7 +1198,7 @@
         "currency": "Devise"
       }
     },
-    "billing" : {
+    "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
       "not_found": "La configuration de la facturation n'est pas disponible",
       "create_success": "La configuration de la facturation a été créée avec succès",
@@ -1396,7 +1396,7 @@
   },
   "building": {
     "title": "Gestion du Bâtiment",
-    "description": "Contrôler la puissance de chaque zone en rapport avec celle du bâtiment"
+    "description": "Récupère et affiche la consommation du bâtiment. Il peut être utilsé avec la charge intelligente pour équilibrer la consommation avec les bornes connectées sur la même zone."
   },
   "analytics": {
     "title": "Analytique",

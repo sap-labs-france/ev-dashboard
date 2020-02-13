@@ -1260,7 +1260,7 @@
       "update_error": "Error occurred while updating the SAP Smart Charging settings"
     },
     "building": {
-      "description": "This feature is currently in progress",
+      "description": "The implementation of this feature is currently in progress",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Building Settings not found"
     },
@@ -1396,7 +1396,7 @@
   },
   "building": {
     "title": "Building Management",
-    "description": "Manage the Site Areas charge power depending on the Building power"
+    "description": "Gather and display building consumption. It can be used with the smart charging to balance the consumption with the charging stations in a given site area."
   },
   "analytics": {
     "title": "Analytics",

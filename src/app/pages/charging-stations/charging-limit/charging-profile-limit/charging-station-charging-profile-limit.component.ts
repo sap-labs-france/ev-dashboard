@@ -137,11 +137,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit {
     this.spinnerService.show();
     // Yes, get it
     // tslint:disable-next-line:cyclomatic-complexity
-    this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfiles) => {
+    this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
       this.formGroup.markAsPristine();
-      if (chargingProfiles) {
-        this.chargingProfiles = chargingProfiles;
-        if (chargingProfiles.length > 1) {
+      if (chargingProfilesResult) {
+        this.chargingProfiles = chargingProfilesResult.result;
+        if (this.chargingProfiles.length > 1) {
           // Make table read only
           this.slotTableDataSource.tableDef.isEditable = false;
           this.slotTableDataSource.tableRowActionsDef = [];

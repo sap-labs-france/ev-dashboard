@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,9 +13,9 @@ import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType, TableEditType } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
+import * as moment from 'moment';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitSlotTableDataSource } from './charging-station-charging-profile-limit-slot-table-data-source';
-import { SELECT_PANEL_INDENT_PADDING_X } from '@angular/material';
 
 export const PROFILE_TYPE_MAP =
   [
@@ -46,7 +46,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public chargingSlots!: FormArray;
   public startSchedule!: Date;
   public chargingProfiles: ChargingProfile[] = [];
-  public disableApplyButton = false;
+  public  = false;
 
   constructor(
     public slotTableDataSource: ChargingStationChargingProfileLimitSlotTableDataSource,
@@ -61,9 +61,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   }
 
   ngOnInit(): void {
-    this.slotsSchedule = [];
-    // Initialize slider values
-    this.powerUnit = (this.charger.powerLimitUnit ? this.charger.powerLimitUnit : PowerLimitUnits.AMPERE);
     // Init the form
     this.formGroup = new FormGroup({
       profileTypeControl: new FormControl('',
@@ -83,58 +80,58 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           Validators.required,
         ])),
     });
-    // Form
+    // Form controls
     this.profileTypeControl = this.formGroup.controls['profileTypeControl'];
     this.chargingProfilesControl = this.formGroup.controls['chargingProfilesControl'];
     this.startDateControl = this.formGroup.controls['startDateControl'];
     this.chargingSlots = this.formGroup.controls['chargingSlots'] as FormArray;
     // Default values
+    this.powerUnit = PowerLimitUnits.AMPERE;
+    this.slotsSchedule = [];
     this.stackLevel = 3;
     this.profileId = 3;
-    this.startSchedule = new Date();
+    // @ts-ignore
+    this.startSchedule = moment().add(1, 'day').startOf('day').toDate();
     this.slotTableDataSource.startDate = this.startSchedule;
     this.profileTypeControl.setValue(ChargingProfileKindType.ABSOLUTE);
     // Assign for to editable data source
     this.slotTableDataSource.setFormArray(this.chargingSlots);
     // Initial values
-    this.slotTableDataSource.setContent(this.slotsSchedule);
     this.slotTableDataSource.setCharger(this.charger);
-    // Load
-    this.loadChargingProfiles();
-    // Change the date formatting
+    this.limitChartPlannerComponent.setLimitPlannerData([]);
+    // Change the Profile
+    this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
+      // Load Profile
+      this.loadProfile(chargingProfile);
+    });
+    // Change the Profile Type
     this.profileTypeControl.valueChanges.subscribe(() => {
       // Set values
       // @ts-ignore
       this.stackLevel = PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).stackLevel;
       // @ts-ignore
       this.profileId = PROFILE_TYPE_MAP.find((mapElement) => mapElement.key === this.profileTypeControl.value).id;
+      // Change date format
       if (this.profileTypeControl.value === ChargingProfileKindType.ABSOLUTE) {
         this.slotTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_DATE;
       } else {
         this.slotTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
     });
-    this.chargingProfilesControl.valueChanges.subscribe((Id: string) => {
-      this.loadProfileFromProfileID(Id);
-      if (getComputedStyle(this.limitChartPlannerComponent.primaryElement.nativeElement).color) {
-        this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
-      }
-    });
-    // Register to table changes
+    // Change the Slots/Schedules
     this.slotTableDataSource.getTableChangedSubject().subscribe((chargingSlots: Slot[]) => {
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);
-      if (chargingSlots.length === 0) {
-        this.disableApplyButton = true;
-      } else {
-        this.disableApplyButton = false;
-      }
     });
+  }
+
+  public refresh() {
+    this.loadChargingProfiles();
   }
 
   ngAfterViewInit() {
     // Load
-    this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
+    this.loadChargingProfiles();
   }
 
   public startDateFilterChanged(value: Date) {
@@ -146,15 +143,32 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     if (!this.charger) {
       return;
     }
-    // Show spinner
     this.spinnerService.show();
-    // Yes, get it
-    // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
+      this.spinnerService.hide();
       this.formGroup.markAsPristine();
+      // Set
+      this.chargingProfiles = chargingProfilesResult.result;
+      // Default
+      this.slotTableDataSource.setContent([]);
+      this.limitChartPlannerComponent.setLimitPlannerData([]);
+      // Init
       if (chargingProfilesResult.count > 0) {
-        this.chargingProfiles = chargingProfilesResult.result;
-        this.chargingProfilesControl.setValue(this.chargingProfiles[0].id);
+        if (this.chargingProfilesControl.value) {
+          // Find the same ID
+          const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+            chargingProfile.id === this.chargingProfilesControl.value.id);
+          if (selectedChargingProfile) {
+            // Found: Reset the current one
+            this.chargingProfilesControl.setValue(selectedChargingProfile);
+          } else {
+            // Not Found: Set the first one
+            this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+          }
+        } else {
+          // Set the first one
+          this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+        }
         // TODO: Check if Site Area Smart Charging is enabled to switch in r/o (later on)
         if (this.chargingProfiles.length > 1) {
           // Make table read only
@@ -167,119 +181,104 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.profileTypeControl.disable();
           this.startDateControl.disable();
         }
-      } else {
-        this.disableApplyButton = true;
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
-      switch (error.status) {
-        // Not found
-        case 550:
-          // Profile not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, this.translateService.instant('chargers.smart_charging.charging_profile_not_found'));
-          break;
-        default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
-      }
+      // Unexpected error`
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     });
   }
 
-  public loadProfileFromProfileID(id: string) {
+  public loadProfile(chargingProfile: ChargingProfile) {
     this.slotsSchedule = [];
-    const foundChargingProfile = this.chargingProfiles.find((chargingProfile) => {
-      return chargingProfile.id === id;
-    });
-    if (foundChargingProfile) {
+    if (chargingProfile) {
       // Init values
-      if (foundChargingProfile.profile.chargingProfileKind) {
-        this.formGroup.controls.profileTypeControl.setValue(foundChargingProfile.profile.chargingProfileKind);
+      if (chargingProfile.profile.chargingProfileKind) {
+        this.formGroup.controls.profileTypeControl.setValue(chargingProfile.profile.chargingProfileKind);
       }
-      if (foundChargingProfile.profile.chargingProfileId) {
-        this.profileId = foundChargingProfile.profile.chargingProfileId;
+      if (chargingProfile.profile.chargingProfileId) {
+        this.profileId = chargingProfile.profile.chargingProfileId;
       }
-      if (foundChargingProfile.profile.chargingProfilePurpose) {
-        this.chargingProfilePurpose = foundChargingProfile.profile.chargingProfilePurpose;
+      if (chargingProfile.profile.chargingProfilePurpose) {
+        this.chargingProfilePurpose = chargingProfile.profile.chargingProfilePurpose;
       }
-      if (foundChargingProfile.profile.stackLevel) {
-        this.stackLevel = foundChargingProfile.profile.stackLevel;
+      if (chargingProfile.profile.stackLevel) {
+        this.stackLevel = chargingProfile.profile.stackLevel;
       }
-      if (foundChargingProfile.profile.chargingSchedule.startSchedule) {
-        this.startSchedule = new Date(foundChargingProfile.profile.chargingSchedule.startSchedule);
+      if (chargingProfile.profile.chargingSchedule.startSchedule) {
+        this.startSchedule = new Date(chargingProfile.profile.chargingSchedule.startSchedule);
       }
-      if (foundChargingProfile.profile.chargingProfileKind !== ChargingProfileKindType.ABSOLUTE) {
+      if (chargingProfile.profile.chargingProfileKind !== ChargingProfileKindType.ABSOLUTE) {
         this.slotTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
       this.slotTableDataSource.startDate = this.startSchedule;
-
-      for (let i = 0; i < foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
+      // Create Slot
+      for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
+        const chargingSchedule = chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i];
+        // Current Slot
         const slot: Slot = {
           key: '',
           id: 0,
           startDate: new Date(this.startSchedule),
-          duration: foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[1].startPeriod / 60,
-          limit: foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].limit,
-          limitInkW: ChargingStations.convertAmpToW(this.charger.connectors[0].numberOfConnectedPhase ?
-            this.charger.connectors[0].numberOfConnectedPhase : 0,
-            foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].limit / 1000),
+          duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
+          limit: chargingSchedule.limit,
+          limitInkW: ChargingStations.convertAmpToW(
+            this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0,
+            chargingSchedule.limit) / 1000,
         };
-        if (foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
-          slot.duration = (foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1].startPeriod
-            - foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].startPeriod) / 60;
+        // Next Slot?
+        if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
+          slot.duration = (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1].startPeriod
+            - chargingSchedule.startPeriod) / 60;
         }
-        slot.startDate.setSeconds(this.startSchedule.getSeconds()
-          + foundChargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i].startPeriod);
+        // Set Start Date
+        slot.startDate.setSeconds(this.startSchedule.getSeconds() + chargingSchedule.startPeriod);
+        // Add
         this.slotsSchedule.push(slot);
       }
-      if (foundChargingProfile.profile.chargingSchedule.duration) {
+      // Limit the last slot with the total duration
+      if (chargingProfile.profile.chargingSchedule.duration) {
         this.slotsSchedule[this.slotsSchedule.length - 1].duration = (this.startSchedule.getTime() / 1000
-          + foundChargingProfile.profile.chargingSchedule.duration
+          + chargingProfile.profile.chargingSchedule.duration
           - this.slotsSchedule[this.slotsSchedule.length - 1].startDate.getTime() / 1000) / 60;
       }
+      // Set Slot Table content
       this.slotTableDataSource.setContent(this.slotsSchedule);
+      // Set Chart
+      this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
     }
   }
 
-  public clearChargingProfile() {
-    // show yes/no dialog
+  public deleteChargingProfile() {
+    // Show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
       this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        try {
-          // call REST service
-          this.centralServerService.deleteChargingProfile(this.charger.id).subscribe((response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              // success + reload
-              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
-                { chargeBoxID: self.charger.id, power: 'plan' }));
-              this.slotTableDataSource.setContent([]);
-              this.limitChartPlannerComponent.setLimitPlannerData([]);
-              this.disableApplyButton = true;
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
-            }
-          }, (error: any) => {
-            this.spinnerService.hide();
-            if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
-              Utils.handleHttpError(
-                error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_not_accepted', { chargeBoxID: self.charger.id });
-            } else {
-              Utils.handleHttpError(
-                error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
-            }
-          });
-        } catch (error) {
-          console.log(error);
-          Utils.handleError(JSON.stringify(error),
-            this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
-        }
+        this.spinnerService.show();
+        this.centralServerService.deleteChargingProfile(this.charger.id).subscribe((response) => {
+          this.spinnerService.hide();
+          if (response.status === RestResponse.SUCCESS) {
+            // Success + Reload
+            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
+              { chargeBoxID: self.charger.id, power: 'plan' }));
+            this.refresh();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
+          }
+        }, (error: any) => {
+          this.spinnerService.hide();
+          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_not_accepted', { chargeBoxID: self.charger.id });
+          } else {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
+          }
+        });
       }
     });
   }
@@ -292,39 +291,34 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        try {
-          // Build charging profile
-          const chargingProfile = this.buildChargingProfile();
-          // call REST service
-          this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              // success + reload
-              this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                  { chargeBoxID: self.charger.id, power: 'plan' }));
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
-            }
-          }, (error) => {
-            this.spinnerService.hide();
-            if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
-              Utils.handleHttpError(
-                error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_not_accepted', { chargeBoxID: self.charger.id });
-            } else {
-              Utils.handleHttpError(
-                error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
-            }
-          });
-        } catch (error) {
-          console.log(error);
-          Utils.handleError(JSON.stringify(error),
-            this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
-        }
+        // Build charging profile
+        const chargingProfile = this.buildChargingProfile();
+        this.spinnerService.show();
+        this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
+          this.spinnerService.hide();
+          if (response.status === RestResponse.SUCCESS) {
+            // Success + Reload
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
+                { chargeBoxID: self.charger.id, power: 'plan' }));
+            this.refresh();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_not_accepted', { chargeBoxID: self.charger.id });
+          } else {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
+          }
+        });
       }
     });
   }
-
 
   private buildChargingProfile(): ChargingProfile {
     // Instantiate new charging profile

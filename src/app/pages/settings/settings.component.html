@@ -64,5 +64,14 @@
         <app-settings-smart-charging></app-settings-smart-charging>
       </ng-template>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>account_balance</mat-icon><span>{{'settings.tabs.building' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-settings-building></app-settings-building>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>

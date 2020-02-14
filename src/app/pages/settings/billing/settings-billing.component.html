@@ -6,12 +6,8 @@
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
-    <h4 align="justify" [innerHTML]="'settings.billing.description' | translate">
-    </h4>
-    <h4 *ngIf="!isActive" align="justify">
-      <br>
-      {{'settings.activation_contact_msg' | translate}}
-    </h4>
+    <div [innerHTML]="'settings.billing.description' | translate"></div><br>
+    {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">

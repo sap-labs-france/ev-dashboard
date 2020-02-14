@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.0',
-        date: new Date('2020-02-11'),
+        date: new Date('2020-02-13'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,6 +34,8 @@ export class ReleaseNotesComponent {
               `Refactored the Charging Plans for the next Smart Charging implementation`,
               `Refactoring of the Charging Plan user interface`,
               `Change the availability of a charging station`,
+              `Notify the user when he forgot to start his session`,
+              `Activation of Building Management in Master Tenant`,
               `Static Power Limitation for Schneider vendor`,
               `Show Sessions not assigned to a user when ACL is active in a Site Area`,
               `Set default notifications to new registered users`,

@@ -18,13 +18,14 @@ export class SettingsComponent extends AbstractTabComponent {
   public isBillingActive = false;
   public isSacActive = false;
   public isSmartChargingActive = false;
+  public isBuildingActive = false;
 
   constructor(
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['ocpi', 'organization', 'refund', 'pricing', 'billing', 'sac', 'smartCharging']);
+    super(activatedRoute, windowService, ['ocpi', 'organization', 'refund', 'pricing', 'billing', 'sac', 'smartCharging', 'building']);
     this.isOCPIActive = this.componentService.isActive(ComponentType.OCPI);
     this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION);
     this.isRefundActive = this.componentService.isActive(ComponentType.REFUND);
@@ -32,5 +33,6 @@ export class SettingsComponent extends AbstractTabComponent {
     this.isBillingActive = this.componentService.isActive(ComponentType.BILLING);
     this.isSacActive = this.componentService.isActive(ComponentType.ANALYTICS);
     this.isSmartChargingActive = this.componentService.isActive(ComponentType.SMART_CHARGING);
+    this.isBuildingActive = this.componentService.isActive(ComponentType.BUILDING);
   }
 }

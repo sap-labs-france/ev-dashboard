@@ -1104,7 +1104,8 @@
       "pricing": "Tarification",
       "billing": "Facturation",
       "analytics": "Statistiques",
-      "smartCharging": "Charge Intelligente"
+      "smartCharging": "Charge Intelligente",
+      "building": "Bâtiment"
     },
     "ocpi": {
       "gireve": {
@@ -1116,7 +1117,7 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
       "update_error": "Une erreur est survenue pendant la mise à jour de la configuration OCPI",
-      "description": "E-Mobility fournit des APIs standards et certifiées permettant de se connecter à une plate-forme d'itinérance externe. Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité de la borne de recharge via le protocole standard OCPI (Open Charge Point Interface). E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
+      "description": "E-Mobility fournit un service certifié permettant de se connecter à une plate-forme d'itinérance externe.<br>Cette fonctionnalité permet de visualiser en temps réel l’infrastructure et la disponibilité des bornes de recharge via le protocole standard OCPI (Open Charge Point Interface).<br>E-Mobility utilise actuellement la plate-forme d'interopérabilité Gireve (IOP)."
     },
     "charging_station": {
       "registration_tokens_title": "Jetons d'enregistrement des bornes de recharge",
@@ -1146,7 +1147,7 @@
       "ocpp_16_soap": "OCPP 1.6 SOAP"
     },
     "refund": {
-      "description": "E-Mobility fournit des APIs de remboursement pour des systèmes externes.<br/> Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.<br/><br/>E-Mobility utilise actuellement SAP Concur. De plus amples informations techniques sont disponibles <a href='https://www.concur.com/' target='_blank'><u>ici</u></a>.",
+      "description": "E-Mobility fournit un service de remboursement pour des systèmes externes.<br>Cette fonctionnalité permet à l'utilisateur de se faire rembourser des dépenses d'électricité liées à ses transactions.<br>E-Mobility utilise actuellement SAP Concur.<br>Plus d'informations techniques disponibilite sur ",
       "not_found": "La configuration Remboursement n'est pas disponible",
       "create_success": "La configuration Remboursement a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration Remboursement",
@@ -1181,10 +1182,8 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration de tarification",
       "update_success": "La configuration de la tarification a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de tarification",
-      "full_description_part_1": "E-Mobility provides two ways to compute the price of an EV session. The simple one allows you to setup a fixed price per kW.h of your charging infrastructure. E-Mobility provides also advanced Pricing APIs for external complex Pricing Plan and Invoicing tools. This feature allows you to manage complex payment methods and services for operators such as prepaid and postpaid accounts, fixed or variables session costs given peaks hours. E-Mobility is currently using SAP Convergent Charging (part of SAP Hybris Billing). More technical information available at ",
-      "full_description_part_2": "To enable one of these features, please contact your E-Mobility representative.",
+      "full_description": "E-Mobility founit deux moyens de calculer le prix d'une session d'un véhicule electrique.<br>Un prix fixe par kW.h pour votre infrastructure de recharge.<br>Un sytème externe pour le calcul de prix complèxes appelé SAP Convergent Charging (SAP Hybris Billing).<br>Plus d'informations techniques disponibilite sur ",
       "convergentcharging": {
-        "description": "E-Mobility fournit des API de tarification de facturation permettant de gérer des méthodes et services de paiement avancées pour les opérateurs tels que les comptes prépayés et postpayés, des coûts de session fixes ou variables en fonction des heures de pointe. E-Mobility utilise actuellement SAP Convergent Charging (qui fait partie de SAP BRIM). Pour activer cette fonction, veuillez contacter votre représentant E-Mobility. De plus amples informations techniques sont disponibles à l'adresse suivante ",
         "title": "SAP Convergent Charging",
         "chargeable_item_name": "Nom du Chargeable Item",
         "url": "Url",
@@ -1192,13 +1191,12 @@
         "password": "Mot de passe"
       },
       "simple": {
-        "description": "E-Mobility fournit un moyen simple de calculer le prix d'une session de charge d'un VE. Cette fonction vous permet d'établir un prix fixe par kW.h de votre infrastructure de charge. Pour activer cette fonction, veuillez contacter votre représentant E-Mobility.",
         "title": "Calculs Basique",
         "price": "Prix",
         "currency": "Devise"
       }
     },
-    "billing" : {
+    "billing": {
       "description": "L'interface de facturation permet aux fournisseurs de bornes de facturer leurs services.",
       "not_found": "La configuration de la facturation n'est pas disponible",
       "create_success": "La configuration de la facturation a été créée avec succès",
@@ -1217,7 +1215,7 @@
       "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (veuillez voir les logs)",
       "synchronize_users_error": "Une erreur est survenue durant la synchronization des utilisateurs",
       "stripe": {
-        "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe ...",
+        "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe",
         "title": "Stripe",
         "url": "URL du terminal Stripe",
         "public_key": "Clé API publique",
@@ -1236,7 +1234,7 @@
         "title": "SAP Analytics",
         "settings": "Configuration"
       },
-      "description": "E-Mobility expose ses données à des outils d'analyse externes. Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes. E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData. SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle. Plus d'informations techniques disponibilite sur ",
+      "description": "E-Mobility expose ses données à des outils d'analyse externes.<br>Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes.<br>E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData.<br>SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle.<br>Plus d'informations techniques disponibilite sur ",
       "setting_not_found": "La configuration n'a pas été trouvée",
       "create_success": "La configuration de SAP Analytics Cloud a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Analytics Cloud",
@@ -1251,13 +1249,18 @@
         "user": "Utilisateur",
         "password": "Mot de passe"
       },
-      "description": "E-Mobility est capable d'utiliser des algorithmes de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des critères multiples",
+      "description": "E-Mobility peut utiliser un algorithme de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des contraintes complèxes",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration n'a pas été trouvée",
       "create_success": "La configuration de SAP Smart Charging a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Smart Charging",
       "update_success": "La configuration SAP Smart Charging a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
+    },
+    "building": {
+      "description": "E-Mobility peut gérer la consommation des bâtiments et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
+      "setting_do_not_exist": "La configuration n'existe pas",
+      "setting_not_found": "La configuration n'a pas été trouvée"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
@@ -1381,13 +1384,17 @@
     }
   },
   "organization": {
-    "title": "Definition de l'Organisation",
-    "description": "Definition de l'Organisation en Compagnies, Sites et Zones",
+    "title": "Organisation",
+    "description": "Gestion des Organisations: Compagnies, Sites et Zones",
     "tabs": {
       "companies": "Entreprises",
       "sites": "Sites",
       "siteareas": "Zones"
     }
+  },
+  "building": {
+    "title": "Bâtiment",
+    "description": "Gestion des Bâtiments"
   },
   "analytics": {
     "title": "Analytique",
@@ -1645,6 +1652,7 @@
     "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
     "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
     "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
-    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué"
+    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
+    "session-not-started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré"
   }
 }

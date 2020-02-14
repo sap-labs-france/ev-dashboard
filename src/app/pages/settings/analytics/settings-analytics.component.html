@@ -6,14 +6,9 @@
     <h3 class="card-title">{{'settings.information' | translate}}</h3>
   </div>
   <div class="card-body">
-    <h4 align="justify">
-      {{'settings.analytics.description' | translate}} <a href="https://www.sapanalytics.cloud/solutions/" target="new"><u>SAP
-          Analytics Cloud</u></a>.
-    </h4>
-    <br>
-    <h4 align="justify">
-      {{'settings.activation_contact_msg' | translate}}
-    </h4>
+    <span [innerHTML]="'settings.analytics.description' | translate"></span>
+    <a href="https://www.sapanalytics.cloud/solutions/" target="new"><u>SAP Analytics Cloud</u></a><br><br>
+    {{'settings.activation_contact_msg' | translate}}
   </div>
 </div>
 

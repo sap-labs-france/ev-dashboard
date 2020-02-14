@@ -97,6 +97,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
   public sendBillingUserSynchronizationFailed!: AbstractControl;
+  public sendSessionNotStarted!: AbstractControl;
   public user!: User;
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -184,6 +185,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
         sendBillingUserSynchronizationFailed: new FormControl(true),
+        sendSessionNotStarted: new FormControl(true)
       }),
       email: new FormControl('',
         Validators.compose([
@@ -305,6 +307,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
     this.sendBillingUserSynchronizationFailed = this.notifications.controls['sendBillingUserSynchronizationFailed'];
+    this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
+
 
     this.userTagsTableDataSource.setFormArray(this.tags);
 
@@ -504,6 +508,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
       } else {
         this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendSessionNotStarted')) {
+        this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
+      } else {
+        this.notifications.controls.sendSessionNotStarted.setValue(false);
       }
       if (user.address && user.address.address1) {
         this.address.controls.address1.setValue(user.address.address1);
@@ -777,6 +786,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
+    debugger;
     this.centralServerService.updateUser(user).subscribe((response) => {
       // Hide
       this.spinnerService.hide();

@@ -119,6 +119,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     });
     this.chargingProfilesControl.valueChanges.subscribe((Id: string) => {
       this.loadProfileForProfileID(Id);
+      if (getComputedStyle(this.limitChartPlannerComponent.primaryElement.nativeElement).color) {
+        this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
+      }
     });
     // Register to table changes
     this.slotTableDataSource.getTableChangedSubject().subscribe((chargingSlots: Slot[]) => {

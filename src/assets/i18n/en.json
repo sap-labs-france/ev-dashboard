@@ -730,6 +730,7 @@
       "slot_duration_header": "Slot duration (s)",
       "slot_limit_header": "Slot power limit",
       "connectors_all": "all",
+      "charging_profile_not_found": "ChargingProfile not found",
       "profile_types": {
         "relative": "Relative",
         "absolute": "Temporary Planning",

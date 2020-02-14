@@ -65,7 +65,6 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
-
   public refreshChargingSlots() {
     const chargingSlots = this.getContent();
     if (chargingSlots.length > 0) {

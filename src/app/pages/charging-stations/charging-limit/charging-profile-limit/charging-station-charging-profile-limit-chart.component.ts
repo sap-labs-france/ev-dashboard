@@ -58,10 +58,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       // Get colors
       this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
       this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
-      if(!this.instantPowerColor || !this.defaultColor){
-        this.instantPowerColor = 'rgb(25, 118, 210)';
-        this.defaultColor = 'rgba(0, 0, 0, 0.87)';
-      }
       // Build chart options
       this.options = this.createOptions();
       // Create Chart

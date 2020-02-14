@@ -10,10 +10,10 @@
             {{'chargers.smart_charging.planning_energy_limit' | translate: {chargeBoxID: charger.id} }}
           </h3>
           <div *ngIf="chargingProfiles && chargingProfiles.length <= 1" class="right-actions d-flex flex-row mat-toolbar-row pt-3">
-            <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()">
+            <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()" [disabled] = "disableButtons">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
-            <button mat-raised-button color="primary" (click)="clearChargingProfile()">
+            <button mat-raised-button color="primary" (click)="clearChargingProfile()" [disabled] = "disableButtons">
               <mat-icon>delete</mat-icon><span>{{'general.clear' | translate}}</span>
             </button>
           </div>
@@ -24,9 +24,9 @@
               <div class="row">
                 <div class="form-group col-md-12">
                   <mat-form-field *ngIf="chargingProfiles && chargingProfiles.length > 1">
-                    <mat-select [formControl]="connectorControl" placeholder="connectorID">
-                      <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile.connectorID">
-                        {{'chargers.connector' | translate}} {{chargingProfile.connectorID}}
+                    <mat-select [formControl]="chargingProfilesControl" placeholder="{{'chargers.smart_charging.charging_profile_limit' | translate}}">
+                      <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile.id">
+                        {{'chargers.connector' | translate}} {{chargingProfile.connectorID}} ({{'chargers.smart_charging.stack_level' | translate}} {{chargingProfile.profile.stackLevel}})
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

@@ -32,9 +32,7 @@ export const PROFILE_TYPE_MAP =
 
 export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
   @Input() charger!: ChargingStation;
-
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
-
   public profileTypeMap = PROFILE_TYPE_MAP;
   public powerUnit!: PowerLimitUnits;
   public slotsSchedule!: Slot[];
@@ -48,8 +46,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public chargingSlots!: FormArray;
   public startSchedule!: Date;
   public chargingProfiles: ChargingProfile[] = [];
-
-  private disableButtons = false;
+  public disableApplyButton = false;
 
   constructor(
     public slotTableDataSource: ChargingStationChargingProfileLimitSlotTableDataSource,
@@ -118,7 +115,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       }
     });
     this.chargingProfilesControl.valueChanges.subscribe((Id: string) => {
-      this.loadProfileForProfileID(Id);
+      this.loadProfileFromProfileID(Id);
       if (getComputedStyle(this.limitChartPlannerComponent.primaryElement.nativeElement).color) {
         this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
       }
@@ -128,28 +125,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(chargingSlots);
       if (chargingSlots.length === 0) {
-        this.disableButtons = true;
+        this.disableApplyButton = true;
       } else {
-        this.disableButtons = false;
+        this.disableApplyButton = false;
       }
     });
   }
 
   ngAfterViewInit() {
-    // Workaround to wait for tab selection
-    this.waitForTabSelection().then(() => { }).catch(() => { });
-  }
-
-  public async waitForTabSelection() {
-    let style;
-
-    do {
-      style = getComputedStyle(this.limitChartPlannerComponent.primaryElement.nativeElement);
-      await new Promise((resolve, reject) => {
-        setTimeout(resolve, 50);
-      });
-    } while (style === null || style.color === null || style.color.length === 0);
-
+    // Load
     this.limitChartPlannerComponent.setLimitPlannerData(this.slotsSchedule);
   }
 
@@ -170,6 +154,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       this.formGroup.markAsPristine();
       if (chargingProfilesResult.count > 0) {
         this.chargingProfiles = chargingProfilesResult.result;
+        this.chargingProfilesControl.setValue(this.chargingProfiles[0].id);
+        // TODO: Check if Site Area Smart Charging is enabled to switch in r/o (later on)
         if (this.chargingProfiles.length > 1) {
           // Make table read only
           this.slotTableDataSource.tableDef.isEditable = false;
@@ -181,9 +167,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.profileTypeControl.disable();
           this.startDateControl.disable();
         }
-        this.chargingProfilesControl.setValue(this.chargingProfiles[0].id);
       } else {
-        this.disableButtons = true;
+        this.disableApplyButton = true;
       }
     }, (error) => {
       // Hide
@@ -203,10 +188,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     });
   }
 
-  public loadProfileForProfileID(Id: string) {
+  public loadProfileFromProfileID(id: string) {
     this.slotsSchedule = [];
     const foundChargingProfile = this.chargingProfiles.find((chargingProfile) => {
-      return chargingProfile.id === Id;
+      return chargingProfile.id === id;
     });
     if (foundChargingProfile) {
       // Init values
@@ -275,7 +260,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
                 { chargeBoxID: self.charger.id, power: 'plan' }));
               this.slotTableDataSource.setContent([]);
               this.limitChartPlannerComponent.setLimitPlannerData([]);
-              this.disableButtons = true;
+              this.disableApplyButton = true;
             } else {
               Utils.handleError(JSON.stringify(response),
                 this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));

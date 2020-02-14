@@ -27,6 +27,7 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     return {
       isEditable: true,
       rowFieldNameIdentifier: 'id',
+      errorMessage: 'chargers.smart_charging.empty_slot_list_error',
     };
   }
 

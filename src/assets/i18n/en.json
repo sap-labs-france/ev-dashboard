@@ -729,6 +729,7 @@
       "slot_index_header": "Slot number",
       "slot_duration_header": "Slot duration (s)",
       "slot_limit_header": "Slot power limit",
+      "empty_slot_list_error": "You must create at least one slot",
       "connectors_all": "all",
       "charging_profile_not_found": "ChargingProfile not found",
       "profile_types": {

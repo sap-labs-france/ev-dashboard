@@ -10,11 +10,11 @@
             {{'chargers.smart_charging.planning_energy_limit' | translate: {chargeBoxID: charger.id} }}
           </h3>
           <div *ngIf="chargingProfiles && chargingProfiles.length <= 1" class="right-actions d-flex flex-row mat-toolbar-row pt-3">
-            <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()" [disabled] = "disableButtons">
+            <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()" [disabled]="disableApplyButton">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
-            <button mat-raised-button color="primary" (click)="clearChargingProfile()" [disabled] = "disableButtons">
-              <mat-icon>delete</mat-icon><span>{{'general.clear' | translate}}</span>
+            <button mat-raised-button color="primary" (click)="clearChargingProfile()" [disabled]="chargingProfiles.length === 0">
+              <mat-icon>delete</mat-icon><span>{{'general.delete' | translate}}</span>
             </button>
           </div>
         </div>

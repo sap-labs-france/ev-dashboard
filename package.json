@@ -92,6 +92,7 @@
     "@types/mocha": "^5.2.7",
     "@types/moment-duration-format": "^2.2.2",
     "@types/node": "^12.7.2",
+    "@types/socket.io": "^2.1.4",
     "arrive": "^2.4.1",
     "codeceptjs": "^2.2.1",
     "codelyzer": "^5.0.1",

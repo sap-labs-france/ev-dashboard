@@ -28,8 +28,8 @@
             <mat-form-field>
               <mat-select [formControl]="profileTypeControl"
                 placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
-                <mat-option *ngFor="let type of profileTypeMap" [value]="type.key">
-                  {{type.description | translate}}
+                <mat-option *ngFor="let profileType of profileTypeMap" [value]="profileType">
+                  {{profileType.description | translate}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

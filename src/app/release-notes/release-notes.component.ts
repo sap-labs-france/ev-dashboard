@@ -31,8 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `CPO/eMSP first Gireve certification`,
-              `Refactored the Charging Plans for the next Smart Charging implementation`,
-              `Refactoring of the Charging Plan user interface`,
+              `Refactoring of the Charging Plan's backend`,
+              `Refactoring of the Charging Plan's front-end`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,
               `Activation of Building Management in Master Tenant`,

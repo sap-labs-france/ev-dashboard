@@ -26,21 +26,22 @@
           <mat-icon>show_chart</mat-icon>
           <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
         </ng-template>
-        <div class="card-body" style="margin-top: 15px">
-          <div class="row"
-          *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
-            <div class="col-md-12">
-              <app-charging-station-charging-profile-limit [charger]="charger"></app-charging-station-charging-profile-limit>
-            </div>
-          </div>
-          <ng-template #notSupported>
-            <div class="row">
-              <div class="col-md-12 feature-not-supported">
-                {{'chargers.smart_charging.not_supported' | translate }}
+        <ng-template matTabContent>
+          <div class="card-body" style="margin-top: 15px">
+            <div class="row" *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
+              <div class="col-md-12">
+                <app-charging-station-charging-profile-limit [charger]="charger"></app-charging-station-charging-profile-limit>
               </div>
             </div>
-          </ng-template>
-        </div>
+            <ng-template #notSupported>
+              <div class="row">
+                <div class="col-md-12 feature-not-supported">
+                  {{'chargers.smart_charging.not_supported' | translate }}
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </ng-template>
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>

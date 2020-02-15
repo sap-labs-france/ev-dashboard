@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { Slot } from 'app/types/ChargingProfile';
+import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
@@ -10,7 +10,7 @@ import { EditableTableDataSource } from '../../../../shared/table/editable-table
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 
 @Injectable()
-export class ChargingStationChargingProfileLimitSlotTableDataSource extends EditableTableDataSource<Slot> {
+export class ChargingStationChargingProfileLimitScheduleTableDataSource extends EditableTableDataSource<Schedule> {
   public startDate!: Date;
   public charger!: ChargingStation;
   private chargerPowers!: ChargingStationPowers;
@@ -27,18 +27,12 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     return {
       isEditable: true,
       rowFieldNameIdentifier: 'id',
+      errorMessage: 'chargers.smart_charging.empty_schedule_list_error',
     };
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
-      {
-        id: 'connectorID',
-        name: 'chargers.connector',
-        editType: TableEditType.DISPLAY_ONLY,
-        headerClass: 'col-10p',
-        class: 'text-center col-10p',
-      },
       {
         id: 'startDate',
         name: 'chargers.smart_charging.start_date',
@@ -52,7 +46,7 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
         name: 'chargers.smart_charging.duration',
         headerClass: 'col-15p',
         editType: TableEditType.INPUT,
-        class: 'text-left col-15p',
+        class: 'text-center col-15p',
       },
       {
         id: 'limit',
@@ -68,23 +62,23 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
 
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
-    this.tableColumnDefs[3].additionalParameters = { charger };
+    this.tableColumnDefs[2].additionalParameters = { charger };
     this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
-  public refreshChargingSlots() {
-    const chargingSlots = this.getContent();
-    if (chargingSlots.length > 0) {
-      chargingSlots[0].startDate = this.startDate;
+  public refreshchargingSchedules() {
+    const chargingSchedules = this.getContent();
+    if (chargingSchedules.length > 0) {
+      chargingSchedules[0].startDate = this.startDate;
       // Recompute charging plan date
-      for (let i = 0; i < chargingSlots.length; i++) {
+      for (let i = 0; i < chargingSchedules.length; i++) {
         // Update the date of the next records
-        if (i < chargingSlots.length - 1) {
-          chargingSlots[i + 1].startDate = new Date(
-            chargingSlots[i].startDate.getTime() + Utils.convertToInteger(chargingSlots[i].duration) * 60 * 1000);
+        if (i < chargingSchedules.length - 1) {
+          chargingSchedules[i + 1].startDate = new Date(
+            chargingSchedules[i].startDate.getTime() + Utils.convertToInteger(chargingSchedules[i].duration) * 60 * 1000);
         }
         // Update the limit in kW
-        chargingSlots[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSlots[i].limit) / 1000);
+        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSchedules[i].limit) / 1000);
       }
     }
   }
@@ -93,28 +87,28 @@ export class ChargingStationChargingProfileLimitSlotTableDataSource extends Edit
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
-      connectorID: this.translateService.instant('chargers.smart_charging.connectors_all'),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,
       duration: 60,
-    } as Slot;
+    } as Schedule;
     // Fix the start date
-    const chargingSlots = this.getContent();
-    if (chargingSlots.length > 0) {
+    const chargingSchedules = this.getContent();
+    if (chargingSchedules.length > 0) {
       chargingSchedulePeriod.startDate =
-        new Date(chargingSlots[chargingSlots.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
+        new Date(chargingSchedules[chargingSchedules.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
     }
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, row: Slot, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, row: Schedule, dropdownItem?: DropdownItem) {
     // Call parent
-    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSlots.bind(this));
+    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshchargingSchedules.bind(this));
   }
 
   public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
     // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSlots.bind(this));
+    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshchargingSchedules.bind(this));
   }
+
 }

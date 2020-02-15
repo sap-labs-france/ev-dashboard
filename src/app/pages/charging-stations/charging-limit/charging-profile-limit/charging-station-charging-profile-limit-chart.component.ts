@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { Slot } from 'app/types/ChargingProfile';
+import { Schedule } from 'app/types/ChargingProfile';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
@@ -70,7 +70,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.chart.update();
   }
 
-  public setLimitPlannerData(chargingSlots: Slot[]) {
+  public setLimitPlannerData(chargingSchedules: Schedule[]) {
     // Init
     this.prepareOrUpdateGraph();
     // Create chart
@@ -78,13 +78,13 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       this.data.labels = [];
       this.data.datasets = [];
       // Fill
-      if (chargingSlots) {
-        this.createGraphData(chargingSlots);
+      if (chargingSchedules) {
+        this.createGraphData(chargingSchedules);
       }
     }
   }
 
-  private createGraphData(chargingSlots: Slot[]) {
+  private createGraphData(chargingSchedules: Schedule[]) {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
@@ -97,8 +97,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
       };
-      // Build slots
-      for (const chargingSlot of chargingSlots) {
+      // Build Schedules
+      for (const chargingSlot of chargingSchedules) {
         // Add a point
         if (this.data.labels && chargingSlotDataSet.data) {
           labels.push(chargingSlot.startDate.getTime());
@@ -109,8 +109,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         }
       }
       // Create the last point with the duration
-      if (chargingSlotDataSet.data && chargingSlots.length > 0) {
-        const chargingSlot = chargingSlots[chargingSlots.length - 1];
+      if (chargingSlotDataSet.data && chargingSchedules.length > 0) {
+        const chargingSlot = chargingSchedules[chargingSchedules.length - 1];
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,

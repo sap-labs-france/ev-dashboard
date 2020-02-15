@@ -308,10 +308,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
     this.sendBillingUserSynchronizationFailed = this.notifications.controls['sendBillingUserSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
-
-
     this.userTagsTableDataSource.setFormArray(this.tags);
-
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -320,7 +317,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       });
     }
-
     this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
@@ -328,9 +324,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       }
     });
-
     this.loadApplicationSettings();
-
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }

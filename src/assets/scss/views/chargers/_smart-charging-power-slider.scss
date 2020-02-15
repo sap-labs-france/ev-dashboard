@@ -16,3 +16,16 @@
 .current-power-text-not-supported {
   color: $brand-warn;
 }
+
+.mat-slider-thumb-label-text {
+  font-size: 10px;
+}
+
+.mat-slider-thumb-label {
+  width: 30px;
+  height: 30px;
+}
+
+.mat-slider-horizontal .mat-slider-thumb-label {
+  top: -37px !important;
+}

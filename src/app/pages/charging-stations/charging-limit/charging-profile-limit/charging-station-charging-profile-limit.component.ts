@@ -99,10 +99,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     // Change the Profile Type
     this.profileTypeControl.valueChanges.subscribe((profileType: ProfileType) => {
       // Change date format
-      if (this.profileTypeControl.value === ChargingProfileKindType.ABSOLUTE) {
-        this.scheduleTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_DATE;
-      } else {
+      if (profileType.key !== ChargingProfileKindType.ABSOLUTE) {
         this.scheduleTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_TIME;
+      } else {
+        this.scheduleTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_DATE;
       }
     });
     // Change the Slots/schedules
@@ -194,9 +194,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       if (chargingProfile.profile.chargingSchedule.startSchedule) {
         this.startDateControl.setValue(new Date(chargingProfile.profile.chargingSchedule.startSchedule));
         this.scheduleTableDataSource.startDate = this.startDateControl.value as Date;
-      }
-      if (chargingProfile.profile.chargingProfileKind !== ChargingProfileKindType.ABSOLUTE) {
-        this.scheduleTableDataSource.tableColumnDefs[1].editType = TableEditType.DISPLAY_ONLY_TIME;
       }
       // Create Schedule
       for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {

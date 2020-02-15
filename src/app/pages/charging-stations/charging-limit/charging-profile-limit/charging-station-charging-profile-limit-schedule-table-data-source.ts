@@ -39,7 +39,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         editType: TableEditType.DISPLAY_ONLY,
         headerClass: 'col-30p',
         class: 'text-center col-30p',
-        formatter: (value: Date) => this.datePipe.transform(value, 'MMM d, y, h:mm a'),
+        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'duration',

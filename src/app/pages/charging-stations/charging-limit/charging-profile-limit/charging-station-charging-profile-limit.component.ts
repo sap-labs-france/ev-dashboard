@@ -116,6 +116,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.scheduleTableDataSource.getTableChangedSubject().subscribe((schedules: Schedule[]) => {
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(schedules);
+      this.formGroup.markAsDirty();
     });
   }
 

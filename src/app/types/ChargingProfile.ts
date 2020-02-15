@@ -1,17 +1,6 @@
 import { PowerLimitUnits } from 'app/types/ChargingStation';
 import { Data } from './Table';
 
-export interface ScheduleSlot {
-  start: Date;
-  end: Date;
-  limit: number;
-}
-
-export interface ConnectorSchedule {
-  connectorId: number;
-  slots: ScheduleSlot[];
-}
-
 export interface ChargingProfile extends Data {
   chargingStationID: string;
   connectorID?: number;
@@ -62,7 +51,7 @@ export enum RecurrencyKindType {
   WEEKLY = 'Weekly',
 }
 
-export interface Slot extends Data {
+export interface Schedule extends Data {
   id: number;
   startDate: Date;
   duration: number;

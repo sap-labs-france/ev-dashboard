@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Slot } from 'app/types/ChargingProfile';
+import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
@@ -14,7 +14,7 @@ import { Utils } from 'app/utils/Utils';
   `,
 })
 export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row!: Slot;
+  @Input() row!: Schedule;
   @Input() charger!: ChargingStation;
 
   ngOnInit() {

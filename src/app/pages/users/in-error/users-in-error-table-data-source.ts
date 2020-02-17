@@ -166,10 +166,12 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     return super.buildTableActionsDef();
   }
 
-  public buildTableDynamicRowActions(user: User): TableActionDef[] {
+  public buildTableDynamicRowActions(user: UserInError): TableActionDef[] {
     const actions: TableActionDef[] = [this.editAction, this.assignSiteAction, this.deleteAction];
 
-    if (this.componentService.isActive(ComponentType.BILLING) && user.billingData.hasSynchroError) {
+    if (this.componentService.isActive(ComponentType.BILLING)
+      && user.billingData.hasSynchroError
+      && user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
       actions.push(this.forceBillingSyncAction);
     }
     return actions;

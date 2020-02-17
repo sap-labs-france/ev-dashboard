@@ -63,10 +63,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         Validators.compose([
           Validators.required,
         ])),
-      chargingProfilesControl: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      chargingProfilesControl: new FormControl(''),
       startDateControl: new FormControl('',
         Validators.compose([
           Validators.required,

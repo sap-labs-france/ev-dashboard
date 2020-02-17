@@ -327,10 +327,9 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         this.centralServerService.forceUserSynchronizationForBilling(user.id).subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.synchronized) {
+              this.refreshData().subscribe();
               this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',
                 {number: synchronizeResponse.synchronized}));
-            } else if (!synchronizeResponse.error) {
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success_all'));
             }
             if (synchronizeResponse.error) {
               this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure',

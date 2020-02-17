@@ -112,10 +112,22 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         this.charger.id).subscribe((configurationResult: ChargingStationConfiguration) => {
       if (configurationResult && Array.isArray(configurationResult.configuration)) {
         this.chargerConfiguration = configurationResult.configuration;
+        this.chargerConfiguration.sort((confA, confB) => {
+          // ignore upper and lowercase
+          const keyA = confA.key.toUpperCase();
+          const keyB = confB.key.toUpperCase();
+          if (keyA < keyB) {
+            return -1;
+          }
+          if (keyA > keyB) {
+            return 1;
+          }
+          return 0;
+        });
       } else {
         this.chargerConfiguration = [];
       }
-      this.loadedChargerConfiguration = JSON.parse(JSON.stringify(this.chargerConfiguration)); // keep a copy of the original loaded data
+      this.loadedChargerConfiguration = JSON.parse(JSON.stringify(this.chargerConfiguration));
       // Search filter
       const filteredChargerConfiguration = [];
       for (const parameter of this.chargerConfiguration) {

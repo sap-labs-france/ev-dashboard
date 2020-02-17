@@ -328,11 +328,11 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.synchronized) {
               this.refreshData().subscribe();
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.synchronize_users_success',
+              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.force_synchronize_user_success',
                 {number: synchronizeResponse.synchronized}));
             }
             if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.synchronize_users_failure',
+              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.force_synchronize_user_failure',
                 {number: synchronizeResponse.error}));
             }
           } else {

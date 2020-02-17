@@ -1221,8 +1221,10 @@
       "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of this users for billing? Warning, this action may result in the loss of related billing data. This action is irreversible.",
       "synchronize_users_started": "The synchronization of users has been started",
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
+      "force_synchronize_user_success": "User successfully synchronized",
       "synchronize_users_success_all": "All users are already synchronized",
       "synchronize_users_failure": "Failed to synchronize {{number}} user(s) (see the logs)",
+      "force_synchronize_user_failure": "Failed to synchronize user(s) (see the logs)",
       "synchronize_users_error": "Error occurred while synchronizing users for billing",
       "stripe": {
         "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",

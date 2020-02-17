@@ -63,10 +63,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         Validators.compose([
           Validators.required,
         ])),
-      chargingProfilesControl: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      chargingProfilesControl: new FormControl(''),
       startDateControl: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -202,7 +199,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         const schedule: Schedule = {
           key: '',
           id: 0,
-          startDate: this.startDateControl.value as Date,
+          startDate: new Date (this.scheduleTableDataSource.startDate),
           duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
           limit: chargingSchedule.limit,
           limitInkW: ChargingStations.convertAmpToW(

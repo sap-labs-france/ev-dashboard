@@ -1212,6 +1212,19 @@ export class CentralServerService {
       );
   }
 
+  public forceUserSynchronizationForBilling(userID: string): Observable<SynchronizeResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/ForceUserSynchronizationForBilling`,
+      { UserID: userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getBillingTaxes(): Observable<BillingTax[]> {
     this.checkInit();
     // Execute the REST service
@@ -2147,7 +2160,7 @@ export class CentralServerService {
 
   public rebootChargingStation(id: string, hard: boolean = true): Observable<ActionResponse> {
     return this.actionChargingStation(
-      'ChargingStationReset', id ,JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
+      'ChargingStationReset', id , JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
   }
 
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {

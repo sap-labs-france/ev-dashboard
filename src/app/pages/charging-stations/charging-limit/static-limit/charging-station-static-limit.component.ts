@@ -54,7 +54,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     }
   }
 
-  public saveAndApplyChargingProfile() {
+  public saveAndApplyStaticLimit() {
     // show yes/no dialog
     const self = this;
     this.dialogService.createAndShowYesNoDialog(
@@ -63,7 +63,9 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         // Apply to charger
+        this.spinnerService.show();
         this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit).subscribe((response) => {
+          this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             // success + reload
             this.messageService.showSuccessMessage(
@@ -75,7 +77,6 @@ export class ChargingStationStaticLimitComponent implements OnInit {
           }
         }, (error: any) => {
           this.spinnerService.hide();
-          this.dialog.closeAll();
           Utils.handleHttpError(
             error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
         });

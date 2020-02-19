@@ -68,6 +68,7 @@
     "delete": "Effacer",
     "export": "Export",
     "synchronize": "Synchronizer",
+    "force_synchronize": "Forcer la synchronization",
     "download": "Télécharger",
     "upload": "Envoyer",
     "change": "Changer",
@@ -1067,7 +1068,12 @@
       "inactive_user_account": {
         "title": "Compte Utilisateur Inactif",
         "description": "Cet utilisateur ne s'est pas connecté depuis au moins 6 mois.",
-        "action": "Veuillez supprimer ou desactiver le compte cet utilisateur ."
+        "action": "Veuillez supprimer ou desactiver le compte cet utilisateur."
+      },
+      "failed_billing_synchro": {
+        "title": "Synchronisation facturation échouée",
+        "description": "La synchronisation de cet utilisateur avec le système de facturation a échouée.",
+        "action": "Veuillez le re-synchroniser manuellement."
       }
     }
   },
@@ -1207,14 +1213,19 @@
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
       "connection_error": "Connexion vers l'application de facturation impossible",
-      "synchronize_users": "Synchronizer utilisateurs",
-      "synchronize_users_dialog_title": "Synchronizer utilisateurs pour la facturation",
-      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchronizer les utilisateurs pour la facturation ?",
-      "synchronize_users_started": "La synchronization des utilisateurs a été démarrée",
+      "synchronize_users": "Synchroniser utilisateurs",
+      "force_synchronize_user": "Forcer la synchronisation d'un utilisateur",
+      "synchronize_users_dialog_title": "Synchroniser utilisateurs pour la facturation",
+      "force_synchronize_user_dialog_title": "Forcer la synchronisation d'un utilisateur pour la facturation",
+      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs pour la facturation ?",
+      "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de cet utilisateur pour la facturation ? Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées. Cette action est irreversible.",
+      "synchronize_users_started": "La synchronisation des utilisateurs a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
+      "force_synchronize_user_success": "Utilisateur synchronisé avec succès",
       "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",
-      "synchronize_users_failure": "Echec de synchronizer {{number}} utilisateur(s) (veuillez voir les logs)",
-      "synchronize_users_error": "Une erreur est survenue durant la synchronization des utilisateurs",
+      "synchronize_users_failure": "Echec de synchronisation de {{number}} utilisateur(s) (veuillez voir les logs)",
+      "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur (veuillez voir les logs)",
+      "synchronize_users_error": "Une erreur est survenue durant la synchronisation des utilisateurs",
       "stripe": {
         "description": "E-Mobility permet d'envoyer des factures aux utilisateurs de bornes avec Stripe",
         "title": "Stripe",

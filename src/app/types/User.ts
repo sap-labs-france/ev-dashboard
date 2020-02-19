@@ -1,4 +1,5 @@
 import { Address } from './Address';
+import { BillingUserData } from './Billing';
 import { Data } from './Table';
 import { Tag } from './Tag';
 
@@ -38,6 +39,7 @@ export interface User extends Data {
   eulaAcceptedHash: string;
   eulaAcceptedVersion: number;
   eulaAcceptedOn: Date;
+  billingData: BillingUserData;
 }
 
 export interface UserNotifications {

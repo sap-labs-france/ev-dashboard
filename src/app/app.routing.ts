@@ -144,7 +144,7 @@ export const AppRoutes: Routes = [
       },
       {
         path: 'building',
-        loadChildren: () => import('./pages/building/building.module').then((m) => m.BuildingModule),
+        loadChildren: () => import('./pages/buildings/buildings.module').then((m) => m.BuildingsModule),
         data: {
           menu: {
             title: 'buildings',

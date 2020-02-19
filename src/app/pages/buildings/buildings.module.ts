@@ -7,8 +7,8 @@ import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import { BuildingComponent } from './building.component';
-import { BuildingRoutes } from './building.routing';
+import { BuildingsComponent } from './buildings.component';
+import { BuildingsRoutes } from './buildings.routing';
 
 @NgModule({
   imports: [
@@ -20,17 +20,17 @@ import { BuildingRoutes } from './building.routing';
     MaterialModule,
     TableModule,
     DialogsModule,
-    RouterModule.forChild(BuildingRoutes),
+    RouterModule.forChild(BuildingsRoutes),
   ],
   declarations: [
-    BuildingComponent,
+    BuildingsComponent,
   ],
   entryComponents: [
-    BuildingComponent,
+    BuildingsComponent,
   ],
   providers: [
   ],
 })
 
-export class BuildingModule {
+export class BuildingsModule {
 }

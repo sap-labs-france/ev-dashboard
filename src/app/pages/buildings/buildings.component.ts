@@ -4,10 +4,10 @@ import { WindowService } from 'app/services/window.service';
 import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
-  selector: 'app-building',
-  templateUrl: './building.component.html',
+  selector: 'app-buildings',
+  templateUrl: './buildings.component.html',
 })
-export class BuildingComponent extends AbstractTabComponent {
+export class BuildingsComponent extends AbstractTabComponent {
   constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,

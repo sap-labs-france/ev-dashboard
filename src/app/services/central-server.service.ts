@@ -1216,7 +1216,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/ForceUserSynchronizationForBilling`,
-      { UserID: userID },
+      { userID: userID },
       {
         headers: this.buildHttpHeaders(),
       })

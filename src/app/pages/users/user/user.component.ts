@@ -54,6 +54,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public maxSize: number;
   public formGroup!: FormGroup;
   public id!: AbstractControl;
+  public issuer!: AbstractControl;
   public name!: AbstractControl;
   public firstName!: AbstractControl;
   public email!: AbstractControl;
@@ -162,6 +163,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
+      issuer: new FormControl(true),
       name: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -185,7 +187,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendPreparingSessionNotStarted: new FormControl(true),
         sendSmtpAuthError: new FormControl(true),
         sendBillingUserSynchronizationFailed: new FormControl(true),
-        sendSessionNotStarted: new FormControl(true)
+        sendSessionNotStarted: new FormControl(true),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -267,6 +269,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
     // Form
     this.id = this.formGroup.controls['id'];
+    this.issuer = this.formGroup.controls['issuer'];
     this.name = this.formGroup.controls['name'];
     this.firstName = this.formGroup.controls['firstName'];
     this.email = this.formGroup.controls['email'];
@@ -398,6 +401,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.id) {
         this.formGroup.controls.id.setValue(user.id);
       }
+      this.formGroup.controls.issuer.setValue(user.issuer);
       if (user.name) {
         this.formGroup.controls.name.setValue(user.name.toUpperCase());
       }
@@ -780,7 +784,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Set the image
     this.updateUserImage(user);
     // Yes: Update
-    debugger;
     this.centralServerService.updateUser(user).subscribe((response) => {
       // Hide
       this.spinnerService.hide();

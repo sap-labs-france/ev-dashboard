@@ -215,6 +215,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       case OcpiButtonAction.GET_SESSIONS:
         this.getSessionsOcpiEndpoint(rowItem.ocpiendpoint);
         break;
+      case OcpiButtonAction.GET_TOKENS:
+        this.getTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        break;
       case ButtonAction.START:
         this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
         break;
@@ -275,7 +278,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             }
           }
           if (response.locations) {
-            if (response.locations.failure === 0 && response.locations.success > 0) {
+            if (response.locations.failure === 0 && response.locations.success >= 0) {
               this.messageService.showSuccessMessage('ocpiendpoints.success_send_evse_statuses', { success: response.locations.success });
             } else if (response.locations.failure > 0 && response.locations.success > 0) {
               this.messageService.showWarningMessage('ocpiendpoints.partial_send_evse_statuses',
@@ -378,6 +381,35 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.getSessions_error');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private getTokensOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.getTokens_title'),
+      this.translateService.instant('ocpiendpoints.getTokens_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        // Ping
+        this.centralServerService.getTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.getTokens_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.getTokens_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.getTokens_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.getTokens_error');
           // reload data
           this.refreshData().subscribe();
         });

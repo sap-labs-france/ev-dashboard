@@ -1695,6 +1695,20 @@ export class CentralServerService {
       );
   }
 
+  public getTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullTokens`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();

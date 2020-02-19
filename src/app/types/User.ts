@@ -4,6 +4,7 @@ import { Tag } from './Tag';
 
 export interface User extends Data {
   id: string;
+  issuer: boolean;
   name: string;
   firstName: string;
   fullName: string;

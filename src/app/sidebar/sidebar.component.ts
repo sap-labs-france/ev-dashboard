@@ -26,7 +26,7 @@ const misc: any = {
 export class SidebarComponent implements OnInit, OnDestroy {
   mobileMenuVisible: any = 0;
   public menuItems!: any[];
-  public loggedUser: UserToken;
+  public loggedUser!: UserToken;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public isAdmin = false;
   public canEditProfile = false;

@@ -580,7 +580,7 @@ export abstract class TableDataSource<T extends Data> {
       this.data.splice(this.paging.skip, this.paging.limit, ...data);
     }
     // Update Selection variables
-    if (this.tableDef.rowSelection &&
+    if (this.tableDef && this.tableDef.rowSelection &&
       this.tableDef.rowSelection.enabled &&
       this.tableDef.rowSelection.multiple) {
       // Init

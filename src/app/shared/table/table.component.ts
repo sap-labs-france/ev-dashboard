@@ -31,6 +31,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private ongoingRefresh = false;
 
   private autoRefreshSubscription!: Subscription|null;
+  private refreshSubscription!: Subscription|null;
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
@@ -54,25 +55,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Handle Poll (config service available only in component not possible in data-source)
     this.autoRefreshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
     this.autoRefreshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
-    // Init Sort
-    const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
-    if (columnDef) {
-      // Yes: Set Sorting
-      this.sort.active = columnDef.id;
-      this.sort.direction = columnDef.direction ? columnDef.direction : '';
+    if (this.dataSource) {
+      // Init Sort
+      if (this.dataSource.tableColumnDefs) {
+        const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
+        if (columnDef) {
+          // Yes: Set Sorting
+          this.sort.active = columnDef.id;
+          this.sort.direction = columnDef.direction ? columnDef.direction : '';
+        }
+        this.dataSource.setSort(this.sort);
+        // Compute number of columns
+        this.numberOfColumns = this.dataSource.tableColumnDefs.length +
+          (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled ? 1 : 0) +
+          (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
+          (this.dataSource.hasRowActions ? 1 : 0);
+      }
     }
-    this.dataSource.setSort(this.sort);
-    // Compute number of columns
-    this.numberOfColumns = this.dataSource.tableColumnDefs.length +
-      (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled ? 1 : 0) +
-      (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
-      (this.dataSource.hasRowActions ? 1 : 0);
+    this.createRefresh();
   }
 
   ngAfterViewInit() {
     this.alive = true;
     // Init Search
-    if (this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
+    if (this.dataSource.tableDef && this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
       // Init initial value
       this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
       // Observe the Search field
@@ -94,7 +100,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         if (tableActionRightDef.id === 'auto-refresh') {
           // Active by default?
           if (tableActionRightDef.currentValue) {
-            this.createAutoRefreshTimer();
+            this.createAutoRefresh();
           }
           break;
         }
@@ -106,8 +112,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.alive = false;
-    this.destroyAutoRefreshTimer();
-    // this.dataSource.destroyDatasource();
+    this.destroyAutoRefresh();
+    this.destroyRefresh();
   }
 
   displayMoreRecords() {
@@ -236,7 +242,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  createAutoRefreshTimer() {
+  createAutoRefresh() {
     // Create timer only if socketIO is not active
     if (!this.autoRefreshSubscription) {
       let refreshObservable;
@@ -246,8 +252,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         refreshObservable = this.dataSource.getDataChangeSubject();
       }
-
       this.autoRefreshSubscription = refreshObservable.pipe(
+        // @ts-ignore
         takeWhile(() => this.alive),
       ).subscribe(() => {
         if (!this.ongoingRefresh) {
@@ -257,18 +263,43 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  destroyAutoRefreshTimer() {
+  destroyAutoRefresh() {
     if (this.autoRefreshSubscription) {
       this.autoRefreshSubscription.unsubscribe();
     }
     this.autoRefreshSubscription = null;
   }
+
+  createRefresh() {
+    // Create timer only if socketIO is not active
+    if (!this.refreshSubscription) {
+      const refreshObservable = this.dataSource.getDataChangeSubject();
+      if (refreshObservable) {
+        this.refreshSubscription = refreshObservable.pipe(
+          // @ts-ignore
+          takeWhile(() => this.alive),
+        ).subscribe(() => {
+          if (!this.ongoingRefresh) {
+            this.refresh(true);
+          }
+        });
+      }
+    }
+  }
+
+  destroyRefresh() {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
+    this.refreshSubscription = null;
+  }
+
   // @ts-ignore
   public toggleAutoRefresh({ checked }) {
     if (checked) {
-      this.createAutoRefreshTimer();
+      this.createAutoRefresh();
     } else {
-      this.destroyAutoRefreshTimer();
+      this.destroyAutoRefresh();
     }
   }
 

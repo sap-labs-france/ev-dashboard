@@ -349,7 +349,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     });
   }
 
-  buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
+  public buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
     if (!charger) {
       return [];
     }

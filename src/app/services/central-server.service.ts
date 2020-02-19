@@ -1952,7 +1952,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(
+        `${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

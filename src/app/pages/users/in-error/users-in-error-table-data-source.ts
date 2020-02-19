@@ -229,18 +229,15 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       key: UserInErrorType.INACTIVE_USER_ACCOUNT,
       value: `users.errors.${UserInErrorType.INACTIVE_USER_ACCOUNT}.title`,
     });
-
     if (this.componentService.isActive(ComponentType.BILLING)) {
       errorTypes.push({
         key: UserInErrorType.FAILED_BILLING_SYNCHRO,
         value: `users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`,
       });
     }
-
     const filters: TableFilterDef[] = [
       new UserRoleFilter(this.centralServerService).getFilterDef(),
     ];
-
     // Show Error types filter only if Organization component is active
     if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
       filters.push(new ErrorTypeTableFilter(errorTypes).getFilterDef());

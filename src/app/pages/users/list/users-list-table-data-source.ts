@@ -37,6 +37,7 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -221,7 +222,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       ];
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      actions.push(this.deleteAction);
+      const moreActions = new TableMoreAction([
+        this.deleteAction,
+      ]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

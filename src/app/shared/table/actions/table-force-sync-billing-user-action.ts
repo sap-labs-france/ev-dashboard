@@ -8,7 +8,7 @@ export class TableForceSyncBillingUserAction implements TableAction {
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
-    name: 'settings.billing.force_synchronize_user',
+    name: 'settings.billing.force_synchronize_users',
     tooltip: 'general.force_synchronize',
   };
 

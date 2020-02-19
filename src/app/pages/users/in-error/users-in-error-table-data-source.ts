@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ErrorMessage, UserInError, UserInErrorType } from 'app/types/InError';
@@ -167,12 +168,18 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: UserInError): TableActionDef[] {
-    const actions: TableActionDef[] = [this.editAction, this.assignSiteAction, this.deleteAction];
-
-    if (this.componentService.isActive(ComponentType.BILLING)
-      && user.billingData.hasSynchroError
-      && user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
-      actions.push(this.forceBillingSyncAction);
+    const actions: TableActionDef[] = [
+      this.editAction,
+      this.assignSiteAction,
+    ];
+    const moreActions = new TableMoreAction([
+      this.deleteAction,
+    ]);
+    actions.push(moreActions.getActionDef());
+    if (this.componentService.isActive(ComponentType.BILLING) &&
+        user.billingData.hasSynchroError &&
+        user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
+      moreActions.addActionDef(this.forceBillingSyncAction);
     }
     return actions;
   }

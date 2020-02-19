@@ -22,7 +22,7 @@ export class ConfirmationDialogComponent implements AfterViewInit {
   constructor(
       protected dialogRef: MatDialogRef<ConfirmationDialogComponent>,
       protected translateService: TranslateService,
-      @Inject(MAT_DIALOG_DATA) data) {
+      @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
     this.title = data.title;
     this.message = data.message;
@@ -45,8 +45,8 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         this.buttonValidateName = this.translateService.instant('general.ok');
         this.buttonCancelID = ButtonType.CANCEL;
         this.buttonCancelName = this.translateService.instant('general.cancel');
-        this.buttonNoID = null;
-        this.buttonNoName = null;
+        delete this.buttonNoID;
+        delete this.buttonNoName;
         this.buttonValidateColor = 'primary';
         this.buttonNoColor = '';
         break;
@@ -57,8 +57,8 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         this.buttonValidateName = this.translateService.instant('general.yes');
         this.buttonNoID = ButtonType.NO;
         this.buttonNoName = this.translateService.instant('general.no');
-        this.buttonCancelID = null;
-        this.buttonCancelName = null;
+        delete this.buttonCancelID;
+        delete this.buttonCancelName;
         this.buttonValidateColor = 'warn';
         this.buttonNoColor = '';
         break;
@@ -66,10 +66,10 @@ export class ConfirmationDialogComponent implements AfterViewInit {
       case DialogType.OK:
         this.buttonValidateID = ButtonType.OK;
         this.buttonValidateName = this.translateService.instant('general.ok');
-        this.buttonNoID = null;
-        this.buttonNoName = null;
-        this.buttonCancelID = null;
-        this.buttonCancelName = null;
+        delete this.buttonNoID;
+        delete this.buttonNoName;
+        delete this.buttonCancelID;
+        delete this.buttonCancelName;
         this.buttonValidateColor = 'primary';
         this.buttonNoColor = '';
         break;
@@ -97,8 +97,8 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         break;
       // Do Not Save and Close / Cancel
       case DialogType.INVALID_CHANGE:
-        this.buttonValidateID = null;
-        this.buttonValidateName = null;
+        delete this.buttonValidateID;
+        delete this.buttonValidateName;
         this.buttonNoID = ButtonType.DO_NOT_SAVE_AND_CLOSE;
         this.buttonNoName = this.translateService.instant('general.do_not_save_and_close');
         this.buttonCancelID = ButtonType.CANCEL;

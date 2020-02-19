@@ -147,7 +147,7 @@ export const AppRoutes: Routes = [
         loadChildren: () => import('./pages/building/building.module').then((m) => m.BuildingModule),
         data: {
           menu: {
-            title: 'building',
+            title: 'buildings',
             type: 'link',
             icon: 'account_balance',
             path: '/building',

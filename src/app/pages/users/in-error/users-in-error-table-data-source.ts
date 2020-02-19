@@ -320,8 +320,9 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
-        this.messageService.showInfoMessage('settings.billing.synchronize_users_started');
+        this.spinnerService.show();
         this.centralServerService.forceUserSynchronizationForBilling(user.id).subscribe((synchronizeResponse) => {
+          this.spinnerService.hide();
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.synchronized) {
               this.refreshData().subscribe();
@@ -336,6 +337,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
             Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
           }
         }, (error) => {
+          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'settings.billing.synchronize_users_error');
         });

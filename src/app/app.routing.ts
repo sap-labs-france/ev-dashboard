@@ -7,7 +7,6 @@ import { BrowserNotSupportedComponent } from './pages/browser-not-supported/brow
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { ComponentType } from './services/component.service';
 import { Action, Entity } from './types/Authorization';
-import { Constants } from './utils/Constants';
 
 export const AppRoutes: Routes = [
   {
@@ -141,6 +140,23 @@ export const AppRoutes: Routes = [
             action: Action.LIST,
           },
           component: ComponentType.ORGANIZATION,
+        },
+      },
+      {
+        path: 'building',
+        loadChildren: () => import('./pages/building/building.module').then((m) => m.BuildingModule),
+        data: {
+          menu: {
+            title: 'building',
+            type: 'link',
+            icon: 'account_balance',
+            path: '/building',
+          },
+          auth: {
+            entity: Entity.BUILDINGS,
+            action: Action.LIST,
+          },
+          component: ComponentType.BUILDING,
         },
       },
       {

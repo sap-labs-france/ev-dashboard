@@ -1,7 +1,7 @@
-import { Entity } from './Authorization';
+import { Action, Entity } from './Authorization';
 
 export default interface ChangeNotification {
   tenantID: string;
   entity: Entity;
-  action?: Notification;
+  action?: Action;
 }

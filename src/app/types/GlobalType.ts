@@ -75,10 +75,6 @@ export enum LevelText {
   WARNING = 'text-warning',
 }
 
-export enum Notification {
-  DELETE = 'Delete',
-}
-
 export enum RestResponse {
   SUCCESS = 'Success',
 }

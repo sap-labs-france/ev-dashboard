@@ -317,6 +317,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       });
     }
+    if (!this.currentUserID) {
+      // Create default badge
+      this.userTagsTableDataSource.setContent([this.userTagsTableDataSource.createRow()]);
+    }
     this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
@@ -387,9 +391,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (!this.currentUserID) {
       return;
     }
-    // Show spinner
     this.spinnerService.show();
-    // Yes, get it
     // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getUser(this.currentUserID).pipe(mergeMap((user) => {
       this.formGroup.markAsPristine();

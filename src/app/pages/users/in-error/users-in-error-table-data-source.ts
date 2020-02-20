@@ -177,7 +177,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     ]);
     actions.push(moreActions.getActionDef());
     if (this.componentService.isActive(ComponentType.BILLING) &&
-        user.billingData.hasSynchroError &&
+        (!user.billingData || user.billingData.hasSynchroError) &&
         user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
       moreActions.addActionDef(this.forceBillingSyncAction);
     }

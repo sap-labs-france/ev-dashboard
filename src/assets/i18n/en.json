@@ -1014,6 +1014,7 @@
     "delete_button": "Delete",
     "delete_confirm": "Do you really want to delete the user '{{userFullName}}'?",
     "delete_success": "The user '{{userFullName}}' has been deleted successfully",
+    "delete_billing_error": "Error occurred while deleting the user due to billing constraints, check the logs",
     "delete_error": "Error occurred while deleting the user",
     "remove_sites_title": "Remove Site(s)",
     "remove_sites_confirm": "Are you sure to remove the selected site(s) from this user?",

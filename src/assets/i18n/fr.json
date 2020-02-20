@@ -1015,6 +1015,7 @@
     "delete_confirm": "Voulez-vous vraiment supprimer l'utilisateur '{{userFullName}}'?",
     "delete_success": "L'utilisateur '{{userFullName}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue lors de la suppression de l'utilisateur",
+    "delete_billing_error": "Une erreur est survenue lors de la suppression de l'utilisateur due à la facturation, vérifiez les logs",
     "remove_sites_title": "Retirer Site(s)",
     "remove_sites_confirm": "Voulez-vous vraiment retirer le(s) site(s) de cet utilisateur?",
     "remove_sites_success": "Le(s) site(s) ont été retiré(s) avec succès",

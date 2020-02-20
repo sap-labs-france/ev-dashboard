@@ -38,6 +38,7 @@ import { UserStatusFormatterComponent } from '../formatters/user-status-formatte
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { HTTPError } from 'app/types/HTTPError';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -328,8 +329,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'users.delete_error');
+          if (error.status === HTTPError.BILLING_DELETE_ERROR) {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'users.delete_billing_error');
+          } else {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'users.delete_error');
+          }
         });
       }
     });

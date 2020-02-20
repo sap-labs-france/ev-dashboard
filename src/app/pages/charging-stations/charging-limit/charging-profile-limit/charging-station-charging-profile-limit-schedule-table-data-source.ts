@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Entity } from 'app/types/Authorization';
-import ChangeNotification from 'app/types/ChangeNotification';
 import { Schedule } from 'app/types/ChargingProfile';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
@@ -12,7 +10,7 @@ import { Observable, Subject } from 'rxjs';
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
-  private subjectSchedule = new Subject<ChangeNotification>();
+  private manualRefreshSchedule = new Subject<void>();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -22,8 +20,8 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     this.initDataSource();
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.subjectSchedule;
+  public getManualDataChangeSubject(): Observable<void> {
+    return this.manualRefreshSchedule;
   }
 
   public buildTableDef(): TableDef {
@@ -80,9 +78,6 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
 
   public setChargingProfileSchedule(schedules: Schedule[]) {
     this.schedules = schedules;
-    this.subjectSchedule.next({
-      tenantID: 'N/A',
-      entity: Entity.CHARGING_STATION,
-    });
+    this.manualRefreshSchedule.next();
   }
 }

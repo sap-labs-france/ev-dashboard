@@ -31,7 +31,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private ongoingRefresh = false;
 
   private autoRefreshSubscription!: Subscription|null;
-  private refreshSubscription!: Subscription|null;
+  private manualRefreshSubscription!: Subscription|null;
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
@@ -272,10 +272,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createRefresh() {
     // Create timer only if socketIO is not active
-    if (!this.refreshSubscription) {
-      const refreshObservable = this.dataSource.getDataChangeSubject();
+    if (!this.manualRefreshSubscription) {
+      const refreshObservable = this.dataSource.getManualDataChangeSubject();
       if (refreshObservable) {
-        this.refreshSubscription = refreshObservable.pipe(
+        this.manualRefreshSubscription = refreshObservable.pipe(
           // @ts-ignore
           takeWhile(() => this.alive),
         ).subscribe(() => {
@@ -288,10 +288,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   destroyRefresh() {
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
+    if (this.manualRefreshSubscription) {
+      this.manualRefreshSubscription.unsubscribe();
     }
-    this.refreshSubscription = null;
+    this.manualRefreshSubscription = null;
   }
 
   // @ts-ignore

@@ -302,6 +302,10 @@ export abstract class TableDataSource<T extends Data> {
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
+  public getManualDataChangeSubject(): Observable<void> {
+    throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the manual-refresh feature');
+  }
+
   public buildFilterValues(withSearch: boolean = true): { [param: string]: string | string[]; } {
     let filterJson = {};
     // Parse filters

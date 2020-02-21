@@ -1075,6 +1075,11 @@
         "title": "Synchronisation facturation échouée",
         "description": "La synchronisation de cet utilisateur avec le système de facturation a échouée.",
         "action": "Veuillez le re-synchroniser manuellement."
+      },
+      "no_billing_data": {
+        "title": "Aucune donnée de facturation",
+        "description": "Cet utilisateur n'a pas de données de facturation. Celles-ci sont requises pour fonctionner avec le système de facturation.",
+        "action": "Synchroniser l'utilisateur."
       }
     }
   },
@@ -1215,12 +1220,16 @@
       "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
       "connection_error": "Connexion vers l'application de facturation impossible",
       "synchronize_users": "Synchroniser utilisateurs",
+      "synchronize_user": "Synchroniser utilisateur",
       "force_synchronize_users": "Forcer Synchro Facturation",
       "synchronize_users_dialog_title": "Synchroniser utilisateurs pour la facturation",
+      "synchronize_user_dialog_title": "Synchroniser l'utilisateur pour la facturation",
       "force_synchronize_user_dialog_title": "Forcer la synchronisation d'un utilisateur pour la facturation",
       "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs pour la facturation ?",
+      "synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur pour la facturation ?",
       "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de cet utilisateur pour la facturation ?<br>Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées.<br>Cette action est irreversible.",
       "synchronize_users_started": "La synchronisation des utilisateurs a été démarrée",
+      "synchronize_user_started": "La synchronisation de l'utilisateur a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
       "force_synchronize_user_success": "Utilisateur synchronisé avec succès",
       "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",

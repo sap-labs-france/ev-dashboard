@@ -237,7 +237,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.SYNCHRONIZE:
+      case UserButtonAction.FORCE_SYNCHRONIZE:
         if (this.tableSyncBillingUsersAction.action) {
           this.tableSyncBillingUsersAction.action(
             this.dialogService,

@@ -26,6 +26,7 @@ import { TableDeleteAction } from '../../../shared/table/actions/table-delete-ac
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/table-force-sync-billing-user-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableSyncBillingUserAction } from '../../../shared/table/actions/table-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -42,6 +43,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private forceBillingSyncAction = new TableForceSyncBillingUserAction().getActionDef();
+  private synchronizeUserAction = new TableSyncBillingUserAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -176,10 +178,12 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       this.deleteAction,
     ]);
     actions.push(moreActions.getActionDef());
-    if (this.componentService.isActive(ComponentType.BILLING) &&
-        (!user.billingData || user.billingData.hasSynchroError) &&
-        user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
-      moreActions.addActionDef(this.forceBillingSyncAction);
+    if (this.componentService.isActive(ComponentType.BILLING)) {
+      if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
+        moreActions.addActionDef(this.forceBillingSyncAction);
+      } else if (user.errorCode === UserInErrorType.NO_BILLING_DATA) {
+        moreActions.addActionDef(this.synchronizeUserAction);
+      }
     }
     return actions;
   }
@@ -206,8 +210,11 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
-      case UserButtonAction.SYNCHRONIZE:
+      case UserButtonAction.FORCE_SYNCHRONIZE:
         this.forceUserSynchronization(rowItem);
+        break;
+      case UserButtonAction.SYNCHRONIZE:
+        this.synchronizeUser(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -240,6 +247,11 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       errorTypes.push({
         key: UserInErrorType.FAILED_BILLING_SYNCHRO,
         value: `users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`,
+      });
+
+      errorTypes.push({
+        key: UserInErrorType.NO_BILLING_DATA,
+        value: `users.errors.${UserInErrorType.NO_BILLING_DATA}.title`,
       });
     }
     const filters: TableFilterDef[] = [
@@ -329,6 +341,37 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       if (response === ButtonType.YES) {
         this.spinnerService.show();
         this.centralServerService.forceUserSynchronizationForBilling(user.id).subscribe((synchronizeResponse) => {
+          this.spinnerService.hide();
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            if (synchronizeResponse.synchronized) {
+              this.refreshData().subscribe();
+              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.force_synchronize_user_success',
+                {number: synchronizeResponse.synchronized}));
+            }
+            if (synchronizeResponse.error) {
+              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.force_synchronize_user_failure',
+                {number: synchronizeResponse.error}));
+            }
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'settings.billing.synchronize_users_error');
+        });
+      }
+    });
+  }
+
+  private synchronizeUser(user: UserInError) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.synchronize_user_dialog_title'),
+      this.translateService.instant('settings.billing.synchronize_user_dialog_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.spinnerService.show();
+        this.centralServerService.synchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
           this.spinnerService.hide();
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.synchronized) {

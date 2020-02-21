@@ -1212,6 +1212,18 @@ export class CentralServerService {
       );
   }
 
+  public synchronizeUserForBilling(userID: string): Observable<SynchronizeResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUserForBilling`, { id: userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public forceUserSynchronizationForBilling(userID: string): Observable<SynchronizeResponse> {
     this.checkInit();
     // Execute the REST service

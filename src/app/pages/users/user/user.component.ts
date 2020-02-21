@@ -177,15 +177,16 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendEndOfCharge: new FormControl(true),
         sendEndOfSession: new FormControl(true),
         sendUserAccountStatusChanged: new FormControl(true),
-        sendUnknownUserBadged: new FormControl(true),
-        sendChargingStationStatusError: new FormControl(true),
-        sendChargingStationRegistered: new FormControl(true),
-        sendOfflineChargingStations: new FormControl(true),
-        sendOcpiPatchStatusError: new FormControl(true),
-        sendPreparingSessionNotStarted: new FormControl(true),
-        sendSmtpAuthError: new FormControl(true),
-        sendBillingUserSynchronizationFailed: new FormControl(true),
-        sendSessionNotStarted: new FormControl(true)
+        sendSessionNotStarted: new FormControl(true),
+        // Admin notifs
+        sendUnknownUserBadged: new FormControl(false),
+        sendChargingStationStatusError: new FormControl(false),
+        sendChargingStationRegistered: new FormControl(false),
+        sendOfflineChargingStations: new FormControl(false),
+        sendPreparingSessionNotStarted: new FormControl(false),
+        sendOcpiPatchStatusError: new FormControl(false),
+        sendSmtpAuthError: new FormControl(false),
+        sendBillingUserSynchronizationFailed: new FormControl(false),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -566,6 +567,65 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
+  public roleChanged(role: UserRoles) {
+    switch (role) {
+      case UserRole.ADMIN:
+        this.formGroup.controls.notificationsActive.setValue(true);
+        this.notifications.controls.sendSessionStarted.setValue(true);
+        this.notifications.controls.sendOptimalChargeReached.setValue(true);
+        this.notifications.controls.sendEndOfCharge.setValue(true);
+        this.notifications.controls.sendEndOfSession.setValue(true);
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(true);
+        this.notifications.controls.sendSessionNotStarted.setValue(true);
+        // Admin notifs
+        this.notifications.controls.sendUnknownUserBadged.setValue(true);
+        this.notifications.controls.sendChargingStationStatusError.setValue(true);
+        this.notifications.controls.sendChargingStationRegistered.setValue(true);
+        this.notifications.controls.sendOfflineChargingStations.setValue(true);
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(true);
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
+        this.notifications.controls.sendSmtpAuthError.setValue(true);
+        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(true);
+        break;
+      case UserRole.BASIC:
+        this.formGroup.controls.notificationsActive.setValue(true);
+        this.notifications.controls.sendSessionStarted.setValue(true);
+        this.notifications.controls.sendOptimalChargeReached.setValue(true);
+        this.notifications.controls.sendEndOfCharge.setValue(true);
+        this.notifications.controls.sendEndOfSession.setValue(true);
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(true);
+        this.notifications.controls.sendSessionNotStarted.setValue(true);
+        // Admin notifs
+        this.notifications.controls.sendUnknownUserBadged.setValue(false);
+        this.notifications.controls.sendChargingStationStatusError.setValue(false);
+        this.notifications.controls.sendChargingStationRegistered.setValue(false);
+        this.notifications.controls.sendOfflineChargingStations.setValue(false);
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
+        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
+        break;
+      case UserRole.DEMO:
+        this.formGroup.controls.notificationsActive.setValue(false);
+        this.notifications.controls.sendSessionStarted.setValue(false);
+        this.notifications.controls.sendOptimalChargeReached.setValue(false);
+        this.notifications.controls.sendEndOfCharge.setValue(false);
+        this.notifications.controls.sendEndOfSession.setValue(false);
+        this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
+        this.notifications.controls.sendSessionNotStarted.setValue(false);
+        // Admin notifs
+        this.notifications.controls.sendUnknownUserBadged.setValue(false);
+        this.notifications.controls.sendChargingStationStatusError.setValue(false);
+        this.notifications.controls.sendChargingStationRegistered.setValue(false);
+        this.notifications.controls.sendOfflineChargingStations.setValue(false);
+        this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
+        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
+        break;
+      }
+  }
+
   public updateUserImage(user: User) {
     if (this.image && !this.image.endsWith(Constants.USER_NO_PICTURE)) {
       // Set to user
@@ -671,6 +731,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
+  }
+
+  firstLetterToUpperCase(control: AbstractControl) {
+    control.setValue(Utils.firstLetterInUpperCase(control.value));
   }
 
   private loadApplicationSettings() {

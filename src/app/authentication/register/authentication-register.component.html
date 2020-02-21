@@ -28,7 +28,7 @@
                     <div class="input-group-prepend input-group-no-icon">
                       <mat-form-field>
                         <input id="first-name-field" matInput type="text" placeholder="{{'users.first_name' | translate}}"
-                               [formControl]="firstName" required>
+                               [formControl]="firstName" (input)="firstLetterToUpperCase(firstName)" required>
                         <mat-error *ngIf="firstName.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </div>

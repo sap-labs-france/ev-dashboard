@@ -692,6 +692,7 @@
       "not_supported": "This feature is not supported by this brand of charging station",
       "static_limit": "Static Limitation",
       "charging_profile_limit": "Charging Profile",
+      "debug_charging_station":"Debug Station",
       "reset_button": "Reset",
       "maximum_energy_limit": "Power Limit of '{{chargeBoxID}}'",
       "power_limit_title": "Limit power",
@@ -737,7 +738,9 @@
         "absolute": "Temporary Planning",
         "recurring_daily": "Daily Planning",
         "recurring_weekly": "Weekly recurring"
-      }
+      },
+      "retrieve_schedule": "Retrieve schedule",
+      "charging_schedule": "Charging Schedule of '{{chargeBoxID}}'"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",

@@ -290,10 +290,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_not_accepted', { chargeBoxID: self.charger.id });
+              error, this.router, this.messageService, this.centralServerService, this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted'), { chargeBoxID: self.charger.id });
           } else {
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
+              error, this.router, this.messageService, this.centralServerService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
           }
         });
       }

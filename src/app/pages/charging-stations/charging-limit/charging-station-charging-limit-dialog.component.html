@@ -43,6 +43,28 @@
           </div>
         </ng-template>
       </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>bug_report</mat-icon>
+          <span>{{'chargers.smart_charging.debug_charging_station' | translate }}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <div class="card-body" style="margin-top: 15px">
+            <div class="row" *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
+              <div class="col-md-12">
+                <app-charging-station-debug [charger]="charger"></app-charging-station-debug>
+              </div>
+            </div>
+            <ng-template #notSupported>
+              <div class="row">
+                <div class="col-md-12 feature-not-supported">
+                  {{'chargers.smart_charging.not_supported' | translate }}
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </ng-template>
+      </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>
           <button mat-icon-button mat-dialog-close>

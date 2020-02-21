@@ -252,14 +252,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         refreshObservable = this.dataSource.getDataChangeSubject();
       }
-      this.autoRefreshSubscription = refreshObservable.pipe(
-        // @ts-ignore
-        takeWhile(() => this.alive),
-      ).subscribe(() => {
-        if (!this.ongoingRefresh) {
-          this.refresh(true);
-        }
-      });
+      if (refreshObservable) {
+        this.autoRefreshSubscription = refreshObservable.pipe(
+          // @ts-ignore
+          takeWhile(() => this.alive),
+        ).subscribe(() => {
+          if (!this.ongoingRefresh) {
+            this.refresh(true);
+          }
+        });
+      }
     }
   }
 

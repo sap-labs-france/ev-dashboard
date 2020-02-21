@@ -1224,10 +1224,10 @@ export class CentralServerService {
       );
   }
 
-  public forceUserSynchronizationForBilling(userID: string): Observable<SynchronizeResponse> {
+  public forceSynchronizeUserForBilling(userID: string): Observable<SynchronizeResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/ForceUserSynchronizationForBilling`,
+    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/ForceSynchronizeUserForBilling`,
       { id: userID },
       {
         headers: this.buildHttpHeaders(),

@@ -42,8 +42,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private forceBillingSyncAction = new TableForceSyncBillingUserAction().getActionDef();
-  private synchronizeUserAction = new TableSyncBillingUserAction().getActionDef();
+  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -180,9 +180,9 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     actions.push(moreActions.getActionDef());
     if (this.componentService.isActive(ComponentType.BILLING)) {
       if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
-        moreActions.addActionDef(this.forceBillingSyncAction);
+        moreActions.addActionDef(this.forceSyncBillingUserAction);
       } else if (user.errorCode === UserInErrorType.NO_BILLING_DATA) {
-        moreActions.addActionDef(this.synchronizeUserAction);
+        moreActions.addActionDef(this.syncBillingUserAction);
       }
     }
     return actions;
@@ -211,7 +211,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         this.deleteUser(rowItem);
         break;
       case UserButtonAction.FORCE_SYNCHRONIZE:
-        this.forceUserSynchronization(rowItem);
+        this.forceSynchronizeUser(rowItem);
         break;
       case UserButtonAction.SYNCHRONIZE:
         this.synchronizeUser(rowItem);
@@ -333,14 +333,14 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     });
   }
 
-  private forceUserSynchronization(user: UserInError) {
+  private forceSynchronizeUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.forceUserSynchronizationForBilling(user.id).subscribe((synchronizeResponse) => {
+        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
           this.spinnerService.hide();
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.synchronized) {

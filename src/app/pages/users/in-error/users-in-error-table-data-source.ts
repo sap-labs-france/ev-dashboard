@@ -309,7 +309,13 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       dialogConfig.data = user;
     }
     // Open
-    this.dialog.open(UserSitesDialogComponent, dialogConfig);
+    this.dialog.open(UserSitesDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+        console.log('====================================');
+        console.log(result);
+        console.log('====================================');
+        this.refreshData().subscribe();
+      });
   }
 
   private deleteUser(user: UserInError) {

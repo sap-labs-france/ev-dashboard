@@ -329,12 +329,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          if (error.status === HTTPError.BILLING_DELETE_ERROR) {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'users.delete_billing_error');
-          } else {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'users.delete_error');
+          switch (error.status) {
+            case HTTPError.BILLING_DELETE_ERROR:
+              this.messageService.showErrorMessage('users.delete_billing_error');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'users.delete_error');
           }
         });
       }

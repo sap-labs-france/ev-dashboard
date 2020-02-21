@@ -1231,7 +1231,7 @@
       "synchronize_users_started": "La synchronisation des utilisateurs a été démarrée",
       "synchronize_user_started": "La synchronisation de l'utilisateur a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
-      "force_synchronize_user_success": "Utilisateur synchronisé avec succès",
+      "force_synchronize_user_success": "l'utilisateur '{{userFullName}}' a été synchronisé avec succès",
       "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",
       "synchronize_users_failure": "Echec de synchronisation de {{number}} utilisateur(s), vérifiez les logs",
       "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs",

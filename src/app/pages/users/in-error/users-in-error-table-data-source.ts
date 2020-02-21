@@ -36,6 +36,7 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { HTTPError } from 'app/types/HTTPError';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -314,20 +315,26 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private deleteUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
-      this.translateService.instant('users.delete_confirm', {userFullName: this.userNamePipe.transform(user)}),
+      this.translateService.instant('users.delete_confirm', { userFullName: this.userNamePipe.transform(user) }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.centralServerService.deleteUser(user.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.userNamePipe.transform(user)});
+            this.messageService.showSuccessMessage('users.delete_success', { userFullName: this.userNamePipe.transform(user) });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'users.delete_error');
+          switch (error.status) {
+            case HTTPError.BILLING_DELETE_ERROR:
+              this.messageService.showErrorMessage('users.delete_billing_error');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'users.delete_error');
+          }
         });
       }
     });
@@ -343,22 +350,18 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
           this.spinnerService.hide();
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (synchronizeResponse.synchronized) {
-              this.refreshData().subscribe();
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.force_synchronize_user_success',
-                {number: synchronizeResponse.synchronized}));
-            }
-            if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.force_synchronize_user_failure',
-                {number: synchronizeResponse.error}));
-            }
+            this.refreshData().subscribe();
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('settings.billing.force_synchronize_user_success',
+              { userFullName: Utils.buildUserFullName(user) }));
           } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
+            Utils.handleError(JSON.stringify(synchronizeResponse),this.messageService,
+              'settings.billing.force_synchronize_user_failure');
           }
         }, (error) => {
           this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.billing.synchronize_users_error');
+          this.messageService.showErrorMessage(
+            this.translateService.instant(['settings.billing.billing_system_error']));
         });
       }
     });
@@ -374,22 +377,18 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         this.centralServerService.synchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
           this.spinnerService.hide();
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (synchronizeResponse.synchronized) {
-              this.refreshData().subscribe();
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.force_synchronize_user_success',
-                {number: synchronizeResponse.synchronized}));
-            }
-            if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.force_synchronize_user_failure',
-                {number: synchronizeResponse.error}));
-            }
+            this.refreshData().subscribe();
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('settings.billing.force_synchronize_user_success',
+              { userFullName: Utils.buildUserFullName(user) }));
           } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
+              'settings.billing.force_synchronize_user_failure');
           }
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.billing.synchronize_users_error');
+            'settings.billing.force_synchronize_user_failure');
         });
       }
     });

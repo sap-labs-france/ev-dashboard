@@ -205,9 +205,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
       tags: new FormArray([],
-        Validators.compose([
-          Validators.required,
-        ])),
+        Validators.compose(this.isSuperAdmin ? [] : [ Validators.required ])),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),

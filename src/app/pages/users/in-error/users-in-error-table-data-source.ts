@@ -310,10 +310,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     }
     // Open
     this.dialog.open(UserSitesDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
-        console.log('====================================');
-        console.log(result);
-        console.log('====================================');
+      .afterClosed().subscribe(() => {
         this.refreshData().subscribe();
       });
   }

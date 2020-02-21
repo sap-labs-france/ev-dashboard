@@ -214,6 +214,12 @@
                                 [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-checkbox>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
+                </div>
+              </div>
               <div *ngIf="role && role.value === 'A'" class="row">
                 <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin_only" | translate}}</div>
                 <div class="ml-3">
@@ -239,12 +245,6 @@
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
                                     [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="row ml-1">
-                    <div class="col-sm-12">
-                      <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">

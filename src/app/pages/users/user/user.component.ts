@@ -99,6 +99,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendSmtpAuthError!: AbstractControl;
   public sendBillingUserSynchronizationFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
+  public sendUserAccountInactivity!: AbstractControl;
   public user!: User;
   public isConcurConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -180,6 +181,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendEndOfSession: new FormControl(true),
         sendUserAccountStatusChanged: new FormControl(true),
         sendSessionNotStarted: new FormControl(true),
+        sendUserAccountInactivity: new FormControl(true),
         // Admin notifs
         sendUnknownUserBadged: new FormControl(false),
         sendChargingStationStatusError: new FormControl(false),
@@ -310,6 +312,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
     this.sendBillingUserSynchronizationFailed = this.notifications.controls['sendBillingUserSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
+    this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     this.userTagsTableDataSource.setFormArray(this.tags);
     if (this.currentUserID) {
       this.loadUser();
@@ -508,6 +511,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
       }
+      if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountInactivity')) {
+        this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
+      } else {
+        this.notifications.controls.sendUserAccountInactivity.setValue(false);
+      }
       if (user.notifications && user.notifications.hasOwnProperty('sendSessionNotStarted')) {
         this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
       } else {
@@ -579,6 +587,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendEndOfSession.setValue(true);
         this.notifications.controls.sendUserAccountStatusChanged.setValue(true);
         this.notifications.controls.sendSessionNotStarted.setValue(true);
+        this.notifications.controls.sendUserAccountInactivity.setValue(true);
         // Admin notifs
         this.notifications.controls.sendUnknownUserBadged.setValue(true);
         this.notifications.controls.sendChargingStationStatusError.setValue(true);
@@ -597,6 +606,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendEndOfSession.setValue(true);
         this.notifications.controls.sendUserAccountStatusChanged.setValue(true);
         this.notifications.controls.sendSessionNotStarted.setValue(true);
+        this.notifications.controls.sendUserAccountInactivity.setValue(true);
         // Admin notifs
         this.notifications.controls.sendUnknownUserBadged.setValue(false);
         this.notifications.controls.sendChargingStationStatusError.setValue(false);
@@ -615,6 +625,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendEndOfSession.setValue(false);
         this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
         this.notifications.controls.sendSessionNotStarted.setValue(false);
+        this.notifications.controls.sendUserAccountInactivity.setValue(false);
         // Admin notifs
         this.notifications.controls.sendUnknownUserBadged.setValue(false);
         this.notifications.controls.sendChargingStationStatusError.setValue(false);

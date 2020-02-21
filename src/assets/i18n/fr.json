@@ -1665,21 +1665,22 @@
     "action": "Action recommendée"
   },
   "notifications": {
-    "admin-only": "Administrateurs seulement",
-    "session-started": "Me notifier lorsque ma session de charge a démarré",
-    "optimal-charge-reached": "Me notifier lorsque le niveau de la batterie a atteint son niveau optimal (85%)",
-    "end-of-charge": "Me notifier lorsque mon véhicule électrique ne se charge plus (le véhicule électrique est encore connecté)",
-    "end-of-session": "Me notifier lorsque ma session de charge est terminée (le véhicule électrique est déconnecté)",
-    "user-account-status-changed": "Me notifier lorsque mon statut est modifié par un administrateur (Actif, En attente...)",
-    "new-registered-user": "Me notifier lorsqu'un nouvel utilisateur s'est enregistré",
-    "unknown-user-badged": "Me notifier lorsqu'un utilisateur inconnu s'est connecté sur une borne de recharge",
-    "charging-station-status-error": "Me notifier lorsqu'une erreur se produit sur une borne de recharge",
-    "charging-station-registered": "Me notifier lorsqu'une borne de recharge s'est enregistrée ou a redémarré",
-    "charging-stations-offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
-    "preparing-session-not-started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
-    "ocpi-patch-status-error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
-    "smtp-auth-error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
-    "billing-synchronization-failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
-    "session-not-started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré"
+    "admin_only": "Administrateurs seulement",
+    "session_started": "Me notifier lorsque ma session de charge a démarré",
+    "optimal_charge_reached": "Me notifier lorsque le niveau de la batterie a atteint son niveau optimal (85%)",
+    "end_of_charge": "Me notifier lorsque mon véhicule électrique ne se charge plus (le véhicule électrique est encore connecté)",
+    "end_of_session": "Me notifier lorsque ma session de charge est terminée (le véhicule électrique est déconnecté)",
+    "user_account_status_changed": "Me notifier lorsque mon statut est modifié par un administrateur (Actif, En attente...)",
+    "new_registered_user": "Me notifier lorsqu'un nouvel utilisateur s'est enregistré",
+    "unknown_user_badged": "Me notifier lorsqu'un utilisateur inconnu s'est connecté sur une borne de recharge",
+    "charging_station_status_error": "Me notifier lorsqu'une erreur se produit sur une borne de recharge",
+    "charging_station_registered": "Me notifier lorsqu'une borne de recharge s'est enregistrée ou a redémarré",
+    "charging_stations_offline": "Me notifier lorsqu'une borne de recharge n'est plus connectée",
+    "preparing_session_not_started": "Me notifier lorsqu'une session n'a pas été démarrée (propriétaire du site seulement)",
+    "ocpi_patch_status_error": "Me notifier lorsque le transfert des statuts des bornes a échoué vers la platforme de roaming (OCPI)",
+    "smtp_auth_error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
+    "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
+    "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
+    "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois"
   }
 }

@@ -50,18 +50,11 @@
         </ng-template>
         <ng-template matTabContent>
           <div class="card-body" style="margin-top: 15px">
-            <div class="row" *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
+            <div class="row">
               <div class="col-md-12">
                 <app-charging-station-debug [charger]="charger"></app-charging-station-debug>
               </div>
             </div>
-            <ng-template #notSupported>
-              <div class="row">
-                <div class="col-md-12 feature-not-supported">
-                  {{'chargers.smart_charging.not_supported' | translate }}
-                </div>
-              </div>
-            </ng-template>
           </div>
         </ng-template>
       </mat-tab>

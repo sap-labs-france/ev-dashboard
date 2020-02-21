@@ -25,14 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.0',
-        date: new Date('2020-02-15'),
+        date: new Date('2020-02-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `CPO/eMSP first Gireve certification`,
-              `Refactoring of the Charging Plan's backend`,
-              `Refactoring of the Charging Plan's front-end`,
+              `Refactoring of the Charging Plan`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,
               `Activation of Building Management in Master Tenant`,

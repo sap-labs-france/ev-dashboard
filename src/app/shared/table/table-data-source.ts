@@ -302,6 +302,10 @@ export abstract class TableDataSource<T extends Data> {
     throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
   }
 
+  public getManualDataChangeSubject(): Observable<void> {
+    throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the manual-refresh feature');
+  }
+
   public buildFilterValues(withSearch: boolean = true): { [param: string]: string | string[]; } {
     let filterJson = {};
     // Parse filters
@@ -580,7 +584,7 @@ export abstract class TableDataSource<T extends Data> {
       this.data.splice(this.paging.skip, this.paging.limit, ...data);
     }
     // Update Selection variables
-    if (this.tableDef.rowSelection &&
+    if (this.tableDef && this.tableDef.rowSelection &&
       this.tableDef.rowSelection.enabled &&
       this.tableDef.rowSelection.multiple) {
       // Init

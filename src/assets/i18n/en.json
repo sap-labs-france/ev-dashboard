@@ -68,6 +68,7 @@
     "delete": "Delete",
     "export": "Export",
     "synchronize": "Synchronize",
+    "force_synchronize": "Force synchronization",
     "download": "Download",
     "upload": "Upload",
     "change": "Changer",
@@ -1016,6 +1017,7 @@
     "delete_button": "Delete",
     "delete_confirm": "Do you really want to delete the user '{{userFullName}}'?",
     "delete_success": "The user '{{userFullName}}' has been deleted successfully",
+    "delete_billing_error": "Error occurred while deleting the user due to billing constraints, check the logs",
     "delete_error": "Error occurred while deleting the user",
     "remove_sites_title": "Remove Site(s)",
     "remove_sites_confirm": "Are you sure to remove the selected site(s) from this user?",
@@ -1071,6 +1073,11 @@
         "title": "Inactive User Account",
         "description": "This user has not logged in for at least 6 months.",
         "action": "Delete or disable this user account."
+      },
+      "failed_billing_synchro": {
+        "title": "Billing synchronization failed",
+        "description": "The synchronization of this user with the Billing system failed.",
+        "action": "Re-synchronize it manually."
       }
     }
   },
@@ -1211,12 +1218,17 @@
       "connection_success": "Connection to Billing application tested with success",
       "connection_error": "Impossible to connect to Billing application",
       "synchronize_users": "Synchronize Users",
+      "force_synchronize_users": "Force Billing Synchro",
       "synchronize_users_dialog_title": "Synchronize Users for Billing",
+      "force_synchronize_user_dialog_title": "Force user synchronization for Billing",
       "synchronize_users_dialog_confirm": "Do you really want to synchronize the users for billing?",
+      "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of this users for billing?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
       "synchronize_users_started": "The synchronization of users has been started",
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
+      "force_synchronize_user_success": "User successfully synchronized",
       "synchronize_users_success_all": "All users are already synchronized",
-      "synchronize_users_failure": "Failed to synchronize {{number}} user(s) (see the logs)",
+      "synchronize_users_failure": "Failed to synchronize {{number}} user(s), check the logs",
+      "force_synchronize_user_failure": "Failed to synchronize user(s), check the logs",
       "synchronize_users_error": "Error occurred while synchronizing users for billing",
       "stripe": {
         "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",
@@ -1656,7 +1668,7 @@
     "preparing-session-not-started": "Notify me when a session has not been started (site owner only)",
     "ocpi-patch-status-error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
     "smtp-auth-error": "Notify me if the backend authentication to the email server has failed",
-    "billing-synchronization-failed": "Notify me when a synchronization with billing provider has failed",
+    "billing-synchronization-failed": "Notify me when a synchronization with billing system has failed",
     "session-not-started": "Notify me if no session has been started after badging"
   }
 }

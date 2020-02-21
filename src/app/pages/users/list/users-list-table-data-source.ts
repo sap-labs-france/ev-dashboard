@@ -37,6 +37,8 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { HTTPError } from 'app/types/HTTPError';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -163,7 +165,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'eulaAcceptedOn',
       name: 'users.eula_accepted_on',
-      formatter: (eulaAcceptedOn: Date, row: User) => this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})`,
+      formatter: (eulaAcceptedOn: Date, row: User) => {
+        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
+      },
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -219,7 +223,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       ];
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      actions.push(this.deleteAction);
+      const moreActions = new TableMoreAction([
+        this.deleteAction,
+      ]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }
@@ -322,8 +329,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'users.delete_error');
+          if (error.status === HTTPError.BILLING_DELETE_ERROR) {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'users.delete_billing_error');
+          } else {
+            Utils.handleHttpError(
+              error, this.router, this.messageService, this.centralServerService, 'users.delete_error');
+          }
         });
       }
     });

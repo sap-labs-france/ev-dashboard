@@ -1,33 +1,35 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
-import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
+import { DataResult } from 'app/types/DataResult';
+import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
-export class ChargingStationChargingProfileLimitScheduleTableDataSource extends EditableTableDataSource<Schedule> {
-  public startDate!: Date;
-  public charger!: ChargingStation;
-  private chargerPowers!: ChargingStationPowers;
+export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
+  public schedules!: Schedule[];
+  private manualRefreshSchedule = new Subject<void>();
 
   constructor(
     public spinnerService: SpinnerService,
-    private translateService: TranslateService,
     private datePipe: AppDatePipe,
   ) {
     super(spinnerService);
+    this.initDataSource();
+  }
+
+  public getManualDataChangeSubject(): Observable<void> {
+    return this.manualRefreshSchedule;
   }
 
   public buildTableDef(): TableDef {
     return {
-      isEditable: true,
-      rowFieldNameIdentifier: 'id',
-      errorMessage: 'chargers.smart_charging.empty_schedule_list_error',
+      search: {
+        enabled: false,
+      },
+      rowFieldNameIdentifier: 'startDate'
     };
   }
 
@@ -49,10 +51,8 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         class: 'text-center col-15p',
       },
       {
-        id: 'limit',
+        id: 'limitInkW',
         name: 'chargers.smart_charging.limit_title',
-        isAngularComponent: true,
-        angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
         headerClass: 'col-50p',
         class: 'col-45p',
       },
@@ -60,55 +60,24 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     return tableColumnDef;
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.charger = charger;
-    this.tableColumnDefs[2].additionalParameters = { charger };
-    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
-  }
-
-  public refreshchargingSchedules() {
-    const chargingSchedules = this.getContent();
-    if (chargingSchedules.length > 0) {
-      chargingSchedules[0].startDate = this.startDate;
-      // Recompute charging plan date
-      for (let i = 0; i < chargingSchedules.length; i++) {
-        // Update the date of the next records
-        if (i < chargingSchedules.length - 1) {
-          chargingSchedules[i + 1].startDate = new Date(
-            chargingSchedules[i].startDate.getTime() + Utils.convertToInteger(chargingSchedules[i].duration) * 60 * 1000);
-        }
-        // Update the limit in kW
-        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSchedules[i].limit) / 1000);
+  public loadDataImpl(): Observable<DataResult<Schedule>> {
+    return new Observable((observer) => {
+      const schedules = {} as DataResult<Schedule>;
+      if (this.schedules) {
+        schedules.count = this.schedules.length;
+        schedules.result = this.schedules;
+      } else {
+        schedules.count = 0;
+        schedules.result = [];
       }
-    }
+      // Ok
+      observer.next(schedules);
+      observer.complete();
+    });
   }
 
-  public createRow() {
-    const chargingSchedulePeriod = {
-      startDate: this.startDate,
-      limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
-      limit: this.chargerPowers.maxAmp,
-      key: '',
-      id: 0,
-      duration: 60,
-    } as Schedule;
-    // Fix the start date
-    const chargingSchedules = this.getContent();
-    if (chargingSchedules.length > 0) {
-      chargingSchedulePeriod.startDate =
-        new Date(chargingSchedules[chargingSchedules.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
-    }
-    return chargingSchedulePeriod;
+  public setChargingProfileSchedule(schedules: Schedule[]) {
+    this.schedules = schedules;
+    this.manualRefreshSchedule.next();
   }
-
-  public rowActionTriggered(actionDef: TableActionDef, row: Schedule, dropdownItem?: DropdownItem) {
-    // Call parent
-    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshchargingSchedules.bind(this));
-  }
-
-  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
-    // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshchargingSchedules.bind(this));
-  }
-
 }

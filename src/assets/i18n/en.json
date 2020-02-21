@@ -1653,6 +1653,7 @@
   "notifications": {
     "admin-only": "Administrators only",
     "session-started": "Notify me when my charging session has started",
+    "car-synchronization-failed": "Notify me if an error has occurred while synchronization cars",
     "optimal-charge-reached": "Notify me when the optimal battery level has been reached (85%)",
     "end-of-charge": "Notify me when my electric vehicle is not charging anymore (the electric vehicle is still connected)",
     "end-of-session": "Notify me when my charging session is finished (the electric vehicle is no longer connected)",

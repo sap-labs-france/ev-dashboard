@@ -59,6 +59,7 @@ export interface UserNotifications {
   sendOfflineChargingStations: boolean;
   sendBillingUserSynchronizationFailed: boolean;
   sendSessionNotStarted: boolean;
+  sendCarSynchronizationFailed: boolean;
 }
 
 export interface UserToken {

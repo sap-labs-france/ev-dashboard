@@ -86,6 +86,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public notifications!: FormGroup;
   public sendSessionStarted!: AbstractControl;
   public sendOptimalChargeReached!: AbstractControl;
+  public sendCarSynchronizationFailed!: AbstractControl;
   public sendEndOfCharge!: AbstractControl;
   public sendEndOfSession!: AbstractControl;
   public sendUserAccountStatusChanged!: AbstractControl;
@@ -174,6 +175,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       notifications: new FormGroup({
         sendSessionStarted: new FormControl(true),
         sendOptimalChargeReached: new FormControl(true),
+        sendCarSynchronizationFailed: new FormControl(true),
         sendEndOfCharge: new FormControl(true),
         sendEndOfSession: new FormControl(true),
         sendUserAccountStatusChanged: new FormControl(true),
@@ -294,6 +296,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.notifications = this.formGroup.controls['notifications'] as FormGroup;
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
     this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
+    this.sendCarSynchronizationFailed = this.notifications.controls['sendCarSynchronizationFailed'];
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
     this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
     this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
@@ -447,6 +450,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
       } else {
         this.notifications.controls.sendOptimalChargeReached.setValue(false);
+      }
+      if (user.notifications && user.notifications.hasOwnProperty('sendCarSynchronizationFailed')) {
+        this.notifications.controls.sendCarSynchronizationFailed.setValue(user.notifications.sendCarSynchronizationFailed);
+      } else {
+        this.notifications.controls.sendCarSynchronizationFailed.setValue(false);
       }
       if (user.notifications && user.notifications.hasOwnProperty('sendEndOfCharge')) {
         this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);

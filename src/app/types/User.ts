@@ -84,6 +84,7 @@ export interface UserToken {
 }
 
 export enum UserButtonAction {
+  FORCE_SYNCHRONIZE = 'force_synchronize',
   SYNCHRONIZE = 'synchronize',
   EDIT_USERS = 'edit_users',
 }

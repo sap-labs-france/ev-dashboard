@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
-import { RestResponse } from 'app/types/GlobalType';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
@@ -37,8 +38,6 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { HTTPError } from 'app/types/HTTPError';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -237,7 +236,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.SYNCHRONIZE:
+      case UserButtonAction.FORCE_SYNCHRONIZE:
         if (this.tableSyncBillingUsersAction.action) {
           this.tableSyncBillingUsersAction.action(
             this.dialogService,
@@ -329,12 +328,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          if (error.status === HTTPError.BILLING_DELETE_ERROR) {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'users.delete_billing_error');
-          } else {
-            Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'users.delete_error');
+          switch (error.status) {
+            case HTTPError.BILLING_DELETE_ERROR:
+              this.messageService.showErrorMessage('users.delete_billing_error');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'users.delete_error');
           }
         });
       }

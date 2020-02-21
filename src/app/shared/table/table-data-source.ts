@@ -298,12 +298,12 @@ export abstract class TableDataSource<T extends Data> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification> {
-    throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the auto-refresh feature');
+  public getDataChangeSubject(): Observable<ChangeNotification>|null {
+    return null;
   }
 
-  public getManualDataChangeSubject(): Observable<void> {
-    throw new Error('You must implement the method TableDataSource.getDataChangeSubject() to enable the manual-refresh feature');
+  public getManualDataChangeSubject(): Observable<void>|null {
+    return null;
   }
 
   public buildFilterValues(withSearch: boolean = true): { [param: string]: string | string[]; } {

@@ -26,6 +26,7 @@ import { TableDeleteAction } from '../../../shared/table/actions/table-delete-ac
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/table-force-sync-billing-user-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableSyncBillingUserAction } from '../../../shared/table/actions/table-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -35,13 +36,15 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { HTTPError } from 'app/types/HTTPError';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private forceBillingSyncAction = new TableForceSyncBillingUserAction().getActionDef();
+  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -176,10 +179,12 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       this.deleteAction,
     ]);
     actions.push(moreActions.getActionDef());
-    if (this.componentService.isActive(ComponentType.BILLING) &&
-        (!user.billingData || user.billingData.hasSynchroError) &&
-        user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
-      moreActions.addActionDef(this.forceBillingSyncAction);
+    if (this.componentService.isActive(ComponentType.BILLING)) {
+      if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
+        moreActions.addActionDef(this.forceSyncBillingUserAction);
+      } else if (user.errorCode === UserInErrorType.NO_BILLING_DATA) {
+        moreActions.addActionDef(this.syncBillingUserAction);
+      }
     }
     return actions;
   }
@@ -206,8 +211,11 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
+      case UserButtonAction.FORCE_SYNCHRONIZE:
+        this.forceSynchronizeUser(rowItem);
+        break;
       case UserButtonAction.SYNCHRONIZE:
-        this.forceUserSynchronization(rowItem);
+        this.synchronizeUser(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -240,6 +248,11 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       errorTypes.push({
         key: UserInErrorType.FAILED_BILLING_SYNCHRO,
         value: `users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`,
+      });
+
+      errorTypes.push({
+        key: UserInErrorType.NO_BILLING_DATA,
+        value: `users.errors.${UserInErrorType.NO_BILLING_DATA}.title`,
       });
     }
     const filters: TableFilterDef[] = [
@@ -296,57 +309,89 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       dialogConfig.data = user;
     }
     // Open
-    this.dialog.open(UserSitesDialogComponent, dialogConfig);
+    this.dialog.open(UserSitesDialogComponent, dialogConfig)
+      .afterClosed().subscribe(() => {
+        this.refreshData().subscribe();
+      });
   }
 
   private deleteUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('users.delete_title'),
-      this.translateService.instant('users.delete_confirm', {userFullName: this.userNamePipe.transform(user)}),
+      this.translateService.instant('users.delete_confirm', { userFullName: this.userNamePipe.transform(user) }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.centralServerService.deleteUser(user.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
             this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.userNamePipe.transform(user)});
+            this.messageService.showSuccessMessage('users.delete_success', { userFullName: this.userNamePipe.transform(user) });
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'users.delete_error');
+          switch (error.status) {
+            case HTTPError.BILLING_DELETE_ERROR:
+              this.messageService.showErrorMessage('users.delete_billing_error');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'users.delete_error');
+          }
         });
       }
     });
   }
 
-  private forceUserSynchronization(user: UserInError) {
+  private forceSynchronizeUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.forceUserSynchronizationForBilling(user.id).subscribe((synchronizeResponse) => {
+        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
           this.spinnerService.hide();
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (synchronizeResponse.synchronized) {
-              this.refreshData().subscribe();
-              this.messageService.showSuccessMessage(this.translateService.instant('settings.billing.force_synchronize_user_success',
-                {number: synchronizeResponse.synchronized}));
-            }
-            if (synchronizeResponse.error) {
-              this.messageService.showWarningMessage(this.translateService.instant('settings.billing.force_synchronize_user_failure',
-                {number: synchronizeResponse.error}));
-            }
+            this.refreshData().subscribe();
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('settings.billing.force_synchronize_user_success',
+              { userFullName: Utils.buildUserFullName(user) }));
           } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.billing.synchronize_users_error');
+            Utils.handleError(JSON.stringify(synchronizeResponse),this.messageService,
+              'settings.billing.force_synchronize_user_failure');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          this.messageService.showErrorMessage(
+            this.translateService.instant(['settings.billing.billing_system_error']));
+        });
+      }
+    });
+  }
+
+  private synchronizeUser(user: UserInError) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.synchronize_user_dialog_title'),
+      this.translateService.instant('settings.billing.synchronize_user_dialog_confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.spinnerService.show();
+        this.centralServerService.synchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
+          this.spinnerService.hide();
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            this.refreshData().subscribe();
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('settings.billing.force_synchronize_user_success',
+              { userFullName: Utils.buildUserFullName(user) }));
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
+              'settings.billing.force_synchronize_user_failure');
           }
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.billing.synchronize_users_error');
+            'settings.billing.force_synchronize_user_failure');
         });
       }
     });

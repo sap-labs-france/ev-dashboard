@@ -20,6 +20,8 @@ export interface LoginResponse extends ActionResponse {
 export interface OCPITriggerJobsResponse extends ActionResponse {
   tokens: OCPIJobStatusesResponse;
   locations: OCPIJobStatusesResponse;
+  sessions: OCPIJobStatusesResponse;
+  cdrs: OCPIJobStatusesResponse;
 }
 
 export interface OCPIJobStatusesResponse extends ActionResponse {

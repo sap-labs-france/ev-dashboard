@@ -693,6 +693,7 @@
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",
+      "debug_charging_station":"Debuger Borne",
       "reset_button": "Rafraichir",
       "maximum_energy_limit": "Limite de Puissance de '{{chargeBoxID}}'",
       "power_limit_title": "Limite de puissance",
@@ -738,7 +739,9 @@
         "absolute": "Planification Temporaire",
         "recurring_daily": "Planification Journalière",
         "recurring_weekly": "Planification Hebdomadaire"
-      }
+      },
+      "retrieve_schedule": "Récupérer les Plans",
+      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'"
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",

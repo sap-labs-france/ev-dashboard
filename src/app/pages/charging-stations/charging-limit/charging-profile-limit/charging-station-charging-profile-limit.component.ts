@@ -224,7 +224,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
 
   public deleteChargingProfile() {
     // Show yes/no dialog
-    const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
       this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.charger.id }),
@@ -237,8 +236,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             // Success + Reload
-            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
-              { chargeBoxID: self.charger.id, power: 'plan' }));
+            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.f',
+              { chargeBoxID: this.charger.id }));
             this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -248,7 +247,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_not_accepted', { chargeBoxID: self.charger.id });
+              error, this.router, this.messageService, this.centralServerService,
+              this.translateService.instant('chargers.smart_charging.clear_profile_not_accepted',
+              { chargeBoxID: this.charger.id }));
           } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
@@ -260,7 +261,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
 
   public saveAndApplyChargingProfile() {
     // show yes/no dialog
-    const self = this;
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
@@ -271,24 +271,27 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.spinnerService.show();
         this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
           this.spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
+        if (response.status === RestResponse.SUCCESS) {
             // Success + Reload
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                { chargeBoxID: self.charger.id, power: 'plan' }));
+                { chargeBoxID: this.charger.id }));
             this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
           }
         }, (error) => {
-          this.spinnerService.hide();
+        this.spinnerService.hide();
           if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_not_accepted', { chargeBoxID: self.charger.id });
+              error, this.router, this.messageService, this.centralServerService,
+              this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted',
+              { chargeBoxID: this.charger.id }));
           } else {
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_plan_error');
+              error, this.router, this.messageService, this.centralServerService,
+              this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
           }
         });
       }

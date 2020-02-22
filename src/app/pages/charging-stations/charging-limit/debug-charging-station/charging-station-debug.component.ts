@@ -47,7 +47,7 @@ export class ChargingStationDebugComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      durationControl: new FormControl('',
+      durationControl: new FormControl(60,
         Validators.compose([
           Validators.required,
         ])),
@@ -62,25 +62,23 @@ export class ChargingStationDebugComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-
     this.loadAllConnectors = false;
     let connector: number = this.connectorControl.value as number;
     if (this.connectorControl.value === this.translateService.instant('chargers.smart_charging.connectors_all')) {
       this.loadAllConnectors = true;
       connector = 0;
     }
-
     this.centralServerService.getChargingStationCompositeSchedule(
       this.charger.id, connector, this.durationControl.value as number,
       this.charger.powerLimitUnit, this.loadAllConnectors).subscribe((chargingSchedule) => {
-      this.scheduleResult = chargingSchedule;
-      this.spinnerService.hide();
-      this.formGroup.markAsPristine();
-    }, (error) => {
-      this.spinnerService.hide();
-      // Unexpected error`
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
-      this.scheduleResult = error;
-    });
+        this.scheduleResult = chargingSchedule;
+        this.spinnerService.hide();
+        this.formGroup.markAsPristine();
+      }, (error) => {
+        this.spinnerService.hide();
+        // Unexpected error`
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
+        this.scheduleResult = error;
+      });
   }
 }

@@ -740,8 +740,8 @@
         "recurring_daily": "Daily Planning",
         "recurring_weekly": "Weekly recurring"
       },
-      "retrieve_schedule": "Retrieve schedule",
-      "charging_schedule": "Charging Schedule of '{{chargeBoxID}}'"
+      "retrieve_schedule": "Retrieve Plans",
+      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",

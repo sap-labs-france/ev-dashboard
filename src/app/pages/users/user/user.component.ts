@@ -199,11 +199,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         ])),
       phone: new FormControl('',
         Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$'),
+          Users.validatePhone
         ])),
       mobile: new FormControl('',
         Validators.compose([
-          Validators.pattern('^\\+?([0-9] ?){9,14}[0-9]$'),
+          Users.validatePhone
         ])),
       iNumber: new FormControl('',
         Validators.compose([

@@ -94,8 +94,9 @@
                   <mat-form-field>
                     <input [formControl]="phone" matInput
                            placeholder="{{'users.phone' | translate}}" type="text">
-                    <mat-error *ngIf="phone.errors?.pattern">
+                    <mat-error *ngIf="phone.errors?.invalidPhone">
                       {{"users.invalid_phone_number" | translate}}
+                      {{phone.errors?.pattern | json}}
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -105,7 +106,7 @@
                   <mat-form-field>
                     <input [formControl]="mobile" matInput
                            placeholder="{{'users.mobile' | translate}}" type="text">
-                    <mat-error *ngIf="mobile.errors?.pattern">
+                    <mat-error *ngIf="mobile.errors?.invalidPhone">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
                   </mat-form-field>

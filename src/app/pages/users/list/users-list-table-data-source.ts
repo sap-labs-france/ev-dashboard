@@ -165,7 +165,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       id: 'eulaAcceptedOn',
       name: 'users.eula_accepted_on',
       formatter: (eulaAcceptedOn: Date, row: User) => {
-        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
+        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
       },
       headerClass: 'col-15p',
       class: 'col-15p',
@@ -194,6 +194,26 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       class: 'col-15p',
       sortable: true,
     });
+
+    if (this.componentService.isActive(ComponentType.BILLING)) {
+      columns.push(
+        {
+          id: 'billingData.customerID',
+          name: 'billing.id',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        },
+        {
+          id: 'billingData.lastChangedOn',
+          name: 'billing.updatedOn',
+          headerClass: 'col-15p',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          class: 'col-15p',
+          sortable: true,
+        },
+      );
+    }
     return columns as TableColumnDef[];
   }
 

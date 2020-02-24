@@ -1466,7 +1466,9 @@
   "billing": {
     "title": "Facturation",
     "type_placeholder": "Type",
-    "description": "Interface de Facturation"
+    "description": "Interface de Facturation",
+    "id": "ID facturation",
+    "updatedOn": "Synchronisé le"
   },
   "transactions": {
     "id": "Id",

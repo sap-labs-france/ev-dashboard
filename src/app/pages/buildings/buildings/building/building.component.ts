@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -17,10 +16,11 @@ import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
   selector: 'app-building',
-  templateUrl: './building.component.html',
+  templateUrl: 'building.component.html',
 })
 export class BuildingComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -244,6 +244,30 @@ export class BuildingComponent implements OnInit {
     } else {
       this.createBuilding(building);
     }
+  }
+
+  public logoChanged(event: any) {
+    // load picture
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.size > (this.maxSize * 1024)) {
+        this.messageService.showErrorMessage('buildings.logo_size_error', {maxPictureKb: this.maxSize});
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.logo = reader.result as string;
+          this.formGroup.markAsDirty();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  public clearLogo() {
+    // Clear
+    this.logo = BuildingLogo.NO_LOGO;
+    // Set form dirty
+    this.formGroup.markAsDirty();
   }
 
   public closeDialog(saved: boolean = false) {

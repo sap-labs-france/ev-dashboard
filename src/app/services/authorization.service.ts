@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Action, Entity, Role } from 'app/types/Authorization';
 import { SiteArea } from 'app/types/SiteArea';
 import { UserToken } from 'app/types/User';
-import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
 import { ComponentService, ComponentType } from './component.service';
 

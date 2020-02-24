@@ -349,7 +349,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     });
   }
 
-  buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
+  public buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
     if (!charger) {
       return [];
     }
@@ -469,10 +469,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe((saved) => {
-        if (saved) {
-          this.refreshData().subscribe();
-        }
+      dialogRef.afterClosed().subscribe(() => {
+        this.refreshData().subscribe();
       });
     }
   }

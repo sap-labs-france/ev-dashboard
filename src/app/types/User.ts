@@ -1,9 +1,11 @@
 import { Address } from './Address';
+import { BillingUserData } from './Billing';
 import { Data } from './Table';
 import { Tag } from './Tag';
 
 export interface User extends Data {
   id: string;
+  issuer: boolean;
   name: string;
   firstName: string;
   fullName: string;
@@ -38,6 +40,7 @@ export interface User extends Data {
   eulaAcceptedHash: string;
   eulaAcceptedVersion: number;
   eulaAcceptedOn: Date;
+  billingData: BillingUserData;
 }
 
 export interface UserNotifications {
@@ -81,6 +84,7 @@ export interface UserToken {
 }
 
 export enum UserButtonAction {
+  FORCE_SYNCHRONIZE = 'force_synchronize',
   SYNCHRONIZE = 'synchronize',
   EDIT_USERS = 'edit_users',
 }

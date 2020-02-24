@@ -1,0 +1,8 @@
+.mat-menu-panel {
+  min-height: 45px !important;
+}
+
+.mat-menu-content:not(:empty) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

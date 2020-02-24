@@ -1268,6 +1268,31 @@ export class CentralServerService {
       );
   }
 
+  public synchronizeUserForBilling(userID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUserForBilling`, { id: userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ForceSynchronizeUserForBilling`,
+      { id: userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getBillingTaxes(): Observable<BillingTax[]> {
     this.checkInit();
     // Execute the REST service
@@ -1763,7 +1788,7 @@ export class CentralServerService {
       );
   }
 
-  public getLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -1777,7 +1802,7 @@ export class CentralServerService {
       );
   }
 
-  public getSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -1791,7 +1816,21 @@ export class CentralServerService {
       );
   }
 
-  public getCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+  public pullTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullTokens`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public pullCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2048,7 +2087,8 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(
+        `${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2243,7 +2283,7 @@ export class CentralServerService {
 
   public rebootChargingStation(id: string, hard: boolean = true): Observable<ActionResponse> {
     return this.actionChargingStation(
-      'ChargingStationReset', id ,JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
+      'ChargingStationReset', id , JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
   }
 
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {

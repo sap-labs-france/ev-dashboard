@@ -12,6 +12,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { User } from 'app/types/User';
 
 @Component({
   selector: 'app-authentication-register',
@@ -117,7 +118,11 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     control.setValue(control.value.toUpperCase());
   }
 
-  register(user) {
+  firstLetterToUpperCase(control: AbstractControl) {
+    control.setValue(Utils.firstLetterInUpperCase(control.value));
+  }
+
+  register(user: User) {
     this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
       if (token) {
         user['captcha'] = token;

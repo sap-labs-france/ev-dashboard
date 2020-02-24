@@ -45,8 +45,8 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="name" appAutofocus matInput
-                           placeholder="{{'users.name' | translate}}"
-                           required (input)="toUpperCase(name)" type="text">
+                           placeholder="{{'users.name' | translate}}" required
+                          (input)="toUpperCase(name)" type="text">
                     <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -56,7 +56,7 @@
                   <mat-form-field>
                     <input [formControl]="firstName" matInput
                            placeholder="{{'users.first_name' | translate}}" required
-                           type="text">
+                           (input)="firstLetterToUpperCase(firstName)" type="text">
                     <mat-error *ngIf="firstName.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -94,8 +94,9 @@
                   <mat-form-field>
                     <input [formControl]="phone" matInput
                            placeholder="{{'users.phone' | translate}}" type="text">
-                    <mat-error *ngIf="phone.errors?.pattern">
+                    <mat-error *ngIf="phone.errors?.invalidPhone">
                       {{"users.invalid_phone_number" | translate}}
+                      {{phone.errors?.pattern | json}}
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -105,7 +106,7 @@
                   <mat-form-field>
                     <input [formControl]="mobile" matInput
                            placeholder="{{'users.mobile' | translate}}" type="text">
-                    <mat-error *ngIf="mobile.errors?.pattern">
+                    <mat-error *ngIf="mobile.errors?.invalidPhone">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -125,7 +126,7 @@
               <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
-                    <mat-select [formControl]="role" placeholder="{{'users.role' | translate}}">
+                    <mat-select [formControl]="role" (ngModelChange)="roleChanged($event)" placeholder="{{'users.role' | translate}}">
                       <mat-option *ngFor="let userRole of userRoles" [value]="userRole.key">
                         {{userRole.value | translate}}
                       </mat-option>
@@ -175,86 +176,94 @@
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendSessionStarted">{{"notifications.session-started" | translate}}</mat-checkbox>
+                                [formControl]="sendSessionStarted">{{"notifications.session_started" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendOptimalChargeReached">{{"notifications.optimal-charge-reached" | translate}}</mat-checkbox>
+                                [formControl]="sendOptimalChargeReached">{{"notifications.optimal_charge_reached" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendEndOfCharge">{{"notifications.end-of-charge" | translate}}</mat-checkbox>
+                                [formControl]="sendEndOfCharge">{{"notifications.end_of_charge" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendEndOfSession">{{"notifications.end-of-session" | translate}}</mat-checkbox>
+                                [formControl]="sendEndOfSession">{{"notifications.end_of_session" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendUserAccountStatusChanged">{{"notifications.user-account-status-changed" | translate}}</mat-checkbox>
-                </div>
-                <div class="col-sm-12">
-                  <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendSessionNotStarted">{{"notifications.session-not-started" | translate}}</mat-checkbox>
+                                [formControl]="sendUserAccountStatusChanged">{{"notifications.user_account_status_changed" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin-only" | translate}}</div>
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendSessionNotStarted">{{"notifications.session_not_started" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div *ngIf="role && role.value === 'A'" class="row">
+                <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin_only" | translate}}</div>
                 <div class="ml-3">
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendUnknownUserBadged">{{"notifications.unknown-user-badged" | translate}}</mat-checkbox>
+                                    [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendChargingStationStatusError">{{"notifications.charging-station-status-error" | translate}}</mat-checkbox>
+                                    [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendChargingStationRegistered">{{"notifications.charging-station-registered" | translate}}</mat-checkbox>
+                                    [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendOfflineChargingStations">{{"notifications.charging-stations-offline" | translate}}</mat-checkbox>
+                                    [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing-session-not-started" | translate}}</mat-checkbox>
+                                    [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi-patch-status-error" | translate}}</mat-checkbox>
+                                    [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendSmtpAuthError">{{"notifications.smtp-auth-error" | translate}}</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="row ml-1">
-                    <div class="col-sm-12">
-                      <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendBillingUserSynchronizationFailed">{{"notifications.billing-synchronization-failed" | translate}}</mat-checkbox>
+                                    [formControl]="sendBillingUserSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
                 </div>

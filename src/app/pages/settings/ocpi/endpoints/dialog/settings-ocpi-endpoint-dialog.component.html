@@ -43,7 +43,7 @@
                   <div class="form-group">
                     <mat-form-field>
                       <input appAutofocus matInput
-                             placeholder="{{'ocpiendpoints.baseUrl' | translate}}"
+                             placeholder="{{'ocpiendpoints.base_url' | translate}}"
                              type="text" [formControl]="baseUrl" required>
                       <mat-error
                         *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
@@ -58,7 +58,7 @@
                   <div class="form-group" *ngIf="!currentEndpoint.id">
                     <mat-form-field>
                       <input appAutofocus matInput
-                             placeholder="{{'ocpiendpoints.countryCode' | translate}}"
+                             placeholder="{{'ocpiendpoints.country_code' | translate}}"
                              type="text" [formControl]="countryCode">
                       <mat-error
                         *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
@@ -77,7 +77,7 @@
                   <div class="form-group" *ngIf="!currentEndpoint.id">
                     <mat-form-field>
                       <input appAutofocus matInput
-                             placeholder="{{'ocpiendpoints.partyId' | translate}}"
+                             placeholder="{{'ocpiendpoints.party_id' | translate}}"
                              type="text" [formControl]="partyId">
                       <mat-error
                         *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
@@ -100,7 +100,7 @@
                       <div class="flex-grow-1">
                         <mat-form-field class="endpoint-dialog-no-padding-bottom">
                           <input appAutofocus matInput
-                                 placeholder="{{'ocpiendpoints.localToken' | translate}}"
+                                 placeholder="{{'ocpiendpoints.local_token' | translate}}"
                                  type="text" [formControl]="localToken">
                           <mat-error *ngIf="localToken.errors?.maxlength">
                             <div [translate]="'general.error_max_length'"
@@ -112,7 +112,7 @@
                         <button mat-raised-button color="primary"
                                 (click)="generateLocalToken(formGroup.value)">
                           <mat-icon>vpn_key</mat-icon>
-                          <span>{{'ocpiendpoints.generateNewToken' | translate}}</span>
+                          <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
                         </button>
                       </div>
                     </div>
@@ -134,7 +134,7 @@
                               (click)="testConnection(formGroup.value)"
                               [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
                         <mat-icon>touch_app</mat-icon>
-                        <span>{{'ocpiendpoints.testConnection' | translate}}</span>
+                        <span>{{'ocpiendpoints.test_connection' | translate}}</span>
                       </button>
                     </div>
                   </div>

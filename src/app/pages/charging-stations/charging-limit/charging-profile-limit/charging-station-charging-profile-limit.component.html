@@ -1,7 +1,8 @@
 <div class="charger-param-component">
   <form class="form" [formGroup]="formGroup">
     <div class="right-actions d-flex flex-row mat-toolbar-row mb-2">
-      <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()" [disabled]="!this.scheduleTableDataSource || this.scheduleTableDataSource.getContent().length === 0 || !formGroup.dirty || this.chargingProfiles.length > 1">
+      <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()"
+          [disabled]="!scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || chargingProfiles.length > 1">
         <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="deleteChargingProfile()" [disabled]="chargingProfiles.length === 0 || chargingProfiles.length > 1">
@@ -52,8 +53,11 @@
         </app-charging-station-smart-charging-limit-planner-chart>
       </div>
     </div>
-    <div class="limit-planner-table-postion">
+    <div *ngIf="this.chargingProfiles.length > 1">
       <app-table [dataSource]="scheduleTableDataSource"></app-table>
+    </div>
+      <div *ngIf="this.chargingProfiles.length <= 1" class="limit-planner-table-postion">
+        <app-table [dataSource]="scheduleEditableTableDataSource"></app-table>
     </div>
   </form>
 </div>

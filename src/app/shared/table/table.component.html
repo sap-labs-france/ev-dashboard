@@ -363,7 +363,7 @@
       </tbody>
     </table>
     <!-- More Records -->
-    <div *ngIf="!loading && dataSource.totalNumberOfRecords !== dataSource.data.length"
+    <div *ngIf="!loading && dataSource.data.length > 0 && dataSource.totalNumberOfRecords !== dataSource.data.length"
          (click)="displayMoreRecords()" class="more-records">
       <mat-icon>keyboard_arrow_down</mat-icon>
       {{'general.more_records' | translate}}
@@ -390,7 +390,7 @@
     </div>
   </div>
   <!-- Bottom list -->
-  <div class="bottom-table d-flex justify-content-between" *ngIf="!dataSource.tableDef.isSimpleTable">
+  <div class="bottom-table d-flex justify-content-between" *ngIf="dataSource.tableDef && !dataSource.tableDef.isSimpleTable">
     <!-- Left side -->
     <div class="left-bottom-table">
       <!-- Multi-Selection enabled? -->

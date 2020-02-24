@@ -1,0 +1,41 @@
+<div class="main-content">
+  <div class="form-group">
+    <div class="card">
+      <div class="card-header card-header-primary card-header-icon">
+        <div class="card-icon">
+          <mat-icon>schedule</mat-icon>
+        </div>
+        <h3 class="card-title text-left">
+          {{'chargers.smart_charging.charging_schedule' | translate: {chargeBoxID: charger.id} }}
+        </h3>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12 text-left">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select [formControl]="connectorControl" placeholder="{{'chargers.connector' | translate}}">
+                  <mat-option *ngFor="let connectorId of connectorIds" [value]="connectorId">
+                    {{'chargers.connector' | translate}} {{connectorId}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <input [formControl]="durationControl" matInput
+                  placeholder="{{'chargers.smart_charging.duration' | translate}}" type="number">
+              </mat-form-field>
+            </div>
+          </div>
+          <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()" [disabled]="!formGroup.valid">
+            <mat-icon>get_app</mat-icon><span>{{'chargers.smart_charging.retrieve_schedule' | translate}}</span>
+          </button>
+        </div>
+        <div class="col-md-12 text-left pt-3" >
+          <pre><small>{{ scheduleResult | json }}</small></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

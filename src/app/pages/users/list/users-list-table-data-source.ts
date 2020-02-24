@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
-import { RestResponse } from 'app/types/GlobalType';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
@@ -163,7 +164,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     {
       id: 'eulaAcceptedOn',
       name: 'users.eula_accepted_on',
-      formatter: (eulaAcceptedOn: Date, row: User) => this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})`,
+      formatter: (eulaAcceptedOn: Date, row: User) => {
+        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
+      },
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
@@ -219,7 +222,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       ];
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      actions.push(this.deleteAction);
+      const moreActions = new TableMoreAction([
+        this.deleteAction,
+      ]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }
@@ -230,7 +236,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.SYNCHRONIZE:
+      case UserButtonAction.FORCE_SYNCHRONIZE:
         if (this.tableSyncBillingUsersAction.action) {
           this.tableSyncBillingUsersAction.action(
             this.dialogService,
@@ -322,8 +328,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
               this.messageService, 'users.delete_error');
           }
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'users.delete_error');
+          switch (error.status) {
+            case HTTPError.BILLING_DELETE_ERROR:
+              this.messageService.showErrorMessage('users.delete_billing_error');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'users.delete_error');
+          }
         });
       }
     });

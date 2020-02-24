@@ -54,6 +54,10 @@ export class Utils {
     };
   }
 
+  public static firstLetterInUpperCase(value: string): string {
+    return value[0].toUpperCase() + value.substring(1);
+  }
+
   public static formatLineColor(color: string): any {
     return {
       backgroundColor: Utils.toRgba(color, 0.2),

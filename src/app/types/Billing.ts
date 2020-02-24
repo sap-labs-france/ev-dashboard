@@ -5,3 +5,7 @@ export interface BillingTax extends Data {
   displayName: string;
   percentage: number;
 }
+
+export interface BillingUserData extends Data {
+  hasSynchroError: boolean;
+}

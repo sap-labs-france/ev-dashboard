@@ -1466,7 +1466,9 @@
   "billing": {
     "title": "Billing",
     "type_placeholder": "Type",
-    "description": "Billing Interface"
+    "description": "Billing Interface",
+    "id": "Billing ID",
+    "updatedOn": "Synchronized on"
   },
   "transactions": {
     "id": "Id",

@@ -178,7 +178,7 @@ export class TenantComponent implements OnInit {
     let buildingActive = false;
 
     for (const component in tenant.components) {
-      if (tenant.components.hasOwnProperty(component)) {
+      if (Utils.objectHasProperty(tenant.components, component)) {
         if (!tenant.components[component].active) {
           tenant.components[component].type = null;
         }

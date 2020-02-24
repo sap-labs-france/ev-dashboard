@@ -59,7 +59,6 @@ export class ChargingStationDebugComponent implements OnInit {
     // set default values
     this.connectorControl.setValue(this.translateService.instant('chargers.smart_charging.connectors_all'));
     this.durationControl.setValue(600);
-    this.getChargingProfilesForConnector();
   }
 
   public getChargingProfilesForConnector() {

@@ -12,6 +12,6 @@ export class BuildingsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['Building']);
+    super(activatedRoute, windowService, ['buildings']);
   }
 }

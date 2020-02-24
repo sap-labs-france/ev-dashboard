@@ -32,6 +32,8 @@ export class CentralServerNotificationService {
   private subjectSetting = new Subject<SingleChangeNotification>();
   private subjectOcpiEndpoints = new Subject<ChangeNotification>();
   private subjectOcpiEndpoint = new Subject<SingleChangeNotification>();
+  private subjectBuildings = new Subject<ChangeNotification>();
+  private subjectBuilding = new Subject<SingleChangeNotification>();
   private subjectAnalyticsLinks = new Subject<ChangeNotification>();
   private socket: io.Socket;
 
@@ -133,6 +135,14 @@ export class CentralServerNotificationService {
 
   public getSubjectOcpiEndpoint(): Observable<SingleChangeNotification> {
     return this.subjectOcpiEndpoint.asObservable();
+  }
+
+  public getSubjectBuildings(): Observable<ChangeNotification> {
+    return this.subjectBuildings.asObservable();
+  }
+
+  public getSubjectBuilding(): Observable<SingleChangeNotification> {
+    return this.subjectBuilding.asObservable();
   }
 
   public initSocketIO(token: string) {
@@ -254,6 +264,17 @@ export class CentralServerNotificationService {
       this.socket.on(Entity.LOGGINGS, (changeNotification: ChangeNotification) => {
         // Notify
         this.subjectLoggings.next(changeNotification);
+      });
+
+      // Monitor Buildings`
+      this.socket.on(Entity.BUILDINGS, (changeNotification: ChangeNotification) => {
+        // Notify
+        this.subjectBuildings.next(changeNotification);
+      });
+
+      // Monitor Building
+      this.socket.on(Entity.BUILDING, (singleChangeNotification: SingleChangeNotification) => {
+        this.subjectBuilding.next(singleChangeNotification);
       });
     }
   }

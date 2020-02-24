@@ -9,6 +9,11 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
 import { BuildingsComponent } from './buildings.component';
 import { BuildingsRoutes } from './buildings.routing';
+import { BuildingComponent } from './buildings/building/building.component';
+import { BuildingDialogComponent } from './buildings/building/building.dialog.component';
+import { BuildingsListTableDataSource } from './buildings/list/buildings-list-table-data-source';
+import { BuildingsListComponent } from './buildings/list/buildings-list.component';
+import { BuildingLogoFormatterComponent } from './formatters/building-logo-formatter.component';
 
 @NgModule({
   imports: [
@@ -24,11 +29,20 @@ import { BuildingsRoutes } from './buildings.routing';
   ],
   declarations: [
     BuildingsComponent,
+    BuildingComponent,
+    BuildingDialogComponent,
+    BuildingsListComponent,
+    BuildingLogoFormatterComponent,
   ],
   entryComponents: [
     BuildingsComponent,
+    BuildingComponent,
+    BuildingDialogComponent,
+    BuildingsListComponent,
+    BuildingLogoFormatterComponent,
   ],
   providers: [
+    BuildingsListTableDataSource,
   ],
 })
 

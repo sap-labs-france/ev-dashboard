@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -9,28 +9,26 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Company, CompanyLogo } from 'app/types/Company';
+import { Building, BuildingLogo } from 'app/types/Building';
+import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
-import { CompanyDialogComponent } from '../company/company.dialog.component';
+import { BuildingLogoFormatterComponent } from '../../formatters/building-logo-formatter.component';
+import { BuildingDialogComponent } from '../building/building.dialog.component';
 
 @Injectable()
-export class CompaniesListTableDataSource extends TableDataSource<Company> {
+export class BuildingsListTableDataSource extends TableDataSource<Building> {
   private isAdmin = false;
   private editAction = new TableEditAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
-  private viewAction = new TableViewAction().getActionDef();
+  private deleteAction = new TableEditAction().getActionDef();
+  private viewAction = new TableEditAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -41,7 +39,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+) {
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
@@ -50,21 +49,21 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectCompanies();
+    return this.centralServerNotificationService.getSubjectBuildings();
   }
 
-  public loadDataImpl(): Observable<DataResult<Company>> {
+  public loadDataImpl(): Observable<DataResult<Building>> {
     return new Observable((observer) => {
-      // get companies
-      this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
+      // get buildings
+      this.centralServerService.getBuildings(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((buildings) => {
         // lookup for logo otherwise assign default
-        for (const company of companies.result) {
-          if (!company.logo) {
-            company.logo = CompanyLogo.NO_LOGO;
+        for (const building of buildings.result) {
+          if (!building.logo) {
+            building.logo = BuildingLogo.NO_LOGO;
           }
         }
         // Ok
-        observer.next(companies);
+        observer.next(buildings);
         observer.complete();
       }, (error) => {
         // Show error
@@ -88,15 +87,15 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     const tableColumnDef: TableColumnDef[] = [
       {
         id: 'logo',
-        name: 'companies.logo',
+        name: 'buildings.logo',
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponent: CompanyLogoFormatterComponent,
+        angularComponent: BuildingLogoFormatterComponent,
       },
       {
         id: 'name',
-        name: 'companies.name',
+        name: 'buildings.name',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -135,28 +134,26 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         new TableCreateAction().getActionDef(),
         ...tableActionsDef,
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(company: Company) {
+  public buildTableDynamicRowActions(building: Building) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (company && company.address && company.address.coordinates
-      && company.address.coordinates.length === 2) ? false : true;
+    openInMaps.disabled = (building && building.address && building.address.coordinates
+      && building.address.coordinates.length === 2) ? false : true;
     if (this.isAdmin) {
       return [
         this.editAction,
         openInMaps,
         this.deleteAction,
       ];
-    } else {
-      return [
-        this.viewAction,
-        openInMaps,
-      ];
     }
+    return [
+      this.viewAction,
+      openInMaps,
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -164,21 +161,21 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     switch (actionDef.id) {
       // Add
       case ButtonAction.CREATE:
-        this.showCompanyDialog();
+        this.showBuildingDialog();
         break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Company) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: Building) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showCompanyDialog(rowItem);
+        this.showBuildingDialog(rowItem);
         break;
       case ButtonAction.DELETE:
-        this.deleteCompany(rowItem);
+        this.deleteBuilding(rowItem);
         break;
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
@@ -198,25 +195,19 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return [];
   }
 
-  private showPlace(company: Company) {
-    if (company && company.address && company.address.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${company.address.coordinates[1]},${company.address.coordinates[0]}`);
-    }
-  }
-
-  private showCompanyDialog(company?: Company) {
+  private showBuildingDialog(building?: Building) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (company) {
-      dialogConfig.data = company.id;
+    if (building) {
+      dialogConfig.data = building.id;
     }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(CompanyDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(BuildingDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();
@@ -224,23 +215,29 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     });
   }
 
-  private deleteCompany(company: Company) {
+  private showPlace(building: Building) {
+    if (building && building.address && building.address.coordinates) {
+      window.open(`http://maps.google.com/maps?q=${building.address.coordinates[1]},${building.address.coordinates[0]}`);
+    }
+  }
+
+  private deleteBuilding(building: Building) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('companies.delete_title'),
-      this.translateService.instant('companies.delete_confirm', {companyName: company.name}),
+      this.translateService.instant('buildings.delete_title'),
+      this.translateService.instant('buildings.delete_confirm', {buildingName: building.name}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.centralServerService.deleteCompany(company.id).subscribe((response) => {
+        this.centralServerService.deleteBuilding(building.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('companies.delete_success', {companyName: company.name});
+            this.messageService.showSuccessMessage('buildings.delete_success', {buildingName: building.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'companies.delete_error');
+              this.messageService, 'buildings.delete_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'companies.delete_error');
+            'buildings.delete_error');
         });
       }
     });

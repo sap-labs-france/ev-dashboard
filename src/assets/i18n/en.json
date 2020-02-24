@@ -334,6 +334,32 @@
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "select_companies": "Select Company"
   },
+  "buildings": {
+    "no_buildings": "No buildings found",
+    "building_number": "Building(s)",
+    "logo": "Logo",
+    "name": "Name",
+    "building": "Building",
+    "title": "Building",
+    "titles": "Buildings",
+    "created_on": "Created On",
+    "created_by": "Created By",
+    "changed_on": "Changed On",
+    "changed_by": "Changed By",
+    "delete_title": "Delete",
+    "delete_button": "Delete",
+    "delete_confirm": "Do you really want to delete the building '{{buildingName}}'?",
+    "delete_success": "The building '{{buildingName}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the building",
+    "changed_by_other_user": "The building '{{buildingName}}' has been changed by another user and will be reloaded",
+    "update_success": "The building '{{buildingName}}' has been updated successfully",
+    "update_error": "Error occurred while updating the building",
+    "building_not_found": "Building not found",
+    "create_success": "The building '{{buildingName}}' has been created successfully",
+    "create_error": "Error occurred while creating the building",
+    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "select_buildings": "Select Building"
+  },
   "sites": {
     "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
@@ -1396,7 +1422,10 @@
   },
   "building": {
     "title": "Building",
-    "description": "Manage Buildings"
+    "description": "Manage Buildings",
+    "tabs": {
+      "buildings": "Buildings"
+    }
   },
   "analytics": {
     "title": "Analytics",

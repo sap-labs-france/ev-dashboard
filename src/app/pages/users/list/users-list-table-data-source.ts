@@ -26,13 +26,11 @@ import { TableAssignSitesAction } from '../../../shared/table/actions/table-assi
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
-import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/table-force-sync-billing-user-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { UserInError } from '../../../types/InError';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
@@ -48,7 +46,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteAction = new TableDeleteAction().getActionDef();
   private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private currentUser: UserToken;
-  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -168,7 +165,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       id: 'eulaAcceptedOn',
       name: 'users.eula_accepted_on',
       formatter: (eulaAcceptedOn: Date, row: User) => {
-        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
+        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
       },
       headerClass: 'col-15p',
       class: 'col-15p',
@@ -197,26 +194,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       class: 'col-15p',
       sortable: true,
     });
-
-    if (this.componentService.isActive(ComponentType.BILLING)) {
-      columns.push(
-        {
-          id: 'billingData.customerID',
-          name: 'billing.id',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'billingData.lastChangedOn',
-          name: 'billing.updatedOn',
-          headerClass: 'col-15p',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          class: 'col-15p',
-          sortable: true,
-        },
-      );
-    }
     return columns as TableColumnDef[];
   }
 
@@ -234,7 +211,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
-    const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(ComponentType.ORGANIZATION) && this.authorizationService.isAdmin()) {
       actions = [
         this.editAction,
@@ -246,12 +222,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       ];
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      moreActions.addActionDef(this.deleteAction);
+      const moreActions = new TableMoreAction([
+        this.deleteAction,
+      ]);
+      actions.push(moreActions.getActionDef());
     }
-    if (this.componentService.isActive(ComponentType.BILLING)) {
-        moreActions.addActionDef(this.forceSyncBillingUserAction);
-    }
-    actions.push(moreActions.getActionDef());
     return actions;
   }
 
@@ -287,9 +262,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case ButtonAction.DELETE:
         this.deleteUser(rowItem);
-        break;
-      case UserButtonAction.FORCE_SYNCHRONIZE:
-        this.forceSynchronizeUser(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -364,33 +336,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                 'users.delete_error');
           }
-        });
-      }
-    });
-  }
-
-  private forceSynchronizeUser(user: UserInError) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title', { userFullName: Utils.buildUserFullName(user) }),
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          this.spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            this.refreshData().subscribe();
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('settings.billing.force_synchronize_user_success',
-                { userFullName: Utils.buildUserFullName(user) }));
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
-              'settings.billing.force_synchronize_user_failure');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          this.messageService.showErrorMessage(
-            this.translateService.instant(['settings.billing.billing_system_error']));
         });
       }
     });

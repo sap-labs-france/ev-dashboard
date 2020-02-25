@@ -156,7 +156,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         ...Utils.formatLineColor(this.consumptionColor),
         label: this.translateService.instant('transactions.graph.energy'),
       });
-      if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'pricingSource')) !== undefined) {
+      if (this.transaction.values.find((c) => c.hasOwnProperty('pricingSource')) !== undefined) {
         datasets.push({
           name: 'cumulatedAmount',
           type: 'line',

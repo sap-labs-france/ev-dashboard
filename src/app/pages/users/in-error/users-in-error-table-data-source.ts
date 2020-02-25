@@ -151,7 +151,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     {
       id: 'errorCode',
       name: 'errors.title',
-      class: 'col-30p',
+      class: 'col-30p text-danger',
       sortable: true,
       formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
     },

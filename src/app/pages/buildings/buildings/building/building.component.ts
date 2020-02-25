@@ -29,7 +29,7 @@ export class BuildingComponent implements OnInit {
   @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: any = BuildingLogo.NO_LOGO;
+  public logo: string = BuildingLogo.NO_LOGO;
   public maxSize: number;
 
   public formGroup!: FormGroup;

@@ -271,7 +271,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.spinnerService.show();
         this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
           this.spinnerService.hide();
-        if (response.status === RestResponse.SUCCESS) {
+          if (response.status === RestResponse.SUCCESS) {
             // Success + Reload
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
@@ -283,7 +283,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           }
         }, (error) => {
         this.spinnerService.hide();
-          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
+        if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted',

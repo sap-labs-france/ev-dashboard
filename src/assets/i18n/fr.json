@@ -1254,14 +1254,14 @@
       "force_synchronize_users": "Forcer Synchro Facturation",
       "synchronize_users_dialog_title": "Synchroniser utilisateurs pour la facturation",
       "synchronize_user_dialog_title": "Synchroniser l'utilisateur pour la facturation",
-      "force_synchronize_user_dialog_title": "Forcer la synchronisation d'un utilisateur pour la facturation",
+      "force_synchronize_user_dialog_title": "Forcer la synchronisation de {{ userFullName }} pour la facturation",
       "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs pour la facturation ?",
       "synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur pour la facturation ?",
       "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de cet utilisateur pour la facturation ?<br>Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées.<br>Cette action est irreversible.",
       "synchronize_users_started": "La synchronisation des utilisateurs a été démarrée",
       "synchronize_user_started": "La synchronisation de l'utilisateur a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
-      "force_synchronize_user_success": "l'utilisateur '{{userFullName}}' a été synchronisé avec succès",
+      "force_synchronize_user_success": "L'utilisateur '{{userFullName}}' a été synchronisé avec succès",
       "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",
       "synchronize_users_failure": "Echec de synchronisation de {{number}} utilisateur(s), vérifiez les logs",
       "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs",
@@ -1496,7 +1496,9 @@
   "billing": {
     "title": "Facturation",
     "type_placeholder": "Type",
-    "description": "Interface de Facturation"
+    "description": "Interface de Facturation",
+    "id": "ID facturation",
+    "updatedOn": "Synchronisé le"
   },
   "transactions": {
     "id": "Id",

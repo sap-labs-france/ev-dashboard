@@ -6,6 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { ErrorMessage, UserInError, UserInErrorType } from 'app/types/InError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -36,7 +37,6 @@ import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserDialogComponent } from '../user/user.dialog.component';
-import { HTTPError } from 'app/types/HTTPError';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -151,7 +151,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     {
       id: 'errorCode',
       name: 'errors.title',
-      class: 'col-30p',
+      class: 'col-30p text-danger',
       sortable: true,
       formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
     },
@@ -358,7 +358,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
               this.translateService.instant('settings.billing.force_synchronize_user_success',
               { userFullName: Utils.buildUserFullName(user) }));
           } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse),this.messageService,
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
               'settings.billing.force_synchronize_user_failure');
           }
         }, (error) => {

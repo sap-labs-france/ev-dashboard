@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -16,7 +17,6 @@ import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
   selector: 'app-building',
@@ -29,7 +29,7 @@ export class BuildingComponent implements OnInit {
   @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: string = BuildingImage.NO_LOGO;
+  public image: string = BuildingImage.NO_IMAGE;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -202,11 +202,11 @@ export class BuildingComponent implements OnInit {
         this.coordinates.at(0).setValue(building.address.coordinates[0]);
         this.coordinates.at(1).setValue(building.address.coordinates[1]);
       }
-      // Yes, get logo
+      // Yes, get image
       return this.centralServerService.getBuildingImage(this.currentBuildingID);
     })).subscribe((buildingImage) => {
-      if (buildingImage && buildingImage.logo) {
-        this.logo = buildingImage.logo.toString();
+      if (buildingImage && buildingImage.image) {
+        this.image = buildingImage.image.toString();
       }
       this.spinnerService.hide();
     }, (error) => {
@@ -229,12 +229,12 @@ export class BuildingComponent implements OnInit {
 
   public updateBuildingImage(building: Building) {
     // Check no building?
-    if (!this.logo.endsWith(BuildingImage.NO_LOGO)) {
+    if (!this.image.endsWith(BuildingImage.NO_IMAGE)) {
       // Set to building
-      building.logo = this.logo;
+      building.image = this.image;
     } else {
-      // No logo
-      delete building.logo;
+      // No image
+      delete building.image;
     }
   }
 
@@ -255,7 +255,7 @@ export class BuildingComponent implements OnInit {
       } else {
         const reader = new FileReader();
         reader.onload = () => {
-          this.logo = reader.result as string;
+          this.image = reader.result as string;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -265,7 +265,7 @@ export class BuildingComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = BuildingImage.NO_LOGO;
+    this.image = BuildingImage.NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -305,7 +305,7 @@ export class BuildingComponent implements OnInit {
   private createBuilding(building: Building) {
     // Show
     this.spinnerService.show();
-    // Set the logo
+    // Set the image
     this.updateBuildingImage(building);
     // Yes: Update
     this.centralServerService.createBuilding(building).subscribe((response) => {
@@ -343,7 +343,7 @@ export class BuildingComponent implements OnInit {
   private updateBuilding(building: Building) {
     // Show
     this.spinnerService.show();
-    // Set the logo
+    // Set the image
     this.updateBuildingImage(building);
     // Yes: Update
     this.centralServerService.updateBuilding(building).subscribe((response) => {

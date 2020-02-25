@@ -9,13 +9,14 @@ import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
 import { ButtonType } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { User, UserRole, UserStatus } from 'app/types/User';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -27,7 +28,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../model/users.model';
+import { UserRoles, userStatuses } from '../model/users.model';
 import { UserTagsTableDataSource } from './user-tags-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
@@ -752,7 +753,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   private loadApplicationSettings() {
     // if (this.authorizationService.canListSettings()) {
-    this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
+    this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
       if (settingResult && settingResult.result && settingResult.result.length > 0) {
         this.refundSetting = settingResult.result[0] as RefundSettings;
       }

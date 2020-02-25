@@ -4,9 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction } from 'app/types/GlobalType';
 import { RefundSettings } from 'app/types/Setting';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 // @ts-ignore
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -220,7 +221,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       new TransactionsRefundStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
-      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -340,7 +341,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   private checkConcurConnection() {
     if (this.authorizationService.canListSettings()) {
-      this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settingResult) => {
+      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
         if (settingResult && settingResult.result && settingResult.result.length > 0) {
           this.refundSetting = settingResult.result[0] as RefundSettings;
         }

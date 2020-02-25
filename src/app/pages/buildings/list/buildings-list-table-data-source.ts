@@ -22,7 +22,6 @@ import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { BuildingImageFormatterComponent } from '../../formatters/building-logo-formatter.component';
 import { BuildingDialogComponent } from '../building/building.dialog.component';
 
 @Injectable()
@@ -58,10 +57,10 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     return new Observable((observer) => {
       // get buildings
       this.centralServerService.getBuildings(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((buildings) => {
-        // lookup for logo otherwise assign default
+        // lookup for image otherwise assign default
         for (const building of buildings.result) {
-          if (!building.logo) {
-            building.logo = BuildingImage.NO_LOGO;
+          if (!building.image) {
+            building.image = BuildingImage.NO_IMAGE;
           }
         }
         // Ok
@@ -87,14 +86,6 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
-      {
-        id: 'logo',
-        name: 'buildings.logo',
-        headerClass: 'text-center col-8p',
-        class: 'col-8p',
-        isAngularComponent: true,
-        angularComponent: BuildingImageFormatterComponent,
-      },
       {
         id: 'name',
         name: 'buildings.name',

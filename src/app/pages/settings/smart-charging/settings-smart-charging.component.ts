@@ -3,8 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
 import { SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import TenantComponents from 'app/types/TenantComponents';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
@@ -26,7 +27,7 @@ export class SettingsSmartChargingComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
   ) {
-    this.isActive = this.componentService.isActive(ComponentType.SMART_CHARGING);
+    this.isActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   ngOnInit(): void {

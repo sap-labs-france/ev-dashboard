@@ -13,12 +13,12 @@
                 [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-building-image-padding" style="height: 100px">
                   <div class="front front-background"
-                    [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div class="card-body">
                     </div>
                   </div>
                   <div class="back back-background"
-                    [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div *ngIf="this.isAdmin" class="card-body">
                       <div class="footer justify-content-center">
                         <button mat-flat-button color="primary" class="mr-2">

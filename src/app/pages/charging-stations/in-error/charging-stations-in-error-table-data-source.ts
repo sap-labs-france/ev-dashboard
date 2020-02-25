@@ -19,9 +19,10 @@ import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -72,7 +73,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     super(spinnerService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
 
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters(

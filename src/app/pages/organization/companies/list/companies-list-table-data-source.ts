@@ -17,12 +17,12 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Company, CompanyLogo } from 'app/types/Company';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { CompanyLogoFormatterComponent } from '../../formatters/company-logo-formatter.component';
+import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
@@ -92,7 +92,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponent: CompanyLogoFormatterComponent,
+        angularComponent: CompanyLogoFormatterCellComponent,
       },
       {
         id: 'name',

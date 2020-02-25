@@ -5,7 +5,7 @@ export interface Building extends Data {
   id: string;
   name: string;
   address: Address;
-  logo: string;
+  image: string;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;
@@ -13,5 +13,5 @@ export interface Building extends Data {
 }
 
 export enum BuildingImage {
-  NO_LOGO = 'assets/img/theme/no-logo.png',
+  NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

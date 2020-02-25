@@ -267,10 +267,10 @@ export class CentralServerService {
       );
   }
 
-  public getBuilding(buildingId: string, withLogo: boolean = false): Observable<Building> {
+  public getBuilding(buildingId: string, withImage: boolean = false): Observable<Building> {
     const params: { [param: string]: string } = {};
     params['ID'] = buildingId;
-    params['WithLogo'] = withLogo.toString();
+    params['WithImage'] = withImage.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -285,13 +285,13 @@ export class CentralServerService {
       );
   }
 
-  public getBuildingImage(buildingId: string): Observable<Logo> {
+  public getBuildingImage(buildingId: string): Observable<Image> {
     const params: { [param: string]: string } = {};
     params['ID'] = buildingId;
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Logo>(
+    return this.httpClient.get<Image>(
       `${this.centralRestServerServiceSecuredURL}/BuildingImage`,
       {
         headers: this.buildHttpHeaders(),

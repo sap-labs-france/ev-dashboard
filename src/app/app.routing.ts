@@ -5,8 +5,8 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { BrowserNotSupportedComponent } from './pages/browser-not-supported/browser-not-supported.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
-import { ComponentType } from './services/component.service';
 import { Action, Entity } from './types/Authorization';
+import TenantComponents from './types/TenantComponents';
 
 export const AppRoutes: Routes = [
   {
@@ -90,7 +90,7 @@ export const AppRoutes: Routes = [
             entity: Entity.TRANSACTIONS,
             action: Action.LIST,
           },
-          component: ComponentType.STATISTICS,
+          component: TenantComponents.STATISTICS,
         },
       },
       {
@@ -139,7 +139,7 @@ export const AppRoutes: Routes = [
             entity: Entity.COMPANIES,
             action: Action.LIST,
           },
-          component: ComponentType.ORGANIZATION,
+          component: TenantComponents.ORGANIZATION,
         },
       },
       {
@@ -156,7 +156,7 @@ export const AppRoutes: Routes = [
             entity: Entity.BUILDINGS,
             action: Action.LIST,
           },
-          component: ComponentType.BUILDING,
+          component: TenantComponents.BUILDING,
         },
       },
       {

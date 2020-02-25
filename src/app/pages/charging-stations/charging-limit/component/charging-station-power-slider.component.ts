@@ -36,7 +36,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   ngOnInit() {
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(this.charger, this.connector, this.forChargingProfile);
-    if (!this.currentAmp){
+    if (!this.currentAmp) {
     this.currentAmp = chargerPowers.currentAmp;
     }
     this.minAmp = chargerPowers.minAmp;

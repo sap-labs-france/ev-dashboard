@@ -29,7 +29,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
       search: {
         enabled: false,
       },
-      rowFieldNameIdentifier: 'startDate'
+      rowFieldNameIdentifier: 'startDate',
     };
   }
 

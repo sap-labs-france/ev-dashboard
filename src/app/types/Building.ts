@@ -12,6 +12,6 @@ export interface Building extends Data {
   lastChangedOn: Date;
 }
 
-export enum BuildingLogo {
+export enum BuildingImage {
   NO_LOGO = 'assets/img/theme/no-logo.png',
 }

@@ -108,7 +108,7 @@ export const logActions: KeyValue[] = [
   {key: 'AllTransactions', value: 'AllTransactions'},
   {key: 'CompanyLogos', value: 'CompanyLogos'},
   {key: 'CompanyUpdate', value: 'CompanyUpdate'},
-  {key: 'BuildingLogos', value: 'BuildingLogos'},
+  {key: 'BuildingImages', value: 'BuildingImages'},
   {key: 'BuildingUpdate', value: 'BuildingUpdate'},
   {key: 'AddSitesToUser', value: 'AddSitesToUser'},
   {key: 'SessionHashService', value: 'SessionHashService'},

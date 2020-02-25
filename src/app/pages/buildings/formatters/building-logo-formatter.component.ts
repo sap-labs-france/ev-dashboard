@@ -10,6 +10,6 @@ import { Building } from 'app/types/Building';
   `,
 })
 
-export class BuildingLogoFormatterComponent extends CellContentTemplateComponent {
+export class BuildingImageFormatterComponent extends CellContentTemplateComponent {
   @Input() row!: Building;
 }

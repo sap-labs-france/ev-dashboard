@@ -9,7 +9,7 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Building, BuildingLogo } from 'app/types/Building';
+import { Building, BuildingImage } from 'app/types/Building';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
@@ -29,7 +29,7 @@ export class BuildingComponent implements OnInit {
   @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: string = BuildingLogo.NO_LOGO;
+  public logo: string = BuildingImage.NO_LOGO;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -203,10 +203,10 @@ export class BuildingComponent implements OnInit {
         this.coordinates.at(1).setValue(building.address.coordinates[1]);
       }
       // Yes, get logo
-      return this.centralServerService.getBuildingLogo(this.currentBuildingID);
-    })).subscribe((buildingLogo) => {
-      if (buildingLogo && buildingLogo.logo) {
-        this.logo = buildingLogo.logo.toString();
+      return this.centralServerService.getBuildingImage(this.currentBuildingID);
+    })).subscribe((buildingImage) => {
+      if (buildingImage && buildingImage.logo) {
+        this.logo = buildingImage.logo.toString();
       }
       this.spinnerService.hide();
     }, (error) => {
@@ -227,9 +227,9 @@ export class BuildingComponent implements OnInit {
     });
   }
 
-  public updateBuildingLogo(building: Building) {
+  public updateBuildingImage(building: Building) {
     // Check no building?
-    if (!this.logo.endsWith(BuildingLogo.NO_LOGO)) {
+    if (!this.logo.endsWith(BuildingImage.NO_LOGO)) {
       // Set to building
       building.logo = this.logo;
     } else {
@@ -265,7 +265,7 @@ export class BuildingComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = BuildingLogo.NO_LOGO;
+    this.logo = BuildingImage.NO_LOGO;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -306,7 +306,7 @@ export class BuildingComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Set the logo
-    this.updateBuildingLogo(building);
+    this.updateBuildingImage(building);
     // Yes: Update
     this.centralServerService.createBuilding(building).subscribe((response) => {
       // Hide
@@ -344,7 +344,7 @@ export class BuildingComponent implements OnInit {
     // Show
     this.spinnerService.show();
     // Set the logo
-    this.updateBuildingLogo(building);
+    this.updateBuildingImage(building);
     // Yes: Update
     this.centralServerService.updateBuilding(building).subscribe((response) => {
       // Hide

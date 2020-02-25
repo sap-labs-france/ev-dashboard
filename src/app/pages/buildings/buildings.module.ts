@@ -13,7 +13,7 @@ import { BuildingComponent } from './buildings/building/building.component';
 import { BuildingDialogComponent } from './buildings/building/building.dialog.component';
 import { BuildingsListTableDataSource } from './buildings/list/buildings-list-table-data-source';
 import { BuildingsListComponent } from './buildings/list/buildings-list.component';
-import { BuildingLogoFormatterComponent } from './formatters/building-logo-formatter.component';
+import { BuildingImageFormatterComponent } from './formatters/building-logo-formatter.component';
 
 @NgModule({
   imports: [
@@ -32,14 +32,14 @@ import { BuildingLogoFormatterComponent } from './formatters/building-logo-forma
     BuildingComponent,
     BuildingDialogComponent,
     BuildingsListComponent,
-    BuildingLogoFormatterComponent,
+    BuildingImageFormatterComponent,
   ],
   entryComponents: [
     BuildingsComponent,
     BuildingComponent,
     BuildingDialogComponent,
     BuildingsListComponent,
-    BuildingLogoFormatterComponent,
+    BuildingImageFormatterComponent,
   ],
   providers: [
     BuildingsListTableDataSource,

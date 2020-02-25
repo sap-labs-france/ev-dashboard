@@ -285,14 +285,14 @@ export class CentralServerService {
       );
   }
 
-  public getBuildingLogo(buildingId: string): Observable<Logo> {
+  public getBuildingImage(buildingId: string): Observable<Logo> {
     const params: { [param: string]: string } = {};
     params['ID'] = buildingId;
     // Verify init
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Logo>(
-      `${this.centralRestServerServiceSecuredURL}/BuildingLogo`,
+      `${this.centralRestServerServiceSecuredURL}/BuildingImage`,
       {
         headers: this.buildHttpHeaders(),
         params,

@@ -28,7 +28,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../model/users.model';
+import { userStatuses, UserRoles } from '../model/users.model';
 import { UserTagsTableDataSource } from './user-tags-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
@@ -200,11 +200,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         ])),
       phone: new FormControl('',
         Validators.compose([
-          Users.validatePhone
+          Users.validatePhone,
         ])),
       mobile: new FormControl('',
         Validators.compose([
-          Users.validatePhone
+          Users.validatePhone,
         ])),
       iNumber: new FormControl('',
         Validators.compose([

@@ -43,11 +43,11 @@ export class ChargingStationDebugComponent implements OnInit {
 
     // Init the form
     this.formGroup = new FormGroup({
-      connectorControl: new FormControl('',
+      connectorControl: new FormControl(this.translateService.instant('chargers.smart_charging.connectors_all'),
         Validators.compose([
           Validators.required,
         ])),
-      durationControl: new FormControl(60,
+      durationControl: new FormControl(600,
         Validators.compose([
           Validators.required,
         ])),

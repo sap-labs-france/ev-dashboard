@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
+import { User } from 'app/types/User';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
@@ -117,7 +118,11 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     control.setValue(control.value.toUpperCase());
   }
 
-  register(user) {
+  firstLetterToUpperCase(control: AbstractControl) {
+    control.setValue(Utils.firstLetterInUpperCase(control.value));
+  }
+
+  register(user: User) {
     this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
       if (token) {
         user['captcha'] = token;

@@ -1,22 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
 import { AnalyticsSettings, BillingSettings, BillingSettingsType, BuildingSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 // tslint:disable-next-line:max-line-length
 import { Observable } from 'rxjs';
 import { CentralServerService } from './central-server.service';
-
-export enum ComponentType {
-  OCPI = 'ocpi',
-  ORGANIZATION = 'organization',
-  PRICING = 'pricing',
-  BILLING = 'billing',
-  REFUND = 'refund',
-  STATISTICS = 'statistics',
-  ANALYTICS = 'analytics',
-  SMART_CHARGING = 'smartCharging',
-  BUILDING = 'building',
-}
 
 @Injectable()
 export class ComponentService {
@@ -33,7 +22,7 @@ export class ComponentService {
     });
   }
 
-  public isActive(componentName: ComponentType): boolean {
+  public isActive(componentName: TenantComponents): boolean {
     if (this.activeComponents) {
       return this.activeComponents.includes(componentName);
     }
@@ -47,10 +36,10 @@ export class ComponentService {
   public getPricingSettings(): Observable<PricingSettings> {
     return new Observable((observer) => {
       const pricingSettings = {
-        identifier: ComponentType.PRICING,
+        identifier: TenantComponents.PRICING,
       } as PricingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentType.PRICING).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.PRICING).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -88,7 +77,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentType.PRICING,
+      identifier: TenantComponents.PRICING,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -112,7 +101,7 @@ export class ComponentService {
      // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentType.BILLING,
+      identifier: TenantComponents.BILLING,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -139,7 +128,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentType.REFUND,
+      identifier: TenantComponents.REFUND,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -159,7 +148,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentType.OCPI,
+      identifier: TenantComponents.OCPI,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -175,7 +164,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentType.ANALYTICS,
+      identifier: TenantComponents.ANALYTICS,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -191,7 +180,7 @@ export class ComponentService {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
-      identifier: ComponentType.SMART_CHARGING,
+      identifier: TenantComponents.SMART_CHARGING,
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
@@ -210,10 +199,10 @@ export class ComponentService {
   public getBillingSettings(): Observable<BillingSettings> {
     return new Observable((observer) => {
       const billingSettings = {
-        identifier: ComponentType.BILLING,
+        identifier: TenantComponents.BILLING,
       } as BillingSettings;
       // Get the Billing settings
-      this.centralServerService.getSettings(ComponentType.BILLING).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.BILLING).subscribe((settings) => {
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
           // ID
@@ -236,10 +225,10 @@ export class ComponentService {
   public getOcpiSettings(): Observable<RoamingSettings> {
     return new Observable((observer) => {
       const ocpiSettings = {
-        identifier: ComponentType.OCPI,
+        identifier: TenantComponents.OCPI,
       } as RoamingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentType.OCPI).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.OCPI).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -259,10 +248,10 @@ export class ComponentService {
   public getSacSettings(contentFilter = false): Observable<AnalyticsSettings> {
     return new Observable((observer) => {
       const analyticsSettings = {
-        identifier: ComponentType.ANALYTICS,
+        identifier: TenantComponents.ANALYTICS,
       } as AnalyticsSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentType.ANALYTICS, contentFilter).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.ANALYTICS, contentFilter).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -283,10 +272,10 @@ export class ComponentService {
   public getRefundSettings(): Observable<RefundSettings> {
     return new Observable((observer) => {
       const refundSettings = {
-        identifier: ComponentType.REFUND,
+        identifier: TenantComponents.REFUND,
       } as RefundSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentType.REFUND).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
@@ -308,10 +297,10 @@ export class ComponentService {
   public getSmartChargingSettings(contentFilter = false): Observable<SmartChargingSettings> {
     return new Observable((observer) => {
       const smartChargingSettings = {
-        identifier: ComponentType.SMART_CHARGING,
+        identifier: TenantComponents.SMART_CHARGING,
       } as SmartChargingSettings;
       // Get the SmartCharging settings
-      this.centralServerService.getSettings(ComponentType.SMART_CHARGING, contentFilter).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.SMART_CHARGING, contentFilter).subscribe((settings) => {
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
           // Set
@@ -330,10 +319,10 @@ export class ComponentService {
   public getBuildingSettings(): Observable<BuildingSettings> {
     return new Observable((observer) => {
       const buildingSettings = {
-        identifier: ComponentType.BUILDING,
+        identifier: TenantComponents.BUILDING,
       } as BuildingSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(ComponentType.BUILDING).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.BUILDING).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;

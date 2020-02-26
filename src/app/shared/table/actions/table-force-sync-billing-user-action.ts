@@ -1,10 +1,10 @@
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { UserButtonAction } from 'app/types/User';
 import { TableAction } from './table-action';
 
 export class TableForceSyncBillingUserAction implements TableAction {
   private action: TableActionDef = {
-    id: UserButtonAction.SYNCHRONIZE,
+    id: UserButtonAction.FORCE_SYNCHRONIZE,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,

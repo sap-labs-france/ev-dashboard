@@ -74,6 +74,7 @@
     "socket.io-client": "^2.2.0",
     "sweetalert2": "^8.15.3",
     "tslib": "^1.10.0",
+    "validator": "^12.2.0",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
@@ -116,7 +117,7 @@
     "puppeteer": "^1.19.0",
     "rosie": "^2.0.1",
     "ts-node": "^8.3.0",
-    "tslint": "^5.20.0",
+    "tslint": "^5.20.1",
     "tslint-angular": "^3.0.2",
     "typescript": "~3.5.3",
     "webpack-bundle-analyzer": "^3.6.0"

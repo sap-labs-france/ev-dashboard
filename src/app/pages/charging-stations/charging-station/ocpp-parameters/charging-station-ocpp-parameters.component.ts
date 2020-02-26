@@ -258,7 +258,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
         this.formGroup.controls[item.key].enable();
         this.formGroup.controls[item.key].setValue(item.value);
         // @ts-ignore
-        const element:ElementRef = this.parameterInput.find((element: ElementRef) => {
+        const element: ElementRef = this.parameterInput.find((element: ElementRef) => {
           return element.nativeElement.id === item.key;
         });
         if (element) {
@@ -356,7 +356,7 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
               // Ok
               this.messageService.showSuccessMessage(
                 this.translateService.instant('chargers.retrieve_config_success', { chargeBoxID: this.charger.id }));
-                this.refresh();
+              this.refresh();
               } else {
                 this.refresh();
                 Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_config_error');

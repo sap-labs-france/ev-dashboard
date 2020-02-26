@@ -1,0 +1,27 @@
+
+// Common
+input.app-building-name-bold {
+  font-size: 2em;
+}
+
+div.app-building-align-center {
+  align-items: center;
+  padding: 0 0 15px 0;
+}
+
+div.app-building-image-border {
+  @include shadow-2dp();
+  border-radius: $border-radius-large;
+}
+
+// Building View
+div.app-building-image-padding {
+  padding: 10px;
+}
+
+.app-buildings-logo {
+  max-width:  3em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

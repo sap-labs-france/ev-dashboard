@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.0',
-        date: new Date('2020-02-19'),
+        version: '2.2.1',
+        date: new Date('2020-02-26'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,
               `Activation of Building Management in Master Tenant`,
+              `Added Building Management in Tenants`,
               `Static Power Limitation for Schneider vendor`,
               `Show Sessions not assigned to a user when ACL is active in a Site Area`,
               `Set default notifications to new registered users`,

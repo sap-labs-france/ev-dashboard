@@ -7,9 +7,10 @@ import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction } from 'app/types/GlobalType';
 import { RefundStatus } from 'app/types/Refund';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 // @ts-ignore
@@ -19,7 +20,7 @@ import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
@@ -171,7 +172,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         class: 'text-left',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
       });
-      if (this.componentService.isActive(ComponentType.PRICING)) {
+      if (this.componentService.isActive(TenantComponents.PRICING)) {
         columns.push({
           id: 'stop.price',
           name: 'transactions.price',
@@ -232,7 +233,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }

@@ -105,21 +105,21 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       },
       {
         id: 'baseUrl',
-        name: 'ocpiendpoints.baseUrl',
+        name: 'ocpiendpoints.base_url',
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,
       },
       {
         id: 'countryCode',
-        name: 'ocpiendpoints.countryCode',
+        name: 'ocpiendpoints.country_code',
         headerClass: 'col-5p',
         class: 'col-5p',
         sortable: true,
       },
       {
         id: 'partyId',
-        name: 'ocpiendpoints.partyId',
+        name: 'ocpiendpoints.party_id',
         headerClass: 'col-5p',
         class: 'col-5p',
         sortable: true,
@@ -142,7 +142,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       },
       {
         id: 'patchJobStatus',
-        name: 'ocpiendpoints.patchJobStatus',
+        name: 'ocpiendpoints.patch_job_status',
         isAngularComponent: true,
         angularComponent: OcpiPatchJobStatusFormatterComponent,
         headerClass: 'text-center col-10p',
@@ -151,7 +151,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       },
       {
         id: 'patchJobResult',
-        name: 'ocpiendpoints.patchJobLastStatus',
+        name: 'ocpiendpoints.patch_job_last_status',
         isAngularComponent: true,
         angularComponent: OcpiPatchJobResultFormatterComponent,
         headerClass: 'text-center col-10p',

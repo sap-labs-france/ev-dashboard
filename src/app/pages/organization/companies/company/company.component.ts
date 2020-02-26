@@ -3,8 +3,6 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
@@ -17,7 +15,9 @@ import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+
 
 @Component({
   selector: 'app-company',
@@ -30,7 +30,7 @@ export class CompanyComponent implements OnInit {
   @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: any = CompanyLogo.NO_LOGO;
+  public logo: string = CompanyLogo.NO_LOGO;
   public maxSize: number;
 
   public formGroup!: FormGroup;

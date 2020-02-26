@@ -55,10 +55,6 @@ export class ChargingStationDebugComponent implements OnInit {
 
     this.connectorControl = this.formGroup.controls['connectorControl'];
     this.durationControl = this.formGroup.controls['durationControl'];
-
-    // set default values
-    this.connectorControl.setValue(this.translateService.instant('chargers.smart_charging.connectors_all'));
-    this.durationControl.setValue(600);
   }
 
   public getChargingProfilesForConnector() {
@@ -73,7 +69,7 @@ export class ChargingStationDebugComponent implements OnInit {
       connector = 0;
     }
     this.centralServerService.getChargingStationCompositeSchedule(
-      this.charger.id, connector, this.durationControl.value as number * 60,
+      this.charger.id, connector, this.durationControl.value as number,
       this.charger.powerLimitUnit, this.loadAllConnectors).subscribe((chargingSchedule) => {
         this.scheduleResult = chargingSchedule;
         this.spinnerService.hide();

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tenant } from 'app/types/Tenant';
 import { Observable } from 'rxjs';

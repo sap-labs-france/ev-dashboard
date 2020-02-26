@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import BuildingConfiguration from 'app/types/configuration/BuildingConfiguration';
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
@@ -51,6 +52,10 @@ export class ConfigService {
 
   public getCompany(): CompanyConfiguration {
     return this.config.Company;
+  }
+
+  public getBuilding(): BuildingConfiguration {
+    return this.config.Building;
   }
 
   public getVehicleManufacturer(): VehicleManufacturerConfiguration {

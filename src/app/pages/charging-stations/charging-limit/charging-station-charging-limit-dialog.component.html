@@ -48,13 +48,15 @@
           <mat-icon>bug_report</mat-icon>
           <span>{{'chargers.smart_charging.debug_charging_station' | translate }}</span>
         </ng-template>
-        <div class="card-body" style="margin-top: 15px">
-          <div class="row">
-            <div class="col-md-12">
-              <app-charging-station-debug [charger]="charger"></app-charging-station-debug>
+        <ng-template matTabContent>
+          <div class="card-body" style="margin-top: 15px">
+            <div class="row">
+              <div class="col-md-12">
+                <app-charging-station-debug [charger]="charger"></app-charging-station-debug>
+              </div>
             </div>
           </div>
-        </div>
+        </ng-template>
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>

@@ -10,7 +10,7 @@ import { Company } from 'app/types/Company';
   `,
 })
 
-export class CompanyLogoFormatterComponent extends CellContentTemplateComponent {
+export class CompanyLogoFormatterCellComponent extends CellContentTemplateComponent {
   @Input() row!: Company;
 
 }

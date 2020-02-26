@@ -6,9 +6,10 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Setting';
+import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-ocpi',
@@ -60,7 +61,7 @@ export class SettingsOcpiComponent implements OnInit {
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
     private router: Router) {
-    this.isActive = this.componentService.isActive(ComponentType.OCPI);
+    this.isActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   ngOnInit() {

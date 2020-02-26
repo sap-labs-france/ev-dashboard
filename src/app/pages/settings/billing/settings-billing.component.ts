@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { RestResponse } from 'app/types/GlobalType';
 import { BillingSettings, BillingSettingsType } from 'app/types/Setting';
+import TenantComponents from 'app/types/TenantComponents';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -31,7 +32,7 @@ export class SettingsBillingComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
   ) {
-    this.isActive = this.componentService.isActive(ComponentType.BILLING);
+    this.isActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 
   ngOnInit(): void {

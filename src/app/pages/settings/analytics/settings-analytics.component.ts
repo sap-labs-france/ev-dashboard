@@ -6,9 +6,9 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
-import { Constants } from 'app/utils/Constants';
+import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-table-data-source';
 
 @Component({
@@ -31,7 +31,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.analyticsLinksTableDataSource.changed.subscribe(() => {
       this.formGroup.markAsDirty();
     });
-    this.isActive = componentService.isActive(ComponentType.ANALYTICS);
+    this.isActive = componentService.isActive(TenantComponents.ANALYTICS);
     // Build form
     this.formGroup = new FormGroup({});
   }

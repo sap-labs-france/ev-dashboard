@@ -21,12 +21,13 @@ import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OC
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 // @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -70,7 +71,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   ) {
     super(spinnerService);
     // Init
-    this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{WithSite: true}]);
     }

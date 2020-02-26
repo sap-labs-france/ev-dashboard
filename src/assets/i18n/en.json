@@ -598,6 +598,7 @@
     "consumption_title": "Instant Power",
     "total_consumption_title": "Consumption",
     "firmware_version": "Firmware Version",
+    "firmware_status": "Firmware Status",
     "connector_status": "Status",
     "ocpp_version": "OCPP Version",
     "ocpp_version_title": "OCPP",

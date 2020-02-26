@@ -598,6 +598,7 @@
     "consumption_title": "Puissance instantanée",
     "total_consumption_title": "Consommation",
     "firmware_version": "Version Firmware",
+    "firmware_status": "Statut Firware",
     "connector_status": "Status",
     "ocpp_version": "Version OCPP",
     "ocpp_version_title": "OCPP",

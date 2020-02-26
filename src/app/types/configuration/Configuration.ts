@@ -1,5 +1,6 @@
 import AdvancedConfiguration from './AdvancedConfiguration';
 import AuthorizationConfiguration from './AuthorizationConfiguration';
+import BuildingConfiguration from './BuildingConfiguration';
 import CentralSystemServerConfiguration from './CentralSystemServerConfiguration';
 import CompanyConfiguration from './CompanyConfiguration';
 import FrontEndConfiguration from './FrontEndConfiguration';
@@ -15,6 +16,7 @@ export interface Configuration {
   Authorization: AuthorizationConfiguration;
   CentralSystemServer: CentralSystemServerConfiguration;
   Company: CompanyConfiguration;
+  Building: BuildingConfiguration;
   FrontEnd: FrontEndConfiguration;
   Locales: LocalesConfiguration;
   SiteArea: SiteAreaConfiguration;

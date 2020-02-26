@@ -2,7 +2,6 @@ import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { Data } from 'app/types/Table';
-import { Utils } from '../../utils/Utils';
 import { DialogTableDataSource } from './dialog-table-data-source';
 
 export abstract class DialogTableDataComponent<T extends Data> {
@@ -37,7 +36,7 @@ export abstract class DialogTableDataComponent<T extends Data> {
       this.dialogDataSource.setStaticFilters([]);
     }
     // Multiple Selection
-    if (Utils.objectHasProperty(data, 'rowMultipleSelection')) {
+    if (data.hasOwnProperty('rowMultipleSelection')) {
       this.dialogDataSource.setMultipleRowSelection(data.rowMultipleSelection);
     }
     // listen to keystroke

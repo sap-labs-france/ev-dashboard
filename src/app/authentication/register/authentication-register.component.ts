@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
+import { User } from 'app/types/User';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
@@ -12,7 +13,6 @@ import { SpinnerService } from '../../services/spinner.service';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
-import { User } from 'app/types/User';
 
 @Component({
   selector: 'app-authentication-register',

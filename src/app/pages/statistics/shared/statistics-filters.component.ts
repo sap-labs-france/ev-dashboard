@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -61,7 +62,7 @@ export class StatisticsFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION);
+    this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.category.emit(this.selectedCategory);
 
     this.selectedYear = new Date().getFullYear();

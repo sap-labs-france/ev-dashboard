@@ -1,0 +1,53 @@
+{
+  "CentralSystemServer": {
+    "protocol": "https",
+    "host": "localhost",
+    "port": 443,
+		"socketIOEnabled": true,
+    "pollEnabled": false,
+    "pollIntervalSecs": 10
+  },
+  "FrontEnd": {
+    "host": "localhost"
+  },
+  "Authorization": {
+    "debug": false
+  },
+	"Building": {
+		"maxImageKb": 800
+	},
+  "User": {
+    "maxPictureKb": 150,
+    "captchaSiteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+  },
+  "Company": {
+    "maxPictureKb": 150
+  },
+  "Site": {
+    "maxPictureKb": 800
+  },
+  "SiteArea": {
+    "maxPictureKb": 800
+  },
+	"VehicleManufacturer": {
+		"maxLogoKb": 150
+	},
+	"Vehicle": {
+		"maxPictureKb": 250
+	},
+  "Locales": {
+    "default": "en",
+    "supported": [
+      "en",
+      "fr"
+    ],
+    "fullSupported": [
+      "en_US",
+      "fr_FR"
+    ]
+  },
+  "Advanced": {
+    "debounceTimeNotifMillis": 50,
+    "debounceTimeSearchMillis": 500
+  }
+}

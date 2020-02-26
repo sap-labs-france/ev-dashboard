@@ -24,7 +24,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.0",
+    "last_update": "Version 2.2.1",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -148,6 +148,7 @@
       "pricing": "Pricing",
       "components": "Components",
       "settings": "Settings",
+      "buildings": "Buildings",
       "organization": "Organization",
       "template": "Templates"
     },
@@ -333,6 +334,32 @@
     "create_error": "Error occurred while creating the company",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "select_companies": "Select Company"
+  },
+  "buildings": {
+    "no_buildings": "No buildings found",
+    "building_number": "Building(s)",
+    "logo": "Logo",
+    "name": "Name",
+    "building": "Building",
+    "title": "Building",
+    "titles": "Buildings",
+    "created_on": "Created On",
+    "created_by": "Created By",
+    "changed_on": "Changed On",
+    "changed_by": "Changed By",
+    "delete_title": "Delete",
+    "delete_button": "Delete",
+    "delete_confirm": "Do you really want to delete the building '{{buildingName}}'?",
+    "delete_success": "The building '{{buildingName}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the building",
+    "changed_by_other_user": "The building '{{buildingName}}' has been changed by another user and will be reloaded",
+    "update_success": "The building '{{buildingName}}' has been updated successfully",
+    "update_error": "Error occurred while updating the building",
+    "building_not_found": "Building not found",
+    "create_success": "The building '{{buildingName}}' has been created successfully",
+    "create_error": "Error occurred while creating the building",
+    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "select_buildings": "Select Building"
   },
   "sites": {
     "auto_user_site_assignment": "Automatic user assignment to this site",
@@ -1081,9 +1108,9 @@
         "action": "Re-synchronize it manually."
       },
       "no_billing_data": {
-        "title": "User has not billing data",
-        "description": "This user has no billing data. It is required to operate with Billing system.",
-        "action": "Synchronize user."
+        "title": "User has no billing data",
+        "description": "This user has not been synchronized with the billing system.",
+        "action": "Synchronize the user."
       }
     }
   },
@@ -1425,7 +1452,10 @@
   },
   "building": {
     "title": "Building",
-    "description": "Manage Buildings"
+    "description": "Manage Buildings",
+    "tabs": {
+      "buildings": "Buildings"
+    }
   },
   "analytics": {
     "title": "Analytics",
@@ -1467,9 +1497,7 @@
   "billing": {
     "title": "Billing",
     "type_placeholder": "Type",
-    "description": "Billing Interface",
-    "id": "Billing ID",
-    "updatedOn": "Synchronized on"
+    "description": "Billing Interface"
   },
   "transactions": {
     "id": "Id",
@@ -1668,7 +1696,7 @@
     "title": "Error",
     "details": "Details",
     "description": "Description",
-    "action": "Recommended action"
+    "action": "Action"
   },
   "notifications": {
     "admin_only": "Administrators only",

@@ -52,14 +52,13 @@ export enum OCPPConfigurationStatus {
   ACCEPTED = 'Accepted',
   REJECTED = 'Rejected',
   REBOOT_REQUIRED = 'RebootRequired',
-  NOT_SUPPORTED = 'NotSupported'
+  NOT_SUPPORTED = 'NotSupported',
 }
 
 export enum OCPPGeneralResponse {
   ACCEPTED = 'Accepted',
   REJECTED = 'Rejected',
 }
-
 
 export enum ChargingStationCurrentType {
   AC = 'AC',

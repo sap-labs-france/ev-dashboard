@@ -1,6 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ComponentService, ComponentType } from '../../services/component.service';
+import TenantComponents from 'app/types/TenantComponents';
+import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
@@ -26,13 +27,13 @@ export class SettingsComponent extends AbstractTabComponent {
     windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['ocpi', 'organization', 'refund', 'pricing', 'billing', 'sac', 'smartCharging', 'building']);
-    this.isOCPIActive = this.componentService.isActive(ComponentType.OCPI);
-    this.isOrganizationActive = this.componentService.isActive(ComponentType.ORGANIZATION);
-    this.isRefundActive = this.componentService.isActive(ComponentType.REFUND);
-    this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
-    this.isBillingActive = this.componentService.isActive(ComponentType.BILLING);
-    this.isSacActive = this.componentService.isActive(ComponentType.ANALYTICS);
-    this.isSmartChargingActive = this.componentService.isActive(ComponentType.SMART_CHARGING);
-    this.isBuildingActive = this.componentService.isActive(ComponentType.BUILDING);
+    this.isOCPIActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isRefundActive = this.componentService.isActive(TenantComponents.REFUND);
+    this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isSacActive = this.componentService.isActive(TenantComponents.ANALYTICS);
+    this.isSmartChargingActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.isBuildingActive = this.componentService.isActive(TenantComponents.BUILDING);
   }
 }

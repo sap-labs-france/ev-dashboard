@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Action, Entity, Role } from 'app/types/Authorization';
 import { SiteArea } from 'app/types/SiteArea';
+import TenantComponents from 'app/types/TenantComponents';
 import { UserToken } from 'app/types/User';
-import { Constants } from '../utils/Constants';
 import { CentralServerService } from './central-server.service';
-import { ComponentService, ComponentType } from './component.service';
+import { ComponentService } from './component.service';
 
 @Injectable()
 export class AuthorizationService {
@@ -29,6 +29,10 @@ export class AuthorizationService {
 
   public canUpdateCompany(): boolean {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
+  }
+
+  public canUpdateBuilding(): boolean {
+    return this.canAccess(Entity.BUILDING, Action.UPDATE);
   }
 
   public canUpdateSite(): boolean {
@@ -61,7 +65,7 @@ export class AuthorizationService {
       if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
-      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         return siteArea && this.isSiteAdmin(siteArea.siteID);
       }
       return this.isAdmin();
@@ -71,7 +75,7 @@ export class AuthorizationService {
 
   public canStartTransaction(siteArea: SiteArea) {
     if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_START_TRANSACTION)) {
-      if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         if (!siteArea) {
           return false;
         }
@@ -88,7 +92,7 @@ export class AuthorizationService {
       if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
         return true;
       }
-      if (this.componentService.isActive(ComponentType.ORGANIZATION) && siteArea) {
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION) && siteArea) {
         return this.isSiteAdmin(siteArea.siteID) || (this.isDemo() && this.isSiteUser(siteArea.siteID));
       }
       return this.isAdmin() || this.isDemo();

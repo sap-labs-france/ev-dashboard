@@ -2,7 +2,6 @@ import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { ChargingStation, ChargingStationCapabilities, OcppAdvancedCommands } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { Utils } from '../../../../utils/Utils';
 
 export interface PropertyDisplay {
   key: string;
@@ -44,7 +43,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
         if (capabilities) {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
-            if (Utils.objectHasProperty(capabilities, key)) {
+            if (capabilities.hasOwnProperty(key)) {
               // @ts-ignore
               formatterValues.push(`${key}: ${capabilities[key]}`);
             }

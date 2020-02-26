@@ -1667,7 +1667,7 @@
     "title": "Erreur",
     "details": "Détails",
     "description": "Description",
-    "action": "Action recommendée"
+    "action": "Action"
   },
   "notifications": {
     "admin_only": "Administrateurs seulement",

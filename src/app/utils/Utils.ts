@@ -83,7 +83,7 @@ export class Utils {
     return value ? value.replace(/\n/g, '') : '';
   }
 
-  public static objectHasProperty(object: object, key: string): boolean {
+  public static hasOwnProperty(object: object, key: string): boolean {
     return Object.prototype.hasOwnProperty.call(object, key);
   }
 

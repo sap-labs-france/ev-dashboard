@@ -3,8 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
 import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
 import { TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
@@ -51,7 +52,7 @@ export class StatisticsPricingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
     private statisticsExportService: StatisticsExportService) {
-    this.isPricingActive = this.componentService.isActive(ComponentType.PRICING);
+    this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });

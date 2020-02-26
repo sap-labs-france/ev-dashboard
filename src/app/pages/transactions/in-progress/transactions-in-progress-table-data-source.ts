@@ -5,15 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
@@ -206,7 +207,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     ];
 
     // Show Site Area Filter If Organization component is active
-    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }

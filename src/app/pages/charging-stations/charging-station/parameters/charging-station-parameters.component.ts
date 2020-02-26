@@ -10,9 +10,10 @@ import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPP
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../../services/component.service';
+import { ComponentService } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -77,7 +78,7 @@ export class ChargingStationParametersComponent implements OnInit {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     this.formGroup = new FormGroup({});
-    this.isOrganizationComponentActive = this.componentService.isActive(ComponentType.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
   ngOnInit(): void {

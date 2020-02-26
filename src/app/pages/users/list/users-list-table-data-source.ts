@@ -11,12 +11,13 @@ import { HTTPError } from 'app/types/HTTPError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
+import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
@@ -165,7 +166,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       id: 'eulaAcceptedOn',
       name: 'users.eula_accepted_on',
       formatter: (eulaAcceptedOn: Date, row: User) => {
-        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
+        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
       },
       headerClass: 'col-15p',
       class: 'col-15p',
@@ -194,33 +195,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       class: 'col-15p',
       sortable: true,
     });
-
-    if (this.componentService.isActive(ComponentType.BILLING)) {
-      columns.push(
-        {
-          id: 'billingData.customerID',
-          name: 'billing.id',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'billingData.lastChangedOn',
-          name: 'billing.updatedOn',
-          headerClass: 'col-15p',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          class: 'col-15p',
-          sortable: true,
-        },
-      );
-    }
     return columns as TableColumnDef[];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(new TableCreateAction().getActionDef());
-    if (this.componentService.isActive(ComponentType.BILLING) &&
+    if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeUsers()) {
       tableActionsDef.splice(1, 0, this.tableSyncBillingUsersAction);
     }
@@ -231,7 +212,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
-    if (this.componentService.isActive(ComponentType.ORGANIZATION) && this.authorizationService.isAdmin()) {
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION) && this.authorizationService.isAdmin()) {
       actions = [
         this.editAction,
         this.assignSiteAction,

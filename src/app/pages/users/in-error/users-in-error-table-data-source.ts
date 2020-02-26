@@ -10,11 +10,12 @@ import { HTTPError } from 'app/types/HTTPError';
 import { ErrorMessage, UserInError, UserInErrorType } from 'app/types/InError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService, ComponentType } from '../../../services/component.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
@@ -179,7 +180,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       this.deleteAction,
     ]);
     actions.push(moreActions.getActionDef());
-    if (this.componentService.isActive(ComponentType.BILLING)) {
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
       if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
         moreActions.addActionDef(this.forceSyncBillingUserAction);
       } else if (user.errorCode === UserInErrorType.NO_BILLING_DATA) {
@@ -244,7 +245,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       key: UserInErrorType.INACTIVE_USER_ACCOUNT,
       value: `users.errors.${UserInErrorType.INACTIVE_USER_ACCOUNT}.title`,
     });
-    if (this.componentService.isActive(ComponentType.BILLING)) {
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
       errorTypes.push({
         key: UserInErrorType.FAILED_BILLING_SYNCHRO,
         value: `users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`,
@@ -259,7 +260,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       new UserRoleFilter(this.centralServerService).getFilterDef(),
     ];
     // Show Error types filter only if Organization component is active
-    if (this.componentService.isActive(ComponentType.ORGANIZATION)) {
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ErrorTypeTableFilter(errorTypes).getFilterDef());
     }
 

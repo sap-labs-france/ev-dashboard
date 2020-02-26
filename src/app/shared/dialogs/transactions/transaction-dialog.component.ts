@@ -167,7 +167,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
       }
       this.percentOfInactivity =
         ` (${this.appPercentPipe.transform(this.totalDurationSecs > 0 ? this.totalInactivitySecs / this.totalDurationSecs : 0, '1.0-0')})`;
-      if (Utils.objectHasProperty(transaction, 'stateOfCharge')) {
+      if (transaction.hasOwnProperty('stateOfCharge')) {
         if (this.stateOfCharge === 100) {
           this.stateOfChargeIcon = 'battery_full';
         } else if (this.stateOfCharge >= 90) {

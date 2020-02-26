@@ -8,10 +8,10 @@
         </ng-template>
         <div class="card-body">
           <div class="row app-building-align-center">
-            <div class="col-md-2">
-              <div class="rotating-card-container app-buildings-image-border"
+            <div class="col-md-5">
+              <div class="rotating-card-container app-building-image-border"
                 [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
-                <div class="card card-rotate card-background app-building-image-padding" style="height: 100px">
+                <div class="card card-rotate card-background app-building-image-padding" style="margin-top: 0px;">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div class="card-body">
@@ -20,15 +20,18 @@
                   <div class="back back-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div *ngIf="this.isAdmin" class="card-body">
+                      <h5 class="card-title">
+                        {{'general.change_picture' | translate}}
+                      </h5>
                       <div class="footer justify-content-center">
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
                           <div style="display:none">
-                            <input type="file" name="..." (change)="logoChanged($event)" #file>
+                            <input type="file" name="..." (change)="imageChanged($event)" #file>
                           </div>
                         </button>
                         <button mat-flat-button color="warn">
-                          <mat-icon (click)="clearLogo()">delete</mat-icon>
+                          <mat-icon (click)="clearImage()">delete</mat-icon>
                         </button>
                       </div>
                     </div>
@@ -36,7 +39,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-7">
               <div class="form-group">
                 <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'buildings.name' | translate}}"

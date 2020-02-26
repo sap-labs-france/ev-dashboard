@@ -1,3 +1,3 @@
 export default interface BuildingConfiguration {
-  maxLogoKb: number;
+  maxImageKb: number;
 }

@@ -7,11 +7,11 @@ import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
+import { CompanyLogoFormatterCellComponent } from './companies/cell-components/company-logo-formatter-cell.component';
 import { CompanyComponent } from './companies/company/company.component';
 import { CompanyDialogComponent } from './companies/company/company.dialog.component';
 import { CompaniesListTableDataSource } from './companies/list/companies-list-table-data-source';
 import { CompaniesListComponent } from './companies/list/companies-list.component';
-import { CompanyLogoFormatterComponent } from './formatters/company-logo-formatter.component';
 import { OrganizationComponent } from './organization.component';
 import { OrganizationRoutes } from './organization.routing';
 import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
@@ -48,7 +48,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreasListComponent,
     CompanyComponent,
     CompanyDialogComponent,
-    CompanyLogoFormatterComponent,
+    CompanyLogoFormatterCellComponent,
     SiteComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
@@ -64,7 +64,7 @@ import { SiteComponent } from './sites/site/site.component';
     SitesListComponent,
     SiteAreasListComponent,
     CompanyDialogComponent,
-    CompanyLogoFormatterComponent,
+    CompanyLogoFormatterCellComponent,
     SiteAreaDialogComponent,
     SiteAreaComponent,
     SiteDialogComponent,

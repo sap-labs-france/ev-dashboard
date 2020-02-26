@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
+import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
 import { Tenant } from 'app/types/Tenant';
 import TenantComponents from 'app/types/TenantComponents';
 import { debounceTime } from 'rxjs/operators';
@@ -26,40 +27,40 @@ export class TenantComponent implements OnInit {
   public tenantID!: string;
   public pricingTypes = [
     {
-      key: 'convergentCharging',
+      key: PricingSettingsType.CONVERGENT_CHARGING,
       description: 'settings.pricing.convergentcharging.title',
     }, {
-      key: 'simple',
+      key: PricingSettingsType.SIMPLE,
       description: 'settings.pricing.simple.title',
     },
   ];
   public billingTypes = [
     {
-      key: 'stripe',
+      key: BillingSettingsType.STRIPE,
       description: 'settings.billing.stripe.title',
     },
   ];
   public refundTypes = [
     {
-      key: 'concur',
+      key: RefundSettingsType.CONCUR,
       description: 'settings.refund.concur.title',
     },
   ];
   public ocpiTypes = [
     {
-      key: 'gireve',
+      key: RoamingSettingsType.GIREVE,
       description: 'settings.ocpi.gireve.title',
     },
   ];
   public analyticsTypes = [
     {
-      key: 'sac',
+      key: AnalyticsSettingsType.SAC,
       description: 'settings.analytics.sac.title',
     },
   ];
   public smartChargingTypes = [
     {
-      key: 'sapSmartCharging',
+      key: SmartChargingSettingsType.SAP_SMART_CHARGING,
       description: 'settings.smartCharging.sapSmartCharging.title',
     },
   ];
@@ -109,7 +110,7 @@ export class TenantComponent implements OnInit {
     this.subdomain = this.formGroup.controls['subdomain'];
     this.components = (this.formGroup.controls['components'] as FormGroup);
     // Create component
-    for (const componentIdentifier of Object.values(TenantComponent)) {
+    for (const componentIdentifier of Object.values(TenantComponents)) {
       // Create controls
       this.components.addControl(componentIdentifier, new FormGroup({
         active: new FormControl(false),
@@ -141,7 +142,7 @@ export class TenantComponent implements OnInit {
           this.email.setValue(this.currentTenant.email);
           this.subdomain.setValue(this.currentTenant.subdomain);
           // Add available components
-          for (const componentIdentifier of Object.values(TenantComponent)) {
+          for (const componentIdentifier of Object.values(TenantComponents)) {
             // Set the params
             if (this.currentTenant.components && this.currentTenant.components[componentIdentifier]) {
               // Get component group

@@ -58,7 +58,7 @@ export class BuildingComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router) {
 
-    this.maxSize = this.configService.getBuilding().maxLogoKb;
+    this.maxSize = this.configService.getBuilding().maxImageKb;
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&

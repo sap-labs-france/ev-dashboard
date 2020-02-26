@@ -1107,9 +1107,9 @@
         "action": "Re-synchronize it manually."
       },
       "no_billing_data": {
-        "title": "User has not billing data",
-        "description": "This user has no billing data. It is required to operate with Billing system.",
-        "action": "Synchronize user."
+        "title": "User has no billing data",
+        "description": "This user has not been synchronized with the billing system.",
+        "action": "Synchronize the user."
       }
     }
   },

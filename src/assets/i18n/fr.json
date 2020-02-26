@@ -1108,7 +1108,7 @@
       },
       "no_billing_data": {
         "title": "Aucune donnée de facturation",
-        "description": "Cet utilisateur n'a pas de données de facturation. Celles-ci sont requises pour fonctionner avec le système de facturation.",
+        "description": "Cet utilisateur n'a pas été synchronisé avec le système de facturation.",
         "action": "Synchroniser l'utilisateur."
       }
     }

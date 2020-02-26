@@ -5,7 +5,6 @@
     "captcha_text_3": " et l'application des ",
     "captcha_text_4": "Conditions d’Utilisation",
     "captcha_text_5": "",
-    "invalid_captcha_token": "Jeton captcha invalide",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
@@ -518,7 +517,8 @@
     "verify_email_resend_success": "Le lien d'activation de votre compte a été envoyé avec succès",
     "verify_email_resend_error": "Une erreur est survenue pendant l'envoi du lien d'activation de votre compte",
     "verify_email_proceed_with_activation": "Votre compte n'est pas encore actif ! Voulez-vous renvoyer l'email d'activation ?",
-    "verify_email_proceed_with_activation_button": "Procéder"
+    "verify_email_proceed_with_activation_button": "Procéder",
+    "invalid_captcha_token": "Jeton captcha invalide"
   },
   "statistics": {
     "title": "Statistiques",
@@ -1714,6 +1714,7 @@
     "smtp_auth_error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
-    "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois"
+    "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
+    "car_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
   }
 }

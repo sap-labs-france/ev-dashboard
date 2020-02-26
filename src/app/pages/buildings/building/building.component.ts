@@ -246,7 +246,7 @@ export class BuildingComponent implements OnInit {
     }
   }
 
-  public logoChanged(event: any) {
+  public imageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -263,7 +263,7 @@ export class BuildingComponent implements OnInit {
     }
   }
 
-  public clearLogo() {
+  public clearImage() {
     // Clear
     this.image = BuildingImage.NO_IMAGE;
     // Set form dirty

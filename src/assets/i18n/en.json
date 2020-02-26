@@ -5,7 +5,6 @@
     "captcha_text_3": " and ",
     "captcha_text_4": "Terms of Service",
     "captcha_text_5": " apply",
-    "invalid_captcha_token": "Invalid captcha token",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -518,7 +517,8 @@
     "verify_email_resend_success": "Your account's activation link has been sent with success",
     "verify_email_resend_error": "Error occurred while sending your account's activation link",
     "verify_email_proceed_with_activation": "Your account is still inactive! Do you want to resend the activation email?",
-    "verify_email_proceed_with_activation_button": "Proceed"
+    "verify_email_proceed_with_activation_button": "Proceed",
+    "invalid_captcha_token": "Invalid captcha token"
   },
   "statistics": {
     "title": "Statistics",
@@ -1714,6 +1714,7 @@
     "smtp_auth_error": "Notify me if the backend authentication to the email server has failed",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
-    "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months"
+    "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
+    "car_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
   }
 }

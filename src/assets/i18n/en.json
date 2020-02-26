@@ -1714,6 +1714,7 @@
     "smtp_auth_error": "Notify me if the backend authentication to the email server has failed",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
-    "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months"
+    "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
+    "car_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
   }
 }

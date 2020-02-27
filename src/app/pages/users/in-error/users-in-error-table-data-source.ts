@@ -102,12 +102,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const columns = [];
     columns.push(
     {
-      id: 'id',
-      name: 'transactions.id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'd-none d-xl-table-cell',
-    },
-    {
       id: 'status',
       name: 'users.status',
       isAngularComponent: true,

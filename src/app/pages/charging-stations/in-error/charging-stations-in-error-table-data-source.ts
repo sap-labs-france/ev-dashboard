@@ -179,7 +179,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       {
         id: 'errorCode',
         name: 'errors.title',
-        class: 'col-30p',
+        class: 'col-30p text-danger',
         sortable: true,
         formatter: (value: string) => this.translateService.instant(`chargers.errors.${value}.title`),
       },

@@ -34,7 +34,7 @@ export class Users {
 
   public static validatePhone(control: AbstractControl): ValidationErrors|null {
     // Check
-    if (!control.value || validator.isMobilePhone(control.value)) {
+    if (!control.value || /^\+?([0-9] ?){9,14}[0-9]$/.test(control.value)) {
       // Ok
       return null;
     }

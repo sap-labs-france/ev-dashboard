@@ -1715,6 +1715,6 @@
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
-    "car_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
+    "car_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué"
   }
 }

@@ -46,6 +46,12 @@
     max-height: 57vh !important;
 }
 
+.charger-debug-component {
+    max-height: 50vh;
+    overflow-x: scroll;
+    width: 100%;
+}
+
 .props-header {
     min-width: 200px;
 }

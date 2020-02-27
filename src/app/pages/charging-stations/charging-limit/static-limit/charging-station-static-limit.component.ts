@@ -73,6 +73,8 @@ export class ChargingStationStaticLimitComponent implements OnInit {
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: self.charger.id }),
             );
+            // Refresh
+            this.loadChargingStation();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
@@ -83,6 +85,21 @@ export class ChargingStationStaticLimitComponent implements OnInit {
             error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
         });
       }
+    });
+  }
+
+  public loadChargingStation() {
+    // Show spinner
+    this.spinnerService.show();
+    // Yes, get it
+    this.centralServerService.getCharger(this.charger.id).subscribe((charger) => {
+      this.spinnerService.hide();
+      // Update connectors
+      for (const connector of this.charger.connectors) {
+        this.charger.connectors[connector.connectorId-1] = connector;
+      }
+    }, (error) => {
+      // Do nothing
     });
   }
 

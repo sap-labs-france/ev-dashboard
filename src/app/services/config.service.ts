@@ -11,8 +11,6 @@ import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
 import UserConfiguration from '../types/configuration/UserConfiguration';
-import VehicleConfiguration from '../types/configuration/VehicleConfiguration';
-import VehicleManufacturerConfiguration from '../types/configuration/VehicleManufacturerConfiguration';
 
 @Injectable()
 export class ConfigService {
@@ -56,14 +54,6 @@ export class ConfigService {
 
   public getBuilding(): BuildingConfiguration {
     return this.config.Building;
-  }
-
-  public getVehicleManufacturer(): VehicleManufacturerConfiguration {
-    return this.config.VehicleManufacturer;
-  }
-
-  public getVehicle(): VehicleConfiguration {
-    return this.config.Vehicle;
   }
 
   public getSite(): SiteConfiguration {

@@ -123,7 +123,6 @@ export const logActions: KeyValue[] = [
   {key: 'RemoveSitesFromUser', value: 'RemoveSitesFromUser'},
   {key: 'UserImage', value: 'UserImage'},
   {key: 'Logging', value: 'Logging'},
-  {key: 'Vehicles', value: 'Vehicles'},
   {key: 'ChargingStation', value: 'ChargingStation'},
   {key: 'ChangeConfiguration', value: 'ChangeConfiguration'},
   {key: 'Transaction', value: 'Transaction'},

@@ -197,7 +197,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       email: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.email
         ])),
       phone: new FormControl('',
         Validators.compose([
@@ -316,7 +316,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendBillingUserSynchronizationFailed = this.notifications.controls['sendBillingUserSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
-    this.userTagsTableDataSource.setFormArray(this.tags);
+    if (this.isAdmin) {
+      this.userTagsTableDataSource.setFormArray(this.tags);
+    }
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {

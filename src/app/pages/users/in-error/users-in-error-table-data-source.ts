@@ -135,6 +135,13 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
+      id: 'email',
+      name: 'users.email',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true,
+    },
+    {
       id: 'errorCodeDetails',
       name: 'errors.details',
       sortable: false,

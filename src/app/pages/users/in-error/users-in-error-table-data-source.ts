@@ -347,7 +347,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
 
   private forceSynchronizeUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
+      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title', { userFullName: Utils.buildUserFullName(user) }),
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {

@@ -147,7 +147,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
-
     this.canSeeInvoice = false;
     this.componentService.getPricingSettings().subscribe((settings) => {
       if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {

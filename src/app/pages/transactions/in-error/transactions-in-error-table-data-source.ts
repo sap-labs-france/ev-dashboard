@@ -182,7 +182,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       {
         id: 'errorCode',
         name: 'errors.title',
-        class: 'col-30p',
+        class: 'col-30p text-danger',
         sortable: true,
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },

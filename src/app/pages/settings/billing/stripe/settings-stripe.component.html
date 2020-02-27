@@ -30,7 +30,7 @@
         <mat-form-field>
           <input appAutofocus matInput type="password"
                  placeholder="{{'settings.billing.stripe.secret_key' | translate}}"
-                 [formControl]="secretKey">
+                 [formControl]="secretKey" required>
           <mat-error *ngIf="secretKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="secretKey.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>

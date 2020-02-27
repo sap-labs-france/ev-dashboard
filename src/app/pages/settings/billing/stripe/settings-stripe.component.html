@@ -11,8 +11,7 @@
       <div class="col-md-6">
         <mat-form-field>
           <input appAutofocus matInput type="text" [formControl]="url"
-                 placeholder="{{'settings.billing.stripe.url' | translate}}" required>
-          <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                 placeholder="{{'settings.billing.stripe.url' | translate}}">
           <mat-error *ngIf="url.errors?.maxlength">
             <div [translate]="'general.error_max_length'" [translateParams]="{length: 200}"></div>
           </mat-error>

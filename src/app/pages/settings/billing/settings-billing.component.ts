@@ -11,6 +11,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import { BillingConnectionErrorType } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -101,13 +102,28 @@ export class SettingsBillingComponent implements OnInit {
 
   public checkConnection() {
     this.spinnerService.show();
-    this.centralServerService.validateBillingConnection().subscribe((response) => {
+    this.centralServerService.CheckBillingConnection().subscribe((response) => {
+      console.log(response);
       this.spinnerService.hide();
-      if (response.connectionIsValid) {
+      if (response.connectionValid) {
         this.messageService.showSuccessMessage('settings.billing.connection_success');
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, 'settings.billing.connection_error');
+        switch (response.errorType) {
+          case BillingConnectionErrorType.NO_SECRET_KEY:
+            this.formGroup.get('stripe.secretKey').setErrors({ required: true });
+            break;
+          case BillingConnectionErrorType.INVALID_SECRET_KEY:
+            this.formGroup.get('stripe.secretKey').setErrors({ invalid: true });
+            break;
+          case BillingConnectionErrorType.NO_PUBLIC_KEY:
+            this.formGroup.get('stripe.publicKey').setErrors({ required: true });
+            break;
+          case BillingConnectionErrorType.INVALID_PUBLIC_KEY:
+            this.formGroup.get('stripe.publicKey').setErrors({ invalid: true });
+            break;
+        }
       }
     }, (error) => {
       this.spinnerService.hide();

@@ -9,7 +9,7 @@ import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionsResponse, ActionResponse, BillingConnectionStatusResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, SynchronizeResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -24,7 +24,7 @@ import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
-import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
+import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1243,11 +1243,11 @@ export class CentralServerService {
       );
   }
 
-  public validateBillingConnection(): Observable<ValidateBillingConnectionResponse> {
+  public CheckBillingConnection(): Observable<BillingConnectionStatusResponse> {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<ValidateBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingConnection`,
+    return this.httpClient.get<BillingConnectionStatusResponse>(`${this.centralRestServerServiceSecuredURL}/BillingConnection`,
       {
         headers: this.buildHttpHeaders(),
       })

@@ -1,4 +1,5 @@
 import { SortDirection } from '@angular/material/typings';
+import { BillingConnectionErrorType } from './Billing';
 import { Data } from './Table';
 import { Transaction } from './Transaction';
 
@@ -54,8 +55,9 @@ export interface GetDiagnosticResponse extends ActionResponse {
   fileName: string;
 }
 
-export interface ValidateBillingConnectionResponse extends ActionResponse {
-  connectionIsValid: boolean;
+export interface BillingConnectionStatusResponse extends ActionResponse {
+  connectionValid: boolean;
+  errorType?: BillingConnectionErrorType;
 }
 
 export interface DataResult<T extends Data> {

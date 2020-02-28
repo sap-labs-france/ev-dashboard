@@ -102,12 +102,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const columns = [];
     columns.push(
     {
-      id: 'id',
-      name: 'transactions.id',
-      headerClass: 'd-none d-xl-table-cell',
-      class: 'd-none d-xl-table-cell',
-    },
-    {
       id: 'status',
       name: 'users.status',
       isAngularComponent: true,
@@ -141,6 +135,13 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       sortable: true,
     },
     {
+      id: 'email',
+      name: 'users.email',
+      headerClass: 'col-15p',
+      class: 'text-left col-15p',
+      sortable: true,
+    },
+    {
       id: 'errorCodeDetails',
       name: 'errors.details',
       sortable: false,
@@ -152,7 +153,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     {
       id: 'errorCode',
       name: 'errors.title',
-      class: 'col-30p',
+      class: 'col-30p text-danger',
       sortable: true,
       formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
     },
@@ -346,7 +347,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
 
   private forceSynchronizeUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
+      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title', { userFullName: Utils.buildUserFullName(user) }),
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {

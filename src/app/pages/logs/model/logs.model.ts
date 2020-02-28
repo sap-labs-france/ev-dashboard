@@ -123,7 +123,6 @@ export const logActions: KeyValue[] = [
   {key: 'RemoveSitesFromUser', value: 'RemoveSitesFromUser'},
   {key: 'UserImage', value: 'UserImage'},
   {key: 'Logging', value: 'Logging'},
-  {key: 'Vehicles', value: 'Vehicles'},
   {key: 'ChargingStation', value: 'ChargingStation'},
   {key: 'ChangeConfiguration', value: 'ChangeConfiguration'},
   {key: 'Transaction', value: 'Transaction'},
@@ -138,6 +137,8 @@ export const logActions: KeyValue[] = [
   {key: 'UpdateUserMobileToken', value: 'UpdateUserMobileToken'},
   {key: 'NotifyOptimalChargeReached', value: 'NotifyOptimalChargeReached'},
   {key: 'ExtraInactivity', value: 'ExtraInactivity'},
+  {key: 'SynchronizeCars', value: 'SynchronizeCars'},
+  {key: 'SynchronizeUsersBilling', value: 'SynchronizeUsersBilling'},
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

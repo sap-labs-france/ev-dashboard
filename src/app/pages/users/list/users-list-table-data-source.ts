@@ -107,94 +107,101 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const columns = [];
     columns.push(
-    {
-      id: 'status',
-      name: 'users.status',
-      isAngularComponent: true,
-      angularComponent: UserStatusFormatterComponent,
-      headerClass: 'col-10p',
-      class: 'col-10p table-cell-angular-big-component',
-      sortable: true,
-    },
-    {
-      id: 'role',
-      name: 'users.role',
-      formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
-      headerClass: 'col-10p',
-      class: 'text-left col-10p',
-      sortable: true,
-    },
-    {
-      id: 'name',
-      name: 'users.name',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sorted: true,
-      direction: 'asc',
-      sortable: true,
-    },
-    {
-      id: 'firstName',
-      name: 'users.first_name',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'tags',
-      name: 'users.tags',
-      formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'plateID',
-      name: 'users.plate_id',
-      headerClass: 'col-10p',
-      class: 'col-10p',
-      sortable: true,
-    },
-    {
-      id: 'eulaAcceptedOn',
-      name: 'users.eula_accepted_on',
-      formatter: (eulaAcceptedOn: Date, row: User) => {
-        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
+      {
+        id: 'status',
+        name: 'users.status',
+        isAngularComponent: true,
+        angularComponent: UserStatusFormatterComponent,
+        headerClass: 'col-10p',
+        class: 'col-10p table-cell-angular-big-component',
+        sortable: true,
       },
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'createdOn',
-      name: 'users.created_on',
-      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'lastChangedOn',
-      name: 'users.changed_on',
-      formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'lastChangedBy',
-      name: 'users.changed_by',
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    });
+      {
+        id: 'role',
+        name: 'users.role',
+        formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        sortable: true,
+      },
+      {
+        id: 'name',
+        name: 'users.name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sorted: true,
+        direction: 'asc',
+        sortable: true,
+      },
+      {
+        id: 'firstName',
+        name: 'users.first_name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'email',
+        name: 'users.email',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+    );
+    if (this.authorizationService.isAdmin()) {
+      columns.push(
+        {
+          id: 'tags',
+          name: 'users.tags',
+          formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        },
+        {
+          id: 'plateID',
+          name: 'users.plate_id',
+          headerClass: 'col-10p',
+          class: 'col-10p',
+          sortable: true,
+        },
+      );
+    }
+    columns.push(
+      {
+        id: 'eulaAcceptedOn',
+        name: 'users.eula_accepted_on',
+        formatter: (eulaAcceptedOn: Date, row: User) => {
+          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
+        },
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      }
+    );
     return columns as TableColumnDef[];
   }
 

@@ -8,8 +8,6 @@ import LocalesConfiguration from './LocalesConfiguration';
 import SiteAreaConfiguration from './SiteAreaConfiguration';
 import SiteConfiguration from './SiteConfiguration';
 import UserConfiguration from './UserConfiguration';
-import VehicleConfiguration from './VehicleConfiguration';
-import VehicleManufacturerConfiguration from './VehicleManufacturerConfiguration';
 
 export interface Configuration {
   Advanced: AdvancedConfiguration;
@@ -22,6 +20,4 @@ export interface Configuration {
   SiteArea: SiteAreaConfiguration;
   Site: SiteConfiguration;
   User: UserConfiguration;
-  Vehicle: VehicleConfiguration;
-  VehicleManufacturer: VehicleManufacturerConfiguration;
 }

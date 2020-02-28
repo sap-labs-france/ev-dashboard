@@ -21,7 +21,6 @@ export class ChargingStationDebugComponent implements OnInit {
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;
   public connectorIds: string[];
-  public loadAllConnectors = false;
   public scheduleResult!: ActionResponse;
   public durationControl!: AbstractControl;
 
@@ -43,11 +42,11 @@ export class ChargingStationDebugComponent implements OnInit {
 
     // Init the form
     this.formGroup = new FormGroup({
-      connectorControl: new FormControl('',
+      connectorControl: new FormControl(this.translateService.instant('chargers.smart_charging.connectors_all'),
         Validators.compose([
           Validators.required,
         ])),
-      durationControl: new FormControl(60,
+      durationControl: new FormControl(600,
         Validators.compose([
           Validators.required,
         ])),
@@ -62,15 +61,16 @@ export class ChargingStationDebugComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.loadAllConnectors = false;
-    let connector: number = this.connectorControl.value as number;
+    // Connector ID
+    let connectorID: number = this.connectorControl.value as number;
     if (this.connectorControl.value === this.translateService.instant('chargers.smart_charging.connectors_all')) {
-      this.loadAllConnectors = true;
-      connector = 0;
+      connectorID = 0;
     }
+    // Duration
+    const durationSecs = this.durationControl.value as number * 60;
     this.centralServerService.getChargingStationCompositeSchedule(
-      this.charger.id, connector, this.durationControl.value as number,
-      this.charger.powerLimitUnit, this.loadAllConnectors).subscribe((chargingSchedule) => {
+      this.charger.id, connectorID, durationSecs,
+      this.charger.powerLimitUnit).subscribe((chargingSchedule) => {
         this.scheduleResult = chargingSchedule;
         this.spinnerService.hide();
         this.formGroup.markAsPristine();

@@ -153,9 +153,33 @@
             <mat-icon>nfc</mat-icon>
             <span>{{'users.tags' | translate}}</span>
           </ng-template>
-
           <div class="card-body">
             <app-table [dataSource]="userTagsTableDataSource"></app-table>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="isSuperAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>email</mat-icon>
+            <span>{{'general.notifications' | translate}}</span>
+          </ng-template>
+          <div class="card-body" class="text-left m-4">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group mb-0">
+                  <mat-checkbox (click)="toggleNotificationsActive()"
+                                [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ml-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group mb-0">
+                    <mat-checkbox [formControl]="sendCarSynchronizationFailed">{{"notifications.car_synchronization_failed" | translate}}</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isAdmin">

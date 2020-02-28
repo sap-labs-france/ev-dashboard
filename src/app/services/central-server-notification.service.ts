@@ -33,7 +33,7 @@ export class CentralServerNotificationService {
   private subjectAnalyticsLinks = new Subject<ChangeNotification>();
   private socket: io.Socket;
 
-  public setcentralRestServerServiceURL(url: string) {
+  public setCentralRestServerServiceURL(url: string) {
     this.centralRestServerServiceURL = url;
   }
 
@@ -131,6 +131,17 @@ export class CentralServerNotificationService {
       // Connect to Socket IO
       this.socket = io(this.centralRestServerServiceURL, {
         query: 'token=' + token,
+        transports: [ 'websocket' ],
+      });
+      this.socket.on('connect_error', (error) => {
+        console.log('User\'s token has expired');
+      });
+
+      this.socket.on('error', (error) => {
+        if (error.type === 'UnauthorizedError' || error.code === 'invalid_token') {
+          // redirect user to login page perhaps?
+          console.log('User\'s token has expired');
+        }
       });
 
       // Monitor Companies`

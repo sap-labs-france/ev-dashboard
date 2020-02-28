@@ -2389,7 +2389,7 @@ export class CentralServerService {
       this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
       // Set Web Socket URL
-      this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
+      this.centralServerNotificationService.setCentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
       // Secured API

@@ -124,6 +124,7 @@
     "set_coordinates": "Définir les coordonnées",
     "reset_filters": "Réinitialiser les Filtres",
     "browser_not_supported": "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
+    "status": "Statut",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -149,7 +150,8 @@
       "settings": "Configuration",
       "buildings": "Bâtiments",
       "organization": "Organisation",
-      "template": "Modeles"
+      "template": "Modeles",
+      "invoices": "Factures"
     },
     "tooltips": {
       "export": "Exporter OCPP params",
@@ -1076,6 +1078,16 @@
         "action": "Synchroniser l'utilisateur."
       }
     }
+  },
+  "invoices": {
+    "tabs": {
+      "list": "Factures",
+      "unpaid": "Impayées",
+      "paid": "Payées"
+    },
+    "id": "Numéro de facture",
+    "date": "Date de facture",
+    "price": "Prix de la facture"
   },
   "tags": {
     "id": "ID",

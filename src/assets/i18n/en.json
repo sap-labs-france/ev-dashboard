@@ -124,6 +124,7 @@
     "set_coordinates": "Set Coordinates",
     "reset_filters": "Reset Filters",
     "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
+    "status": "Status",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -149,7 +150,8 @@
       "settings": "Settings",
       "buildings": "Buildings",
       "organization": "Organization",
-      "template": "Templates"
+      "template": "Templates",
+      "invoices": "Invoices"
     },
     "tooltips": {
       "export": "Export OCPP params",
@@ -1076,6 +1078,16 @@
         "action": "Synchronize the user."
       }
     }
+  },
+  "invoices":{
+    "tabs": {
+      "list": "Invoices",
+      "unpaid": "Unpaid",
+      "paid": "Paid"
+    },
+    "id": "Invoice number",
+    "date": "Invoice date",
+    "price": "Invoice price"
   },
   "tags": {
     "id": "ID",

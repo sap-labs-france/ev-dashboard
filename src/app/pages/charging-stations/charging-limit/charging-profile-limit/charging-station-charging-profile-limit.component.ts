@@ -118,8 +118,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   }
 
   ngAfterViewInit() {
-    // Load
-    this.loadChargingProfiles();
+    this.refresh();
   }
 
   public startDateFilterChanged(value: Date) {
@@ -127,42 +126,54 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.scheduleEditableTableDataSource.refreshchargingSchedules();
   }
 
+  public loadChargingStation() {
+    // Show spinner
+    this.spinnerService.show();
+  }
+
   public loadChargingProfiles() {
     if (!this.charger) {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
-      this.spinnerService.hide();
-      this.formGroup.markAsPristine();
-      // Set
-      this.chargingProfiles = chargingProfilesResult.result;
-      // Default
-      this.scheduleEditableTableDataSource.setContent([]);
-      this.limitChartPlannerComponent.setLimitPlannerData([]);
-      // Init
-      if (chargingProfilesResult.count > 0) {
-        if (this.chargingProfilesControl.value) {
-          // Find the same ID
-          const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
-            chargingProfile.id === this.chargingProfilesControl.value.id);
-          if (selectedChargingProfile) {
-            // Found: Reset the current one
-            this.chargingProfilesControl.setValue(selectedChargingProfile);
+    this.centralServerService.getCharger(this.charger.id).subscribe((charger) => {
+      // Update charger
+      this.charger = charger;
+      this.scheduleEditableTableDataSource.setCharger(this.charger);
+      this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
+        this.spinnerService.hide();
+        this.formGroup.markAsPristine();
+        // Set Profile
+        this.chargingProfiles = chargingProfilesResult.result;
+        // Default
+        this.scheduleEditableTableDataSource.setContent([]);
+        this.limitChartPlannerComponent.setLimitPlannerData([]);
+        // Init
+        if (chargingProfilesResult.count > 0) {
+          if (this.chargingProfilesControl.value) {
+            // Find the same ID
+            const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+              chargingProfile.id === this.chargingProfilesControl.value.id);
+            if (selectedChargingProfile) {
+              // Found: Reset the current one
+              this.chargingProfilesControl.setValue(selectedChargingProfile);
+            } else {
+              // Not Found: Set the first one
+              this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+            }
           } else {
-            // Not Found: Set the first one
+            // Set the first one
             this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
           }
-        } else {
-          // Set the first one
-          this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
         }
-      }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+      });
     }, (error) => {
       this.spinnerService.hide();
-      // Unexpected error`
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    });
+  });
   }
 
   private loadProfile(chargingProfile: ChargingProfile) {

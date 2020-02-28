@@ -1216,12 +1216,12 @@
       "synchronize_users": "Synchronize Users",
       "synchronize_user": "Synchronize User",
       "force_synchronize_users": "Force Billing Synchro",
-      "synchronize_users_dialog_title": "Synchronize Users for Billing",
-      "synchronize_user_dialog_title": "Synchronize User for Billing",
-      "force_synchronize_user_dialog_title": "Force user synchronization for Billing",
-      "synchronize_users_dialog_confirm": "Do you really want to synchronize the users for billing?",
-      "synchronize_user_dialog_confirm": "Do you really want to synchronize this user for billing?",
-      "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of this users for billing?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
+      "synchronize_users_dialog_title": "Synchronize Users in Billing",
+      "synchronize_user_dialog_title": "Synchronize User in Billing",
+      "force_synchronize_user_dialog_title": "Force Synchronize User in Billing",
+      "synchronize_users_dialog_confirm": "Do you really want to synchronize the users in the billing system?",
+      "synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
+      "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of the user '{{userFullName}}' in the billing system?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
       "synchronize_users_started": "The synchronization of users has been started",
       "synchronize_user_started": "The synchronization of the user has been started",
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
@@ -1460,7 +1460,9 @@
   "billing": {
     "title": "Billing",
     "type_placeholder": "Type",
-    "description": "Billing Interface"
+    "description": "Billing Interface",
+    "id": "Billing ID",
+    "updatedOn": "Synchronized on"
   },
   "transactions": {
     "id": "Id",

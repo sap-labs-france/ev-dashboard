@@ -190,10 +190,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
             distribution: 'linear',
             time: {
               tooltipFormat: locale.longDateFormat('LT'),
-              unit: 'minute',
+              unit: 'hour',
               displayFormats: {
-                second: locale.longDateFormat('LTS'),
-                minute: locale.longDateFormat('LT'),
+                hour: locale.longDateFormat('LT'),
               },
             },
             gridLines: {

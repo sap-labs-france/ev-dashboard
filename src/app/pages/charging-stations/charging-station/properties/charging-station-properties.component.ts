@@ -23,7 +23,6 @@ export class ChargingStationPropertiesComponent implements OnInit {
     {key: 'chargePointModel', title: 'chargers.model'},
     {key: 'chargeBoxSerialNumber', title: 'chargers.serial_number'},
     {key: 'firmwareVersion', title: 'chargers.firmware_version'},
-    {key: 'firmwareStatus', title: 'chargers.firmware_status'},
     {key: 'endpoint', title: 'chargers.private_url'},
     {key: 'chargingStationURL', title: 'chargers.public_url'},
     {key: 'currentIPAddress', title: 'chargers.current_ip'},

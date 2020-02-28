@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
@@ -12,12 +11,12 @@ import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource extends EditableTableDataSource<Schedule> {
   public startDate!: Date;
+  public endDate!: Date;
   public charger!: ChargingStation;
   private chargerPowers!: ChargingStationPowers;
 
   constructor(
     public spinnerService: SpinnerService,
-    private translateService: TranslateService,
     private datePipe: AppDatePipe,
   ) {
     super(spinnerService);
@@ -66,10 +65,11 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
-  public refreshchargingSchedules() {
+  public refreshChargingSchedules() {
     const chargingSchedules = this.getContent();
     if (chargingSchedules.length > 0) {
-      chargingSchedules[0].startDate = this.startDate;
+      chargingSchedules[0].startDate = new Date(this.startDate);
+      this.endDate = new Date(this.startDate);
       // Recompute charging plan date
       for (let i = 0; i < chargingSchedules.length; i++) {
         // Update the date of the next records
@@ -79,6 +79,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         }
         // Update the limit in kW
         chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSchedules[i].limit) / 1000);
+        // Add
+        this.endDate.setTime(this.endDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
       }
     }
   }
@@ -103,11 +105,11 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public rowActionTriggered(actionDef: TableActionDef, row: Schedule, dropdownItem?: DropdownItem) {
     // Call parent
-    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshchargingSchedules.bind(this));
+    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSchedules.bind(this));
   }
 
   public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
     // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshchargingSchedules.bind(this));
+    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSchedules.bind(this));
   }
 }

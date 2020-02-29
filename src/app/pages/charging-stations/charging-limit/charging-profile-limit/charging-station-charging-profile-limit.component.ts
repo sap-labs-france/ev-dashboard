@@ -1,16 +1,17 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType, TableEditType } from 'app/types/Table';
+import { ButtonType } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
@@ -53,6 +54,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     public scheduleEditableTableDataSource: ChargingStationChargingProfileLimitScheduleEditableTableDataSource,
     private translateService: TranslateService,
     private router: Router,
+    private datePipe: AppDatePipe,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -104,11 +106,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     // Change the Profile Type
     this.profileTypeControl.valueChanges.subscribe((profileType: ProfileType) => {
       // Change date format
-      if (profileType.key !== ChargingProfileKindType.ABSOLUTE) {
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_TIME;
+      if (profileType.key === ChargingProfileKindType.RECURRING) {
+        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
       } else {
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_DATE;
+        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value);
       }
+      this.scheduleEditableTableDataSource.refreshChargingSchedules();
     });
     // Change the Slots/Schedules
     this.scheduleEditableTableDataSource.getTableChangedSubject().subscribe((schedules: Schedule[]) => {

@@ -23,6 +23,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
   @Input() charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
+  public ampInitialLimit = 0;
   public ampCurrentLimit = 0;
 
   constructor(
@@ -52,6 +53,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     for (const connector of this.charger.connectors) {
       this.ampCurrentLimit += connector.amperageLimit;
     }
+    this.ampInitialLimit = this.ampCurrentLimit;
   }
 
   public saveAndApplyStaticLimit() {

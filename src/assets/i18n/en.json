@@ -5,7 +5,6 @@
     "captcha_text_3": " and ",
     "captcha_text_4": "Terms of Service",
     "captcha_text_5": " apply",
-    "invalid_captcha_token": "Invalid captcha token",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -24,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.1",
+    "last_update": "Version 2.2.3",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -194,42 +193,6 @@
     "title": "Issuer",
     "local": "Local",
     "foreign": "Foreign"
-  },
-  "vehicles": {
-    "vehicle_number": "Vehicle(s)",
-    "no_vehicles": "No vehicle found",
-    "manufacturer_invalid": "Manufacturer invalid",
-    "characteristics": "Characteristics",
-    "manufacturer": "Manufacturer",
-    "details": "Details",
-    "model": "Model",
-    "logo": "Logo",
-    "title": "Vehicle",
-    "images": "Images",
-    "battery": "Battery (kW)",
-    "autonomy_wltp": "Autonomy WLTP (kW)",
-    "autonomy_real": "Real Autonomy (kW)",
-    "horse_power": "Horse Power (hp)",
-    "torque": "Torque (Nm)",
-    "weight": "Weight (kg)",
-    "length": "Length (m)",
-    "width": "Width (m)",
-    "height": "Height (m)",
-    "performance_0_100": "Performance 0-100 (s)",
-    "released_on": "Released On",
-    "delete_title": "Delete",
-    "delete_button": "Delete",
-    "delete_confirm": "Do you really want to delete the vehicle '{{vehicleName}}'?",
-    "delete_success": "The vehicle '{{vehicleName}}' has been deleted successfully",
-    "delete_error": "Error occurred while deleting the vehicle",
-    "vehicle_not_found": "Vehicle not found",
-    "update_success": "The vehicle '{{vehicleName}}' has been updated successfully",
-    "update_error": "Error occurred while updating the vehicle",
-    "company_not_found": "Vehicle not found",
-    "create_success": "The vehicle '{{vehicleName}}' has been created successfully",
-    "create_error": "Error occurred while creating the vehicle",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "changed_by_other_user": "The vehicle '{{vehicleName}}' has been changed by another user and will be reloaded"
   },
   "dashboard": {
     "active_stations_gauge_title": "Charging points",
@@ -518,7 +481,8 @@
     "verify_email_resend_success": "Your account's activation link has been sent with success",
     "verify_email_resend_error": "Error occurred while sending your account's activation link",
     "verify_email_proceed_with_activation": "Your account is still inactive! Do you want to resend the activation email?",
-    "verify_email_proceed_with_activation_button": "Proceed"
+    "verify_email_proceed_with_activation_button": "Proceed",
+    "invalid_captcha_token": "Invalid captcha token"
   },
   "statistics": {
     "title": "Statistics",
@@ -1252,12 +1216,12 @@
       "synchronize_users": "Synchronize Users",
       "synchronize_user": "Synchronize User",
       "force_synchronize_users": "Force Billing Synchro",
-      "synchronize_users_dialog_title": "Synchronize Users for Billing",
-      "synchronize_user_dialog_title": "Synchronize User for Billing",
-      "force_synchronize_user_dialog_title": "Force user synchronization for Billing",
-      "synchronize_users_dialog_confirm": "Do you really want to synchronize the users for billing?",
-      "synchronize_user_dialog_confirm": "Do you really want to synchronize this user for billing?",
-      "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of this users for billing?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
+      "synchronize_users_dialog_title": "Synchronize Users in Billing",
+      "synchronize_user_dialog_title": "Synchronize User in Billing",
+      "force_synchronize_user_dialog_title": "Force Synchronize User in Billing",
+      "synchronize_users_dialog_confirm": "Do you really want to synchronize the users in the billing system?",
+      "synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
+      "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of the user '{{userFullName}}' in the billing system?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
       "synchronize_users_started": "The synchronization of users has been started",
       "synchronize_user_started": "The synchronization of the user has been started",
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
@@ -1496,7 +1460,9 @@
   "billing": {
     "title": "Billing",
     "type_placeholder": "Type",
-    "description": "Billing Interface"
+    "description": "Billing Interface",
+    "id": "Billing ID",
+    "updatedOn": "Synchronized on"
   },
   "transactions": {
     "id": "Id",
@@ -1714,6 +1680,7 @@
     "smtp_auth_error": "Notify me if the backend authentication to the email server has failed",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
-    "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months"
+    "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
+    "car_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
   }
 }

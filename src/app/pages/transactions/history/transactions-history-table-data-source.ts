@@ -258,10 +258,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case ButtonAction.DELETE:
         return this.isAdmin;
       case TransactionButtonAction.REFUND:
-        if (transaction.hasOwnProperty('refund')) {
-          return false;
-        }
-        return true;
+        return !Utils.objectHasProperty(transaction, 'refund');
       default:
         return true;
     }

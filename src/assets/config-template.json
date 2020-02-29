@@ -29,12 +29,6 @@
   "SiteArea": {
     "maxPictureKb": 800
   },
-	"VehicleManufacturer": {
-		"maxLogoKb": 150
-	},
-	"Vehicle": {
-		"maxPictureKb": 250
-	},
   "Locales": {
     "default": "en",
     "supported": [

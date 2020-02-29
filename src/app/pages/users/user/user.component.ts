@@ -88,6 +88,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public notifications!: FormGroup;
   public sendSessionStarted!: AbstractControl;
   public sendOptimalChargeReached!: AbstractControl;
+  public sendCarSynchronizationFailed!: AbstractControl;
   public sendEndOfCharge!: AbstractControl;
   public sendEndOfSession!: AbstractControl;
   public sendUserAccountStatusChanged!: AbstractControl;
@@ -146,7 +147,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
-
     this.canSeeInvoice = false;
     this.componentService.getPricingSettings().subscribe((settings) => {
       if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
@@ -178,6 +178,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       notifications: new FormGroup({
         sendSessionStarted: new FormControl(true),
         sendOptimalChargeReached: new FormControl(true),
+        sendCarSynchronizationFailed: new FormControl(true),
         sendEndOfCharge: new FormControl(true),
         sendEndOfSession: new FormControl(true),
         sendUserAccountStatusChanged: new FormControl(true),
@@ -196,7 +197,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       email: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+          Validators.email,
         ])),
       phone: new FormControl('',
         Validators.compose([
@@ -301,6 +302,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.notifications = this.formGroup.controls['notifications'] as FormGroup;
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
     this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
+    this.sendCarSynchronizationFailed = this.notifications.controls['sendCarSynchronizationFailed'];
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
     this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
     this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
@@ -314,7 +316,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendBillingUserSynchronizationFailed = this.notifications.controls['sendBillingUserSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
-    this.userTagsTableDataSource.setFormArray(this.tags);
+    if (this.isAdmin) {
+      this.userTagsTableDataSource.setFormArray(this.tags);
+    }
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -444,80 +448,85 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.tags) {
         this.userTagsTableDataSource.setContent(user.tags);
       }
-      if (user.hasOwnProperty('notificationsActive')) {
+      if (Utils.objectHasProperty(user, 'notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendSessionStarted')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSessionStarted')) {
         this.notifications.controls.sendSessionStarted.setValue(user.notifications.sendSessionStarted);
       } else {
         this.notifications.controls.sendSessionStarted.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendOptimalChargeReached')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOptimalChargeReached')) {
         this.notifications.controls.sendOptimalChargeReached.setValue(user.notifications.sendOptimalChargeReached);
       } else {
         this.notifications.controls.sendOptimalChargeReached.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendEndOfCharge')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendCarSynchronizationFailed')) {
+        this.notifications.controls.sendCarSynchronizationFailed.setValue(user.notifications.sendCarSynchronizationFailed);
+      } else {
+        this.notifications.controls.sendCarSynchronizationFailed.setValue(false);
+      }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfCharge')) {
         this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);
       } else {
         this.notifications.controls.sendEndOfCharge.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendEndOfSession')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfSession')) {
         this.notifications.controls.sendEndOfSession.setValue(user.notifications.sendEndOfSession);
       } else {
         this.notifications.controls.sendEndOfSession.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountStatusChanged')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountStatusChanged')) {
         this.notifications.controls.sendUserAccountStatusChanged.setValue(user.notifications.sendUserAccountStatusChanged);
       } else {
         this.notifications.controls.sendUserAccountStatusChanged.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendUnknownUserBadged')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUnknownUserBadged')) {
         this.notifications.controls.sendUnknownUserBadged.setValue(user.notifications.sendUnknownUserBadged);
       } else {
         this.notifications.controls.sendUnknownUserBadged.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationStatusError')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendChargingStationStatusError')) {
         this.notifications.controls.sendChargingStationStatusError.setValue(user.notifications.sendChargingStationStatusError);
       } else {
         this.notifications.controls.sendChargingStationStatusError.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendChargingStationRegistered')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendChargingStationRegistered')) {
         this.notifications.controls.sendChargingStationRegistered.setValue(user.notifications.sendChargingStationRegistered);
       } else {
         this.notifications.controls.sendChargingStationRegistered.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendOfflineChargingStations')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOfflineChargingStations')) {
         this.notifications.controls.sendOfflineChargingStations.setValue(user.notifications.sendOfflineChargingStations);
       } else {
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendOcpiPatchStatusError')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOcpiPatchStatusError')) {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(user.notifications.sendOcpiPatchStatusError);
       } else {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendPreparingSessionNotStarted')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendPreparingSessionNotStarted')) {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
       } else {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendSmtpAuthError')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSmtpAuthError')) {
         this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
       } else {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendBillingUserSynchronizationFailed')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingUserSynchronizationFailed')) {
         this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
       } else {
         this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendUserAccountInactivity')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountInactivity')) {
         this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
       } else {
         this.notifications.controls.sendUserAccountInactivity.setValue(false);
       }
-      if (user.notifications && user.notifications.hasOwnProperty('sendSessionNotStarted')) {
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSessionNotStarted')) {
         this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
       } else {
         this.notifications.controls.sendSessionNotStarted.setValue(false);
@@ -568,12 +577,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         // Not found
         case 550:
           // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.user_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'users.user_not_found');
           break;
         default:
           // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }

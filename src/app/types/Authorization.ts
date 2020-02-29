@@ -6,10 +6,6 @@ export enum Role {
 }
 
 export enum Entity {
-  VEHICLE_MANUFACTURER = 'VehicleManufacturer',
-  VEHICLE_MANUFACTURERS = 'VehicleManufacturers',
-  VEHICLE = 'Vehicle',
-  VEHICLES = 'Vehicles',
   USER = 'User',
   USERS = 'Users',
   TENANT = 'Tenant',

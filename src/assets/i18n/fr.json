@@ -5,7 +5,6 @@
     "captcha_text_3": " et l'application des ",
     "captcha_text_4": "Conditions d’Utilisation",
     "captcha_text_5": "",
-    "invalid_captcha_token": "Jeton captcha invalide",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
@@ -24,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.1",
+    "last_update": "Version 2.2.3",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -194,42 +193,6 @@
     "title": "Emetteur",
     "local": "Local",
     "foreign": "Externe"
-  },
-  "vehicles": {
-    "vehicle_number": "Véhicule(s)",
-    "no_vehicles": "Aucun véhicule n'a été trouvé",
-    "manufacturer_invalid": "Constructeur invalide",
-    "characteristics": "Vehicleactéristiques",
-    "manufacturer": "Constructeur",
-    "details": "Détails",
-    "model": "Modèle",
-    "logo": "Logo",
-    "title": "Véhicule",
-    "images": "Images",
-    "battery": "Batterie (kW)",
-    "autonomy_wltp": "Autonomie WLTP (kW)",
-    "autonomy_real": "Autonomie Réelle (kW)",
-    "horse_power": "Chevaux (ch)",
-    "torque": "Couple (Nm)",
-    "weight": "Poids (kg)",
-    "length": "Longueur (m)",
-    "width": "Largeur (m)",
-    "height": "Hauteur (m)",
-    "performance_0_100": "Performance 0-100 (s)",
-    "released_on": "Released On",
-    "delete_title": "Supprimer",
-    "delete_button": "Supprimer",
-    "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{vehicleName}}'?",
-    "delete_success": "Le véhicule '{{vehicleName}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du véhicule",
-    "vehicle_not_found": "Véhicule inconnu",
-    "update_success": "Le véhicule '{{vehicleName}}' a été mis à jour avec succès",
-    "update_error": "Une erreur est survenue pendant la mise à jour du véhicule",
-    "company_not_found": "Véhicule inconnu",
-    "create_success": "Le véhicule '{{vehicleName}}' a été créé avec succès",
-    "create_error": "Une erreur est survenue pendant la création du véhicule",
-    "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "changed_by_other_user": "Le véhicule '{{vehicleName}}' a été changé par un autre utilisateur et va être rechargé"
   },
   "dashboard": {
     "active_stations_gauge_title": "Point de charge",
@@ -518,7 +481,8 @@
     "verify_email_resend_success": "Le lien d'activation de votre compte a été envoyé avec succès",
     "verify_email_resend_error": "Une erreur est survenue pendant l'envoi du lien d'activation de votre compte",
     "verify_email_proceed_with_activation": "Votre compte n'est pas encore actif ! Voulez-vous renvoyer l'email d'activation ?",
-    "verify_email_proceed_with_activation_button": "Procéder"
+    "verify_email_proceed_with_activation_button": "Procéder",
+    "invalid_captcha_token": "Jeton captcha invalide"
   },
   "statistics": {
     "title": "Statistiques",
@@ -1252,16 +1216,16 @@
       "synchronize_users": "Synchroniser utilisateurs",
       "synchronize_user": "Synchroniser utilisateur",
       "force_synchronize_users": "Forcer Synchro Facturation",
-      "synchronize_users_dialog_title": "Synchroniser utilisateurs pour la facturation",
-      "synchronize_user_dialog_title": "Synchroniser l'utilisateur pour la facturation",
-      "force_synchronize_user_dialog_title": "Forcer la synchronisation d'un utilisateur pour la facturation",
-      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs pour la facturation ?",
-      "synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur pour la facturation ?",
-      "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de cet utilisateur pour la facturation ?<br>Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées.<br>Cette action est irreversible.",
+      "synchronize_users_dialog_title": "Synchroniser les Utilisateurs pour la Facturation",
+      "synchronize_user_dialog_title": "Synchroniser l'Utilisateur pour la Facturation",
+      "force_synchronize_user_dialog_title": "Forcer la Synchronisation d'un Utilisateur pour la Facturation",
+      "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs avec le système de acturation ?",
+      "synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur '{{userFullName}}' avec le système de facturation ?",
+      "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de l'utilisateur '{{userFullName}}' avec le système de facturation ?<br>Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées.<br>Cette action est irreversible.",
       "synchronize_users_started": "La synchronisation des utilisateurs a été démarrée",
       "synchronize_user_started": "La synchronisation de l'utilisateur a été démarrée",
       "synchronize_users_success": "{{number}} utilisateur(s) synchronisé(s) avec succès",
-      "force_synchronize_user_success": "l'utilisateur '{{userFullName}}' a été synchronisé avec succès",
+      "force_synchronize_user_success": "L'utilisateur '{{userFullName}}' a été synchronisé avec succès",
       "synchronize_users_success_all": "Tous les utilisateurs sont déjà synchronisés",
       "synchronize_users_failure": "Echec de synchronisation de {{number}} utilisateur(s), vérifiez les logs",
       "force_synchronize_user_failure": "Echec de synchronisation de l'utilisateur, vérifiez les logs",
@@ -1496,7 +1460,9 @@
   "billing": {
     "title": "Facturation",
     "type_placeholder": "Type",
-    "description": "Interface de Facturation"
+    "description": "Interface de Facturation",
+    "id": "ID facturation",
+    "updatedOn": "Synchronisé le"
   },
   "transactions": {
     "id": "Id",
@@ -1714,6 +1680,7 @@
     "smtp_auth_error": "Me notifier lorsque l'authentification du backend sur le serveur d'email a échoué",
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
-    "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois"
+    "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
+    "car_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué"
   }
 }

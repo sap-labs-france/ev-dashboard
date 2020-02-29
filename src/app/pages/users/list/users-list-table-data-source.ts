@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableForceSyncBillingUserAction } from 'app/shared/table/actions/table-force-sync-billing-user-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { UserInError } from 'app/types/InError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
@@ -46,6 +48,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
+  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -107,94 +110,120 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const columns = [];
     columns.push(
-    {
-      id: 'status',
-      name: 'users.status',
-      isAngularComponent: true,
-      angularComponent: UserStatusFormatterComponent,
-      headerClass: 'col-10p',
-      class: 'col-10p table-cell-angular-big-component',
-      sortable: true,
-    },
-    {
-      id: 'role',
-      name: 'users.role',
-      formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
-      headerClass: 'col-10p',
-      class: 'text-left col-10p',
-      sortable: true,
-    },
-    {
-      id: 'name',
-      name: 'users.name',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sorted: true,
-      direction: 'asc',
-      sortable: true,
-    },
-    {
-      id: 'firstName',
-      name: 'users.first_name',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'email',
-      name: 'users.email',
-      headerClass: 'col-15p',
-      class: 'text-left col-15p',
-      sortable: true,
-    },
-    {
-      id: 'tags',
-      name: 'users.tags',
-      formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'plateID',
-      name: 'users.plate_id',
-      headerClass: 'col-10p',
-      class: 'col-10p',
-      sortable: true,
-    },
-    {
-      id: 'eulaAcceptedOn',
-      name: 'users.eula_accepted_on',
-      formatter: (eulaAcceptedOn: Date, row: User) => {
-        return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
+      {
+        id: 'status',
+        name: 'users.status',
+        isAngularComponent: true,
+        angularComponent: UserStatusFormatterComponent,
+        headerClass: 'col-10p',
+        class: 'col-10p table-cell-angular-big-component',
+        sortable: true,
       },
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'createdOn',
-      name: 'users.created_on',
-      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'lastChangedOn',
-      name: 'users.changed_on',
-      formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    },
-    {
-      id: 'lastChangedBy',
-      name: 'users.changed_by',
-      headerClass: 'col-15p',
-      class: 'col-15p',
-      sortable: true,
-    });
+      {
+        id: 'role',
+        name: 'users.role',
+        formatter: (role: string) => this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)),
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        sortable: true,
+      },
+      {
+        id: 'name',
+        name: 'users.name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sorted: true,
+        direction: 'asc',
+        sortable: true,
+      },
+      {
+        id: 'firstName',
+        name: 'users.first_name',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'email',
+        name: 'users.email',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+    );
+    if (this.authorizationService.isAdmin()) {
+      columns.push(
+        {
+          id: 'tags',
+          name: 'users.tags',
+          formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        },
+        {
+          id: 'plateID',
+          name: 'users.plate_id',
+          headerClass: 'col-10p',
+          class: 'col-10p',
+          sortable: true,
+        },
+      );
+    }
+    columns.push(
+      {
+        id: 'eulaAcceptedOn',
+        name: 'users.eula_accepted_on',
+        formatter: (eulaAcceptedOn: Date, row: User) => {
+          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
+        },
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+    );
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      columns.push(
+        {
+          id: 'billingData.customerID',
+          name: 'billing.id',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        },
+        {
+          id: 'billingData.lastChangedOn',
+          name: 'billing.updatedOn',
+          headerClass: 'col-15p',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          class: 'col-15p',
+          sortable: true,
+        },
+      );
+    }
     return columns as TableColumnDef[];
   }
 
@@ -212,7 +241,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
-    if (this.componentService.isActive(TenantComponents.ORGANIZATION) && this.authorizationService.isAdmin()) {
+    if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
+        this.authorizationService.canAccess(Entity.USER, Action.UPDATE) &&
+        this.authorizationService.canAccess(Entity.SITE, Action.UPDATE)) {
       actions = [
         this.editAction,
         this.assignSiteAction,
@@ -222,10 +253,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.editAction,
       ];
     }
+    const moreActions = new TableMoreAction([]);
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      const moreActions = new TableMoreAction([
-        this.deleteAction,
-      ]);
+      moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (this.componentService.isActive(TenantComponents.BILLING) &&
+        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING)) {
+      moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+    }
+    if (moreActions.getActionsInMoreActions().length > 0) {
       actions.push(moreActions.getActionDef());
     }
     return actions;
@@ -264,9 +300,39 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
+      case UserButtonAction.FORCE_SYNCHRONIZE:
+        this.forceSynchronizeUser(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
+  }
+
+  private forceSynchronizeUser(user: UserInError) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
+      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.spinnerService.show();
+        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
+          this.spinnerService.hide();
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            this.refreshData().subscribe();
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('settings.billing.force_synchronize_user_success',
+                { userFullName: Utils.buildUserFullName(user) }));
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
+              'settings.billing.force_synchronize_user_failure');
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          this.messageService.showErrorMessage(
+            this.translateService.instant(['settings.billing.billing_system_error']));
+        });
+      }
+    });
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

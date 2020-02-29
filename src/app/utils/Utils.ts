@@ -42,6 +42,10 @@ export class Utils {
     return rgba;
   }
 
+  public static objectHasProperty(object: object, key: string): boolean {
+    return Object.prototype.hasOwnProperty.call(object, key);
+  }
+
   public static formatBarColor(color: string): any {
     return {
       backgroundColor: Utils.toRgba(color, 1),
@@ -81,10 +85,6 @@ export class Utils {
 
   public static replaceSpecialCharsInCSVValueParam(value: string): string {
     return value ? value.replace(/\n/g, '') : '';
-  }
-
-  public static hasOwnProperty(object: object, key: string): boolean {
-    return Object.prototype.hasOwnProperty.call(object, key);
   }
 
   public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {

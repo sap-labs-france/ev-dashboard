@@ -45,6 +45,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public profileTypeControl!: AbstractControl;
   public chargingProfilesControl!: AbstractControl;
   public startDateControl!: AbstractControl;
+  public endDateControl!: AbstractControl;
   public chargingSchedules!: FormArray;
   public chargingProfiles: ChargingProfile[] = [];
 
@@ -71,6 +72,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         Validators.compose([
           Validators.required,
         ])),
+      endDateControl: new FormControl('',
+        Validators.compose([
+        ])),
       schedules: new FormArray([],
         Validators.compose([
           Validators.required,
@@ -80,8 +84,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.profileTypeControl = this.formGroup.controls['profileTypeControl'];
     this.chargingProfilesControl = this.formGroup.controls['chargingProfilesControl'];
     this.startDateControl = this.formGroup.controls['startDateControl'];
+    this.endDateControl = this.formGroup.controls['endDateControl'];
     this.chargingSchedules = this.formGroup.controls['schedules'] as FormArray;
     // Default values
+    this.endDateControl.disable();
     // @ts-ignore
     this.startDateControl.setValue(moment().add(1, 'day').startOf('day').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
@@ -105,26 +111,34 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.scheduleEditableTableDataSource.tableColumnDefs[0].editType = TableEditType.DISPLAY_ONLY_DATE;
       }
     });
-    // Change the Slots/schedules
+    // Change the Slots/Schedules
     this.scheduleEditableTableDataSource.getTableChangedSubject().subscribe((schedules: Schedule[]) => {
       // Update Chart
       this.limitChartPlannerComponent.setLimitPlannerData(schedules);
+      // Refresh end date
+      this.scheduleEditableTableDataSource.refreshChargingSchedules();
+      this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
       this.formGroup.markAsDirty();
     });
+  }
+
+  ngAfterViewInit() {
+    this.refresh();
   }
 
   public refresh() {
     this.loadChargingProfiles();
   }
 
-  ngAfterViewInit() {
-    // Load
-    this.loadChargingProfiles();
-  }
-
   public startDateFilterChanged(value: Date) {
     this.scheduleEditableTableDataSource.startDate = value;
-    this.scheduleEditableTableDataSource.refreshchargingSchedules();
+    this.scheduleEditableTableDataSource.refreshChargingSchedules();
+    this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
+  }
+
+  public loadChargingStation() {
+    // Show spinner
+    this.spinnerService.show();
   }
 
   public loadChargingProfiles() {
@@ -132,37 +146,44 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
-      this.spinnerService.hide();
-      this.formGroup.markAsPristine();
-      // Set
-      this.chargingProfiles = chargingProfilesResult.result;
-      // Default
-      this.scheduleEditableTableDataSource.setContent([]);
-      this.limitChartPlannerComponent.setLimitPlannerData([]);
-      // Init
-      if (chargingProfilesResult.count > 0) {
-        if (this.chargingProfilesControl.value) {
-          // Find the same ID
-          const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
-            chargingProfile.id === this.chargingProfilesControl.value.id);
-          if (selectedChargingProfile) {
-            // Found: Reset the current one
-            this.chargingProfilesControl.setValue(selectedChargingProfile);
+    this.centralServerService.getCharger(this.charger.id).subscribe((charger) => {
+      // Update charger
+      this.charger = charger;
+      this.scheduleEditableTableDataSource.setCharger(this.charger);
+      this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
+        this.spinnerService.hide();
+        this.formGroup.markAsPristine();
+        // Set Profile
+        this.chargingProfiles = chargingProfilesResult.result;
+        // Default
+        this.scheduleEditableTableDataSource.setContent([]);
+        this.limitChartPlannerComponent.setLimitPlannerData([]);
+        // Init
+        if (chargingProfilesResult.count > 0) {
+          if (this.chargingProfilesControl.value) {
+            // Find the same ID
+            const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+              chargingProfile.id === this.chargingProfilesControl.value.id);
+            if (selectedChargingProfile) {
+              // Found: Reset the current one
+              this.chargingProfilesControl.setValue(selectedChargingProfile);
+            } else {
+              // Not Found: Set the first one
+              this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+            }
           } else {
-            // Not Found: Set the first one
+            // Set the first one
             this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
           }
-        } else {
-          // Set the first one
-          this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
         }
-      }
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+      });
     }, (error) => {
       this.spinnerService.hide();
-      // Unexpected error`
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    });
+  });
   }
 
   private loadProfile(chargingProfile: ChargingProfile) {
@@ -209,11 +230,14 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         // Set Schedule
         this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
       }
-      // Limit the last schedule with the total duration
       if (chargingProfile.profile.chargingSchedule.duration) {
+        // Limit the last schedule with the total duration
         schedules[schedules.length - 1].duration = (this.scheduleEditableTableDataSource.startDate.getTime() / 1000
           + chargingProfile.profile.chargingSchedule.duration
           - schedules[schedules.length - 1].startDate.getTime() / 1000) / 60;
+        // Set end date
+        this.endDateControl.setValue(new Date(this.scheduleEditableTableDataSource.startDate.getTime() +
+          chargingProfile.profile.chargingSchedule.duration * 1000));
       }
       // Set Schedule Table content
       this.scheduleEditableTableDataSource.setContent(schedules);

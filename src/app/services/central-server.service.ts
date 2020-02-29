@@ -2146,15 +2146,13 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string, loadAllConnectors: boolean): Observable<ActionResponse> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // build request
-
     const body =
       `{
         "chargeBoxID": "${id}",
-        "loadAllConnectors": "${loadAllConnectors}",
         "args": {
           "connectorId": ${connectorId},
           "duration": ${duration},

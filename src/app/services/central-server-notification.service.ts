@@ -21,10 +21,6 @@ export class CentralServerNotificationService {
   private subjectSiteArea = new Subject<SingleChangeNotification>();
   private subjectUsers = new Subject<ChangeNotification>();
   private subjectUser = new Subject<SingleChangeNotification>();
-  private subjectVehicles = new Subject<ChangeNotification>();
-  private subjectVehicle = new Subject<SingleChangeNotification>();
-  private subjectVehicleManufacturers = new Subject<ChangeNotification>();
-  private subjectVehicleManufacturer = new Subject<SingleChangeNotification>();
   private subjectTransactions = new Subject<ChangeNotification>();
   private subjectTransaction = new Subject<SingleChangeNotification>();
   private subjectLoggings = new Subject<ChangeNotification>();
@@ -71,22 +67,6 @@ export class CentralServerNotificationService {
 
   public getSubjectUser(): Observable<SingleChangeNotification> {
     return this.subjectUser.asObservable();
-  }
-
-  public getSubjectVehicles(): Observable<ChangeNotification> {
-    return this.subjectVehicles.asObservable();
-  }
-
-  public getSubjectVehicle(): Observable<SingleChangeNotification> {
-    return this.subjectVehicle.asObservable();
-  }
-
-  public getSubjectVehicleManufacturers(): Observable<ChangeNotification> {
-    return this.subjectVehicleManufacturers.asObservable();
-  }
-
-  public getSubjectVehicleManufacturer(): Observable<SingleChangeNotification> {
-    return this.subjectVehicleManufacturer.asObservable();
   }
 
   public getSubjectTransactions(): Observable<ChangeNotification> {
@@ -210,30 +190,6 @@ export class CentralServerNotificationService {
       this.socket.on(Entity.USER, (singleChangeNotification: SingleChangeNotification) => {
         // Notify
         this.subjectUser.next(singleChangeNotification);
-      });
-
-      // Monitor Vehicles
-      this.socket.on(Entity.VEHICLES, (changeNotification: ChangeNotification) => {
-        // Notify
-        this.subjectVehicles.next(changeNotification);
-      });
-
-      // Monitor Vehicle
-      this.socket.on(Entity.VEHICLE, (singleChangeNotification: SingleChangeNotification) => {
-        // Notify
-        this.subjectVehicle.next(singleChangeNotification);
-      });
-
-      // Monitor Vehicle Manufacturers
-      this.socket.on(Entity.VEHICLE_MANUFACTURERS, (changeNotification: ChangeNotification) => {
-        // Notify
-        this.subjectVehicleManufacturers.next(changeNotification);
-      });
-
-      // Monitor Vehicle Manufacturer
-      this.socket.on(Entity.VEHICLE_MANUFACTURER, (singleChangeNotification: SingleChangeNotification) => {
-        // Notify
-        this.subjectVehicleManufacturer.next(singleChangeNotification);
       });
 
       // Monitor Transactions

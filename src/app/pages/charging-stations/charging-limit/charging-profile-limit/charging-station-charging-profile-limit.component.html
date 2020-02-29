@@ -37,13 +37,21 @@
           </div>
           <div class="form-group col-md-12 mb-1">
             <mat-form-field>
-              <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+              <mat-datetimepicker #pickerDateStart type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
               </mat-datetimepicker>
-              <mat-datetimepicker-toggle matSuffix [for]="picker" matSuffix></mat-datetimepicker-toggle>
+              <mat-datetimepicker-toggle matSuffix [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
               <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                (dateChange)="startDateFilterChanged($event.value.toDate())" [matDatetimepicker]="picker"
-                [formControl]="startDateControl"
-                autocomplete="false">
+                (dateChange)="startDateFilterChanged($event.value.toDate())" [matDatetimepicker]="pickerDateStart"
+                [formControl]="startDateControl" autocomplete="false">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-12 mb-1">
+            <mat-form-field>
+              <mat-datetimepicker #pickerDateEnd type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+              </mat-datetimepicker>
+              <mat-datetimepicker-toggle matSuffix [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
+              <input matInput placeholder="{{'chargers.smart_charging.end_date' | translate}}" required
+                [formControl]="endDateControl" [matDatetimepicker]="pickerDateEnd" autocomplete="false">
             </mat-form-field>
           </div>
         </div>

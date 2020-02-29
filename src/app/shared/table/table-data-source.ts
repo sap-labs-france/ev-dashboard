@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import ChangeNotification from '../../types/ChangeNotification';
@@ -56,7 +57,7 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    return !!this.tableDef && !!this.tableDef.rowDetails && this.tableDef.rowDetails.hasOwnProperty('showDetailsField');
+    return !!this.tableDef && !!this.tableDef.rowDetails && Utils.objectHasProperty(this.tableDef.rowDetails, 'showDetailsField');
   }
 
   public isMultiSelectionEnabled(): boolean {
@@ -657,7 +658,7 @@ export abstract class TableDataSource<T extends Data> {
         // Check if the table has a specific field to hide/show details
         if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.showDetailsField) {
           // Check if it's still visible
-          if (freshRow.hasOwnProperty(this.tableDef.rowDetails.showDetailsField)) {
+          if (Utils.objectHasProperty(freshRow, this.tableDef.rowDetails.showDetailsField)) {
             // Set
             // @ts-ignore
             freshRow.isExpanded = freshRow[this.tableDef.rowDetails.showDetailsField];

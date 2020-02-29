@@ -24,13 +24,15 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.1',
-        date: new Date('2020-02-26'),
+        version: '2.2.3',
+        date: new Date('2020-02-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `CPO/eMSP first Gireve certification`,
+              `Added import of cars from EV-Database via scheduled job`,
+              `Notification of failed car synchronisation is sent to the Super Admin Users`,
               `Refactoring of the Charging Plan`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,

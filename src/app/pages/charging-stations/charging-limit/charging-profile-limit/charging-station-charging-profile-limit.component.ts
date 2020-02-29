@@ -14,6 +14,7 @@ import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
+import * as moment from 'moment';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';

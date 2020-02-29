@@ -20,6 +20,8 @@ import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './ch
 
 interface ProfileType {
   key: string;
+  chargingProfileKindType: ChargingProfileKindType;
+  recurrencyKindType?: RecurrencyKindType;
   description: string;
   stackLevel: number;
   profileId: number;
@@ -37,8 +39,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   @Input() charger!: ChargingStation;
   @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
   public profileTypeMap: ProfileType[] = [
-    { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute', stackLevel: 3, profileId: 3 },
-    { key: ChargingProfileKindType.RECURRING, description: 'chargers.smart_charging.profile_types.recurring_daily', stackLevel: 2, profileId: 2 },
+    { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
+      chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3 },
+    { key: ChargingProfileKindType.RECURRING, recurrencyKindType: RecurrencyKindType.DAILY, description: 'chargers.smart_charging.profile_types.recurring_daily',
+      chargingProfileKindType: ChargingProfileKindType.RECURRING, stackLevel: 2, profileId: 2 },
     // { key: RecurrencyKindType.WEEKLY, description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, profileId: 1 },
   ];
   public formGroup!: FormGroup;
@@ -72,11 +76,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       startDateControl: new FormControl('',
         Validators.compose([
           Validators.required,
-          this.validateDateInFuture,
+          this.validateDateMustBeInTheFuture,
         ])),
       endDateControl: new FormControl('',
         Validators.compose([
-          this.validateDateInFuture,
+          this.validateDateMustBeInTheFuture,
+          this.validateEndDateLimitInRecurringPlan.bind(this),
         ])),
       schedules: new FormArray([],
         Validators.compose([
@@ -90,7 +95,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.endDateControl = this.formGroup.controls['endDateControl'];
     this.chargingSchedules = this.formGroup.controls['schedules'] as FormArray;
     // @ts-ignore
-    this.startDateControl.setValue(moment().add(1, 'day').startOf('day').toDate());
+    this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
     this.profileTypeControl.setValue(this.profileTypeMap[0]);
     // Assign for to editable data source
@@ -108,10 +113,17 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Change date format
       if (profileType.key === ChargingProfileKindType.RECURRING) {
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
+        // Set the date at midnight next day
+        // @ts-ignore
+        this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
+        this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
+        this.startDateControl.disable();
       } else {
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value);
+        this.startDateControl.enable();
       }
       this.scheduleEditableTableDataSource.refreshChargingSchedules();
+      this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
     });
     // Change the Slots/Schedules
     this.scheduleEditableTableDataSource.getTableChangedSubject().subscribe((schedules: Schedule[]) => {
@@ -128,14 +140,25 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.refresh();
   }
 
-  public validateDateInFuture(control: AbstractControl): ValidationErrors|null {
+  public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors|null {
     // Check
     // @ts-ignore
     if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
-        // Ok
+      // Ok
       return null;
     }
     return { dateNotInFuture: true };
+  }
+
+  public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors|null {
+    // Check
+    if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
+        // @ts-ignore
+        moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
+      // Ok
+      return null;
+    }
+    return { endDateOutOfRecurringLimit: true };
   }
 
   public refresh() {
@@ -205,8 +228,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       if (chargingProfile.profile.chargingProfileKind) {
         this.formGroup.controls.profileTypeControl.setValue(chargingProfile.profile.chargingProfileKind);
       }
+      // Set
       if (chargingProfile.profile.chargingProfileKind) {
-        // Set
         const foundProfileType = this.profileTypeMap.find((profileType) => profileType.key === chargingProfile.profile.chargingProfileKind);
         if (foundProfileType) {
           this.profileTypeControl.setValue(foundProfileType);
@@ -350,16 +373,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     }
     chargingProfile.profile = {} as Profile;
     chargingProfile.profile.chargingSchedule = {} as ChargingSchedule;
+    // Set profile type
     const profileType: ProfileType = this.profileTypeControl.value as ProfileType;
+    chargingProfile.profile.chargingProfileKind = profileType.chargingProfileKindType;
     chargingProfile.profile.chargingProfileId = profileType.profileId;
     chargingProfile.profile.stackLevel = profileType.stackLevel;
     chargingProfile.profile.chargingProfilePurpose = ChargingProfilePurposeType.TX_DEFAULT_PROFILE;
-    // Set profile type
-    if (this.profileTypeControl.value === this.profileTypeMap[1].key) {
-      chargingProfile.profile.recurrencyKind = RecurrencyKindType.DAILY;
-      chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.RECURRING;
-    } else {
-      chargingProfile.profile.chargingProfileKind = ChargingProfileKindType.ABSOLUTE;
+    if (profileType.chargingProfileKindType === ChargingProfileKindType.RECURRING &&
+        profileType.recurrencyKindType) {
+      chargingProfile.profile.recurrencyKind = profileType.recurrencyKindType;
     }
     // Set power unit
     chargingProfile.profile.chargingSchedule.chargingRateUnit = PowerLimitUnits.AMPERE;

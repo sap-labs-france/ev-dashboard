@@ -55,6 +55,7 @@
                 [formControl]="endDateControl" [matDatetimepicker]="pickerDateEnd" autocomplete="false" [readonly]="true">
               <mat-error *ngIf="endDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}</mat-error>
               <mat-error *ngIf="endDateControl.errors?.dateNotInFuture">{{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
+              <mat-error *ngIf="endDateControl.errors?.endDateOutOfRecurringLimit">{{"chargers.smart_charging.date_out_of_limit" | translate}}</mat-error>
             </mat-form-field>
           </div>
         </div>

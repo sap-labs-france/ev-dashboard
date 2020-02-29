@@ -681,6 +681,7 @@
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
       "slider_power_disabled": "Limite Désactivée",
+      "end_date_in_past": "La date de fin ne doit pas être dans le passé",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",
@@ -720,7 +721,7 @@
       "remove_schedule_button": "Effacer un Créneau",
       "schedule_start_header": "Date de début du Créneau",
       "schedule_index_header": "Numéro du créneau",
-      "schedule_duration_header": "Durée du créneau (s)",
+      "schedule_duration_header": "Durée du créneau",
       "schedule_limit_header": "Limite de puissance du créneau",
       "empty_schedule_list_error": "Vous devez créer au moins un créneau",
       "connectors_all": "all",

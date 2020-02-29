@@ -49,9 +49,9 @@
             <mat-form-field>
               <mat-datetimepicker #pickerDateEnd type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
               </mat-datetimepicker>
-              <mat-datetimepicker-toggle matSuffix [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
               <input matInput placeholder="{{'chargers.smart_charging.end_date' | translate}}" required
-                [formControl]="endDateControl" [matDatetimepicker]="pickerDateEnd" autocomplete="false">
+                [formControl]="endDateControl" [matDatetimepicker]="pickerDateEnd" autocomplete="false" [readonly]="true">
+              <mat-error *ngIf="endDateControl.errors?.invalidEndDate">{{"chargers.smart_charging.end_date_in_past" | translate}}</mat-error>
             </mat-form-field>
           </div>
         </div>

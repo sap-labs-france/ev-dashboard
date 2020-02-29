@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -74,6 +74,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         ])),
       endDateControl: new FormControl('',
         Validators.compose([
+          this.validateEndDate,
         ])),
       schedules: new FormArray([],
         Validators.compose([
@@ -86,8 +87,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.startDateControl = this.formGroup.controls['startDateControl'];
     this.endDateControl = this.formGroup.controls['endDateControl'];
     this.chargingSchedules = this.formGroup.controls['schedules'] as FormArray;
-    // Default values
-    this.endDateControl.disable();
     // @ts-ignore
     this.startDateControl.setValue(moment().add(1, 'day').startOf('day').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
@@ -124,6 +123,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
 
   ngAfterViewInit() {
     this.refresh();
+  }
+
+  public validateEndDate(control: AbstractControl): ValidationErrors|null {
+    // Check
+    if (!control.value || control.value.getTime() > new Date().getTime()) {
+      // Ok
+      return null;
+    }
+    return { invalidEndDate: true };
   }
 
   public refresh() {

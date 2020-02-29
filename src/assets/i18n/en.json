@@ -681,6 +681,7 @@
     "assign_sitearea_action_tooltip": "Assign site area",
     "smart_charging": {
       "slider_power_disabled": "Limit is Disabled",
+      "end_date_in_past": "End date must not be in the past",
       "not_supported": "This feature is not supported by this brand of charging station",
       "static_limit": "Static Limitation",
       "charging_profile_limit": "Charging Profile",

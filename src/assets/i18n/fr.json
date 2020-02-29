@@ -35,6 +35,7 @@
     "error_min_length": "La Longueur minimale est {{length}}",
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
+    "invalid_date": "Date invalide",
     "error_not_a_number": "La valeur n'est pas un nombre",
     "error_duplicate": "La valeur existe déjà",
     "id": "Id",
@@ -681,7 +682,7 @@
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
       "slider_power_disabled": "Limite Désactivée",
-      "end_date_in_past": "La date de fin ne doit pas être dans le passé",
+      "date_not_in_past": "La date ne doit pas être dans le passé",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",

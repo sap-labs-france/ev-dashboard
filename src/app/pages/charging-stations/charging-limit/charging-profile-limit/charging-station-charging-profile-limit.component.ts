@@ -13,7 +13,6 @@ import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType, TableEditType } from 'app/types/Table';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
-import * as moment from 'moment';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
@@ -71,10 +70,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       startDateControl: new FormControl('',
         Validators.compose([
           Validators.required,
+          this.validateDateInFuture,
         ])),
       endDateControl: new FormControl('',
         Validators.compose([
-          this.validateEndDate,
+          this.validateDateInFuture,
         ])),
       schedules: new FormArray([],
         Validators.compose([
@@ -125,13 +125,14 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.refresh();
   }
 
-  public validateEndDate(control: AbstractControl): ValidationErrors|null {
+  public validateDateInFuture(control: AbstractControl): ValidationErrors|null {
     // Check
-    if (!control.value || control.value.getTime() > new Date().getTime()) {
-      // Ok
+    // @ts-ignore
+    if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
+        // Ok
       return null;
     }
-    return { invalidEndDate: true };
+    return { dateNotInFuture: true };
   }
 
   public refresh() {
@@ -139,7 +140,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   }
 
   public startDateFilterChanged(value: Date) {
-    this.scheduleEditableTableDataSource.startDate = value;
+    this.scheduleEditableTableDataSource.startDate = new Date(value);
     this.scheduleEditableTableDataSource.refreshChargingSchedules();
     this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
   }

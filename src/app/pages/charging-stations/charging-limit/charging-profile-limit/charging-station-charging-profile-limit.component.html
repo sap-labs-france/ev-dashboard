@@ -2,7 +2,7 @@
   <form class="form" [formGroup]="formGroup">
     <div class="right-actions d-flex flex-row mat-toolbar-row mb-2">
       <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()"
-          [disabled]="!scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || chargingProfiles.length > 1">
+          [disabled]="!scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid || chargingProfiles.length > 1">
         <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="deleteChargingProfile()" [disabled]="chargingProfiles.length === 0 || chargingProfiles.length > 1">
@@ -41,17 +41,21 @@
               </mat-datetimepicker>
               <mat-datetimepicker-toggle matSuffix [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
               <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                (dateChange)="startDateFilterChanged($event.value.toDate())" [matDatetimepicker]="pickerDateStart"
+                (dateChange)="startDateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="pickerDateStart"
                 [formControl]="startDateControl" autocomplete="false">
+              <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}</mat-error>
+              <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">{{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
             </mat-form-field>
           </div>
           <div class="form-group col-md-12 mb-1">
             <mat-form-field>
               <mat-datetimepicker #pickerDateEnd type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
               </mat-datetimepicker>
-              <mat-datetimepicker-toggle matSuffix [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
               <input matInput placeholder="{{'chargers.smart_charging.end_date' | translate}}" required
-                [formControl]="endDateControl" [matDatetimepicker]="pickerDateEnd" autocomplete="false">
+                [formControl]="endDateControl" [matDatetimepicker]="pickerDateEnd" autocomplete="false" [readonly]="true">
+              <mat-error *ngIf="endDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}</mat-error>
+              <mat-error *ngIf="endDateControl.errors?.dateNotInFuture">{{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
+              <mat-error *ngIf="endDateControl.errors?.endDateOutOfRecurringLimit">{{"chargers.smart_charging.date_out_of_limit" | translate}}</mat-error>
             </mat-form-field>
           </div>
         </div>

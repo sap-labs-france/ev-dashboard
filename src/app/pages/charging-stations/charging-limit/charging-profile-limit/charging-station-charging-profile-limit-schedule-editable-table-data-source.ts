@@ -67,9 +67,9 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public refreshChargingSchedules() {
     const chargingSchedules = this.getContent();
+    this.endDate = new Date(this.startDate);
     if (chargingSchedules.length > 0) {
       chargingSchedules[0].startDate = new Date(this.startDate);
-      this.endDate = new Date(this.startDate);
       // Recompute charging plan date
       for (let i = 0; i < chargingSchedules.length; i++) {
         // Update the date of the next records

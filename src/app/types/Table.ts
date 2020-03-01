@@ -152,7 +152,4 @@ export enum TableEditType {
   INPUT = 'input',
   DATE_TIME_PICKER = 'datetimepicker',
   DISPLAY_ONLY = 'displayonly',
-  DISPLAY_ONLY_DATE = 'displayonlydate',
-  DISPLAY_ONLY_TIME = 'displayonlytime',
-
 }

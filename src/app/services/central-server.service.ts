@@ -31,6 +31,7 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
+import { OCPPClearChargingProfileCommandResult, OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 
 @Injectable()
 export class CentralServerService {
@@ -2146,7 +2147,8 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<ActionResponse> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
+      Observable<OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2160,7 +2162,8 @@ export class CentralServerService {
         }
       }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
+    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[]>(
+        `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2200,47 +2203,6 @@ export class CentralServerService {
     }`;
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public chargingStationClearChargingProfile(charger: ChargingStation, profileId?: string, connectorId?: string, profilePurpose?: string, stackLevel?: string): Observable<ActionResponse> {
-    // Verify init
-    this.checkInit();
-    // Build default charging profile json
-    const date = new Date('01/01/2018').toISOString();
-    let body: string;
-    body = `{
-    "chargeBoxID": "${charger.id}", "args": {`;
-    if (profileId) {
-      body += `"id": ${profileId}`;
-      if (connectorId || profilePurpose || stackLevel) {
-        body += `,`;
-      }
-    }
-    if (connectorId) {
-      body += `"connectorId": ${connectorId}`;
-      if (profilePurpose || stackLevel) {
-        body += `,`;
-      }
-    }
-    if (profilePurpose) {
-      body += `"chargingProfilePurpose": "${profilePurpose}"`;
-      if (stackLevel) {
-        body += `,`;
-      }
-    }
-    if (stackLevel) {
-      body += `"stackLevel": ${stackLevel}`;
-    }
-    body += `}
-    }`;
-    // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationClearChargingProfile`, body,
       {
         headers: this.buildHttpHeaders(),
       })

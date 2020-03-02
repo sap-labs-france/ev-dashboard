@@ -32,7 +32,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.stripe = new FormGroup({
       url: new FormControl('',
         Validators.compose([
-          Validators.required,
           Validators.maxLength(200),
           Validators.pattern(Constants.URL_PATTERN),
         ]),
@@ -46,7 +45,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       ),
       publicKey: new FormControl('',
         Validators.compose([
-          Validators.required,
           Validators.maxLength(100),
           this.validatePublicKey,
         ]),

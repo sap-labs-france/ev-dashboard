@@ -20,10 +20,17 @@ export class TableMoreAction implements TableAction {
     }
   }
 
-  public addActionDef(actionDef: TableActionDef) {
+  public addActionInMoreActions(actionDef: TableActionDef) {
     if (this.action && this.action.dropdownActions) {
       this.action.dropdownActions.push(actionDef);
     }
+  }
+
+  public getActionsInMoreActions(): TableActionDef[] {
+    if (this.action.dropdownActions) {
+      return this.action.dropdownActions;
+    }
+    return [];
   }
 
   public getActionDef(): TableActionDef {

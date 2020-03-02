@@ -183,9 +183,9 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     actions.push(moreActions.getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
-        moreActions.addActionDef(this.forceSyncBillingUserAction);
+        moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
       } else if (user.errorCode === UserInErrorType.NO_BILLING_DATA) {
-        moreActions.addActionDef(this.syncBillingUserAction);
+        moreActions.addActionInMoreActions(this.syncBillingUserAction);
       }
     }
     return actions;
@@ -347,8 +347,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
 
   private forceSynchronizeUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title', { userFullName: Utils.buildUserFullName(user) }),
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm'),
+      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
+      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         this.spinnerService.show();
@@ -375,7 +375,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private synchronizeUser(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.billing.synchronize_user_dialog_title'),
-      this.translateService.instant('settings.billing.synchronize_user_dialog_confirm'),
+      this.translateService.instant('settings.billing.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         this.spinnerService.show();

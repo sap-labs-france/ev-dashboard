@@ -5,6 +5,7 @@ import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Con
 import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
+import * as moment from 'moment';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
@@ -40,6 +41,10 @@ export class Utils {
     let rgba = rgb.replace(/rgb/i, 'rgba');
     rgba = rgba.replace(/\)/i, `,${alpha})`);
     return rgba;
+  }
+
+  public static objectHasProperty(object: object, key: string): boolean {
+    return Object.prototype.hasOwnProperty.call(object, key);
   }
 
   public static formatBarColor(color: string): any {
@@ -81,10 +86,6 @@ export class Utils {
 
   public static replaceSpecialCharsInCSVValueParam(value: string): string {
     return value ? value.replace(/\n/g, '') : '';
-  }
-
-  public static hasOwnProperty(object: object, key: string): boolean {
-    return Object.prototype.hasOwnProperty.call(object, key);
   }
 
   public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
@@ -278,6 +279,11 @@ export class Utils {
   public static isNull(obj: any) {
     // tslint:disable-next-line: triple-equals
     return obj == null;
+  }
+
+  public static isValidDate(date: any) {
+    // @ts-ignore
+    return moment(date).isValid();
   }
 
   public static copyToClipboard(content: any) {

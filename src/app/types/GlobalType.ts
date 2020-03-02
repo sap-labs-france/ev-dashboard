@@ -32,6 +32,8 @@ export interface KeyValue {
 }
 
 export enum ButtonAction {
+  ACTIVATE = 'activate',
+  DEACTIVATE = 'deactivate',
   EDIT = 'edit',
   OPEN_IN_MAPS = 'open_in_maps',
   MORE = 'more',

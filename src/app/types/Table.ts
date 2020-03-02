@@ -129,6 +129,7 @@ export interface TableColumnDef {
   editType?: TableEditType;
   validators?: ValidatorFn[];
   unique?: boolean;
+  canBeDisabled?: boolean;
   errorMessage?: string;
   headerClass?: string;
   class?: string;

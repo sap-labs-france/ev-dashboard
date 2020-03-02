@@ -11,6 +11,7 @@ import { CommonDirectivesModule } from '../../shared/directives/directives.modul
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { UserConnectionComponent } from './connections/user-connection.component';
+import { AppTagActivePipe } from './formatters/tag-status.pipe';
 import { AppUserRolePipe } from './formatters/user-role.pipe';
 import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
 import { AppUserStatusPipe } from './formatters/user-status.pipe';
@@ -52,6 +53,7 @@ import { UserRoutes } from './users.routing';
     UserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe,
+    AppTagActivePipe,
     UserSitesOwnerRadioComponent,
   ],
   entryComponents: [
@@ -65,11 +67,13 @@ import { UserRoutes } from './users.routing';
   exports: [
     AppUserRolePipe,
     AppUserStatusPipe,
+    AppTagActivePipe,
     UserDialogComponent,
   ],
   providers: [
     AppUserRolePipe,
     AppUserStatusPipe,
+    AppTagActivePipe,
     UserSitesTableDataSource,
     UsersInErrorTableDataSource,
   ],

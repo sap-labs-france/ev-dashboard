@@ -313,12 +313,6 @@
                   (change)="$event.source.checked  = !$event.source.checked;"
                   (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                 </mat-radio-button>
-                <span *ngIf="tableColumnDef.editType === TableEditType.DISPLAY_ONLY_DATE" class="text-center">
-                  {{row[tableColumnDef.id] | date: 'MMM d, y, h:mm a'}}
-                </span>
-                <span *ngIf="tableColumnDef.editType === TableEditType.DISPLAY_ONLY_TIME" class="text-center">
-                  {{row[tableColumnDef.id] | date: 'shortTime'}}
-                </span>
                 <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                 </span>
                 <mat-error *ngIf="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors as errors">

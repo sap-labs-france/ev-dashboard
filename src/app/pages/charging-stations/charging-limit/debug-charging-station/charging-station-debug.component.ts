@@ -1,13 +1,13 @@
 // tslint:disable-next-line:max-line-length
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { AbstractControl, Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation, Connector } from 'app/types/ChargingStation';
-import { ActionResponse } from 'app/types/DataResult';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -21,7 +21,7 @@ export class ChargingStationDebugComponent implements OnInit {
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;
   public connectorIds: string[];
-  public scheduleResult!: ActionResponse;
+  public scheduleResult!: OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[];
   public durationControl!: AbstractControl;
 
   constructor(
@@ -77,7 +77,8 @@ export class ChargingStationDebugComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
         // Unexpected error`
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, this.translateService.instant('general.unexpected_error_backend'));
         this.scheduleResult = error;
       });
   }

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 import { ConsumptionChartComponent } from 'app/shared/component/consumption-chart/consumption-chart.component';
 import { Connector } from 'app/types/ChargingStation';
 import { Transaction } from 'app/types/Transaction';
+import { Utils } from 'app/utils/Utils';
 import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
 
 @Component({
@@ -16,7 +17,7 @@ export class ConsumptionChartDetailComponent extends CellContentTemplateComponen
 
   ngOnInit(): void {
     // Set the transaction id
-    if (this.row.hasOwnProperty('activeTransactionID')) {
+    if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
       // Connector
       this.transactionId = (this.row as Connector).activeTransactionID;
     } else {
@@ -27,7 +28,7 @@ export class ConsumptionChartDetailComponent extends CellContentTemplateComponen
 
   ngOnChanges(changes: SimpleChanges): void {
     // Set the transaction id
-    if (this.row.hasOwnProperty('activeTransactionID')) {
+    if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
       // Connector
       this.transactionId = (this.row as Connector).activeTransactionID;
     } else {

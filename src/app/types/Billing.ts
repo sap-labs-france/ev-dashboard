@@ -16,6 +16,7 @@ export interface BillingUserData extends Data {
 }
 
 export interface BillingInvoice extends Data {
+  number: string;
   status: string;
   amountDue: number;
   currency: string;

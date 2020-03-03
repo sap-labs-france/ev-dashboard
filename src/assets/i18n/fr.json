@@ -690,7 +690,7 @@
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",
-      "debug_charging_station":"Debuger Borne",
+      "debug_charging_station": "Debuger Borne",
       "reset_button": "Rafraichir",
       "maximum_energy_limit": "Limite de Puissance de '{{chargeBoxID}}'",
       "power_limit_title": "Limite de puissance",
@@ -1090,8 +1090,10 @@
       "paid": "Payées"
     },
     "id": "Numéro de facture",
-    "date": "Date de facture",
-    "price": "Prix de la facture"
+    "createdOn": "Date de facture",
+    "price": "Prix de la facture",
+    "paid": "Payée",
+    "unpaid": "Impayée"
   },
   "tags": {
     "id": "ID",
@@ -1478,11 +1480,7 @@
     "type_placeholder": "Type",
     "description": "Interface de Facturation",
     "id": "ID facturation",
-    "updatedOn": "Synchronisé le",
-    "invoices": {
-      "paid": "Payée",
-      "unpaid": "Impayée"
-    }
+    "updatedOn": "Synchronisé le"
   },
   "transactions": {
     "id": "Id",

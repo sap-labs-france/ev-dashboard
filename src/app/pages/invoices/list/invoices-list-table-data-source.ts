@@ -59,9 +59,6 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
     // Init
-    if (this.authorizationService.hasSitesAdminRights()) {
-      this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
-    }
     this.initDataSource();
     // Store the current user
     this.currentUser = this.centralServerService.getLoggedUser();
@@ -107,7 +104,7 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
     columns.push(
       {
         id: 'status',
-        name: 'users.status',
+        name: 'general.status',
         isAngularComponent: true,
         angularComponent: InvoiceStatusFormatterComponent,
         headerClass: 'col-10p',
@@ -115,15 +112,15 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
         sortable: true,
       },
       {
-        id: 'id',
+        id: 'number',
         name: 'invoices.id',
         headerClass: 'col-30p',
         class: 'col-30p',
         sortable: true,
       },
       {
-        id: 'date',
-        name: 'invoices.date',
+        id: 'createdOn',
+        name: 'invoices.createdOn',
         formatter: (date: Date) => this.datePipe.transform(date),
         headerClass: 'col-30p',
         class: 'col-30p',
@@ -132,7 +129,7 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       {
         id: 'amountDue',
         name: 'invoices.price',
-        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price, invoice.currency),
+        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price / 100, invoice.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,

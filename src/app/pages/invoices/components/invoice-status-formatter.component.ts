@@ -22,8 +22,6 @@ export class InvoiceStatusFormatterComponent extends CellContentTemplateComponen
 @Pipe({name: 'appFormatInvoiceStatus'})
 export class AppFormatInvoiceStatusPipe implements PipeTransform {
   transform(invoiceStatus: string, type: string): string {
-    console.log(invoiceStatus);
-    console.log(type);
     if (type === 'class') {
       return this.buildInvoiceStatusClasses(invoiceStatus);
     }
@@ -50,7 +48,6 @@ export class AppFormatInvoiceStatusPipe implements PipeTransform {
 
   buildInvoiceStatusText(status: string): string {
     for (const invoiceStatus of invoicesStatuses) {
-      console.log(invoiceStatus.key + ' === ' + status);
       if (invoiceStatus.key === status) {
         return invoiceStatus.value;
       }

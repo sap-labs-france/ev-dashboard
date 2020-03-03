@@ -690,7 +690,7 @@
       "not_supported": "This feature is not supported by this brand of charging station",
       "static_limit": "Static Limitation",
       "charging_profile_limit": "Charging Profile",
-      "debug_charging_station":"Debug Station",
+      "debug_charging_station": "Debug Station",
       "reset_button": "Reset",
       "maximum_energy_limit": "Power Limit of '{{chargeBoxID}}'",
       "power_limit_title": "Limit power",
@@ -1083,15 +1083,17 @@
       }
     }
   },
-  "invoices":{
+  "invoices": {
     "tabs": {
       "list": "Invoices",
       "unpaid": "Unpaid",
       "paid": "Paid"
     },
     "id": "Invoice number",
-    "date": "Invoice date",
-    "price": "Invoice price"
+    "createdOn": "Invoice date",
+    "price": "Invoice price",
+    "paid": "Paid",
+    "unpaid": "Unpaid"
   },
   "tags": {
     "id": "ID",
@@ -1478,11 +1480,7 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on",
-    "invoices": {
-      "paid": "Paid",
-      "unpaid": "Unpaid"
-    }
+    "updatedOn": "Synchronized on"
   },
   "transactions": {
     "id": "Id",

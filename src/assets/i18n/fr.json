@@ -597,6 +597,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "current_type": "Type de Courant",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
+    "private": "Cette borne est privée et ne sera pas partagée avec d'autres systèmes",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",

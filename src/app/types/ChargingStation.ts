@@ -5,6 +5,8 @@ import { InactivityStatus } from './Transaction';
 
 export interface ChargingStation extends Data {
   id: string;
+  issuer: boolean;
+  private: boolean;
   chargePointVendor: string;
   chargePointModel: string;
   chargePointSerialnumber: string;

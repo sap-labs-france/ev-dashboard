@@ -597,6 +597,7 @@
     "nb_connected_phase": "Number of Connected Phase",
     "current_type": "Current Type",
     "cant_charge_in_parallel": "Can't use all the connectors in parallel",
+    "private": "This charging station is private and won't be shared with external systems",
     "public_url": "Public URL",
     "current_ip": "Current IP Route",
     "select_chargers": "Select Charging Station",

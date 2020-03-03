@@ -15,6 +15,7 @@ import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { OCPPClearChargingProfileCommandResult, OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
@@ -31,7 +32,6 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-import { OCPPClearChargingProfileCommandResult, OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 
 @Injectable()
 export class CentralServerService {

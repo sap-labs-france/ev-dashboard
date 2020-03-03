@@ -39,6 +39,9 @@ import { Transaction } from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
 import { UserStatusFormatterComponent } from '../../users/formatters/user-status-formatter.component';
 import { InvoiceStatusFormatterComponent } from '../components/invoice-status-formatter.component';
+import {UserRoleFilter} from "../../users/filters/user-role-filter";
+import {UserStatusFilter} from "../../users/filters/user-status-filter";
+import {InvoiceStatusFilter} from "../filters/invoices-status-filter";
 
 @Injectable()
 export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice> {
@@ -178,6 +181,8 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new InvoiceStatusFilter().getFilterDef(),
+    ];
   }
 }

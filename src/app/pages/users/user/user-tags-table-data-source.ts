@@ -9,7 +9,7 @@ import { TableActivateAction } from '../../../shared/table/actions/table-activat
 import { TableDeactivateAction } from '../../../shared/table/actions/table-deactivate-action';
 import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../types/GlobalType';
-import { AppTagActivePipe } from '../formatters/tag-status.pipe';
+import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 
 @Injectable()
 export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
@@ -18,7 +18,6 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
 
   constructor(public spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private appTagActivePipe: AppTagActivePipe,
     private dialogService: DialogService) {
     super(spinnerService);
   }
@@ -132,7 +131,8 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         id: 'active',
         name: 'tags.status',
         editType: TableEditType.DISPLAY_ONLY,
-        formatter: (value: boolean) => this.translateService.instant(this.appTagActivePipe.transform(value)),
+        isAngularComponent: true,
+        angularComponent: TagStatusFormatterComponent,
         headerClass: 'col-15p',
         class: 'text-center col-15p',
       },

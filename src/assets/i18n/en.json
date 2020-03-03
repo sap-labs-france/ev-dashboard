@@ -1223,7 +1223,7 @@
       "update_error": "Error occurred while updating the Billing settings",
       "check_connection": "Check Connection",
       "connection_success": "Connection to Billing application tested with success",
-      "connection_error": "Impossible to connect to Billing application",
+      "connection_error": "Impossible to connect to Billing application. Check your secret key.",
       "synchronize_users": "Synchronize Users",
       "synchronize_user": "Synchronize User",
       "force_synchronize_users": "Force Billing Synchro",

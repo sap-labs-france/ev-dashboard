@@ -1223,7 +1223,7 @@
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de la facturation",
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
-      "connection_error": "Connexion vers l'application de facturation impossible",
+      "connection_error": "Connexion vers l'application de facturation impossible. Vérifiez votre clé secrète.",
       "synchronize_users": "Synchroniser utilisateurs",
       "synchronize_user": "Synchroniser utilisateur",
       "force_synchronize_users": "Forcer Synchro Facturation",

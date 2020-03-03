@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
 import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
@@ -91,8 +91,8 @@ export class Utils {
   public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
     const result: ChargingStationPowers = {
       notSupported: false,
-      minAmp: 6,
-      maxAmp: 6,
+      minAmp: StaticLimitAmps.MIN_LIMIT,
+      maxAmp: StaticLimitAmps.MIN_LIMIT,
       currentAmp: 0,
     };
     // Check
@@ -137,14 +137,14 @@ export class Utils {
   }
 
   public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
-    if (charger.connectors[0].numberOfConnectedPhase) {
+    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
       return ChargingStations.convertAmpToW(charger.connectors[0].numberOfConnectedPhase, ampValue);
     }
     return 0;
   }
 
   public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    if (charger.connectors[0].numberOfConnectedPhase) {
+    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
       return appUnitFormatter.transform(
         Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, 0);
     }

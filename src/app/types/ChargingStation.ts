@@ -197,5 +197,5 @@ export enum OCPPAvailabilityType {
 }
 
 export enum StaticLimitAmps {
-  MIN_LIMIT = 8,
+  MIN_LIMIT = 1,
 }

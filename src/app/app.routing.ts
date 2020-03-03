@@ -139,6 +139,7 @@ export const AppRoutes: Routes = [
             entity: Entity.USER,
             action: Action.CREATE,
           },
+          component: TenantComponents.BILLING,
         },
       },
       {

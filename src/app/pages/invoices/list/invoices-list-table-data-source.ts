@@ -1,47 +1,33 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
+import { ButtonAction } from 'app/types/GlobalType';
 import { SiteButtonAction } from 'app/types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tag } from 'app/types/Tag';
-import TenantComponents from 'app/types/TenantComponents';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
-import { TableAssignSitesAction } from '../../../shared/table/actions/table-assign-sites-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
-import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Action, Entity } from '../../../types/Authorization';
 import { BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { Transaction } from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
-import { UserStatusFormatterComponent } from '../../users/formatters/user-status-formatter.component';
+import { TransactionsDateFromFilter } from '../../transactions/filters/transactions-date-from-filter';
+import { TransactionsDateUntilFilter } from '../../transactions/filters/transactions-date-until-filter';
 import { InvoiceStatusFormatterComponent } from '../components/invoice-status-formatter.component';
-import {UserRoleFilter} from "../../users/filters/user-role-filter";
-import {UserStatusFilter} from "../../users/filters/user-status-filter";
-import {InvoiceStatusFilter} from "../filters/invoices-status-filter";
+import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 
 @Injectable()
 export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice> {
@@ -102,7 +88,6 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const loggedUserRole = this.centralServerService.getLoggedUser().role;
     const columns = [];
     columns.push(
       {
@@ -182,6 +167,8 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new TransactionsDateUntilFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
   }

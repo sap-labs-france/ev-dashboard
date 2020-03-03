@@ -188,6 +188,7 @@
       "view": "View",
       "send": "Send",
       "clear": "Clear",
+      "download": "Download",
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable"
     }
@@ -1477,7 +1478,11 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on"
+    "updatedOn": "Synchronized on",
+    "invoices": {
+      "paid": "Paid",
+      "unpaid": "Unpaid"
+    }
   },
   "transactions": {
     "id": "Id",

@@ -21,6 +21,7 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
+import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAssignSitesAction } from '../../../shared/table/actions/table-assign-sites-action';
@@ -32,11 +33,15 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
+import { BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { Transaction } from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
+import { UserStatusFormatterComponent } from '../../users/formatters/user-status-formatter.component';
+import { InvoiceStatusFormatterComponent } from '../components/invoice-status-formatter.component';
 
 @Injectable()
-export class InvoicesListTableDataSource extends TableDataSource<User> {
+export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
   private currentUser: UserToken;
 
@@ -49,7 +54,9 @@ export class InvoicesListTableDataSource extends TableDataSource<User> {
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService) {
+      private authorizationService: AuthorizationService,
+      private datePipe: AppDatePipe,
+      private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
     // Init
     if (this.authorizationService.hasSitesAdminRights()) {
@@ -64,13 +71,14 @@ export class InvoicesListTableDataSource extends TableDataSource<User> {
     return this.centralServerNotificationService.getSubjectUsers();
   }
 
-  public loadDataImpl(): Observable<DataResult<User>> {
+  public loadDataImpl(): Observable<DataResult<BillingInvoice>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getUsers(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((users) => {
+      this.centralServerService.getUserInvoices(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((invoices) => {
         // Ok
-        observer.next(users);
+        console.log(invoices);
+        observer.next(invoices);
         observer.complete();
       }, (error) => {
         // Show error
@@ -99,34 +107,34 @@ export class InvoicesListTableDataSource extends TableDataSource<User> {
     columns.push(
       {
         id: 'status',
-        name: 'general.status',
+        name: 'users.status',
         isAngularComponent: true,
+        angularComponent: InvoiceStatusFormatterComponent,
         headerClass: 'col-10p',
         class: 'col-10p table-cell-angular-big-component',
         sortable: true,
       },
       {
-        id: 'status',
+        id: 'id',
         name: 'invoices.id',
-        isAngularComponent: true,
-        headerClass: 'col-10p',
-        class: 'col-10p table-cell-angular-big-component',
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sortable: true,
       },
       {
-        id: 'status',
+        id: 'date',
         name: 'invoices.date',
-        isAngularComponent: true,
-        headerClass: 'col-10p',
-        class: 'col-10p table-cell-angular-big-component',
+        formatter: (date: Date) => this.datePipe.transform(date),
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sortable: true,
       },
       {
-        id: 'status',
+        id: 'amountDue',
         name: 'invoices.price',
-        isAngularComponent: true,
+        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price, invoice.currency),
         headerClass: 'col-10p',
-        class: 'col-10p table-cell-angular-big-component',
+        class: 'col-10p',
         sortable: true,
       },
     );

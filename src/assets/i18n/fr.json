@@ -188,6 +188,7 @@
       "view": "Voir",
       "send": "Envoyer",
       "clear": "Effacer",
+      "download": "Télécharger",
       "force_available_status": "Forcer le Statut en Disponible",
       "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
@@ -1477,7 +1478,11 @@
     "type_placeholder": "Type",
     "description": "Interface de Facturation",
     "id": "ID facturation",
-    "updatedOn": "Synchronisé le"
+    "updatedOn": "Synchronisé le",
+    "invoices": {
+      "paid": "Payée",
+      "unpaid": "Impayée"
+    }
   },
   "transactions": {
     "id": "Id",

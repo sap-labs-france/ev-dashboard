@@ -9,6 +9,10 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
+import {
+  AppFormatInvoiceStatusPipe,
+  InvoiceStatusFormatterComponent,
+} from './components/invoice-status-formatter.component';
 import { InvoicesComponent } from './invoices.component';
 import { InvoicesRoutes } from './invoices.routing';
 import { InvoicesListComponent } from './list/invoices-list.component';
@@ -29,8 +33,11 @@ import { InvoicesListComponent } from './list/invoices-list.component';
   declarations: [
     InvoicesComponent,
     InvoicesListComponent,
+    AppFormatInvoiceStatusPipe,
+    InvoiceStatusFormatterComponent,
   ],
   entryComponents: [
+    InvoiceStatusFormatterComponent,
   ],
   exports: [
   ],

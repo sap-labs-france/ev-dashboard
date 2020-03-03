@@ -1423,6 +1423,13 @@
       "buildings": "Buildings"
     }
   },
+  "car": {
+    "title": "Car",
+    "description": "Manage Cars",
+    "tabs": {
+      "cars": "Cars"
+    }
+  },
   "analytics": {
     "title": "Analytics",
     "type_placeholder": "Type",

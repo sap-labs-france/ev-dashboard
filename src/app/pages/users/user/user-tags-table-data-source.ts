@@ -129,6 +129,14 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'active',
+        name: 'tags.status',
+        editType: TableEditType.DISPLAY_ONLY,
+        formatter: (value: boolean) => this.translateService.instant(this.appTagActivePipe.transform(value)),
+        headerClass: 'col-15p',
+        class: 'text-center col-15p',
+      },
+      {
         id: 'id',
         name: 'tags.id',
         editType: TableEditType.INPUT,
@@ -154,14 +162,6 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         id: 'issuer',
         name: 'tags.issuer',
         editType: TableEditType.RADIO_BUTTON,
-        headerClass: 'col-15p',
-        class: 'text-center col-15p',
-      },
-      {
-        id: 'active',
-        name: 'tags.status',
-        editType: TableEditType.DISPLAY_ONLY,
-        formatter: (value: boolean) => this.translateService.instant(this.appTagActivePipe.transform(value)),
         headerClass: 'col-15p',
         class: 'text-center col-15p',
       },

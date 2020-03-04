@@ -682,9 +682,9 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
-      "slider_power_disabled": "Limite Désactivée",
+      "slider_power_disabled": "Limite non supportée",
       "date_not_in_past": "La date ne doit pas être dans le passé",
-      "date_out_of_limit": "La date depasse la limite maximale du type de profile sélectionné",
+      "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",

@@ -33,19 +33,24 @@ export class ChargingStationParametersComponent implements OnInit {
   public isAdmin!: boolean;
 
   public currentTypeMap = [
-    {key: ChargingStationCurrentType.AC, description: 'chargers.alternating_current'},
-    {key: ChargingStationCurrentType.DC, description: 'chargers.direct_current'},
-    {key: ChargingStationCurrentType.AC_DC, description: 'chargers.direct_and_alternating_current'},
+    { key: ChargingStationCurrentType.AC, description: 'chargers.alternating_current' },
+    { key: ChargingStationCurrentType.DC, description: 'chargers.direct_current' },
+    {
+      key: ChargingStationCurrentType.AC_DC,
+      description: 'chargers.direct_and_alternating_current'
+    },
   ];
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
-  public connectedPhaseMap =   [
-    {key: 1, description: 'chargers.single_phase'},
-    {key: 3, description: 'chargers.tri_phases'},
-    {key: 0, description: 'chargers.direct_current'},
+  public connectedPhaseMap = [
+    { key: 1, description: 'chargers.single_phase' },
+    { key: 3, description: 'chargers.tri_phases' },
+    { key: 0, description: 'chargers.direct_current' },
   ];
   public formGroup: FormGroup;
   public chargingStationURL!: AbstractControl;
   public cannotChargeInParallel!: AbstractControl;
+  public private!: AbstractControl;
+  public issuer!: AbstractControl;
   public currentType!: AbstractControl;
   public maximumPower!: AbstractControl;
   public coordinates!: FormArray;
@@ -94,6 +99,8 @@ export class ChargingStationParametersComponent implements OnInit {
         ])),
       currentType: new FormControl(''),
       cannotChargeInParallel: new FormControl(''),
+      private: new FormControl(''),
+      issuer: new FormControl(''),
       maximumPower: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -102,7 +109,7 @@ export class ChargingStationParametersComponent implements OnInit {
         ])),
       siteArea: new FormControl(''),
       siteAreaID: new FormControl(''),
-      coordinates: new FormArray ([
+      coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
             Validators.max(180),
@@ -120,6 +127,8 @@ export class ChargingStationParametersComponent implements OnInit {
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.cannotChargeInParallel = this.formGroup.controls['cannotChargeInParallel'];
+    this.private = this.formGroup.controls['private'];
+    this.issuer = this.formGroup.controls['issuer'];
     this.currentType = this.formGroup.controls['currentType'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.siteArea = this.formGroup.controls['siteArea'];
@@ -132,6 +141,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
     // Deactivate for non admin users
     if (!this.isAdmin) {
+      this.private.disable();
       this.cannotChargeInParallel.disable();
       this.chargingStationURL.disable();
       this.latitude.disable();
@@ -217,6 +227,9 @@ export class ChargingStationParametersComponent implements OnInit {
   }
 
   public refreshChargingStationPower() {
+    if (!this.charger.issuer) {
+      return;
+    }
     let chargerMaxPower = 0;
     let currentTypeDC = false;
     let currentTypeAC = false;
@@ -242,7 +255,8 @@ export class ChargingStationParametersComponent implements OnInit {
         } else if (numberOfConnectedPhaseControl.value === 3) {
           // Triphase AC
           currentTypeAC = true;
-          connectorMaxPower = Math.floor(connectorVoltControl.value * connectorAmpControl.value * Math.sqrt(numberOfConnectedPhaseControl.value));
+          connectorMaxPower = Math.floor(connectorVoltControl.value * connectorAmpControl.value
+            * Math.sqrt(numberOfConnectedPhaseControl.value));
           connectorMaxPowerControl.disable();
         } else {
           // Direct Current
@@ -293,6 +307,12 @@ export class ChargingStationParametersComponent implements OnInit {
       if (this.charger.cannotChargeInParallel) {
         this.formGroup.controls.cannotChargeInParallel.setValue(this.charger.cannotChargeInParallel);
       }
+      if (this.charger.private) {
+        this.formGroup.controls.private.setValue(this.charger.private);
+      }
+      if (this.charger.issuer) {
+        this.formGroup.controls.issuer.setValue(this.charger.issuer);
+      }
       if (this.charger.currentType) {
         this.formGroup.controls.currentType.setValue(this.charger.currentType);
       }
@@ -331,6 +351,9 @@ export class ChargingStationParametersComponent implements OnInit {
           this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].disable();
         }
       }
+      if (!this.charger.issuer) {
+        this.formGroup.disable();
+      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
@@ -357,6 +380,7 @@ export class ChargingStationParametersComponent implements OnInit {
       this.charger.chargingStationURL = this.chargingStationURL.value;
       this.charger.maximumPower = this.maximumPower.value;
       this.charger.cannotChargeInParallel = this.cannotChargeInParallel.value;
+      this.charger.private = this.private.value;
       this.charger.currentType = this.currentType.value;
       this.charger.coordinates = [this.longitude.value, this.latitude.value];
       for (const connector of this.charger.connectors) {
@@ -376,6 +400,9 @@ export class ChargingStationParametersComponent implements OnInit {
   }
 
   public assignSiteArea() {
+    if (!this.charger.issuer) {
+      return;
+    }
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
@@ -429,7 +456,7 @@ export class ChargingStationParametersComponent implements OnInit {
 
     // Set data
     dialogConfig.data = {
-      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', {chargeBoxID: this.charger.id}),
+      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', { chargeBoxID: this.charger.id }),
       latitude,
       longitude,
       label: this.charger.id ? this.charger.id : '',

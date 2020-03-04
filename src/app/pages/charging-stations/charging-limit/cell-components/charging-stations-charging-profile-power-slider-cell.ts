@@ -6,7 +6,7 @@ import { Utils } from 'app/utils/Utils';
 
 @Component({
   template: `
-    <div class="row col-md-12">
+    <div class="row">
       <app-charging-station-power-slider class="col-md-12" [charger]="charger"
         [forChargingProfile]="true" [currentAmp]='row?.limit' (silderChanged)="sliderChanged($event)">
       </app-charging-station-power-slider>

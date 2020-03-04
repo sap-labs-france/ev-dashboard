@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.4",
+    "last_update": "Version 2.2.5",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -41,7 +41,7 @@
     "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",
-    "actions": "Actions",
+    "actions": "Action(s)",
     "add": "Ajouter",
     "select": "Selectioner",
     "set_filter": "Filtrer",
@@ -597,6 +597,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "current_type": "Type de Courant",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
+    "private": "Cette borne est privée et ne sera pas partagée avec d'autres systèmes",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",
@@ -681,9 +682,9 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
-      "slider_power_disabled": "Limite Désactivée",
+      "slider_power_disabled": "Limite non supportée",
       "date_not_in_past": "La date ne doit pas être dans le passé",
-      "date_out_of_limit": "La date depasse la limite maximale du type de profile sélectionné",
+      "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Profile de Charge",
@@ -1421,6 +1422,13 @@
     "description": "Gestion des Bâtiments",
     "tabs": {
       "buildings": "Bâtiments"
+    }
+  },
+  "car": {
+    "title": "Car",
+    "description": "Gestion des voitures",
+    "tabs": {
+      "cars": "Voitures"
     }
   },
   "analytics": {

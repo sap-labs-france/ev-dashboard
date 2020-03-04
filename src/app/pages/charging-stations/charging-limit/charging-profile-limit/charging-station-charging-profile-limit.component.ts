@@ -77,11 +77,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       startDateControl: new FormControl('',
         Validators.compose([
           Validators.required,
-          this.validateDateMustBeInTheFuture,
+          // this.validateDateMustBeInTheFuture,
         ])),
       endDateControl: new FormControl('',
         Validators.compose([
-          this.validateDateMustBeInTheFuture,
           this.validateEndDateLimitInRecurringPlan.bind(this),
         ])),
       schedules: new FormArray([],
@@ -114,13 +113,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Change date format
       if (profileType.key === ChargingProfileKindType.RECURRING) {
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
+        this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         // Set the date at midnight next day
         // @ts-ignore
         this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
         this.startDateControl.disable();
       } else {
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value);
+        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
+        this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
         this.startDateControl.enable();
       }
       this.scheduleEditableTableDataSource.refreshChargingSchedules();
@@ -261,16 +262,22 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         }
         // Set Start Date
         schedule.startDate.setSeconds(schedule.startDate.getSeconds() + chargingSchedule.startPeriod);
+        // Set
+        schedule.endDate = new Date(schedule.startDate.getTime() + schedule.duration * 60 * 1000);
         // Add
         schedules.push(schedule);
         // Set Schedule
         this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
       }
+      // Set last schedule
       if (chargingProfile.profile.chargingSchedule.duration) {
         // Limit the last schedule with the total duration
         schedules[schedules.length - 1].duration = (this.scheduleEditableTableDataSource.startDate.getTime() / 1000
           + chargingProfile.profile.chargingSchedule.duration
           - schedules[schedules.length - 1].startDate.getTime() / 1000) / 60;
+        // Set
+        schedules[schedules.length - 1].endDate =
+          new Date(schedules[schedules.length - 1].startDate.getTime() + schedules[schedules.length - 1].duration * 60 * 1000);
         // Set end date
         this.endDateControl.setValue(new Date(this.scheduleEditableTableDataSource.startDate.getTime() +
           chargingProfile.profile.chargingSchedule.duration * 1000));

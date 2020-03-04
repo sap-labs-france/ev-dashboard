@@ -54,6 +54,7 @@ export enum RecurrencyKindType {
 export interface Schedule extends Data {
   id: number;
   startDate: Date;
+  endDate?: Date;
   duration: number;
   limit: number;
   limitInkW: number;

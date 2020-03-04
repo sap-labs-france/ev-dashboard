@@ -2172,7 +2172,7 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0): Observable<ActionResponse> {
+  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2180,6 +2180,7 @@ export class CentralServerService {
         chargeBoxID: charger.id,
         connectorId,
         ampLimitValue,
+        forceUpdateChargingPlan,
       },
       {
         headers: this.buildHttpHeaders(),

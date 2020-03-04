@@ -15,7 +15,7 @@
           </app-charging-station-power-slider>
         </div>
         <div class="col-md-12 text-right">
-          <button mat-raised-button color="primary" (click)="saveAndApplyStaticLimit()" [disabled]="this.ampInitialLimit === this.ampCurrentLimit">
+          <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm()" [disabled]="this.ampInitialLimit === this.ampCurrentLimit">
             <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
           </button>
         </div>

@@ -10,26 +10,32 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableDisplaySiteAreasAction } from 'app/shared/table/actions/table-display-siteAreas-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableEditSiteAreaAction } from 'app/shared/table/actions/table-edit-siteAreas-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Building, BuildingImage } from 'app/types/Building';
+import { Building, BuildingButtonAction, BuildingImage } from 'app/types/Building';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { BuildingSiteAreasDialogComponent } from '../building-site-areas/building-site-areas-dialog.component';
 import { BuildingDialogComponent } from '../building/building.dialog.component';
 
 @Injectable()
 export class BuildingsListTableDataSource extends TableDataSource<Building> {
   private isAdmin = false;
   private editAction = new TableEditAction().getActionDef();
+  private editSiteAreasAction = new TableEditSiteAreaAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
+  private displaySiteAreasAction = new TableDisplaySiteAreasAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -89,7 +95,8 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       {
         id: 'name',
         name: 'buildings.name',
-        class: 'text-left',
+        headerClass: 'col-30p',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -110,7 +117,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       },
     ];
     if (this.isAdmin) {
-      tableColumnDef.splice(1, 0, {
+      tableColumnDef.unshift({
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',
@@ -139,12 +146,16 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     if (this.isAdmin) {
       return [
         this.editAction,
-        openInMaps,
-        this.deleteAction,
+        this.editSiteAreasAction,
+        new TableMoreAction([
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef(),
       ];
     }
     return [
       this.viewAction,
+      this.displaySiteAreasAction,
       openInMaps,
     ];
   }
@@ -166,6 +177,10 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
         this.showBuildingDialog(rowItem);
+        break;
+      case BuildingButtonAction.EDIT_SITE_AREAS:
+      case BuildingButtonAction.DISPLAY_SITE_AREAS:
+        this.showSiteAreasDialog(rowItem);
         break;
       case ButtonAction.DELETE:
         this.deleteBuilding(rowItem);
@@ -206,6 +221,19 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
         this.refreshData().subscribe();
       }
     });
+  }
+
+  private showSiteAreasDialog(building: Building) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    if (building) {
+      dialogConfig.data = building;
+    }
+    // Disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialog.open(BuildingSiteAreasDialogComponent, dialogConfig);
   }
 
   private showPlace(building: Building) {

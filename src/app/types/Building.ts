@@ -12,6 +12,11 @@ export interface Building extends Data {
   lastChangedOn: Date;
 }
 
+export enum BuildingButtonAction {
+  EDIT_SITE_AREAS = 'edit_site_areas',
+  DISPLAY_SITE_AREAS = 'display_site_areas',
+}
+
 export enum BuildingImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

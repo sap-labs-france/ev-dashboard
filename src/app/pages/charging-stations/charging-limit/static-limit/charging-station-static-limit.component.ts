@@ -56,26 +56,50 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.ampInitialLimit = this.ampCurrentLimit;
   }
 
-  public saveAndApplyStaticLimit() {
-    // show yes/no dialog
-    const self = this;
+  public applyStaticLimitConfirm() {
+    // Confirm dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
       this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.charger.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Apply to charger
         this.spinnerService.show();
-        this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit).subscribe((response) => {
+        this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
           this.spinnerService.hide();
-          if (response.status === RestResponse.SUCCESS) {
-            // success + reload
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: self.charger.id }),
-            );
+          let foundLimitIsExeeded = false;
+          if (chargingProfilesResult.count > 0) {
+            // Check schedules
+            for (const chargingProfile of chargingProfilesResult.result) {
+              if (chargingProfile.profile && chargingProfile.profile.chargingSchedule &&
+                  chargingProfile.profile.chargingSchedule.chargingSchedulePeriod) {
+                for (const chargingSchedulePeriod of chargingProfile.profile.chargingSchedule.chargingSchedulePeriod) {
+                  // Check the limit max is beyond the new values
+                  if (chargingSchedulePeriod.limit > this.ampCurrentLimit) {
+                    foundLimitIsExeeded = true;
+                    break;
+                  }
+                }
+              }
+              if (foundLimitIsExeeded) {
+                break;
+              }
+            }
+          }
+          // New limit impacts the charging plans?
+          if (foundLimitIsExeeded) {
+            // Yes: Confirm dialog
+            this.dialogService.createAndShowYesNoDialog(
+              this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_title'),
+              this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_confim'),
+            ).subscribe((result) => {
+              if (result === ButtonType.YES) {
+                // No: Apply it right away
+                this.applyStaticLimit(true);
+              }
+            });
           } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+            // No: Apply it right away
+            this.applyStaticLimit();
           }
         }, (error: any) => {
           this.spinnerService.hide();
@@ -83,6 +107,27 @@ export class ChargingStationStaticLimitComponent implements OnInit {
             error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
         });
       }
+    });
+  }
+
+  private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
+    // Apply to charger
+    this.spinnerService.show();
+    this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        // success + reload
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan: forceUpdateChargingPlan }),
+        );
+      } else {
+        Utils.handleError(JSON.stringify(response),
+          this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
+      }
+    }, (error: any) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(
+        error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
     });
   }
 

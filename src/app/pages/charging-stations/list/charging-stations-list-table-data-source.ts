@@ -164,6 +164,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
       },
     ];
+    if (this.authorizationService.isAdmin()) {
+      tableColumns.push(
+        {
+          id: 'firmwareVersion',
+          name: 'chargers.firmware_version',
+          headerClass: 'text-center',
+          class: 'text-center table-cell-angular-big-component',
+          sortable: false,
+          isAngularComponent: true,
+          angularComponent: ChargingStationsFirmwareStatusCellComponent,
+        }
+      );
+    }
     if (this.isOrganizationComponentActive) {
       tableColumns = tableColumns.concat(
         [
@@ -187,15 +200,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             headerClass: 'd-none d-lg-table-cell',
             class: 'd-none d-lg-table-cell',
             sortable: true,
-          },
-          {
-            id: 'firmwareVersion',
-            name: 'chargers.firmware_version',
-            headerClass: 'text-center',
-            class: 'text-center table-cell-angular-big-component',
-            sortable: false,
-            isAngularComponent: true,
-            angularComponent: ChargingStationsFirmwareStatusCellComponent,
           },
           {
             id: 'ocppVersion',

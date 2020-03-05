@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { SiteButtonAction } from 'app/types/Site';
+import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { User, UserButtonAction, UserToken } from 'app/types/User';
-import saveAs from 'file-saver';
+import { UserToken } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -16,7 +14,6 @@ import { CentralServerNotificationService } from '../../../services/central-serv
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { WindowService } from '../../../services/window.service';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -47,8 +44,7 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
       private datePipe: AppDatePipe,
-      private appCurrencyPipe: AppCurrencyPipe,
-      private windowService: WindowService) {
+      private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService);
     // Init
     this.initDataSource();

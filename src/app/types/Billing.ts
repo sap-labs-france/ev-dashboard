@@ -24,7 +24,3 @@ export interface BillingInvoice extends Data {
   date: Date;
   downloadUrl: string;
 }
-
-export interface BillingInvoiceDownloadUrl {
-  invoiceDownloadUrl: string;
-}

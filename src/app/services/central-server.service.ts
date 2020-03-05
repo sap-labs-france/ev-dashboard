@@ -1325,6 +1325,20 @@ export class CentralServerService {
       );
   }
 
+  public downloadInvoiceAsPdf(invoiceID: string|number): Observable<Blob> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/DownloadInvoiceAsPdf?Invoice=${invoiceID}`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init

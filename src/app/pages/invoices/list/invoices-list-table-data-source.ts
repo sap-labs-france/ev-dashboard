@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { SiteButtonAction } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
+import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -133,25 +134,10 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
     ];
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
-    // Action
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: BillingInvoice) {
     switch (actionDef.id) {
-      case ButtonAction.CREATE:
-        break;
-      case UserButtonAction.FORCE_SYNCHRONIZE:
-        break;
-      default:
-        super.actionTriggered(actionDef);
-    }
-  }
-
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: User) {
-    switch (actionDef.id) {
-      case ButtonAction.EDIT:
-        break;
-      case SiteButtonAction.ASSIGN_SITE:
-        break;
-      case ButtonAction.DELETE:
+      case ButtonAction.SEND:
+        this.downloadInvoiceAsPdf(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -171,5 +157,16 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       new TransactionsDateUntilFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
+  }
+
+  private downloadInvoiceAsPdf(invoice: BillingInvoice) {
+    this.centralServerService.downloadInvoiceAsPdf(invoice.id)
+      .subscribe((result) => {
+        this.spinnerService.hide();
+        saveAs(result, `invoice-${invoice.number}.pdf`);
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+      });
   }
 }

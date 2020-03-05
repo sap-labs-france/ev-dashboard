@@ -8,8 +8,8 @@ export const InvoicesRoutes: Routes = [
   {
     path: '', component: InvoicesComponent, canActivate: [RouteGuardService], data: {
       auth: {
-        entity: Entity.USER,
-        action: Action.CREATE,
+        entity: Entity.INVOICES,
+        action: Action.LIST,
       },
     },
   },

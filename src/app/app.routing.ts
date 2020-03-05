@@ -136,8 +136,8 @@ export const AppRoutes: Routes = [
             path: '/invoices',
           },
           auth: {
-            entity: Entity.USER,
-            action: Action.CREATE,
+            entity: Entity.INVOICES,
+            action: Action.LIST,
           },
           component: TenantComponents.BILLING,
         },

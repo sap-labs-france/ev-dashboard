@@ -16,6 +16,7 @@ import { CentralServerNotificationService } from '../../../services/central-serv
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { WindowService } from '../../../services/window.service';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -46,7 +47,8 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
       private datePipe: AppDatePipe,
-      private appCurrencyPipe: AppCurrencyPipe) {
+      private appCurrencyPipe: AppCurrencyPipe,
+      private windowService: WindowService) {
     super(spinnerService);
     // Init
     this.initDataSource();
@@ -137,7 +139,7 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
   public rowActionTriggered(actionDef: TableActionDef, rowItem: BillingInvoice) {
     switch (actionDef.id) {
       case ButtonAction.SEND:
-        this.downloadInvoiceAsPdf(rowItem);
+        window.open(rowItem.downloadUrl, '_blank');
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -157,16 +159,5 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       new TransactionsDateUntilFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
-  }
-
-  private downloadInvoiceAsPdf(invoice: BillingInvoice) {
-    this.centralServerService.downloadInvoiceAsPdf(invoice.id)
-      .subscribe((result) => {
-        this.spinnerService.hide();
-        saveAs(result, `invoice-${invoice.number}.pdf`);
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
   }
 }

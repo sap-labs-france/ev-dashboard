@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
-import { BillingInvoice, BillingTax } from 'app/types/Billing';
+import {BillingInvoice, BillingInvoiceDownloadUrl, BillingTax} from 'app/types/Billing';
 import { Building } from 'app/types/Building';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
@@ -1319,20 +1319,6 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public downloadInvoiceAsPdf(invoiceID: string|number): Observable<Blob> {
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/DownloadInvoiceAsPdf?Invoice=${invoiceID}`,
-      {
-        headers: this.buildHttpHeaders(),
-        responseType: 'blob',
       })
       .pipe(
         catchError(this.handleHttpError),

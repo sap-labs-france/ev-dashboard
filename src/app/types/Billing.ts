@@ -22,4 +22,9 @@ export interface BillingInvoice extends Data {
   currency: string;
   customerID: string;
   date: Date;
+  downloadUrl: string;
+}
+
+export interface BillingInvoiceDownloadUrl {
+  invoiceDownloadUrl: string;
 }

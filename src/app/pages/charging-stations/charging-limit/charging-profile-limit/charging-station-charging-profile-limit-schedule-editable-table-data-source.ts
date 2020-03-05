@@ -24,8 +24,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public buildTableDef(): TableDef {
     return {
+      id: 'ChargingStationChargingProfileLimitScheduleEditableTableDataSource',
       isEditable: true,
-      rowFieldNameIdentifier: 'id',
       errorMessage: 'chargers.smart_charging.empty_schedule_list_error',
     };
   }

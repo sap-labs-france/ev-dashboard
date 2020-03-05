@@ -182,8 +182,8 @@
   </ng-container>
 
   <!-- Table -->
-  <div *ngIf="dataSource.tableDef"
-       [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
+  <div *ngIf="dataSource.tableDef" [id]="dataSource.tableDef.id"
+      [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table class="table">
       <!-- Headers -->
       <thead *ngIf="dataSource.tableColumnDefs">
@@ -221,139 +221,139 @@
       </thead>
       <!-- Rows -->
       <tbody *ngIf="dataSource.data.length > 0">
-      <ng-template ngFor let-row [ngForOf]="dataSource.data"
-        [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId"
-        let-rowIndex="index">
-        <tr>
-          <!-- Select Cell -->
-          <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
-              class="text-left col-5em col-select pt-2">
-            <mat-checkbox (change)="toggleRowSelection(row, $event)"
-              (click)="$event.stopPropagation()"
-              [checked]="row.isSelected" [disabled]="!row.isSelectable">
-            </mat-checkbox>
-          </td>
-          <!-- Detail Cell -->
-          <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
-              class="col-3em details-column-row">
-            <mat-icon
-              *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
-              (click)="showHideDetailsClicked(row)">
-              {{row.isExpanded ? "expand_more" : "chevron_right"}}
-            </mat-icon>
-          </td>
-          <!-- Action Cell -->
-          <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
-            <ng-container
-              *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
+        <ng-template ngFor let-row let-rowIndex="index" [ngForOf]="dataSource.data"
+          [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId"
+          let-rowIndex="index">
+          <tr [id]="dataSource.tableDef.rowFieldNameIdentifier ? row[dataSource.tableDef.rowFieldNameIdentifier] : rowIndex">
+            <!-- Select Cell -->
+            <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
+                class="text-left col-5em col-select pt-2">
+              <mat-checkbox (change)="toggleRowSelection(row, $event)"
+                (click)="$event.stopPropagation()"
+                [checked]="row.isSelected" [disabled]="!row.isSelectable">
+              </mat-checkbox>
+            </td>
+            <!-- Detail Cell -->
+            <td *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled"
+                class="col-3em details-column-row">
+              <mat-icon
+                *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.showDetailsField ? row[dataSource.tableDef.rowDetails.showDetailsField] : true"
+                (click)="showHideDetailsClicked(row)">
+                {{row.isExpanded ? "expand_more" : "chevron_right"}}
+              </mat-icon>
+            </td>
+            <!-- Action Cell -->
+            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
               <ng-container
-                *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
-                <!-- Drop Down Action -->
-                <ng-container *ngIf="rowAction.isDropdownMenu">
-                  <mat-menu #rowActionMenu="matMenu" xPosition="after">
-                    <ng-template matMenuContent>
-                      <ng-container
-                        *ngFor="let dropdownAction of rowAction.dropdownActions">
-                        <button mat-menu-item
-                            (click)="rowActionTriggered(dropdownAction, row)"
-                            [disabled]="dropdownAction.disabled" appTooltip
-                            [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
-                          <mat-icon *ngIf="dropdownAction.icon"
-                            [color]="(dropdownAction.color && !dropdownAction.disabled) ? dropdownAction.color : ''">{{dropdownAction.icon}}</mat-icon>
-                          <span>{{dropdownAction.name | translate}}</span>
-                        </button>
-                      </ng-container>
-                    </ng-template>
-                  </mat-menu>
-                  <button mat-icon-button [color]="(rowAction.color ? rowAction.color : '')"
-                      (menuOpened)="onRowActionMenuOpen(rowAction, row)"
-                      [matMenuTriggerFor]="rowActionMenu" appTooltip
-                      [title]="rowAction.tooltip | translate">
-                    <mat-icon>{{rowAction.icon}}</mat-icon>
-                  </button>
-                </ng-container>
-                <!-- Button Action -->
-                <ng-container *ngIf="!rowAction.isDropdownMenu">
-                  <div class="d-inline-block" appTooltip [title]="rowAction.tooltip | translate">
-                    <button mat-icon-button
-                        [color]="(rowAction.color ? rowAction.color : '')"
-                        (click)="rowActionTriggered(rowAction, row)"
-                        [disabled]="rowAction.disabled">
+                *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
+                <ng-container
+                  *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
+                  <!-- Drop Down Action -->
+                  <ng-container *ngIf="rowAction.isDropdownMenu">
+                    <mat-menu #rowActionMenu="matMenu" xPosition="after">
+                      <ng-template matMenuContent>
+                        <ng-container
+                          *ngFor="let dropdownAction of rowAction.dropdownActions">
+                          <button mat-menu-item
+                              (click)="rowActionTriggered(dropdownAction, row)"
+                              [disabled]="dropdownAction.disabled" appTooltip
+                              [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
+                            <mat-icon *ngIf="dropdownAction.icon"
+                              [color]="(dropdownAction.color && !dropdownAction.disabled) ? dropdownAction.color : ''">{{dropdownAction.icon}}</mat-icon>
+                            <span>{{dropdownAction.name | translate}}</span>
+                          </button>
+                        </ng-container>
+                      </ng-template>
+                    </mat-menu>
+                    <button mat-icon-button [color]="(rowAction.color ? rowAction.color : '')"
+                        (menuOpened)="onRowActionMenuOpen(rowAction, row)"
+                        [matMenuTriggerFor]="rowActionMenu" appTooltip
+                        [title]="rowAction.tooltip | translate">
                       <mat-icon>{{rowAction.icon}}</mat-icon>
                     </button>
-                  </div>
+                  </ng-container>
+                  <!-- Button Action -->
+                  <ng-container *ngIf="!rowAction.isDropdownMenu">
+                    <div class="d-inline-block" appTooltip [title]="rowAction.tooltip | translate">
+                      <button mat-icon-button
+                          [color]="(rowAction.color ? rowAction.color : '')"
+                          (click)="rowActionTriggered(rowAction, row)"
+                          [disabled]="rowAction.disabled">
+                        <mat-icon>{{rowAction.icon}}</mat-icon>
+                      </button>
+                    </div>
+                  </ng-container>
                 </ng-container>
               </ng-container>
-            </ng-container>
-          </td>
-          <!-- Cells -->
-          <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
-            <!-- Angular Component Cell -->
-            <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
-              <td *ngIf="!dataSource.tableDef.isEditable"
-                [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
-              </td>
-              <td *ngIf="dataSource.tableDef.isEditable"
+            </td>
+            <!-- Cells -->
+            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+              <!-- Angular Component Cell -->
+              <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
+                <td *ngIf="!dataSource.tableDef.isEditable"
                   [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
-                  [class.table-field-invalid]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors">
-                <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
-                  [id]="tableColumnDef.id" [name]="tableColumnDef.id"
-                  class="form-control text-line"
-                  [placeholder]="tableColumnDef.name | translate"
-                  [ngModel]="row[tableColumnDef.id]" [disabled]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.disabled"
-                  (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)" class="w-100"
-                  type="text">
-                <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
-                  [(ngModel)]="row[tableColumnDef.id]"
-                  (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)">
-                </mat-checkbox>
-                <mat-radio-button *ngIf="tableColumnDef.editType === TableEditType.RADIO_BUTTON"
-                  [checked]="row[tableColumnDef.id]"
-                  (change)="$event.source.checked  = !$event.source.checked;"
-                  (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
-                </mat-radio-button>
-                <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
-                </span>
-                <mat-error *ngIf="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors as errors">
-                  <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
-                  <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
-                       [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
-                  <div class="table-mat-error" *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
-                       [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
-                  <div class="table-mat-error" *ngIf="errors?.duplicate" [translate]="'general.error_duplicate'"></div>
-                  <div class="table-mat-error" *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
-                </mat-error>
+                  [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+                </td>
+                <td *ngIf="dataSource.tableDef.isEditable"
+                    [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                    [class.table-field-invalid]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors">
+                  <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
+                    [id]="tableColumnDef.id" [name]="tableColumnDef.id"
+                    class="form-control text-line"
+                    [placeholder]="tableColumnDef.name | translate"
+                    [ngModel]="row[tableColumnDef.id]" [disabled]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.disabled"
+                    (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)" class="w-100"
+                    type="text">
+                  <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
+                    [(ngModel)]="row[tableColumnDef.id]"
+                    (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)">
+                  </mat-checkbox>
+                  <mat-radio-button *ngIf="tableColumnDef.editType === TableEditType.RADIO_BUTTON"
+                    [checked]="row[tableColumnDef.id]"
+                    (change)="$event.source.checked  = !$event.source.checked;"
+                    (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
+                  </mat-radio-button>
+                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+                  </span>
+                  <mat-error *ngIf="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors as errors">
+                    <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
+                    <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
+                        [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
+                    <div class="table-mat-error" *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
+                        [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
+                    <div class="table-mat-error" *ngIf="errors?.duplicate" [translate]="'general.error_duplicate'"></div>
+                    <div class="table-mat-error" *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
+                  </mat-error>
+                </td>
+              </ng-template>
+              <td *ngIf="tableColumnDef.isAngularComponent"
+                  [class]="(tableColumnDef.class ? tableColumnDef.class + ' table-cell-angular-component' : 'table-cell-angular-component')">
+                <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row" (componentChanged)="rowCellUpdated($event, rowIndex, tableColumnDef)">
+                </app-cell-content-template-container>
               </td>
             </ng-template>
-            <td *ngIf="tableColumnDef.isAngularComponent"
-                [class]="(tableColumnDef.class ? tableColumnDef.class + ' table-cell-angular-component' : 'table-cell-angular-component')">
-              <app-cell-content-template-container [columnDef]="tableColumnDef" [row]="row" (componentChanged)="rowCellUpdated($event, rowIndex, tableColumnDef)">
-              </app-cell-content-template-container>
-            </td>
-          </ng-template>
-        </tr>
-        <!-- Detail Row -->
-        <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
-          <!-- Text Details -->
-          <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
-            <td class="col-3em details-column-row"></td>
-            <td [attr.colspan]="numberOfColumns-1">
-              <div
-                [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
-                class="row-detail">
-              </div>
-            </td>
-          </ng-container>
-          <!-- Angular Component Details -->
-          <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
-            <td [attr.colspan]="numberOfColumns" class="table-angular-details-component">
-              <app-cell-content-template-container [tableDef]="dataSource.tableDef"
-                [row]="row"></app-cell-content-template-container>
-            </td>
-          </ng-container>
-        </tr>
-      </ng-template>
+          </tr>
+          <!-- Detail Row -->
+          <tr *ngIf="dataSource.tableDef.rowDetails && dataSource.tableDef.rowDetails.enabled && row.isExpanded">
+            <!-- Text Details -->
+            <ng-container *ngIf="!dataSource.tableDef.rowDetails.angularComponent">
+              <td class="col-3em details-column-row"></td>
+              <td [attr.colspan]="numberOfColumns-1">
+                <div
+                  [innerHtml]="(dataSource.tableDef.rowDetails ? row[dataSource.tableDef.rowDetails.detailsField] : '')"
+                  class="row-detail">
+                </div>
+              </td>
+            </ng-container>
+            <!-- Angular Component Details -->
+            <ng-container *ngIf="dataSource.tableDef.rowDetails.angularComponent">
+              <td [attr.colspan]="numberOfColumns" class="table-angular-details-component">
+                <app-cell-content-template-container [tableDef]="dataSource.tableDef"
+                  [row]="row"></app-cell-content-template-container>
+              </td>
+            </ng-container>
+          </tr>
+        </ng-template>
       </tbody>
     </table>
     <!-- More Records -->

@@ -4,7 +4,6 @@ $medium-spinner: $brand-success !default;
 $inner-spinner: $brand-warning !default;
 $outer-spinner: $brand-warn !default;
 
-
 .filter-row {
   @media screen and (max-width: $res435) {
     width: 100%;
@@ -381,6 +380,8 @@ tr.element-row:not(.expanded-row):active {
   > tbody tr td:first-child {
     padding-right: 15px !important;
   }
+
+  tr:nth-child(odd) { background: $brand-background }
 
   .tab-pane & {
     tbody > tr > td:first-child {

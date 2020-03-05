@@ -238,7 +238,7 @@ export class Utils {
     }
   }
 
-  public static convertToDate(date: any) {
+  public static convertToDate(date: any): Date {
     // Check
     if (!date) {
       return date;
@@ -250,7 +250,7 @@ export class Utils {
     return date;
   }
 
-  public static convertToInteger(value: any) {
+  public static convertToInteger(value: any): number {
     let changedValue = value;
     if (!value) {
       return 0;
@@ -263,7 +263,7 @@ export class Utils {
     return changedValue;
   }
 
-  public static convertToFloat(value: any) {
+  public static convertToFloat(value: any): number {
     let changedValue = value;
     if (!value) {
       return 0;
@@ -276,12 +276,12 @@ export class Utils {
     return changedValue;
   }
 
-  public static isNull(obj: any) {
+  public static isNull(obj: any): boolean {
     // tslint:disable-next-line: triple-equals
     return obj == null;
   }
 
-  public static isValidDate(date: any) {
+  public static isValidDate(date: any): boolean {
     // @ts-ignore
     return moment(date).isValid();
   }

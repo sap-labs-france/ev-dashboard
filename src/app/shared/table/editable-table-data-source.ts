@@ -2,12 +2,12 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from 
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { of, Observable, Subject } from 'rxjs';
+import { Utils } from 'app/utils/Utils';
+import { Observable, of, Subject } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
 import { TableDataSource } from './table-data-source';
-import Table = WebAssembly.Table;
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   protected editableRows: T[] = [];
@@ -126,7 +126,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return of({ count: 0, result: [] });
   }
 
-  buildTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     return [this.inlineRemoveAction];
   }
 
@@ -143,6 +143,33 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.tableChangedSubject.next(this.editableRows);
     if (this.formArray) {
       this.formArray.markAsDirty();
+    }
+    // Scroll to the inserted element
+    if (this.tableDef.id) {
+      // @ts-ignore
+      setTimeout(() => {
+        // Get the table
+        const table = $(`#${this.tableDef.id}`);
+        if (table) {
+          // Get the first element
+          const firstRowID = this.tableDef && this.tableDef.rowFieldNameIdentifier ?
+            // @ts-ignore
+            this.editableRows[0][this.tableDef.rowFieldNameIdentifier] : 0;
+          const firstElement = $(`#${this.tableDef.id} #${firstRowID}`);
+          // @ts-ignore
+          const firstElementTop: number = firstElement && firstElement.offset() ? Utils.convertToInteger(firstElement.offset().top) : 0;
+          // Get the current element
+          const rowID = this.tableDef && this.tableDef.rowFieldNameIdentifier ?
+            // @ts-ignore
+            data[this.tableDef.rowFieldNameIdentifier] : this.editableRows.length - 1;
+          const element = $(`#${this.tableDef.id} #${rowID}`);
+          // @ts-ignore
+          const elementTop: number = element && element.offset() ? Utils.convertToInteger(element.offset().top) : 0;
+          if (element) {
+            table.scrollTop(elementTop - firstElementTop);
+          }
+        }
+      }, 1);
     }
   }
 
@@ -172,6 +199,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
         formControl.disable({ onlySelf: true });
       }
+      // @ts-ignore
       controls[tableColumnDef.id] = formControl;
     }
     return new FormGroup(controls);

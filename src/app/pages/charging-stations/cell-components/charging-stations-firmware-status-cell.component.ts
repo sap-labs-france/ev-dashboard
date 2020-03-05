@@ -15,8 +15,8 @@ const TYPE_GREY = 'chip-grey';
     </ng-container>
     <ng-container *ngIf="isActiveStatus()" class="table-cell-angular-big-component">
       <mat-chip-list [selectable]="false">
-        <mat-chip [ngClass]="row.latestFirmwareUpdateStatus | appChargingStationsFormatFirmwareStatus:'class'" [disabled]="true">
-          {{row.latestFirmwareUpdateStatus | appChargingStationsFormatFirmwareStatus:'text' | translate}}
+        <mat-chip [ngClass]="row.firmwareUpdateStatus | appChargingStationsFormatFirmwareStatus:'class'" [disabled]="true">
+          {{row.firmwareUpdateStatus | appChargingStationsFormatFirmwareStatus:'text' | translate}}
         </mat-chip>
       </mat-chip-list>
     </ng-container>
@@ -26,8 +26,8 @@ export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemp
   @Input() row!: ChargingStation;
 
   isActiveStatus(): boolean {
-    if (this.row.latestFirmwareUpdateStatus) {
-      if (this.row.latestFirmwareUpdateStatus === FirmwareStatus.IDLE || this.row.latestFirmwareUpdateStatus === FirmwareStatus.INSTALLED) {
+    if (this.row.firmwareUpdateStatus) {
+      if (this.row.firmwareUpdateStatus === FirmwareStatus.IDLE || this.row.firmwareUpdateStatus === FirmwareStatus.INSTALLED) {
         return false;
       }
       return true;

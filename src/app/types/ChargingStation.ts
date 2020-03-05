@@ -12,7 +12,7 @@ export interface ChargingStation extends Data {
   chargePointSerialnumber: string;
   chargeBoxSerialnumber: string;
   firmwareVersion: string;
-  latestFirmwareUpdateStatus?: FirmwareStatus;
+  firmwareUpdateStatus?: FirmwareStatus;
   iccid: string;
   imsi: string;
   lastReboot: Date;

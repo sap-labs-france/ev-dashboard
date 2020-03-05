@@ -12,6 +12,7 @@ export interface ChargingStation extends Data {
   chargePointSerialnumber: string;
   chargeBoxSerialnumber: string;
   firmwareVersion: string;
+  firmwareUpdateStatus?: FirmwareStatus;
   iccid: string;
   imsi: string;
   lastReboot: Date;
@@ -180,6 +181,16 @@ export enum ConnStatus {
   SUSPENDED_EVSE = 'SuspendedEVSE',
   SUSPENDED_EV = 'SuspendedEV',
   UNAVAILABLE = 'Unavailable',
+}
+
+export enum FirmwareStatus {
+  DOWNLOADED = 'Downloaded',
+  DOWNLOAD_FAILED = 'DownloadFailed',
+  DOWNLOADING = 'Downloading',
+  IDLE = 'Idle',
+  INSTALLATION_FAILED = 'InstallationFailed',
+  INSTALLING = 'Installing',
+  INSTALLED = 'Installed',
 }
 
 export enum OCPPAvailabilityType {

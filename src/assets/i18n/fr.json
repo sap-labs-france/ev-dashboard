@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.5",
+    "last_update": "Version 2.2.6",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -153,6 +153,8 @@
       "template": "Modeles"
     },
     "tooltips": {
+      "activate": "Activer",
+      "deactivate": "Désactiver",
       "export": "Exporter OCPP params",
       "assign_site_area": "Assigner un site",
       "more": "Actions supplémentaires",
@@ -1085,7 +1087,15 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Emetteur"
+    "issuer": "Emetteur",
+    "status": "Statut",
+    "activated": "Activé",
+    "deactivated": "Désactivé",
+    "sessions": "Sessions",
+    "activate_title": "Badge activation",
+    "activate_confirm": "Voulez-vous vraiment activer le badge '{{tagID}}'? Lorsqu'il sera activé, ce badge pourra servir pour démarrer une session.",
+    "deactivate_title": "Badge désactivation",
+    "deactivate_confirm": "Voulez-vous vraiment désactiver le badge '{{tagID}}'? Lorsqu'il sera désactivé, ce badge ne pourra pas servir pour démarrer une session."
   },
   "tenants": {
     "title": "Organisation",

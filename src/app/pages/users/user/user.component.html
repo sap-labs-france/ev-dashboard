@@ -441,7 +441,7 @@
         </mat-tab>
         <mat-tab disabled>
           <ng-template mat-tab-label>
-            <button mat-button (click)="saveUser(formGroup.value)"
+            <button mat-button (click)="saveUser(formGroup.getRawValue())"
                     [disabled]="!formGroup.valid || !formGroup.dirty">
               <mat-icon>save</mat-icon>
               <span>{{'general.save' | translate}}</span>

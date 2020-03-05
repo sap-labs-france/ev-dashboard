@@ -96,7 +96,6 @@ export const logActions: KeyValue[] = [
   {key: 'WSJsonErrorReceived', value: 'WSJsonErrorReceived'},
   {key: 'WSJsonConnectionClose', value: 'WSJsonConnectionClose'},
   {key: 'WSError', value: 'WSError'},
-  {key: 'Startup', value: 'Startup'},
   {key: 'StrongSoapDebug', value: 'StrongSoapDebug'},
   {key: 'SecurePing', value: 'SecurePing'},
   {key: 'UserUpdate', value: 'UserUpdate'},

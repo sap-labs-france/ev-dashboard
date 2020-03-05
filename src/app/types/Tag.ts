@@ -4,9 +4,10 @@ import { User } from './User';
 export interface Tag extends Data {
   id: string;
   issuer: boolean;
+  active: boolean;
   userID?: string;
   description?: string;
-  deleted?: boolean;
+  sessionCount?: number;
   lastChangedBy?: Partial<User>;
   lastChangedOn?: Date;
 }

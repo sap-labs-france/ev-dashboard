@@ -303,7 +303,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             // Success + Reload
-            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.f',
+            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
               { chargeBoxID: this.charger.id }));
             this.refresh();
           } else {

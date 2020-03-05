@@ -103,6 +103,7 @@ export interface ConsumptionValue {
   cumulatedAmount: number;
   currencyCode: string;
   pricingSource: string;
+  limitWatts: number;
 }
 
 export interface Connector extends Data {

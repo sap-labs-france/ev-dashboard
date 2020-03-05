@@ -1559,7 +1559,8 @@
       "energy": "Energy Delivered (kWatt.h)",
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
-      "cumulated_amount": "Amount"
+      "cumulated_amount": "Amount",
+      "limit_watts": "Limit (kWatt)"
     },
     "dialog": {
       "delete": {

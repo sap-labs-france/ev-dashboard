@@ -301,7 +301,7 @@
                   [id]="tableColumnDef.id" [name]="tableColumnDef.id"
                   class="form-control text-line"
                   [placeholder]="tableColumnDef.name | translate"
-                  [ngModel]="row[tableColumnDef.id]"
+                  [ngModel]="row[tableColumnDef.id]" [disabled]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.disabled"
                   (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)" class="w-100"
                   type="text">
                 <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"

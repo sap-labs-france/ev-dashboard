@@ -153,6 +153,8 @@
       "template": "Templates"
     },
     "tooltips": {
+      "activate": "Activate",
+      "deactivate": "Deactivate",
       "export": "Export OCPP params",
       "assign_site_area": "Assign site",
       "more": "More actions",
@@ -1085,7 +1087,15 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Issuer"
+    "issuer": "Issuer",
+    "status": "Status",
+    "activated": "Activated",
+    "deactivated": "Deactivated",
+    "sessions": "Sessions",
+    "activate_title": "Badge activation",
+    "activate_confirm": "Do you really want to activate the badge '{{tagID}}'? Once activated, this badge will be usable to start sessions.",
+    "deactivate_title": "Badge deactivation",
+    "deactivate_confirm": "Do you really want to deactivate the badge '{{tagID}}'? Once deactivated, this badge will no longer be usable to start sessions."
   },
   "tenants": {
     "title": "Organization",

@@ -7,12 +7,13 @@ import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
 import { TableDataSource } from './table-data-source';
+import Table = WebAssembly.Table;
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
-  private editableRows: T[] = [];
-  private tableChangedSubject: Subject<T[]> = new Subject<T[]>();
+  protected editableRows: T[] = [];
+  protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
 
-  private inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
+  protected inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -129,14 +130,21 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return [this.inlineRemoveAction];
   }
 
+  protected abstract createRow(): T;
+
+  protected isCellDisabled(columnDef: TableColumnDef, editableRow: T): boolean {
+    return false;
+  }
+
   private addRow() {
     const data = this.createRow();
     this.editableRows.push(data);
     this.refreshData(false).subscribe();
     this.tableChangedSubject.next(this.editableRows);
+    if (this.formArray) {
+      this.formArray.markAsDirty();
+    }
   }
-
-  protected abstract createRow(): T;
 
   private createFormGroupDefinition(editableRow: T): FormGroup {
     const controls = {};
@@ -160,15 +168,19 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
         tableColumnDef.validators.push(uniqValidator(this.formArray, tableColumnDef.id));
       }
       // @ts-ignore
-      controls[tableColumnDef.id] = new FormControl(value, tableColumnDef.validators);
+      const formControl = new FormControl(value, tableColumnDef.validators);
+      if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
+        formControl.disable({ onlySelf: true });
+      }
+      controls[tableColumnDef.id] = formControl;
     }
     return new FormGroup(controls);
   }
 }
 
 export function uniqValidator(formArray: FormArray, controlId: string): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const duplicate = formArray.value.find((row: any) => row[controlId] === control.value);
-    return duplicate ? {duplicate: true} : null;
+    return duplicate ? { duplicate: true } : null;
   };
 }

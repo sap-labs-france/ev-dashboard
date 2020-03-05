@@ -5,11 +5,14 @@ import { InactivityStatus } from './Transaction';
 
 export interface ChargingStation extends Data {
   id: string;
+  issuer: boolean;
+  private: boolean;
   chargePointVendor: string;
   chargePointModel: string;
   chargePointSerialnumber: string;
   chargeBoxSerialnumber: string;
   firmwareVersion: string;
+  firmwareUpdateStatus?: FirmwareStatus;
   iccid: string;
   imsi: string;
   lastReboot: Date;
@@ -181,11 +184,21 @@ export enum ConnStatus {
   UNAVAILABLE = 'Unavailable',
 }
 
+export enum FirmwareStatus {
+  DOWNLOADED = 'Downloaded',
+  DOWNLOAD_FAILED = 'DownloadFailed',
+  DOWNLOADING = 'Downloading',
+  IDLE = 'Idle',
+  INSTALLATION_FAILED = 'InstallationFailed',
+  INSTALLING = 'Installing',
+  INSTALLED = 'Installed',
+}
+
 export enum OCPPAvailabilityType {
   INOPERATIVE = 'Inoperative',
   OPERATIVE = 'Operative',
 }
 
 export enum StaticLimitAmps {
-  MIN_LIMIT = 1,
+  MIN_LIMIT = 2,
 }

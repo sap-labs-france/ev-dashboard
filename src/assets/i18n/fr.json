@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.4",
+    "last_update": "Version 2.2.7",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -41,7 +41,7 @@
     "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",
-    "actions": "Actions",
+    "actions": "Action(s)",
     "add": "Ajouter",
     "select": "Selectioner",
     "set_filter": "Filtrer",
@@ -110,7 +110,7 @@
     "auto_refresh": "Rafraîchissement Auto",
     "sort_date_desc": "Tri Date Décr.",
     "search_placeholder": "Rechercher...",
-    "backend_not_running": "Impossible de se conncter au serveur central",
+    "backend_not_running": "Impossible de se connecter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
@@ -153,6 +153,8 @@
       "template": "Modeles"
     },
     "tooltips": {
+      "activate": "Activer",
+      "deactivate": "Désactiver",
       "export": "Exporter OCPP params",
       "assign_site_area": "Assigner un site",
       "more": "Actions supplémentaires",
@@ -590,6 +592,7 @@
     "consumption_title": "Puissance instantanée",
     "total_consumption_title": "Consommation",
     "firmware_version": "Version Firmware",
+    "firmware_status": "Statut Firware",
     "connector_status": "Status",
     "ocpp_version": "Version OCPP",
     "ocpp_version_title": "OCPP",
@@ -597,6 +600,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "current_type": "Type de Courant",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
+    "private": "Cette borne est privée et ne sera pas partagée avec d'autres systèmes",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",
@@ -650,6 +654,13 @@
     "status_error_under_voltage": "Soustension",
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
+    "status_firmware_idle": "Prêt",
+    "status_firmware_downloading": "Téléchargement en Cours",
+    "status_firmware_downloadfailed": "Echec du Téléchargement",
+    "status_firmware_installing": "Installation en Cours",
+    "status_firmware_installationfailed": "Echec de l'Installation",
+    "status_firmware_downloaded": "Téléchargement Réussi",
+    "status_firmware_installed": "Installation Réussie",
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
     "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
@@ -681,12 +692,12 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
-      "slider_power_disabled": "Limite Désactivée",
+      "slider_power_disabled": "Limite non supportée",
       "date_not_in_past": "La date ne doit pas être dans le passé",
-      "date_out_of_limit": "La date depasse la limite maximale du type de profile sélectionné",
+      "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "static_limit": "Limite Statique",
-      "charging_profile_limit": "Profile de Charge",
+      "charging_profile_limit": "Plan de Charge",
       "debug_charging_station":"Debuger Borne",
       "reset_button": "Rafraichir",
       "maximum_energy_limit": "Limite de Puissance de '{{chargeBoxID}}'",
@@ -694,6 +705,8 @@
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
       "power_limit_success": "La puissance de la borne '{{chargeBoxID}}' a été limitée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
+      "power_limit_has_charging_plan_title": "Existing Charging Plan",
+      "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
       "power_limit_plan_title": "Limite de puissance",
       "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' avec ce plan de charge ?",
       "power_limit_plan_clear": "Voulez-vous vraiment effacer les profiles de charges de '{{chargeBoxID}}'?",
@@ -1082,7 +1095,15 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Emetteur"
+    "issuer": "Emetteur",
+    "status": "Statut",
+    "activated": "Activé",
+    "deactivated": "Désactivé",
+    "sessions": "Sessions",
+    "activate_title": "Badge activation",
+    "activate_confirm": "Voulez-vous vraiment activer le badge '{{tagID}}'? Lorsqu'il sera activé, ce badge pourra servir pour démarrer une session.",
+    "deactivate_title": "Badge désactivation",
+    "deactivate_confirm": "Voulez-vous vraiment désactiver le badge '{{tagID}}'? Lorsqu'il sera désactivé, ce badge ne pourra pas servir pour démarrer une session."
   },
   "tenants": {
     "title": "Organisation",
@@ -1423,6 +1444,13 @@
       "buildings": "Bâtiments"
     }
   },
+  "car": {
+    "title": "Car",
+    "description": "Gestion des voitures",
+    "tabs": {
+      "cars": "Voitures"
+    }
+  },
   "analytics": {
     "title": "Analytique",
     "type_placeholder": "Type",
@@ -1555,8 +1583,8 @@
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Instantannée (kWatt)",
-      "energy": "Energie délivrée (kWatt.h)",
+      "power": "Puissance Instantanée (kW)",
+      "energy": "Energie Délivrée (kW.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",

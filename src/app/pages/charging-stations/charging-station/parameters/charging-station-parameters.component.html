@@ -16,8 +16,8 @@
         <div class="form-group">
           <mat-form-field>
             <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-                class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required/>
-            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin">
+                class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!issuer" required/>
+            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin || !issuer">
               <mat-icon>create</mat-icon>
             </button>
           </mat-form-field>
@@ -51,7 +51,7 @@
           <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude" [readOnly]="!isAdmin">
           <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
           <mat-error *ngIf="latitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin || !issuer">
             <mat-icon>pin_drop</mat-icon>
           </button>
         </mat-form-field>
@@ -62,7 +62,7 @@
             [formControl]="longitude" [readOnly]="!isAdmin">
           <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
           <mat-error *ngIf="longitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin || !issuer">
             <mat-icon>pin_drop</mat-icon>
           </button>
         </mat-form-field>
@@ -73,6 +73,13 @@
         <div class="form-group">
           <mat-checkbox [formControl]="cannotChargeInParallel">
             {{'chargers.cant_charge_in_parallel' | translate}}
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-6 text-left">
+        <div class="form-group">
+          <mat-checkbox [formControl]="private">
+            {{'chargers.private' | translate}}
           </mat-checkbox>
         </div>
       </div>

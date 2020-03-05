@@ -1,12 +1,12 @@
 
 .endpoint-details {
-    .mat-chip-list-wrapper { 
-      justify-content: center 
+    .mat-chip-list-wrapper {
+      justify-content: center
     }
   }
 
 .endpoints-table {
-    .mat-chip-list-wrapper { 
+    .mat-chip-list-wrapper {
       justify-content: center;
     }
   }
@@ -26,4 +26,8 @@
 
 .chip-width-10em {
   min-width: 10em!important
+}
+
+.chip-width-13em {
+  min-width: 13em !important;
 }

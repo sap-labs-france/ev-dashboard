@@ -87,8 +87,12 @@
   min-width: 140px;
 }
 
+.firmware-version {
+  padding: 5px !important;
+}
+
 .connectors-details {
-    .mat-chip-list-wrapper { 
+    .mat-chip-list-wrapper {
       justify-content: center;
     }
   }

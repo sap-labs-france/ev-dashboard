@@ -715,7 +715,7 @@
       "power_limit_plan_not_accepted": "The profile has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profile_title": "Clear Charging Profiles",
       "clear_profile_confirm": "Do you really want to clear ALL charging profiles of '{{chargeBoxID}}'?",
-      "clear_profile_success": "Charging profiles of charging station '{{chargeBoxID}}' were cleared successfully",
+      "clear_profile_success": "Charging profiles of charging station '{{chargeBoxID}}' have been deleted successfully",
       "clear_profile_error": "Error occurred while clearing charging profiles",
       "clear_profile_not_accepted": "The request has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profiles_button": "Clear Profiles",

@@ -259,6 +259,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
         if (limitWattsDataSet) {
           if (consumption.limitWatts) {
             limitWattsDataSet.push(consumption.limitWatts);
+          } else {
+            limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
           }
         }
       }

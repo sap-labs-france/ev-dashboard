@@ -1588,7 +1588,7 @@
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
-      "limit_watts": "Limit (kWatt)"
+      "limit_watts": "Limit (kW)"
     },
     "dialog": {
       "delete": {

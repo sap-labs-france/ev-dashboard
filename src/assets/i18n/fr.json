@@ -1587,7 +1587,8 @@
       "energy": "Energie Délivrée (kW.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
-      "cumulated_amount": "Montant"
+      "cumulated_amount": "Montant",
+      "limit_watts": "Limitation (kW)"
     },
     "dialog": {
       "delete": {

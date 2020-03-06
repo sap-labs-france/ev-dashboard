@@ -118,7 +118,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         // success + reload
         this.messageService.showSuccessMessage(
-          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan: forceUpdateChargingPlan }),
+          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
         );
       } else {
         Utils.handleError(JSON.stringify(response),

@@ -174,7 +174,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           sortable: false,
           isAngularComponent: true,
           angularComponent: ChargingStationsFirmwareStatusCellComponent,
-        }
+        },
       );
     }
     if (this.isOrganizationComponentActive) {

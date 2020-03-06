@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.6",
+    "last_update": "Version 2.2.7",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -701,6 +701,7 @@
       "debug_charging_station":"Debug Station",
       "reset_button": "Reset",
       "maximum_energy_limit": "Power Limit of '{{chargeBoxID}}'",
+      "invalid_duration": "The duration must be set between 5 and 1440 mins (24h)",
       "power_limit_title": "Limit power",
       "power_limit_confirm": "Do you really want to limit power of '{{chargeBoxID}}'?",
       "power_limit_success": "The power of the charging station '{{chargeBoxID}}' has been limited successfully",
@@ -708,14 +709,14 @@
       "power_limit_has_charging_plan_title": "Plan de Charge Existant",
       "power_limit_has_charging_plan_confim": "Il y a un conflit avec un plan de charge existant !<br>Voulez-vous ajuster ce plan de charge avec la nouvelle limite ?",
       "power_limit_plan_title": "Planner Limit power",
-      "power_limit_plan_confirm": "Do you really want to limit power of '{{chargeBoxID}}' with the defined schedule?",
+      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charing plan?",
       "power_limit_plan_clear": "Do you really want to clear the charging profile of '{{chargeBoxID}}'?",
       "power_limit_plan_success": "Charging profiles for '{{chargeBoxID}}' have been applied successfully",
       "power_limit_plan_error": "Error occurred while applying the charging profiles",
       "power_limit_plan_not_accepted": "The profile has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profile_title": "Clear Charging Profiles",
       "clear_profile_confirm": "Do you really want to clear ALL charging profiles of '{{chargeBoxID}}'?",
-      "clear_profile_success": "Charging profiles of charging station '{{chargeBoxID}}' were cleared successfully",
+      "clear_profile_success": "Charging profiles of charging station '{{chargeBoxID}}' have been deleted successfully",
       "clear_profile_error": "Error occurred while clearing charging profiles",
       "clear_profile_not_accepted": "The request has not been accepted by the charging station '{{chargeBoxID}}'",
       "clear_profiles_button": "Clear Profiles",
@@ -1587,7 +1588,8 @@
       "energy": "Energy Delivered (kW.h)",
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
-      "cumulated_amount": "Amount"
+      "cumulated_amount": "Amount",
+      "limit_watts": "Limit (kW)"
     },
     "dialog": {
       "delete": {

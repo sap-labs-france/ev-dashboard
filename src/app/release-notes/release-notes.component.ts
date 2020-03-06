@@ -24,14 +24,15 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.6',
-        date: new Date('2020-03-04'),
+        version: '2.2.7',
+        date: new Date('2020-03-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Store in consumption the current connector limit during a session`,
               `CPO/eMSP first Gireve certification`,
+              `Handling of OCPP Firmware Status updates`,
               `Added import of Cars from EV-Database via scheduled job`,
               `Enable Car component in the Tenant Management`,
               `Notification of failed Car synchronisation is sent to the Super Admin Users`,

@@ -94,6 +94,7 @@ export interface TableActionDef {
 }
 
 export interface TableDef {
+  id?: string,
   class?: string;
   isEditable?: boolean;
   errorMessage?: string;

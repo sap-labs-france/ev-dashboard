@@ -217,12 +217,12 @@ export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy
             this.translateService.instant('chargers.reboot_success', { chargeBoxID: this.charger.id }));
         } else {
           Utils.handleError(JSON.stringify(response),
-            this.messageService, 'chargers.reset_error');
+            this.messageService, 'chargers.reboot_error');
         }
       }, (error: any) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'chargers.reset_error');
+          this.centralServerService, 'chargers.reboot_error');
       });
   }
 

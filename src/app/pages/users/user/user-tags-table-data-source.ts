@@ -24,6 +24,7 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
 
   public buildTableDef(): TableDef {
     return {
+      id: 'UserTagsTableDataSource',
       isEditable: true,
       rowFieldNameIdentifier: 'id',
       errorMessage: 'users.missing_tag',
@@ -53,7 +54,7 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
   }
 
   protected isCellDisabled(columnDef: TableColumnDef, tag: Tag): boolean {
-    return tag.sessionCount > 0;
+    return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
   }
 
   // tslint:disable-next-line:no-empty
@@ -140,7 +141,8 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         id: 'id',
         name: 'tags.id',
         editType: TableEditType.INPUT,
-        validators: [Validators.required,
+        validators: [
+          Validators.required,
           Validators.minLength(8),
           Validators.maxLength(16),
           Validators.pattern('^[a-zA-Z0-9]*$'),

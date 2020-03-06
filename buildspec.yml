@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 10
+      nodejs: 12
     commands:
       - npm install
   build:
@@ -15,3 +15,4 @@ artifacts:
     - package-lock.json
     - appspec.yml
     - 'dist/**/*'
+    - 'node_modules/**/*'

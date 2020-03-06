@@ -700,6 +700,7 @@
       "charging_profile_limit": "Plan de Charge",
       "debug_charging_station":"Debuger Borne",
       "reset_button": "Rafraichir",
+      "invalid_duration": "La durée doit être comprise entre 5 et 1440 mins (24h)",
       "maximum_energy_limit": "Limite de Puissance de '{{chargeBoxID}}'",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",

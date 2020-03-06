@@ -243,11 +243,9 @@
               </mat-icon>
             </td>
             <!-- Action Cell -->
-            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center">
-              <ng-container
-                *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
-                <ng-container
-                  *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
+            <td *ngIf="dataSource.hasRowActions" class="action-cell text-center align-middle">
+              <ng-container *ngFor="let rowAction of (row['dynamicRowActions'] ? row['dynamicRowActions'] : dataSource.tableRowActionsDef)">
+                <ng-container *ngIf="row['dynamicRowActions'] || row['canDisplayRowAction-' + rowAction.id]">
                   <!-- Drop Down Action -->
                   <ng-container *ngIf="rowAction.isDropdownMenu">
                     <mat-menu #rowActionMenu="matMenu" xPosition="after">
@@ -295,20 +293,21 @@
                   [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
-                    [class]="(tableColumnDef.class ? tableColumnDef.class : '')"
+                    [class]="(tableColumnDef.class ? tableColumnDef.class + ' p-1 align-middle' : 'p-1 align-middle')"
                     [class.table-field-invalid]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors">
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                     [id]="tableColumnDef.id" [name]="tableColumnDef.id"
                     class="form-control text-line"
                     [placeholder]="tableColumnDef.name | translate"
                     [ngModel]="row[tableColumnDef.id]" [disabled]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.disabled"
-                    (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)" class="w-100"
+                    (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)"
                     type="text">
                   <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
                     [(ngModel)]="row[tableColumnDef.id]"
                     (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)">
                   </mat-checkbox>
                   <mat-radio-button *ngIf="tableColumnDef.editType === TableEditType.RADIO_BUTTON"
+                    class="pt-2"
                     [checked]="row[tableColumnDef.id]"
                     (change)="$event.source.checked  = !$event.source.checked;"
                     (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
@@ -323,6 +322,8 @@
                         [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
                     <div class="table-mat-error" *ngIf="errors?.duplicate" [translate]="'general.error_duplicate'"></div>
                     <div class="table-mat-error" *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
+                    <div class="table-mat-error" *ngIf="errors?.min" [translate]="tableColumnDef.errorMessage"></div>
+                    <div class="table-mat-error" *ngIf="errors?.max" [translate]="tableColumnDef.errorMessage"></div>
                   </mat-error>
                 </td>
               </ng-template>

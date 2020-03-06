@@ -381,7 +381,9 @@ tr.element-row:not(.expanded-row):active {
     padding-right: 15px !important;
   }
 
-  tr:nth-child(odd) { background: $brand-background }
+  tr:nth-child(even) {
+    background: $brand-background
+  }
 
   .tab-pane & {
     tbody > tr > td:first-child {

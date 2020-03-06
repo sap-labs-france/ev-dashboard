@@ -261,7 +261,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
           this.translateService.instant('chargers.reboot_success', {chargeBoxID: rowItem.id}),
-          'chargers.reset_error',
+          'chargers.reboot_error',
         );
         break;
       case ChargingStationButtonAction.SMART_CHARGING:

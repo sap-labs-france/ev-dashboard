@@ -141,7 +141,8 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         id: 'id',
         name: 'tags.id',
         editType: TableEditType.INPUT,
-        validators: [Validators.required,
+        validators: [
+          Validators.required,
           Validators.minLength(8),
           Validators.maxLength(16),
           Validators.pattern('^[a-zA-Z0-9]*$'),

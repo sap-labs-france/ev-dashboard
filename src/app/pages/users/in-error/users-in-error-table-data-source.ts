@@ -177,9 +177,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       this.editAction,
       this.assignSiteAction,
     ];
-    const moreActions = new TableMoreAction([
-      this.deleteAction,
-    ]);
+    const moreActions = new TableMoreAction([]);
     actions.push(moreActions.getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       if (user.errorCode === UserInErrorType.FAILED_BILLING_SYNCHRO) {
@@ -188,6 +186,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
         moreActions.addActionInMoreActions(this.syncBillingUserAction);
       }
     }
+    moreActions.addActionInMoreActions(this.deleteAction);
     return actions;
   }
 

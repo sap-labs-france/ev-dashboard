@@ -204,7 +204,7 @@
           <!-- Empty -->
         </th>
         <!-- Actions Header -->
-        <th *ngIf="dataSource.hasRowActions" class="table-header text-center col-5em">
+        <th *ngIf="dataSource.hasRowActions" class="table-header text-center">
           {{'general.actions' | translate}}
         </th>
         <!-- Text Header -->
@@ -315,15 +315,11 @@
                   <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                   </span>
                   <mat-error *ngIf="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors as errors">
-                    <div class="table-mat-error" *ngIf="errors?.required" [translate]="'general.mandatory_field'"></div>
-                    <div class="table-mat-error" *ngIf="errors?.maxlength" [translate]="'general.error_max_length'"
-                        [translateParams]="{length: errors?.maxlength?.requiredLength}"></div>
-                    <div class="table-mat-error" *ngIf="errors?.minlength" [translate]="'general.error_min_length'"
-                        [translateParams]="{length: errors?.minlength?.requiredLength}"></div>
-                    <div class="table-mat-error" *ngIf="errors?.duplicate" [translate]="'general.error_duplicate'"></div>
-                    <div class="table-mat-error" *ngIf="errors?.pattern" [translate]="tableColumnDef.errorMessage"></div>
-                    <div class="table-mat-error" *ngIf="errors?.min" [translate]="tableColumnDef.errorMessage"></div>
-                    <div class="table-mat-error" *ngIf="errors?.max" [translate]="tableColumnDef.errorMessage"></div>
+                    <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
+                      <div class="table-mat-error text-left" *ngIf="errors ? errors[error.id] : false"
+                        [translate]="error.message" [translateParams]="error.messageParams">
+                      </div>
+                    </ng-template>
                   </mat-error>
                 </td>
               </ng-template>

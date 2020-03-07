@@ -154,7 +154,7 @@
             <span>{{'users.tags' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-table [dataSource]="userTagsTableDataSource"></app-table>
+            <app-table [dataSource]="userTagsEditableTableDataSource"></app-table>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isSuperAdmin">

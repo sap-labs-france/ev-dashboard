@@ -101,7 +101,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       {
         id: 'site.name',
         name: 'sites.site',
-        headerClass: 'col-20p',
+        headerClass: 'col-30p',
         class: 'col-20p',
         sortable: true,
       },
@@ -120,14 +120,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
       },
     ];
-    if (this.authorizationService.isAdmin()) {
-      tableColumnDef.unshift({
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 
@@ -151,9 +143,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.editChargersAction,
         new TableMoreAction([
-          this.deleteAction,
           this.exportOCPPParamsAction,
           openInMaps,
+          this.deleteAction,
         ]).getActionDef(),
       ];
     }
@@ -162,9 +154,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.displayChargersAction,
         new TableMoreAction([
-          this.deleteAction,
           this.exportOCPPParamsAction,
           openInMaps,
+          this.deleteAction,
         ]).getActionDef(),
       ];
     }

@@ -12,7 +12,7 @@ import { ButtonAction } from '../../../types/GlobalType';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 
 @Injectable()
-export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
+export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag> {
   private activateAction = new TableActivateAction().getActionDef();
   private deactivateAction = new TableDeactivateAction().getActionDef();
 
@@ -149,7 +149,12 @@ export class UserTagsTableDataSource extends EditableTableDataSource<Tag> {
         ],
         canBeDisabled: true,
         unique: true,
-        errorMessage: 'users.invalid_tag_id',
+        errors: [
+          { id: 'required', message: 'general.mandatory_field' },
+          { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 8 } },
+          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 16 } },
+          { id: 'pattern', message: 'users.invalid_tag_id' },
+        ],
         headerClass: 'text-left col-20p',
         class: 'text-left col-20p',
       },

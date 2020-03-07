@@ -11,6 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
@@ -89,6 +90,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       {
         id: 'name',
         name: 'buildings.name',
+        headerClass: 'col-40p',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -110,7 +112,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       },
     ];
     if (this.isAdmin) {
-      tableColumnDef.splice(1, 0, {
+      tableColumnDef.splice(0, 0, {
         id: 'id',
         name: 'general.id',
         headerClass: 'd-none col-15p d-xl-table-cell',
@@ -139,13 +141,17 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     if (this.isAdmin) {
       return [
         this.editAction,
-        openInMaps,
-        this.deleteAction,
+        new TableMoreAction([
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef(),
       ];
     }
     return [
       this.viewAction,
-      openInMaps,
+      new TableMoreAction([
+        openInMaps,
+      ]).getActionDef(),
     ];
   }
 

@@ -116,7 +116,8 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        // success + reload
+        // Success
+        this.ampInitialLimit = this.ampCurrentLimit;
         this.messageService.showSuccessMessage(
           this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
         );

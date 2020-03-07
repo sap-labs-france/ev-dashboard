@@ -93,15 +93,15 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         name: 'users.status',
         isAngularComponent: true,
         angularComponent: RegistrationTokenStatusComponent,
-        headerClass: 'col-5p',
+        headerClass: 'col-5p text-center',
         class: 'col-5p table-cell-angular-big-component',
         sortable: true,
       },
       {
         id: 'description',
         name: 'general.description',
-        headerClass: 'd-none d-xl-table-cell col-15p',
-        class: 'd-none d-xl-table-cell col-15p',
+        headerClass: 'd-none d-xl-table-cell col-30p',
+        class: 'd-none d-xl-table-cell col-30p',
       },
       {
         id: 'createdOn',

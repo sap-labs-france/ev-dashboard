@@ -29,13 +29,13 @@ import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { userStatuses, UserRoles } from '../model/users.model';
-import { UserTagsTableDataSource } from './user-tags-table-data-source';
+import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
-  providers: [UserTagsTableDataSource],
+  providers: [UserTagsEditableTableDataSource],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -108,7 +108,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   private currentLocale!: string;
 
   constructor(
-    private userTagsTableDataSource: UserTagsTableDataSource,
+    private userTagsEditableTableDataSource: UserTagsEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -317,7 +317,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     if (this.isAdmin) {
-      this.userTagsTableDataSource.setFormArray(this.tags);
+      this.userTagsEditableTableDataSource.setFormArray(this.tags);
     }
     if (this.currentUserID) {
       this.loadUser();
@@ -329,7 +329,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
     if (!this.currentUserID) {
       // Create default badge
-      this.userTagsTableDataSource.setContent([this.userTagsTableDataSource.createRow()]);
+      this.userTagsEditableTableDataSource.setContent([this.userTagsEditableTableDataSource.createRow()]);
     }
     this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
@@ -446,7 +446,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.formGroup.controls.plateID.setValue(user.plateID);
       }
       if (user.tags) {
-        this.userTagsTableDataSource.setContent(user.tags);
+        this.userTagsEditableTableDataSource.setContent(user.tags);
       }
       if (Utils.objectHasProperty(user, 'notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);

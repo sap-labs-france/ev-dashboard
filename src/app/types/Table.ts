@@ -131,7 +131,11 @@ export interface TableColumnDef {
   validators?: ValidatorFn[];
   unique?: boolean;
   canBeDisabled?: boolean;
-  errorMessage?: string;
+  errors?: Array<{
+    id: string;
+    message: string;
+    messageParams?: object;
+  }>;
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;

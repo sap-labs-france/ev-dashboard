@@ -5,10 +5,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   template: '<app-site [currentSiteID]="siteID" [inDialog]="true" [dialogRef]="dialogRef"></app-site>',
 })
 export class SiteDialogComponent {
-  siteID: string;
+  siteID!: string;
 
   constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
+    // @ts-ignore
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {

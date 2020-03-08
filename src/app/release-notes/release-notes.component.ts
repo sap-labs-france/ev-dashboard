@@ -25,6 +25,18 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.8',
+        date: new Date('2020-03-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `eMSP/CPO implementation`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.7',
         date: new Date('2020-03-07'),
         componentChanges: [
           {

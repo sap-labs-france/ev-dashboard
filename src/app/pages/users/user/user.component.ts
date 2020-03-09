@@ -123,7 +123,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'address', 'password', 'connectors', 'notifications', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'tags', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
 
     this.maxSize = this.configService.getUser().maxPictureKb;
 
@@ -147,6 +147,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
+
+    if (!this.isAdmin) {
+      this.setHashArray(['common', 'address', 'password', 'connectors', 'miscs']);
+    }
+
     this.canSeeInvoice = false;
     this.componentService.getPricingSettings().subscribe((settings) => {
       if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
@@ -212,7 +217,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
         ])),
       tags: new FormArray([],
-        Validators.compose(this.isSuperAdmin ? [] : [ Validators.required ])),
+        Validators.compose(this.isSuperAdmin ? [] : [Validators.required])),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -265,7 +270,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
-      // @ts-ignore
+        // @ts-ignore
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
@@ -647,7 +652,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
         break;
-      }
+    }
   }
 
   public updateUserImage(user: User) {
@@ -672,7 +677,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('users.picture_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('users.picture_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -725,7 +730,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  getConcurUrl(): string|null {
+  getConcurUrl(): string | null {
     if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
       return this.refundSetting.content.concur.apiUrl;
     }
@@ -736,7 +741,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.spinnerService.show();
     this.centralServerService.getUserInvoice(this.currentUserID).subscribe((result) => {
       this.spinnerService.hide();
-      const blob = new Blob([result], {type: 'application/pdf'});
+      const blob = new Blob([result], { type: 'application/pdf' });
       const fileUrl = URL.createObjectURL(blob);
       window.open(fileUrl, '_blank');
     }, (error) => {
@@ -801,7 +806,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.assign_transactions_success', {userFullName: user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.assign_transactions_success', { userFullName: user.firstName + ' ' + user.name });
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
       }
@@ -829,7 +834,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.create_success', {userFullName: user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
         // Refresh
         user.id = response.id!;
         this.currentUserID = response.id!;
@@ -876,7 +881,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('users.update_success', {userFullName: user.firstName + ' ' + user.name});
+        this.messageService.showSuccessMessage('users.update_success', { userFullName: user.firstName + ' ' + user.name });
         // Init form
         this.formGroup.markAsPristine();
         // Assign transactions?
@@ -917,7 +922,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         if (count && count > 0) {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', {count}),
+            this.translateService.instant('users.assign_transactions_confirm', { count }),
           ).subscribe((result) => {
             if (result === ButtonType.YES) {
               // Assign transactions

@@ -11,6 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -40,21 +41,29 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   private actions = {
     missingSettings: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+      ]).getActionDef(),
     ],
     missingSiteArea: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+      ]).getActionDef(),
     ],
     connectionBroken: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+      ]).getActionDef(),
     ],
     connectorError: [
-      new ChargingStationsResetAction().getActionDef(),
-      new ChargingStationsRebootAction().getActionDef(),
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+        new ChargingStationsResetAction().getActionDef(),
+        new ChargingStationsRebootAction().getActionDef(),
+      ]).getActionDef(),
     ],
   };
   private isOrganizationComponentActive: boolean;

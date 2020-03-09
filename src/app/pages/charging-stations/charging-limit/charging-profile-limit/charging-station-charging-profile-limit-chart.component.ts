@@ -200,6 +200,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
               color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
+              autoSkip: true,
+              maxTicksLimit: 20,
               fontColor: this.defaultColor,
             },
           },

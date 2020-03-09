@@ -95,6 +95,7 @@ export interface TableActionDef {
 }
 
 export interface TableDef {
+  id?: string,
   class?: string;
   isEditable?: boolean;
   errorMessage?: string;
@@ -130,7 +131,12 @@ export interface TableColumnDef {
   editType?: TableEditType;
   validators?: ValidatorFn[];
   unique?: boolean;
-  errorMessage?: string;
+  canBeDisabled?: boolean;
+  errors?: Array<{
+    id: string;
+    message: string;
+    messageParams?: object;
+  }>;
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;

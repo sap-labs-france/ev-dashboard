@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
@@ -24,8 +25,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public buildTableDef(): TableDef {
     return {
+      id: 'ChargingStationChargingProfileLimitScheduleEditableTableDataSource',
       isEditable: true,
-      rowFieldNameIdentifier: 'id',
       errorMessage: 'chargers.smart_charging.empty_schedule_list_error',
     };
   }
@@ -43,9 +44,18 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
       {
         id: 'duration',
         name: 'chargers.smart_charging.duration',
-        headerClass: 'col-10p',
+        headerClass: 'col-20p',
         editType: TableEditType.INPUT,
-        class: 'text-center col-10p',
+        validators: [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(1440),
+        ],
+        errors: [
+          { id: 'min', message: 'chargers.smart_charging.invalid_min_duration', messageParams: { minDuration: 1 } },
+          { id: 'max', message: 'chargers.smart_charging.invalid_max_duration', messageParams: { maxDuration: 1440 } }
+        ],
+        class: 'col-20p',
       },
       {
         id: 'endDate',

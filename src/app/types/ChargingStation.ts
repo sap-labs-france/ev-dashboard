@@ -12,6 +12,7 @@ export interface ChargingStation extends Data {
   chargePointSerialnumber: string;
   chargeBoxSerialnumber: string;
   firmwareVersion: string;
+  firmwareUpdateStatus?: FirmwareStatus;
   iccid: string;
   imsi: string;
   lastReboot: Date;
@@ -105,6 +106,7 @@ export interface ConsumptionValue {
   cumulatedAmount: number;
   currencyCode: string;
   pricingSource: string;
+  limitWatts: number;
 }
 
 export interface Connector extends Data {
@@ -182,11 +184,21 @@ export enum ConnStatus {
   UNAVAILABLE = 'Unavailable',
 }
 
+export enum FirmwareStatus {
+  DOWNLOADED = 'Downloaded',
+  DOWNLOAD_FAILED = 'DownloadFailed',
+  DOWNLOADING = 'Downloading',
+  IDLE = 'Idle',
+  INSTALLATION_FAILED = 'InstallationFailed',
+  INSTALLING = 'Installing',
+  INSTALLED = 'Installed',
+}
+
 export enum OCPPAvailabilityType {
   INOPERATIVE = 'Inoperative',
   OPERATIVE = 'Operative',
 }
 
 export enum StaticLimitAmps {
-  MIN_LIMIT = 1,
+  MIN_LIMIT = 2,
 }

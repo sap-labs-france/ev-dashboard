@@ -21,11 +21,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @Input() transaction!: Transaction;
   @Input() ratio!: number;
 
-  @ViewChild('primary', {static: true}) primaryElement!: ElementRef;
-  @ViewChild('accent', {static: true}) accentElement!: ElementRef;
-  @ViewChild('danger', {static: true}) dangerElement!: ElementRef;
-  @ViewChild('success', {static: true}) successElement!: ElementRef;
-  @ViewChild('chart', {static: true}) chartElement!: ElementRef;
+  @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
+  @ViewChild('accent', { static: true }) accentElement!: ElementRef;
+  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
+  @ViewChild('success', { static: true }) successElement!: ElementRef;
+  @ViewChild('chart', { static: true }) chartElement!: ElementRef;
+  @ViewChild('warning', { static: true }) warningElement!: ElementRef;
 
   private graphCreated = false;
   private currencyCode!: string;
@@ -39,6 +40,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private consumptionColor!: string;
   private instantPowerColor!: string;
   private amountColor!: string;
+  private limitColor!: string;
   private stateOfChargeColor!: string;
   private defaultColor!: string;
   private language!: string;
@@ -59,8 +61,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.consumptionColor = this.getStyleColor(this.accentElement.nativeElement);
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
-    this.amountColor = this.getStyleColor(this.dangerElement.nativeElement);
+    this.amountColor = this.getStyleColor(this.warningElement.nativeElement);
     this.stateOfChargeColor = this.getStyleColor(this.successElement.nativeElement);
+    this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
@@ -120,6 +123,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           min: 0,
         },
       });
+
       if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
         datasets.push({
           name: 'stateOfCharge',
@@ -156,6 +160,18 @@ export class ConsumptionChartComponent implements AfterViewInit {
         ...Utils.formatLineColor(this.consumptionColor),
         label: this.translateService.instant('transactions.graph.energy'),
       });
+
+      datasets.push({
+        name: 'limitWatts',
+        type: 'line',
+        data: [],
+        hidden: true,
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.limitColor),
+        label: this.translateService.instant('transactions.graph.limit_watts'),
+      });
+
       if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'pricingSource')) !== undefined) {
         datasets.push({
           name: 'cumulatedAmount',
@@ -214,12 +230,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
       const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
+      const limitWattsDataSet = this.getDataSet('limitWatts');
       const labels: number[] = [];
       for (const consumption of this.transaction.values) {
         labels.push(new Date(consumption.date).getTime());
         instantPowerDataSet.push(consumption.value);
         if (cumulatedConsumptionDataSet) {
-          cumulatedConsumptionDataSet.push(consumption.cumulated);
+           cumulatedConsumptionDataSet.push(consumption.cumulated);
         }
         if (cumulatedAmountDataSet) {
           if (consumption.cumulatedAmount !== undefined) {
@@ -237,6 +254,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
           } else {
             stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ?
               stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : this.transaction.stateOfCharge);
+          }
+        }
+        if (limitWattsDataSet) {
+          if (consumption.limitWatts) {
+            limitWattsDataSet.push(consumption.limitWatts);
+          } else {
+            limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
           }
         }
       }
@@ -281,6 +305,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
                   case 'cumulatedConsumption':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kWh';
+                  case 'limitWatts':
+                    return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
                   case 'stateOfCharge':
                     return ` ${value}%`;
                   case 'amount':

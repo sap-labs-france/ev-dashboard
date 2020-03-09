@@ -35,6 +35,7 @@ export class BuildingComponent implements OnInit {
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
+  public siteAreaID!: AbstractControl;
   public address!: FormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;
@@ -44,6 +45,8 @@ export class BuildingComponent implements OnInit {
   public region!: AbstractControl;
   public country!: AbstractControl;
   public coordinates!: FormArray;
+
+  public siteAreas: any;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -67,8 +70,11 @@ export class BuildingComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
-    // get admin flag
+    // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+
+    // Get available site areas for dropdown
+    this.getAvailableSiteAreas();
   }
 
   ngOnInit() {
@@ -79,6 +85,10 @@ export class BuildingComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
+      siteAreaID: new FormControl('',
+      Validators.compose([
+        Validators.required,
+      ])),
       address: new FormGroup({
         address1: new FormControl(''),
         address2: new FormControl(''),
@@ -106,6 +116,7 @@ export class BuildingComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
+    this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
     this.address2 = this.address.controls['address2'];
@@ -160,6 +171,17 @@ export class BuildingComponent implements OnInit {
     this.loadBuilding();
   }
 
+  public getAvailableSiteAreas() {
+    this.centralServerService.getSiteAreas().subscribe((availableSiteAreas) => {
+      // Clear current entries
+      this.siteAreas = [];
+      // Add available site areas to dropdown
+      for (let i = 0; i < availableSiteAreas.count; i++) {
+        this.siteAreas.push({ id: availableSiteAreas.result[i].id, name: availableSiteAreas.result[i].name });
+      }
+    });
+  }
+
   public loadBuilding() {
     if (!this.currentBuildingID) {
       return;
@@ -168,6 +190,7 @@ export class BuildingComponent implements OnInit {
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
+    // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getBuilding(this.currentBuildingID).pipe(mergeMap((building) => {
       this.formGroup.markAsPristine();
       // Init form
@@ -176,6 +199,9 @@ export class BuildingComponent implements OnInit {
       }
       if (building.name) {
         this.formGroup.controls.name.setValue(building.name);
+      }
+      if (building.siteAreaID) {
+        this.formGroup.controls.siteAreaID.setValue(building.siteAreaID);
       }
       if (building.address && building.address.address1) {
         this.address.controls.address1.setValue(building.address.address1);

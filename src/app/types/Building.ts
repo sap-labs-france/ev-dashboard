@@ -4,6 +4,7 @@ import { Data } from './Table';
 export interface Building extends Data {
   id: string;
   name: string;
+  siteAreaID: string;
   address: Address;
   image: string;
   createdBy: string;

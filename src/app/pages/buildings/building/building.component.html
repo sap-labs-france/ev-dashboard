@@ -48,6 +48,16 @@
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>
+                <mat-form-field>
+                  <mat-select [formControl]="siteAreaID" placeholder="{{'site_areas.titles' | translate}}"
+                              required>
+                    <mat-option *ngFor="let siteArea of siteAreas"
+                                value="{{siteArea.id}}">{{siteArea.name}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="siteAreaID.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
               </div>
             </div>
           </div>

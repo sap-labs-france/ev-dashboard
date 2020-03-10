@@ -1590,7 +1590,8 @@
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
-      "limit_watts": "Limitation (kW)"
+      "limit_plan_watts": "Limitation du Plan (kW)",
+      "limit_watts": "Limitation Max (kW)"
     },
     "dialog": {
       "delete": {

@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed notification is sent when user has badged and session is not started after 10 mins`,
               `Add the maximum limit when creating a Charging Plan`,
+              `Limit the max amp in charging plan to the max static limitation`,
               `Set the Temporary Charging Plan start date to 10 mins in the future`,
               `Reorder Charging Station's Connectors`,
               `Disable Debug of Charging Plan if not supported`,

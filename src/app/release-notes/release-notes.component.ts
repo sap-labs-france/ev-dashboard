@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.8',
-        date: new Date('2020-03-08'),
+        date: new Date('2020-03-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed notification is sent when user has badged and session is not started after 10 mins`,
               `eMSP/CPO implementation`,
             ],
           },

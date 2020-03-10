@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -10,8 +10,10 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { Building, BuildingImage } from 'app/types/Building';
 import { RestResponse } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
@@ -35,6 +37,7 @@ export class BuildingComponent implements OnInit {
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
+  public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public address!: FormGroup;
   public address1!: AbstractControl;
@@ -45,8 +48,6 @@ export class BuildingComponent implements OnInit {
   public region!: AbstractControl;
   public country!: AbstractControl;
   public coordinates!: FormArray;
-
-  public siteAreas: any;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -72,9 +73,6 @@ export class BuildingComponent implements OnInit {
 
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-
-    // Get available site areas for dropdown
-    this.getAvailableSiteAreas();
   }
 
   ngOnInit() {
@@ -85,10 +83,11 @@ export class BuildingComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      siteAreaID: new FormControl('',
+      siteArea: new FormControl('',
       Validators.compose([
         Validators.required,
       ])),
+      siteAreaID: new FormControl(''),
       address: new FormGroup({
         address1: new FormControl(''),
         address2: new FormControl(''),
@@ -116,6 +115,7 @@ export class BuildingComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
+    this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
@@ -171,27 +171,15 @@ export class BuildingComponent implements OnInit {
     this.loadBuilding();
   }
 
-  public getAvailableSiteAreas() {
-    this.centralServerService.getSiteAreas().subscribe((availableSiteAreas) => {
-      // Clear current entries
-      this.siteAreas = [];
-      // Add available site areas to dropdown
-      for (let i = 0; i < availableSiteAreas.count; i++) {
-        this.siteAreas.push({ id: availableSiteAreas.result[i].id, name: availableSiteAreas.result[i].name });
-      }
-    });
-  }
-
   public loadBuilding() {
     if (!this.currentBuildingID) {
       return;
     }
-
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
     // tslint:disable-next-line: cyclomatic-complexity
-    this.centralServerService.getBuilding(this.currentBuildingID).pipe(mergeMap((building) => {
+    this.centralServerService.getBuilding(this.currentBuildingID, false, true).pipe(mergeMap((building) => {
       this.formGroup.markAsPristine();
       // Init form
       if (building.id) {
@@ -200,8 +188,9 @@ export class BuildingComponent implements OnInit {
       if (building.name) {
         this.formGroup.controls.name.setValue(building.name);
       }
-      if (building.siteAreaID) {
-        this.formGroup.controls.siteAreaID.setValue(building.siteAreaID);
+      if (building.siteArea && building.siteArea.name) {
+        this.formGroup.controls.siteAreaID.setValue(building.siteArea.id);
+        this.formGroup.controls.siteArea.setValue(building.siteArea.name);
       }
       if (building.address && building.address.address1) {
         this.address.controls.address1.setValue(building.address.address1);
@@ -326,6 +315,27 @@ export class BuildingComponent implements OnInit {
     } else {
       this.closeDialog();
     }
+  }
+
+  public assignSiteArea() {
+    // Create dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'chargers.assign_site_area',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+    };
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
+    .afterClosed().subscribe((result) => {
+      if (result && result.length > 0 && result[0].objectRef) {
+        const siteArea = ((result[0].objectRef) as SiteArea);
+        this.formGroup.markAsDirty();
+        this.formGroup.controls.siteArea.setValue(siteArea.name);
+        this.formGroup.controls.siteAreaID.setValue(siteArea.id);
+      }
+    });
   }
 
   private createBuilding(building: Building) {

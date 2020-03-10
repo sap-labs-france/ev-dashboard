@@ -49,12 +49,12 @@
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                  <mat-select [formControl]="siteAreaID" placeholder="{{'site_areas.titles' | translate}}"
-                              required>
-                    <mat-option *ngFor="let siteArea of siteAreas"
-                                value="{{siteArea.id}}">{{siteArea.name}}</mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="siteAreaID.errors?.required">
+                  <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
+                  class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required/>
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="siteArea.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>

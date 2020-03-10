@@ -1,10 +1,12 @@
 import { Address } from './Address';
+import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 
 export interface Building extends Data {
   id: string;
   name: string;
   siteAreaID: string;
+  siteArea: SiteArea;
   address: Address;
   image: string;
   createdBy: string;

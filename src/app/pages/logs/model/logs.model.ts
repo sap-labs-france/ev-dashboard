@@ -39,6 +39,8 @@ export const logActions: KeyValue[] = [
   {key: 'NotifyTransactionStarted', value: 'NotifyTransactionStarted'},
   {key: 'NotifyUnknownUserBadged', value: 'NotifyUnknownUserBadged'},
   {key: 'NotifyUserAccountStatusChanged', value: 'NotifyUserAccountStatusChanged'},
+  {key: 'NotifySessionNotStartedAfterAuthorize', value: 'NotifySessionNotStartedAfterAuthorize'},
+  {key: 'NotifyCarSynchronizationFailed', value: 'NotifyCarSynchronizationFailed'},
   {key: 'OcpiPatchLocations', value: 'OcpiPatchLocations'},
   {key: 'OcpiEndpointSendEVSEStatuses', value: 'OcpiEndpointSendEVSEStatuses'},
   {key: 'OcpiGetVersions', value: 'OcpiGetVersions'},

@@ -1,11 +1,16 @@
 <div class="charger-param-component">
   <form class="form" [formGroup]="formGroup">
+    <div class="row" *ngIf="this.charger.siteArea.smartCharging === true">
+      <div class="col-md-12">
+        {{"chargers.smart_charging.smart_charging_enabled_charging_profiles" | translate }}
+      </div>
+    </div>
     <div class="right-actions d-flex flex-row mat-toolbar-row mb-2">
       <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()"
-          [disabled]="!scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid || chargingProfiles.length > 1">
+          [disabled]="!scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid || chargingProfiles.length > 1 || this.charger.siteArea.smartCharging === true">
         <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
       </button>
-      <button mat-raised-button color="primary" (click)="deleteChargingProfile()" [disabled]="chargingProfiles.length === 0 || chargingProfiles.length > 1">
+      <button mat-raised-button color="primary" (click)="deleteChargingProfile()" [disabled]="chargingProfiles.length === 0 || chargingProfiles.length > 1 || this.charger.siteArea.smartCharging === true">
         <mat-icon>delete</mat-icon><span>{{'general.delete' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="refresh()">
@@ -27,7 +32,7 @@
           </div>
           <div class="form-group col-md-12 mb-1">
             <mat-form-field>
-              <mat-select [formControl]="profileTypeControl"
+              <mat-select [formControl]="profileTypeControl" [disabled]="this.charger.siteArea.smartCharging === true || chargingProfiles.length > 1"
                 placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
                 <mat-option *ngFor="let profileType of profileTypeMap" [value]="profileType">
                   {{profileType.description | translate}}
@@ -41,7 +46,7 @@
               </mat-datetimepicker>
               <mat-datetimepicker-toggle matSuffix [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
               <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                (dateChange)="startDateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="pickerDateStart"
+                (dateChange)="startDateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="pickerDateStart" [disabled]="this.charger.siteArea.smartCharging === true || chargingProfiles.length > 1"
                 [formControl]="startDateControl" autocomplete="false">
               <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}</mat-error>
               <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">{{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
@@ -57,10 +62,10 @@
         </app-charging-station-smart-charging-limit-planner-chart>
       </div>
     </div>
-    <div *ngIf="this.chargingProfiles.length > 1">
+    <div *ngIf="this.chargingProfiles.length > 1 || this.charger.siteArea.smartCharging === true">
       <app-table [dataSource]="scheduleTableDataSource"></app-table>
     </div>
-      <div *ngIf="this.chargingProfiles.length <= 1" class="limit-planner-table-postion">
+      <div *ngIf="this.chargingProfiles.length <= 1 && this.charger.siteArea.smartCharging === false" class="limit-planner-table-postion">
         <app-table [dataSource]="scheduleEditableTableDataSource"></app-table>
     </div>
   </form>

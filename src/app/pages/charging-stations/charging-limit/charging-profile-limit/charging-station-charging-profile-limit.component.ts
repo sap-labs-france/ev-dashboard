@@ -240,6 +240,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       if (chargingProfile.profile.chargingSchedule.startSchedule) {
         this.startDateControl.setValue(new Date(chargingProfile.profile.chargingSchedule.startSchedule));
         this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
+        // Check if smart charging is active
+        if (this.charger.siteArea.smartCharging === true) {
+          this.startDateControl.disable();
+        }
       }
       // Create Schedule
       for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {

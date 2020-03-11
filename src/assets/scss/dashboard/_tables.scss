@@ -424,7 +424,8 @@ tr.element-row:not(.expanded-row):active {
   }
 
   .table-cell-angular-component {
-    padding: 9px 8px 0px 8px;
+    padding: 0px 8px;
+    vertical-align: middle !important;
   }
 
   .table-cell-angular-big-component {

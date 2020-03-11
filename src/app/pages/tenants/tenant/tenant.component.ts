@@ -219,6 +219,10 @@ export class TenantComponent implements OnInit {
       this.messageService.showErrorMessage('tenants.save_error_smart_charging');
       return;
     }
+    if (buildingActive && !organizationActive) {
+      this.messageService.showErrorMessage('tenants.save_error_building');
+      return;
+    }
     if (this.currentTenant) {
       // update existing tenant
       this.updateTenant(tenant);

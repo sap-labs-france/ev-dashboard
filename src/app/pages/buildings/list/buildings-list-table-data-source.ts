@@ -110,14 +110,6 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
         sortable: true,
       },
     ];
-    if (this.isAdmin) {
-      tableColumnDef.unshift({
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 

@@ -846,6 +846,7 @@
     "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session pour l'ultilisateur '{{userName}}' sur la borne '{{chargeBoxID}}'?",
     "start_transaction_success": "La session sur la borne '{{chargeBoxID}}' a été démarrée avec succès",
     "start_transaction_error": "Une erreur est survenue pendant la tentative de démarrage de la session",
+    "start_transaction_missing_active_tag": "La transaction ne peut être démarrée pour l'utilisateur '{{userName}}' sur la borne '{{chargeBoxID}}', l'utilisateur doit avoir au moins un badge actif.",
     "start_transaction_user_not_allowed": "Vous n'êtes pas autorisé à demarrer une session sur cette borne",
     "unlock_connector_title": "Dévérouiller",
     "unlock_connector_button": "Dévérouiller",

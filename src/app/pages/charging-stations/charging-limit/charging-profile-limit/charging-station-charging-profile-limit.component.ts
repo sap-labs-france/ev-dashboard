@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, V
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -12,6 +13,7 @@ import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
@@ -53,6 +55,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public endDateControl!: AbstractControl;
   public chargingSchedules!: FormArray;
   public chargingProfiles: ChargingProfile[] = [];
+  public isSmartChargingComponentActive = false;
 
   constructor(
     public scheduleTableDataSource: ChargingStationChargingProfileLimitScheduleTableDataSource,
@@ -62,9 +65,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     private datePipe: AppDatePipe,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-  ) {}
+  ) {
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+  }
 
   ngOnInit(): void {
     // Init the form
@@ -109,7 +115,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       this.loadProfile(chargingProfile);
     });
     // Check if smart charging is active
-    if (this.charger.siteArea.smartCharging) {
+    if (this.isSmartChargingComponentActive && this.charger.siteArea.smartCharging) {
       this.startDateControl.disable();
     }
     // Change the Profile Type

@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -21,6 +22,7 @@ import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
+import TenantComponents from 'app/types/TenantComponents';
 
 @Component({
   selector: 'app-site-area',
@@ -53,6 +55,7 @@ export class SiteAreaComponent implements OnInit {
   public country!: AbstractControl;
   public coordinates!: FormArray;
   public isAdmin!: boolean;
+  public isSmartChargingComponentActive = false;
 
   public sites: any;
   public registrationToken!: RegistrationToken;
@@ -65,20 +68,21 @@ export class SiteAreaComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private configService: ConfigService,
+    private componentService: ComponentService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
-
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateSiteArea()) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
+    // Set
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     // refresh available sites
     this.refreshAvailableSites();
   }
@@ -96,11 +100,14 @@ export class SiteAreaComponent implements OnInit {
           Validators.required,
         ])),
       maximumPower: new FormControl('',
-        Validators.compose([
-          Validators.pattern(/^(0|[1-9]\d*$)/),
-          Validators.min(1),
-          Validators.required,
-        ])),
+        Validators.compose(
+          this.isSmartChargingComponentActive ?
+            [
+              Validators.pattern(/^(0|[1-9]\d*$)/),
+              Validators.min(1),
+              Validators.required,
+            ] : []
+        )),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
       address: new FormGroup({
@@ -143,9 +150,6 @@ export class SiteAreaComponent implements OnInit {
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
     this.coordinates = this.address.controls['coordinates'] as FormArray;
-
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
-
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();

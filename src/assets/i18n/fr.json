@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.8",
+    "last_update": "Version 2.2.9",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -172,6 +172,8 @@
       "display_chargers": "Afficher les bornes",
       "edit_location": "Assigner au site",
       "edit_users": "Editer un utilisateur",
+      "edit_siteArea": "Editer les site areas",
+      "display_siteAreas": "Afficher les site areas",
       "no_action": "Aucunes actions supplémentaires",
       "open": "Ouvrir",
       "open_in_maps": "Ouvrir dans google maps",
@@ -397,6 +399,7 @@
     "image": "Image",
     "assigned_chargers": "Bornes",
     "assigned_chargers_to_site_area": "Bornes assignées à {{siteAreaName}}",
+    "assigned_siteAreas_to_building": "Site Areas assignés à {{buildingName}}",
     "name": "Nom",
     "title": "Zone",
     "titles": "Zones",
@@ -1593,7 +1596,8 @@
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
-      "limit_watts": "Limitation (kW)"
+      "limit_plan_watts": "Limitation du Plan (kW)",
+      "limit_watts": "Limitation Max (kW)"
     },
     "dialog": {
       "delete": {

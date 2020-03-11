@@ -11,6 +11,7 @@ import { BuildingComponent } from './building/building.component';
 import { BuildingDialogComponent } from './building/building.dialog.component';
 import { BuildingsComponent } from './buildings.component';
 import { BuildingsRoutes } from './buildings.routing';
+import { BuildingsListTableDataSource } from './list/buildings-list-table-data-source';
 import { BuildingsListComponent } from './list/buildings-list.component';
 
 @NgModule({
@@ -38,6 +39,7 @@ import { BuildingsListComponent } from './list/buildings-list.component';
     BuildingsListComponent,
   ],
   providers: [
+    BuildingsListTableDataSource,
   ],
 })
 

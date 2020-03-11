@@ -48,6 +48,16 @@
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>
+                <mat-form-field>
+                  <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
+                  class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!isAdmin" required/>
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="siteArea.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
               </div>
             </div>
           </div>

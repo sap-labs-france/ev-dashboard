@@ -120,6 +120,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
         // this.startDateControl.disable();
       } else {
+        // @ts-ignore
         this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
         this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');

@@ -63,16 +63,14 @@
                   </mat-form-field>
                    <mat-form-field>
                     <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
-                           type="text"
-                           [formControl]="maximumPower">
+                      type="text" [formControl]="maximumPower">
                     <button mat-button matSuffix mat-icon-button aria-label="Reset"
-                            (click)="clearMaximumPower()"
-                            [hidden]="maximumPower.value === null || maximumPower.value === ''">
+                      (click)="clearMaximumPower()" [hidden]="maximumPower.value === null || maximumPower.value === ''">
                       <mat-icon>clear</mat-icon>
                     </button>
-                    <mat-error *ngIf="maximumPower.errors?.pattern">
-                      {{"chargers.invalid_power_value" | translate}}
-                    </mat-error>
+                    <mat-error *ngIf="maximumPower.errors?.min">{{"general.error_min_value" | translate:{value: 1} }}</mat-error>
+                    <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}</mat-error>
+                    <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                   </mat-form-field>
                   <div style="text-align: left">
                     <mat-checkbox [formControl]="smartCharging" [disabled]="!this.maximumPower.value">

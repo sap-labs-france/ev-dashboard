@@ -17,12 +17,11 @@ import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-// @ts-ignore
-import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
+
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
@@ -99,6 +98,7 @@ export class SiteAreaComponent implements OnInit {
       maximumPower: new FormControl('',
         Validators.compose([
           Validators.pattern(/^(0|[1-9]\d*$)/),
+          Validators.min(1),
           Validators.required,
         ])),
       accessControl: new FormControl(true),

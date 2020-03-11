@@ -108,6 +108,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Load Profile
       this.loadProfile(chargingProfile);
     });
+    // Check if smart charging is active
+    if (this.charger.siteArea.smartCharging) {
+      this.startDateControl.disable();
+    }
     // Change the Profile Type
     this.profileTypeControl.valueChanges.subscribe((profileType: ProfileType) => {
       // Change date format
@@ -242,10 +246,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       if (chargingProfile.profile.chargingSchedule.startSchedule) {
         this.startDateControl.setValue(new Date(chargingProfile.profile.chargingSchedule.startSchedule));
         this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
-        // Check if smart charging is active
-        if (this.charger.siteArea.smartCharging === true) {
-          this.startDateControl.disable();
-        }
       }
       // Create Schedule
       for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {

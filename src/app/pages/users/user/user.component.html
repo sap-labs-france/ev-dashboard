@@ -410,9 +410,6 @@
                   <mat-form-field>
                     <input [formControl]="iNumber" matInput
                            placeholder="{{'users.inumber' | translate}}" type="text">
-                    <mat-error *ngIf="iNumber.errors?.pattern">
-                      {{"general.invalid_value" | translate}}
-                    </mat-error>
                   </mat-form-field>
                 </div>
               </div>

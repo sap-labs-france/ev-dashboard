@@ -32,6 +32,7 @@ import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
 import { OCPPClearChargingProfileCommandResult, OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
+import { Car } from 'app/types/Car';
 
 @Injectable()
 export class CentralServerService {
@@ -2089,7 +2090,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.delete<ActionResponse>(
-        `${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2118,6 +2119,54 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.get<ChargingStationConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCars(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Car>>(
+      `${this.centralRestServerServiceSecuredURL}/Cars`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCar(carID: number): Observable<Car> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Car>(
+      `${this.centralRestServerServiceSecuredURL}/Car?carID=${carID}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCarObject(carID: number): Observable<any> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<any>(
+      `${this.centralRestServerServiceSecuredURL}/CarObject?carID=${carID}`,
       {
         headers: this.buildHttpHeaders(),
       })

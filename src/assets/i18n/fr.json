@@ -150,7 +150,8 @@
       "settings": "Configuration",
       "buildings": "Bâtiments",
       "organization": "Organisation",
-      "template": "Modeles"
+      "template": "Modeles",
+      "cars": "Voitures"
     },
     "tooltips": {
       "export": "Exporter OCPP params",
@@ -1423,11 +1424,40 @@
       "buildings": "Bâtiments"
     }
   },
+  "cars": {
+    "VehicleModel": "Modèle",
+    "vehicleMake": "Constructeur ",
+    "batteryCapacityFull": "Pleine Capacité",
+    "fastChargeSpeed": "Vitesse De Chargement",
+    "performanceTopspeed": "Vitesse Maximale",
+    "rangeReal": "Plage réelle",
+    "efficiencyReal": "Efficacité",
+    "performanceAcceleration": "Accélération 0 - 100 km/h",
+    "image": "Image",
+    "drivetrainPropulsion":"Propulsion",
+    "drivetrainTorque":"Torque",
+    "batteryCapacityUseable":"Capacité Utilisable",
+    "chargePlug":"Prise De Charge",
+    "fastChargePlug":"Prise De Charge Rapide",
+    "chargePlugLocation":"Emplacement De La Prise",
+    "chargeStandardPower":"Charge Power",
+    "chargeStandardChargeSpeed":"Vitesse De Chargement",
+    "chargeStandardChargeTime":"Temps De Chargement",
+    "miscSeats":"Sièges",
+    "miscBody":"Carrosserie",
+    "miscIsofix":"Isofix",
+    "miscTurningCircle":"Cercle Tournant",
+    "miscSegment":"Segment",
+    "miscIsofixSeats":"Sièges Isofix",
+    "miscellaneous": "Divers",
+    "battery": "Batterie",
+    "moreInformations":"Plus d'Informations"
+  },
   "car": {
     "title": "Car",
     "description": "Gestion des voitures",
     "tabs": {
-      "cars": "Voitures"
+      "list": "Voitures"
     }
   },
   "analytics": {

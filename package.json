@@ -65,6 +65,7 @@
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.26",
+    "ng-image-slider": "^2.4.1",
     "ngx-captcha": "^7.0.0",
     "ngx-google-places-autocomplete": "^2.0.4",
     "ngx-moment": "^3.4.0",

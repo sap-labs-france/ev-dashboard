@@ -36,8 +36,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
-
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+    const isActiveInSuperTenant = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : undefined;
+
     if (isIEOrEdge) {
       this.redirectToBrowserNotSupportRoute();
       return false;
@@ -45,7 +46,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     const queryParams = {};
     // Check if authenticated
     if (this.centralServerService.isAuthenticated()) {
-      if (this.isRouteAllowed(activatedRoute.routeConfig)) {
+      if (this.isRouteAllowed(activatedRoute.routeConfig, isActiveInSuperTenant)) {
         return true;
       }
       this.redirectToDefaultRoute();
@@ -87,16 +88,22 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return this.canActivate(childRoute, state);
   }
 
-  public isRouteAllowed(route: Route|null): boolean {
+  public isRouteAllowed(route: Route | null, isActiveInSuperTenant?: boolean): boolean {
     const auth = route && route.data ? route.data['auth'] : undefined;
+    const displayInSuperTenant = route && route.data ? route.data['displayInSuperTenant'] : undefined;
+    if (displayInSuperTenant && this.authorizationService.isSuperAdmin()) {
+      return displayInSuperTenant
+    }
     if (auth) {
       const component = route && route.data ? route.data['component'] : undefined;
       if (component && !this.componentService.isActive(component)) {
+        if (this.authorizationService.isSuperAdmin() && isActiveInSuperTenant) {
+          return true;
+        }
         return false;
       }
       return this.authorizationService.canAccess(auth.entity, auth.action);
     }
-
     return false;
   }
 

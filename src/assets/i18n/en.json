@@ -150,7 +150,8 @@
       "settings": "Settings",
       "buildings": "Buildings",
       "organization": "Organization",
-      "template": "Templates"
+      "template": "Templates",
+      "cars": "Cars"
     },
     "tooltips": {
       "export": "Export OCPP params",
@@ -1423,11 +1424,40 @@
       "buildings": "Buildings"
     }
   },
+  "cars": {
+    "VehicleModel": "Model",
+    "vehicleMake": "Make",
+    "batteryCapacityFull": "Capacity Full",
+    "fastChargeSpeed": "Charge Speed",
+    "performanceTopspeed": "Top Speed",
+    "rangeReal": "Range Real",
+    "efficiencyReal": "Efficiency",
+    "performanceAcceleration": "Acceleration 0 - 100 km/h",
+    "image": "Image",
+    "drivetrainPropulsion":"Propulsion",
+    "drivetrainTorque":"Drive Train Torque",
+    "batteryCapacityUseable":"Capacity Useable",
+    "chargePlug":"Charge Plug",
+    "fastChargePlug":"Fast Charge Plug",
+    "chargePlugLocation":"Charge Plug Location",
+    "chargeStandardPower":"Charge Power",
+    "chargeStandardChargeSpeed":"Charge Speed",
+    "chargeStandardChargeTime":"Charge Time",
+    "miscSeats":"Seats",
+    "miscBody":"Car Body",
+    "miscIsofix":"Isofix",
+    "miscTurningCircle":"Turning Circle",
+    "miscSegment":"Segment",
+    "miscIsofixSeats":"Isofix Seats",
+    "miscellaneous": "Miscellaneous",
+    "battery": "Battery",
+    "moreInformations":"More Informations"
+  },
   "car": {
     "title": "Car",
     "description": "Manage Cars",
     "tabs": {
-      "cars": "Cars"
+      "list": "Cars"
     }
   },
   "analytics": {

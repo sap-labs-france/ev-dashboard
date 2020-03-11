@@ -95,7 +95,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.endDateControl = this.formGroup.controls['endDateControl'];
     this.chargingSchedules = this.formGroup.controls['schedules'] as FormArray;
     // @ts-ignore
-    this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
+    this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
     this.profileTypeControl.setValue(this.profileTypeMap[0]);
     // Assign for to editable data source
@@ -120,6 +120,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
         // this.startDateControl.disable();
       } else {
+        // @ts-ignore
+        this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
         this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
         // this.startDateControl.enable();

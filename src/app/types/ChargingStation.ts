@@ -71,8 +71,11 @@ export enum ChargingStationCurrentType {
 export interface ChargingStationPowers {
   notSupported: boolean;
   minAmp: number;
+  minWatt: number;
   maxAmp: number;
+  maxWatt: number;
   currentAmp: number;
+  currentWatt: number;
 }
 
 export interface OcppCommand {

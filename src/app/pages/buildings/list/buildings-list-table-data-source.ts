@@ -11,7 +11,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
@@ -90,8 +89,8 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       {
         id: 'name',
         name: 'buildings.name',
-        headerClass: 'col-40p',
-        class: 'text-left',
+        headerClass: 'col-30p',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -99,26 +98,18 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       {
         id: 'address.city',
         name: 'general.city',
-        headerClass: 'col-20p',
+        headerClass: 'col-30p',
         class: 'col-20p',
         sortable: true,
       },
       {
         id: 'address.country',
         name: 'general.country',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sortable: true,
       },
     ];
-    if (this.isAdmin) {
-      tableColumnDef.splice(0, 0, {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 
@@ -141,17 +132,13 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     if (this.isAdmin) {
       return [
         this.editAction,
-        new TableMoreAction([
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef(),
+        openInMaps,
+        this.deleteAction,
       ];
     }
     return [
       this.viewAction,
-      new TableMoreAction([
-        openInMaps,
-      ]).getActionDef(),
+      openInMaps,
     ];
   }
 

@@ -50,10 +50,13 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
           Validators.required,
           Validators.min(1),
           Validators.max(1440),
+          Validators.pattern(/^(0|[1-9]\d*$)/),
         ],
         errors: [
           { id: 'min', message: 'chargers.smart_charging.invalid_min_duration', messageParams: { minDuration: 1 } },
           { id: 'max', message: 'chargers.smart_charging.invalid_max_duration', messageParams: { maxDuration: 1440 } },
+          { id: 'pattern', message: 'general.error_number_pattern' },
+          { id: 'required', message: 'general.mandatory_field' },
         ],
         class: 'col-20p',
       },

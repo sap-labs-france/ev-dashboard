@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -12,7 +11,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
-import { SiteImage } from 'app/types/Site';
+import { Site, SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -24,30 +23,30 @@ import { CentralServerNotificationService } from '../../../../services/central-s
   templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
-  @Input() currentSiteID: string;
-  @Input() inDialog: boolean;
-  @Input() dialogRef: MatDialogRef<any>;
+  @Input() currentSiteID!: string;
+  @Input() inDialog!: boolean;
+  @Input() dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteImage.NO_IMAGE;
-  public maxSize;
+  public maxSize: number;
 
-  public formGroup: FormGroup;
-  public id: AbstractControl;
-  public name: AbstractControl;
-  public companyID: AbstractControl;
-  public autoUserSiteAssignment: AbstractControl;
+  public formGroup!: FormGroup;
+  public id!: AbstractControl;
+  public name!: AbstractControl;
+  public companyID!: AbstractControl;
+  public autoUserSiteAssignment!: AbstractControl;
 
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public coordinates: FormArray;
+  public address!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public coordinates!: FormArray;
   public companies: any;
-  public isAdmin: boolean;
+  public isAdmin = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -159,8 +158,8 @@ export class SiteComponent implements OnInit {
     return this.inDialog;
   }
 
-  public setCurrentSiteId(currentSiteId) {
-    this.currentSiteID = currentSiteId;
+  public setCurrentSiteId(currentSiteID: string) {
+    this.currentSiteID = currentSiteID;
   }
 
   public refresh() {
@@ -268,18 +267,18 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  public updateSiteImage(site) {
+  public updateSiteImage(site: Site) {
     // Check no image?
     if (!this.image.endsWith(SiteImage.NO_IMAGE)) {
       // Set to site
       site.image = this.image;
     } else {
       // No image
-      site.image = null;
+      delete site.image;
     }
   }
 
-  public saveSite(site) {
+  public saveSite(site: Site) {
     if (this.currentSiteID) {
       this.updateSite(site);
     } else {
@@ -287,7 +286,7 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  public imageChanged(event) {
+  public imageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -343,7 +342,7 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  private createSite(site) {
+  private createSite(site: Site) {
     // Show
     this.spinnerService.show();
     // Set the image
@@ -381,7 +380,7 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  private updateSite(site) {
+  private updateSite(site: Site) {
     // Show
     this.spinnerService.show();
     // Set the image

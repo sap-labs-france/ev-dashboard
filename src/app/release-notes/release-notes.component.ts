@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.9',
-        date: new Date('2020-03-10'),
+        version: '2.2.10',
+        date: new Date('2020-03-11'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Add the maximum limit when creating a Charging Plan`,
               `Limit the max amp in charging plan to the max static limitation`,
               `Set the Temporary Charging Plan start date to 10 mins in the future`,
+              `Enable Smart Charging for a Site Area`,
               `Reorder Charging Station's Connectors`,
               `Disable Debug of Charging Plan if not supported`,
               `eMSP/CPO implementation`,

@@ -13,6 +13,10 @@
   min-width: 85px !important;;
 }
 
+.chip-width-13em {
+  max-width: 13em;
+}
+
 .chip-width-10em {
   max-width: 10em;
 }
@@ -29,7 +33,7 @@
   opacity: 0;
 }
 
-.mat-chip-list-wrapper { 
+.mat-chip-list-wrapper {
   justify-content: center;
   margin: -5px !important;
 }

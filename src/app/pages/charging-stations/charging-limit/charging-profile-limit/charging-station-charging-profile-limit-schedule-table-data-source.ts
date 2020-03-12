@@ -51,6 +51,14 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         class: 'text-center col-15p',
       },
       {
+        id: 'endDate',
+        name: 'chargers.smart_charging.end_date',
+        editType: TableEditType.DISPLAY_ONLY,
+        headerClass: 'col-30p',
+        class: 'text-center col-30p',
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
         id: 'limitInkW',
         name: 'chargers.smart_charging.limit_title',
         headerClass: 'col-50p',

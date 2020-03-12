@@ -254,15 +254,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       ];
     }
     const moreActions = new TableMoreAction([]);
-    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
     if (moreActions.getActionsInMoreActions().length > 0) {
       actions.push(moreActions.getActionDef());
+    }
+    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
     return actions;
   }

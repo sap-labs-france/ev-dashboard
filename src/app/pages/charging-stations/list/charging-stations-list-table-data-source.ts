@@ -38,6 +38,7 @@ import { ChargingStationsRebootAction } from '../actions/charging-stations-reboo
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsSmartChargingAction } from '../actions/charging-stations-smart-charging-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
+import { ChargingStationsFirmwareStatusCellComponent } from '../cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
@@ -159,10 +160,23 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         sortable: false,
         isAngularComponent: true,
         headerClass: 'text-center',
-        class: 'power-progress-bar',
+        class: 'text-center',
         angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
       },
     ];
+    if (this.authorizationService.isAdmin()) {
+      tableColumns.push(
+        {
+          id: 'firmwareVersion',
+          name: 'chargers.firmware_version',
+          headerClass: 'text-center',
+          class: 'text-center table-cell-angular-big-component',
+          sortable: false,
+          isAngularComponent: true,
+          angularComponent: ChargingStationsFirmwareStatusCellComponent,
+        }
+      );
+    }
     if (this.isOrganizationComponentActive) {
       tableColumns = tableColumns.concat(
         [
@@ -186,13 +200,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             headerClass: 'd-none d-lg-table-cell',
             class: 'd-none d-lg-table-cell',
             sortable: true,
-          },
-          {
-            id: 'firmwareVersion',
-            name: 'chargers.firmware_version',
-            headerClass: 'd-none d-xl-table-cell text-center',
-            class: 'd-none d-xl-table-cell text-center',
-            sortable: false,
           },
           {
             id: 'ocppVersion',
@@ -254,7 +261,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.translateService.instant('chargers.reboot_title'),
           this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
           this.translateService.instant('chargers.reboot_success', {chargeBoxID: rowItem.id}),
-          'chargers.reset_error',
+          'chargers.reboot_error',
         );
         break;
       case ChargingStationButtonAction.SMART_CHARGING:

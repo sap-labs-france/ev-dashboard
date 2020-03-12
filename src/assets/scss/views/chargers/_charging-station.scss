@@ -31,7 +31,7 @@
 }
 
 .charger-dialog-container {
-  max-height: 85vh !important;
+    max-height: 85vh !important;
 }
 
 .charger-param-component {
@@ -57,6 +57,11 @@
 }
 
 .feature-not-supported {
+    font-size: 1rem;
+    color: $brand-warn;
+}
+
+.smart-charging-active-warn {
     font-size: 1rem;
     color: $brand-warn;
 }

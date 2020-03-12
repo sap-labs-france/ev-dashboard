@@ -154,7 +154,7 @@
             <span>{{'users.tags' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-table [dataSource]="userTagsTableDataSource"></app-table>
+            <app-table [dataSource]="userTagsEditableTableDataSource"></app-table>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isSuperAdmin">
@@ -441,7 +441,7 @@
         </mat-tab>
         <mat-tab disabled>
           <ng-template mat-tab-label>
-            <button mat-button (click)="saveUser(formGroup.value)"
+            <button mat-button (click)="saveUser(formGroup.getRawValue())"
                     [disabled]="!formGroup.valid || !formGroup.dirty">
               <mat-icon>save</mat-icon>
               <span>{{'general.save' | translate}}</span>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
@@ -24,8 +25,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public buildTableDef(): TableDef {
     return {
+      id: 'ChargingStationChargingProfileLimitScheduleEditableTableDataSource',
       isEditable: true,
-      rowFieldNameIdentifier: 'id',
       errorMessage: 'chargers.smart_charging.empty_schedule_list_error',
     };
   }
@@ -36,24 +37,44 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         id: 'startDate',
         name: 'chargers.smart_charging.start_date',
         editType: TableEditType.DISPLAY_ONLY,
-        headerClass: 'col-30p',
-        class: 'text-center col-30p',
-        formatter: (value: Date) => this.datePipe.transform(value),
+        headerClass: 'col-20p',
+        class: 'text-center col-20p',
+        formatter: (value: Date) => this.datePipe.transform(value, 'short'),
       },
       {
         id: 'duration',
         name: 'chargers.smart_charging.duration',
-        headerClass: 'col-15p',
+        headerClass: 'col-20p',
         editType: TableEditType.INPUT,
-        class: 'text-center col-15p',
+        validators: [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(1440),
+          Validators.pattern(/^(0|[1-9]\d*$)/),
+        ],
+        errors: [
+          { id: 'min', message: 'chargers.smart_charging.invalid_min_duration', messageParams: { minDuration: 1 } },
+          { id: 'max', message: 'chargers.smart_charging.invalid_max_duration', messageParams: { maxDuration: 1440 } },
+          { id: 'pattern', message: 'general.error_number_pattern' },
+          { id: 'required', message: 'general.mandatory_field' },
+        ],
+        class: 'col-20p',
+      },
+      {
+        id: 'endDate',
+        name: 'chargers.smart_charging.end_date',
+        editType: TableEditType.DISPLAY_ONLY,
+        headerClass: 'col-20p',
+        class: 'text-center col-20p',
+        formatter: (value: Date) => this.datePipe.transform(value, 'short'),
       },
       {
         id: 'limit',
         name: 'chargers.smart_charging.limit_title',
         isAngularComponent: true,
         angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
-        headerClass: 'col-50p',
-        class: 'col-45p',
+        headerClass: 'col-40p',
+        class: 'col-40p',
       },
     ];
     return tableColumnDef;
@@ -61,7 +82,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
-    this.tableColumnDefs[2].additionalParameters = { charger };
+    this.tableColumnDefs[3].additionalParameters = { charger };
     this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
   }
 
@@ -75,10 +96,12 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         // Update the date of the next records
         if (i < chargingSchedules.length - 1) {
           chargingSchedules[i + 1].startDate = new Date(
-            chargingSchedules[i].startDate.getTime() + Utils.convertToInteger(chargingSchedules[i].duration) * 60 * 1000);
+            chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         }
         // Update the limit in kW
         chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSchedules[i].limit) / 1000);
+        chargingSchedules[i].endDate =
+          new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         // Add
         this.endDate.setTime(this.endDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
       }
@@ -88,17 +111,19 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
   public createRow() {
     const chargingSchedulePeriod = {
       startDate: this.startDate,
+      duration: 60,
       limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,
-      duration: 60,
     } as Schedule;
     // Fix the start date
     const chargingSchedules = this.getContent();
     if (chargingSchedules.length > 0) {
       chargingSchedulePeriod.startDate =
         new Date(chargingSchedules[chargingSchedules.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
+      chargingSchedulePeriod.endDate =
+        new Date(chargingSchedulePeriod.startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
     }
     return chargingSchedulePeriod;
   }

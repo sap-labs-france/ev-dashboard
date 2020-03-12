@@ -4,7 +4,6 @@ $medium-spinner: $brand-success !default;
 $inner-spinner: $brand-warning !default;
 $outer-spinner: $brand-warn !default;
 
-
 .filter-row {
   @media screen and (max-width: $res435) {
     width: 100%;
@@ -382,6 +381,10 @@ tr.element-row:not(.expanded-row):active {
     padding-right: 15px !important;
   }
 
+  tr:nth-child(even) {
+    background: $brand-background
+  }
+
   .tab-pane & {
     tbody > tr > td:first-child {
       width: 36px;
@@ -421,7 +424,8 @@ tr.element-row:not(.expanded-row):active {
   }
 
   .table-cell-angular-component {
-    padding: 9px 8px 0px 8px;
+    padding: 0px 8px;
+    vertical-align: middle !important;
   }
 
   .table-cell-angular-big-component {

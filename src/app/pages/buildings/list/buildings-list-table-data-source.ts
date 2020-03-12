@@ -89,7 +89,8 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       {
         id: 'name',
         name: 'buildings.name',
-        class: 'text-left',
+        headerClass: 'col-30p',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -97,26 +98,18 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
       {
         id: 'address.city',
         name: 'general.city',
-        headerClass: 'col-20p',
+        headerClass: 'col-30p',
         class: 'col-20p',
         sortable: true,
       },
       {
         id: 'address.country',
         name: 'general.country',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sortable: true,
       },
     ];
-    if (this.isAdmin) {
-      tableColumnDef.splice(1, 0, {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 

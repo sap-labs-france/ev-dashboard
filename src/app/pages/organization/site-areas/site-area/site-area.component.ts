@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -17,12 +18,12 @@ import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-// @ts-ignore
-import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
+import TenantComponents from 'app/types/TenantComponents';
+
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
@@ -42,6 +43,7 @@ export class SiteAreaComponent implements OnInit {
   public siteID!: AbstractControl;
   public maximumPower!: AbstractControl;
   public accessControl!: AbstractControl;
+  public smartCharging!: AbstractControl;
 
   public address!: FormGroup;
   public address1!: AbstractControl;
@@ -53,6 +55,7 @@ export class SiteAreaComponent implements OnInit {
   public country!: AbstractControl;
   public coordinates!: FormArray;
   public isAdmin!: boolean;
+  public isSmartChargingComponentActive = false;
 
   public sites: any;
   public registrationToken!: RegistrationToken;
@@ -65,20 +68,21 @@ export class SiteAreaComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private configService: ConfigService,
+    private componentService: ComponentService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
-
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateSiteArea()) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
+    // Set
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     // refresh available sites
     this.refreshAvailableSites();
   }
@@ -96,10 +100,16 @@ export class SiteAreaComponent implements OnInit {
           Validators.required,
         ])),
       maximumPower: new FormControl('',
-        Validators.compose([
-          Validators.pattern(/^-?(0|[1-9]\d*)?$/),
-        ])),
+        Validators.compose(
+          this.isSmartChargingComponentActive ?
+            [
+              Validators.pattern(/^(0|[1-9]\d*$)/),
+              Validators.min(1),
+              Validators.required,
+            ] : []
+        )),
       accessControl: new FormControl(true),
+      smartCharging: new FormControl(false),
       address: new FormGroup({
         address1: new FormControl(''),
         address2: new FormControl(''),
@@ -129,6 +139,7 @@ export class SiteAreaComponent implements OnInit {
     this.name = this.formGroup.controls['name'];
     this.siteID = this.formGroup.controls['siteID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
+    this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
     this.address = (this.formGroup.controls['address'] as FormGroup);
     this.address1 = this.address.controls['address1'];
@@ -139,9 +150,6 @@ export class SiteAreaComponent implements OnInit {
     this.region = this.address.controls['region'];
     this.country = this.address.controls['country'];
     this.coordinates = this.address.controls['coordinates'] as FormArray;
-
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
-
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -199,6 +207,7 @@ export class SiteAreaComponent implements OnInit {
 
   public clearMaximumPower() {
     this.maximumPower.setValue(null);
+    this.smartCharging.setValue(false);
     this.formGroup.markAsDirty();
   }
 
@@ -231,7 +240,12 @@ export class SiteAreaComponent implements OnInit {
         this.formGroup.controls.siteID.setValue(siteArea.siteID);
       }
       if (siteArea.maximumPower) {
-        this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);
+        this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower / 1000);
+      }
+      if (siteArea.smartCharging) {
+        this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
+      } else {
+        this.formGroup.controls.smartCharging.setValue(false);
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);
@@ -300,6 +314,7 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public saveSiteArea(siteArea: SiteArea) {
+    siteArea.maximumPower = siteArea.maximumPower * 1000;
     if (this.currentSiteAreaID) {
       this.updateSiteArea(siteArea);
     } else {

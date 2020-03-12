@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -97,6 +98,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       {
         id: 'name',
         name: 'companies.name',
+        headerClass: 'col-50p',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -117,14 +119,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.isAdmin) {
-      tableColumnDef.splice(1, 0, {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 
@@ -148,13 +142,17 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     if (this.isAdmin) {
       return [
         this.editAction,
-        openInMaps,
-        this.deleteAction,
+        new TableMoreAction([
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef()
       ];
     } else {
       return [
         this.viewAction,
-        openInMaps,
+        new TableMoreAction([
+          openInMaps,
+        ]).getActionDef(),
       ];
     }
   }

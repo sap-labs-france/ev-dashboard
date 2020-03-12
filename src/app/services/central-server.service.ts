@@ -269,10 +269,11 @@ export class CentralServerService {
       );
   }
 
-  public getBuilding(buildingId: string, withImage: boolean = false): Observable<Building> {
+  public getBuilding(buildingId: string, withImage: boolean = false, withSiteArea: boolean = false): Observable<Building> {
     const params: { [param: string]: string } = {};
     params['ID'] = buildingId;
     params['WithImage'] = withImage.toString();
+    params['WithSiteArea'] = withSiteArea.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -2221,7 +2222,7 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0): Observable<ActionResponse> {
+  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2229,6 +2230,7 @@ export class CentralServerService {
         chargeBoxID: charger.id,
         connectorId,
         ampLimitValue,
+        forceUpdateChargingPlan,
       },
       {
         headers: this.buildHttpHeaders(),

@@ -10,6 +10,7 @@ export interface SiteArea extends Data {
   address: Address;
   maximumPower: number;
   accessControl: boolean;
+  smartCharging: boolean;
   siteID: string;
   site: Site;
   chargeBoxes: ChargingStation[];

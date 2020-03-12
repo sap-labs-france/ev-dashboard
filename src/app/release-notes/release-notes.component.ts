@@ -24,15 +24,37 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.4',
-        date: new Date('2020-02-29'),
+        version: '2.2.10',
+        date: new Date('2020-03-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed notification is sent when user has badged and session is not started after 10 mins`,
+              `Add the maximum limit when creating a Charging Plan`,
+              `Limit the max amp in charging plan to the max static limitation`,
+              `Set the Temporary Charging Plan start date to 10 mins in the future`,
+              `Enable Smart Charging for a Site Area`,
+              `Reorder Charging Station's Connectors`,
+              `Disable Debug of Charging Plan if not supported`,
+              `eMSP/CPO implementation`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.7',
+        date: new Date('2020-03-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Store in consumption the current connector limit during a session`,
               `CPO/eMSP first Gireve certification`,
-              `Added import of cars from EV-Database via scheduled job`,
-              `Notification of failed car synchronisation is sent to the Super Admin Users`,
+              `Handling of OCPP Firmware Status updates`,
+              `Added import of Cars from EV-Database via scheduled job`,
+              `Enable Car component in the Tenant Management`,
+              `Notification of failed Car synchronisation is sent to the Super Admin Users`,
               `Refactoring of the Charging Plan`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,

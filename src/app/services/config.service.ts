@@ -11,6 +11,7 @@ import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
 import UserConfiguration from '../types/configuration/UserConfiguration';
+import EVDatabaseConfiguration from 'app/types/configuration/EVDatabase';
 
 @Injectable()
 export class ConfigService {
@@ -63,4 +64,9 @@ export class ConfigService {
   public getSiteArea(): SiteAreaConfiguration {
     return this.config.SiteArea;
   }
+
+  public getEvDatabase(): EVDatabaseConfiguration {
+    return this.config.EVDatabase;
+  }
+
 }

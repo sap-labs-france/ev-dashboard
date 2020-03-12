@@ -8,6 +8,7 @@ import LocalesConfiguration from './LocalesConfiguration';
 import SiteAreaConfiguration from './SiteAreaConfiguration';
 import SiteConfiguration from './SiteConfiguration';
 import UserConfiguration from './UserConfiguration';
+import EVDatabaseConfiguration from './EVDatabase';
 
 export interface Configuration {
   Advanced: AdvancedConfiguration;
@@ -20,4 +21,5 @@ export interface Configuration {
   SiteArea: SiteAreaConfiguration;
   Site: SiteConfiguration;
   User: UserConfiguration;
+  EVDatabase: EVDatabaseConfiguration;
 }

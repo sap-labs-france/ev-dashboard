@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -16,6 +15,7 @@ import { MatDialogConfig, MatDialog } from '@angular/material';
 import { CarDialogComponent } from 'app/shared/dialogs/cars/car-dialog.component';
 import { ButtonAction } from 'app/types/GlobalType';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { ConfigService } from 'app/services/config.service';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -26,7 +26,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
+    private config: ConfigService,
     private dialog: MatDialog,
   ) {
     super(spinnerService);
@@ -65,7 +65,9 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       hasDynamicRowAction: true,
     };
   }
-
+  public buildTableFooterStats(): string {
+    return 'Source : ' + this.config.getEvDatabase().url;
+  }
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
@@ -123,7 +125,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
         formatter: (acceleration) => acceleration + ' sec',
       },
-       {
+      {
         id: 'rangeReal',
         name: 'cars.rangeReal',
         headerClass: 'col-20p',

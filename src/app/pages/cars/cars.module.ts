@@ -11,12 +11,13 @@ import { CarsRoutes } from './cars.routing';
 import { CarsListComponent } from './list/cars-list.component';
 import { CarImageFormatterCellComponent } from './cell-components/car-image-formatter-cell.component';
 import { CarDialogComponent } from 'app/shared/dialogs/cars/car-dialog.component';
-import { NgImageSliderModule } from 'ng-image-slider';
 import { CarObjectComponent } from './car/car-object.component';
+import { CarouselComponent } from './carousel/carousel.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
-    NgImageSliderModule,
+    NgbModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -27,6 +28,7 @@ import { CarObjectComponent } from './car/car-object.component';
     RouterModule.forChild(CarsRoutes),
   ],
   declarations: [
+    CarouselComponent,
     CarObjectComponent,
     CarImageFormatterCellComponent,
     CarDialogComponent,

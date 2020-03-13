@@ -127,8 +127,7 @@
           <mat-icon>photo_camera</mat-icon><span>Photos</span>
         </ng-template>
         <div class="card-body">
-          <ng-image-slider [imageSize]="imageSize" [images]="imageObject" #nav></ng-image-slider>
-
+          <ngbd-carousel-config [images]="car.images"></ngbd-carousel-config>
         </div>
       </mat-tab>
       <mat-tab *ngIf="isSuperAdmin" >

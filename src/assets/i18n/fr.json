@@ -452,7 +452,7 @@
     "email": "Email",
     "invalid_email": "Entez une adresse email valide",
     "forgot_password": "Mot de passe oublié?",
-    "email_already_exists": "Cet Email est déjà utilisé",
+    "email_already_exists": "Cet Email existe déjà",
     "email_does_not_exist": "Cet Email n'existe pas",
     "cannot_check_email_in_backend": "Impossible de vérifier cet email sur le serveur",
     "wrong_email_or_password": "Mauvais email ou mot de passe",

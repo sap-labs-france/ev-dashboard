@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.10',
-        date: new Date('2020-03-11'),
+        version: '2.2.11',
+        date: new Date('2020-03-13'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Remote Start Transaction is now using the first active badge of the User`,
               `Fixed notification is sent when user has badged and session is not started after 10 mins`,
               `Add the maximum limit when creating a Charging Plan`,
               `Limit the max amp in charging plan to the max static limitation`,

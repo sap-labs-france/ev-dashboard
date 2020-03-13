@@ -29,6 +29,9 @@
   "SiteArea": {
     "maxPictureKb": 800
   },
+  "EVDatabase": {
+    "url": "www.ev-database.org"
+  },
   "Locales": {
     "default": "en",
     "supported": [

@@ -846,6 +846,7 @@
     "start_transaction_confirm": "Do you really want to start a new session for user '{{userName}}' on the charging station '{{chargeBoxID}}'?",
     "start_transaction_success": "The session on the charging station '{{chargeBoxID}}' has been started successfully",
     "start_transaction_error": "Error occurred while trying to start a new session",
+    "start_transaction_missing_active_tag": "Transaction cannot be started for user '{{userName}}' on the charging station '{{chargeBoxID}}', the user needs to have at least one active badge",
     "start_transaction_user_not_allowed": "You are not allowed to start a session on this charging station",
     "unlock_connector_title": "Unlock",
     "unlock_connector_button": "Unlock",

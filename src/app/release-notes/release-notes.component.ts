@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Added filters on Connector Types (Type 2, Chademo...)`,
               `Fixed number of values in x-axis in chart consumption`,
               `Changed I-Number to Corporate Number in User's prodile`,
+              `Roaming: Implement PUT and PATCH token from IOP`,
             ],
           },
         ],

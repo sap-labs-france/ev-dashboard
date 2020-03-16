@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Added filters on Connector Types (Type 2, Chademo...)`
+              `Added filters on Connector Types (Type 2, Chademo...)`,
+              `Fixed number of values in x-axis in chart consumption`,
             ],
           },
         ],

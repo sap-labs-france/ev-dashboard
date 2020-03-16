@@ -990,7 +990,7 @@
     "plate_id": "Plaque",
     "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
-    "inumber": "Numero personnel",
+    "inumber": "Identifiant Entreprise",
     "cost_center": "Centre de coût",
     "phone": "Téléphone",
     "mobile": "Portable",

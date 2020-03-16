@@ -990,7 +990,7 @@
     "plate_id": "Plate",
     "tags": "Badges",
     "tag_ids_help": "Enter a list of badge IDs separated by a comma",
-    "inumber": "Personal number",
+    "inumber": "Corporate Number",
     "cost_center": "Cost Center",
     "phone": "Phone",
     "mobile": "Mobile",

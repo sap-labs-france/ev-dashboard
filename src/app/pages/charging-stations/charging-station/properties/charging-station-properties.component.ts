@@ -1,8 +1,8 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { ChargingStation, ChargingStationCapabilities, OcppAdvancedCommands } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
-import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { Utils } from 'app/utils/Utils';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 
 export interface PropertyDisplay {
   key: string;

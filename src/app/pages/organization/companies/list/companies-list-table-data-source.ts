@@ -11,6 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
@@ -24,7 +25,6 @@ import { Observable } from 'rxjs';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -145,7 +145,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         new TableMoreAction([
           openInMaps,
           this.deleteAction,
-        ]).getActionDef()
+        ]).getActionDef(),
       ];
     } else {
       return [

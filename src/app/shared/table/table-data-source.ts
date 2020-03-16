@@ -5,7 +5,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { Observable, of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';

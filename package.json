@@ -112,7 +112,7 @@
     "mochawesome": "^4.1.0",
     "moment-locales-webpack-plugin": "^1.1.2",
     "moment-timezone-data-webpack-plugin": "^1.1.0",
-    "npm-check": "^5.9.0",
+    "npm-check": "^5.9.2",
     "protractor": "^5.4.2",
     "puppeteer": "^1.19.0",
     "rosie": "^2.0.1",

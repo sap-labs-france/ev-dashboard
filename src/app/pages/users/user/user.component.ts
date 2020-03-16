@@ -212,10 +212,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Users.validatePhone
         ])),
-      iNumber: new FormControl('',
-        Validators.compose([
-          Validators.pattern('^[A-Z]{1}[0-9]{6}$'),
-        ])),
+      iNumber: new FormControl(''),
       tags: new FormArray([],
         Validators.compose(this.isSuperAdmin ? [] : [Validators.required])),
       plateID: new FormControl('',

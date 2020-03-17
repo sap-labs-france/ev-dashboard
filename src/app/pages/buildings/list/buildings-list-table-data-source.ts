@@ -129,11 +129,13 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     // check if GPs are available
     if (building && building.address && building.address.coordinates) {
       const { coordinates } = building.address;
-      if (coordinates.length !== 2 || (!coordinates[0] && !coordinates[1])) {
+      if (coordinates.length === 2 && (coordinates[0] && coordinates[1])) {
+        openInMaps.disabled = false;
+      } else {
         openInMaps.disabled = true;
       }
     } else {
-      openInMaps.disabled = false;
+      openInMaps.disabled = true;
     }
     return openInMaps;
   }

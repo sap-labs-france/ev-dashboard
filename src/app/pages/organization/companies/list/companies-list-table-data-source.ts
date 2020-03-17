@@ -139,11 +139,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     // check if GPs are available
     if (company && company.address && company.address.coordinates) {
       const { coordinates } = company.address;
-      if (coordinates.length !== 2 || (!coordinates[0] && !coordinates[1])) {
+      if (coordinates.length === 2 && (coordinates[0] && coordinates[1])) {
+        openInMaps.disabled = false;
+      } else {
         openInMaps.disabled = true;
       }
     } else {
-      openInMaps.disabled = false;
+      openInMaps.disabled = true;
     }
     return openInMaps;
   }

@@ -137,11 +137,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     // check if GPs are available
     if (site && site.address && site.address.coordinates) {
       const { coordinates } = site.address;
-      if (coordinates.length !== 2 || (!coordinates[0] && !coordinates[1])) {
+      if (coordinates.length === 2 && (coordinates[0] && coordinates[1])) {
+        openInMaps.disabled = false;
+      } else {
         openInMaps.disabled = true;
       }
     } else {
-      openInMaps.disabled = false;
+      openInMaps.disabled = true;
     }
     return openInMaps;
   }

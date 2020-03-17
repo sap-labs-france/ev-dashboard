@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.12',
-        date: new Date('2020-03-16'),
+        version: '2.2.13',
+        date: new Date('2020-03-17'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Roaming: Implement PUT and PATCH token from IOP`,
               `Added new parameters to check in Charging Station In Errors`,
               `Update Charging Station's template without migration`,
+              `Fixed issues with ABB not getting the limits when building consumption metrics`,
             ],
           },
         ],

@@ -134,27 +134,37 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     }
   }
 
-  public buildTableDynamicRowActions(company: Company) {
+  public loadInMaps(company: Company): TableActionDef {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (company && company.address && company.address.coordinates
-      && company.address.coordinates.length === 2) ? false : true;
+    if (company && company.address && company.address.coordinates) {
+      const { coordinates } = company.address;
+      if (coordinates.length !== 2 || (!coordinates[0] && !coordinates[1])) {
+        openInMaps.disabled = true;
+      }
+    } else {
+      openInMaps.disabled = false;
+    }
+    return openInMaps;
+  }
+
+  public buildTableDynamicRowActions(company: Company) {
+    const openInMaps = this.loadInMaps(company);
     if (this.isAdmin) {
       return [
         this.editAction,
         new TableMoreAction([
           openInMaps,
           this.deleteAction,
-        ]).getActionDef()
-      ];
-    } else {
-      return [
-        this.viewAction,
-        new TableMoreAction([
-          openInMaps,
         ]).getActionDef(),
       ];
     }
+    return [
+      this.viewAction,
+      new TableMoreAction([
+        openInMaps,
+      ]).getActionDef(),
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

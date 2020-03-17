@@ -134,10 +134,22 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return tableActionsDef;
   }
 
-  buildTableDynamicRowActions(siteArea: SiteArea) {
+  public loadInMaps(siteArea: SiteArea): TableActionDef {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.coordinates && siteArea.address.coordinates.length === 2) ? false : true;
+    if (siteArea && siteArea.address && siteArea.address.coordinates) {
+      const { coordinates } = siteArea.address;
+      if (coordinates.length !== 2 || (!coordinates[0] && !coordinates[1])) {
+        openInMaps.disabled = true;
+      }
+    } else {
+      openInMaps.disabled = false;
+    }
+    return openInMaps;
+  }
+
+  public buildTableDynamicRowActions(siteArea: SiteArea) {
+    const openInMaps = this.loadInMaps(siteArea);
     if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,

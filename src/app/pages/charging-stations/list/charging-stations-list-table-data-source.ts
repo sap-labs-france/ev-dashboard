@@ -357,6 +357,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     });
   }
 
+  public loadInMaps(charger: ChargingStation): TableActionDef {
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // check if GPs are available
+    if (charger && charger.coordinates.length === 2) {
+      if (!charger.coordinates[0] && !charger.coordinates[1]) {
+        openInMaps.disabled = true;
+      }
+    } else {
+      openInMaps.disabled = false;
+    }
+    return openInMaps;
+  }
+
   public buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
     if (!charger) {
       return [];
@@ -369,8 +382,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         break;
       }
     }
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    openInMaps.disabled = !(charger && charger.coordinates && charger.coordinates.length === 2);
+    const openInMaps = this.loadInMaps(charger);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,

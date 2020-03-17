@@ -124,11 +124,23 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(building: Building) {
+  public loadInMaps(building: Building): TableActionDef {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // check if GPs are available
-    openInMaps.disabled = (building && building.address && building.address.coordinates
-      && building.address.coordinates.length === 2) ? false : true;
+    if (building && building.address && building.address.coordinates) {
+      const { coordinates } = building.address;
+      if (coordinates.length !== 2 || (!coordinates[0] && !coordinates[1])) {
+        openInMaps.disabled = true;
+      }
+    } else {
+      openInMaps.disabled = false;
+    }
+    return openInMaps;
+  }
+
+  public buildTableDynamicRowActions(building: Building) {
+    // Load in map
+    const openInMaps = this.loadInMaps(building);
     if (this.isAdmin) {
       return [
         this.editAction,

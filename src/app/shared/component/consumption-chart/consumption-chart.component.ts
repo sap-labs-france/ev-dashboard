@@ -355,6 +355,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
               color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
+              autoSkip: true,
+              maxTicksLimit: 40,
               fontColor: this.defaultColor,
             },
           },

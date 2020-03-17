@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.12',
+        date: new Date('2020-03-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added filters on Connector Types (Type 2, Chademo...)`,
+              `Fixed number of values in x-axis in chart consumption`,
+              `Changed I-Number to Corporate Number in User's prodile`,
+              `Roaming: Implement PUT and PATCH token from IOP`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.11',
         date: new Date('2020-03-13'),
         componentChanges: [

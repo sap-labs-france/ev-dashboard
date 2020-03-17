@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'ngbd-carousel-config',
+  selector: 'app-carousel',
   templateUrl: './carousel.component.html',
   providers: [NgbCarouselConfig]  // add NgbCarouselConfig to the component providers
 })

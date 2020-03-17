@@ -114,6 +114,8 @@
     "search_placeholder": "Rechercher...",
     "backend_not_running": "Impossible de se connecter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
+    "car_error": "Une erreur est survenue pendant la voiture du serveur",
+    "cars_error": "Une erreur est survenue pendant les voitures du serveur",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
     "invalid_content": "Contenu invalide",
@@ -1457,7 +1459,7 @@
     }
   },
   "cars": {
-    "VehicleModel": "Modèle",
+    "vehicleModel": "Modèle",
     "vehicleMake": "Constructeur ",
     "batteryCapacityFull": "Pleine Capacité",
     "fastChargeSpeed": "Vitesse De Chargement",
@@ -1483,7 +1485,17 @@
     "miscIsofixSeats":"Sièges Isofix",
     "miscellaneous": "Divers",
     "battery": "Batterie",
-    "moreInformations":"Plus d'Informations"
+    "moreInformations":"Plus d'Informations",
+    "chargeStandardTables":"Table standard de charge",
+    "evsePhaseVolt": "Phase Volt",
+    "evsePhaseAmp": "Phase Amp",
+    "evsePhase": "Phase",
+    "chargePhaseVolt": "Charge Phase Volt",
+    "chargePhaseAmp": "Charge Phase Amp",
+    "chargePhase": "Charge Phase",
+    "chargePower": "Charge Power",
+    "chargeTime": "Temps De Chargement",
+    "chargeSpeed": "Vitesse De Chargement"
   },
   "car": {
     "title": "Car",

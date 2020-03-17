@@ -2,7 +2,7 @@ import { Data } from './Table';
 
 export interface Car extends Data {
   id: number;
-  VehicleModel: string;
+  vehicleModel: string;
   vehicleMake: string;
   batteryCapacityFull: number;
   fastchargeChargeSpeed: number;
@@ -27,6 +27,20 @@ export interface Car extends Data {
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
+  chargeStandardTables: { [id: string]: ChargeStandardTable; };
+  carObject?: any;
+}
+
+export interface ChargeStandardTable {
+  evsePhaseVolt: number;
+  evsePhaseAmp: number;
+  evsePhase: number;
+  chargePhaseVolt: number;
+  chargePhaseAmp: number;
+  chargePhase: number;
+  chargePower: number;
+  chargeTime: number;
+  chargeSpeed: number;
 }
 
 export enum CarImage {

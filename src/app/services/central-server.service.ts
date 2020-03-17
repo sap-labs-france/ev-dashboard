@@ -2153,21 +2153,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Car>(
-      `${this.centralRestServerServiceSecuredURL}/Car?carID=${carID}`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getCarObject(carID: number): Observable<any> {
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.get<any>(
-      `${this.centralRestServerServiceSecuredURL}/CarObject?carID=${carID}`,
+      `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
       {
         headers: this.buildHttpHeaders(),
       })

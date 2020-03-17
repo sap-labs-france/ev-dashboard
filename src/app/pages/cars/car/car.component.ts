@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 import { AuthorizationService } from 'app/services/authorization.service';
 
 @Component({
-  templateUrl: './car-dialog.component.html',
+  templateUrl: './car.component.html',
 })
-export class CarDialogComponent {
+export class CarComponent {
   carID!: number;
   imageObject: Array<object> = new Array<object>();
   car!: Car;
@@ -21,7 +21,7 @@ export class CarDialogComponent {
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
-    public dialogRef: MatDialogRef<CarDialogComponent>,
+    public dialogRef: MatDialogRef<CarComponent>,
     private router: Router,
     private authorizationService: AuthorizationService,
     @Inject(MAT_DIALOG_DATA) data: number) {
@@ -51,18 +51,22 @@ export class CarDialogComponent {
       this.centralServerService.getCar(this.carID).subscribe((car) => {
         if (car) {
           this.car = car;
-          car.images.forEach(element => {
-            this.imageObject.push({
-              image: element,
-              thumbImage: element,
-              alt: car.VehicleModel + ' - ' + car.vehicleMake,
+          if (car.images && car.images.length > 0) {
+            car.images.forEach(element => {
+              this.imageObject.push({
+                image: element,
+                thumbImage: element,
+                alt: car.vehicleModel + ' - ' + car.vehicleMake,
+              });
             });
-          });
+          }
         }
         this.spinnerService.hide();
       }, (error) => {
         // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_error');
+        this.spinnerService.hide();
+
       });
     }
   }

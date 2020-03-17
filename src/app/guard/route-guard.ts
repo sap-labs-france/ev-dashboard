@@ -37,7 +37,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
-    const isActiveInSuperTenant = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : undefined;
+    const isActiveInSuperTenant = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
 
     if (isIEOrEdge) {
       this.redirectToBrowserNotSupportRoute();
@@ -90,9 +90,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   public isRouteAllowed(route: Route | null, isActiveInSuperTenant?: boolean): boolean {
     const auth = route && route.data ? route.data['auth'] : undefined;
-    const displayInSuperTenant = route && route.data ? route.data['displayInSuperTenant'] : undefined;
+    const displayInSuperTenant = route && route.data ? route.data['displayInSuperTenant'] : false;
     if (displayInSuperTenant && this.authorizationService.isSuperAdmin()) {
-      return displayInSuperTenant
+      return true;
     }
     if (auth) {
       const component = route && route.data ? route.data['component'] : undefined;

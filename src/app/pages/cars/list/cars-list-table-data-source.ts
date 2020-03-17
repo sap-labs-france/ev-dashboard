@@ -12,10 +12,10 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { MatDialogConfig, MatDialog } from '@angular/material';
-import { CarDialogComponent } from 'app/shared/dialogs/cars/car-dialog.component';
 import { ButtonAction } from 'app/types/GlobalType';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { ConfigService } from 'app/services/config.service';
+import { CarComponent } from '../car/car.component';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -50,7 +50,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         observer.complete();
       }, (error) => {
         // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.cars_error');
         // Error
         observer.error(error);
       });
@@ -66,7 +66,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     };
   }
   public buildTableFooterStats(): string {
-    return 'Source : ' + this.config.getEvDatabase().url;
+    return 'Source : ' + this.config.getCar().url;
   }
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
@@ -86,8 +86,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
       },
       {
-        id: 'VehicleModel',
-        name: 'cars.VehicleModel',
+        id: 'vehicleModel',
+        name: 'cars.vehicleModel',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -174,7 +174,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     // disable outside click close
     dialogConfig.disableClose = false;
     // Open
-    this.dialog.open(CarDialogComponent, dialogConfig);
+    this.dialog.open(CarComponent, dialogConfig);
   }
 
 }

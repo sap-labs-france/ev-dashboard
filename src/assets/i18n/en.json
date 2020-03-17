@@ -114,6 +114,8 @@
     "search_placeholder": "Search...",
     "backend_not_running": "Cannot reach to the central server",
     "error_backend": "Error occurred while contacting the central server",
+    "car_error": "Error occurred fetching the car from server",
+    "cars_error": "Error occurred fetching the cars from server",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
     "invalid_content": "Invalid Content",
@@ -1457,7 +1459,7 @@
     }
   },
   "cars": {
-    "VehicleModel": "Model",
+    "vehicleModel": "Model",
     "vehicleMake": "Make",
     "batteryCapacityFull": "Capacity Full",
     "fastChargeSpeed": "Charge Speed",
@@ -1483,7 +1485,17 @@
     "miscIsofixSeats":"Isofix Seats",
     "miscellaneous": "Miscellaneous",
     "battery": "Battery",
-    "moreInformations":"More Informations"
+    "moreInformations":"More Informations",
+    "chargeStandardTables":"Charge Standard Tables",
+    "evsePhaseVolt": "Phase Volt",
+    "evsePhaseAmp": "Phase Amp",
+    "evsePhase": "Phase",
+    "chargePhaseVolt": "Charge Phase Volt",
+    "chargePhaseAmp": "Charge Phase Amp",
+    "chargePhase": "Charge Phase",
+    "chargePower": "Charge Power",
+    "chargeTime": "Charge Time",
+    "chargeSpeed": "Charge Speed"
   },
   "car": {
     "title": "Car",

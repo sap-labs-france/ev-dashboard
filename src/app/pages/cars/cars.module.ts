@@ -10,10 +10,9 @@ import { CarsComponent } from './cars.component';
 import { CarsRoutes } from './cars.routing';
 import { CarsListComponent } from './list/cars-list.component';
 import { CarImageFormatterCellComponent } from './cell-components/car-image-formatter-cell.component';
-import { CarDialogComponent } from 'app/shared/dialogs/cars/car-dialog.component';
-import { CarObjectComponent } from './car/car-object.component';
-import { CarouselComponent } from './carousel/carousel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CarouselComponent } from 'app/shared/carousel/carousel.component';
+import { CarComponent } from './car/car.component';
 
 @NgModule({
   imports: [
@@ -29,15 +28,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   declarations: [
     CarouselComponent,
-    CarObjectComponent,
     CarImageFormatterCellComponent,
-    CarDialogComponent,
+    CarComponent,
     CarsComponent,
     CarsListComponent,
   ],
   entryComponents: [
-    CarObjectComponent,
-    CarDialogComponent,
+    CarComponent,
     CarImageFormatterCellComponent,
     CarsComponent,
     CarsListComponent,

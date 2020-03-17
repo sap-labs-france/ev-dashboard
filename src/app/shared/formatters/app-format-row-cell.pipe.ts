@@ -6,7 +6,7 @@ import { Utils } from 'app/utils/Utils';
 export class AppFormatRowCellPipe implements PipeTransform {
 
   transform(value: string, tableColumnDef: TableColumnDef, row: any): string | null {
-    let formattedValue: any= value;
+    let formattedValue: any = value;
     // Convert to primitive/object first
     switch (tableColumnDef.type) {
       // Date

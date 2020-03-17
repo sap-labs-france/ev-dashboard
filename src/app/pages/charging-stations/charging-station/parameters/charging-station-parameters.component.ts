@@ -37,7 +37,7 @@ export class ChargingStationParametersComponent implements OnInit {
     { key: ChargingStationCurrentType.DC, description: 'chargers.direct_current' },
     {
       key: ChargingStationCurrentType.AC_DC,
-      description: 'chargers.direct_and_alternating_current'
+      description: 'chargers.direct_and_alternating_current',
     },
   ];
   public connectorTypeMap = CONNECTOR_TYPE_MAP;

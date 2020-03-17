@@ -24,16 +24,33 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.9',
-        date: new Date('2020-03-10'),
+        version: '2.2.12',
+        date: new Date('2020-03-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added filters on Connector Types (Type 2, Chademo...)`,
+              `Fixed number of values in x-axis in chart consumption`,
+              `Changed I-Number to Corporate Number in User's prodile`,
+              `Roaming: Implement PUT and PATCH token from IOP`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.11',
+        date: new Date('2020-03-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Remote Start Transaction is now using the first active badge of the User`,
               `Fixed notification is sent when user has badged and session is not started after 10 mins`,
               `Add the maximum limit when creating a Charging Plan`,
               `Limit the max amp in charging plan to the max static limitation`,
               `Set the Temporary Charging Plan start date to 10 mins in the future`,
+              `Enable Smart Charging for a Site Area`,
               `Reorder Charging Station's Connectors`,
               `Disable Debug of Charging Plan if not supported`,
               `eMSP/CPO implementation`,

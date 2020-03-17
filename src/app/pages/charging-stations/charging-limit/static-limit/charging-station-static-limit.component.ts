@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
@@ -12,6 +13,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -25,6 +27,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
   public isAdmin: boolean;
   public ampInitialLimit = 0;
   public ampCurrentLimit = 0;
+  public isSmartChargingComponentActive = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -33,6 +36,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
+    private componentService: ComponentService,
     private dialog: MatDialog,
     private router: Router,
     private dialogService: DialogService) {
@@ -46,6 +50,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.userLocales = this.localeService.getLocales();
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   ngOnInit() {
@@ -119,7 +124,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
         // Success
         this.ampInitialLimit = this.ampCurrentLimit;
         this.messageService.showSuccessMessage(
-          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan: forceUpdateChargingPlan }),
+          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
         );
       } else {
         Utils.handleError(JSON.stringify(response),

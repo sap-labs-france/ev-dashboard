@@ -18,7 +18,6 @@ import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
-
 @Component({
   selector: 'app-company',
   templateUrl: 'company.component.html',

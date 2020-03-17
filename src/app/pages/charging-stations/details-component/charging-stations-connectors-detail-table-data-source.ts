@@ -161,7 +161,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ];
   }
 
-  public formatError(errorCode: string, info: string|undefined, vendorErrorCode: string|undefined) {
+  public formatError(errorCode: string, info: string | undefined, vendorErrorCode: string | undefined) {
     const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
     const _info = info && info !== '' ? ` > ${info}` : '';
     const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
@@ -278,7 +278,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         // Check authorization
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('chargers.stop_transaction_title'),
-          this.translateService.instant('chargers.stop_transaction_confirm', {chargeBoxID: this.charger.id}),
+          this.translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: this.charger.id }),
         ).subscribe((response) => {
           if (response === ButtonType.YES) {
             this.centralServerService.chargingStationStopTransaction(
@@ -286,7 +286,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
               // Ok?
               if (response2.status === OCPPGeneralResponse.ACCEPTED) {
                 this.messageService.showSuccessMessage(
-                  this.translateService.instant('chargers.stop_transaction_success', {chargeBoxID: this.charger.id}));
+                  this.translateService.instant('chargers.stop_transaction_success', { chargeBoxID: this.charger.id }));
               } else {
                 Utils.handleError(JSON.stringify(response),
                   this.messageService, this.translateService.instant('chargers.stop_transaction_error'));
@@ -301,7 +301,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
   }
 
-  public startTransaction(connector: Connector, user: User|null, loggedUser: UserToken): boolean {
+  public startTransaction(connector: Connector, user: User | null, loggedUser: UserToken): void {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.start_transaction_title'),
       this.translateService.instant('chargers.start_transaction_confirm', {
@@ -311,14 +311,30 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         // To DO a selection of the badge to use??
-        const tagID: string = user ? user.tags[0].id : loggedUser.tagIDs ? loggedUser.tagIDs[0] : '';
+        let tagId;
+        if (user) {
+          if (user.tags.find((value) => value.active === true)) {
+            tagId = user.tags.find((value) => value.active === true).id;
+          }
+        } else if (loggedUser.tagIDs && loggedUser.tagIDs.length > 0) {
+          tagId = loggedUser.tagIDs[0];
+        }
+
+        if (!tagId) {
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('chargers.start_transaction_missing_active_tag', {
+              chargeBoxID: this.charger.id,
+              userName: Users.buildUserFullName(user ? user : loggedUser),
+            }));
+          return;
+        }
         this.centralServerService.chargingStationStartTransaction(
-          this.charger.id, connector.connectorId, tagID).subscribe((response2: ActionResponse) => {
+          this.charger.id, connector.connectorId, tagId).subscribe((startTransactionResponse: ActionResponse) => {
           // Ok?
-          if (response2.status === OCPPGeneralResponse.ACCEPTED) {
+          if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
             // Ok
             this.messageService.showSuccessMessage(
-              this.translateService.instant('chargers.start_transaction_success', {chargeBoxID: this.charger.id}));
+              this.translateService.instant('chargers.start_transaction_success', { chargeBoxID: this.charger.id }));
             // Reload
             this.refreshData().subscribe();
           } else {
@@ -327,15 +343,12 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.start_transaction_error');
-          return false;
         });
       }
-      return false;
     });
-    return false;
   }
 
-  private startTransactionAsAdmin(connector: Connector): boolean {
+  private startTransactionAsAdmin(connector: Connector): void {
     // Create dialog data
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = '';
@@ -371,7 +384,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           break;
       }
     });
-    return false;
   }
 
   private openSession(connector: Connector) {

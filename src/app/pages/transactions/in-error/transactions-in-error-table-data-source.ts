@@ -6,7 +6,7 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { Action, Entity } from 'app/types/Authorization';
-import { ActionResponse, ActionsResponse, DataResult } from 'app/types/DataResult';
+import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { RefundStatus } from 'app/types/Refund';

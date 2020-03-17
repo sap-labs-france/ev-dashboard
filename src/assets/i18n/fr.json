@@ -887,7 +887,7 @@
     "start_transaction_user_select_button": "Sélectionner",
     "start_for_myself_button": "Moi même",
     "select_user_button": "Autre utilisateur",
-    "power_limit_unit": "Unité utilisé pour la limitation de puissance",
+    "power_limit_unit": "Unité de Puissance du Connecteur",
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Voltage (V)",
@@ -901,22 +901,22 @@
       "missingSettings": {
         "title": "Paramètres Manquants",
         "description": "Des paramètres obligatoires sont manquants",
-        "action": "Renseigner les paramètres requis manquant {{missingSettings}} dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
+        "action": "Renseigner les paramètres requis manquant dans la page de configuration de la borne"
       },
       "connectionBroken": {
         "title": "Connexion Perdue",
         "description": "Le serveur n'arrive plus à communiquer avec la borne",
-        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
+        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne"
       },
       "missingSiteArea": {
         "title": "Non Assignée à une Zone",
-        "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
-        "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
+        "description": "La borne doit être assignée à une zone pour être opérationnelle",
+        "action": "Renseigner la zone dans la page de configuration de la borne"
       },
       "connectorError": {
         "title": "Erreur d'un Connecteur",
         "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
-        "action": "Vérifier le code d'erreur, vous pouvez redémarrer ou faire un reset de la borne via les actions dans la colonne 'Action'"
+        "action": "Vérifier le code d'erreur et éventuellement redémarrer la borne"
       }
     }
   },

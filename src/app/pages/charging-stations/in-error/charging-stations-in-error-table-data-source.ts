@@ -322,15 +322,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         action: `${path}.action`,
         actionParameters: {},
       };
-      switch (chargerInError.errorCode) {
-        case 'missingSettings':
-          errorMessage.actionParameters = {
-            missingSettings: ChargingStations.getListOfMissingSettings(chargerInError).map((setting) => {
-              return this.translateService.instant(setting.value);
-            }).map((setting) => `"${setting}"`).join(',').toString(),
-          };
-          break;
-      }
       chargerInError.errorMessage = errorMessage;
     });
   }

@@ -898,22 +898,22 @@
       "in_error": "In Error"
     },
     "errors": {
-      "missingSettings": {
+      "missing_settings": {
         "title": "Missing Settings",
         "description": "Required settings are missing",
         "action": "Maintain missing required settings in the charging station's configuration"
       },
-      "connectionBroken": {
+      "connection_broken": {
         "title": "Connection Lost",
         "description": "The server can't reach the charging station",
         "action": "Manual intervention is required. Check your network and/or the charging station's configuration"
       },
-      "missingSiteArea": {
+      "missing_site_area": {
         "title": "Not Assigned to a Site Area",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
         "action": "Maintain the site area in the charging station's configuration"
       },
-      "connectorError": {
+      "connector_error": {
         "title": "Connector Error",
         "description": "The charging station sent an error code for one of its connectors",
         "action": "Check the error code details and eventually restart the charging station"

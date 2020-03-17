@@ -898,22 +898,22 @@
       "in_error": "En Erreur"
     },
     "errors": {
-      "missingSettings": {
+      "missing_settings": {
         "title": "Paramètres Manquants",
         "description": "Des paramètres obligatoires sont manquants",
         "action": "Renseigner les paramètres requis manquant dans la page de configuration de la borne"
       },
-      "connectionBroken": {
+      "connection_broken": {
         "title": "Connexion Perdue",
         "description": "Le serveur n'arrive plus à communiquer avec la borne",
         "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne"
       },
-      "missingSiteArea": {
+      "missing_site_area": {
         "title": "Non Assignée à une Zone",
         "description": "La borne doit être assignée à une zone pour être opérationnelle",
         "action": "Renseigner la zone dans la page de configuration de la borne"
       },
-      "connectorError": {
+      "connector_error": {
         "title": "Erreur d'un Connecteur",
         "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
         "action": "Vérifier le code d'erreur et éventuellement redémarrer la borne"

@@ -65,9 +65,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       hasDynamicRowAction: true,
     };
   }
+
   public buildTableFooterStats(): string {
     return 'Source : ' + this.config.getCar().url;
   }
+
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
@@ -176,5 +178,4 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     // Open
     this.dialog.open(CarComponent, dialogConfig);
   }
-
 }

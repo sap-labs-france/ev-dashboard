@@ -39,25 +39,25 @@ import { ChargingStationSettingsComponent } from '../charging-station/settings/c
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
   private isAdmin: boolean;
   private actions = {
-    missingSettings: [
+    missing_settings: [
       new TableEditAction().getActionDef(),
       new TableMoreAction([
         new TableDeleteAction().getActionDef(),
       ]).getActionDef(),
     ],
-    missingSiteArea: [
+    missing_site_area: [
       new TableEditAction().getActionDef(),
       new TableMoreAction([
         new TableDeleteAction().getActionDef(),
       ]).getActionDef(),
     ],
-    connectionBroken: [
+    connection_broken: [
       new TableEditAction().getActionDef(),
       new TableMoreAction([
         new TableDeleteAction().getActionDef(),
       ]).getActionDef(),
     ],
-    connectorError: [
+    connector_error: [
       new TableEditAction().getActionDef(),
       new TableMoreAction([
         new TableDeleteAction().getActionDef(),
@@ -322,15 +322,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         action: `${path}.action`,
         actionParameters: {},
       };
-      switch (chargerInError.errorCode) {
-        case 'missingSettings':
-          errorMessage.actionParameters = {
-            missingSettings: ChargingStations.getListOfMissingSettings(chargerInError).map((setting) => {
-              return this.translateService.instant(setting.value);
-            }).map((setting) => `"${setting}"`).join(',').toString(),
-          };
-          break;
-      }
       chargerInError.errorMessage = errorMessage;
     });
   }

@@ -34,6 +34,8 @@ export class ReleaseNotesComponent {
               `Fixed number of values in x-axis in chart consumption`,
               `Changed I-Number to Corporate Number in User's prodile`,
               `Roaming: Implement PUT and PATCH token from IOP`,
+              `Added new parameters to check in Charging Station In Errors`,
+              `Update Charging Station's template without migration`,
             ],
           },
         ],

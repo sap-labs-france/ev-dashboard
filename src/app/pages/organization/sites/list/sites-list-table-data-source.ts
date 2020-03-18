@@ -29,6 +29,7 @@ import { UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { IssuerFilter } from '../../../charging-stations/list/issuer-filter';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
 
@@ -202,6 +203,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new CompanyTableFilter().getFilterDef(),
     ];
   }

@@ -28,7 +28,6 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStations } from '../../../utils/ChargingStations';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';

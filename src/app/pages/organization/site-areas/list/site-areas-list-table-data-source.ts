@@ -29,6 +29,7 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { IssuerFilter } from '../../../charging-stations/list/issuer-filter';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 
@@ -212,6 +213,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new SiteTableFilter().getFilterDef(),
     ];
   }

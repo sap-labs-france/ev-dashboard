@@ -23,6 +23,7 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { IssuerFilter } from '../../../charging-stations/list/issuer-filter';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 
@@ -193,7 +194,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new IssuerFilter().getFilterDef(),
+    ];
   }
 
   private showPlace(company: Company) {

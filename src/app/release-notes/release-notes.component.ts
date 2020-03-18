@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.13',
-        date: new Date('2020-03-17'),
+        version: '2.2.14',
+        date: new Date('2020-03-18'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
               `Added new parameters to check in Charging Station In Errors`,
               `Update Charging Station's template without migration`,
               `Fixed issues with ABB not getting the limits when building consumption metrics`,
+              `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
             ],
           },
         ],

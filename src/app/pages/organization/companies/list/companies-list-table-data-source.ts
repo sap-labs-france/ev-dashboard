@@ -22,8 +22,8 @@ import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { IssuerFilter } from '../../../charging-stations/list/issuer-filter';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
 

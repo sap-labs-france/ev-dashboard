@@ -22,14 +22,14 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { IssuerFilter } from '../../../charging-stations/list/issuer-filter';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
 

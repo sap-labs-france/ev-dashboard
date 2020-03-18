@@ -31,11 +31,11 @@ import { TableDeleteAction } from '../../../shared/table/actions/table-delete-ac
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
-import { IssuerFilter } from '../../charging-stations/list/issuer-filter';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';

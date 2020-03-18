@@ -42,6 +42,7 @@ export class ReleaseNotesComponent {
               `Fixed Connection Lost in Charger in Error`,
               `Added AWS deployment and configuration files`,
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
+              `Update of Charging Stations with Template is always applied during Boot Notificiation`,
             ],
           },
         ],

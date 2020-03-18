@@ -6,7 +6,7 @@ files:
 permissions:
   - object: /opt/dashboard
     pattern: '**'
-    owner: www-data
+    owner: ubuntu
     group: www-data
 hooks:
   BeforeInstall:

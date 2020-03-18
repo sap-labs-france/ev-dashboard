@@ -38,9 +38,10 @@ export class ReleaseNotesComponent {
               `Update Charging Station's template without migration`,
               `Fixed issues with ABB not getting the limits when building consumption metrics`,
               `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
+              `Add Issuer filtering to display Roaming entities (Companies, Sites, Site Areas...)`,
               `Fixed Connection Lost in Charger in Error`,
               `Added AWS deployment and configuration files`,
-              `Switched the Charging Station's Heartbeat interval to 300 seconds`
+              `Switched the Charging Station's Heartbeat interval to 300 seconds`,
             ],
           },
         ],

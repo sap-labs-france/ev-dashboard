@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.12',
-        date: new Date('2020-03-16'),
+        version: '2.2.14',
+        date: new Date('2020-03-18'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -34,6 +34,14 @@ export class ReleaseNotesComponent {
               `Fixed number of values in x-axis in chart consumption`,
               `Changed I-Number to Corporate Number in User's prodile`,
               `Roaming: Implement PUT and PATCH token from IOP`,
+              `Added new parameters to check in Charging Station In Errors`,
+              `Update Charging Station's template without migration`,
+              `Fixed issues with ABB not getting the limits when building consumption metrics`,
+              `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
+              `Add Issuer filtering to display Roaming entities (Companies, Sites, Site Areas...)`,
+              `Fixed Connection Lost in Charger in Error`,
+              `Added AWS deployment and configuration files`,
+              `Switched the Charging Station's Heartbeat interval to 300 seconds`,
             ],
           },
         ],

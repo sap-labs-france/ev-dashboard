@@ -40,6 +40,7 @@ export class ReleaseNotesComponent {
               `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
               `Fixed Connection Lost in Charger in Error`,
               `Added AWS deployment and configuration files`,
+              `Switched the Charging Station's Heartbeat interval to 300 seconds`
             ],
           },
         ],

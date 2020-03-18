@@ -16,7 +16,7 @@ hooks:
   AfterInstall:
     - location: src/aws/afterinstall_server.sh
       timeout: 300
-      runas: www-data
+      runas: ubuntu
   # ApplicationStart:
   #   - location: src/aws/start_server.sh
   #     timeout: 300

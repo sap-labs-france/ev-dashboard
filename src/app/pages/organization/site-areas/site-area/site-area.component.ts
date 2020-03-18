@@ -313,6 +313,13 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
+  public updateSiteAreaCoordinates(siteArea: SiteArea) {
+    if (siteArea.address && siteArea.address.coordinates
+    && !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
+      delete siteArea.address.coordinates;
+    }
+  }
+
   public saveSiteArea(siteArea: SiteArea) {
     siteArea.maximumPower = siteArea.maximumPower * 1000;
     if (this.currentSiteAreaID) {
@@ -445,6 +452,8 @@ export class SiteAreaComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteAreaImage(siteArea);
+    // Set coordinates
+    this.updateSiteAreaCoordinates(siteArea);
     // Yes: Update
     this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
       // Hide
@@ -483,6 +492,8 @@ export class SiteAreaComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteAreaImage(siteArea);
+    // Set coordinates
+    this.updateSiteAreaCoordinates(siteArea);
     // Yes: Update
     this.centralServerService.updateSiteArea(siteArea).subscribe((response) => {
       // Hide

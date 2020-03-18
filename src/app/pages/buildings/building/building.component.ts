@@ -253,6 +253,13 @@ export class BuildingComponent implements OnInit {
     }
   }
 
+  public updateBuildingCoordinates(building: Building) {
+    if (building.address && building.address.coordinates
+    && !(building.address.coordinates[0] || building.address.coordinates[1])) {
+      delete building.address.coordinates;
+    }
+  }
+
   public saveBuilding(building: Building) {
     if (this.currentBuildingID) {
       this.updateBuilding(building);
@@ -343,6 +350,8 @@ export class BuildingComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateBuildingImage(building);
+    // Set coordinates
+    this.updateBuildingCoordinates(building);
     // Yes: Update
     this.centralServerService.createBuilding(building).subscribe((response) => {
       // Hide
@@ -381,6 +390,8 @@ export class BuildingComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateBuildingImage(building);
+    // Set coordinates
+    this.updateBuildingCoordinates(building);
     // Yes: Update
     this.centralServerService.updateBuilding(building).subscribe((response) => {
       // Hide

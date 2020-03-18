@@ -278,6 +278,13 @@ export class SiteComponent implements OnInit {
     }
   }
 
+  public updateSiteCoordinates(site: Site) {
+    if (site.address && site.address.coordinates
+    && !(site.address.coordinates[0] || site.address.coordinates[1])) {
+      delete site.address.coordinates;
+    }
+  }
+
   public saveSite(site: Site) {
     if (this.currentSiteID) {
       this.updateSite(site);
@@ -347,6 +354,8 @@ export class SiteComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteImage(site);
+    // Set coordinates
+    this.updateSiteCoordinates(site);
     // Yes: Update
     this.centralServerService.createSite(site).subscribe((response) => {
       // Hide
@@ -385,6 +394,8 @@ export class SiteComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteImage(site);
+    // Set coordinates
+    this.updateSiteCoordinates(site);
     // Yes: Update
     this.centralServerService.updateSite(site).subscribe((response) => {
       // Hide

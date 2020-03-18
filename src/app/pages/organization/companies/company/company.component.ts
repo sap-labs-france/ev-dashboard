@@ -238,6 +238,13 @@ export class CompanyComponent implements OnInit {
     }
   }
 
+  public updateCompanyCoordinates(company: Company) {
+    if (company.address && company.address.coordinates
+    && !(company.address.coordinates[0] || company.address.coordinates[1])) {
+      delete company.address.coordinates;
+    }
+  }
+
   public saveCompany(company: Company) {
     if (this.currentCompanyID) {
       this.updateCompany(company);
@@ -307,6 +314,8 @@ export class CompanyComponent implements OnInit {
     this.spinnerService.show();
     // Set the logo
     this.updateCompanyLogo(company);
+    // Set coordinates
+    this.updateCompanyCoordinates(company);
     // Yes: Update
     this.centralServerService.createCompany(company).subscribe((response) => {
       // Hide
@@ -345,6 +354,8 @@ export class CompanyComponent implements OnInit {
     this.spinnerService.show();
     // Set the logo
     this.updateCompanyLogo(company);
+    // Set coordinates
+    this.updateCompanyCoordinates(company);
     // Yes: Update
     this.centralServerService.updateCompany(company).subscribe((response) => {
       // Hide

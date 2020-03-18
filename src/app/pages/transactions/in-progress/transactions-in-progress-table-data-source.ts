@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { ConnStatus } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -37,7 +38,6 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { ConnStatus } from 'app/types/ChargingStation';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {

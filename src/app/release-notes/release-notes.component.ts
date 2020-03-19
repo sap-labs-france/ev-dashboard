@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.14',
-        date: new Date('2020-03-18'),
+        date: new Date('2020-03-19'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -43,7 +43,8 @@ export class ReleaseNotesComponent {
               `Added AWS deployment and configuration files`,
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
               `Update of Charging Stations with Template is always applied during Boot Notificiation`,
-              `Set minimum power to 0 watt for charging plan`,
+              `Set the minimum power to 2 Amps in the Charging Station Limitation`,
+              `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Building lists`,
             ],
           },
         ],

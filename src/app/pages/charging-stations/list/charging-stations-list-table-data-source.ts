@@ -369,7 +369,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       }
     }
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-    openInMaps.disabled = !(charger && charger.coordinates && charger.coordinates.length === 2);
+    // Check if GPS is available
+    openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,

@@ -160,6 +160,25 @@ export const AppRoutes: Routes = [
         },
       },
       {
+        path: 'car',
+        loadChildren: () => import('./pages/cars/cars.module').then((m) => m.CarsModule),
+        data: {
+          menu: {
+            title: 'cars',
+            type: 'link',
+            icon: 'directions_car',
+            path: '/car',
+          },
+          auth: {
+            entity: Entity.CARS,
+            action: Action.LIST,
+          },
+          activeInSuperTenant: true,
+          displayInSuperTenant: true,
+          component: TenantComponents.CAR,
+        },
+      },
+      {
         path: 'settings',
         loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
         data: {

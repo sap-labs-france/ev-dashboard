@@ -6,7 +6,7 @@ import { TransactionsHistoryTableDataSource } from './transactions-history-table
 
 @Component({
   selector: 'app-transactions-history',
-  templateUrl: 'transactions-history.component.html',
+  template: '<app-table [dataSource]="transactionsHistoryTableDataSource"></app-table>',
   providers: [TransactionsHistoryTableDataSource],
 })
 export class TransactionsHistoryComponent implements OnInit {

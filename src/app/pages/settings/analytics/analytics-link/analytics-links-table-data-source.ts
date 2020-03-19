@@ -11,7 +11,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
@@ -29,12 +29,12 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
 
   constructor(
     public spinnerService: SpinnerService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
     private dialogService: DialogService,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

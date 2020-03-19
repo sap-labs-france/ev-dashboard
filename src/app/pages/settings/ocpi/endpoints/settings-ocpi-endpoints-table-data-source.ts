@@ -16,7 +16,7 @@ import { TableRegisterAction } from 'app/shared/table/actions/table-register-act
 import { TableUnregisterAction } from 'app/shared/table/actions/table-unregister-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
@@ -37,14 +37,14 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
-      private translateService: TranslateService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

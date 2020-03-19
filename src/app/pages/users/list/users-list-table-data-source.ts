@@ -54,8 +54,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
-      private translateService: TranslateService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
@@ -67,7 +67,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private appUserNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     if (this.authorizationService.hasSitesAdminRights()) {
       this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);

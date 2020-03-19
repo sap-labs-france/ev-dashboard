@@ -28,14 +28,14 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private authorisationService: AuthorizationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     this.initDataSource();
   }
 

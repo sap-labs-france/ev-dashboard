@@ -6,7 +6,7 @@ import { UsersInErrorTableDataSource } from './users-in-error-table-data-source'
 
 @Component({
   selector: 'app-users-in-error',
-  templateUrl: 'users-in-error.component.html',
+  template: '<app-table [dataSource]="usersInErrorDataSource"></app-table>',
   providers: [UsersInErrorTableDataSource],
 })
 export class UsersInErrorComponent implements OnInit {

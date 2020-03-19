@@ -114,6 +114,8 @@
     "search_placeholder": "Search...",
     "backend_not_running": "Cannot reach to the central server",
     "error_backend": "Error occurred while contacting the central server",
+    "car_error": "Error occurred while retrieving the car",
+    "cars_error": "Error occurred while retrieving the cars",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
     "invalid_content": "Invalid Content",
@@ -152,7 +154,8 @@
       "settings": "Settings",
       "buildings": "Buildings",
       "organization": "Organization",
-      "template": "Templates"
+      "template": "Templates",
+      "cars": "Cars"
     },
     "tooltips": {
       "activate": "Activate",
@@ -1456,11 +1459,55 @@
       "buildings": "Buildings"
     }
   },
+  "cars": {
+    "vehicleModel": "Model",
+    "vehicleMake": "Maker",
+    "vehicleModelVersion": "Version",
+    "batteryCapacityFull": "Battery Capacity",
+    "fastChargeSpeed": "Charge Speed",
+    "performanceTopspeed": "Top Speed",
+    "rangeReal": "Real Range",
+    "rangeWLTP": "WLTP Range",
+    "efficiencyReal": "Efficiency",
+    "performanceAcceleration": "0-100 km/h",
+    "image": "Image",
+    "drivetrainPropulsion":"Propulsion",
+    "drivetrainTorque":"Drive Train Torque",
+    "batteryCapacityUseable":"Capacity Useable",
+    "chargePlug":"AC Plug",
+    "drivetrainPowerHP": "Power",
+    "drivetrainPowerHPUnit": "hp",
+    "fastChargePlug":"DC Plug",
+    "chargePlugLocation":"Charge Plug Location",
+    "chargeStandardPower":"AC Power",
+    "chargeStandardChargeSpeed":"AC Speed",
+    "chargeStandardChargeTime":"AC Time",
+    "fastChargePowerMax":"DC Power",
+    "miscSeats":"Seats",
+    "miscBody":"Car Body",
+    "miscIsofix":"Isofix",
+    "miscTurningCircle":"Turning Circle",
+    "miscSegment":"Segment",
+    "miscIsofixSeats":"Isofix Seats",
+    "miscellaneous": "Miscellaneous",
+    "battery": "Battery",
+    "moreInformations":"More Informations",
+    "chargeStandardTables":"Charge Standard Tables",
+    "evsePhaseVolt": "Phase(s) Volt",
+    "evsePhaseAmp": "Phase(s) Amp",
+    "evsePhase": "Phase(s)",
+    "chargePhaseVolt": "Charge Phase Volt",
+    "chargePhaseAmp": "Charge Phase Amp",
+    "chargePhase": "Charge Phase",
+    "chargePower": "Charge Power",
+    "chargeTime": "Charge Time",
+    "chargeSpeed": "Charge Speed"
+  },
   "car": {
     "title": "Car",
     "description": "Manage Cars",
     "tabs": {
-      "cars": "Cars"
+      "list": "Cars"
     }
   },
   "analytics": {

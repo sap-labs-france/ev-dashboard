@@ -16,10 +16,11 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
   private activateAction = new TableActivateAction().getActionDef();
   private deactivateAction = new TableDeactivateAction().getActionDef();
 
-  constructor(public spinnerService: SpinnerService,
-    private translateService: TranslateService,
+  constructor(
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private dialogService: DialogService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
   }
 
   public buildTableDef(): TableDef {

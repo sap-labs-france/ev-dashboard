@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
@@ -18,9 +19,10 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private datePipe: AppDatePipe,
   ) {
-    super(spinnerService);
+    super(spinnerService, translateService);
   }
 
   public buildTableDef(): TableDef {

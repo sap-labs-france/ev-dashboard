@@ -114,7 +114,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ? this.decimalPipe.transform(drivetrainPowerHP) : '-',
+        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
+          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.drivetrainPowerHPUnit')}` : '-',
       },
       {
         id: 'batteryCapacityFull',

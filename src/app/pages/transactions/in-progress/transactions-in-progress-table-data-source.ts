@@ -37,6 +37,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
+import { ConnStatus } from 'app/types/ChargingStation';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -291,22 +292,19 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private stopTransaction(transaction: Transaction) {
     this.centralServerService.getCharger(transaction.chargeBoxID).subscribe((chargingStation) => {
       if (chargingStation && !chargingStation.inactive) {
-        for (const connector of chargingStation.connectors) {
-          if (connector && connector.activeTransactionID === transaction.id) {
-            this.remoteStopTransaction(transaction);
-            return;
-          }
+        if (chargingStation.connectors &&
+            chargingStation.connectors[transaction.connectorId] &&
+            chargingStation.connectors[transaction.connectorId].status !== ConnStatus.AVAILABLE) {
+          // Remote Stop
+          this.remoteStopTransaction(transaction);
+          return;
         }
       }
+      // Soft Stop
       this.softStopTransaction(transaction);
     }, (error) => {
-      // Charger not found
-      if (error.status === 550) {
-        this.softStopTransaction(transaction);
-      } else {
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'transactions.notification.soft_stop.error');
-      }
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'transactions.notification.soft_stop.error');
     });
   }
 }

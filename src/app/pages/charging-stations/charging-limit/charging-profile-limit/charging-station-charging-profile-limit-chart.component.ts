@@ -4,6 +4,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
@@ -14,14 +15,17 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
   template: `
     <div class="chart-container" style="position: relative; height:27vh;">
       <div #primary class='chart-primary'></div>
+      <div #danger class='chart-danger'></div>
       <canvas #chart></canvas>
     </div>
   `,
 })
 export class ChargingStationSmartChargingLimitPlannerChartComponent {
   @Input() ratio!: number;
+  @Input() charger!: ChargingStation;
 
   @ViewChild('primary', {static: true}) primaryElement!: ElementRef;
+  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
   @ViewChild('chart', {static: true}) chartElement!: ElementRef;
 
   private graphCreated = false;
@@ -33,6 +37,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
   };
   private language!: string;
   private instantPowerColor!: string;
+  private limitColor!: string;
   private defaultColor!: string;
   private lineTension = 0;
 
@@ -57,6 +62,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       this.graphCreated = true;
       // Get colors
       this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
+      this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
       this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
       // Build chart options
       this.options = this.createOptions();
@@ -89,13 +95,14 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
       const datasets: ChartDataSets[] = [];
-      // Line label
+      // Build Charging Plan dataset
       const chargingSlotDataSet: ChartDataSets = {
         type: 'line',
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
+        label: this.translateService.instant('transactions.graph.limit_plan_watts'),
       };
       // Build Schedules
       for (const chargingSlot of chargingSchedules) {
@@ -119,6 +126,32 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       }
       // Push in the graph
       datasets.push(chargingSlotDataSet);
+      // Build Max Limit dataset
+      const chargingStationPowers = Utils.getChargingStationPowers(this.charger);
+      const limitDataSet: ChartDataSets = {
+        name: 'limitWatts',
+        type: 'line',
+        data: [],
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.limitColor),
+        label: this.translateService.instant('transactions.graph.limit_watts'),
+      };
+      // Add points
+      if (limitDataSet.data && chargingSlotDataSet.data && chargingSlotDataSet.data.length > 0) {
+        // First
+        limitDataSet.data.push({
+          x: (chargingSlotDataSet.data[0] as ChartPoint).x,
+          y: chargingStationPowers.currentWatt / 1000,
+        } as number & ChartPoint);
+        // Last
+        limitDataSet.data.push({
+          x: (chargingSlotDataSet.data[chargingSlotDataSet.data.length - 1] as ChartPoint).x,
+          y: chargingStationPowers.currentWatt / 1000,
+        } as number & ChartPoint);
+      }
+      // Push in the graph
+      datasets.push(limitDataSet);
       // Assign
       this.data.labels = labels;
       this.data.datasets = datasets;
@@ -134,7 +167,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         duration: 0,
       },
       legend: {
-        display: false,
+        display: true,
       },
       responsive: true,
       maintainAspectRatio: this.ratio ? true : false,
@@ -200,6 +233,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
               color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
+              autoSkip: true,
+              maxTicksLimit: 20,
               fontColor: this.defaultColor,
             },
           },
@@ -211,6 +246,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
             position: 'left',
             ticks: {
               beginAtZero: true,
+              callback: (value: number) => {
+                const result = this.decimalPipe.transform(value, '1.0-0');
+                return result ? parseFloat(result) : 0;
+              },
               fontColor: this.defaultColor,
             },
             gridLines: {

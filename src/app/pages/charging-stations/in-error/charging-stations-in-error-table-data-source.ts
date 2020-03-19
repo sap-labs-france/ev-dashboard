@@ -11,6 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -27,7 +28,6 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStations } from '../../../utils/ChargingStations';
 import { ChargingStationsRebootAction } from '../actions/charging-stations-reboot-action';
 import { ChargingStationsResetAction } from '../actions/charging-stations-reset-action';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
@@ -38,23 +38,31 @@ import { ChargingStationSettingsComponent } from '../charging-station/settings/c
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
   private isAdmin: boolean;
   private actions = {
-    missingSettings: [
+    missing_settings: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+      ]).getActionDef(),
     ],
-    missingSiteArea: [
+    missing_site_area: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+      ]).getActionDef(),
     ],
-    connectionBroken: [
+    connection_broken: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+      ]).getActionDef(),
     ],
-    connectorError: [
-      new ChargingStationsResetAction().getActionDef(),
-      new ChargingStationsRebootAction().getActionDef(),
+    connector_error: [
       new TableEditAction().getActionDef(),
-      new TableDeleteAction().getActionDef(),
+      new TableMoreAction([
+        new TableDeleteAction().getActionDef(),
+        new ChargingStationsResetAction().getActionDef(),
+        new ChargingStationsRebootAction().getActionDef(),
+      ]).getActionDef(),
     ],
   };
   private isOrganizationComponentActive: boolean;
@@ -313,15 +321,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         action: `${path}.action`,
         actionParameters: {},
       };
-      switch (chargerInError.errorCode) {
-        case 'missingSettings':
-          errorMessage.actionParameters = {
-            missingSettings: ChargingStations.getListOfMissingSettings(chargerInError).map((setting) => {
-              return this.translateService.instant(setting.value);
-            }).map((setting) => `"${setting}"`).join(',').toString(),
-          };
-          break;
-      }
       chargerInError.errorMessage = errorMessage;
     });
   }

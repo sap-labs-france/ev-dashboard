@@ -4,7 +4,6 @@ import TenantComponents from 'app/types/TenantComponents';
 import { RouteGuardService } from '../../guard/route-guard';
 import { StatisticsComponent } from './statistics.component';
 
-
 export const StatisticsRoutes: Routes = [
   {
     path: '', component: StatisticsComponent, canActivate: [RouteGuardService], data: {

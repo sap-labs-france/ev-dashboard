@@ -18,6 +18,10 @@ export class Utils {
     return true;
   }
 
+  public static cloneJSonDocument(jsonDocument: object): object {
+    return JSON.parse(JSON.stringify(jsonDocument));
+  }
+
   public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {
     const field1: FormControl = formGroup.controls[firstField] as FormControl;
     const field2: FormControl = formGroup.controls[secondField] as FormControl;
@@ -88,20 +92,24 @@ export class Utils {
     return value ? value.replace(/\n/g, '') : '';
   }
 
-  public static getChargingStationPowers(charger: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
+  public static getChargingStationPowers(chargingStation: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
     const result: ChargingStationPowers = {
       notSupported: false,
       minAmp: StaticLimitAmps.MIN_LIMIT,
+      minWatt: Utils.convertAmpToPowerWatts(chargingStation, StaticLimitAmps.MIN_LIMIT),
       maxAmp: StaticLimitAmps.MIN_LIMIT,
+      maxWatt: Utils.convertAmpToPowerWatts(chargingStation, StaticLimitAmps.MIN_LIMIT),
       currentAmp: 0,
+      currentWatt: 0,
     };
     // Check
-    if (!charger ||
-        !charger.connectors ||
-        Utils.isEmptyArray(charger.connectors) ||
-        charger.currentType !== ChargingStationCurrentType.AC) {
+    if (!chargingStation ||
+        !chargingStation.connectors ||
+        Utils.isEmptyArray(chargingStation.connectors) ||
+        chargingStation.currentType !== ChargingStationCurrentType.AC) {
       result.notSupported = true;
       result.currentAmp = result.maxAmp;
+      result.currentWatt = Utils.convertAmpToPowerWatts(chargingStation, result.currentAmp);
       return result;
     }
     // Connector Provided?
@@ -119,7 +127,7 @@ export class Utils {
         result.currentAmp = 0;
       }
       // Add all connector's amps
-      for (const chargerConnector of charger.connectors) {
+      for (const chargerConnector of chargingStation.connectors) {
         // Charging Profile?
         if (forChargingProfile) {
           result.maxAmp += chargerConnector.amperageLimit;
@@ -133,18 +141,21 @@ export class Utils {
     if (result.currentAmp === 0) {
       result.currentAmp = result.maxAmp;
     }
+    result.minWatt = Utils.convertAmpToPowerWatts(chargingStation, result.minAmp);
+    result.maxWatt = Utils.convertAmpToPowerWatts(chargingStation, result.maxAmp);
+    result.currentWatt = Utils.convertAmpToPowerWatts(chargingStation, result.currentAmp);
     return result;
   }
 
   public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
-    if (charger.connectors[0].numberOfConnectedPhase) {
+    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
       return ChargingStations.convertAmpToW(charger.connectors[0].numberOfConnectedPhase, ampValue);
     }
     return 0;
   }
 
   public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    if (charger.connectors[0].numberOfConnectedPhase) {
+    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
       return appUnitFormatter.transform(
         Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, 0);
     }
@@ -238,7 +249,7 @@ export class Utils {
     }
   }
 
-  public static convertToDate(date: any) {
+  public static convertToDate(date: any): Date {
     // Check
     if (!date) {
       return date;
@@ -250,7 +261,7 @@ export class Utils {
     return date;
   }
 
-  public static convertToInteger(value: any) {
+  public static convertToInteger(value: any): number {
     let changedValue = value;
     if (!value) {
       return 0;
@@ -263,7 +274,7 @@ export class Utils {
     return changedValue;
   }
 
-  public static convertToFloat(value: any) {
+  public static convertToFloat(value: any): number {
     let changedValue = value;
     if (!value) {
       return 0;
@@ -276,12 +287,12 @@ export class Utils {
     return changedValue;
   }
 
-  public static isNull(obj: any) {
+  public static isNull(obj: any): boolean {
     // tslint:disable-next-line: triple-equals
     return obj == null;
   }
 
-  public static isValidDate(date: any) {
+  public static isValidDate(date: any): boolean {
     // @ts-ignore
     return moment(date).isValid();
   }

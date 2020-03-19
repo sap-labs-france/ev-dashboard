@@ -23,11 +23,12 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
@@ -101,7 +102,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       {
         id: 'site.name',
         name: 'sites.site',
-        headerClass: 'col-20p',
+        headerClass: 'col-30p',
         class: 'col-20p',
         sortable: true,
       },
@@ -120,14 +121,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
       },
     ];
-    if (this.authorizationService.isAdmin()) {
-      tableColumnDef.unshift({
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 
@@ -151,9 +144,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.editChargersAction,
         new TableMoreAction([
-          this.deleteAction,
           this.exportOCPPParamsAction,
           openInMaps,
+          this.deleteAction,
         ]).getActionDef(),
       ];
     }
@@ -162,9 +155,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editAction,
         this.displayChargersAction,
         new TableMoreAction([
-          this.deleteAction,
           this.exportOCPPParamsAction,
           openInMaps,
+          this.deleteAction,
         ]).getActionDef(),
       ];
     }
@@ -220,6 +213,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new SiteTableFilter().getFilterDef(),
     ];
   }

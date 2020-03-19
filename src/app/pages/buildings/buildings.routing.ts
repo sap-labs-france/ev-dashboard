@@ -4,7 +4,6 @@ import { Action, Entity } from 'app/types/Authorization';
 import TenantComponents from 'app/types/TenantComponents';
 import { BuildingsComponent } from './buildings.component';
 
-
 export const BuildingsRoutes: Routes = [
   {
     path: '', component: BuildingsComponent, canActivate: [RouteGuardService], data: {

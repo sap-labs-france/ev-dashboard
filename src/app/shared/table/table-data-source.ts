@@ -5,7 +5,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { Observable, of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
@@ -639,18 +639,15 @@ export abstract class TableDataSource<T extends Data> {
       if (isRowSelectionEnabled) {
         freshRow.isSelectable = this.isSelectable(freshRow);
       }
-
       // Set row ID
       if (!freshRow.id) {
         // Get row ID
         const rowID = this.initTableDef(false).rowFieldNameIdentifier;
-        // Trigger exception
-        if (!rowID) {
-          throw new Error('Table Def has no row ID defined!');
-        }
         // Set the ID
-        // @ts-ignore
-        freshRow.id = freshRow[rowID];
+        if (!rowID) {
+          // @ts-ignore
+          freshRow.id = freshRow[rowID];
+        }
       }
       // Check if Expanded
       const foundExpandedRow = expandedRowIDs.find((expandedRow) => expandedRow.id === freshRow.id);

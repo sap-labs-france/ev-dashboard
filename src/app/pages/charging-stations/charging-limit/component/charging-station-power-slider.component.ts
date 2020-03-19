@@ -36,9 +36,6 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   ngOnInit() {
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(this.charger, this.connector, this.forChargingProfile);
-    if (!this.currentAmp) {
-    this.currentAmp = chargerPowers.currentAmp;
-    }
     this.minAmp = chargerPowers.minAmp;
     this.maxAmp = chargerPowers.maxAmp;
     this.notSupported = chargerPowers.notSupported;
@@ -52,13 +49,11 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   }
 
   public sliderChanged(value: number) {
-    if (value) {
-      this.currentAmp = value;
-      // Update Power
-      this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, value, 'W');
-      // Notify
-      this.silderChanged.emit(value);
-    }
+    this.currentAmp = value;
+    // Update Power
+    this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.charger, this.appUnitFormatter, value, 'W');
+    // Notify
+    this.silderChanged.emit(value);
   }
 
   private updateDisplayedPowerKW() {

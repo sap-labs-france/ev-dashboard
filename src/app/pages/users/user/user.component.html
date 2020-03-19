@@ -154,7 +154,7 @@
             <span>{{'users.tags' | translate}}</span>
           </ng-template>
           <div class="card-body">
-            <app-table [dataSource]="userTagsTableDataSource"></app-table>
+            <app-table [dataSource]="userTagsEditableTableDataSource"></app-table>
           </div>
         </mat-tab>
         <mat-tab *ngIf="isSuperAdmin">
@@ -410,9 +410,6 @@
                   <mat-form-field>
                     <input [formControl]="iNumber" matInput
                            placeholder="{{'users.inumber' | translate}}" type="text">
-                    <mat-error *ngIf="iNumber.errors?.pattern">
-                      {{"general.invalid_value" | translate}}
-                    </mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -441,7 +438,7 @@
         </mat-tab>
         <mat-tab disabled>
           <ng-template mat-tab-label>
-            <button mat-button (click)="saveUser(formGroup.value)"
+            <button mat-button (click)="saveUser(formGroup.getRawValue())"
                     [disabled]="!formGroup.valid || !formGroup.dirty">
               <mat-icon>save</mat-icon>
               <span>{{'general.save' | translate}}</span>

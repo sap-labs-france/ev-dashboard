@@ -17,6 +17,7 @@ import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellCo
 import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
+import { AppChargingStationsFormatFirmwareStatusPipe, ChargingStationsFirmwareStatusCellComponent } from './cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
@@ -77,6 +78,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
     ChargingStationFirmwareUpdateComponent,
+    ChargingStationsFirmwareStatusCellComponent,
   ],
   declarations: [
     ChargingStationDialogComponent,
@@ -88,6 +90,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     AppChargingStationsFormatPowerConnectorPipe,
     AppChargingStationsFormatConnectorPipe,
     AppChargingStationsFormatConnectorStatusPipe,
+    AppChargingStationsFormatFirmwareStatusPipe,
     ChargingStationsHeartbeatCellComponent,
     ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
@@ -102,6 +105,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
     ChargingStationFirmwareUpdateComponent,
+    ChargingStationsFirmwareStatusCellComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,

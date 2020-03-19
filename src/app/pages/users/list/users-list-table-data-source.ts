@@ -31,6 +31,7 @@ import { TableDeleteAction } from '../../../shared/table/actions/table-delete-ac
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -254,15 +255,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       ];
     }
     const moreActions = new TableMoreAction([]);
-    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
     if (moreActions.getActionsInMoreActions().length > 0) {
       actions.push(moreActions.getActionDef());
+    }
+    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
     return actions;
   }
@@ -344,6 +345,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
     ];

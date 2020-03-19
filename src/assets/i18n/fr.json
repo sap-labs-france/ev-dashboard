@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.4",
+    "last_update": "Version 2.2.14",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -31,8 +31,10 @@
     "mandatory_field": "Champs obligatoire",
     "no_record_found": "Aucun enregistrement n'a été trouvé",
     "no_connector_available": "Aucun connecteur disponible",
-    "error_max_length": "La Longueur maximale est {{length}}",
-    "error_min_length": "La Longueur minimale est {{length}}",
+    "error_max_length": "Longueur maximale: {{length}}",
+    "error_min_length": "Longueur minimale: {{length}}",
+    "error_max_value": "Valeur maximale: {{value}}",
+    "error_min_value": "Valeur minimale: {{value}}",
     "error_url_pattern": "URL Invalide",
     "error_number_pattern": "Nombre invalide",
     "invalid_date": "Date invalide",
@@ -41,7 +43,7 @@
     "id": "Id",
     "ok": "Ok",
     "cancel": "Annuler",
-    "actions": "Actions",
+    "actions": "Action(s)",
     "add": "Ajouter",
     "select": "Selectioner",
     "set_filter": "Filtrer",
@@ -67,7 +69,7 @@
     "save": "Sauvegarder",
     "delete": "Effacer",
     "export": "Export",
-    "synchronize": "Synchronizer",
+    "synchronize": "Synchroniser",
     "force_synchronize": "Forcer la synchronization",
     "download": "Télécharger",
     "upload": "Envoyer",
@@ -110,7 +112,7 @@
     "auto_refresh": "Rafraîchissement Auto",
     "sort_date_desc": "Tri Date Décr.",
     "search_placeholder": "Rechercher...",
-    "backend_not_running": "Impossible de se conncter au serveur central",
+    "backend_not_running": "Impossible de se connecter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
@@ -155,6 +157,8 @@
       "invoices": "Factures"
     },
     "tooltips": {
+      "activate": "Activer",
+      "deactivate": "Désactiver",
       "export": "Exporter OCPP params",
       "assign_site_area": "Assigner un site",
       "more": "Actions supplémentaires",
@@ -172,6 +176,8 @@
       "display_chargers": "Afficher les bornes",
       "edit_location": "Assigner au site",
       "edit_users": "Editer un utilisateur",
+      "edit_siteArea": "Editer les site areas",
+      "display_siteAreas": "Afficher les site areas",
       "no_action": "Aucunes actions supplémentaires",
       "open": "Ouvrir",
       "open_in_maps": "Ouvrir dans google maps",
@@ -194,8 +200,8 @@
     }
   },
   "issuer": {
-    "title": "Emetteur",
-    "local": "Local",
+    "title": "Org. Propriétaire",
+    "local": "Actuelle",
     "foreign": "Externe"
   },
   "dashboard": {
@@ -387,6 +393,7 @@
     "site_areas_number": "Zone(s)",
     "show_all_chargers": "Afficher Toutes Les Bornes",
     "enable_access_control": "Activer Contrôle d'Accès (l'utilisateur doit s'authentifier avec un badge)",
+    "enable_smart_charging": "Activer la Charge Intelligente",
     "access_control": "Contrôle d'Accès",
     "charger_list_source_title": "Disponibles",
     "charger_list_target_title": "Utilisées",
@@ -397,6 +404,7 @@
     "image": "Image",
     "assigned_chargers": "Bornes",
     "assigned_chargers_to_site_area": "Bornes assignées à {{siteAreaName}}",
+    "assigned_siteAreas_to_building": "Site Areas assignés à {{buildingName}}",
     "name": "Nom",
     "title": "Zone",
     "titles": "Zones",
@@ -447,7 +455,7 @@
     "email": "Email",
     "invalid_email": "Entez une adresse email valide",
     "forgot_password": "Mot de passe oublié?",
-    "email_already_exists": "Cet Email est déjà utilisé",
+    "email_already_exists": "Cet Email existe déjà",
     "email_does_not_exist": "Cet Email n'existe pas",
     "cannot_check_email_in_backend": "Impossible de vérifier cet email sur le serveur",
     "wrong_email_or_password": "Mauvais email ou mot de passe",
@@ -593,6 +601,7 @@
     "consumption_title": "Puissance instantanée",
     "total_consumption_title": "Consommation",
     "firmware_version": "Version Firmware",
+    "firmware_status": "Statut Firware",
     "connector_status": "Status",
     "ocpp_version": "Version OCPP",
     "ocpp_version_title": "OCPP",
@@ -600,6 +609,7 @@
     "nb_connected_phase": "Nombre de Phase Connectée",
     "current_type": "Type de Courant",
     "cant_charge_in_parallel": "Cette borne ne peut utiliser les connecteurs en parallèle",
+    "private": "Cette borne est privée et ne sera pas partagée avec d'autres systèmes",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",
@@ -611,7 +621,7 @@
     "ocpp_advanced_command": "Commandes OCPP Avancées",
     "unassigned": "Non Assignée",
     "unassigned_chargers": "Bornes",
-    "maximum_energy": "Energie Maximum (Watt)",
+    "maximum_energy": "Energie Maximum (kW)",
     "connector": "Connecteur",
     "connector0": "Borne",
     "connector_type": "Type",
@@ -653,6 +663,13 @@
     "status_error_under_voltage": "Soustension",
     "status_error_weak_signal": "Signal Faible",
     "status_error_unknown": "Inconnu",
+    "status_firmware_idle": "Prêt",
+    "status_firmware_downloading": "Téléchargement en Cours",
+    "status_firmware_downloadfailed": "Echec du Téléchargement",
+    "status_firmware_installing": "Installation en Cours",
+    "status_firmware_installationfailed": "Echec de l'Installation",
+    "status_firmware_downloaded": "Téléchargement Réussi",
+    "status_firmware_installed": "Installation Réussie",
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
     "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
@@ -684,19 +701,25 @@
     "assign_sitearea_action": "Assigner",
     "assign_sitearea_action_tooltip": "Assigner à une zone",
     "smart_charging": {
-      "slider_power_disabled": "Limite Désactivée",
+      "slider_power_disabled": "Limite non supportée",
       "date_not_in_past": "La date ne doit pas être dans le passé",
-      "date_out_of_limit": "La date depasse la limite maximale du type de profile sélectionné",
+      "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
+      "smart_charging_enabled_static_limitation": "La charge intelligente est activée sur cette zone et gère automatiquement la limitation de la charge de cette borne.",
+      "smart_charging_enabled_charging_profiles": "La charge intelligente est activée sur cette zone et gère automatiquement les plans de charge de cette borne.",
       "static_limit": "Limite Statique",
-      "charging_profile_limit": "Profile de Charge",
+      "charging_profile_limit": "Plan de Charge",
       "debug_charging_station": "Debuger Borne",
       "reset_button": "Rafraichir",
+      "invalid_min_duration": "Durée minimum de {{minDuration}} min",
+      "invalid_max_duration": "Durée maximum de {{maxDuration}} mins",
       "maximum_energy_limit": "Limite de Puissance de '{{chargeBoxID}}'",
       "power_limit_title": "Limite de puissance",
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
       "power_limit_success": "La puissance de la borne '{{chargeBoxID}}' a été limitée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
+      "power_limit_has_charging_plan_title": "Existing Charging Plan",
+      "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
       "power_limit_plan_title": "Limite de puissance",
       "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' avec ce plan de charge ?",
       "power_limit_plan_clear": "Voulez-vous vraiment effacer les profiles de charges de '{{chargeBoxID}}'?",
@@ -705,7 +728,7 @@
       "power_limit_plan_not_accepted": "Les plans de charge n'ont pas été acceptés par la borne '{{chargeBoxID}}'",
       "clear_profile_title": "Effacer les profiles de charge",
       "clear_profile_confirm": "Voulez-vous vraiment effacer tous les profiles de charges de la borne '{{chargeBoxID}}'?",
-      "clear_profile_success": "Les profiles de charge de la borne '{{chargeBoxID}}' ont été effacés correctement",
+      "clear_profile_success": "Les profiles de charge de la borne '{{chargeBoxID}}' ont été supprimés correctement",
       "clear_profile_error": "Une erreur est sruvenue pendant l'effacement des profiles de charge",
       "clear_profile_not_accepted": "La requete n'a pas été acceptée par la borne '{{chargeBoxID}}'",
       "clear_profiles_button": "Effacer les profiles",
@@ -826,6 +849,7 @@
     "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session pour l'ultilisateur '{{userName}}' sur la borne '{{chargeBoxID}}'?",
     "start_transaction_success": "La session sur la borne '{{chargeBoxID}}' a été démarrée avec succès",
     "start_transaction_error": "Une erreur est survenue pendant la tentative de démarrage de la session",
+    "start_transaction_missing_active_tag": "La transaction ne peut être démarrée pour l'utilisateur '{{userName}}' sur la borne '{{chargeBoxID}}', l'utilisateur doit avoir au moins un badge actif.",
     "start_transaction_user_not_allowed": "Vous n'êtes pas autorisé à demarrer une session sur cette borne",
     "unlock_connector_title": "Dévérouiller",
     "unlock_connector_button": "Dévérouiller",
@@ -866,7 +890,7 @@
     "start_transaction_user_select_button": "Sélectionner",
     "start_for_myself_button": "Moi même",
     "select_user_button": "Autre utilisateur",
-    "power_limit_unit": "Unité utilisé pour la limitation de puissance",
+    "power_limit_unit": "Unité de Puissance du Connecteur",
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Voltage (V)",
@@ -877,25 +901,25 @@
       "in_error": "En Erreur"
     },
     "errors": {
-      "missingSettings": {
+      "missing_settings": {
         "title": "Paramètres Manquants",
         "description": "Des paramètres obligatoires sont manquants",
-        "action": "Renseigner les paramètres requis manquant {{missingSettings}} dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
+        "action": "Renseigner les paramètres requis manquant dans la page de configuration de la borne"
       },
-      "connectionBroken": {
+      "connection_broken": {
         "title": "Connexion Perdue",
         "description": "Le serveur n'arrive plus à communiquer avec la borne",
-        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
+        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne"
       },
-      "missingSiteArea": {
+      "missing_site_area": {
         "title": "Non Assignée à une Zone",
-        "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
-        "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
+        "description": "La borne doit être assignée à une zone pour être opérationnelle",
+        "action": "Renseigner la zone dans la page de configuration de la borne"
       },
-      "connectorError": {
+      "connector_error": {
         "title": "Erreur d'un Connecteur",
         "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
-        "action": "Vérifier le code d'erreur, vous pouvez redémarrer ou faire un reset de la borne via les actions dans la colonne 'Action'"
+        "action": "Vérifier le code d'erreur et éventuellement redémarrer la borne"
       }
     }
   },
@@ -993,7 +1017,7 @@
     "plate_id": "Plaque",
     "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
-    "inumber": "I-Number",
+    "inumber": "Identifiant Entreprise",
     "cost_center": "Centre de coût",
     "phone": "Téléphone",
     "mobile": "Portable",
@@ -1102,7 +1126,15 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Emetteur"
+    "issuer": "Propriétaire",
+    "status": "Statut",
+    "activated": "Activé",
+    "deactivated": "Désactivé",
+    "sessions": "Sessions",
+    "activate_title": "Badge activation",
+    "activate_confirm": "Voulez-vous vraiment activer le badge '{{tagID}}'? Lorsqu'il sera activé, ce badge pourra servir pour démarrer une session.",
+    "deactivate_title": "Badge désactivation",
+    "deactivate_confirm": "Voulez-vous vraiment désactiver le badge '{{tagID}}'? Lorsqu'il sera désactivé, ce badge ne pourra pas servir pour démarrer une session."
   },
   "tenants": {
     "title": "Organisation",
@@ -1124,7 +1156,8 @@
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
     "save_error_refund": "La Tarification doit être active pour utiliser le Remboursement",
     "save_error_billing": "La Tarification doit être active pour utiliser la Facturation",
-    "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging"
+    "save_error_smart_charging": "L'Organisation doit être active pour utiliser Smart Charging",
+    "save_error_building": "L'Organisation doit être active pour utiliser Building"
   },
   "settings": {
     "tabs": {
@@ -1183,7 +1216,7 @@
       "create_error": "Une erreur est survenue pendant la creation de la configuration Remboursement",
       "update_success": "la configuration Remboursement a été mis à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration Remboursement",
-      "synchronize_dialog_refund_title": "Synchronizer Les Transactions Remboursées",
+      "synchronize_dialog_refund_title": "Synchroniser Les Transactions Remboursées",
       "synchronize_dialog_refund_confirm": "Voulez-vous vraiment synchronizer les transactions remboursées ?",
       "synchronize_started": "La synchronization des transactions remboursées a été démarrée",
       "synchronize_success": "Les transactions remboursées ont été mises à jour avec succès",
@@ -1236,8 +1269,8 @@
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
       "connection_error": "Connexion vers l'application de facturation impossible. Vérifiez votre clé secrète.",
-      "synchronize_users": "Synchroniser utilisateurs",
-      "synchronize_user": "Synchroniser utilisateur",
+      "synchronize_users": "Synchroniser Billing",
+      "synchronize_user": "Synchroniser Billing",
       "force_synchronize_users": "Forcer Synchro Facturation",
       "synchronize_users_dialog_title": "Synchroniser les Utilisateurs pour la Facturation",
       "synchronize_user_dialog_title": "Synchroniser l'Utilisateur pour la Facturation",
@@ -1443,6 +1476,13 @@
       "buildings": "Bâtiments"
     }
   },
+  "car": {
+    "title": "Car",
+    "description": "Gestion des voitures",
+    "tabs": {
+      "cars": "Voitures"
+    }
+  },
   "analytics": {
     "title": "Analytique",
     "type_placeholder": "Type",
@@ -1575,11 +1615,13 @@
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Instantannée (kWatt)",
-      "energy": "Energie délivrée (kWatt.h)",
+      "power": "Puissance Instantanée (kW)",
+      "energy": "Energie Délivrée (kW.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
-      "cumulated_amount": "Montant"
+      "cumulated_amount": "Montant",
+      "limit_plan_watts": "Limitation du Plan (kW)",
+      "limit_watts": "Limitation Max (kW)"
     },
     "dialog": {
       "delete": {

@@ -11,6 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
@@ -21,6 +22,7 @@ import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
@@ -97,6 +99,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       {
         id: 'name',
         name: 'companies.name',
+        headerClass: 'col-50p',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
@@ -117,14 +120,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
-    if (this.isAdmin) {
-      tableColumnDef.splice(1, 0, {
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 
@@ -148,13 +143,17 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     if (this.isAdmin) {
       return [
         this.editAction,
-        openInMaps,
-        this.deleteAction,
+        new TableMoreAction([
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef(),
       ];
     } else {
       return [
         this.viewAction,
-        openInMaps,
+        new TableMoreAction([
+          openInMaps,
+        ]).getActionDef(),
       ];
     }
   }
@@ -195,7 +194,9 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new IssuerFilter().getFilterDef(),
+    ];
   }
 
   private showPlace(company: Company) {

@@ -22,12 +22,13 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SiteDialogComponent } from '../site/site-dialog.component';
@@ -99,7 +100,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       {
         id: 'company.name',
         name: 'companies.title',
-        headerClass: 'col-20p',
+        headerClass: 'col-30p',
         class: 'col-20p',
         sortable: true,
       },
@@ -118,14 +119,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         sortable: true,
       },
     ];
-    if (this.authorizationService.isAdmin()) {
-      tableColumnDef.unshift({
-        id: 'id',
-        name: 'general.id',
-        headerClass: 'd-none col-15p d-xl-table-cell',
-        class: 'd-none col-15p d-xl-table-cell',
-      });
-    }
     return tableColumnDef;
   }
 
@@ -146,7 +139,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     let moreActions;
     // check if GPs are available
     openInMaps.disabled = (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) ? false : true;
-
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
       actions.push(this.editUsersAction);
@@ -162,7 +154,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
     if (this.authorizationService.canAccess(Entity.SITE, Action.DELETE)) {
       if (moreActions.dropdownActions) {
-        moreActions.dropdownActions.splice(0, 0, this.deleteAction);
+        moreActions.dropdownActions.push(this.deleteAction);
       }
     }
     actions.push(moreActions);
@@ -211,6 +203,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new CompanyTableFilter().getFilterDef(),
     ];
   }

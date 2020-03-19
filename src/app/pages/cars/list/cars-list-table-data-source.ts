@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Car, CarImage } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
-import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
+import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { MatDialogConfig, MatDialog } from '@angular/material';
-import { ButtonAction } from 'app/types/GlobalType';
-import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { ConfigService } from 'app/services/config.service';
 import { CarComponent } from '../car/car.component';
+import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -36,7 +36,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public loadDataImpl(): Observable<DataResult<Car>> {
     return new Observable((observer) => {
-      // get cars
+      // Get cars
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
         // lookup for image otherwise assign default
         for (const car of cars.result) {
@@ -67,7 +67,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableFooterStats(): string {
-    return 'Source : ' + this.config.getCar().url;
+    return this.config.getCar().url;
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -149,9 +149,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     }
   }
 
-  buildTableRowActions(): TableActionDef[] {
-    const rowActions = [this.openAction];
-    return rowActions;
+  public buildTableRowActions(): TableActionDef[] {
+    return [this.openAction];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

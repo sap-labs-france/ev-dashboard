@@ -1,34 +1,32 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Car } from 'app/types/Car';
-import { CentralServerService } from 'app/services/central-server.service';
-import { Utils } from 'app/utils/Utils';
-import { SpinnerService } from 'app/services/spinner.service';
-import { MessageService } from 'app/services/message.service';
 import { Router } from '@angular/router';
 import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Car } from 'app/types/Car';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   templateUrl: './car.component.html',
 })
-export class CarComponent {
-  carID!: number;
-  imageObject: Array<object> = new Array<object>();
-  car!: Car;
-  imageSize!: any;
-  isSuperAdmin: boolean;
+export class CarComponent implements OnInit {
+  public car!: Car;
+  public isSuperAdmin: boolean;
+  private carID!: number;
+
   constructor(
-    private centralServerService: CentralServerService,
-    public spinnerService: SpinnerService,
-    private messageService: MessageService,
-    public dialogRef: MatDialogRef<CarComponent>,
-    private router: Router,
-    private authorizationService: AuthorizationService,
-    @Inject(MAT_DIALOG_DATA) data: number) {
+      private centralServerService: CentralServerService,
+      public spinnerService: SpinnerService,
+      private messageService: MessageService,
+      public dialogRef: MatDialogRef<CarComponent>,
+      private router: Router,
+      private authorizationService: AuthorizationService,
+      @Inject(MAT_DIALOG_DATA) data: number) {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     if (data) {
       this.carID = data;
-      this.imageSize = { width: "100px", height: "200px", space: 3 }
     }
   }
 
@@ -46,27 +44,15 @@ export class CarComponent {
   }
 
   loadData() {
-    this.spinnerService.show();
     if (this.carID) {
-      this.centralServerService.getCar(this.carID).subscribe((car) => {
-        if (car) {
-          this.car = car;
-          if (car.images && car.images.length > 0) {
-            car.images.forEach(element => {
-              this.imageObject.push({
-                image: element,
-                thumbImage: element,
-                alt: car.vehicleModel + ' - ' + car.vehicleMake,
-              });
-            });
-          }
-        }
+      this.spinnerService.show();
+      this.centralServerService.getCar(this.carID).subscribe((car: Car) => {
         this.spinnerService.hide();
+        this.car = car;
       }, (error) => {
         // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_error');
         this.spinnerService.hide();
-
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_error');
       });
     }
   }

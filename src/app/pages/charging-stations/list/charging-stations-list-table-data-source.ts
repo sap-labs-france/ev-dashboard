@@ -370,7 +370,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     }
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !charger || !Utils.containsGPSCoordinates(charger.coordinates);
+    openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,

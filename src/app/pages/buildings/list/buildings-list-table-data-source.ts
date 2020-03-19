@@ -127,7 +127,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
   public buildTableDynamicRowActions(building: Building) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !building || !Utils.containsAddressGPSCoordinates(building.address);
+    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(building.address);
     if (this.isAdmin) {
       return [
         this.editAction,

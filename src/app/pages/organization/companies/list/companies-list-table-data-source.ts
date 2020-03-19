@@ -138,7 +138,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   public buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !company || !Utils.containsAddressGPSCoordinates(company.address);
+    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     if (this.isAdmin) {
       return [
         this.editAction,

@@ -137,7 +137,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !site || !Utils.containsAddressGPSCoordinates(site.address);
+    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     let moreActions;
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);

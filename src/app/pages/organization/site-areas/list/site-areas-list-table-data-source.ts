@@ -138,7 +138,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   public buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !siteArea || !Utils.containsAddressGPSCoordinates(siteArea.address);
+    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,

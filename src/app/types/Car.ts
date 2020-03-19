@@ -19,6 +19,7 @@ export interface Car extends Data {
   fastChargePlug: string;
   chargePlugLocation: string;
   chargeStandardPower: number;
+  chargeStandardPhase: number;
   chargeStandardChargeSpeed: number;
   chargeStandardChargeTime: number;
   miscSeats: number;

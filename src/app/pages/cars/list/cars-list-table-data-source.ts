@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { MessageService } from 'app/services/message.service';
@@ -30,6 +31,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private router: Router,
     private centralServerService: CentralServerService,
     private config: ConfigService,
+    private translateService: TranslateService,
     private dialog: MatDialog,
     private decimalPipe: AppDecimalPipe,
   ) {
@@ -100,12 +102,47 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
       },
       {
+        id: 'vehicleModelVersion',
+        name: 'cars.vehicleModelVersion',
+        class: 'text-left',
+        sortable: true,
+        formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
+      },
+      {
+        id: 'drivetrainPowerHP',
+        name: 'cars.drivetrainPowerHP',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ? this.decimalPipe.transform(drivetrainPowerHP) : '-',
+      },
+      {
         id: 'batteryCapacityFull',
         name: 'cars.batteryCapacityFull',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (capacity: number) => this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0),
+        formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0) : '-',
+      },
+      {
+        id: 'chargePlug',
+        name: 'cars.chargePlug',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (chargePlug: string) => chargePlug ? chargePlug : '-',
+      },
+      {
+        id: 'chargeStandardPower',
+        name: 'cars.chargeStandardPower',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (chargeStandardPower: number, car: Car) =>
+          chargeStandardPower ?
+            this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0) +
+            ` (${car.chargeStandardPhase})`
+          : '-',
       },
       {
         id: 'performanceTopspeed',
@@ -113,7 +150,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (topSpeed: number) => this.decimalPipe.transform(topSpeed) + ' km/h',
+        formatter: (topSpeed: number) => topSpeed ? this.decimalPipe.transform(topSpeed) + ' km/h' : '-',
       },
       {
         id: 'performanceAcceleration',
@@ -121,7 +158,15 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (acceleration) => acceleration + ' sec',
+        formatter: (acceleration: number) => acceleration ? this.decimalPipe.transform(acceleration) + ' secs' : '-',
+      },
+      {
+        id: 'rangeWLTP',
+        name: 'cars.rangeWLTP',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (rangeWLTP: number) => rangeWLTP ? this.decimalPipe.transform(rangeWLTP) + ' km' : '-',
       },
       {
         id: 'rangeReal',
@@ -129,8 +174,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (range) => range + ' km',
-      }
+        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' km' : '-',
+      },
     ];
     return tableColumnDef;
   }

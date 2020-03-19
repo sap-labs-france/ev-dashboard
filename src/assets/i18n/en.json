@@ -1462,7 +1462,7 @@
   "cars": {
     "vehicleModel": "Model",
     "vehicleMake": "Make",
-    "batteryCapacityFull": "Capacity Full",
+    "batteryCapacityFull": "Battery Capacity",
     "fastChargeSpeed": "Charge Speed",
     "performanceTopspeed": "Top Speed",
     "rangeReal": "Range Real",

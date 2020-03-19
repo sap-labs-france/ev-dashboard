@@ -5,6 +5,8 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -24,10 +26,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   constructor(
     public spinnerService: SpinnerService,
     private messageService: MessageService,
+    private appUnitPipe: AppUnitPipe,
     private router: Router,
     private centralServerService: CentralServerService,
     private config: ConfigService,
     private dialog: MatDialog,
+    private decimalPipe: AppDecimalPipe,
   ) {
     super(spinnerService);
     // Init
@@ -67,7 +71,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableFooterStats(): string {
-    return this.config.getCar().url;
+    return `<a href="${this.config.getCar().url}" target="_blank">${this.config.getCar().url}</a>`;
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -101,7 +105,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (capacity) => capacity + ' kWh',
+        formatter: (capacity: number) => this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0),
       },
       {
         id: 'chargeStandardChargeSpeed',
@@ -109,7 +113,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (chargeSpeed) => chargeSpeed + ' km/h',
+        formatter: (chargeSpeed: number) => this.decimalPipe.transform(chargeSpeed) + ' km/h',
       },
       {
         id: 'performanceTopspeed',

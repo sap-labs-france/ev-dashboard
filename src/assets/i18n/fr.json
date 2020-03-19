@@ -1462,8 +1462,8 @@
   "cars": {
     "vehicleModel": "Modèle",
     "vehicleMake": "Constructeur ",
-    "batteryCapacityFull": "Pleine Capacité",
-    "fastChargeSpeed": "Vitesse De Chargement",
+    "batteryCapacityFull": "Capacitée Batterie",
+    "fastChargeSpeed": "Vitesse de Charge",
     "performanceTopspeed": "Vitesse Maximale",
     "rangeReal": "Plage réelle",
     "efficiencyReal": "Efficacité",

@@ -1109,9 +1109,7 @@
   },
   "invoices": {
     "tabs": {
-      "list": "Factures",
-      "unpaid": "Impayées",
-      "paid": "Payées"
+      "list": "Factures"
     },
     "tooltips": {
       "download": "Télécharger la facture",

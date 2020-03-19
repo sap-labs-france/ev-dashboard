@@ -1109,9 +1109,7 @@
   },
   "invoices": {
     "tabs": {
-      "list": "Invoices",
-      "unpaid": "Unpaid",
-      "paid": "Paid"
+      "list": "Invoices"
     },
     "tooltips": {
       "download": "Download invoice",

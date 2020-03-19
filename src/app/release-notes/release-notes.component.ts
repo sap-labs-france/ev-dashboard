@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.14',
-        date: new Date('2020-03-18'),
+        date: new Date('2020-03-19'),
         componentChanges: [
           {
             name: 'Dashboard',

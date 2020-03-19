@@ -6,7 +6,7 @@ import { ChargingStationsListTableDataSource } from './charging-stations-list-ta
 
 @Component({
   selector: 'app-charging-stations-list',
-  templateUrl: 'charging-stations-list.component.html',
+  template: '<app-table [dataSource]="chargingStationsListTableDataSource"></app-table>',
   providers: [ChargingStationsListTableDataSource],
 })
 export class ChargingStationsListComponent implements OnInit {

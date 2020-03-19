@@ -59,8 +59,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
@@ -69,7 +69,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     private dialog: MatDialog,
     private dialogService: DialogService,
   ) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {

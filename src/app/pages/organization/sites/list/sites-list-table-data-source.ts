@@ -43,15 +43,15 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }

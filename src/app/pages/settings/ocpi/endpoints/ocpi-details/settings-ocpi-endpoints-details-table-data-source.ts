@@ -40,13 +40,13 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private centralServerService: CentralServerService,
-    private translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
     private dialogService: DialogService,
     private datePipe: AppDatePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

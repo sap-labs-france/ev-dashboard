@@ -4,7 +4,8 @@ import { AppDecimalPipe } from './app-decimal-pipe';
 @Pipe({name: 'appUnit'})
 export class AppUnitPipe implements PipeTransform {
 
-  constructor(private decimalPipe: AppDecimalPipe) {
+  constructor(
+    private decimalPipe: AppDecimalPipe) {
   }
 
   private parseMeasure(measureAsString: string): Measure {
@@ -21,6 +22,10 @@ export class AppUnitPipe implements PipeTransform {
             numberOfDecimal: number = 2): string {
     if (value === 0) {
       numberOfDecimal = 0;
+    }
+    if (srcMeasure === destMeasure) {
+      return this.decimalPipe.transform(value,
+        `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + destMeasure : ''}`;
     }
     const src = this.parseMeasure(srcMeasure);
     const dest = this.parseMeasure(destMeasure);

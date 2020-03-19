@@ -18,7 +18,7 @@
 	},
   "User": {
     "maxPictureKb": 150,
-    "captchaSiteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+    "captchaSiteKey": ""
   },
   "Company": {
     "maxPictureKb": 150
@@ -28,6 +28,9 @@
   },
   "SiteArea": {
     "maxPictureKb": 800
+  },
+  "Car": {
+    "url": ""
   },
   "Locales": {
     "default": "en",

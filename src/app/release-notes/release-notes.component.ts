@@ -45,6 +45,7 @@ export class ReleaseNotesComponent {
               `Update of Charging Stations with Template is always applied during Boot Notificiation`,
               `Set the minimum power to 2 Amps in the Charging Station Limitation`,
               `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Building lists`,
+              `Fixed Delete action not displayed in User's list`,
             ],
           },
         ],

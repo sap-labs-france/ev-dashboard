@@ -135,24 +135,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return tableActionsDef;
   }
 
-  public loadInMaps(siteArea: SiteArea): TableActionDef {
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    if (siteArea && siteArea.address && siteArea.address.coordinates) {
-      const { coordinates } = siteArea.address;
-      if (coordinates.length === 2 && (coordinates[0] && coordinates[1])) {
-        openInMaps.disabled = false;
-      } else {
-        openInMaps.disabled = true;
-      }
-    } else {
-      openInMaps.disabled = true;
-    }
-    return openInMaps;
-  }
-
   public buildTableDynamicRowActions(siteArea: SiteArea) {
-    const openInMaps = this.loadInMaps(siteArea);
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // Check if GPS is available
+    openInMaps.disabled = !siteArea || !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,

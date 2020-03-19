@@ -279,8 +279,8 @@ export class SiteComponent implements OnInit {
   }
 
   public updateSiteCoordinates(site: Site) {
-    if (site.address && site.address.coordinates
-    && !(site.address.coordinates[0] || site.address.coordinates[1])) {
+    if (site.address && site.address.coordinates &&
+      !(site.address.coordinates[0] || site.address.coordinates[1])) {
       delete site.address.coordinates;
     }
   }

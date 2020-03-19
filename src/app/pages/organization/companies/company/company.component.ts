@@ -239,8 +239,8 @@ export class CompanyComponent implements OnInit {
   }
 
   public updateCompanyCoordinates(company: Company) {
-    if (company.address && company.address.coordinates
-    && !(company.address.coordinates[0] || company.address.coordinates[1])) {
+    if (company.address && company.address.coordinates &&
+      !(company.address.coordinates[0] || company.address.coordinates[1])) {
       delete company.address.coordinates;
     }
   }

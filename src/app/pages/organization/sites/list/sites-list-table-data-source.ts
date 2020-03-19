@@ -133,25 +133,11 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     return tableActionsDef;
   }
 
-  public loadInMaps(site: Site): TableActionDef {
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    if (site && site.address && site.address.coordinates) {
-      const { coordinates } = site.address;
-      if (coordinates.length === 2 && (coordinates[0] && coordinates[1])) {
-        openInMaps.disabled = false;
-      } else {
-        openInMaps.disabled = true;
-      }
-    } else {
-      openInMaps.disabled = true;
-    }
-    return openInMaps;
-  }
-
   public buildTableDynamicRowActions(site: Site) {
     const actions = [];
-    const openInMaps = this.loadInMaps(site);
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // Check if GPS is available
+    openInMaps.disabled = !site || !Utils.containsAddressGPSCoordinates(site.address);
     let moreActions;
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);

@@ -254,8 +254,8 @@ export class BuildingComponent implements OnInit {
   }
 
   public updateBuildingCoordinates(building: Building) {
-    if (building.address && building.address.coordinates
-    && !(building.address.coordinates[0] || building.address.coordinates[1])) {
+    if (building.address && building.address.coordinates &&
+      !(building.address.coordinates[0] || building.address.coordinates[1])) {
       delete building.address.coordinates;
     }
   }

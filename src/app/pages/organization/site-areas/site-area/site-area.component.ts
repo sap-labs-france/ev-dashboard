@@ -314,8 +314,8 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public updateSiteAreaCoordinates(siteArea: SiteArea) {
-    if (siteArea.address && siteArea.address.coordinates
-    && !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
+    if (siteArea.address && siteArea.address.coordinates &&
+      !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
       delete siteArea.address.coordinates;
     }
   }

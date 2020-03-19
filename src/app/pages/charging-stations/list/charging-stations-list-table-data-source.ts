@@ -356,21 +356,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     });
   }
 
-  public loadInMaps(charger: ChargingStation): TableActionDef {
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    if (charger && charger.coordinates.length === 2) {
-      if (charger.coordinates[0] && charger.coordinates[1]) {
-        openInMaps.disabled = false;
-      } else {
-        openInMaps.disabled = true;
-      }
-    } else {
-      openInMaps.disabled = true;
-    }
-    return openInMaps;
-  }
-
   public buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
     if (!charger) {
       return [];
@@ -383,7 +368,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         break;
       }
     }
-    const openInMaps = this.loadInMaps(charger);
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // Check if GPS is available
+    openInMaps.disabled = !charger || !Utils.containsGPSCoordinates(charger.coordinates);
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,

@@ -135,24 +135,10 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     }
   }
 
-  public loadInMaps(company: Company): TableActionDef {
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    if (company && company.address && company.address.coordinates) {
-      const { coordinates } = company.address;
-      if (coordinates.length === 2 && (coordinates[0] && coordinates[1])) {
-        openInMaps.disabled = false;
-      } else {
-        openInMaps.disabled = true;
-      }
-    } else {
-      openInMaps.disabled = true;
-    }
-    return openInMaps;
-  }
-
   public buildTableDynamicRowActions(company: Company) {
-    const openInMaps = this.loadInMaps(company);
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // Check if GPS is available
+    openInMaps.disabled = !company || !Utils.containsAddressGPSCoordinates(company.address);
     if (this.isAdmin) {
       return [
         this.editAction,

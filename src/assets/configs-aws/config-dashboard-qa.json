@@ -20,6 +20,9 @@
     "maxPictureKb": 150,
     "captchaSiteKey": "6Lcmr6EUAAAAAIyn3LasUzk-0MpH2R1COXFYsxNw"
   },
+  "Car": {
+    "url": "https://ev-database.org/"
+  },
   "Company": {
     "maxLogoKb": 100
   },

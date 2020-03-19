@@ -23,4 +23,10 @@ export interface BillingInvoice extends Data {
   customerID: string;
   date: Date;
   downloadUrl: string;
+  payUrl: string;
+}
+
+export enum BillingButtonAction {
+  DOWNLOAD = 'Download',
+  PAY = 'Pay',
 }

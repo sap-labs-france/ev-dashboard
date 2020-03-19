@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { UserToken } from 'app/types/User';
 import * as moment from 'moment';
@@ -18,9 +17,10 @@ import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
+import { TablePayInvoiceAction } from '../../../shared/table/actions/table-pay-invoice-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingInvoice } from '../../../types/Billing';
+import { BillingButtonAction, BillingInvoice, InvoiceStatus } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../../transactions/filters/transactions-date-from-filter';
@@ -31,6 +31,7 @@ import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 @Injectable()
 export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
+  // private payAction = new TablePayInvoiceAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -79,11 +80,16 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       search: {
         enabled: true,
       },
+      hasDynamicRowAction: true,
     };
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [this.downloadAction];
+  public buildTableDynamicRowActions(row: BillingInvoice): TableActionDef[] {
+    const actions = [this.downloadAction];
+    // if (row.status === InvoiceStatus.UNPAID) {
+    //   actions.push(this.payAction);
+    // }
+    return actions;
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -94,7 +100,7 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
         name: 'general.status',
         isAngularComponent: true,
         angularComponent: InvoiceStatusFormatterComponent,
-        headerClass: 'col-10p',
+        headerClass: 'col-10p text-center',
         class: 'col-10p table-cell-angular-big-component',
         sortable: true,
       },
@@ -116,7 +122,7 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       {
         id: 'amountDue',
         name: 'invoices.price',
-        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price / 100, invoice.currency),
+        formatter: (price: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(price / 100, invoice.currency.toUpperCase()),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
@@ -134,9 +140,12 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: BillingInvoice) {
     switch (actionDef.id) {
-      case ButtonAction.SEND:
+      case BillingButtonAction.DOWNLOAD:
         window.open(rowItem.downloadUrl, '_blank');
         break;
+      // case BillingButtonAction.PAY:
+      //   window.open(rowItem.payUrl, '_blank');
+      //   break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }

@@ -1089,11 +1089,16 @@
       "unpaid": "Unpaid",
       "paid": "Paid"
     },
+    "tooltips": {
+      "download": "Download invoice",
+      "pay":  "Pay invoice"
+    },
     "id": "Invoice number",
     "createdOn": "Invoice date",
     "price": "Invoice price",
     "paid": "Paid",
-    "unpaid": "Unpaid"
+    "unpaid": "Unpaid",
+    "pay": "Pay"
   },
   "tags": {
     "id": "ID",

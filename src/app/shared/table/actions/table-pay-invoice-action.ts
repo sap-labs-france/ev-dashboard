@@ -8,17 +8,17 @@ import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { TableAction } from './table-action';
 
-export class TableDownloadAction implements TableAction {
+export class TablePayInvoiceAction implements TableAction {
   private action: TableActionDef = {
-    id: BillingButtonAction.DOWNLOAD,
+    id: BillingButtonAction.PAY,
     type: 'button',
-    icon: 'cloud_download',
+    icon: 'credit_card',
     color: ButtonColor.PRIMARY,
-    name: 'general.download',
-    tooltip: 'invoices.tooltips.download',
+    name: 'invoices.pay',
+    tooltip: 'invoices.tooltips.pay',
   };
 
-  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction,
+  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | BillingButtonAction,
     name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;

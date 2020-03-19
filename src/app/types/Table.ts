@@ -1,5 +1,6 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/typings';
+import { BillingButtonAction } from './Billing';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { OcpiButtonAction } from './OCPIEndpoint';
@@ -80,7 +81,7 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction;
+  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction|BillingButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

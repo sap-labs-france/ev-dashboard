@@ -1089,11 +1089,16 @@
       "unpaid": "Impayées",
       "paid": "Payées"
     },
+    "tooltips": {
+      "download": "Télécharger la facture",
+      "pay": "Payer la facture"
+    },
     "id": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
     "paid": "Payée",
-    "unpaid": "Impayée"
+    "unpaid": "Impayée",
+    "pay": "Payer"
   },
   "tags": {
     "id": "ID",

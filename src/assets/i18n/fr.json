@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.10",
+    "last_update": "Version 2.2.14",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -200,8 +200,8 @@
     }
   },
   "issuer": {
-    "title": "Emetteur",
-    "local": "Local",
+    "title": "Org. Propriétaire",
+    "local": "Actuelle",
     "foreign": "Externe"
   },
   "dashboard": {
@@ -455,7 +455,7 @@
     "email": "Email",
     "invalid_email": "Entez une adresse email valide",
     "forgot_password": "Mot de passe oublié?",
-    "email_already_exists": "Cet Email est déjà utilisé",
+    "email_already_exists": "Cet Email existe déjà",
     "email_does_not_exist": "Cet Email n'existe pas",
     "cannot_check_email_in_backend": "Impossible de vérifier cet email sur le serveur",
     "wrong_email_or_password": "Mauvais email ou mot de passe",
@@ -849,6 +849,7 @@
     "start_transaction_confirm": "Voulez-vous vraiment démarrer une nouvelle session pour l'ultilisateur '{{userName}}' sur la borne '{{chargeBoxID}}'?",
     "start_transaction_success": "La session sur la borne '{{chargeBoxID}}' a été démarrée avec succès",
     "start_transaction_error": "Une erreur est survenue pendant la tentative de démarrage de la session",
+    "start_transaction_missing_active_tag": "La transaction ne peut être démarrée pour l'utilisateur '{{userName}}' sur la borne '{{chargeBoxID}}', l'utilisateur doit avoir au moins un badge actif.",
     "start_transaction_user_not_allowed": "Vous n'êtes pas autorisé à demarrer une session sur cette borne",
     "unlock_connector_title": "Dévérouiller",
     "unlock_connector_button": "Dévérouiller",
@@ -889,7 +890,7 @@
     "start_transaction_user_select_button": "Sélectionner",
     "start_for_myself_button": "Moi même",
     "select_user_button": "Autre utilisateur",
-    "power_limit_unit": "Unité utilisé pour la limitation de puissance",
+    "power_limit_unit": "Unité de Puissance du Connecteur",
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Voltage (V)",
@@ -900,25 +901,25 @@
       "in_error": "En Erreur"
     },
     "errors": {
-      "missingSettings": {
+      "missing_settings": {
         "title": "Paramètres Manquants",
         "description": "Des paramètres obligatoires sont manquants",
-        "action": "Renseigner les paramètres requis manquant {{missingSettings}} dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
+        "action": "Renseigner les paramètres requis manquant dans la page de configuration de la borne"
       },
-      "connectionBroken": {
+      "connection_broken": {
         "title": "Connexion Perdue",
         "description": "Le serveur n'arrive plus à communiquer avec la borne",
-        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne elle-même"
+        "action": "Une intervention manuelle est à prévoir. Vérifier l'état du réseau et/ou la configuration de la borne"
       },
-      "missingSiteArea": {
+      "missing_site_area": {
         "title": "Non Assignée à une Zone",
-        "description": "La borne doit être assignée à une zone pour être totalement opérationnelle",
-        "action": "Renseigner la zone dans la page des paramètres de la borne. Voir l'action correspondante dans la colonne 'Actions'"
+        "description": "La borne doit être assignée à une zone pour être opérationnelle",
+        "action": "Renseigner la zone dans la page de configuration de la borne"
       },
-      "connectorError": {
+      "connector_error": {
         "title": "Erreur d'un Connecteur",
         "description": "La borne a renvoyé un état en erreur sur un des connecteurs",
-        "action": "Vérifier le code d'erreur, vous pouvez redémarrer ou faire un reset de la borne via les actions dans la colonne 'Action'"
+        "action": "Vérifier le code d'erreur et éventuellement redémarrer la borne"
       }
     }
   },
@@ -1016,7 +1017,7 @@
     "plate_id": "Plaque",
     "tags": "Badges",
     "tag_ids_help": "Entrer une liste de badges séparés par une virgule",
-    "inumber": "I-Number",
+    "inumber": "Identifiant Entreprise",
     "cost_center": "Centre de coût",
     "phone": "Téléphone",
     "mobile": "Portable",
@@ -1108,7 +1109,7 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Emetteur",
+    "issuer": "Propriétaire",
     "status": "Statut",
     "activated": "Activé",
     "deactivated": "Désactivé",

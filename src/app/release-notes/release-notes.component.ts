@@ -24,12 +24,38 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.10',
-        date: new Date('2020-03-11'),
+        version: '2.2.14',
+        date: new Date('2020-03-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added filters on Connector Types (Type 2, Chademo...)`,
+              `Fixed number of values in x-axis in chart consumption`,
+              `Changed I-Number to Corporate Number in User's prodile`,
+              `Roaming: Implement PUT and PATCH token from IOP`,
+              `Added new parameters to check in Charging Station In Errors`,
+              `Update Charging Station's template without migration`,
+              `Fixed issues with ABB not getting the limits when building consumption metrics`,
+              `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
+              `Add Issuer filtering to display Roaming entities (Companies, Sites, Site Areas...)`,
+              `Fixed Connection Lost in Charger in Error`,
+              `Added AWS deployment and configuration files`,
+              `Switched the Charging Station's Heartbeat interval to 300 seconds`,
+              `Update of Charging Stations with Template is always applied during Boot Notificiation`,
+              `Set minimum power to 0 watt for charging plan`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.11',
+        date: new Date('2020-03-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Remote Start Transaction is now using the first active badge of the User`,
               `Fixed notification is sent when user has badged and session is not started after 10 mins`,
               `Add the maximum limit when creating a Charging Plan`,
               `Limit the max amp in charging plan to the max static limitation`,

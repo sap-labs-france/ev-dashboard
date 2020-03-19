@@ -16,13 +16,13 @@ import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Site } from 'app/types/Site';
 import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
-import TenantComponents from 'app/types/TenantComponents';
 
 @Component({
   selector: 'app-site-area',
@@ -106,7 +106,7 @@ export class SiteAreaComponent implements OnInit {
               Validators.pattern(/^(0|[1-9]\d*$)/),
               Validators.min(1),
               Validators.required,
-            ] : []
+            ] : [],
         )),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),

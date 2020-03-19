@@ -31,6 +31,7 @@ import { TableDeleteAction } from '../../../shared/table/actions/table-delete-ac
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -175,7 +176,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         id: 'eulaAcceptedOn',
         name: 'users.eula_accepted_on',
         formatter: (eulaAcceptedOn: Date, row: User) => {
-          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-'
+          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
         },
         headerClass: 'col-15p',
         class: 'col-15p',
@@ -344,6 +345,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
     ];

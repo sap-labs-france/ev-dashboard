@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
+import { Car } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -15,6 +16,7 @@ import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
@@ -31,8 +33,6 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-import { OCPPClearChargingProfileCommandResult, OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
-import { Car } from 'app/types/Car';
 
 @Injectable()
 export class CentralServerService {

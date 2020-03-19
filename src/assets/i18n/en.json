@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.10",
+    "last_update": "Version 2.2.14",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -200,9 +200,9 @@
     }
   },
   "issuer": {
-    "title": "Issuer",
-    "local": "Local",
-    "foreign": "Foreign"
+    "title": "Organization Owner",
+    "local": "Current",
+    "foreign": "External"
   },
   "dashboard": {
     "active_stations_gauge_title": "Charging points",
@@ -849,6 +849,7 @@
     "start_transaction_confirm": "Do you really want to start a new session for user '{{userName}}' on the charging station '{{chargeBoxID}}'?",
     "start_transaction_success": "The session on the charging station '{{chargeBoxID}}' has been started successfully",
     "start_transaction_error": "Error occurred while trying to start a new session",
+    "start_transaction_missing_active_tag": "Transaction cannot be started for user '{{userName}}' on the charging station '{{chargeBoxID}}', the user needs to have at least one active badge",
     "start_transaction_user_not_allowed": "You are not allowed to start a session on this charging station",
     "unlock_connector_title": "Unlock",
     "unlock_connector_button": "Unlock",
@@ -889,7 +890,7 @@
     "start_transaction_user_select_button": "Select",
     "start_for_myself_button": "Myself",
     "select_user_button": "Another user",
-    "power_limit_unit": "Unit used for power limitation",
+    "power_limit_unit": "Connector Power Unit",
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Voltage (V)",
@@ -900,25 +901,25 @@
       "in_error": "In Error"
     },
     "errors": {
-      "missingSettings": {
+      "missing_settings": {
         "title": "Missing Settings",
         "description": "Required settings are missing",
-        "action": "Maintain missing required settings {{missingSettings}} within the charging station settings. See corresponding actions in 'Actions' column"
+        "action": "Maintain missing required settings in the charging station's configuration"
       },
-      "connectionBroken": {
+      "connection_broken": {
         "title": "Connection Lost",
         "description": "The server can't reach the charging station",
-        "action": "Manual intervention is required. Check your network and/or the charging station configuration"
+        "action": "Manual intervention is required. Check your network and/or the charging station's configuration"
       },
-      "missingSiteArea": {
+      "missing_site_area": {
         "title": "Not Assigned to a Site Area",
         "description": "The charging station needs to be assigned to a Site Area to be fully operational",
-        "action": "Maintain the site area within the charging station settings. See corresponding actions in 'Actions' column"
+        "action": "Maintain the site area in the charging station's configuration"
       },
-      "connectorError": {
+      "connector_error": {
         "title": "Connector Error",
-        "description": "The charging station sent an error code for one of its connectors.",
-        "action": "Check the error code details, you may reset or restart the charger from the 'Action' columns"
+        "description": "The charging station sent an error code for one of its connectors",
+        "action": "Check the error code details and eventually restart the charging station"
       }
     }
   },
@@ -1016,7 +1017,7 @@
     "plate_id": "Plate",
     "tags": "Badges",
     "tag_ids_help": "Enter a list of badge IDs separated by a comma",
-    "inumber": "I-Number",
+    "inumber": "Corporate Number",
     "cost_center": "Cost Center",
     "phone": "Phone",
     "mobile": "Mobile",
@@ -1108,7 +1109,7 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Issuer",
+    "issuer": "Organization Owner",
     "status": "Status",
     "activated": "Activated",
     "deactivated": "Deactivated",

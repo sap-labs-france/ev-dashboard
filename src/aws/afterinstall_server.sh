@@ -18,9 +18,7 @@ fi
 
 sudo cp $emobility_install_dir/dist/assets/configs-aws/nginx-$emobility_service_type-$emobility_landscape.conf /etc/nginx/sites-available/default_emobility
 sudo ln -sf /etc/nginx/sites-available/default_emobility /etc/nginx/sites-enabled/
-sudo cat << EOF > /etc/nginx/conf.d/aws.conf
-log_format aws '$http_x_forwarded_for - $http_referer - [$time_local] "$request" $status $body_bytes_sent';
-EOF
+sudo cp $emobility_install_dir/dist/assets/configs-aws/nginx-aws.conf /etc/nginx/conf.d/aws.conf
 sudo systemctl reload nginx
 cp $emobility_install_dir/dist/assets/configs-aws/config-$emobility_service_type-$emobility_landscape.json $emobility_install_dir/dist/assets/config.json
 sudo chown $emobility_user.$emobility_group $emobility_install_dir

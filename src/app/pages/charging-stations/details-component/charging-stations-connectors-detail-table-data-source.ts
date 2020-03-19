@@ -45,15 +45,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private centralServerService: CentralServerService,
-    private translateService: TranslateService,
     private appUnitPipe: AppUnitPipe,
     private dialog: MatDialog,
     private authorizationService: AuthorizationService,
     private messageService: MessageService,
     private router: Router,
     private dialogService: DialogService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
     this.noAction.getActionDef().disabled = true;

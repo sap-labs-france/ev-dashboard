@@ -11,6 +11,7 @@ import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
 import UserConfiguration from '../types/configuration/UserConfiguration';
+import CarConfiguration from 'app/types/configuration/CarConfiguration';
 
 @Injectable()
 export class ConfigService {
@@ -62,5 +63,9 @@ export class ConfigService {
 
   public getSiteArea(): SiteAreaConfiguration {
     return this.config.SiteArea;
+  }
+
+  public getCar(): CarConfiguration {
+    return this.config.Car;
   }
 }

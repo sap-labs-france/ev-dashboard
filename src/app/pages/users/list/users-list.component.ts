@@ -7,7 +7,7 @@ import { UsersListTableDataSource } from './users-list-table-data-source';
 
 @Component({
   selector: 'app-users-list',
-  templateUrl: 'users-list.component.html',
+  template: '<app-table [dataSource]="usersListTableDataSource"></app-table>',
   providers: [UsersListTableDataSource],
 })
 export class UsersListComponent implements OnInit {

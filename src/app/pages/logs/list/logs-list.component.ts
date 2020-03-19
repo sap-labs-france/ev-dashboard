@@ -3,7 +3,11 @@ import { LogsListTableDataSource } from './logs-list-table-data-source';
 
 @Component({
   selector: 'app-logs-list',
-  templateUrl: 'logs-list.component.html',
+  template: `
+    <div class="main-content">
+      <app-table [dataSource]="logsListTableDataSource"></app-table>
+    </div>
+  `,
   providers: [LogsListTableDataSource],
 })
 export class LogsListComponent {

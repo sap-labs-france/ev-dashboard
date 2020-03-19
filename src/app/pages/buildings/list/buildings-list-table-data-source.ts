@@ -33,8 +33,8 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
@@ -42,7 +42,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
 ) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{WithLogo: true}]);

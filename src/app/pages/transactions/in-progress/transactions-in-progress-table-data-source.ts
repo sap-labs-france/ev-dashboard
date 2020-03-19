@@ -48,8 +48,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
@@ -63,7 +63,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private appBatteryPercentagePipe: AppBatteryPercentagePipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();

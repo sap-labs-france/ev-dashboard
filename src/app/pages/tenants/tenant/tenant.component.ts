@@ -177,7 +177,7 @@ export class TenantComponent implements OnInit {
     let smartChargingActive = false;
     let organizationActive = false;
     let buildingActive = false;
-    let carActive = true;
+    let carActive = false;
 
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
@@ -250,7 +250,6 @@ export class TenantComponent implements OnInit {
 
   private updateTenant(tenant: Tenant) {
     this.spinnerService.show();
-    debugger;
     this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {

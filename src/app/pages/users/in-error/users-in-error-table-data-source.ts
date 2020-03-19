@@ -49,8 +49,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
-      private translateService: TranslateService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
@@ -61,7 +61,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       private userNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

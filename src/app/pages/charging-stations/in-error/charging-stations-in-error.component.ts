@@ -3,7 +3,7 @@ import { ChargingStationsInErrorTableDataSource } from './charging-stations-in-e
 
 @Component({
   selector: 'app-charging-stations-in-error',
-  templateUrl: 'charging-stations-in-error.component.html',
+  template: '<app-table [dataSource]="chargingStationsInErrorTableDataSource"></app-table>',
   providers: [ChargingStationsInErrorTableDataSource],
 })
 export class ChargingStationsInErrorComponent {

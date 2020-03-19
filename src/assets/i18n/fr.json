@@ -114,6 +114,8 @@
     "search_placeholder": "Rechercher...",
     "backend_not_running": "Impossible de se connecter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
+    "car_error": "Une erreur est survenue pendant la récupération du véhicule",
+    "cars_error": "Une erreur est survenue pendant la récupération des véhicules",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
     "invalid_content": "Contenu invalide",
@@ -152,7 +154,8 @@
       "settings": "Configuration",
       "buildings": "Bâtiments",
       "organization": "Organisation",
-      "template": "Modeles"
+      "template": "Modeles",
+      "cars": "Voitures"
     },
     "tooltips": {
       "activate": "Activer",
@@ -1456,11 +1459,55 @@
       "buildings": "Bâtiments"
     }
   },
+  "cars": {
+    "vehicleModel": "Modèle",
+    "vehicleMake": "Constructeur",
+    "vehicleModelVersion": "Version",
+    "batteryCapacityFull": "Capacitée Batterie",
+    "fastChargeSpeed": "Vitesse de Charge",
+    "performanceTopspeed": "Vitesse Maximale",
+    "rangeReal": "Autonomie Réelle",
+    "rangeWLTP": "Autonomie WLTP",
+    "efficiencyReal": "Efficacité",
+    "performanceAcceleration": "0-100 km/h",
+    "image": "Image",
+    "drivetrainPropulsion":"Propulsion",
+    "drivetrainTorque":"Torque",
+    "batteryCapacityUseable":"Capacité Utilisable",
+    "chargePlug":"Charge AC",
+    "drivetrainPowerHP": "Puissance",
+    "drivetrainPowerHPUnit": "ch",
+    "fastChargePlug":"Connecteur DC",
+    "chargePlugLocation":"Emplacement De La Prise",
+    "chargeStandardPower":"Puissance AC",
+    "chargeStandardChargeSpeed":"Vitesse AC",
+    "chargeStandardChargeTime":"Temps AC",
+    "fastChargePowerMax":"Puissance DC",
+    "miscSeats":"Sièges",
+    "miscBody":"Carrosserie",
+    "miscIsofix":"Isofix",
+    "miscTurningCircle":"Cercle Tournant",
+    "miscSegment":"Segment",
+    "miscIsofixSeats":"Sièges Isofix",
+    "miscellaneous": "Divers",
+    "battery": "Batterie",
+    "moreInformations":"Plus d'Informations",
+    "chargeStandardTables":"Table standard de charge",
+    "evsePhaseVolt": "Phase(s) Volt",
+    "evsePhaseAmp": "Phase(s) Amp",
+    "evsePhase": "Phase(s)",
+    "chargePhaseVolt": "Charge Phase Volt",
+    "chargePhaseAmp": "Charge Phase Amp",
+    "chargePhase": "Charge Phase",
+    "chargePower": "Charge Power",
+    "chargeTime": "Temps De Chargement",
+    "chargeSpeed": "Vitesse De Chargement"
+  },
   "car": {
     "title": "Car",
     "description": "Gestion des voitures",
     "tabs": {
-      "cars": "Voitures"
+      "list": "Voitures"
     }
   },
   "analytics": {

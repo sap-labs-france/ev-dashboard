@@ -69,8 +69,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
@@ -78,7 +78,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);

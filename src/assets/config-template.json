@@ -18,7 +18,7 @@
 	},
   "User": {
     "maxPictureKb": 150,
-    "captchaSiteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+    "captchaSiteKey": ""
   },
   "Company": {
     "maxPictureKb": 150
@@ -30,7 +30,7 @@
     "maxPictureKb": 800
   },
   "Car": {
-    "url": "www.ev-database.org"
+    "url": ""
   },
   "Locales": {
     "default": "en",

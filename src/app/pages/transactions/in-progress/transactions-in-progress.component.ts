@@ -6,7 +6,7 @@ import { TransactionsInProgressTableDataSource } from './transactions-in-progres
 
 @Component({
   selector: 'app-transactions-in-progress',
-  templateUrl: 'transactions-in-progress.component.html',
+  template: '<app-table [dataSource]="transactionsInProgressTableDataSource"></app-table>',
   providers: [TransactionsInProgressTableDataSource],
 })
 export class TransactionsInProgressComponent implements OnInit {

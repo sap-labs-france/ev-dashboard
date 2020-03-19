@@ -200,9 +200,9 @@
     }
   },
   "issuer": {
-    "title": "Organization Owner",
-    "local": "Current",
-    "foreign": "External"
+    "title": "Owner",
+    "local": "Current Organization",
+    "foreign": "External Organization"
   },
   "dashboard": {
     "active_stations_gauge_title": "Charging points",

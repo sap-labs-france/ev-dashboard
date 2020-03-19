@@ -200,9 +200,9 @@
     }
   },
   "issuer": {
-    "title": "Org. Propriétaire",
-    "local": "Actuelle",
-    "foreign": "Externe"
+    "title": "Propriétaire",
+    "local": "Organisation Actuelle",
+    "foreign": "Organisation Externe"
   },
   "dashboard": {
     "active_stations_gauge_title": "Point de charge",

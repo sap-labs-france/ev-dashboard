@@ -197,8 +197,8 @@
     }
   },
   "issuer": {
-    "title": "Emetteur",
-    "local": "Local",
+    "title": "Org. Propriétaire",
+    "local": "Actuelle",
     "foreign": "Externe"
   },
   "dashboard": {
@@ -1106,7 +1106,7 @@
   },
   "tags": {
     "id": "ID",
-    "issuer": "Emetteur",
+    "issuer": "Propriétaire",
     "status": "Statut",
     "activated": "Activé",
     "deactivated": "Désactivé",

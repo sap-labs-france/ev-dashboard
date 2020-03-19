@@ -1461,7 +1461,7 @@
   },
   "cars": {
     "vehicleModel": "Model",
-    "vehicleMake": "Make",
+    "vehicleMake": "Maker",
     "batteryCapacityFull": "Battery Capacity",
     "fastChargeSpeed": "Charge Speed",
     "performanceTopspeed": "Top Speed",

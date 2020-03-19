@@ -89,14 +89,14 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         name: 'cars.vehicleMake',
         headerClass: 'col-20p',
         class: 'col-20p',
+        sorted: true,
+        direction: 'asc',
         sortable: true,
       },
       {
         id: 'vehicleModel',
         name: 'cars.vehicleModel',
         class: 'text-left',
-        sorted: true,
-        direction: 'asc',
         sortable: true,
       },
       {
@@ -108,20 +108,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (capacity: number) => this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0),
       },
       {
-        id: 'chargeStandardChargeSpeed',
-        name: 'cars.chargeStandardChargeSpeed',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sortable: true,
-        formatter: (chargeSpeed: number) => this.decimalPipe.transform(chargeSpeed) + ' km/h',
-      },
-      {
         id: 'performanceTopspeed',
         name: 'cars.performanceTopspeed',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (topSpeed) => topSpeed + ' km/h',
+        formatter: (topSpeed: number) => this.decimalPipe.transform(topSpeed) + ' km/h',
       },
       {
         id: 'performanceAcceleration',

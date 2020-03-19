@@ -57,8 +57,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
@@ -73,7 +73,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();

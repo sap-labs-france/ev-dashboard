@@ -26,16 +26,16 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
     private appUnitPipe: AppUnitPipe,
     private router: Router,
     private centralServerService: CentralServerService,
     private config: ConfigService,
-    private translateService: TranslateService,
     private dialog: MatDialog,
     private decimalPipe: AppDecimalPipe,
   ) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }
@@ -141,7 +141,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (chargeStandardPower: number, car: Car) =>
           chargeStandardPower ?
             this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0) +
-            ` (${car.chargeStandardPhase})`
+            ` / ${car.chargeStandardPhase} ${this.translateService.instant('cars.evsePhase')}`
           : '-',
       },
       {

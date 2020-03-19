@@ -6,7 +6,7 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { Action, Entity } from 'app/types/Authorization';
-import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { RefundStatus } from 'app/types/Refund';
@@ -50,8 +50,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
@@ -62,7 +62,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();

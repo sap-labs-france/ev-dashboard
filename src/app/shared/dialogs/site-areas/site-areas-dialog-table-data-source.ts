@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
 import { SiteArea } from 'app/types/SiteArea';
@@ -17,11 +18,12 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
       private router: Router,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

@@ -120,16 +120,16 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       {
         id: 'batteryCapacityFull',
         name: 'cars.batteryCapacityFull',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
         sortable: true,
         formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0) : '-',
       },
       {
         id: 'chargePlug',
         name: 'cars.chargePlug',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
         sortable: true,
         formatter: (chargePlug: string) => chargePlug ? chargePlug : '-',
       },
@@ -141,9 +141,27 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
         formatter: (chargeStandardPower: number, car: Car) =>
           chargeStandardPower ?
-            this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0) +
+            `${this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0)}` +
+            ` / ${car.chargePlug}` +
             ` / ${car.chargeStandardPhase} ${this.translateService.instant('cars.evsePhase')}`
           : '-',
+      },
+      {
+        id: 'fastChargePlug',
+        name: 'cars.fastChargePlug',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (fastChargePlug: string) => fastChargePlug ? fastChargePlug : '-',
+      },
+      {
+        id: 'fastChargePowerMax',
+        name: 'cars.fastChargePowerMax',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (fastChargePowerMax: number, car: Car) =>
+          fastChargePowerMax ? this.appUnitPipe.transform(fastChargePowerMax, 'kWh', 'kWh', true, 1, 0) : '-',
       },
       {
         id: 'performanceTopspeed',

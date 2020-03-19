@@ -83,6 +83,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.dialog.closeAll();
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
     const body = document.getElementsByTagName('body')[0];

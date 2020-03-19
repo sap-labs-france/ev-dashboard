@@ -27,7 +27,7 @@ export interface Car extends Data {
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
-  chargeStandardTables: { [id: string]: ChargeStandardTable; };
+  chargeStandardTables: ChargeStandardTable[];
   carObject?: any;
 }
 

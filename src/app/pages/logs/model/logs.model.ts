@@ -141,6 +141,7 @@ export const logActions: KeyValue[] = [
   {key: 'ExtraInactivity', value: 'ExtraInactivity'},
   {key: 'SynchronizeCars', value: 'SynchronizeCars'},
   {key: 'SynchronizeUsersBilling', value: 'SynchronizeUsersBilling'},
+  {key: 'SAPSmartCharging', value: 'SAPSmartCharging'},
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

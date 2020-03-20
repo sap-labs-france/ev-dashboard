@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import BuildingConfiguration from 'app/types/configuration/BuildingConfiguration';
+import CarConfiguration from 'app/types/configuration/CarConfiguration';
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
@@ -11,7 +12,6 @@ import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
 import UserConfiguration from '../types/configuration/UserConfiguration';
-import CarConfiguration from 'app/types/configuration/CarConfiguration';
 
 @Injectable()
 export class ConfigService {

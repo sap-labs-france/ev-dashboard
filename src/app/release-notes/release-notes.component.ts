@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.16',
+        date: new Date('2020-03-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Session not starting notification when Connector is in Preparing mode`,
+              `Added debug logs for third party Charging Station vendor libraries`,
+            ],
+          },
+        ],
+      },      {
         version: '2.2.15',
         date: new Date('2020-03-21'),
         componentChanges: [

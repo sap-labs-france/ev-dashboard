@@ -164,7 +164,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       },
     ];
     if (this.authorizationService.isAdmin()) {
-      tableColumns.push(
+      tableColumns = tableColumns.concat([
         {
           id: 'firmwareVersion',
           name: 'chargers.firmware_version',
@@ -174,40 +174,32 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           isAngularComponent: true,
           angularComponent: ChargingStationsFirmwareStatusCellComponent,
         },
-      );
+        {
+          id: 'chargePointVendor',
+          name: 'chargers.vendor',
+          headerClass: 'd-none d-lg-table-cell',
+          class: 'd-none d-lg-table-cell',
+          sortable: true,
+        },
+        {
+          id: 'ocppVersion',
+          name: 'chargers.ocpp_version_title',
+          headerClass: 'd-none d-xl-table-cell text-center',
+          class: 'd-none d-xl-table-cell text-center',
+          sortable: false,
+        },
+      ]);
     }
     if (this.isOrganizationComponentActive) {
-      tableColumns = tableColumns.concat(
-        [
-          {
-            id: 'siteArea.site.name',
-            name: 'sites.site',
-            sortable: true,
-            defaultValue: 'sites.unassigned',
-            class: 'd-none d-xl-table-cell',
-            headerClass: 'd-none d-xl-table-cell',
-          },
-        ],
-      );
-    }
-    if (this.authorizationService.isAdmin()) {
-      tableColumns = tableColumns.concat(
-        [
-          {
-            id: 'chargePointVendor',
-            name: 'chargers.vendor',
-            headerClass: 'd-none d-lg-table-cell',
-            class: 'd-none d-lg-table-cell',
-            sortable: true,
-          },
-          {
-            id: 'ocppVersion',
-            name: 'chargers.ocpp_version_title',
-            headerClass: 'd-none d-xl-table-cell text-center',
-            class: 'd-none d-xl-table-cell text-center',
-            sortable: false,
-          },
-        ],
+      tableColumns.push(
+        {
+          id: 'siteArea.site.name',
+          name: 'sites.site',
+          sortable: true,
+          defaultValue: 'sites.unassigned',
+          class: 'd-none d-xl-table-cell',
+          headerClass: 'd-none d-xl-table-cell',
+        }
       );
     }
     return tableColumns;

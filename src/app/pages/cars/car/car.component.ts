@@ -52,7 +52,6 @@ export class CarComponent implements OnInit {
     if (this.carID) {
       this.spinnerService.show();
       this.centralServerService.getCar(this.carID).subscribe((car: Car) => {
-        debugger;
         this.spinnerService.hide();
         this.car = car;
         if (!car.images || car.images.length < 1) {

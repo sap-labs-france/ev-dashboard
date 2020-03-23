@@ -10,19 +10,12 @@ import { DataResult } from 'app/types/DataResult';
 @Injectable()
 export class ChargeStandardTableDataSource extends TableDataSource<ChargeStandardTable> {
   public car!: Car;
-  public evsePhaseVolt!: number;
-  public evsePhaseAmp!: number;
-  public evsePhase!: number;
-  public chargePhaseVolt!: number;
-  public chargePhase!: number;
-  public chargePower!: number;
-  public chargeTime!: number;
-  public chargeSpeed!: number;
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
   ) {
     super(spinnerService, translateService);
+    this.initDataSource();
   }
 
   public buildTableDef(): TableDef {
@@ -30,22 +23,21 @@ export class ChargeStandardTableDataSource extends TableDataSource<ChargeStandar
       search: {
         enabled: false,
       },
+      isSimpleTable: true,
+      hasDynamicRowAction: false,
     };
   }
 
   public setTable(car: Car) {
-    debugger;
     this.car = car;
   }
 
   public loadDataImpl(): Observable<DataResult<ChargeStandardTable>> {
-    debugger;
     return new Observable((observer) => {
-      // Return connector
-      debugger;
+      // Return charge standard table
       if (this.car) {
         observer.next({
-          count: 1,
+          count: this.car.chargeStandardTables.length,
           result: this.car.chargeStandardTables,
         });
         observer.complete();
@@ -55,6 +47,12 @@ export class ChargeStandardTableDataSource extends TableDataSource<ChargeStandar
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
+      {
+        id: 'type',
+        name: 'cars.type',
+        headerClass: 'col-20p',
+        class: 'text-center col-20p',
+      },
       {
         id: 'evsePhaseVolt',
         name: 'cars.evsePhaseVolt',
@@ -90,6 +88,7 @@ export class ChargeStandardTableDataSource extends TableDataSource<ChargeStandar
         name: 'cars.chargeTime',
         headerClass: 'col-20p',
         class: 'text-center col-20p',
+        formatter: (chargeTime: number) => chargeTime + ` ${this.translateService.instant('cars.unit.minutes')}`,
       },
       {
         id: 'chargeSpeed',

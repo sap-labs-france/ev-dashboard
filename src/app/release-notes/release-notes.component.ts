@@ -34,6 +34,8 @@ export class ReleaseNotesComponent {
               `Fixed Session not starting notification when Connector is in Preparing mode`,
               `Added debug logs for third party Charging Station vendor libraries`,
               `Fixed Charging Station's inactive flag`,
+              `Renamed Chaging Plan Debug tab to Advanced`,
+              `Fixed translation issues in Static Limitation`,
             ],
           },
         ],

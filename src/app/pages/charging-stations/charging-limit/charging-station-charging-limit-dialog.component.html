@@ -51,7 +51,7 @@
         <div class="card-body" style="margin-top: 15px">
           <div class="row" *ngIf="charger.capabilities?.supportChargingProfiles; else notSupported">
             <div class="col-md-12">
-              <app-charging-station-debug [charger]="charger"></app-charging-station-debug>
+              <app-charging-station-advanced [charger]="charger"></app-charging-station-advanced>
             </div>
           </div>
           <ng-template #notSupported>

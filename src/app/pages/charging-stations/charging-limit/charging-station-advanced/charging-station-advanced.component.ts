@@ -11,11 +11,11 @@ import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
-  selector: 'app-charging-station-debug',
-  templateUrl: './charging-station-debug.component.html',
+  selector: 'app-charging-station-advanced',
+  templateUrl: './charging-station-advanced.component.html',
 })
 @Injectable()
-export class ChargingStationDebugComponent implements OnInit {
+export class ChargingStationAdvancedComponent implements OnInit {
   @Input() charger!: ChargingStation;
 
   public formGroup!: FormGroup;

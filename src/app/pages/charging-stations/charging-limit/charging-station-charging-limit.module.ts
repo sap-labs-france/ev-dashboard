@@ -14,9 +14,9 @@ import { TableModule } from 'app/shared/table/table.module';
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from './cell-components/charging-stations-charging-profile-power-slider-cell';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-profile-limit/charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitComponent } from './charging-profile-limit/charging-station-charging-profile-limit.component';
+import { ChargingStationAdvancedComponent } from './charging-station-advanced/charging-station-advanced.component';
 import { ChargingStationSmartChargingDialogComponent } from './charging-station-charging-limit-dialog.component';
 import { ChargingStationPowerSliderComponent } from './component/charging-station-power-slider.component';
-import { ChargingStationDebugComponent } from './debug-charging-station/charging-station-debug.component';
 import { ChargingStationStaticLimitComponent } from './static-limit/charging-station-static-limit.component';
 @NgModule({
   imports: [
@@ -41,7 +41,7 @@ import { ChargingStationStaticLimitComponent } from './static-limit/charging-sta
     ChargingStationStaticLimitComponent,
     TransactionDialogComponent,
     ChargingStationSmartChargingLimitPlannerChartComponent,
-    ChargingStationDebugComponent,
+    ChargingStationAdvancedComponent,
   ],
   declarations: [
     ChargingStationSmartChargingDialogComponent,
@@ -50,7 +50,7 @@ import { ChargingStationStaticLimitComponent } from './static-limit/charging-sta
     ChargingStationsChargingProfilePowerSliderCellComponent,
     ChargingStationStaticLimitComponent,
     ChargingStationSmartChargingLimitPlannerChartComponent,
-    ChargingStationDebugComponent,
+    ChargingStationAdvancedComponent,
   ],
   exports: [
     ChargingStationSmartChargingDialogComponent,

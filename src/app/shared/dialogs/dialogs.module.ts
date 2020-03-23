@@ -28,6 +28,8 @@ import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { TransactionDialogComponent } from './transactions/transaction-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
+import { BuildingsDialogComponent } from './buildings/buildings-dialog.component';
+import { BuildingsDialogTableDataSource } from './buildings/buildings-dialog-table-data-source';
 
 export class FooterModule {
 }
@@ -50,6 +52,7 @@ export class FooterModule {
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SiteAreasDialogComponent,
+    BuildingsDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
     GeoMapDialogComponent,
@@ -63,6 +66,7 @@ export class FooterModule {
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SiteAreasDialogComponent,
+    BuildingsDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
     ConsumptionChartComponent,
@@ -77,6 +81,7 @@ export class FooterModule {
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SiteAreasDialogComponent,
+    BuildingsDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
     GeoMapDialogComponent,
@@ -91,6 +96,7 @@ export class FooterModule {
     CompaniesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     SitesDialogTableDataSource,
+    BuildingsDialogTableDataSource,
     UsersDialogTableDataSource,
     ChargersDialogTableDataSource,
     SitesDialogTableDataSource,

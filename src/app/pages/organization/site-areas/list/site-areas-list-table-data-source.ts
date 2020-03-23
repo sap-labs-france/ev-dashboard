@@ -10,8 +10,10 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
+import { TableDisplayBuildingsAction } from 'app/shared/table/actions/table-display-buildings-action';
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableEditBuildingsAction } from 'app/shared/table/actions/table-edit-buildings-action';
 import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-chargers-action';
 import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
@@ -21,6 +23,7 @@ import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
+import { BuildingButtonAction } from 'app/types/Building';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
@@ -32,14 +35,17 @@ import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
+import { SiteAreaBuildingsDialogComponent } from '../site-area-buildings/site-area-buildings-dialog.component';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private editAction = new TableEditAction().getActionDef();
   private editChargersAction = new TableEditChargersAction().getActionDef();
+  private editBuildingsAction = new TableEditBuildingsAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private displayChargersAction = new TableDisplayChargersAction().getActionDef();
+  private displayBuildingsAction = new TableDisplayBuildingsAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
 
   constructor(
@@ -145,6 +151,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.editChargersAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
+          this.editBuildingsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
@@ -156,6 +163,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.displayChargersAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
+          this.displayBuildingsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
@@ -165,6 +173,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       this.viewAction,
       this.displayChargersAction,
       new TableMoreAction([
+        this.displayBuildingsAction,
         openInMaps,
       ]).getActionDef(),
     ];
@@ -200,6 +209,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         this.exportOCOPPParams(rowItem);
+        break;
+      case BuildingButtonAction.EDIT_BUILDINGS:
+      case BuildingButtonAction.DISPLAY_BUILDINGS:
+        this.showBuildingsDialog(rowItem);
+        break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
     }
@@ -255,6 +269,19 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     this.dialog.open(SiteAreaChargersDialogComponent, dialogConfig);
+  }
+
+  private showBuildingsDialog(siteArea: SiteArea) {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    if (siteArea) {
+     dialogConfig.data = siteArea;
+    }
+    // Disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialog.open(SiteAreaBuildingsDialogComponent, dialogConfig);
   }
 
   private deleteSiteArea(siteArea: SiteArea) {

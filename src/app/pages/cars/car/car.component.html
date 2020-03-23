@@ -1,41 +1,74 @@
 <div class="main-content">
   <div class="card card-testimonial">
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+
+
+
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>directions_car</mat-icon>
-          <span>{{car.vehicleModel}} -
-            {{car.vehicleMake}}</span>
+          <span style="display: inline-block;" >{{car.vehicleModel}} -
+            {{car.vehicleMake}} <div *ngIf="car?.vehicleModelVersion" >- {{car.vehicleModelVersion}}</div></span>
         </ng-template>
         <div class="card-body">
-          <div class="table-responsive-md d-flex justify-content-left">
-            <table class="mat-table">
-              <tbody role="rowgroup">
-                <ng-container>
-                  <tr *ngIf="car?.performanceTopspeed"  class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.performanceTopspeed" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.performanceTopspeed}} km/h</td>
-                  </tr>
-                  <tr *ngIf="car?.performanceAcceleration"  class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.performanceAcceleration" | translate}} 0 - 100
-                      km/h</th>
-                    <td class="px-2 py-2 text-left">{{car.performanceAcceleration}} sec</td>
-                  </tr>
-                  <tr *ngIf="car?.drivetrainPropulsion"  class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.drivetrainPropulsion" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.drivetrainPropulsion}}</td>
-                  </tr>
-                  <tr *ngIf="car?.drivetrainTorque"  class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.drivetrainTorque" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.drivetrainTorque}} Nm</td>
-                  </tr>
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <div class="row app-organization-align-center">
+                <div class="col-md-5" style="display: block; margin-top: auto">
+                  <div class="rotating-card-container app-car-image-border"
+                       [ngStyle]="{ 'pointer-events': 'none'}">
+                    <div class="card card-rotate card-background"
+                         style="margin-top: 0px;">
+                      <div class="front front-background"
+                           [ngStyle]="{'background-image': 'url(' + car.image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                        <div class="card-body">
+                        </div>
+                      </div>
 
-                </ng-container>
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="table-responsive-md d-flex justify-content-left">
+                    <table class="mat-table">
+                      <tbody role="rowgroup">
+                        <ng-container>
+                          <tr *ngIf="car?.performanceTopspeed"  class="mat-row" role="row">
+                            <th class="props-header px-2 py-2 text-left">{{"cars.performanceTopspeed" | translate}}</th>
+                            <td class="px-2 py-2 text-left">{{car.performanceTopspeed}} km/h</td>
+                          </tr>
+                          <tr *ngIf="car?.performanceAcceleration"  class="mat-row" role="row">
+                            <th class="props-header px-2 py-2 text-left">{{"cars.performanceAcceleration" | translate}} 0 - 100
+                              km/h</th>
+                            <td class="px-2 py-2 text-left">{{car.performanceAcceleration}} sec(s)</td>
+                          </tr>
+                          <tr *ngIf="car?.drivetrainPropulsion"  class="mat-row" role="row">
+                            <th class="props-header px-2 py-2 text-left">{{"cars.drivetrainPropulsion" | translate}}</th>
+                            <td class="px-2 py-2 text-left">{{car.drivetrainPropulsion}}</td>
+                          </tr>
+                          <tr *ngIf="car?.drivetrainTorque"  class="mat-row" role="row">
+                            <th class="props-header px-2 py-2 text-left">{{"cars.drivetrainTorque" | translate}}</th>
+                            <td class="px-2 py-2 text-left">{{car.drivetrainTorque}} Nm</td>
+                          </tr>
+
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                <!-- More Information if needed -->
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
           </div>
         </div>
       </mat-tab>
+
+
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>battery_full</mat-icon><span>{{"cars.battery" | translate}}</span>
@@ -47,11 +80,11 @@
                 <ng-container>
                   <tr *ngIf="car?.batteryCapacityFull" class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.batteryCapacityFull" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.batteryCapacityFull}}</td>
+                    <td class="px-2 py-2 text-left">{{car.batteryCapacityFull}} kWh</td>
                   </tr>
                   <tr *ngIf="car?.batteryCapacityUseable" class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.batteryCapacityUseable" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.batteryCapacityUseable}}</td>
+                    <td class="px-2 py-2 text-left">{{car.batteryCapacityUseable}} kWh</td>
                   </tr>
                   <tr *ngIf="car?.chargePlug" class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.chargePlug" | translate}}</th>
@@ -63,11 +96,11 @@
                   </tr>
                   <tr *ngIf="car?.chargeStandardPower" class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.chargeStandardPower" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.chargeStandardPower}}</td>
+                    <td class="px-2 py-2 text-left">{{car.chargeStandardPower}} kW AC</td>
                   </tr>
                   <tr *ngIf="car?.chargeStandardChargeTime" class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.chargeStandardChargeTime" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.chargeStandardChargeTime}}</td>
+                    <td class="px-2 py-2 text-left">{{car.chargeStandardChargeTime}} minutes</td>
                   </tr>
                   <tr *ngIf="car?.chargePlug" class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.chargePlug" | translate}}</th>
@@ -82,6 +115,7 @@
             </table>
           </div>
 
+          <!-- <app-table [dataSource]="chargeStandardTableDataSource"></app-table> -->
 
 <h1>{{"cars.chargeStandardTables" | translate}}</h1>
           <div *ngFor="let item of car.chargeStandardTables | keyvalue" class="table-responsive-md d-flex justify-content-left">
@@ -180,7 +214,7 @@
       </mat-tab>
       <mat-tab *ngIf="isSuperAdmin" >
         <ng-template mat-tab-label>
-          <mat-icon>info</mat-icon><span>{{"cars.moreInformations" | translate}}</span>
+          <mat-icon>info</mat-icon><span>{{"cars.debugCar" | translate}}</span>
         </ng-template>
         <div class="col-md-12 text-left pt-3 car-object-component" >
           <pre><small>{{ car.carObject | json }}</small></pre>

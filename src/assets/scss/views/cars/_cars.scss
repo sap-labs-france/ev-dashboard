@@ -10,3 +10,8 @@
   overflow-x: scroll;
   width: 100%;
 }
+
+div.app-car-image-border {
+  @include shadow-2dp();
+  border-radius: $border-radius-large;
+}

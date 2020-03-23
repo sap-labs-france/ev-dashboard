@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Added Webasto implementation in Charging Plan management`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,
               `Added debug logs for third party Charging Station vendor libraries`,
+              `Fixed Charging Station's inactive flag`,
             ],
           },
         ],

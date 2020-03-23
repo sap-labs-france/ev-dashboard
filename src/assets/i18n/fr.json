@@ -1115,11 +1115,14 @@
       "download": "Télécharger la facture",
       "pay": "Payer la facture"
     },
+    "status": {
+      "paid": "Payée",
+      "unpaid": "Impayée",
+      "draft": "Brouillon"
+    },
     "id": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
-    "paid": "Payée",
-    "unpaid": "Impayée",
     "pay": "Payer"
   },
   "tags": {
@@ -1609,7 +1612,8 @@
       "history": "Historique",
       "in_progress": "En cours",
       "in_error": "En Erreur",
-      "refund": "Remboursement"
+      "refund": "Remboursement",
+      "invoices": "Factures"
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",

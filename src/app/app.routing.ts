@@ -126,23 +126,6 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'invoices',
-        loadChildren: () => import('./pages/invoices/invoices.module').then((m) => m.InvoicesModule),
-        data: {
-          menu: {
-            title: 'invoices',
-            type: 'link',
-            icon: 'description',
-            path: '/invoices',
-          },
-          auth: {
-            entity: Entity.INVOICES,
-            action: Action.LIST,
-          },
-          component: TenantComponents.BILLING,
-        },
-      },
-      {
         path: 'organization',
         loadChildren: () => import('./pages/organization/organization.module').then((m) => m.OrganizationModule),
         data: {

@@ -1,8 +1,10 @@
 import { Data } from './Table';
 
-export enum InvoiceStatus {
+export enum BillingInvoiceStatus {
   PAID = 'paid',
-  UNPAID = 'open',
+  OPEN = 'open',
+  PENDING = 'pending',
+  DRAFT = 'draft',
 }
 
 export interface BillingTax extends Data {

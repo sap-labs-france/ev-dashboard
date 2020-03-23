@@ -24,6 +24,7 @@ import { TransactionsRefundTableDataSource } from './refund/transactions-refund-
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
 import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
+import {InvoicesComponent} from "./invoices/invoices.component";
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { TransactionsRoutes } from './transactions.routing';
     AppTransactionsFormatConnector,
     TransactionsConnectorCellComponent,
     TransactionsInactivityCellComponent,
+    InvoicesComponent
   ],
   entryComponents: [
     TransactionsComponent,

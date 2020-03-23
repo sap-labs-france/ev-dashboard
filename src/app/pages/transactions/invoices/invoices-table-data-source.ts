@@ -20,16 +20,16 @@ import { TableDownloadAction } from '../../../shared/table/actions/table-downloa
 import { TablePayInvoiceAction } from '../../../shared/table/actions/table-pay-invoice-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingInvoice, InvoiceStatus } from '../../../types/Billing';
+import { BillingButtonAction, BillingInvoice, BillingInvoiceStatus } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../../transactions/filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../../transactions/filters/transactions-date-until-filter';
-import { InvoiceStatusFormatterComponent } from '../components/invoice-status-formatter.component';
+import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 
 @Injectable()
-export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice> {
+export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
   // private payAction = new TablePayInvoiceAction().getActionDef();
   private currentUser: UserToken;

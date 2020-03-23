@@ -1115,11 +1115,14 @@
       "download": "Download invoice",
       "pay":  "Pay invoice"
     },
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "draft": "Draft"
+    },
     "id": "Invoice number",
     "createdOn": "Invoice date",
     "price": "Invoice price",
-    "paid": "Paid",
-    "unpaid": "Unpaid",
     "pay": "Pay"
   },
   "tags": {
@@ -1609,7 +1612,8 @@
       "history": "History",
       "in_progress": "In Progress",
       "in_error": "In Error",
-      "refund": "Refunding"
+      "refund": "Refunding",
+      "invoices": "Invoices"
     },
     "graph": {
       "battery": "Battery Level (%)",

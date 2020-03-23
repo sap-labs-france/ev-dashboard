@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Fixed Charging Station's inactive flag`,
               `Renamed Chaging Plan Debug tab to Advanced`,
               `Fixed translation issues in Static Limitation`,
+              `Allow to display the Charge Limitation in read-only when Charging Station is disconnected from the backend`,
             ],
           },
         ],

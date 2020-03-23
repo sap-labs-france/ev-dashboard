@@ -706,6 +706,7 @@
       "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "smart_charging_enabled_static_limitation": "La charge intelligente est activée sur cette zone et gère automatiquement la limitation de la charge de cette borne.",
+      "charging_station_inactive": "La borne n'est pas connectée au serveur",
       "smart_charging_enabled_charging_profiles": "La charge intelligente est activée sur cette zone et gère automatiquement les plans de charge de cette borne.",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Plan de Charge",

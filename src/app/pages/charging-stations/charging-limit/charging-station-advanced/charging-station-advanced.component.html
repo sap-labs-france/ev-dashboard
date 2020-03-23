@@ -1,4 +1,9 @@
 <div class="main-content">
+  <div class="row" *ngIf="charger.inactive">
+    <div class="col-md-12 text-left charging-station-inactive mb-5">
+      {{"chargers.smart_charging.charging_station_inactive" | translate }}
+    </div>
+  </div>
   <div class="form-group">
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
@@ -28,7 +33,7 @@
               </mat-form-field>
             </div>
           </div>
-          <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()" [disabled]="!formGroup.valid">
+          <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()" [disabled]="charger.inactive || !formGroup.valid">
             <mat-icon>get_app</mat-icon><span>{{'chargers.smart_charging.retrieve_schedule' | translate}}</span>
           </button>
         </div>

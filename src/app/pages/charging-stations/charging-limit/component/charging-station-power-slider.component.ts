@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ComponentService } from 'app/services/component.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingStation, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -22,10 +24,13 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public displayedMaxPowerKW = '';
   public displayedCurrentPowerW = '';
   public notSupported = false;
+  public isSmartChargingComponentActive = false;
 
   constructor(
       private appUnitFormatter: AppUnitPipe,
+      private componentService: ComponentService,
       private decimalPipe: AppDecimalPipe) {
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   ngOnChanges() {

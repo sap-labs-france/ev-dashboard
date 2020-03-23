@@ -1,6 +1,7 @@
 import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -45,6 +46,7 @@ export abstract class TableDataSource<T extends Data> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     public additionalParameters?: any) {
   }
 

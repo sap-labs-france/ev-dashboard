@@ -28,6 +28,8 @@ export enum Entity {
   BUILDING = 'Building',
   BUILDINGS = 'Buildings',
   INVOICES = 'Invoices',
+  CAR = 'Car',
+  CARS = 'Cars',
 }
 
 export enum Action {

@@ -215,16 +215,12 @@ export class SiteAreaComponent implements OnInit {
     if (!this.currentSiteAreaID) {
       return;
     }
-
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
     // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
-      this.formGroup.markAsPristine();
-
       this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
-
       // if not admin switch in readonly mode
       if (!this.isAdmin) {
         this.formGroup.disable();
@@ -277,6 +273,10 @@ export class SiteAreaComponent implements OnInit {
         this.coordinates.at(0).setValue(siteArea.address.coordinates[0]);
         this.coordinates.at(1).setValue(siteArea.address.coordinates[1]);
       }
+      // Force
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
       // Yes, get image
       return this.centralServerService.getSiteAreaImage(this.currentSiteAreaID);
     })).subscribe((siteAreaImage) => {
@@ -310,6 +310,13 @@ export class SiteAreaComponent implements OnInit {
     } else {
       // No image
       delete siteArea.image;
+    }
+  }
+
+  public updateSiteAreaCoordinates(siteArea: SiteArea) {
+    if (siteArea.address && siteArea.address.coordinates &&
+      !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
+      delete siteArea.address.coordinates;
     }
   }
 
@@ -445,6 +452,8 @@ export class SiteAreaComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteAreaImage(siteArea);
+    // Set coordinates
+    this.updateSiteAreaCoordinates(siteArea);
     // Yes: Update
     this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
       // Hide
@@ -483,6 +492,8 @@ export class SiteAreaComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteAreaImage(siteArea);
+    // Set coordinates
+    this.updateSiteAreaCoordinates(siteArea);
     // Yes: Update
     this.centralServerService.updateSiteArea(siteArea).subscribe((response) => {
       // Hide

@@ -50,8 +50,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
@@ -62,7 +62,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();

@@ -43,6 +43,7 @@
     "@auth0/angular-jwt": "^3.0.0",
     "@mat-datetimepicker/core": "^3.0.0-beta.0",
     "@mat-datetimepicker/moment": "^3.0.0-beta.0",
+    "@ng-bootstrap/ng-bootstrap": "^5.2.2",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-moment-picker": "^0.10.2",

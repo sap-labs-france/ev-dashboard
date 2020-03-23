@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.14",
+    "last_update": "Version 2.2.17",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -114,6 +114,8 @@
     "search_placeholder": "Rechercher...",
     "backend_not_running": "Impossible de se connecter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
+    "car_error": "Une erreur est survenue pendant la récupération du véhicule",
+    "cars_error": "Une erreur est survenue pendant la récupération des véhicules",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
     "invalid_content": "Contenu invalide",
@@ -153,6 +155,8 @@
       "settings": "Configuration",
       "buildings": "Bâtiments",
       "organization": "Organisation",
+      "template": "Modeles",
+      "cars": "Voitures"
       "template": "Modeles",
       "invoices": "Factures"
     },
@@ -200,9 +204,9 @@
     }
   },
   "issuer": {
-    "title": "Org. Propriétaire",
-    "local": "Actuelle",
-    "foreign": "Externe"
+    "title": "Propriétaire",
+    "local": "Organisation Actuelle",
+    "foreign": "Organisation Externe"
   },
   "dashboard": {
     "active_stations_gauge_title": "Point de charge",
@@ -706,10 +710,12 @@
       "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
       "smart_charging_enabled_static_limitation": "La charge intelligente est activée sur cette zone et gère automatiquement la limitation de la charge de cette borne.",
+      "charging_station_inactive": "La borne n'est pas connectée au serveur",
       "smart_charging_enabled_charging_profiles": "La charge intelligente est activée sur cette zone et gère automatiquement les plans de charge de cette borne.",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Plan de Charge",
-      "debug_charging_station": "Debuger Borne",
+      "debug_charging_station": "Avancé",
+      "debug_charging_station_title": "Récupérer le Plan de Charge de la Borne '{{chargeBoxID}}'",
       "reset_button": "Rafraichir",
       "invalid_min_duration": "Durée minimum de {{minDuration}} min",
       "invalid_max_duration": "Durée maximum de {{maxDuration}} mins",
@@ -718,8 +724,8 @@
       "power_limit_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}'?",
       "power_limit_success": "La puissance de la borne '{{chargeBoxID}}' a été limitée avec succès",
       "power_limit_error": "Erreur pendant la limitation de la puissance de la borne",
-      "power_limit_has_charging_plan_title": "Existing Charging Plan",
-      "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
+      "power_limit_has_charging_plan_title": "Plan de Charge Existant",
+      "power_limit_has_charging_plan_confim": "Il y a un conflit avec un plan de charge existant !<br>Voulez-vous ajuster ce plan de charge avec la nouvelle limite ?",
       "power_limit_plan_title": "Limite de puissance",
       "power_limit_plan_confirm": "Voulez-vous vraiment limiter la puissance de '{{chargeBoxID}}' avec ce plan de charge ?",
       "power_limit_plan_clear": "Voulez-vous vraiment effacer les profiles de charges de '{{chargeBoxID}}'?",
@@ -1477,11 +1483,55 @@
       "buildings": "Bâtiments"
     }
   },
+  "cars": {
+    "vehicleModel": "Modèle",
+    "vehicleMake": "Constructeur",
+    "vehicleModelVersion": "Version",
+    "batteryCapacityFull": "Capacitée Batterie",
+    "fastChargeSpeed": "Vitesse de Charge",
+    "performanceTopspeed": "Vitesse Maximale",
+    "rangeReal": "Autonomie Réelle",
+    "rangeWLTP": "Autonomie WLTP",
+    "efficiencyReal": "Efficacité",
+    "performanceAcceleration": "0-100 km/h",
+    "image": "Image",
+    "drivetrainPropulsion":"Propulsion",
+    "drivetrainTorque":"Torque",
+    "batteryCapacityUseable":"Capacité Utilisable",
+    "chargePlug":"Charge AC",
+    "drivetrainPowerHP": "Puissance",
+    "drivetrainPowerHPUnit": "ch",
+    "fastChargePlug":"Connecteur DC",
+    "chargePlugLocation":"Emplacement De La Prise",
+    "chargeStandardPower":"Puissance AC",
+    "chargeStandardChargeSpeed":"Vitesse AC",
+    "chargeStandardChargeTime":"Temps AC",
+    "fastChargePowerMax":"Puissance DC",
+    "miscSeats":"Sièges",
+    "miscBody":"Carrosserie",
+    "miscIsofix":"Isofix",
+    "miscTurningCircle":"Cercle Tournant",
+    "miscSegment":"Segment",
+    "miscIsofixSeats":"Sièges Isofix",
+    "miscellaneous": "Divers",
+    "battery": "Batterie",
+    "moreInformations":"Plus d'Informations",
+    "chargeStandardTables":"Table standard de charge",
+    "evsePhaseVolt": "Phase(s) Volt",
+    "evsePhaseAmp": "Phase(s) Amp",
+    "evsePhase": "Phase(s)",
+    "chargePhaseVolt": "Charge Phase Volt",
+    "chargePhaseAmp": "Charge Phase Amp",
+    "chargePhase": "Charge Phase",
+    "chargePower": "Charge Power",
+    "chargeTime": "Temps De Chargement",
+    "chargeSpeed": "Vitesse De Chargement"
+  },
   "car": {
     "title": "Car",
     "description": "Gestion des voitures",
     "tabs": {
-      "cars": "Voitures"
+      "list": "Voitures"
     }
   },
   "analytics": {

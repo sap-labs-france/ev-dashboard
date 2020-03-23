@@ -24,8 +24,25 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.14',
-        date: new Date('2020-03-18'),
+        version: '2.2.17',
+        date: new Date('2020-03-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Webasto implementation in Charging Plan management`,
+              `Fixed Session not starting notification when Connector is in Preparing mode`,
+              `Added debug logs for third party Charging Station vendor libraries`,
+              `Fixed Charging Station's inactive flag`,
+              `Renamed Chaging Plan Debug tab to Advanced`,
+              `Fixed translation issues in Static Limitation`,
+              `Allow to display the Charge Limitation in read-only when Charging Station is disconnected from the backend`,
+            ],
+          },
+        ],
+      },      {
+        version: '2.2.15',
+        date: new Date('2020-03-21'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -43,7 +60,9 @@ export class ReleaseNotesComponent {
               `Added AWS deployment and configuration files`,
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
               `Update of Charging Stations with Template is always applied during Boot Notificiation`,
-              `Set minimum power to 0 watt for charging plan`,
+              `Set the minimum power to 2 Amps in the Charging Station Limitation`,
+              `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Building lists`,
+              `Fixed Delete action not displayed in User's list`,
             ],
           },
         ],

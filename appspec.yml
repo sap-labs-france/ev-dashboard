@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/dashboard
+permissions:
+  - object: /opt/dashboard
+    pattern: '**'
+    owner: ubuntu
+    group: www-data
+hooks:
+  BeforeInstall:
+    - location: src/aws/beforeinstall_server.sh
+      runas: root
+  AfterInstall:
+    - location: src/aws/afterinstall_server.sh
+      runas: ubuntu

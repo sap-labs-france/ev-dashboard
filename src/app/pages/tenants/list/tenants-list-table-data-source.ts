@@ -32,15 +32,15 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
-      private translateService: TranslateService,
       private dialogService: DialogService,
       private windowService: WindowService,
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

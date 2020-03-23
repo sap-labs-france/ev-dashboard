@@ -1,0 +1,198 @@
+<div class="main-content">
+  <div class="card card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>directions_car</mat-icon>
+          <span>{{car.vehicleModel}} -
+            {{car.vehicleMake}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="table-responsive-md d-flex justify-content-left">
+            <table class="mat-table">
+              <tbody role="rowgroup">
+                <ng-container>
+                  <tr *ngIf="car?.performanceTopspeed"  class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.performanceTopspeed" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.performanceTopspeed}} km/h</td>
+                  </tr>
+                  <tr *ngIf="car?.performanceAcceleration"  class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.performanceAcceleration" | translate}} 0 - 100
+                      km/h</th>
+                    <td class="px-2 py-2 text-left">{{car.performanceAcceleration}} sec</td>
+                  </tr>
+                  <tr *ngIf="car?.drivetrainPropulsion"  class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.drivetrainPropulsion" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.drivetrainPropulsion}}</td>
+                  </tr>
+                  <tr *ngIf="car?.drivetrainTorque"  class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.drivetrainTorque" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.drivetrainTorque}} Nm</td>
+                  </tr>
+
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>battery_full</mat-icon><span>{{"cars.battery" | translate}}</span>
+        </ng-template>
+        <div class="col-md-12 text-left pt-3 car-object-component">
+          <div class="table-responsive-md d-flex justify-content-left">
+            <table class="mat-table">
+              <tbody role="rowgroup">
+                <ng-container>
+                  <tr *ngIf="car?.batteryCapacityFull" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.batteryCapacityFull" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.batteryCapacityFull}}</td>
+                  </tr>
+                  <tr *ngIf="car?.batteryCapacityUseable" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.batteryCapacityUseable" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.batteryCapacityUseable}}</td>
+                  </tr>
+                  <tr *ngIf="car?.chargePlug" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePlug" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargePlug}}</td>
+                  </tr>
+                  <tr *ngIf="car?.chargePlugLocation" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePlugLocation" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargePlugLocation}}</td>
+                  </tr>
+                  <tr *ngIf="car?.chargeStandardPower" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargeStandardPower" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargeStandardPower}}</td>
+                  </tr>
+                  <tr *ngIf="car?.chargeStandardChargeTime" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargeStandardChargeTime" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargeStandardChargeTime}}</td>
+                  </tr>
+                  <tr *ngIf="car?.chargePlug" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePlug" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargePlug}}</td>
+                  </tr>
+                  <tr *ngIf="car?.fastChargePlug" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.fastChargePlug" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.fastChargePlug}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+
+
+<h1>{{"cars.chargeStandardTables" | translate}}</h1>
+          <div *ngFor="let item of car.chargeStandardTables | keyvalue" class="table-responsive-md d-flex justify-content-left">
+            <h2>{{item.key}}</h2>
+            <table class="mat-table">
+              <tbody role="rowgroup">
+                <ng-container>
+                  <tr *ngIf="item.value?.evsePhaseVolt" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evsePhaseVolt" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.evsePhaseVolt}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.evsePhaseAmp" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evsePhaseAmp" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.evsePhaseAmp}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.evsePhase" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evsePhase" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.evsePhase}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.chargePhaseVolt" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePhaseVolt" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.chargePhaseVolt}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.chargePhaseAmp" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePhaseAmp" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.chargePhaseAmp}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.chargePhase" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePhase" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.chargePhase}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.chargePower" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePower" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.chargePower}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.chargeTime" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargeTime" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.chargeTime}}</td>
+                  </tr>
+                  <tr *ngIf="item.value?.chargeSpeed" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargeSpeed" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{item.value.chargeSpeed}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>360</mat-icon><span>{{"cars.miscellaneous" | translate}}</span>
+        </ng-template>
+        <div class="card-body" class="text-left m-4">
+          <div class="table-responsive-md d-flex justify-content-left">
+            <table class="mat-table">
+              <tbody role="rowgroup">
+                <ng-container>
+                  <tr *ngIf="car?.miscSeats" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.miscSeats" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.miscSeats}} km/h</td>
+                  </tr>
+                  <tr *ngIf="car?.miscBody" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.miscBody" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.miscBody}} sec</td>
+                  </tr>
+                  <tr *ngIf="car?.miscIsofix" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.miscIsofix" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.miscIsofix}}</td>
+                  </tr>
+                  <tr *ngIf="car?.miscIsofixSeats" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.miscIsofixSeats" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.miscIsofixSeats}}</td>
+                  </tr>
+                  <tr *ngIf="car?.miscSegment" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.miscSegment" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.miscSegment}}</td>
+                  </tr>
+                  <tr *ngIf="car?.miscTurningCircle" class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.miscTurningCircle" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.miscTurningCircle}} m</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="car?.images" >
+        <ng-template mat-tab-label>
+          <mat-icon>photo_camera</mat-icon><span>Photos</span>
+        </ng-template>
+        <div class="card-body">
+          <app-carousel [images]="car.images"></app-carousel>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="isSuperAdmin" >
+        <ng-template mat-tab-label>
+          <mat-icon>info</mat-icon><span>{{"cars.moreInformations" | translate}}</span>
+        </ng-template>
+        <div class="col-md-12 text-left pt-3 car-object-component" >
+          <pre><small>{{ car.carObject | json }}</small></pre>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-icon-button (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

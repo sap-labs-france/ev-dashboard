@@ -1,6 +1,7 @@
 import AdvancedConfiguration from './AdvancedConfiguration';
 import AuthorizationConfiguration from './AuthorizationConfiguration';
 import BuildingConfiguration from './BuildingConfiguration';
+import CarConfiguration from './CarConfiguration';
 import CentralSystemServerConfiguration from './CentralSystemServerConfiguration';
 import CompanyConfiguration from './CompanyConfiguration';
 import FrontEndConfiguration from './FrontEndConfiguration';
@@ -20,4 +21,5 @@ export interface Configuration {
   SiteArea: SiteAreaConfiguration;
   Site: SiteConfiguration;
   User: UserConfiguration;
+  Car: CarConfiguration;
 }

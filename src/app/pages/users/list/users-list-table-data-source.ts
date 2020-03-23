@@ -54,8 +54,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
-      private translateService: TranslateService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
@@ -67,7 +67,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private appUserNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     if (this.authorizationService.hasSitesAdminRights()) {
       this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
@@ -259,11 +259,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
-    if (moreActions.getActionsInMoreActions().length > 0) {
-      actions.push(moreActions.getActionDef());
-    }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
       moreActions.addActionInMoreActions(this.deleteAction);
+    }
+    if (moreActions.getActionsInMoreActions().length > 0) {
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

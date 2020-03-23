@@ -382,7 +382,11 @@ export class ChargingStationParametersComponent implements OnInit {
       this.charger.cannotChargeInParallel = this.cannotChargeInParallel.value;
       this.charger.private = this.private.value;
       this.charger.currentType = this.currentType.value;
-      this.charger.coordinates = [this.longitude.value, this.latitude.value];
+      if (this.longitude.value && this.latitude.value) {
+        this.charger.coordinates = [this.longitude.value, this.latitude.value];
+      } else {
+        delete this.charger.coordinates;
+      }
       for (const connector of this.charger.connectors) {
         connector.type = this.formGroup.controls[`connectorType${connector.connectorId}`].value;
         connector.power = this.formGroup.controls[`connectorMaxPower${connector.connectorId}`].value;

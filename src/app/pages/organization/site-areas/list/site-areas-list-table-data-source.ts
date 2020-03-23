@@ -44,15 +44,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
@@ -135,10 +135,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return tableActionsDef;
   }
 
-  buildTableDynamicRowActions(siteArea: SiteArea) {
+  public buildTableDynamicRowActions(siteArea: SiteArea) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    openInMaps.disabled = (siteArea && siteArea.address && siteArea.address.coordinates && siteArea.address.coordinates.length === 2) ? false : true;
+    // Check if GPS is available
+    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
     if (this.authorizationService.isAdmin()) {
       return [
         this.editAction,

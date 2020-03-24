@@ -1503,7 +1503,8 @@
     "chargePhase": "Charge Phase",
     "chargePower": "Charge Power",
     "chargeTime": "Charge Time",
-    "chargeSpeed": "Charge Speed"
+    "chargeSpeed": "Charge Speed",
+    "type": "Type"
   },
   "car": {
     "title": "Car",

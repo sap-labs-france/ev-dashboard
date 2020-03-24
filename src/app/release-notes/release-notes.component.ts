@@ -39,6 +39,8 @@ export class ReleaseNotesComponent {
               `Renamed Chaging Plan Debug tab to Advanced`,
               `Fixed translation issues in Static Limitation`,
               `Allow to display the Charge Limitation in read-only when Charging Station is disconnected from the backend`,
+              `Car structure adaptation for internal converters`,
+              `Fixed cannot update User's status in Master Tenant`,
             ],
           },
         ],

@@ -101,6 +101,7 @@ export const logActions: KeyValue[] = [
   {key: 'SecurePing', value: 'SecurePing'},
   {key: 'UserUpdate', value: 'UserUpdate'},
   {key: 'SettingUpdate', value: 'SettingUpdate'},
+  {key: 'UpdateChargingStationTemplates', value: 'UpdateChargingStationTemplates'},
   {key: 'Scheduler', value: 'Scheduler'},
   {key: 'SiteUserAdmin', value: 'SiteUserAdmin'},
   {key: 'RegistrationTokens', value: 'RegistrationTokens'},

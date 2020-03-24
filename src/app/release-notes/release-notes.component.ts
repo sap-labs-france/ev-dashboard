@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `SAP Smart Charging implementation`,
               `Webasto implementation in Charging Plan management`,
+              `Fixed bug in retrieving the current limitation during a Session`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,
               `Added debug logs for third party Charging Station vendor libraries`,
               `Fixed Charging Station's inactive flag`,

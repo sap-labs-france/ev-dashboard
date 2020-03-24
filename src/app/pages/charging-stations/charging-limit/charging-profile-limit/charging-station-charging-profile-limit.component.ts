@@ -115,7 +115,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       this.loadProfile(chargingProfile);
     });
     // Check if smart charging is active
-    if (this.isSmartChargingComponentActive && this.charger.siteArea.smartCharging) {
+    if (this.charger.inactive || (this.isSmartChargingComponentActive && this.charger.siteArea.smartCharging)) {
       this.startDateControl.disable();
     }
     // Change the Profile Type

@@ -201,7 +201,6 @@ export class SiteComponent implements OnInit {
     // Yes, get it
     // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getSite(this.currentSiteID).pipe(mergeMap((site) => {
-      this.formGroup.markAsPristine();
       // Init form
       if (site.id) {
         this.formGroup.controls.id.setValue(site.id);
@@ -242,6 +241,9 @@ export class SiteComponent implements OnInit {
         this.coordinates.at(0).setValue(site.address.coordinates[0]);
         this.coordinates.at(1).setValue(site.address.coordinates[1]);
       }
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
       // Yes, get image
       return this.centralServerService.getSiteImage(this.currentSiteID);
     })).subscribe((siteImage) => {
@@ -275,6 +277,13 @@ export class SiteComponent implements OnInit {
     } else {
       // No image
       delete site.image;
+    }
+  }
+
+  public updateSiteCoordinates(site: Site) {
+    if (site.address && site.address.coordinates &&
+      !(site.address.coordinates[0] || site.address.coordinates[1])) {
+      delete site.address.coordinates;
     }
   }
 
@@ -347,6 +356,8 @@ export class SiteComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteImage(site);
+    // Set coordinates
+    this.updateSiteCoordinates(site);
     // Yes: Update
     this.centralServerService.createSite(site).subscribe((response) => {
       // Hide
@@ -385,6 +396,8 @@ export class SiteComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateSiteImage(site);
+    // Set coordinates
+    this.updateSiteCoordinates(site);
     // Yes: Update
     this.centralServerService.updateSite(site).subscribe((response) => {
       // Hide

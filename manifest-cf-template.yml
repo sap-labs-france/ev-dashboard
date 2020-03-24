@@ -1,8 +1,9 @@
 applications:
 - name: sap-ev-front-end-new
   memory: 512M
-  disk_quota: 4G
+  disk_quota: 1G
   instances: 1
+  health-check-type: http
   buildpacks:
   - https://github.com/cloudfoundry/staticfile-buildpack
   routes:

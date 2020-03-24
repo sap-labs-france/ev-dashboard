@@ -1,6 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { Address } from 'app/types/Address';
 import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
 import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
@@ -16,6 +17,22 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static containsAddressGPSCoordinates(address: Address): boolean {
+    // Check if GPs are available
+    if (address && Utils.containsGPSCoordinates(address.coordinates)) {
+      return true;
+    }
+    return false;
+  }
+
+  public static containsGPSCoordinates(coordinates: number[]): boolean {
+    // Check if GPs are available
+    if (coordinates && coordinates.length === 2 && coordinates[0] && coordinates[1]) {
+      return true;
+    }
+    return false;
   }
 
   public static cloneJSonDocument(jsonDocument: object): object {

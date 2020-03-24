@@ -444,18 +444,11 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     }
   }
 
-  private dialogSmartCharging(chargingStation?: ChargingStation) {
-    if (chargingStation && (chargingStation.inactive || parseFloat(chargingStation.ocppVersion) < 1.6)) {
-      if (chargingStation.inactive) {
-        // Charger is not connected
-        this.dialogService.createAndShowOkDialog(
-          this.translateService.instant('chargers.action_error.smart_charging_title'),
-          this.translateService.instant('chargers.action_error.smart_charging_charger_disconnected'));
-      } else if (parseFloat(chargingStation.ocppVersion) < 1.6) {
-        this.dialogService.createAndShowOkDialog(
-          this.translateService.instant('chargers.action_error.smart_charging_title'),
-          this.translateService.instant('chargers.action_error.smart_charging_charger_version'));
-      }
+  private dialogSmartCharging(chargingStation: ChargingStation) {
+    if (parseFloat(chargingStation.ocppVersion) < 1.6) {
+      this.dialogService.createAndShowOkDialog(
+        this.translateService.instant('chargers.action_error.smart_charging_title'),
+        this.translateService.instant('chargers.action_error.smart_charging_charger_version'));
     } else {
       // Create the dialog
       const dialogConfig = new MatDialogConfig();

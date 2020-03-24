@@ -17,7 +17,6 @@ export const logActions: KeyValue[] = [
   {key: 'ChargingStationRequestConfiguration', value: 'ChargingStationRequestConfiguration'},
   {key: 'ChargingStationUpdateParams', value: 'ChargingStationUpdateParams'},
   {key: 'ClearCache', value: 'ClearCache'},
-  {key: 'Heartbeat', value: 'Heartbeat'},
   {key: 'ChargingProfileDelete', value: 'ChargingProfileDelete'},
   {key: 'DataTransfer', value: 'DataTransfer'},
   {key: 'Heartbeat', value: 'Heartbeat'},

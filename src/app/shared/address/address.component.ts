@@ -7,19 +7,20 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
   templateUrl: 'address.component.html',
 })
 export class AddressComponent implements OnInit {
-  @Input() formGroup: FormGroup;
+  @Input() formGroup!: FormGroup;
+  @Input() coordinatesFormArray!: FormArray;
   @Input() hideGeoLocation = false;
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public coordinates: FormArray;
-  public longitude: AbstractControl;
-  public latitude: AbstractControl;
+  public address!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public coordinates!: FormArray;
+  public longitude!: AbstractControl;
+  public latitude!: AbstractControl;
 
   ngOnInit() {
     // Form
@@ -91,6 +92,16 @@ export class AddressComponent implements OnInit {
     this.longitude.markAsTouched();
     // set as dirty
     this.formGroup.markAsDirty();
+  }
+
+  areCoordinatesValid(): boolean {
+    if (!this.hideGeoLocation && this.coordinates.value
+    && this.coordinates.value[0] && this.coordinates.value[1]) {
+      if (this.coordinatesFormArray && this.coordinatesFormArray.valid) {
+        return true;
+      }
+    }
+    return false;
   }
 
   showPlace() {

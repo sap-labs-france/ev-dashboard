@@ -149,9 +149,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       return [
         this.editAction,
         this.editChargersAction,
+        this.editBuildingsAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
-          this.editBuildingsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
@@ -161,9 +161,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       return [
         this.editAction,
         this.displayChargersAction,
+        this.displayBuildingsAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
-          this.displayBuildingsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
@@ -172,8 +172,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return [
       this.viewAction,
       this.displayChargersAction,
+      this.displayBuildingsAction,
       new TableMoreAction([
-        this.displayBuildingsAction,
         openInMaps,
       ]).getActionDef(),
     ];

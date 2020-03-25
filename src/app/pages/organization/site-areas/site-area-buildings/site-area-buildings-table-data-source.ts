@@ -177,7 +177,7 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
     // Set data
     dialogConfig.data = {
       staticFilter: {
-        WithSiteArea: false,
+        WithNoSiteArea: true,
       },
     };
     // Show

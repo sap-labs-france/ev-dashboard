@@ -12,6 +12,8 @@ import { ErrorCodeDetailsComponent } from '../component/error-code-details/error
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
+import { BuildingsDialogTableDataSource } from './buildings/buildings-dialog-table-data-source';
+import { BuildingsDialogComponent } from './buildings/buildings-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
 import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
@@ -28,8 +30,6 @@ import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { TransactionDialogComponent } from './transactions/transaction-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
-import { BuildingsDialogComponent } from './buildings/buildings-dialog.component';
-import { BuildingsDialogTableDataSource } from './buildings/buildings-dialog-table-data-source';
 
 export class FooterModule {
 }

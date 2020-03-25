@@ -33,9 +33,9 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { SiteAreaBuildingsDialogComponent } from '../site-area-buildings/site-area-buildings-dialog.component';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
-import { SiteAreaBuildingsDialogComponent } from '../site-area-buildings/site-area-buildings-dialog.component';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {

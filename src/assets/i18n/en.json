@@ -1320,7 +1320,10 @@
       "setting_not_found": "Building Settings not found"
     },
     "information": "Information",
-    "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative."
+    "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",
+    "car": {
+      "synchronize_cars": "Synchronize Cars"
+    }
   },
   "ocpiendpoints": {
     "name": "Name",
@@ -1503,6 +1506,10 @@
     "chargePower": "Charge Power",
     "chargeTime": "Charge Time",
     "chargeSpeed": "Charge Speed",
+    "synchronize_cars_partial": "{{synchronized}} cars have been synchronized successfully and {{inError}} cars have encountered an error",
+    "synchronize_cars_success": "{{synchronized}} cars have been synchronized successfully",
+    "synchronize_cars_error": "Error occurred while synchronizing the cars",
+    "synchronize_cars_up_to_date": "Cars already up to date",
     "type": "Type",
     "unit": {
       "meters": "m",
@@ -1612,6 +1619,7 @@
     "delete_transactions_confirm": "Do you really want to delete {{quantity}} session(s)?",
     "delete_transactions_success": "{{inSuccess}} sessions have been deleted successfully",
     "delete_transactions_partial": "{{inSuccess}} sessions have been deleted successfully and {{inError}} sessions have encountered an error",
+    "delete_transactions_error": "Error occurred while deleting the sessions",
     "inactivity_info": "All Inactivities",
     "inactivity_warning": "Medium Inactivities",
     "inactivity_error": "High Inactivities",

@@ -1320,7 +1320,10 @@
       "setting_not_found": "La configuration n'a pas été trouvée"
     },
     "information": "Information",
-    "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
+    "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
+    "car": {
+      "synchronize_cars": "Synchroniser Vehicules"
+    }
   },
   "ocpiendpoints": {
     "name": "Nom",
@@ -1503,6 +1506,10 @@
     "chargePower": "Charge Power",
     "chargeTime": "Temps De Chargement",
     "chargeSpeed": "Vitesse De Chargement",
+    "synchronize_cars_partial": "{{synchronized}} vehicules ont été synchroniser avec succès et {{inError}} vehicules ont rencontrés une erreur",
+    "synchronize_cars_success": "{{synchronized}} vehicules ont été synchroniser avec succès",
+    "synchronize_cars_error": "Une erreur est survenue pendant la synchronisation des sessions",
+    "synchronize_cars_up_to_date": "Les vehicules sont deja mises a jour",
     "type": "Type"
   },
   "car": {
@@ -1599,6 +1606,7 @@
     "delete_transactions_confirm": "Voulez-vous vraiment supprimer les sessions sélectionnées ?",
     "delete_transactions_success": "{{inSuccess}} sessions ont été supprimées avec succès",
     "delete_transactions_partial": "{{inSuccess}} sessions ont été supprimées avec succès et {{inError}} sessions ont rencontrés une erreur",
+    "delete_transactions_error": "Une erreur est survenue pendant la suppression des sessions",
     "inactivity_info": "Toutes les Inactivités",
     "inactivity_warning": "Inactivités Moyennes",
     "inactivity_error": "Inactivités Importantes",

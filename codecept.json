@@ -31,7 +31,7 @@
    "gherkin": {},
    "tests": "./test/tests/**/*Test.js",
    "timeout": 10000,
-   "name": "ev-dashboard-new",
+   "name": "ev-dashboard",
    "multiple": {
       "parallel": {
          "chunks": 2

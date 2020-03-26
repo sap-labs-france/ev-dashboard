@@ -24,7 +24,7 @@
             "assets": [
               { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
               { "glob": "favicon.ico", "input": "src/", "output": "/" },
-              { "glob": "Staticfile", "input": "src/assets/", "output": "/" },
+              { "glob": "Staticfile", "input": "src/nginx/", "output": "/" },
               { "glob": "**", "input": "src/nginx/", "output": "/nginx/" }
             ],
             "styles": [

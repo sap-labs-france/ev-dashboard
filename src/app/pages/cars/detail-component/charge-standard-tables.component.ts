@@ -1,11 +1,11 @@
-import { ChargeStandardTable, Car } from 'app/types/Car';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableDef, TableColumnDef } from 'app/types/Table';
-import { Observable } from 'rxjs';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Car, ChargeStandardTable } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
+import { TableColumnDef, TableDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ChargeStandardTableDataSource extends TableDataSource<ChargeStandardTable> {

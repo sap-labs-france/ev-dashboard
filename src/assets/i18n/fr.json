@@ -1496,7 +1496,7 @@
     "chargeStandardTables": "Table standard de charge",
     "evsePhaseVolt": "Phase(s) Volt",
     "evsePhaseAmp": "Phase(s) Amp",
-    "evsePhase": "Phase(s)",
+    "evsePhase": "Phase(s) AC",
     "chargePhaseVolt": "Charge Phase Volt",
     "chargePhaseAmp": "Charge Phase Amp",
     "chargePhase": "Charge Phase",

@@ -7,12 +7,12 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Car, CarImage } from 'app/types/Car';
 import { Utils } from 'app/utils/Utils';
-import { ChargeStandardTableDataSource } from '../detail-component/charge-standard-tables.component';
+import { CarConverterTableDataSource } from '../detail-component/car-converter-table-data-source';
 
 @Component({
   templateUrl: './car.component.html',
   providers: [
-    ChargeStandardTableDataSource,
+    CarConverterTableDataSource,
   ],
 })
 export class CarComponent implements OnInit {
@@ -21,7 +21,7 @@ export class CarComponent implements OnInit {
   private carID!: number;
 
   constructor(
-    public chargeStandardTableDataSource: ChargeStandardTableDataSource,
+    public carConverterTableDataSource: CarConverterTableDataSource,
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
@@ -59,7 +59,7 @@ export class CarComponent implements OnInit {
         } else {
           this.car.image = car.images[0];
         }
-        this.chargeStandardTableDataSource.setTable(this.car);
+        this.carConverterTableDataSource.setTable(this.car);
       }, (error) => {
         // Show error
         this.spinnerService.hide();

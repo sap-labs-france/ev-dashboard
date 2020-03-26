@@ -8,7 +8,7 @@ import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class ChargeStandardTableDataSource extends TableDataSource<ChargeStandardTable> {
+export class CarConverterTableDataSource extends TableDataSource<ChargeStandardTable> {
   public car!: Car;
   constructor(
     public spinnerService: SpinnerService,

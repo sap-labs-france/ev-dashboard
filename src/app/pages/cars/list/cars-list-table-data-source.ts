@@ -142,6 +142,24 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0) : '-',
       },
       {
+        id: 'rangeWLTP',
+        name: 'cars.rangeWLTP',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (rangeWLTP: number) => rangeWLTP ? this.decimalPipe.transform(rangeWLTP) + ' ' + 
+          this.translateService.instant('cars.unit.kilometer') : '-',
+      },
+      {
+        id: 'rangeReal',
+        name: 'cars.rangeReal',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' ' +
+          this.translateService.instant('cars.unit.kilometer') : '-',
+      },
+      {
         id: 'chargeStandardPower',
         name: 'cars.chargeStandardPower',
         headerClass: 'col-20p',
@@ -200,24 +218,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
         formatter: (acceleration: number) => acceleration ?
           this.decimalPipe.transform(acceleration) + ' ' + this.translateService.instant('cars.unit.secondes') : '-',
-      },
-      {
-        id: 'rangeWLTP',
-        name: 'cars.rangeWLTP',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sortable: true,
-        formatter: (rangeWLTP: number) => rangeWLTP ? this.decimalPipe.transform(rangeWLTP) + ' ' + 
-          this.translateService.instant('cars.unit.kilometer') : '-',
-      },
-      {
-        id: 'rangeReal',
-        name: 'cars.rangeReal',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sortable: true,
-        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' ' +
-          this.translateService.instant('cars.unit.kilometer') : '-',
       },
     ];
     return tableColumnDef;

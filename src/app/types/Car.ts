@@ -18,6 +18,7 @@ export interface Car extends Data {
   batteryCapacityUseable: number;
   chargePlug: string;
   fastChargePlug: string;
+  fastChargePowerMax?: number;
   chargePlugLocation: string;
   chargeStandardPower: number;
   chargeStandardPhase: number;

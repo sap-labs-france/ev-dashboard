@@ -37,7 +37,7 @@ export class CarComponent implements OnInit {
 
   ngOnInit(): void {
     // Load
-    this.loadData();
+    this.loadCar();
   }
 
   public closeDialog() {
@@ -48,7 +48,7 @@ export class CarComponent implements OnInit {
     this.closeDialog();
   }
 
-  loadData() {
+  loadCar() {
     if (this.carID) {
       this.spinnerService.show();
       this.centralServerService.getCar(this.carID).subscribe((car: Car) => {
@@ -59,7 +59,7 @@ export class CarComponent implements OnInit {
         } else {
           this.car.image = car.images[0];
         }
-        this.carConverterTableDataSource.setTable(this.car);
+        this.carConverterTableDataSource.setCar(this.car);
       }, (error) => {
         // Show error
         this.spinnerService.hide();

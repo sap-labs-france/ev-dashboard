@@ -32,8 +32,9 @@ export class CarConverterTableDataSource extends TableDataSource<ChargeStandardT
     };
   }
 
-  public setTable(car: Car) {
+  public setCar(car: Car) {
     this.car = car;
+    this.getManualDataChangeSubject().next();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargeStandardTable>> {
@@ -95,5 +96,4 @@ export class CarConverterTableDataSource extends TableDataSource<ChargeStandardT
     ];
     return tableColumnDef;
   }
-
 }

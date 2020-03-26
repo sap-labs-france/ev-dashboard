@@ -123,9 +123,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(
-          capacity, this.translateService.instant('cars.unit.kilowattHeure'), 
-          this.translateService.instant('cars.unit.kilowattHeure'), true, 1, 0) : '-',
+        formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0) : '-',
       },
       {
         id: 'chargeStandardPower',
@@ -134,18 +132,15 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         class: 'col-20p',
         sortable: true,
         formatter: (chargeStandardPower: number) =>
-          chargeStandardPower ?
-            this.appUnitPipe.transform(chargeStandardPower, this.translateService.instant('cars.unit.kilowattHeure'),
-              this.translateService.instant('cars.unit.kilowattHeure'), true, 1, 0)
-            : '-',
+          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0) : '-',
       },
       {
         id: 'chargeStandardPhase',
-        name: 'cars.evsePhase',
+        name: 'cars.evsePhaseAC',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (chargeStandardPhase: number) => chargeStandardPhase ? `${this.decimalPipe.transform(chargeStandardPhase)}` : '-',
+        formatter: (chargeStandardPhase: number) => chargeStandardPhase ? this.decimalPipe.transform(chargeStandardPhase) : '-',
       },
       {
         id: 'chargePlug',
@@ -161,10 +156,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (fastChargePowerMax: number, car: Car) =>
-          fastChargePowerMax ? this.appUnitPipe.transform(fastChargePowerMax,
-            this.translateService.instant('cars.unit.kilowattHeure'),
-            this.translateService.instant('cars.unit.kilowattHeure'), true, 1, 0) : '-',
+        formatter: (fastChargePowerMax: number) => fastChargePowerMax ?
+          this.appUnitPipe.transform(fastChargePowerMax, 'kWh', 'kWh', true, 1, 0) : '-',
       },
       {
         id: 'fastChargePlug',

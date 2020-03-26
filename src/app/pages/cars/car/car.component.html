@@ -88,16 +88,16 @@
                     <td class="px-2 py-2 text-left">{{car.batteryCapacityUseable ? (car.batteryCapacityUseable | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowattHeure" | translate}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePlug" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargePlug ? car.chargePlug : '-'}}</td>
+                  </tr>
+                  <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.chargeStandardPower" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car.chargeStandardPower ? (car.chargeStandardPower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.evsePhase" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.evsePhase ? car.evsePhase : '-'}}</td>
-                  </tr>
-                  <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.chargePlug" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car.chargePlug ? car.chargePlug : '-'}}</td>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evsePhaseAC" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{car.chargeStandardPhase ? car.chargeStandardPhase : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.fastChargePlug" | translate}}</th>

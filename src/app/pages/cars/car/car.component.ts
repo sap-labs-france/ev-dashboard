@@ -7,7 +7,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Car, CarImage } from 'app/types/Car';
 import { Utils } from 'app/utils/Utils';
-import { CarConverterTableDataSource } from '../detail-component/car-converter-table-data-source';
+import { CarConverterTableDataSource } from './car-converter-table-data-source';
 
 @Component({
   templateUrl: './car.component.html',

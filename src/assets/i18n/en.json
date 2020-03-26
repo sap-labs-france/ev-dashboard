@@ -1492,7 +1492,7 @@
     "miscIsofixSeats": "Isofix Seats",
     "miscellaneous": "Miscellaneous",
     "battery": "Battery",
-    "debugCar": "Debug Car",
+    "debugCar": "Advanced",
     "chargeStandardTables": "AC Converters",
     "evsePhaseVolt": "Voltage",
     "evsePhaseAmp": "Amperage",

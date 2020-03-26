@@ -4,6 +4,7 @@ export interface Car extends Data {
   id: number;
   vehicleModel: string;
   vehicleMake: string;
+  vehicleModelVersion?: string;
   batteryCapacityFull: number;
   fastchargeChargeSpeed: number;
   performanceTopspeed: number;
@@ -17,6 +18,7 @@ export interface Car extends Data {
   batteryCapacityUseable: number;
   chargePlug: string;
   fastChargePlug: string;
+  fastChargePowerMax?: number;
   chargePlugLocation: string;
   chargeStandardPower: number;
   chargeStandardPhase: number;
@@ -32,8 +34,7 @@ export interface Car extends Data {
   carObject?: any;
 }
 
-export interface ChargeStandardTable {
-  type: string;
+export interface ChargeStandardTable extends Data {
   evsePhaseVolt: number;
   evsePhaseAmp: number;
   evsePhase: number;

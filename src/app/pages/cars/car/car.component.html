@@ -173,8 +173,8 @@
         <ng-template mat-tab-label>
           <mat-icon>info</mat-icon><span>{{"cars.debugCar" | translate}}</span>
         </ng-template>
-        <div class="col-md-12 text-left pt-3 car-object-component">
-          <pre><small>{{ car?.carObject | json }}</small></pre>
+        <div class="col-md-12 text-left p-3 pl-5 car-advanced">
+          <pre class="m-0"><small>{{ car?.carObject | json }}</small></pre>
         </div>
       </mat-tab>
       <mat-tab disabled>

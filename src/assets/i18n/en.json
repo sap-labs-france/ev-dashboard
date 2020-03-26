@@ -1493,7 +1493,7 @@
     "miscellaneous": "Miscellaneous",
     "battery": "Battery",
     "debugCar": "Debug Car",
-    "chargeStandardTables": "Charge Standard Tables",
+    "chargeStandardTables": "AC Converters",
     "evsePhaseVolt": "Phase(s) Volt",
     "evsePhaseAmp": "Phase(s) Amp",
     "evsePhase": "AC Phase(s)",

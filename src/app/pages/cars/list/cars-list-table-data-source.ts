@@ -40,6 +40,10 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     this.initDataSource();
   }
 
+  public getPageSize(): number {
+    return 50;
+  }
+
   public loadDataImpl(): Observable<DataResult<Car>> {
     return new Observable((observer) => {
       // Get cars

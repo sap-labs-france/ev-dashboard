@@ -92,7 +92,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'vehicleMake',
-        name: 'cars.vehicleMake',
+        name: 'cars.vehicle_make',
         headerClass: 'col-20p',
         class: 'col-20p',
         sorted: true,
@@ -101,29 +101,29 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'vehicleModel',
-        name: 'cars.vehicleModel',
+        name: 'cars.vehicle_model',
         class: 'text-left',
         sortable: true,
       },
       {
         id: 'vehicleModelVersion',
-        name: 'cars.vehicleModelVersion',
+        name: 'cars.vehicle_model_version',
         class: 'text-left',
         sortable: true,
         formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
       },
       {
         id: 'drivetrainPowerHP',
-        name: 'cars.drivetrainPowerHP',
+        name: 'cars.drivetrain_power_hp',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
         formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
-          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrainPowerHPUnit')}` : '-',
+          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrain_power_hp_unit')}` : '-',
       },
       {
         id: 'batteryCapacityFull',
-        name: 'cars.batteryCapacityFull',
+        name: 'cars.battery_capacity_full',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
@@ -131,7 +131,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'rangeWLTP',
-        name: 'cars.rangeWLTP',
+        name: 'cars.range_wltp',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
@@ -140,7 +140,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'rangeReal',
-        name: 'cars.rangeReal',
+        name: 'cars.range_real',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
@@ -149,7 +149,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'chargeStandardPower',
-        name: 'cars.chargeStandardPower',
+        name: 'cars.charge_standard_power',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
@@ -158,7 +158,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'chargeStandardPhase',
-        name: 'cars.evsePhaseAC',
+        name: 'cars.evse_phase_ac',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
@@ -166,7 +166,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'chargePlug',
-        name: 'cars.chargePlug',
+        name: 'cars.charge_plug',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
@@ -174,7 +174,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'fastChargePowerMax',
-        name: 'cars.fastChargePowerMax',
+        name: 'cars.fast_charge_power_max',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
@@ -183,7 +183,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'fastChargePlug',
-        name: 'cars.fastChargePlug',
+        name: 'cars.fast_charge_plug',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
@@ -191,7 +191,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'performanceTopspeed',
-        name: 'cars.performanceTopspeed',
+        name: 'cars.performance_top_speed',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
@@ -200,7 +200,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'performanceAcceleration',
-        name: 'cars.performanceAcceleration',
+        name: 'cars.performance_acceleration',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,

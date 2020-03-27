@@ -115,7 +115,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         class: 'col-20p',
         sortable: true,
         formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
-          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrainPowerHPUnit')}` : '-',
+          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrain_power_hp_unit')}` : '-',
       },
       {
         id: 'batteryCapacityFull',
@@ -145,7 +145,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'chargeStandardPower',
-        name: 'cars.chargeStandardPower',
+        name: 'cars.charge_standard_power',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
@@ -154,7 +154,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'chargeStandardPhase',
-        name: 'cars.evsePhaseAC',
+        name: 'cars.evse_phase_ac',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
@@ -170,7 +170,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       },
       {
         id: 'fastChargePowerMax',
-        name: 'cars.fastChargePowerMax',
+        name: 'cars.fast_charge_power_max',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,

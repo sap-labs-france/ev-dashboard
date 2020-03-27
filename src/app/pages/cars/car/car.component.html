@@ -46,7 +46,7 @@
                           </tr>
                           <tr class="mat-row" role="row">
                             <th class="props-header px-2 py-2 text-left">{{"cars.drivetrain_torque" | translate}}</th>
-                            <td class="px-2 py-2 text-left">{{car?.drivetrainTorque ? car.drivetrainTorque : '-'}} {{"cars.unit.newtonMetre" | translate}}</td>
+                            <td class="px-2 py-2 text-left">{{car?.drivetrainTorque ? car.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}</td>
                           </tr>
                           <tr class="mat-row" role="row">
                             <th class="props-header px-2 py-2 text-left">{{"cars.performance_top_speed" | translate}}</th>
@@ -57,8 +57,8 @@
                             <td class="px-2 py-2 text-left">{{car?.drivetrainPropulsion ? car.drivetrainPropulsion : '-'}}</td>
                           </tr>
                           <tr class="mat-row" role="row">
-                            <th class="props-header px-2 py-2 text-left">{{"cars.miscTurningCircle" | translate}}</th>
-                            <td class="px-2 py-2 text-left">{{car?.miscTurningCircle ? car.miscTurningCircle : ''}} {{"cars.unit.meters" | translate}}</td>
+                            <th class="props-header px-2 py-2 text-left">{{"cars.misc_turning_circle" | translate}}</th>
+                            <td class="px-2 py-2 text-left">{{car?.miscTurningCircle ? car.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}</td>
                           </tr>
                         </ng-container>
                       </tbody>
@@ -82,22 +82,22 @@
                 <ng-container>
                   <tr class="mat-row app-car-important-props" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.battery_capacity_full" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car?.batteryCapacityFull ? (car.batteryCapacityFull | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowattHeure" | translate}}</td>
+                    <td class="px-2 py-2 text-left">{{car?.batteryCapacityFull ? (car.batteryCapacityFull | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt_heure" | translate}}</td>
                   </tr>
                   <tr class="mat-row app-car-important-props" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.battery_capacity_useable" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car?.batteryCapacityUseable ? (car.batteryCapacityUseable | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowattHeure" | translate}}</td>
+                    <td class="px-2 py-2 text-left">{{car?.batteryCapacityUseable ? (car.batteryCapacityUseable | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt_heure" | translate}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.charge_plug" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.chargePlug ? car.chargePlug : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.chargeStandardPower" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.charge_standard_power" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.chargeStandardPower ? (car.chargeStandardPower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.evsePhaseAC" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evse_phase_ac" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.chargeStandardPhase ? car.chargeStandardPhase : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
@@ -105,7 +105,7 @@
                     <td class="px-2 py-2 text-left">{{car?.fastChargePlug ? car.fastChargePlug : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.fastChargePowerMax" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.fast_charge_power_max" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.fastChargePowerMax ? (car.fastChargePowerMax | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
@@ -120,7 +120,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>battery_charging_full</mat-icon><span>{{"cars.chargeStandardTables" | translate}}</span>
+          <mat-icon>battery_charging_full</mat-icon><span>{{"cars.charge_standard_tables" | translate}}</span>
         </ng-template>
         <div class="col-md-12 text-left p-4">
           <app-table [dataSource]="carConverterTableDataSource"></app-table>
@@ -144,23 +144,23 @@
               <tbody role="rowgroup">
                 <ng-container>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.miscSeats" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.misc_seats" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.miscSeats ? car.miscSeats : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.miscBody" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.misc_body" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.miscBody ? car.miscBody : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.miscIsofix" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.misc_isofix" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.miscIsofix ? car.miscIsofix : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.miscIsofixSeats" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.misc_isofix_seats" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.miscIsofixSeats ? car.miscIsofixSeats : '-'}}</td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.miscSegment" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.misc_segment" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{car?.miscSegment ? car.miscSegment : '-'}}</td>
                   </tr>
                 </ng-container>

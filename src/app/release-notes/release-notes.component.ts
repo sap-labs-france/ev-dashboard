@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `SAP Smart Charging implementation`,
+              `Assign a Building to a Site Area`,
               `Webasto implementation in Charging Plan management`,
               `Fixed bug in retrieving the current limitation during a Session`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,

@@ -52,8 +52,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
@@ -67,7 +67,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     this.refundTransactionEnabled = this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
     // Check
     this.checkConcurConnection();

@@ -1,4 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
@@ -17,8 +18,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     public additionalParameters?: any) {
-    super(spinnerService, additionalParameters);
+    super(spinnerService, translateService, additionalParameters);
     this.initDataSource();
   }
 

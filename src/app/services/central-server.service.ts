@@ -5,17 +5,18 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
+import { Car } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, SynchronizeResponse, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { OCPPClearChargingProfileCommandResult, OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
+import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
@@ -25,7 +26,7 @@ import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
-import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1258,10 +1259,10 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeUsersForBilling(): Observable<SynchronizeResponse> {
+  public synchronizeUsersForBilling(): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2109,7 +2110,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.delete<ActionResponse>(
-        `${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingProfileDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2138,6 +2139,53 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.get<ChargingStationConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCars(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Car>>(
+      `${this.centralRestServerServiceSecuredURL}/Cars`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCar(carID: number): Observable<Car> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Car>(
+      `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public synchronizeCars(): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCars`, {},
       {
         headers: this.buildHttpHeaders(),
       })

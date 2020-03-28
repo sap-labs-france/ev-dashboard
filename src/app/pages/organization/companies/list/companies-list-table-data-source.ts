@@ -36,15 +36,15 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
     this.setStaticFilters([{WithLogo: true}]);
@@ -137,9 +137,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   public buildTableDynamicRowActions(company: Company) {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // check if GPs are available
-    openInMaps.disabled = (company && company.address && company.address.coordinates
-      && company.address.coordinates.length === 2) ? false : true;
+    // Check if GPS is available
+    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
     if (this.isAdmin) {
       return [
         this.editAction,
@@ -148,14 +147,13 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
           this.deleteAction,
         ]).getActionDef(),
       ];
-    } else {
-      return [
-        this.viewAction,
-        new TableMoreAction([
-          openInMaps,
-        ]).getActionDef(),
-      ];
     }
+    return [
+      this.viewAction,
+      new TableMoreAction([
+        openInMaps,
+      ]).getActionDef(),
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {

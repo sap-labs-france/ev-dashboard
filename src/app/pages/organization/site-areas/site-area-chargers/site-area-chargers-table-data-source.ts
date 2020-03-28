@@ -25,14 +25,14 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService) {
-    super(spinnerService);
+    super(spinnerService, translateService);
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {

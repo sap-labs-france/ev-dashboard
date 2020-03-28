@@ -17,7 +17,6 @@ export const logActions: KeyValue[] = [
   {key: 'ChargingStationRequestConfiguration', value: 'ChargingStationRequestConfiguration'},
   {key: 'ChargingStationUpdateParams', value: 'ChargingStationUpdateParams'},
   {key: 'ClearCache', value: 'ClearCache'},
-  {key: 'Heartbeat', value: 'Heartbeat'},
   {key: 'ChargingProfileDelete', value: 'ChargingProfileDelete'},
   {key: 'DataTransfer', value: 'DataTransfer'},
   {key: 'Heartbeat', value: 'Heartbeat'},
@@ -102,6 +101,7 @@ export const logActions: KeyValue[] = [
   {key: 'SecurePing', value: 'SecurePing'},
   {key: 'UserUpdate', value: 'UserUpdate'},
   {key: 'SettingUpdate', value: 'SettingUpdate'},
+  {key: 'UpdateChargingStationTemplates', value: 'UpdateChargingStationTemplates'},
   {key: 'Scheduler', value: 'Scheduler'},
   {key: 'SiteUserAdmin', value: 'SiteUserAdmin'},
   {key: 'RegistrationTokens', value: 'RegistrationTokens'},
@@ -141,6 +141,7 @@ export const logActions: KeyValue[] = [
   {key: 'ExtraInactivity', value: 'ExtraInactivity'},
   {key: 'SynchronizeCars', value: 'SynchronizeCars'},
   {key: 'SynchronizeUsersBilling', value: 'SynchronizeUsersBilling'},
+  {key: 'SAPSmartCharging', value: 'SAPSmartCharging'},
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

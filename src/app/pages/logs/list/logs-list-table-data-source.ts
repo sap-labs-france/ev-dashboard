@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, SubjectInfo } from 'app/types/GlobalType';
+import { ButtonAction } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 // @ts-ignore
@@ -37,15 +37,15 @@ import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.co
 export class LogsListTableDataSource extends TableDataSource<Log> {
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private messageService: MessageService,
-    private translateService: TranslateService,
     private dialogService: DialogService,
     private authorizationService: AuthorizationService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

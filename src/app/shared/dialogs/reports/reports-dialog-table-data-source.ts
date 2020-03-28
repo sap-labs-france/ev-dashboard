@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
 import { RefundReport } from 'app/types/Refund';
@@ -15,11 +16,12 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundReport> {
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
       private router: Router,
       private centralServerService: CentralServerService,
       private appUserNamePipe: AppUserNamePipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }

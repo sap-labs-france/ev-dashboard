@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Schedule } from 'app/types/ChargingProfile';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
-  private manualRefreshSchedule = new Subject<void>();
 
   constructor(
     public spinnerService: SpinnerService,
+    public translateService: TranslateService,
     private datePipe: AppDatePipe,
   ) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     this.initDataSource();
-  }
-
-  public getManualDataChangeSubject(): Observable<void> {
-    return this.manualRefreshSchedule;
   }
 
   public buildTableDef(): TableDef {
@@ -86,6 +83,6 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
 
   public setChargingProfileSchedule(schedules: Schedule[]) {
     this.schedules = schedules;
-    this.manualRefreshSchedule.next();
+    this.getManualDataChangeSubject().next();
   }
 }

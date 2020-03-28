@@ -36,7 +36,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   public percentOfInactivity!: string;
   public locale!: string;
 
-  @ViewChild('chartConsumption', { static: false }) chartComponent!: ConsumptionChartComponent;
+  @ViewChild('chartConsumption') chartComponent!: ConsumptionChartComponent;
   private transactionId!: number;
 
   private autoRefeshTimer!: number;

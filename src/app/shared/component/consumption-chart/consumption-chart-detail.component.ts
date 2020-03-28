@@ -12,7 +12,7 @@ import { CellContentTemplateComponent } from '../../table/cell-content-template/
 
 export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
   @Input() row!: Connector|Transaction;
-  @ViewChild('chartConsumption', { static: false }) chartComponent!: ConsumptionChartComponent;
+  @ViewChild('chartConsumption') chartComponent!: ConsumptionChartComponent;
   public transactionId!: number;
 
   ngOnInit(): void {

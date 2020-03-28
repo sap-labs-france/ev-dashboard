@@ -21,7 +21,7 @@ import { TableDataSource } from './table-data-source';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource!: TableDataSource<Data>;
-  @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();

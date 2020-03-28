@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, NgZone, OnInit, ViewChild, Directive } from '@angular/core';
 import * as CanvasGauges from 'canvas-gauges';
 
 /**
@@ -6,6 +6,7 @@ import * as CanvasGauges from 'canvas-gauges';
  * T - Type of the Gauge you want to be rendered (Currently RadialGauge, LinearGauge from the original library)
  * T2 - Type of the options used within the particular gauge (RadialGaugeOptions, LinearGaugeOptions)
  */
+@Directive()
 export abstract class BaseGauge<T extends CanvasGauges.BaseGauge, T2 extends CanvasGauges.GenericOptions>
 
   implements OnInit, AfterViewChecked {

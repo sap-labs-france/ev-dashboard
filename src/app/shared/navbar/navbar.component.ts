@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   location: Location;
   mobileMenuVisible: any = 0;
 
-  @ViewChild('app-navbar', { static: false }) button: any;
+  @ViewChild('app-navbar') button: any;
   private listTitles!: any[];
   private nativeElement: Node;
   private toggleButton: any;

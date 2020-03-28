@@ -1,6 +1,7 @@
-import { EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { EventEmitter, Input, OnChanges, Output, SimpleChanges, Directive } from '@angular/core';
 import { Data, TableColumnDef } from 'app/types/Table';
 
+@Directive()
 export abstract class CellContentTemplateComponent implements OnChanges {
   @Input() row: any;
   @Input() columnDef!: TableColumnDef;

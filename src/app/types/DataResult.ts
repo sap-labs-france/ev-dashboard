@@ -44,12 +44,6 @@ export interface OCPIGenerateLocalTokenResponse extends ActionResponse {
   localToken: string;
 }
 
-export interface SynchronizeResponse {
-  status: string;
-  synchronized: number;
-  error: number;
-}
-
 export interface GetDiagnosticResponse extends ActionResponse {
   fileName: string;
 }

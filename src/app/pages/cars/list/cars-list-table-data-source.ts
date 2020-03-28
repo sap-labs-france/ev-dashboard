@@ -11,7 +11,7 @@ import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarImage } from 'app/types/Car';
+import { Car, CarImage, CarButtonAction } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -19,11 +19,14 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { CarComponent } from '../car/car.component';
 import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { TableSyncCarsAction } from 'app/shared/table/actions/table-sync-cars-action';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
   private openAction = new TableViewAction().getActionDef();
-
+  public isSuperAdmin: boolean;
+  private tableSyncCarsAction = new TableSyncCarsAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -34,8 +37,10 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private config: ConfigService,
     private dialog: MatDialog,
     private decimalPipe: AppDecimalPipe,
+    private authorizationService: AuthorizationService,
   ) {
     super(spinnerService, translateService);
+    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     // Init
     this.initDataSource();
   }
@@ -78,6 +83,17 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableFooterStats(): string {
     return `<a href="${this.config.getCar().url}" target="_blank">${this.config.getCar().url}</a>`;
+  }
+
+  public buildTableActionsDef(): TableActionDef[] {
+    const tableActionsDef = super.buildTableActionsDef();
+    if (this.isSuperAdmin) {
+      return [
+        this.tableSyncCarsAction,
+        ...tableActionsDef,
+      ];
+    }
+    return tableActionsDef;
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -218,6 +234,25 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
+    }
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      case CarButtonAction.SYNCHRONIZE:
+        if (this.tableSyncCarsAction.action) {
+          this.tableSyncCarsAction.action(
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+          );
+        }
+        break;
+      default:
+        super.actionTriggered(actionDef);
     }
   }
 

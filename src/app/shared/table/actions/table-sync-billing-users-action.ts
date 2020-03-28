@@ -11,7 +11,7 @@ import { TableAction } from './table-action';
 
 export class TableSyncBillingUsersAction implements TableAction {
   private action: TableActionDef = {
-    id: UserButtonAction.FORCE_SYNCHRONIZE,
+    id: UserButtonAction.FORCE_SYNCHRONIZE_BILLING,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
@@ -30,15 +30,15 @@ export class TableSyncBillingUsersAction implements TableAction {
         messageService.showInfoMessage('settings.billing.synchronize_users_started');
         centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (synchronizeResponse.synchronized) {
+            if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.synchronize_users_success',
-                {number: synchronizeResponse.synchronized}));
-            } else if (!synchronizeResponse.error) {
+                {number: synchronizeResponse.inSuccess}));
+            } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.synchronize_users_success_all'));
             }
-            if (synchronizeResponse.error) {
+            if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.synchronize_users_failure',
-                {number: synchronizeResponse.error}));
+                {number: synchronizeResponse.inError}));
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.synchronize_users_error');

@@ -35,6 +35,7 @@ export interface Car extends Data {
 }
 
 export interface ChargeStandardTable extends Data {
+  type: string;
   evsePhaseVolt: number;
   evsePhaseAmp: number;
   evsePhase: number;
@@ -48,4 +49,8 @@ export interface ChargeStandardTable extends Data {
 
 export enum CarImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',
+}
+
+export enum CarButtonAction {
+  SYNCHRONIZE = 'synchronize',
 }

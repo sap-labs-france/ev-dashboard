@@ -1320,7 +1320,10 @@
       "setting_not_found": "La configuration n'a pas été trouvée"
     },
     "information": "Information",
-    "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility."
+    "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
+    "car": {
+      "synchronize_cars": "Synchroniser Vehicules"
+    }
   },
   "ocpiendpoints": {
     "name": "Nom",
@@ -1493,17 +1496,21 @@
     "miscellaneous": "Divers",
     "battery": "Batterie",
     "debugCar": "Avancé",
-    "charge_standard_tables": "Convertisseurs AC",
-    "evse_phase_volt": "Voltage",
-    "evse_phase_amp": "Ampérage",
-    "evse_phase": "Phase(s)",
-    "evse_phase_ac": "Phase(s) AC",
-    "charge_phase_volt": "Charge Phase Volt",
-    "charge_phase_amp": "Charge Phase Amp",
-    "charge_phase": "Charge Phase",
-    "charge_power": "Charge Power",
-    "charge_time": "Temps De Chargement",
-    "charge_speed": "Vitesse De Chargement",
+    "chargeStandardTables": "Convertisseurs AC",
+    "evsePhaseVolt": "Voltage",
+    "evsePhaseAmp": "Ampérage",
+    "evsePhase": "Phase(s)",
+    "evsePhaseAC": "Phase(s) AC",
+    "chargePhaseVolt": "Charge Phase Volt",
+    "chargePhaseAmp": "Charge Phase Amp",
+    "chargePhase": "Charge Phase",
+    "chargePower": "Charge Power",
+    "chargeTime": "Temps De Chargement",
+    "chargeSpeed": "Vitesse De Chargement",
+    "synchronize_cars_partial": "{{synchronized}} véhicules ont été synchronisés avec succès et {{inError}} vehicules ont rencontré une erreur",
+    "synchronize_cars_success": "{{synchronized}} véhicules ont été synchronisés avec succès",
+    "synchronize_cars_error": "Une erreur est survenue pendant la synchronisation des véhicules",
+    "synchronize_cars_up_to_date": "Les véhicules sont déjà tous à jour",
     "type": "Type",
     "unit": {
       "meters": "m",
@@ -1613,6 +1620,7 @@
     "delete_transactions_confirm": "Voulez-vous vraiment supprimer les sessions sélectionnées ?",
     "delete_transactions_success": "{{inSuccess}} sessions ont été supprimées avec succès",
     "delete_transactions_partial": "{{inSuccess}} sessions ont été supprimées avec succès et {{inError}} sessions ont rencontrés une erreur",
+    "delete_transactions_error": "Une erreur est survenue pendant la suppression des sessions",
     "inactivity_info": "Toutes les Inactivités",
     "inactivity_warning": "Inactivités Moyennes",
     "inactivity_error": "Inactivités Importantes",

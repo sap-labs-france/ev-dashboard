@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, NgZone, OnInit, ViewChild, Directive } from '@angular/core';
+import { AfterViewChecked, Component, Directive, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import * as CanvasGauges from 'canvas-gauges';
 
 /**

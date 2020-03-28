@@ -133,11 +133,11 @@ export interface TableColumnDef {
   validators?: ValidatorFn[];
   unique?: boolean;
   canBeDisabled?: boolean;
-  errors?: Array<{
+  errors?: {
     id: string;
     message: string;
     messageParams?: object;
-  }>;
+  }[];
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;

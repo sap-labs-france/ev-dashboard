@@ -1,4 +1,4 @@
-import { EventEmitter, Input, OnChanges, Output, SimpleChanges, Directive } from '@angular/core';
+import { Directive, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Data, TableColumnDef } from 'app/types/Table';
 
 @Directive()

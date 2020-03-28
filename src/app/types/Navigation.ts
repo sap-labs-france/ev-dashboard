@@ -36,5 +36,5 @@ export interface NavItem {
   routerLink?: string;
   iconClass?: string;
   numNotifications?: number;
-  dropdownItems?: Array<DropdownLink | 'separator'>;
+  dropdownItems?: (DropdownLink | 'separator')[];
 }

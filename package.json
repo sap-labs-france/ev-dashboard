@@ -12,7 +12,7 @@
     "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --configuration=development --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "npm run build:dev",
-    "build:prod": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod --stats-json",
+    "build:prod": "ng build --prod --stats-json",
     "build:dev": "ng build --configuration=development --stats-json",
     "test": "npm run e2e",
     "lint": "ng lint",
@@ -27,7 +27,7 @@
     "angular9-update": "ng update @angular/core@9 @angular/cli@9",
     "material9-update": "ng update @angular/material@9",
     "angular-dependencies-update": "ng update --all",
-    "analyze": "webpack-bundle-analyzer dist/stats-es5.json",
+    "analyze": "webpack-bundle-analyzer dist/stats-es2015.json",
     "postinstall": "ngcc"
   },
   "dependencies": {

@@ -4,7 +4,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { CarButtonAction } from 'app/types/Car';
-import { ActionCarSynchronizeResponse } from 'app/types/DataResult';
+import { SynchronizeResponse } from 'app/types/DataResult';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { TableAction } from './table-action';
@@ -23,14 +23,14 @@ export class TableSyncCarsAction implements TableAction {
   private synchronizeCars(translateService: TranslateService, messageService: MessageService,
       centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
     spinnerService.show();
-    centralServerService.synchronizeCars().subscribe((response: ActionCarSynchronizeResponse) => {
+    centralServerService.synchronizeCars().subscribe((response: SynchronizeResponse) => {
       spinnerService.hide();
-      if (response.inError) {
+      if (response.error) {
         messageService.showErrorMessage(
           translateService.instant('cars.synchronize_cars_partial',
             {
               synchronized: response.synchronized,
-              inError: response.inError,
+              inError: response.error,
             },
           ));
       } else if (response.synchronized === 0) {

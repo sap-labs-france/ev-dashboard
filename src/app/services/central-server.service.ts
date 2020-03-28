@@ -2162,11 +2162,11 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeCars(): Observable<ActionResponse> {
+  public synchronizeCars(): Observable<SynchronizeResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCars`, {},
+    return this.httpClient.put<SynchronizeResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCars`, {},
       {
         headers: this.buildHttpHeaders(),
       })

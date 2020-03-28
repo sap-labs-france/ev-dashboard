@@ -13,11 +13,6 @@ export interface ActionsResponse extends ActionResponse {
   inError?: number;
 }
 
-export interface ActionCarSynchronizeResponse extends ActionResponse {
-  synchronized?: number;
-  inError?: number;
-}
-
 export interface LoginResponse extends ActionResponse {
   token: string;
 }

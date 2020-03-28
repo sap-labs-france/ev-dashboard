@@ -4,6 +4,7 @@ export interface Car extends Data {
   id: number;
   vehicleModel: string;
   vehicleMake: string;
+  vehicleModelVersion?: string;
   batteryCapacityFull: number;
   fastchargeChargeSpeed: number;
   performanceTopspeed: number;
@@ -17,6 +18,7 @@ export interface Car extends Data {
   batteryCapacityUseable: number;
   chargePlug: string;
   fastChargePlug: string;
+  fastChargePowerMax?: number;
   chargePlugLocation: string;
   chargeStandardPower: number;
   chargeStandardPhase: number;
@@ -32,7 +34,7 @@ export interface Car extends Data {
   carObject?: any;
 }
 
-export interface ChargeStandardTable {
+export interface ChargeStandardTable extends Data {
   type: string;
   evsePhaseVolt: number;
   evsePhaseAmp: number;
@@ -47,4 +49,8 @@ export interface ChargeStandardTable {
 
 export enum CarImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',
+}
+
+export enum CarButtonAction {
+  SYNCHRONIZE = 'synchronize',
 }

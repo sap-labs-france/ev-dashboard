@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.19',
-        date: new Date('2020-03-26'),
+        version: '2.2.20',
+        date: new Date('2020-03-28'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -40,6 +40,7 @@ export class ReleaseNotesComponent {
               `Fixed translation issues in Static Limitation`,
               `Allow to display the Charge Limitation in read-only when Charging Station is disconnected from the backend`,
               `Car structure adaptation for internal converters`,
+              `Add Car synchronization in Master tenant`,
               `Fixed cannot update User's status in Master Tenant`,
               `Implemented Car unit tests`,
               `Fixed User In Error with Billing`,

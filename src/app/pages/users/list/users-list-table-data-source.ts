@@ -274,7 +274,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE:
+      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
         if (this.tableSyncBillingUsersAction.action) {
           this.tableSyncBillingUsersAction.action(
             this.dialogService,
@@ -301,7 +301,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE:
+      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
         this.forceSynchronizeUser(rowItem);
         break;
       default:

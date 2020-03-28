@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added Billing invoice list`,
               `SAP Smart Charging implementation`,
               `Webasto implementation in Charging Plan management`,
               `Fixed bug in retrieving the current limitation during a Session`,

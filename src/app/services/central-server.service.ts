@@ -100,6 +100,34 @@ export class CentralServerService {
       );
   }
 
+  public addBuildingsToSiteArea(siteAreaID: string, buildingIDs: string[]): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddBuildingsToSiteArea`,
+      { siteAreaID, buildingIDs },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public removeBuildingsFromSiteArea(siteAreaID: string, buildingIDs: string[]): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveBuildingsFromSiteArea`,
+      { siteAreaID, buildingIDs },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public removeUsersFromSite(siteID: string, userIDs: string[]): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

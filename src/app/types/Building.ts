@@ -16,8 +16,8 @@ export interface Building extends Data {
 }
 
 export enum BuildingButtonAction {
-  EDIT_SITE_AREAS = 'edit_site_areas',
-  DISPLAY_SITE_AREAS = 'display_site_areas',
+  EDIT_BUILDINGS = 'edit_buildings',
+  DISPLAY_BUILDINGS = 'display_buildings',
 }
 
 export enum BuildingImage {

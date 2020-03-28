@@ -222,8 +222,7 @@
       <!-- Rows -->
       <tbody *ngIf="dataSource.data.length > 0">
         <ng-template ngFor let-row let-rowIndex="index" [ngForOf]="dataSource.data"
-          [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId"
-          let-rowIndex="index">
+          [ngForTrackBy]="dataSource.tableDef.isEditable ? trackByObjectIndex : trackByObjectId">
           <tr [id]="dataSource.tableDef.rowFieldNameIdentifier ? row[dataSource.tableDef.rowFieldNameIdentifier] : rowIndex">
             <!-- Select Cell -->
             <td *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"

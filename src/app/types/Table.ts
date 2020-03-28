@@ -1,5 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
-import { SortDirection } from '@angular/material/typings';
+import { SortDirection } from '@angular/material/sort';
 import { BuildingButtonAction } from './Building';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';

@@ -62,7 +62,6 @@ export class InvoicesListTableDataSource extends TableDataSource<BillingInvoice>
       this.centralServerService.getUserInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
         // Ok
-        console.log(invoices);
         observer.next(invoices);
         observer.complete();
       }, (error) => {

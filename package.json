@@ -21,8 +21,10 @@
     "clean-install-win": "rmdir node_modules /S /Q && del package-lock.json && npm cache clear --force && npm install",
     "clean-install-lin": "rm -rf ./node_modules && rm -f ./package-lock.json && npm cache clear --force && npm install",
     "npm-check": "npm-check",
-    "angular-update": "ng update @angular/cli @angular/core && ng update @angular/material",
-    "angular8-update": "ng update @angular/core@8 @angular/cli@8 && ng update @angular/material@8",
+    "angular-update": "ng update @angular/cli @angular/core",
+    "material-update": "ng update @angular/material",
+    "angular8-update": "ng update @angular/core@8 @angular/cli@8",
+    "material8-update": "ng update --force @angular/material@8",
     "dependencies-update": "ng update --all=true",
     "analyze": "webpack-bundle-analyzer dist/stats-es5.json",
     "postinstall": "ivy-ngcc"

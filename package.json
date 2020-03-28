@@ -26,8 +26,7 @@
     "angular8-update": "ng update @angular/core@8 @angular/cli@8",
     "material8-update": "ng update @angular/material@8",
     "dependencies-update": "ng update --all=true",
-    "analyze": "webpack-bundle-analyzer dist/stats-es5.json",
-    "postinstall": "ivy-ngcc"
+    "analyze": "webpack-bundle-analyzer dist/stats-es5.json"
   },
   "dependencies": {
     "@agm/core": "^1.1.0",

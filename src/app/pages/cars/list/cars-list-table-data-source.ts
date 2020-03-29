@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { MessageService } from 'app/services/message.service';
@@ -9,9 +10,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableSyncCarsAction } from 'app/shared/table/actions/table-sync-cars-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarImage, CarButtonAction } from 'app/types/Car';
+import { Car, CarButtonAction, CarImage } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -19,8 +21,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { CarComponent } from '../car/car.component';
 import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { TableSyncCarsAction } from 'app/shared/table/actions/table-sync-cars-action';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {

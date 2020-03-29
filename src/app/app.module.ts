@@ -41,7 +41,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import 'bootstrap';
 import 'chartjs-plugin-zoom';
-import 'hammerjs';
 import 'moment/locale/fr';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import 'popper.js';

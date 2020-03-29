@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatSlideToggleChange } from '@angular/material';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,7 +21,7 @@ import { TableDataSource } from './table-data-source';
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataSource!: TableDataSource<Data>;
-  @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();

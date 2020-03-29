@@ -222,7 +222,7 @@ export class CentralServerNotificationService {
         this.subjectLoggings.next(changeNotification);
       });
 
-      // Monitor Buildings`
+      // Monitor Buildings
       this.socket.on(Entity.BUILDINGS, (changeNotification: ChangeNotification) => {
         // Notify
         this.subjectBuildings.next(changeNotification);

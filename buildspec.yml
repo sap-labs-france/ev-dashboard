@@ -1,11 +1,12 @@
 version: 0.2
 parameter-store:
-  build_ssh_key: /CodeBuild/emobility_build_ssh_key
+  build_ssh_key: "/CodeBuild/emobility_build_ssh_key"
 phases:
   install:
     runtime-versions:
       nodejs: 12
     commands:
+      - export build_ssh_key=$build_ssh_key
       - mkdir -p ~/.ssh
       - if [ -z $build_ssh_key ]; then echo "missing build_ssh_key store parameter, exiting"; exit 1; fi
       - echo "$build_ssh_key" > ~/.ssh/id_rsa

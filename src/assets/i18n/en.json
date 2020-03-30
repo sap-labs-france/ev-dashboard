@@ -1277,7 +1277,7 @@
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
       "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
       "synchronize_users_success_all": "All users are already synchronized",
-      "synchronize_users_failure": "Failed to synchronize {{number}} user(s), check the logs",
+      "synchronize_users_failure": "Synchronization failed with {{number}} errors. Check your Billing system's logs.",
       "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
       "synchronize_users_error": "Error occurred while synchronizing users for billing",
       "stripe": {

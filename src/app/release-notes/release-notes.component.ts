@@ -24,19 +24,27 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.17',
-        date: new Date('2020-03-23'),
+        version: '2.2.20',
+        date: new Date('2020-03-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added Webasto implementation in Charging Plan management`,
+              `Added Billing invoice list`,
+              `SAP Smart Charging implementation`,
+              `Webasto implementation in Charging Plan management`,
+              `Fixed bug in retrieving the current limitation during a Session`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,
               `Added debug logs for third party Charging Station vendor libraries`,
               `Fixed Charging Station's inactive flag`,
               `Renamed Chaging Plan Debug tab to Advanced`,
               `Fixed translation issues in Static Limitation`,
               `Allow to display the Charge Limitation in read-only when Charging Station is disconnected from the backend`,
+              `Car structure adaptation for internal converters`,
+              `Add Car synchronization in Master tenant`,
+              `Fixed cannot update User's status in Master Tenant`,
+              `Implemented Car unit tests`,
+              `Fixed User In Error with Billing`,
             ],
           },
         ],

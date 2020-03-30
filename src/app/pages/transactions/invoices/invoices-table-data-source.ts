@@ -17,10 +17,9 @@ import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
-import { TablePayInvoiceAction } from '../../../shared/table/actions/table-pay-invoice-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingInvoice, BillingInvoiceStatus } from '../../../types/Billing';
+import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../../transactions/filters/transactions-date-from-filter';
@@ -36,8 +35,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   constructor(
       public spinnerService: SpinnerService,
+      public translateService: TranslateService,
       private messageService: MessageService,
-      private translateService: TranslateService,
       private dialogService: DialogService,
       private router: Router,
       private dialog: MatDialog,
@@ -46,7 +45,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       private authorizationService: AuthorizationService,
       private datePipe: AppDatePipe,
       private appCurrencyPipe: AppCurrencyPipe) {
-    super(spinnerService);
+    super(spinnerService, translateService);
     // Init
     this.initDataSource();
     // Store the current user
@@ -63,7 +62,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       this.centralServerService.getUserInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
         // Ok
-        console.log(invoices);
         observer.next(invoices);
         observer.complete();
       }, (error) => {

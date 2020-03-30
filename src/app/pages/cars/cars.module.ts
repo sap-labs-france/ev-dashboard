@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { CarouselComponent } from 'app/shared/carousel/carousel.component';
+import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
@@ -24,6 +25,7 @@ import { CarsListComponent } from './list/cars-list.component';
     MaterialModule,
     TableModule,
     DialogsModule,
+    FormattersModule,
     RouterModule.forChild(CarsRoutes),
   ],
   declarations: [

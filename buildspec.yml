@@ -1,6 +1,6 @@
 version: 0.2
 parameter-store:
-  build_ssh_key: "emobility_build_ssh_key"
+  build_ssh_key: /CodeBuild/emobility_build_ssh_key
 phases:
   install:
     runtime-versions:
@@ -13,10 +13,9 @@ phases:
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
       - git init
-      - echo $remote_origin
-      - git remote add origin git@github.com:jerome-benoit/ev-server.git
+      - git remote add origin $remote_origin
       - git fetch
-      - git checkout -t origin/master-qa
+      - git checkout -t origin/$branch_name
       - git submodule update --init --recursive
       - npm install
   build:

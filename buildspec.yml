@@ -10,8 +10,11 @@ phases:
       - echo "$build_ssh_key" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
-      - if [ -e .gitmodules ]; then sed -e 's/https:\/\/github.com\//git@github.com:/g' -i .gitmodules; fi
-      - git submodule sync
+      - git config --global url."git@github.com:".insteadOf "https://github.com/"
+      - git init
+      - git remote add origin git@github.com:jerome-benoit/ev-server.git
+      - git fetch
+      - git checkout -t origin/master-qa
       - git submodule update --init --recursive
       - npm install
   build:

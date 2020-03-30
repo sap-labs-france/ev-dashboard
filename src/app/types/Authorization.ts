@@ -28,6 +28,7 @@ export enum Entity {
   BUILDING = 'Building',
   BUILDINGS = 'Buildings',
   INVOICES = 'Invoices',
+  INVOICE = 'Invoice',
   CAR = 'Car',
   CARS = 'Cars',
 }

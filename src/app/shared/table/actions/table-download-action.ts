@@ -10,7 +10,7 @@ import { TableAction } from './table-action';
 
 export class TableDownloadAction implements TableAction {
   private action: TableActionDef = {
-    id: BillingButtonAction.DOWNLOAD,
+    id: ButtonAction.DOWNLOAD,
     type: 'button',
     icon: 'cloud_download',
     color: ButtonColor.PRIMARY,

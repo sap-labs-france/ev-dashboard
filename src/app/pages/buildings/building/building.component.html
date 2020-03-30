@@ -1,0 +1,86 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+      <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>portrait</mat-icon>
+            <span>{{name.value}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="row app-building-align-center">
+            <div class="col-md-5">
+              <div class="rotating-card-container app-building-image-border"
+                [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                <div class="card card-rotate card-background app-building-image-padding" style="margin-top: 0px;">
+                  <div class="front front-background"
+                    [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    <div class="card-body">
+                    </div>
+                  </div>
+                  <div class="back back-background"
+                    [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    <div *ngIf="this.isAdmin" class="card-body">
+                      <h5 class="card-title">
+                        {{'general.change_picture' | translate}}
+                      </h5>
+                      <div class="footer justify-content-center">
+                        <button mat-flat-button color="primary" class="mr-2">
+                          <mat-icon (click)="file.click()">mode_edit</mat-icon>
+                          <div style="display:none">
+                            <input type="file" name="..." (change)="imageChanged($event)" #file>
+                          </div>
+                        </button>
+                        <button mat-flat-button color="warn">
+                          <mat-icon (click)="clearImage()">delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="form-group">
+                <mat-form-field>
+                  <input appAutofocus matInput placeholder="{{'buildings.name' | translate}}"
+                    class="app-building-name-bold" type="text" [formControl]="name" required>
+                  <mat-error *ngIf="name.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
+                  class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!isAdmin" required/>
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="siteArea.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <app-address [formGroup]="formGroup"></app-address>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-button *ngIf="this.isAdmin" (click)="saveBuilding(formGroup.value)"
+            [disabled]="!formGroup.valid || !formGroup.dirty">
+            <mat-icon>save</mat-icon>
+            <span>{{'general.save' | translate}}</span>
+          </button>
+          <button mat-icon-button *ngIf="isOpenInDialog()" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

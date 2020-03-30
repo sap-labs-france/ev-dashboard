@@ -3,11 +3,10 @@ import { InvoicesTableDataSource } from './invoices-table-data-source';
 
 @Component({
   selector: 'app-invoices',
-  templateUrl: 'invoices.component.html',
+  template: '<app-table [dataSource]="invoicesTableDataSource"></app-table>',
   providers: [InvoicesTableDataSource],
 })
 export class InvoicesComponent {
-  constructor(
-    public transactionsRefundTableDataSource: InvoicesTableDataSource) {
+  constructor(public invoicesTableDataSource: InvoicesTableDataSource) {
   }
 }

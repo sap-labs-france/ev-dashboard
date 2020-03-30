@@ -19,13 +19,15 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import { BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { ButtonAction } from '../../../types/GlobalType';
 import { Utils } from '../../../utils/Utils';
-import { TransactionsDateFromFilter } from '../../transactions/filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../../transactions/filters/transactions-date-until-filter';
 import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
+import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
+import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+// import { TablePayInvoiceAction } from './actions/table-pay-invoice-action';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
@@ -138,7 +140,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public rowActionTriggered(actionDef: TableActionDef, rowItem: BillingInvoice) {
     switch (actionDef.id) {
-      case BillingButtonAction.DOWNLOAD:
+      case ButtonAction.DOWNLOAD:
         window.open(rowItem.downloadUrl, '_blank');
         break;
       // case BillingButtonAction.PAY:

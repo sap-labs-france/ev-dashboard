@@ -142,7 +142,11 @@ export const logActions: KeyValue[] = [
   {key: 'SynchronizeCars', value: 'SynchronizeCars'},
   {key: 'BillingSynchronizeUsers', value: 'BillingSynchronizeUsers'},
   {key: 'BillingForceSynchronizeUser', value: 'BillingForceSynchronizeUser'},
-  {key: 'CreateBillingInvoice', value: 'CreateBillingInvoice'},
+  {key: 'BillingCheckConnection', value: 'BillingCheckConnection'},
+  {key: 'BillingSendInvoice', value: 'BillingSendInvoice'},
+  {key: 'BillingGetOpenedInvoice', value: 'BillingGetOpenedInvoice'},
+  {key: 'BillingCreateInvoice', value: 'BillingCreateInvoice'},
+  {key: 'BillingCreateInvoiceItem', value: 'BillingCreateInvoiceItem'},
   {key: 'SAPSmartCharging', value: 'SAPSmartCharging'},
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {

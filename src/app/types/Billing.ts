@@ -19,7 +19,7 @@ export interface BillingUserData extends Data {
 
 export interface BillingInvoice extends Data {
   number: string;
-  status: string;
+  status: BillingInvoiceStatus;
   amountDue: number;
   currency: string;
   customerID: string;
@@ -29,6 +29,5 @@ export interface BillingInvoice extends Data {
 }
 
 export enum BillingButtonAction {
-  DOWNLOAD = 'Download',
-  PAY = 'Pay',
+  PAY_INVOICE = 'Pay',
 }

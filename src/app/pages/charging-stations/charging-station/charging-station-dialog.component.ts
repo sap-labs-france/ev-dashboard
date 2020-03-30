@@ -25,7 +25,7 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
-  @ViewChild('ocppParameters', { static: false }) ocppParametersComponent!: ChargingStationOcppParametersComponent;
+  @ViewChild('ocppParameters') ocppParametersComponent!: ChargingStationOcppParametersComponent;
   @ViewChild('chargerParameters', { static: true }) chargerParametersComponent!: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate

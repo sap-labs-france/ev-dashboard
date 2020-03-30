@@ -1,4 +1,4 @@
-import { SortDirection } from '@angular/material/typings';
+import { SortDirection } from '@angular/material/sort';
 import { Data } from './Table';
 import { Transaction } from './Transaction';
 

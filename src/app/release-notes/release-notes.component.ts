@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.21',
+        date: new Date('2020-03-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Upgraded to Angular 9`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.20',
         date: new Date('2020-03-28'),
         componentChanges: [
@@ -32,6 +44,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Billing invoice list`,
               `SAP Smart Charging implementation`,
+              `Assign a Building to a Site Area`,
               `Webasto implementation in Charging Plan management`,
               `Fixed bug in retrieving the current limitation during a Session`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,
@@ -48,7 +61,8 @@ export class ReleaseNotesComponent {
             ],
           },
         ],
-      },      {
+      },
+      {
         version: '2.2.15',
         date: new Date('2020-03-21'),
         componentChanges: [

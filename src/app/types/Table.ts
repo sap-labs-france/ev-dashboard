@@ -1,14 +1,14 @@
 import { ValidatorFn } from '@angular/forms';
-import { SortDirection } from '@angular/material/typings';
+import { SortDirection } from '@angular/material/sort';
 import { BillingButtonAction } from './Billing';
 import { BuildingButtonAction } from './Building';
+import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { OcpiButtonAction } from './OCPIEndpoint';
 import { SiteButtonAction } from './Site';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
-import { CarButtonAction } from './Car';
 
 export interface Data {
   id: string|number;
@@ -135,11 +135,11 @@ export interface TableColumnDef {
   validators?: ValidatorFn[];
   unique?: boolean;
   canBeDisabled?: boolean;
-  errors?: Array<{
+  errors?: {
     id: string;
     message: string;
     messageParams?: object;
-  }>;
+  }[];
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;

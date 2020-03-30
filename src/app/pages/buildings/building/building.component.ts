@@ -180,7 +180,6 @@ export class BuildingComponent implements OnInit {
     // Yes, get it
     // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getBuilding(this.currentBuildingID, false, true).pipe(mergeMap((building) => {
-      this.formGroup.markAsPristine();
       // Init form
       if (building.id) {
         this.formGroup.controls.id.setValue(building.id);
@@ -217,6 +216,9 @@ export class BuildingComponent implements OnInit {
         this.coordinates.at(0).setValue(building.address.coordinates[0]);
         this.coordinates.at(1).setValue(building.address.coordinates[1]);
       }
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
       // Yes, get image
       return this.centralServerService.getBuildingImage(this.currentBuildingID);
     })).subscribe((buildingImage) => {

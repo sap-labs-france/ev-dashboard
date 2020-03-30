@@ -45,7 +45,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithLogo: true}]);
+    this.setStaticFilters([{WithLogo: true, WithSiteArea: true}]);
     this.initDataSource();
   }
 
@@ -93,6 +93,13 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
         class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
+        sortable: true,
+      },
+      {
+        id: 'siteArea.name',
+        name: 'site_areas.titles',
+        headerClass: 'col-30p',
+        class: 'col-20p',
         sortable: true,
       },
       {

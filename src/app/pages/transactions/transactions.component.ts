@@ -25,7 +25,6 @@ export class TransactionsComponent extends AbstractTabComponent {
       (this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION)
         || this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
     this.showTransactionInError = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
-    this.showInvoices = this.componentService.isActive(TenantComponents.BILLING) &&
-      this.componentService.isActive(TenantComponents.PRICING);
+    this.showInvoices = this.componentService.isActive(TenantComponents.BILLING);
   }
 }

@@ -3,7 +3,6 @@ import { Data } from './Table';
 export enum BillingInvoiceStatus {
   PAID = 'paid',
   OPEN = 'open',
-  PENDING = 'pending',
   DRAFT = 'draft',
 }
 

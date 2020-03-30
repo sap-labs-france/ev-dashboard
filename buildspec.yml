@@ -9,6 +9,7 @@ phases:
       - mkdir -p ~/.ssh
       - echo "$build_ssh_key" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
+      - cat ~/.ssh/id_rsa
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
       - git init

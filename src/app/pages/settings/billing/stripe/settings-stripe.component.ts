@@ -57,7 +57,9 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
           // Validators.required,
         ]),
       ),
-    });
+    }, Validators.compose([
+      this.validateBillingMethod
+    ]));
 
     this.formGroup.addControl('stripe', this.stripe);
 
@@ -91,9 +93,9 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
       this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
       this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
-        ? this.billingSettings.stripe.immediateBillingAllowed : '');
+        ? this.billingSettings.stripe.immediateBillingAllowed : false);
       this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
-        ? this.billingSettings.stripe.periodicBillingAllowed : '');
+        ? this.billingSettings.stripe.periodicBillingAllowed : false);
       this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
       this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
@@ -116,6 +118,11 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       return null;
     }
     return { invalid: true };
+  }
+
+  public validateBillingMethod(fg: FormGroup) {
+    console.log(!fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed'])
+    return { invalid: !fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed'] };
   }
 
   public openUrl() {

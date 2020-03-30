@@ -57,9 +57,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
           // Validators.required,
         ]),
       ),
-    }, Validators.compose([
-      this.validateBillingMethod
-    ]));
+    });
 
     this.formGroup.addControl('stripe', this.stripe);
 

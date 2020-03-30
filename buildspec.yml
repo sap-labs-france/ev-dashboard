@@ -15,6 +15,7 @@ phases:
       - git init
       - git remote add origin $remote_origin
       - git fetch
+      - if [ -z $branch_name ]; then echo "missing branch_name env variable, exiting"; exit 1; fi
       - git checkout -t origin/$branch_name
       - git submodule update --init --recursive
       - npm install

@@ -10,7 +10,7 @@ phases:
       - echo "$build_ssh_key" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
-      - [ -e .gitmodules ] && sed -i -e 's/https:\/\/github.com\//git@github.com:/g' .gitmodules
+      - if [ -e .gitmodules ]; then sed -i -e 's/https:\/\/github.com\//git@github.com:/g' .gitmodules; fi
       - git submodule sync
       - git submodule update --init --recursive
       - npm install

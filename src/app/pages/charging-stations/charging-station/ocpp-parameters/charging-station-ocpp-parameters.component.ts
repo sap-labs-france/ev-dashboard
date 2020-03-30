@@ -28,7 +28,7 @@ import { Utils } from '../../../../utils/Utils';
 @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() charger!: ChargingStation;
-  @ViewChild('searchInput', {static: false}) searchInput!: ElementRef;
+  @ViewChild('searchInput') searchInput!: ElementRef;
   public searchPlaceholder = '';
   public chargerConfiguration: KeyValue[] = [];
   public loadedChargerConfiguration: KeyValue[] = [];

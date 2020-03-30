@@ -199,7 +199,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           defaultValue: 'sites.unassigned',
           class: 'd-none d-xl-table-cell',
           headerClass: 'd-none d-xl-table-cell',
-        }
+        },
       );
     }
     return tableColumns;

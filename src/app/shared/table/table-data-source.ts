@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
@@ -19,6 +19,7 @@ export abstract class TableDataSource<T extends Data> {
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
+  private manualRefreshSubject = new Subject<void>();
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -48,6 +49,10 @@ export abstract class TableDataSource<T extends Data> {
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public additionalParameters?: any) {
+  }
+
+  public getManualDataChangeSubject(): Subject<void> {
+    return this.manualRefreshSubject;
   }
 
   public isRowSelectionEnabled(): boolean {
@@ -302,10 +307,6 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification>|null {
-    return null;
-  }
-
-  public getManualDataChangeSubject(): Observable<void>|null {
     return null;
   }
 

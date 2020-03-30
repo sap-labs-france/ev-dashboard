@@ -17,7 +17,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   url!: string;
   location: Location;
 
-  @ViewChild('sidebar', { static: false }) sidebar: any;
+  @ViewChild('sidebar') sidebar: any;
   @ViewChild(NavbarComponent, { static: true }) navbar!: NavbarComponent;
   private _router!: Subscription;
   private lastPoppedUrl!: string|null;

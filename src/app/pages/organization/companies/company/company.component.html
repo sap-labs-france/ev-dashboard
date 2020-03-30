@@ -7,7 +7,7 @@
             <span>{{name.value}}</span>
         </ng-template>
         <div class="card-body">
-          <div class="row app-organization-align-center">
+          <div class="row app-organization">
             <div class="col-md-2">
               <div class="rotating-card-container app-organization-image-border"
                 [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
@@ -40,7 +40,7 @@
               <div class="form-group">
                 <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'companies.name' | translate}}"
-                    class="app-organization-name-bold" type="text" [formControl]="name" required>
+                    class="app-organization-name" type="text" [formControl]="name" required>
                   <mat-error *ngIf="name.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>

@@ -6,12 +6,11 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Schedule } from 'app/types/ChargingProfile';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
-  private manualRefreshSchedule = new Subject<void>();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -20,10 +19,6 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
   ) {
     super(spinnerService, translateService);
     this.initDataSource();
-  }
-
-  public getManualDataChangeSubject(): Observable<void> {
-    return this.manualRefreshSchedule;
   }
 
   public buildTableDef(): TableDef {
@@ -88,6 +83,6 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
 
   public setChargingProfileSchedule(schedules: Schedule[]) {
     this.schedules = schedules;
-    this.manualRefreshSchedule.next();
+    this.getManualDataChangeSubject().next();
   }
 }

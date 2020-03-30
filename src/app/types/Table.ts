@@ -1,6 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
-import { SortDirection } from '@angular/material/typings';
+import { SortDirection } from '@angular/material/sort';
 import { BuildingButtonAction } from './Building';
+import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { OcpiButtonAction } from './OCPIEndpoint';
@@ -81,7 +82,7 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction|BuildingButtonAction;
+  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction|BuildingButtonAction|CarButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;
@@ -132,11 +133,11 @@ export interface TableColumnDef {
   validators?: ValidatorFn[];
   unique?: boolean;
   canBeDisabled?: boolean;
-  errors?: Array<{
+  errors?: {
     id: string;
     message: string;
     messageParams?: object;
-  }>;
+  }[];
   headerClass?: string;
   class?: string;
   formatter?: (value: any, row?: any) => string | null;

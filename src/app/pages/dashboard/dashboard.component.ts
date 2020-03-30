@@ -97,12 +97,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {name: 'month', title: 'dashboard.statistics.button.month'},
     {name: 'year', title: 'dashboard.statistics.button.year'},
   ];
-  @ViewChild('statisticsChart', { static: false }) statisticsChartComponent: CardChartComponent;
+  @ViewChild('statisticsChart') statisticsChartComponent: CardChartComponent;
   buttonsRealtimeChart = [
     {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
     {name: 'utilization', title: 'dashboard.realtime.button.utilization'},
   ];
-  @ViewChild('realtimeChart', { static: false }) realtimeChartComponent: CardChartComponent;
+  @ViewChild('realtimeChart') realtimeChartComponent: CardChartComponent;
 
   dynamicFadeInOutClass = FADE_IN_CLASS;
 

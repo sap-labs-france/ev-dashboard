@@ -212,8 +212,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       case ButtonAction.DELETE:
         this.deleteUser(rowItem);
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE:
-        this.forceSynchronizeUser(rowItem);
+      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
+        this.forceSynchronizeUserForBilling(rowItem);
         break;
       case UserButtonAction.SYNCHRONIZE:
         this.synchronizeUser(rowItem);
@@ -344,7 +344,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     });
   }
 
-  private forceSynchronizeUser(user: UserInError) {
+  private forceSynchronizeUserForBilling(user: UserInError) {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
       this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),

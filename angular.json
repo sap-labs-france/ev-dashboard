@@ -24,7 +24,8 @@
             "assets": [
               { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
               { "glob": "favicon.ico", "input": "src/", "output": "/" },
-              { "glob": "**", "input": "src/nginx/", "output": "/" }
+              { "glob": "Staticfile", "input": "src/nginx/", "output": "/" },
+              { "glob": "**", "input": "src/nginx/", "output": "/nginx/" }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
@@ -148,7 +149,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

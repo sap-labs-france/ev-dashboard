@@ -16,6 +16,8 @@ import { OrganizationComponent } from './organization.component';
 import { OrganizationRoutes } from './organization.routing';
 import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
 import { SiteAreasListComponent } from './site-areas/list/site-areas-list.component';
+import { SiteAreaBuildingsDialogComponent } from './site-areas/site-area-buildings/site-area-buildings-dialog.component';
+import { SiteAreaBuildingsDataSource } from './site-areas/site-area-buildings/site-area-buildings-table-data-source';
 import { SiteAreaChargersDialogComponent } from './site-areas/site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaChargersDataSource } from './site-areas/site-area-chargers/site-area-chargers-table-data-source';
 import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog.component';
@@ -55,6 +57,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
+    SiteAreaBuildingsDialogComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
   ],
@@ -70,6 +73,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
+    SiteAreaBuildingsDialogComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
   ],
@@ -77,6 +81,7 @@ import { SiteComponent } from './sites/site/site.component';
     CompaniesListTableDataSource,
     SiteAreasListTableDataSource,
     SiteAreaChargersDataSource,
+    SiteAreaBuildingsDataSource,
     SitesListTableDataSource,
     SiteUsersTableDataSource,
   ],

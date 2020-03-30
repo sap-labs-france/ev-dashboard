@@ -20,7 +20,7 @@ export class InvoiceStatusFormatterComponent extends CellContentTemplateComponen
 
 @Pipe({name: 'appFormatInvoiceStatus'})
 export class AppFormatInvoiceStatusPipe implements PipeTransform {
-  transform(invoiceStatus: string, type: string): string {
+  transform(invoiceStatus: BillingInvoiceStatus, type: string): string {
     if (type === 'class') {
       return this.buildInvoiceStatusClasses(invoiceStatus);
     }
@@ -30,7 +30,7 @@ export class AppFormatInvoiceStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildInvoiceStatusClasses(status: string): string {
+  buildInvoiceStatusClasses(status: BillingInvoiceStatus): string {
     let classNames = 'chip-width-5em ';
     switch (status) {
       case BillingInvoiceStatus.PAID:

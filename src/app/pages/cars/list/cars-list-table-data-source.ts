@@ -21,6 +21,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { CarComponent } from '../car/car.component';
 import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
+import { DialogService } from 'app/services/dialog.service';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -30,6 +31,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
+    private dialogService: DialogService,
     private messageService: MessageService,
     private appUnitPipe: AppUnitPipe,
     private router: Router,
@@ -243,6 +245,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.SYNCHRONIZE:
         if (this.tableSyncCarsAction.action) {
           this.tableSyncCarsAction.action(
+            this.dialogService,
             this.translateService,
             this.messageService,
             this.centralServerService,

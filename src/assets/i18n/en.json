@@ -1331,7 +1331,9 @@
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",
     "car": {
-      "synchronize_cars": "Synchronize Cars"
+      "synchronize_cars": "Synchronize Cars",
+      "synchronize_cars_dialog_title": "Synchronize Cars",
+      "synchronize_cars_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
     }
   },
   "ocpiendpoints": {
@@ -1516,8 +1518,8 @@
     "charge_power": "Charge Power",
     "charge_time": "Charge Time",
     "charge_speed": "Charge Speed",
-    "synchronize_cars_partial": "{{synchronized}} cars have been synchronized successfully and {{inError}} cars have encountered an error",
-    "synchronize_cars_success": "{{synchronized}} cars have been synchronized successfully",
+    "synchronize_cars_partial": "{{synchronized}} car(s) have been synchronized successfully and {{inError}} car(s) have encountered an error",
+    "synchronize_cars_success": "{{synchronized}} car(s) have been synchronized successfully",
     "synchronize_cars_error": "Error occurred while synchronizing the cars",
     "synchronize_cars_up_to_date": "Cars already up to date",
     "type": "Type",

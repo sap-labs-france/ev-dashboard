@@ -1337,7 +1337,7 @@ export class CentralServerService {
   }
 
   public getUserInvoices(params: { [param: string]: string | string[]; },
-                  paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
     // Verify init
     this.checkInit();
     // Build Paging

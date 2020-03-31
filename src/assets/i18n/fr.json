@@ -1331,9 +1331,9 @@
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
     "car": {
-      "synchronize_cars": "Synchroniser Vehicules",
-      "synchronize_cars_dialog_title": "Synchroniser les véhicules",
-      "synchronize_cars_dialog_confirm": "Voulez-vous vraiment synchroniser les véhicules avec le fournisseur de donnée des véhicules électrique ?"
+      "synchronize_cars": "Synchroniser Véhicules",
+      "synchronize_cars_dialog_title": "Synchroniser les Véhicules",
+      "synchronize_cars_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?"
     }
   },
   "ocpiendpoints": {

@@ -772,7 +772,9 @@
         "recurring_weekly": "Weekly recurring"
       },
       "retrieve_schedule": "Retrieve Plans",
-      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'"
+      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
+      "delete_charging_profiles_for_site_area": "If you disable Smart Charging for this site area, all charging profiles will be cleared. Do you want to continue?",
+      "disable_smart_charging_for_site_area": "Disable smart charging"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -170,15 +171,28 @@ export class SiteAreaComponent implements OnInit {
 
     this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
-        this.loadSiteArea();
-      }
-    });
+        // Update user?
+        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
+          this.loadSiteArea();
+        }
+      });
   }
 
   public isOpenInDialog(): boolean {
     return this.inDialog;
+  }
+
+  public smartChargingChanged(event: MatCheckboxChange) {
+    if (!event.checked) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area'),
+        this.translateService.instant('chargers.smart_charging.delete_charging_profiles_for_site_area'),
+      ).subscribe((result) => {
+        if (result === ButtonType.NO) {
+          this.smartCharging.setValue(true);
+        }
+      });
+    }
   }
 
   public setCurrentSiteAreaId(currentSiteAreaId: string) {
@@ -207,7 +221,6 @@ export class SiteAreaComponent implements OnInit {
 
   public clearMaximumPower() {
     this.maximumPower.setValue(null);
-    this.smartCharging.setValue(false);
     this.formGroup.markAsDirty();
   }
 

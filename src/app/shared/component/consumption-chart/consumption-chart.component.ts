@@ -172,7 +172,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant('transactions.graph.limit_watts'),
       });
 
-      if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'pricingSource')) !== undefined) {
+      if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'cumulatedAmount')) !== undefined) {
         datasets.push({
           name: 'cumulatedAmount',
           type: 'line',
@@ -234,9 +234,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const labels: number[] = [];
       for (const consumption of this.transaction.values) {
         labels.push(new Date(consumption.date).getTime());
-        instantPowerDataSet.push(consumption.value);
+        instantPowerDataSet.push(consumption.instantPower);
         if (cumulatedConsumptionDataSet) {
-           cumulatedConsumptionDataSet.push(consumption.cumulated);
+           cumulatedConsumptionDataSet.push(consumption.cumulatedConsumption);
         }
         if (cumulatedAmountDataSet) {
           if (consumption.cumulatedAmount !== undefined) {

@@ -100,15 +100,12 @@ export interface ChargingStationConfiguration {
 
 export interface ConsumptionValue {
   date: Date;
-  value: number;
-  cumulated: number;
+  instantPower: number;
+  cumulatedConsumption: number;
   amount: number;
-  price: number;
   stateOfCharge: number;
-  unroundedAmount: number;
   cumulatedAmount: number;
   currencyCode: string;
-  pricingSource: string;
   limitWatts: number;
 }
 

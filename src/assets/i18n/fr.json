@@ -129,6 +129,7 @@
     "set_coordinates": "Définir les coordonnées",
     "reset_filters": "Réinitialiser les Filtres",
     "browser_not_supported": "Ce navigateur n'est pas supporté ! Veuillez utiliser Chrome ou Firefox.",
+    "status": "Statut",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",
@@ -154,8 +155,9 @@
       "settings": "Configuration",
       "buildings": "Bâtiments",
       "organization": "Organisation",
+      "cars": "Voitures",
       "template": "Modeles",
-      "cars": "Voitures"
+      "invoices": "Factures"
     },
     "tooltips": {
       "activate": "Activer",
@@ -197,6 +199,7 @@
       "view": "Voir",
       "send": "Envoyer",
       "clear": "Effacer",
+      "download": "Télécharger",
       "force_available_status": "Forcer le Statut en Disponible",
       "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
@@ -1118,6 +1121,24 @@
       }
     }
   },
+  "invoices": {
+    "tabs": {
+      "list": "Factures"
+    },
+    "tooltips": {
+      "download": "Télécharger la facture",
+      "pay": "Payer la facture"
+    },
+    "status": {
+      "paid": "Payée",
+      "unpaid": "Impayée",
+      "draft": "Brouillon"
+    },
+    "id": "Numéro de facture",
+    "createdOn": "Date de facture",
+    "price": "Prix de la facture",
+    "pay": "Payer"
+  },
   "tags": {
     "id": "ID",
     "issuer": "Propriétaire",
@@ -1673,7 +1694,8 @@
       "history": "Historique",
       "in_progress": "En cours",
       "in_error": "En Erreur",
-      "refund": "Remboursement"
+      "refund": "Remboursement",
+      "invoices": "Factures"
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",

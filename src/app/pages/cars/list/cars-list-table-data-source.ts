@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
@@ -21,7 +22,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { CarComponent } from '../car/car.component';
 import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
-import { DialogService } from 'app/services/dialog.service';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {

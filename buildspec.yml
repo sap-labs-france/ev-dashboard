@@ -14,6 +14,7 @@ phases:
       - git config --global url."git@github.com:".insteadOf "https://github.com/"
       - git init
       - if [ -z ${remote_origin} ]; then echo "missing remote_origin env variable, exiting"; exit 1; fi
+      - if git ls-remote --quiet --exit-code origin &> /dev/null; then git remote remove origin; fi
       - git remote add origin ${remote_origin}
       - git fetch
       - if [ -z $branch_name ]; then echo "missing branch_name env variable, exiting"; exit 1; fi

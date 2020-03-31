@@ -1,5 +1,6 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
+import { BillingButtonAction } from './Billing';
 import { BuildingButtonAction } from './Building';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
@@ -82,7 +83,8 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction|BuildingButtonAction|CarButtonAction;
+  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
+    OcpiButtonAction|BuildingButtonAction|BillingButtonAction|CarButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

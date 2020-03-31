@@ -14,6 +14,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 export class TransactionsComponent extends AbstractTabComponent {
   public showTransactionRefundTab: boolean;
   public showTransactionInError: boolean;
+  public showInvoices: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -24,5 +25,6 @@ export class TransactionsComponent extends AbstractTabComponent {
       (this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION)
         || this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());
     this.showTransactionInError = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
+    this.showInvoices = this.componentService.isActive(TenantComponents.BILLING);
   }
 }

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { RouteGuardService } from '../../guard/route-guard';
-import { Action, Entity } from './../../types/Authorization';
+import { Action, Entity } from '../../types/Authorization';
 import { UserConnectionComponent } from './connections/user-connection.component';
 import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users.component';

@@ -59,6 +59,7 @@ export enum ButtonAction {
   STOP = 'stop',
   UNREGISTER = 'unregister',
   VIEW = 'view',
+  DOWNLOAD = 'download',
 }
 
 export enum ChipType {

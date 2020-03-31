@@ -57,7 +57,9 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
           // Validators.required,
         ]),
       ),
-    });
+    }, Validators.compose([
+      this.validateBillingMethod
+    ]));
 
     this.formGroup.addControl('stripe', this.stripe);
 
@@ -119,8 +121,10 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   }
 
   public validateBillingMethod(fg: FormGroup) {
-    console.log(!fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed'])
-    return { invalid: !fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed'] };
+    if (!fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed']) {
+      return { invalid: true };
+    }
+    return null;
   }
 
   public openUrl() {

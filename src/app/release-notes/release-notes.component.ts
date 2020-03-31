@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
+              `Add Site Area column in Building list`,
               `Upgraded to Angular 9`,
             ],
           },

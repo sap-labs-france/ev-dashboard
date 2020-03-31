@@ -4,6 +4,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Address } from 'app/types/Address';
 import { IntegrationConnection } from 'app/types/Connection';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
@@ -11,7 +12,6 @@ import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserRole, UserStatus } from 'app/types/User';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -28,7 +28,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../model/users.model';
+import { UserRoles, userStatuses } from '../model/users.model';
 import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
@@ -68,16 +68,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public status!: AbstractControl;
   public role!: AbstractControl;
   public locale!: AbstractControl;
-  public address!: FormGroup;
-  public address1!: AbstractControl;
-  public address2!: AbstractControl;
-  public postalCode!: AbstractControl;
-  public city!: AbstractControl;
-  public department!: AbstractControl;
-  public region!: AbstractControl;
-  public country!: AbstractControl;
-  public latitude!: AbstractControl;
-  public longitude!: AbstractControl;
+  public address!: Address;
   public refundSetting!: RefundSettings;
   public integrationConnections!: IntegrationConnection[];
   public concurConnection!: IntegrationConnection;
@@ -236,27 +227,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      address: new FormGroup({
-        address1: new FormControl(''),
-        address2: new FormControl(''),
-        postalCode: new FormControl(''),
-        city: new FormControl(''),
-        department: new FormControl(''),
-        region: new FormControl(''),
-        country: new FormControl(''),
-        latitude: new FormControl('',
-          Validators.compose([
-            Validators.max(90),
-            Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-          ])),
-        longitude: new FormControl('',
-          Validators.compose([
-            Validators.max(180),
-            Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-          ])),
-      }),
       passwords: new FormGroup({
         password: new FormControl('',
           Validators.compose([
@@ -290,16 +260,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
-    this.address = (this.formGroup.controls['address'] as FormGroup);
-    this.address1 = this.address.controls['address1'];
-    this.address2 = this.address.controls['address2'];
-    this.postalCode = this.address.controls['postalCode'];
-    this.city = this.address.controls['city'];
-    this.department = this.address.controls['department'];
-    this.region = this.address.controls['region'];
-    this.country = this.address.controls['country'];
-    this.latitude = this.address.controls['latitude'];
-    this.longitude = this.address.controls['longitude'];
     this.notificationsActive = this.formGroup.controls['notificationsActive'];
     this.notifications = this.formGroup.controls['notifications'] as FormGroup;
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
@@ -352,46 +312,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
 
   public setCurrentUserId(currentUserID: string) {
     this.currentUserID = currentUserID;
-  }
-
-  // Google Address
-  public setAddress(address: Address) {
-    // Set data
-    // tslint:disable-next-line: no-unsafe-any variable-name
-    address.address_components.forEach(((address_component) => {
-      switch (address_component.types[0]) {
-        // Postal Code
-        case 'postal_code':
-          this.address.controls.postalCode.setValue(address_component.long_name);
-          break;
-        // Town
-        case 'locality':
-          this.address.controls.city.setValue(address_component.long_name);
-          break;
-        // Department
-        case 'administrative_area_level_2':
-          this.address.controls.department.setValue(address_component.long_name);
-          break;
-        // Region
-        case 'administrative_area_level_1':
-          this.address.controls.region.setValue(address_component.long_name);
-          break;
-        // Country
-        case 'country':
-          this.address.controls.country.setValue(address_component.long_name);
-          break;
-      }
-    }));
-    // Address
-    this.address.controls.address1.setValue(address.name);
-    // Latitude
-    this.address.controls.latitude.setValue(address.geometry.location.lat());
-    // Longitude
-    this.address.controls.longitude.setValue(address.geometry.location.lng());
-  }
-
-  public showPlace() {
-    window.open(`http://maps.google.com/maps?q=${this.address.controls.latitude.value},${this.address.controls.longitude.value}`);
   }
 
   public refresh() {
@@ -533,30 +453,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendSessionNotStarted.setValue(false);
       }
-      if (user.address && user.address.address1) {
-        this.address.controls.address1.setValue(user.address.address1);
-      }
-      if (user.address && user.address.address2) {
-        this.address.controls.address2.setValue(user.address.address2);
-      }
-      if (user.address && user.address.postalCode) {
-        this.address.controls.postalCode.setValue(user.address.postalCode);
-      }
-      if (user.address && user.address.city) {
-        this.address.controls.city.setValue(user.address.city);
-      }
-      if (user.address && user.address.department) {
-        this.address.controls.department.setValue(user.address.department);
-      }
-      if (user.address && user.address.region) {
-        this.address.controls.region.setValue(user.address.region);
-      }
-      if (user.address && user.address.country) {
-        this.address.controls.country.setValue(user.address.country);
-      }
-      if (user.address && user.address.coordinates && user.address.coordinates.length === 2) {
-        this.address.controls.longitude.setValue(user.address.coordinates[0]);
-        this.address.controls.latitude.setValue(user.address.coordinates[1]);
+      if (user.address) {
+        this.address = user.address;
       }
       // Reset password
       this.passwords.controls.password.setValue('');

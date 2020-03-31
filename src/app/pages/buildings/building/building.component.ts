@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,11 +11,11 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import { Address } from 'app/types/Address';
 import { Building, BuildingImage } from 'app/types/Building';
 import { RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
@@ -39,15 +39,7 @@ export class BuildingComponent implements OnInit {
   public name!: AbstractControl;
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
-  public address!: FormGroup;
-  public address1!: AbstractControl;
-  public address2!: AbstractControl;
-  public postalCode!: AbstractControl;
-  public city!: AbstractControl;
-  public department!: AbstractControl;
-  public region!: AbstractControl;
-  public country!: AbstractControl;
-  public coordinates!: FormArray;
+  public address!: Address;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -88,44 +80,12 @@ export class BuildingComponent implements OnInit {
         Validators.required,
       ])),
       siteAreaID: new FormControl(''),
-      address: new FormGroup({
-        address1: new FormControl(''),
-        address2: new FormControl(''),
-        postalCode: new FormControl(''),
-        city: new FormControl(''),
-        department: new FormControl(''),
-        region: new FormControl(''),
-        country: new FormControl(''),
-        coordinates: new FormArray ([
-          new FormControl('',
-            Validators.compose([
-              Validators.max(180),
-              Validators.min(-180),
-              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-            ])),
-          new FormControl('',
-            Validators.compose([
-              Validators.max(90),
-              Validators.min(-90),
-              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-            ])),
-        ]),
-      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
-    this.address = (this.formGroup.controls['address'] as FormGroup);
-    this.address1 = this.address.controls['address1'];
-    this.address2 = this.address.controls['address2'];
-    this.postalCode = this.address.controls['postalCode'];
-    this.city = this.address.controls['city'];
-    this.department = this.address.controls['department'];
-    this.region = this.address.controls['region'];
-    this.country = this.address.controls['country'];
-    this.coordinates = this.address.controls['coordinates'] as FormArray;
 
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
@@ -191,30 +151,8 @@ export class BuildingComponent implements OnInit {
         this.formGroup.controls.siteAreaID.setValue(building.siteArea.id);
         this.formGroup.controls.siteArea.setValue(building.siteArea.name);
       }
-      if (building.address && building.address.address1) {
-        this.address.controls.address1.setValue(building.address.address1);
-      }
-      if (building.address && building.address.address2) {
-        this.address.controls.address2.setValue(building.address.address2);
-      }
-      if (building.address && building.address.postalCode) {
-        this.address.controls.postalCode.setValue(building.address.postalCode);
-      }
-      if (building.address && building.address.city) {
-        this.address.controls.city.setValue(building.address.city);
-      }
-      if (building.address && building.address.department) {
-        this.address.controls.department.setValue(building.address.department);
-      }
-      if (building.address && building.address.region) {
-        this.address.controls.region.setValue(building.address.region);
-      }
-      if (building.address && building.address.country) {
-        this.address.controls.country.setValue(building.address.country);
-      }
-      if (building.address && building.address.coordinates && building.address.coordinates.length === 2) {
-        this.coordinates.at(0).setValue(building.address.coordinates[0]);
-        this.coordinates.at(1).setValue(building.address.coordinates[1]);
+      if (building.address) {
+        this.address = building.address;
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();

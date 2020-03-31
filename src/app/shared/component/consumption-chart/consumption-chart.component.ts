@@ -29,7 +29,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @ViewChild('warning', { static: true }) warningElement!: ElementRef;
 
   private graphCreated = false;
-  private currencyCode!: string;
   private lineTension = 0;
   private data: ChartData = {
     labels: [],
@@ -123,7 +122,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
           min: 0,
         },
       });
-
       if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
         datasets.push({
           name: 'stateOfCharge',
@@ -145,7 +143,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
               color: 'rgba(0,0,0,0.2)',
             },
             ticks: {
-              callback: (value, index, values) => `${value}%`,
+              callback: (value) => `${value}%`,
               fontColor: this.defaultColor,
             },
           });
@@ -194,7 +192,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
           ticks: {
             callback: (value: number) => {
-              const result = this.appCurrencyPipe.transform(value, this.currencyCode);
+              const result = this.appCurrencyPipe.transform(value, this.transaction.priceUnit);
               return result ? result : '';
             },
             min: 0,
@@ -243,9 +241,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
             cumulatedAmountDataSet.push(consumption.cumulatedAmount);
           } else {
             cumulatedAmountDataSet.push(cumulatedAmountDataSet.length > 0 ? cumulatedAmountDataSet[cumulatedAmountDataSet.length - 1] : 0);
-          }
-          if (consumption.currencyCode) {
-            this.currencyCode = consumption.currencyCode;
           }
         }
         if (stateOfChargeDataSet) {
@@ -310,9 +305,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
                   case 'stateOfCharge':
                     return ` ${value}%`;
                   case 'amount':
-                    return this.appCurrencyPipe.transform(value, this.currencyCode) + '';
+                    return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   case 'cumulatedAmount':
-                    return this.appCurrencyPipe.transform(value, this.currencyCode) + '';
+                    return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   default:
                     return value + '';
                 }

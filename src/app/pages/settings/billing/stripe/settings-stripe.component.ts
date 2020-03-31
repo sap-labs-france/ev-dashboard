@@ -5,10 +5,6 @@ import { BillingSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { CentralServerService } from '../../../../services/central-server.service';
 
-export class StripeBillingConstants {
-  public static BILLING_METHOD_IMMEDIATE = 'immediate';
-  public static BILLING_METHOD_PERIODIC = 'periodic';
-}
 
 @Component({
   selector: 'app-settings-stripe-billing',
@@ -57,7 +53,9 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
           // Validators.required,
         ]),
       ),
-    });
+    }, Validators.compose([
+      this.validateBillingMethod
+    ]));
 
     this.formGroup.addControl('stripe', this.stripe);
 
@@ -71,7 +69,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.taxID = this.stripe.controls['taxID'];
 
     // Set data
-    this.updateFormData(true);
+    this.updateFormData();
   }
 
   constructor(private centralServerService: CentralServerService) {
@@ -84,16 +82,16 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  private updateFormData(firstTime = false) {
+  private updateFormData() {
     if (this.stripe) {
       // Set data
       this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
       this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
       this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
       this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
-        ? this.billingSettings.stripe.immediateBillingAllowed : '');
+        ? this.billingSettings.stripe.immediateBillingAllowed : false);
       this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
-        ? this.billingSettings.stripe.periodicBillingAllowed : '');
+        ? this.billingSettings.stripe.periodicBillingAllowed : false);
       this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
         ? this.billingSettings.stripe.lastSynchronizedOn : '');
       this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
@@ -116,6 +114,13 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       return null;
     }
     return { invalid: true };
+  }
+
+  public validateBillingMethod(fg: FormGroup) {
+    if (!fg.value['immediateBillingAllowed'] && !fg.value['periodicBillingAllowed']) {
+      return { invalid: true };
+    }
+    return null;
   }
 
   public openUrl() {

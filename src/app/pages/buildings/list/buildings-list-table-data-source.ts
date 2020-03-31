@@ -11,6 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
@@ -45,7 +46,7 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithLogo: true}]);
+    this.setStaticFilters([{WithLogo: true, WithSiteArea: true}]);
     this.initDataSource();
   }
 
@@ -99,12 +100,19 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
         id: 'address.city',
         name: 'general.city',
         headerClass: 'col-30p',
-        class: 'col-20p',
+        class: 'col-30p',
         sortable: true,
       },
       {
         id: 'address.country',
         name: 'general.country',
+        headerClass: 'col-30p',
+        class: 'col-30p',
+        sortable: true,
+      },
+      {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
         headerClass: 'col-30p',
         class: 'col-30p',
         sortable: true,
@@ -125,20 +133,21 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
   }
 
   public buildTableDynamicRowActions(building: Building) {
+    const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(building.address);
     if (this.isAdmin) {
-      return [
-        this.editAction,
+      actions.push(this.editAction);
+      actions.push(new TableMoreAction([
         openInMaps,
         this.deleteAction,
-      ];
+      ]).getActionDef());
+    } else {
+      actions.push(this.viewAction);
+      actions.push(openInMaps);
     }
-    return [
-      this.viewAction,
-      openInMaps,
-    ];
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

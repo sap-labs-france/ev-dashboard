@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.21",
+    "last_update": "Version 2.2.22",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -1298,7 +1298,7 @@
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
       "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
       "synchronize_users_success_all": "All users are already synchronized",
-      "synchronize_users_failure": "Failed to synchronize {{number}} user(s), check the logs",
+      "synchronize_users_failure": "Synchronization failed with {{number}} errors. Check your Billing system's logs.",
       "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
       "synchronize_users_error": "Error occurred while synchronizing users for billing",
       "stripe": {
@@ -1352,7 +1352,9 @@
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",
     "car": {
-      "synchronize_cars": "Synchronize Cars"
+      "synchronize_cars": "Synchronize Cars",
+      "synchronize_cars_dialog_title": "Synchronize Cars",
+      "synchronize_cars_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
     }
   },
   "ocpiendpoints": {
@@ -1537,8 +1539,8 @@
     "charge_power": "Charge Power",
     "charge_time": "Charge Time",
     "charge_speed": "Charge Speed",
-    "synchronize_cars_partial": "{{synchronized}} cars have been synchronized successfully and {{inError}} cars have encountered an error",
-    "synchronize_cars_success": "{{synchronized}} cars have been synchronized successfully",
+    "synchronize_cars_partial": "{{synchronized}} car(s) have been synchronized successfully and {{inError}} car(s) have encountered an error",
+    "synchronize_cars_success": "{{synchronized}} car(s) have been synchronized successfully",
     "synchronize_cars_error": "Error occurred while synchronizing the cars",
     "synchronize_cars_up_to_date": "Cars already up to date",
     "type": "Type",

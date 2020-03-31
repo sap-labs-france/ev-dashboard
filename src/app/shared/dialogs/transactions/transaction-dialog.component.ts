@@ -86,7 +86,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   }
 
   createAutoRefreshTimer() {
-    // Create timer only if socketio is not active
+    // Create timer only if socketIO is not active
     if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
       if (this.autoRefeshPollEnabled) {
         // Create timer

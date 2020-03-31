@@ -98,20 +98,6 @@ export interface ChargingStationConfiguration {
   configuration: KeyValue[];
 }
 
-export interface ConsumptionValue {
-  date: Date;
-  value: number;
-  cumulated: number;
-  amount: number;
-  price: number;
-  stateOfCharge: number;
-  unroundedAmount: number;
-  cumulatedAmount: number;
-  currencyCode: string;
-  pricingSource: string;
-  limitWatts: number;
-}
-
 export interface Connector extends Data {
   connectorId: number;
   currentConsumption: number;

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,6 @@ import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
 import { Site, SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';

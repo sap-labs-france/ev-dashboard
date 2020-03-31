@@ -1333,7 +1333,7 @@
     "car": {
       "synchronize_cars": "Synchronize Cars",
       "synchronize_cars_dialog_title": "Synchronize Cars",
-      "synchronize_cars_dialog_confirm": "Do you really want to synchronize the cars with the electric vehicles data provider ?"
+      "synchronize_cars_dialog_confirm": "Do you really want to synchronize all the cars?"
     }
   },
   "ocpiendpoints": {

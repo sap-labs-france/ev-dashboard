@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,11 +9,11 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Address } from 'app/types/Address';
 import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
 import { Site, SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -36,15 +36,7 @@ export class SiteComponent implements OnInit {
   public companyID!: AbstractControl;
   public autoUserSiteAssignment!: AbstractControl;
 
-  public address!: FormGroup;
-  public address1!: AbstractControl;
-  public address2!: AbstractControl;
-  public postalCode!: AbstractControl;
-  public city!: AbstractControl;
-  public department!: AbstractControl;
-  public region!: AbstractControl;
-  public country!: AbstractControl;
-  public coordinates!: FormArray;
+  public address!: Address;
   public companies: any;
   public isAdmin = false;
 
@@ -87,44 +79,12 @@ export class SiteComponent implements OnInit {
           Validators.required,
         ])),
       autoUserSiteAssignment: new FormControl(false),
-      address: new FormGroup({
-        address1: new FormControl(''),
-        address2: new FormControl(''),
-        postalCode: new FormControl(''),
-        city: new FormControl(''),
-        department: new FormControl(''),
-        region: new FormControl(''),
-        country: new FormControl(''),
-        coordinates: new FormArray([
-          new FormControl('',
-            Validators.compose([
-              Validators.max(180),
-              Validators.min(-180),
-              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-            ])),
-          new FormControl('',
-            Validators.compose([
-              Validators.max(90),
-              Validators.min(-90),
-              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-            ])),
-        ]),
-      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
-    this.address = (this.formGroup.controls['address'] as FormGroup);
-    this.address1 = this.address.controls['address1'];
-    this.address2 = this.address.controls['address2'];
-    this.postalCode = this.address.controls['postalCode'];
-    this.city = this.address.controls['city'];
-    this.department = this.address.controls['department'];
-    this.region = this.address.controls['region'];
-    this.country = this.address.controls['country'];
-    this.coordinates = this.address.controls['coordinates'] as FormArray;
 
     this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
 
@@ -216,30 +176,8 @@ export class SiteComponent implements OnInit {
       } else {
         this.formGroup.controls.autoUserSiteAssignment.setValue(false);
       }
-      if (site.address && site.address.address1) {
-        this.address.controls.address1.setValue(site.address.address1);
-      }
-      if (site.address && site.address.address2) {
-        this.address.controls.address2.setValue(site.address.address2);
-      }
-      if (site.address && site.address.postalCode) {
-        this.address.controls.postalCode.setValue(site.address.postalCode);
-      }
-      if (site.address && site.address.city) {
-        this.address.controls.city.setValue(site.address.city);
-      }
-      if (site.address && site.address.department) {
-        this.address.controls.department.setValue(site.address.department);
-      }
-      if (site.address && site.address.region) {
-        this.address.controls.region.setValue(site.address.region);
-      }
-      if (site.address && site.address.country) {
-        this.address.controls.country.setValue(site.address.country);
-      }
-      if (site.address && site.address.coordinates && site.address.coordinates.length === 2) {
-        this.coordinates.at(0).setValue(site.address.coordinates[0]);
-        this.coordinates.at(1).setValue(site.address.coordinates[1]);
+      if (site.address) {
+        this.address = site.address;
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();

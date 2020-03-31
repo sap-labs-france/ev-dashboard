@@ -5,10 +5,6 @@ import { BillingSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { CentralServerService } from '../../../../services/central-server.service';
 
-export class StripeBillingConstants {
-  public static BILLING_METHOD_IMMEDIATE = 'immediate';
-  public static BILLING_METHOD_PERIODIC = 'periodic';
-}
 
 @Component({
   selector: 'app-settings-stripe-billing',
@@ -73,7 +69,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.taxID = this.stripe.controls['taxID'];
 
     // Set data
-    this.updateFormData(true);
+    this.updateFormData();
   }
 
   constructor(private centralServerService: CentralServerService) {
@@ -86,7 +82,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  private updateFormData(firstTime = false) {
+  private updateFormData() {
     if (this.stripe) {
       // Set data
       this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');

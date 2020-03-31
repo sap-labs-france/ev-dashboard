@@ -14,6 +14,8 @@ import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
 import { BuildingsDialogTableDataSource } from './buildings/buildings-dialog-table-data-source';
 import { BuildingsDialogComponent } from './buildings/buildings-dialog.component';
+import { CarConstructorsTableDataSource } from './car/car-constructors-dialog-table-data-source';
+import { CarConstructorsDialogComponent } from './car/car-constructors-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
 import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
@@ -47,6 +49,7 @@ export class FooterModule {
     GooglePlaceModule,
   ],
   declarations: [
+    CarConstructorsDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
@@ -61,6 +64,7 @@ export class FooterModule {
     ReportsDialogComponent,
   ],
   entryComponents: [
+    CarConstructorsDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
@@ -76,6 +80,7 @@ export class FooterModule {
     ReportsDialogComponent,
   ],
   exports: [
+    CarConstructorsDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
@@ -103,6 +108,7 @@ export class FooterModule {
     SiteAreasDialogTableDataSource,
     CompaniesDialogTableDataSource,
     ReportsDialogTableDataSource,
+    CarConstructorsTableDataSource,
   ],
 })
 export class DialogsModule {

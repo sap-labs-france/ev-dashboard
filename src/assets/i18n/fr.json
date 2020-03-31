@@ -1520,6 +1520,8 @@
     "synchronize_cars_success": "{{synchronized}} véhicules ont été synchronisés avec succès",
     "synchronize_cars_error": "Une erreur est survenue pendant la synchronisation des véhicules",
     "synchronize_cars_up_to_date": "Les véhicules sont déjà tous à jour",
+    "select_car_constructor": "Selection Constructeur Véhicules",
+    "car_constructors":"Constructeurs de Véhicules",
     "type": "Type",
     "unit": {
       "meters": "m",

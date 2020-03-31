@@ -21,6 +21,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { CarComponent } from '../car/car.component';
 import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
+import { CarConstructorTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -267,7 +268,9 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new CarConstructorTableFilter().getFilterDef(),
+    ];
   }
 
   private showCarDialog(car?: Car) {

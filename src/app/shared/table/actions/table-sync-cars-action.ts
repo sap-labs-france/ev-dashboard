@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { CarButtonAction } from 'app/types/Car';
-import { ButtonColor, TableActionDef, ButtonType } from 'app/types/Table';
+import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { TableAction } from './table-action';
-import { DialogService } from 'app/services/dialog.service';
 
 export class TableSyncCarsAction implements TableAction {
   private action: TableActionDef = {

@@ -1,6 +1,6 @@
 import { FilterType, TableFilterDef } from 'app/types/Table';
-import { invoicesStatuses } from '../model/invoices.model';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { invoicesStatuses } from '../model/invoices.model';
 
 export class InvoiceStatusFilter extends TableFilter {
   constructor() {

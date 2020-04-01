@@ -13,6 +13,7 @@ COPY src ./src
 COPY *.json ./
 COPY *.js ./
 COPY docker/config.json ./src/assets/config.json
+
 RUN npm run build:${build}
 
 FROM nginx:alpine

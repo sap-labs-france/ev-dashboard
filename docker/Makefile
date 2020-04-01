@@ -5,6 +5,7 @@ PROJECT_NAME:=evse
 default: all
 
 dashboard:
+	git submodule update --init --recursive
 	docker-compose -p $(PROJECT_NAME) up -d
 
 all: dashboard

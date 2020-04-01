@@ -11,6 +11,7 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Address } from 'app/types/Address';
 import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
@@ -47,15 +48,7 @@ export class SiteAreaComponent implements OnInit {
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
 
-  public address!: FormGroup;
-  public address1!: AbstractControl;
-  public address2!: AbstractControl;
-  public postalCode!: AbstractControl;
-  public city!: AbstractControl;
-  public department!: AbstractControl;
-  public region!: AbstractControl;
-  public country!: AbstractControl;
-  public coordinates!: FormArray;
+  public address!: Address;
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
   public isSmartChargingActive = false;
@@ -114,29 +107,6 @@ export class SiteAreaComponent implements OnInit {
         )),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
-      address: new FormGroup({
-        address1: new FormControl(''),
-        address2: new FormControl(''),
-        postalCode: new FormControl(''),
-        city: new FormControl(''),
-        department: new FormControl(''),
-        region: new FormControl(''),
-        country: new FormControl(''),
-        coordinates: new FormArray([
-          new FormControl('',
-            Validators.compose([
-              Validators.max(180),
-              Validators.min(-180),
-              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-            ])),
-          new FormControl('',
-            Validators.compose([
-              Validators.max(90),
-              Validators.min(-90),
-              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-            ])),
-        ]),
-      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -145,15 +115,6 @@ export class SiteAreaComponent implements OnInit {
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
-    this.address = (this.formGroup.controls['address'] as FormGroup);
-    this.address1 = this.address.controls['address1'];
-    this.address2 = this.address.controls['address2'];
-    this.postalCode = this.address.controls['postalCode'];
-    this.city = this.address.controls['city'];
-    this.department = this.address.controls['department'];
-    this.region = this.address.controls['region'];
-    this.country = this.address.controls['country'];
-    this.coordinates = this.address.controls['coordinates'] as FormArray;
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -265,30 +226,8 @@ export class SiteAreaComponent implements OnInit {
       } else {
         this.formGroup.controls.accessControl.setValue(false);
       }
-      if (siteArea.address && siteArea.address.address1) {
-        this.address.controls.address1.setValue(siteArea.address.address1);
-      }
-      if (siteArea.address && siteArea.address.address2) {
-        this.address.controls.address2.setValue(siteArea.address.address2);
-      }
-      if (siteArea.address && siteArea.address.postalCode) {
-        this.address.controls.postalCode.setValue(siteArea.address.postalCode);
-      }
-      if (siteArea.address && siteArea.address.city) {
-        this.address.controls.city.setValue(siteArea.address.city);
-      }
-      if (siteArea.address && siteArea.address.department) {
-        this.address.controls.department.setValue(siteArea.address.department);
-      }
-      if (siteArea.address && siteArea.address.region) {
-        this.address.controls.region.setValue(siteArea.address.region);
-      }
-      if (siteArea.address && siteArea.address.country) {
-        this.address.controls.country.setValue(siteArea.address.country);
-      }
-      if (siteArea.address && siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
-        this.coordinates.at(0).setValue(siteArea.address.coordinates[0]);
-        this.coordinates.at(1).setValue(siteArea.address.coordinates[1]);
+      if (siteArea.address) {
+        this.address = siteArea.address;
       }
       // Force
       this.formGroup.updateValueAndValidity();

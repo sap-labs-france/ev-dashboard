@@ -1,4 +1,4 @@
-import { ChargingStation, ConsumptionValue } from './ChargingStation';
+import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
@@ -47,6 +47,16 @@ export interface Transaction extends Data {
   };
   dateTimestring: string;
   values: ConsumptionValue[];
+}
+
+export interface ConsumptionValue {
+  date: Date;
+  instantPower: number;
+  cumulatedConsumption: number;
+  stateOfCharge: number;
+  cumulatedAmount: number;
+  currencyCode: string;
+  limitWatts: number;
 }
 
 export enum InactivityStatus {

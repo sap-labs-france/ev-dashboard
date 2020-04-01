@@ -10,10 +10,10 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
-import { CarConstructorsTable } from 'app/types/Car';
+import { CarMakersTable } from 'app/types/Car';
 
 @Injectable()
-export class CarConstructorsTableDataSource extends DialogTableDataSource<CarConstructorsTable> {
+export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTable> {
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -25,15 +25,12 @@ export class CarConstructorsTableDataSource extends DialogTableDataSource<CarCon
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<CarConstructorsTable>> {
+  public loadDataImpl(): Observable<DataResult<CarMakersTable>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getCarConstructors(this.buildFilterValues()).subscribe((carConstructors) => {
+      this.centralServerService.getCarMakers(this.buildFilterValues()).subscribe((carConstructors) => {
           // Ok
-          observer.next({
-            count: carConstructors.length,
-            result: carConstructors,
-          });
+          observer.next(carConstructors);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -60,7 +57,7 @@ export class CarConstructorsTableDataSource extends DialogTableDataSource<CarCon
   buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'vehicleMake',
+        id: 'vehicleMaker',
         name: 'cars.vehicle_make',
         class: 'text-left col-600px',
         sorted: true,

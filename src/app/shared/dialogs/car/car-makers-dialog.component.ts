@@ -1,18 +1,17 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CarMakersTable } from 'app/types/Car';
 import { KeyValue } from 'app/types/GlobalType';
-import { Site } from 'app/types/Site';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { CarConstructorsTableDataSource } from './car-constructors-dialog-table-data-source';
-import { CarConstructorsTable } from 'app/types/Car';
+import { CarMakersTableDataSource } from './car-makers-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
 })
-export class CarConstructorsDialogComponent extends DialogTableDataComponent<CarConstructorsTable> {
+export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakersTable> {
   constructor(
-    public dialogDataSource: CarConstructorsTableDataSource,
-    protected dialogRef: MatDialogRef<CarConstructorsDialogComponent>,
+    public dialogDataSource: CarMakersTableDataSource,
+    protected dialogRef: MatDialogRef<CarMakersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
     super(data, dialogRef, dialogDataSource);
@@ -23,11 +22,11 @@ export class CarConstructorsDialogComponent extends DialogTableDataComponent<Car
     this.dialogDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: CarConstructorsTable[]): KeyValue[] {
+  getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
-        items.push({key: row.vehicleMake, value: row.vehicleMake, objectRef: row});
+        items.push({ key: row.vehicleMaker, value: row.vehicleMaker, objectRef: row });
       });
     }
     return items;

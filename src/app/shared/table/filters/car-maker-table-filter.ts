@@ -1,8 +1,8 @@
-import { CarConstructorsDialogComponent } from 'app/shared/dialogs/car/car-constructors-dialog.component';
+import { CarMakersDialogComponent } from 'app/shared/dialogs/car/car-makers-dialog.component';
 import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from './table-filter';
 
-export class CarConstructorTableFilter extends TableFilter {
+export class CarMakerTableFilter extends TableFilter {
   constructor(carConstructors?: ReadonlyArray<string>) {
     super();
     // Define filter
@@ -15,7 +15,7 @@ export class CarConstructorTableFilter extends TableFilter {
       multiple: true,
       name: 'cars.car_constructors',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      dialogComponent: CarConstructorsDialogComponent,
+      dialogComponent: CarMakersDialogComponent,
       cleared: true,
     };
 

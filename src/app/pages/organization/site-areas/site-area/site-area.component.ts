@@ -13,6 +13,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Site } from 'app/types/Site';
 import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
@@ -57,9 +58,11 @@ export class SiteAreaComponent implements OnInit {
   public coordinates!: FormArray;
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
+  public isSmartChargingActive = false;
 
   public sites: any;
   public registrationToken!: RegistrationToken;
+
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -183,10 +186,10 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public smartChargingChanged(event: MatCheckboxChange) {
-    if (!event.checked) {
+    if (!event.checked && this.isSmartChargingActive) {
       this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area'),
-        this.translateService.instant('chargers.smart_charging.delete_charging_profiles_for_site_area'),
+        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
+        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_body'),
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
@@ -253,6 +256,7 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
+        this.isSmartChargingActive = siteArea.smartCharging;
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
       }
@@ -525,8 +529,14 @@ export class SiteAreaComponent implements OnInit {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
+        case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
+          this.dialogService.createAndShowOkDialog(
+          this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
+          this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body', { siteAreaName: siteArea.name }));
+          this.closeDialog(true);
+          break;
         // Site Area deleted
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           // Show error
           this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
           break;

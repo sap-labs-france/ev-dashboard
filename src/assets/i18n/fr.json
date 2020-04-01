@@ -773,8 +773,10 @@
       },
       "retrieve_schedule": "Récupérer les Plans",
       "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
-      "delete_charging_profiles_for_site_area": "If you disable Smart Charging for this site area, all charging profiles will be cleared. Do you want to continue?",
-      "disable_smart_charging_for_site_area": "Disable smart charging"
+      "disable_smart_charging_for_site_area_title": "Disable smart charging",
+      "disable_smart_charging_for_site_area_body": "If you disable Smart Charging for this site area, all charging profiles will be cleared. Do you want to continue?",
+      "clearing_charging_profiles_not_successful_title": "An Error occurred, while clearing Charging Profiles",
+      "clearing_charging_profiles_not_successful_body": "Clearing Charging Profiles for Site Area: '{{siteAreaName}}' was not successful. Please check the logs and take action on the concerning Charging Stations. The Charging Profiles will be deleted in the database and the Site Area will be updated anyway."
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",

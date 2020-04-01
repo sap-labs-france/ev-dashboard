@@ -9,6 +9,7 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Address } from 'app/types/Address';
 import { Company, CompanyLogo } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
@@ -35,15 +36,7 @@ export class CompanyComponent implements OnInit {
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
-  public address!: FormGroup;
-  public address1!: AbstractControl;
-  public address2!: AbstractControl;
-  public postalCode!: AbstractControl;
-  public city!: AbstractControl;
-  public department!: AbstractControl;
-  public region!: AbstractControl;
-  public country!: AbstractControl;
-  public coordinates!: FormArray;
+  public address!: Address;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -79,42 +72,10 @@ export class CompanyComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      address: new FormGroup({
-        address1: new FormControl(''),
-        address2: new FormControl(''),
-        postalCode: new FormControl(''),
-        city: new FormControl(''),
-        department: new FormControl(''),
-        region: new FormControl(''),
-        country: new FormControl(''),
-        coordinates: new FormArray ([
-          new FormControl('',
-            Validators.compose([
-              Validators.max(180),
-              Validators.min(-180),
-              Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-            ])),
-          new FormControl('',
-            Validators.compose([
-              Validators.max(90),
-              Validators.min(-90),
-              Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-            ])),
-        ]),
-      }),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    this.address = (this.formGroup.controls['address'] as FormGroup);
-    this.address1 = this.address.controls['address1'];
-    this.address2 = this.address.controls['address2'];
-    this.postalCode = this.address.controls['postalCode'];
-    this.city = this.address.controls['city'];
-    this.department = this.address.controls['department'];
-    this.region = this.address.controls['region'];
-    this.country = this.address.controls['country'];
-    this.coordinates = this.address.controls['coordinates'] as FormArray;
 
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
@@ -176,30 +137,8 @@ export class CompanyComponent implements OnInit {
       if (company.name) {
         this.formGroup.controls.name.setValue(company.name);
       }
-      if (company.address && company.address.address1) {
-        this.address.controls.address1.setValue(company.address.address1);
-      }
-      if (company.address && company.address.address2) {
-        this.address.controls.address2.setValue(company.address.address2);
-      }
-      if (company.address && company.address.postalCode) {
-        this.address.controls.postalCode.setValue(company.address.postalCode);
-      }
-      if (company.address && company.address.city) {
-        this.address.controls.city.setValue(company.address.city);
-      }
-      if (company.address && company.address.department) {
-        this.address.controls.department.setValue(company.address.department);
-      }
-      if (company.address && company.address.region) {
-        this.address.controls.region.setValue(company.address.region);
-      }
-      if (company.address && company.address.country) {
-        this.address.controls.country.setValue(company.address.country);
-      }
-      if (company.address && company.address.coordinates && company.address.coordinates.length === 2) {
-        this.coordinates.at(0).setValue(company.address.coordinates[0]);
-        this.coordinates.at(1).setValue(company.address.coordinates[1]);
+      if (company.address) {
+        this.address = company.address;
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();

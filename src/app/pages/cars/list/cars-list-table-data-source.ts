@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
@@ -30,6 +31,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
+    private dialogService: DialogService,
     private messageService: MessageService,
     private appUnitPipe: AppUnitPipe,
     private router: Router,
@@ -243,6 +245,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.SYNCHRONIZE:
         if (this.tableSyncCarsAction.action) {
           this.tableSyncCarsAction.action(
+            this.dialogService,
             this.translateService,
             this.messageService,
             this.centralServerService,

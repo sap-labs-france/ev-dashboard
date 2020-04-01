@@ -61,6 +61,7 @@ export enum ButtonAction {
   UNREGISTER = 'unregister',
   VIEW = 'view',
   INLINE_SAVE = 'inline-save',
+  DOWNLOAD = 'download',
 }
 
 export enum ChipType {

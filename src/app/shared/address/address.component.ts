@@ -1,44 +1,109 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Address } from 'app/types/Address';
+import { Constants } from 'app/utils/Constants';
+import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
   selector: 'app-address',
   templateUrl: 'address.component.html',
 })
-export class AddressComponent implements OnInit {
-  @Input() formGroup: FormGroup;
+export class AddressComponent implements OnInit, OnChanges {
+  @Input() formGroup!: FormGroup;
   @Input() hideGeoLocation = false;
-  public address: FormGroup;
-  public address1: AbstractControl;
-  public address2: AbstractControl;
-  public postalCode: AbstractControl;
-  public city: AbstractControl;
-  public department: AbstractControl;
-  public region: AbstractControl;
-  public country: AbstractControl;
-  public coordinates: FormArray;
-  public longitude: AbstractControl;
-  public latitude: AbstractControl;
+  @Input() address!: Address;
+  public addressFormGroup!: FormGroup;
+  public address1!: AbstractControl;
+  public address2!: AbstractControl;
+  public postalCode!: AbstractControl;
+  public city!: AbstractControl;
+  public department!: AbstractControl;
+  public region!: AbstractControl;
+  public country!: AbstractControl;
+  public coordinates!: FormArray;
+  public longitude!: AbstractControl;
+  public latitude!: AbstractControl;
 
   ngOnInit() {
+    // Set Address form group
+    this.addressFormGroup = new FormGroup({
+      address1: new FormControl(''),
+      address2: new FormControl(''),
+      postalCode: new FormControl(''),
+      city: new FormControl(''),
+      department: new FormControl(''),
+      region: new FormControl(''),
+      country: new FormControl(''),
+      coordinates: new FormArray ([
+        new FormControl('',
+          Validators.compose([
+            Validators.max(180),
+            Validators.min(-180),
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
+        new FormControl('',
+          Validators.compose([
+            Validators.max(90),
+            Validators.min(-90),
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+          ])),
+      ])
+    });
+    // Add the form group to the parent component
+    this.formGroup.addControl('address', this.addressFormGroup);
     // Form
-    this.address = (this.formGroup.controls['address'] as FormGroup);
-    this.address1 = this.address.controls['address1'];
-    this.address2 = this.address.controls['address2'];
-    this.postalCode = this.address.controls['postalCode'];
-    this.city = this.address.controls['city'];
-    this.department = this.address.controls['department'];
-    this.region = this.address.controls['region'];
-    this.country = this.address.controls['country'];
-    this.coordinates = this.address.controls['coordinates'] as FormArray;
-    if (this.coordinates) {
+    this.address1 = this.addressFormGroup.controls['address1'];
+    this.address2 = this.addressFormGroup.controls['address2'];
+    this.postalCode = this.addressFormGroup.controls['postalCode'];
+    this.city = this.addressFormGroup.controls['city'];
+    this.department = this.addressFormGroup.controls['department'];
+    this.region = this.addressFormGroup.controls['region'];
+    this.country = this.addressFormGroup.controls['country'];
+    this.coordinates = this.addressFormGroup.controls['coordinates'] as FormArray;
+    this.longitude = this.coordinates.at(0);
+    this.latitude = this.coordinates.at(1);
+    // Set
+    this.loadAddress();
+  }
+
+  ngOnChanges() {
+    this.loadAddress();
+  }
+
+  public loadAddress() {
+    if (!this.address) {
+      return;
+    }
+    if (this.address.address1) {
+      this.addressFormGroup.controls.address1.setValue(this.address.address1);
+    }
+    if (this.address.address2) {
+      this.addressFormGroup.controls.address2.setValue(this.address.address2);
+    }
+    if (this.address.postalCode) {
+      this.addressFormGroup.controls.postalCode.setValue(this.address.postalCode);
+    }
+    if (this.address.city) {
+      this.addressFormGroup.controls.city.setValue(this.address.city);
+    }
+    if (this.address.department) {
+      this.addressFormGroup.controls.department.setValue(this.address.department);
+    }
+    if (this.address.region) {
+      this.addressFormGroup.controls.region.setValue(this.address.region);
+    }
+    if (this.address.country) {
+      this.addressFormGroup.controls.country.setValue(this.address.country);
+    }
+    if (this.address.coordinates && this.address.coordinates.length === 2) {
+      this.coordinates.at(0).setValue(this.address.coordinates[0]);
+      this.coordinates.at(1).setValue(this.address.coordinates[1]);
       this.longitude = this.coordinates.at(0);
       this.latitude = this.coordinates.at(1);
     }
   }
 
-  setAddress(address: Address) {
+  setAddress(address: GoogleAddress) {
     // Set data
     let streetNumber = '';
     let route = '';
@@ -47,23 +112,23 @@ export class AddressComponent implements OnInit {
       switch (addressComponent.types[0]) {
         // Postal Code
         case 'postal_code':
-          this.address.controls.postalCode.setValue(addressComponent.long_name);
+          this.addressFormGroup.controls.postalCode.setValue(addressComponent.long_name);
           break;
         // Town
         case 'locality':
-          this.address.controls.city.setValue(addressComponent.long_name);
+          this.addressFormGroup.controls.city.setValue(addressComponent.long_name);
           break;
         // Department
         case 'administrative_area_level_2':
-          this.address.controls.department.setValue(addressComponent.long_name);
+          this.addressFormGroup.controls.department.setValue(addressComponent.long_name);
           break;
         // Region
         case 'administrative_area_level_1':
-          this.address.controls.region.setValue(addressComponent.long_name);
+          this.addressFormGroup.controls.region.setValue(addressComponent.long_name);
           break;
         // Country
         case 'country':
-          this.address.controls.country.setValue(addressComponent.long_name);
+          this.addressFormGroup.controls.country.setValue(addressComponent.long_name);
           break;
         case 'route':
           route = addressComponent.long_name;
@@ -76,12 +141,12 @@ export class AddressComponent implements OnInit {
     // build Address 2
     const address2 = `${streetNumber} ${route}`;
     // Address
-    this.address.controls.address1.setValue(address.name);
+    this.addressFormGroup.controls.address1.setValue(address.name);
     // Set Address 2 if different from Address 1
     if (address2 !== address.name) {
-      this.address.controls.address2.setValue(address2);
+      this.addressFormGroup.controls.address2.setValue(address2);
     } else {
-      this.address.controls.address2.setValue('');
+      this.addressFormGroup.controls.address2.setValue('');
     }
     // Latitude
     this.latitude.setValue(address.geometry.location.lat());

@@ -129,6 +129,7 @@
     "set_coordinates": "Set Coordinates",
     "reset_filters": "Reset Filters",
     "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
+    "status": "Status",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Charging Stations",
@@ -155,7 +156,8 @@
       "buildings": "Buildings",
       "organization": "Organization",
       "template": "Templates",
-      "cars": "Cars"
+      "cars": "Cars",
+      "invoices": "Invoices"
     },
     "tooltips": {
       "activate": "Activate",
@@ -197,6 +199,7 @@
       "view": "View",
       "send": "Send",
       "clear": "Clear",
+      "download": "Download",
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable"
     }
@@ -1118,6 +1121,24 @@
       }
     }
   },
+  "invoices": {
+    "tabs": {
+      "list": "Invoices"
+    },
+    "tooltips": {
+      "download": "Download invoice",
+      "pay":  "Pay invoice"
+    },
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "draft": "Draft"
+    },
+    "id": "Invoice number",
+    "createdOn": "Invoice date",
+    "price": "Invoice price",
+    "pay": "Pay"
+  },
   "tags": {
     "id": "ID",
     "issuer": "Organization Owner",
@@ -1675,7 +1696,8 @@
       "history": "History",
       "in_progress": "In Progress",
       "in_error": "In Error",
-      "refund": "Refunding"
+      "refund": "Refunding",
+      "invoices": "Invoices"
     },
     "graph": {
       "battery": "Battery Level (%)",

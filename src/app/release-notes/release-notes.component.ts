@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
               `Add Site Area column in Building list`,
+              `Disable coordinates button in address if not provided`,
               `Upgraded to Angular 9`,
             ],
           },
@@ -45,6 +46,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added Billing invoice list`,
               `SAP Smart Charging implementation`,
               `Assign a Building to a Site Area`,
               `Webasto implementation in Charging Plan management`,

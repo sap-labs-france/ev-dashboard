@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
-import { BillingTax } from 'app/types/Billing';
+import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
 import { Car, CarConstructorsTable } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
@@ -1330,6 +1330,25 @@ export class CentralServerService {
     return this.httpClient.get<BillingTax[]>(`${this.centralRestServerServiceSecuredURL}/BillingTaxes`,
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getUserInvoices(params: { [param: string]: string | string[]; },
+      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/BillingUserInvoices`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
       })
       .pipe(
         catchError(this.handleHttpError),

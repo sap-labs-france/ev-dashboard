@@ -7,11 +7,11 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { BuildingsDialogComponent } from 'app/shared/dialogs/buildings/buildings-dialog.component';
+import { AssetsDialogComponent } from 'app/shared/dialogs/assets/assets-dialog.component';
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Building } from 'app/types/Building';
+import { Asset } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
@@ -20,7 +20,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
+export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   private siteArea!: SiteArea;
 
   constructor(
@@ -35,15 +35,15 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
     super(spinnerService, translateService);
   }
 
-  public loadDataImpl(): Observable<DataResult<Building>> {
+  public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
-        this.centralServerService.getBuildings(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((buildings) => {
+        this.centralServerService.getAssets(this.buildFilterValues(),
+          this.getPaging(), this.getSorting()).subscribe((assets) => {
           // Ok
-          observer.next(buildings);
+          observer.next(assets);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -91,7 +91,7 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
     return [
       {
         id: 'name',
-        name: 'buildings.titles',
+        name: 'assets.titles',
         headerClass: 'col-35p',
         class: 'text-left',
         sorted: true,
@@ -146,7 +146,7 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
     switch (actionDef.id) {
       // Add
       case ButtonAction.ADD:
-        this.showAddBuildingsDialog();
+        this.showAddAssetsDialog();
         break;
 
       // Remove
@@ -157,13 +157,13 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
         } else {
           // Confirm
           this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('site_areas.remove_buildings_title'),
-            this.translateService.instant('site_areas.remove_buildings_confirm'),
+            this.translateService.instant('site_areas.remove_assets_title'),
+            this.translateService.instant('site_areas.remove_assets_confirm'),
           ).subscribe((response) => {
             // Check
             if (response === ButtonType.YES) {
               // Remove
-              this.removeBuildings(this.getSelectedRows().map((row) => row.id));
+              this.removeAssets(this.getSelectedRows().map((row) => row.id));
             }
           });
         }
@@ -171,7 +171,7 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
     }
   }
 
-  public showAddBuildingsDialog() {
+  public showAddAssetsDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
@@ -181,43 +181,43 @@ export class SiteAreaBuildingsDataSource extends TableDataSource<Building> {
       },
     };
     // Show
-    const dialogRef = this.dialog.open(BuildingsDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AssetsDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe((buildings) => this.addBuildings(buildings));
+    dialogRef.afterClosed().subscribe((assets) => this.addAssets(assets));
   }
 
-  private removeBuildings(buildingIDs: string[]) {
+  private removeAssets(assetIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeBuildingsFromSiteArea(this.siteArea.id, buildingIDs).subscribe((response) => {
+    this.centralServerService.removeAssetsFromSiteArea(this.siteArea.id, assetIDs).subscribe((response) => {
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_buildings_success'));
+        this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_assets_success'));
         // Refresh
         this.refreshData().subscribe();
         // Clear selection
         this.clearSelectedRows();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('site_areas.remove_buildings_error'));
+          this.messageService, this.translateService.instant('site_areas.remove_assets_error'));
       }
     }, (error) => {
       // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_buildings_error');
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_assets_error');
     });
   }
 
-  private addBuildings(buildings: Building[]) {
+  private addAssets(assets: Asset[]) {
     // Check
-    if (buildings && buildings.length > 0) {
+    if (assets && assets.length > 0) {
       // Get the IDs
-      const buildingIDs = buildings.map((building) => building.key);
+      const assetIDs = assets.map((asset) => asset.key);
       // Yes: Update
-      this.centralServerService.addBuildingsToSiteArea(this.siteArea.id, buildingIDs).subscribe((response) => {
+      this.centralServerService.addAssetsToSiteArea(this.siteArea.id, assetIDs).subscribe((response) => {
         // Ok?
         if (response.status === RestResponse.SUCCESS) {
           // Ok
-          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_buildings_success'));
+          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_assets_success'));
           // Refresh
           this.refreshData().subscribe();
           // Clear selection

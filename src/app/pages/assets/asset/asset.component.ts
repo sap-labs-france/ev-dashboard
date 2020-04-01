@@ -12,7 +12,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { Address } from 'app/types/Address';
-import { Building, BuildingImage } from 'app/types/Building';
+import { Asset, AssetImage } from 'app/types/Asset';
 import { RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
@@ -21,17 +21,17 @@ import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-building',
-  templateUrl: 'building.component.html',
+  selector: 'app-asset',
+  templateUrl: 'asset.component.html',
 })
-export class BuildingComponent implements OnInit {
+export class AssetComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentBuildingID!: string;
+  @Input() currentAssetID!: string;
   @Input() inDialog!: boolean;
   @Input() dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public image: string = BuildingImage.NO_IMAGE;
+  public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -54,11 +54,11 @@ export class BuildingComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router) {
 
-    this.maxSize = this.configService.getBuilding().maxImageKb;
+    this.maxSize = this.configService.getAsset().maxImageKb;
 
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
-      !authorizationService.canUpdateBuilding()) {
+      !authorizationService.canUpdateAsset()) {
       // Not authorized
       this.router.navigate(['/']);
     }
@@ -92,12 +92,12 @@ export class BuildingComponent implements OnInit {
       this.formGroup.disable();
     }
 
-    if (this.currentBuildingID) {
-      this.loadBuilding();
+    if (this.currentAssetID) {
+      this.loadAsset();
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
-        this.currentBuildingID = params['id'];
-        this.loadBuilding();
+        this.currentAssetID = params['id'];
+        this.loadAsset();
       });
     }
 
@@ -109,11 +109,11 @@ export class BuildingComponent implements OnInit {
       }
     });
 
-    this.centralServerNotificationService.getSubjectBuilding().pipe(debounceTime(
+    this.centralServerNotificationService.getSubjectAsset().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentBuildingID) {
-        this.loadBuilding();
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentAssetID) {
+        this.loadAsset();
       }
     });
   }
@@ -122,46 +122,46 @@ export class BuildingComponent implements OnInit {
     return this.inDialog;
   }
 
-  public setCurrentBuildingId(currentBuildingId: string) {
-    this.currentBuildingID = currentBuildingId;
+  public setCurrentAssetId(currentAssetId: string) {
+    this.currentAssetID = currentAssetId;
   }
 
   public refresh() {
-    // Load Building
-    this.loadBuilding();
+    // Load Asset
+    this.loadAsset();
   }
 
-  public loadBuilding() {
-    if (!this.currentBuildingID) {
+  public loadAsset() {
+    if (!this.currentAssetID) {
       return;
     }
     // Show spinner
     this.spinnerService.show();
     // Yes, get it
     // tslint:disable-next-line: cyclomatic-complexity
-    this.centralServerService.getBuilding(this.currentBuildingID, false, true).pipe(mergeMap((building) => {
+    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((asset) => {
       // Init form
-      if (building.id) {
-        this.formGroup.controls.id.setValue(building.id);
+      if (asset.id) {
+        this.formGroup.controls.id.setValue(asset.id);
       }
-      if (building.name) {
-        this.formGroup.controls.name.setValue(building.name);
+      if (asset.name) {
+        this.formGroup.controls.name.setValue(asset.name);
       }
-      if (building.siteArea && building.siteArea.name) {
-        this.formGroup.controls.siteAreaID.setValue(building.siteArea.id);
-        this.formGroup.controls.siteArea.setValue(building.siteArea.name);
+      if (asset.siteArea && asset.siteArea.name) {
+        this.formGroup.controls.siteAreaID.setValue(asset.siteArea.id);
+        this.formGroup.controls.siteArea.setValue(asset.siteArea.name);
       }
-      if (building.address) {
-        this.address = building.address;
+      if (asset.address) {
+        this.address = asset.address;
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
       // Yes, get image
-      return this.centralServerService.getBuildingImage(this.currentBuildingID);
-    })).subscribe((buildingImage) => {
-      if (buildingImage && buildingImage.image) {
-        this.image = buildingImage.image.toString();
+      return this.centralServerService.getAssetImage(this.currentAssetID);
+    })).subscribe((assetImage) => {
+      if (assetImage && assetImage.image) {
+        this.image = assetImage.image.toString();
       }
       this.spinnerService.hide();
     }, (error) => {
@@ -172,7 +172,7 @@ export class BuildingComponent implements OnInit {
         // Not found
         case 550:
           // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'buildings.building_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'assets.asset_not_found');
           break;
         default:
           // Unexpected error`
@@ -182,29 +182,29 @@ export class BuildingComponent implements OnInit {
     });
   }
 
-  public updateBuildingImage(building: Building) {
-    // Check no building?
-    if (!this.image.endsWith(BuildingImage.NO_IMAGE)) {
-      // Set to building
-      building.image = this.image;
+  public updateAssetImage(asset: Asset) {
+    // Check no asset?
+    if (!this.image.endsWith(AssetImage.NO_IMAGE)) {
+      // Set to asset
+      asset.image = this.image;
     } else {
       // No image
-      delete building.image;
+      delete asset.image;
     }
   }
 
-  public updateBuildingCoordinates(building: Building) {
-    if (building.address && building.address.coordinates &&
-      !(building.address.coordinates[0] || building.address.coordinates[1])) {
-      delete building.address.coordinates;
+  public updateAssetCoordinates(asset: Asset) {
+    if (asset.address && asset.address.coordinates &&
+      !(asset.address.coordinates[0] || asset.address.coordinates[1])) {
+      delete asset.address.coordinates;
     }
   }
 
-  public saveBuilding(building: Building) {
-    if (this.currentBuildingID) {
-      this.updateBuilding(building);
+  public saveAsset(asset: Asset) {
+    if (this.currentAssetID) {
+      this.updateAsset(asset);
     } else {
-      this.createBuilding(building);
+      this.createAsset(asset);
     }
   }
 
@@ -213,7 +213,7 @@ export class BuildingComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('buildings.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('assets.logo_size_error', {maxPictureKb: this.maxSize});
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -227,7 +227,7 @@ export class BuildingComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = BuildingImage.NO_IMAGE;
+    this.image = AssetImage.NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -254,7 +254,7 @@ export class BuildingComponent implements OnInit {
         this.translateService.instant('general.change_pending_text'),
       ).subscribe((result) => {
         if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveBuilding(this.formGroup.value);
+          this.saveAsset(this.formGroup.value);
         } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
           this.closeDialog();
         }
@@ -285,79 +285,79 @@ export class BuildingComponent implements OnInit {
     });
   }
 
-  private createBuilding(building: Building) {
+  private createAsset(asset: Asset) {
     // Show
     this.spinnerService.show();
     // Set the image
-    this.updateBuildingImage(building);
+    this.updateAssetImage(asset);
     // Set coordinates
-    this.updateBuildingCoordinates(building);
+    this.updateAssetCoordinates(asset);
     // Yes: Update
-    this.centralServerService.createBuilding(building).subscribe((response) => {
+    this.centralServerService.createAsset(asset).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('buildings.create_success',
-          { buildingName: building.name });
+        this.messageService.showSuccessMessage('assets.create_success',
+          { assetName: asset.name });
         // Refresh
-        this.currentBuildingID = building.id;
+        this.currentAssetID = asset.id;
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'buildings.create_error');
+          this.messageService, 'assets.create_error');
       }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
-        // Building deleted
+        // Asset deleted
         case 550:
           // Show error
-          this.messageService.showErrorMessage('buildings.building_not_found');
+          this.messageService.showErrorMessage('assets.asset_not_found');
           break;
         default:
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'buildings.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'assets.create_error');
       }
     });
   }
 
-  private updateBuilding(building: Building) {
+  private updateAsset(asset: Asset) {
     // Show
     this.spinnerService.show();
     // Set the image
-    this.updateBuildingImage(building);
+    this.updateAssetImage(asset);
     // Set coordinates
-    this.updateBuildingCoordinates(building);
+    this.updateAssetCoordinates(asset);
     // Yes: Update
-    this.centralServerService.updateBuilding(building).subscribe((response) => {
+    this.centralServerService.updateAsset(asset).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Ok?
       if (response.status === RestResponse.SUCCESS) {
         // Ok
-        this.messageService.showSuccessMessage('buildings.update_success', { buildingName: building.name });
+        this.messageService.showSuccessMessage('assets.update_success', { assetName: asset.name });
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, 'buildings.update_error');
+          this.messageService, 'assets.update_error');
       }
     }, (error) => {
       // Hide
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
-        // Building deleted
+        // Asset deleted
         case 550:
           // Show error
-          this.messageService.showErrorMessage('buildings.building_not_found');
+          this.messageService.showErrorMessage('assets.asset_not_found');
           break;
         default:
           // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'buildings.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'assets.update_error');
       }
     });
   }

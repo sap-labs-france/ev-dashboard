@@ -28,8 +28,8 @@ export class CentralServerNotificationService {
   private subjectSetting = new Subject<SingleChangeNotification>();
   private subjectOcpiEndpoints = new Subject<ChangeNotification>();
   private subjectOcpiEndpoint = new Subject<SingleChangeNotification>();
-  private subjectBuildings = new Subject<ChangeNotification>();
-  private subjectBuilding = new Subject<SingleChangeNotification>();
+  private subjectAssets = new Subject<ChangeNotification>();
+  private subjectAsset = new Subject<SingleChangeNotification>();
   private subjectAnalyticsLinks = new Subject<ChangeNotification>();
   private socket: io.Socket;
 
@@ -117,12 +117,12 @@ export class CentralServerNotificationService {
     return this.subjectOcpiEndpoint.asObservable();
   }
 
-  public getSubjectBuildings(): Observable<ChangeNotification> {
-    return this.subjectBuildings.asObservable();
+  public getSubjectAssets(): Observable<ChangeNotification> {
+    return this.subjectAssets.asObservable();
   }
 
-  public getSubjectBuilding(): Observable<SingleChangeNotification> {
-    return this.subjectBuilding.asObservable();
+  public getSubjectAsset(): Observable<SingleChangeNotification> {
+    return this.subjectAsset.asObservable();
   }
 
   public initSocketIO(token: string) {
@@ -222,15 +222,15 @@ export class CentralServerNotificationService {
         this.subjectLoggings.next(changeNotification);
       });
 
-      // Monitor Buildings
-      this.socket.on(Entity.BUILDINGS, (changeNotification: ChangeNotification) => {
+      // Monitor Assets
+      this.socket.on(Entity.ASSETS, (changeNotification: ChangeNotification) => {
         // Notify
-        this.subjectBuildings.next(changeNotification);
+        this.subjectAssets.next(changeNotification);
       });
 
-      // Monitor Building
-      this.socket.on(Entity.BUILDING, (singleChangeNotification: SingleChangeNotification) => {
-        this.subjectBuilding.next(singleChangeNotification);
+      // Monitor Asset
+      this.socket.on(Entity.ASSET, (singleChangeNotification: SingleChangeNotification) => {
+        this.subjectAsset.next(singleChangeNotification);
       });
     }
   }

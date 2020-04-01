@@ -1,15 +1,15 @@
-import { BuildingButtonAction } from 'app/types/Building';
+import { AssetButtonAction } from 'app/types/Asset';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TableAction } from './table-action';
 
-export class TableEditBuildingsAction implements TableAction {
+export class TableEditAssetsAction implements TableAction {
   private action: TableActionDef = {
-    id: BuildingButtonAction.EDIT_BUILDINGS,
+    id: AssetButtonAction.EDIT_ASSETS,
     type: 'button',
     icon: 'account_balance',
     color: ButtonColor.PRIMARY,
-    name: 'site_areas.edit_buildings',
-    tooltip: 'general.tooltips.edit_buildings',
+    name: 'site_areas.edit_assets',
+    tooltip: 'general.tooltips.edit_assets',
   };
 
   public getActionDef(): TableActionDef {

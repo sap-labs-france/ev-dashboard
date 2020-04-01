@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
+import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Building } from 'app/types/Building';
 import { Car } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -26,7 +26,7 @@ import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
-import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -100,12 +100,12 @@ export class CentralServerService {
       );
   }
 
-  public addBuildingsToSiteArea(siteAreaID: string, buildingIDs: string[]): Observable<ActionResponse> {
+  public addAssetsToSiteArea(siteAreaID: string, assetIDs: string[]): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddBuildingsToSiteArea`,
-      { siteAreaID, buildingIDs },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AddAssetsToSiteArea`,
+      { siteAreaID, assetIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -114,12 +114,12 @@ export class CentralServerService {
       );
   }
 
-  public removeBuildingsFromSiteArea(siteAreaID: string, buildingIDs: string[]): Observable<ActionResponse> {
+  public removeAssetsFromSiteArea(siteAreaID: string, assetIDs: string[]): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveBuildingsFromSiteArea`,
-      { siteAreaID, buildingIDs },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveAssetsFromSiteArea`,
+      { siteAreaID, assetIDs },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -277,8 +277,8 @@ export class CentralServerService {
       );
   }
 
-  public getBuildings(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Building>> {
+  public getAssets(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Asset>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -286,8 +286,8 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Building>>(
-      `${this.centralRestServerServiceSecuredURL}/Buildings`,
+    return this.httpClient.get<DataResult<Asset>>(
+      `${this.centralRestServerServiceSecuredURL}/Assets`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -297,16 +297,16 @@ export class CentralServerService {
       );
   }
 
-  public getBuilding(buildingId: string, withImage: boolean = false, withSiteArea: boolean = false): Observable<Building> {
+  public getAsset(assetId: string, withImage: boolean = false, withSiteArea: boolean = false): Observable<Asset> {
     const params: { [param: string]: string } = {};
-    params['ID'] = buildingId;
+    params['ID'] = assetId;
     params['WithImage'] = withImage.toString();
     params['WithSiteArea'] = withSiteArea.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Building>(
-      `${this.centralRestServerServiceSecuredURL}/Building`,
+    return this.httpClient.get<Asset>(
+      `${this.centralRestServerServiceSecuredURL}/Asset`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -316,14 +316,14 @@ export class CentralServerService {
       );
   }
 
-  public getBuildingImage(buildingId: string): Observable<Image> {
+  public getAssetImage(assetId: string): Observable<Image> {
     const params: { [param: string]: string } = {};
-    params['ID'] = buildingId;
+    params['ID'] = assetId;
     // Verify init
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Image>(
-      `${this.centralRestServerServiceSecuredURL}/BuildingImage`,
+      `${this.centralRestServerServiceSecuredURL}/AssetImage`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1650,11 +1650,11 @@ export class CentralServerService {
       );
   }
 
-  public createBuilding(building: any): Observable<ActionResponse> {
+  public createAsset(asset: any): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BuildingCreate`, building,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetCreate`, asset,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1663,11 +1663,11 @@ export class CentralServerService {
       );
   }
 
-  public updateBuilding(building: any): Observable<ActionResponse> {
+  public updateAsset(asset: any): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BuildingUpdate`, building,
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetUpdate`, asset,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1676,12 +1676,12 @@ export class CentralServerService {
       );
   }
 
-  public deleteBuilding(id: string): Observable<ActionResponse> {
+  public deleteAsset(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BuildingDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

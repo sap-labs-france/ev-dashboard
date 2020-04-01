@@ -7,11 +7,11 @@
             <span>{{name.value}}</span>
         </ng-template>
         <div class="card-body">
-          <div class="row app-building-align-center">
+          <div class="row app-asset-align-center">
             <div class="col-md-5">
-              <div class="rotating-card-container app-building-image-border"
+              <div class="rotating-card-container app-asset-image-border"
                 [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
-                <div class="card card-rotate card-background app-building-image-padding" style="margin-top: 0px;">
+                <div class="card card-rotate card-background app-asset-image-padding" style="margin-top: 0px;">
                   <div class="front front-background"
                     [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div class="card-body">
@@ -42,8 +42,8 @@
             <div class="col-md-7">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'buildings.name' | translate}}"
-                    class="app-building-name-bold" type="text" [formControl]="name" required>
+                  <input appAutofocus matInput placeholder="{{'assets.name' | translate}}"
+                    class="app-asset-name-bold" type="text" [formControl]="name" required>
                   <mat-error *ngIf="name.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
@@ -71,7 +71,7 @@
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-button *ngIf="this.isAdmin" (click)="saveBuilding(formGroup.value)"
+          <button mat-button *ngIf="this.isAdmin" (click)="saveAsset(formGroup.value)"
             [disabled]="!formGroup.valid || !formGroup.dirty">
             <mat-icon>save</mat-icon>
             <span>{{'general.save' | translate}}</span>

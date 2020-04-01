@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import BuildingConfiguration from 'app/types/configuration/BuildingConfiguration';
+import AssetConfiguration from 'app/types/configuration/AssetConfiguration';
 import CarConfiguration from 'app/types/configuration/CarConfiguration';
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
@@ -53,8 +53,8 @@ export class ConfigService {
     return this.config.Company;
   }
 
-  public getBuilding(): BuildingConfiguration {
-    return this.config.Building;
+  public getAsset(): AssetConfiguration {
+    return this.config.Asset;
   }
 
   public getSite(): SiteConfiguration {

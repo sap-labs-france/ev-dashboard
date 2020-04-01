@@ -12,8 +12,8 @@ import { ErrorCodeDetailsComponent } from '../component/error-code-details/error
 import { AppConnectorIdPipe } from '../formatters/app-connector-id.pipe';
 import { FormattersModule } from '../formatters/formatters.module';
 import { TableModule } from '../table/table.module';
-import { BuildingsDialogTableDataSource } from './buildings/buildings-dialog-table-data-source';
-import { BuildingsDialogComponent } from './buildings/buildings-dialog.component';
+import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-source';
+import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
 import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
@@ -52,7 +52,7 @@ export class FooterModule {
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SiteAreasDialogComponent,
-    BuildingsDialogComponent,
+    AssetsDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
     GeoMapDialogComponent,
@@ -66,7 +66,7 @@ export class FooterModule {
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SiteAreasDialogComponent,
-    BuildingsDialogComponent,
+    AssetsDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
     ConsumptionChartComponent,
@@ -81,7 +81,7 @@ export class FooterModule {
     ConfirmationDialogComponent,
     ChargersDialogComponent,
     SiteAreasDialogComponent,
-    BuildingsDialogComponent,
+    AssetsDialogComponent,
     CompaniesDialogComponent,
     TransactionDialogComponent,
     GeoMapDialogComponent,
@@ -96,7 +96,7 @@ export class FooterModule {
     CompaniesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     SitesDialogTableDataSource,
-    BuildingsDialogTableDataSource,
+    AssetsDialogTableDataSource,
     UsersDialogTableDataSource,
     ChargersDialogTableDataSource,
     SitesDialogTableDataSource,

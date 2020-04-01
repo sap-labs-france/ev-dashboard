@@ -2,7 +2,7 @@ import { Address } from './Address';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 
-export interface Building extends Data {
+export interface Asset extends Data {
   id: string;
   name: string;
   siteAreaID: string;
@@ -15,11 +15,11 @@ export interface Building extends Data {
   lastChangedOn: Date;
 }
 
-export enum BuildingButtonAction {
-  EDIT_BUILDINGS = 'edit_buildings',
-  DISPLAY_BUILDINGS = 'display_buildings',
+export enum AssetButtonAction {
+  EDIT_ASSETS = 'edit_assets',
+  DISPLAY_ASSETS = 'display_assets',
 }
 
-export enum BuildingImage {
+export enum AssetImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

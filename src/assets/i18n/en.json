@@ -197,6 +197,7 @@
       "view": "View",
       "send": "Send",
       "clear": "Clear",
+      "save": "Save",
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable"
     }

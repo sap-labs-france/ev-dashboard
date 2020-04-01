@@ -98,6 +98,12 @@ export interface ChargingStationConfiguration {
   configuration: KeyValue[];
 }
 
+export interface OcppParameter extends Data {
+  key: string;
+  value: string;
+  readonly: boolean;
+}
+
 export interface ConsumptionValue {
   date: Date;
   instantPower: number;

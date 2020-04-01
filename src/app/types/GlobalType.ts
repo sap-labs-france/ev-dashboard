@@ -1,3 +1,4 @@
+import { Data } from './Table';
 
 export interface Image {
   id: string;
@@ -59,6 +60,7 @@ export enum ButtonAction {
   STOP = 'stop',
   UNREGISTER = 'unregister',
   VIEW = 'view',
+  INLINE_SAVE = 'inline-save',
 }
 
 export enum ChipType {

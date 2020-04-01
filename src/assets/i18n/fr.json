@@ -197,6 +197,7 @@
       "view": "Voir",
       "send": "Envoyer",
       "clear": "Effacer",
+      "save": "Save",
       "force_available_status": "Forcer le Statut en Disponible",
       "force_unavailable_status": "Forcer le Statut en Indisponible"
     }

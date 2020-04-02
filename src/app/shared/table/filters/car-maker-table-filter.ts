@@ -3,26 +3,25 @@ import { FilterType, TableFilterDef } from 'app/types/Table';
 import { TableFilter } from './table-filter';
 
 export class CarMakerTableFilter extends TableFilter {
-  constructor(carConstructors?: ReadonlyArray<string>) {
+  constructor(carMakers?: ReadonlyArray<string>) {
     super();
     // Define filter
     const filterDef: TableFilterDef = {
-      id: 'carConstructors',
-      httpId: 'VehicleMake',
+      id: 'carMakers',
+      httpId: 'CarMaker',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       multiple: true,
-      name: 'cars.car_constructors',
+      name: 'cars.car_makers',
       class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: CarMakersDialogComponent,
       cleared: true,
     };
-
-    if (carConstructors) {
+    if (carMakers) {
       filterDef.dialogComponentData = {
         staticFilter: {
-          carConstructor: carConstructors.join('|'),
+          carMakers: carMakers.join('|'),
         },
       };
     }

@@ -47,7 +47,7 @@ export interface ChargeStandardTable extends Data {
   chargeSpeed: number;
 }
 export interface CarMakersTable extends Data {
-  vehicleMaker: string;
+  carMaker: string;
 }
 
 export enum CarImage {

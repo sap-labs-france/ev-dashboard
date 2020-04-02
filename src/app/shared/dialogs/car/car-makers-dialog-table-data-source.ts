@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { CarMakersTable } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
-import { Site } from 'app/types/Site';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
-import { CarMakersTable } from 'app/types/Car';
 
 @Injectable()
 export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTable> {
@@ -28,9 +27,9 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTab
   public loadDataImpl(): Observable<DataResult<CarMakersTable>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getCarMakers(this.buildFilterValues()).subscribe((carConstructors) => {
+      this.centralServerService.getCarMakers(this.buildFilterValues()).subscribe((carMakers) => {
           // Ok
-          observer.next(carConstructors);
+          observer.next(carMakers);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -57,7 +56,7 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTab
   buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'vehicleMaker',
+        id: 'carMaker',
         name: 'cars.vehicle_make',
         class: 'text-left col-600px',
         sorted: true,

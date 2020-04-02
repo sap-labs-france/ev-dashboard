@@ -17,7 +17,7 @@ export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakers
     super(data, dialogRef, dialogDataSource);
     // Default title
     if (this.title === '') {
-      this.title = 'cars.select_car_constructor';
+      this.title = 'cars.select_car_maker';
     }
     this.dialogDataSource.destroyDatasource();
   }
@@ -26,7 +26,7 @@ export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakers
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
-        items.push({ key: row.vehicleMaker, value: row.vehicleMaker, objectRef: row });
+        items.push({ key: row.carMaker, value: row.carMaker, objectRef: row });
       });
     }
     return items;

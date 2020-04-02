@@ -46,6 +46,9 @@ export interface ChargeStandardTable extends Data {
   chargeTime: number;
   chargeSpeed: number;
 }
+export interface CarMakersTable extends Data {
+  carMaker: string;
+}
 
 export enum CarImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',

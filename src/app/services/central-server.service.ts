@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
-import { Car } from 'app/types/Car';
+import { Car, CarMakersTable } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -2203,6 +2203,21 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCarMakers(params: { [param: string]: string | string[]; }): Observable<DataResult<CarMakersTable>> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<DataResult<CarMakersTable>>(
+      `${this.centralRestServerServiceSecuredURL}/CarMakers`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),

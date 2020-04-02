@@ -1547,6 +1547,8 @@
     "synchronize_cars_success": "{{synchronized}} car(s) have been synchronized successfully",
     "synchronize_cars_error": "Error occurred while synchronizing the cars",
     "synchronize_cars_up_to_date": "Cars already up to date",
+    "select_car_maker": "Select Car Maker",
+    "car_makers":"Car Makers",
     "type": "Type",
     "unit": {
       "meters": "m",

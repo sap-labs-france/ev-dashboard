@@ -25,15 +25,16 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.22',
-        date: new Date('2020-03-31'),
+        date: new Date('2020-04-02'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
-              `Add Site Area column in Building list`,
+              `Added Site Area column in Building list`,
               `Disable coordinates button in address if not provided`,
+              `Added the Source of the limitation in Smart Charging (Connector, Static Limitation, Charging Profiles)`,
               `Upgraded to Angular 9`,
             ],
           },

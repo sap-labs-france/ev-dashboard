@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
               `Added Site Area column in Building list`,
+              `Added Car Maker filter`,
               `Disable coordinates button in address if not provided`,
               `Added the Source of the limitation in Smart Charging (Connector, Static Limitation, Charging Profiles)`,
               `Upgraded to Angular 9`,

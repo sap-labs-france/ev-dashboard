@@ -7,7 +7,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OCPPConfigurationStatus, OCPPGeneralResponse, OcppParameter } from 'app/types/ChargingStation';
+import { ChargingStation, OcppParameter, OCPPConfigurationStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { ActionResponse } from 'app/types/DataResult';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
@@ -78,7 +78,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public exportParameters() {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   private saveOcppParameter(param: OcppParameter) {

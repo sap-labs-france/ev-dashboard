@@ -1,7 +1,7 @@
 {
   "CentralSystemServer": {
     "protocol": "http",
-    "host": "server",
+    "host": "localhost",
     "port": 81,
     "socketIOEnabled": true,
     "pollEnabled": false,

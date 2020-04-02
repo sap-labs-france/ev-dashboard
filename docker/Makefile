@@ -8,6 +8,10 @@ dashboard:
 	git submodule update --init --recursive
 	docker-compose -p $(PROJECT_NAME) up -d
 
+dashboard-force:
+	git submodule update --init --recursive
+	docker-compose -p $(PROJECT_NAME) up -d --build --force-recreate
+
 all: dashboard
 
 clean-containers:

@@ -1,30 +1,20 @@
-import { AfterViewInit, Component, ElementRef, Injectable, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormArray, FormControl, Validators, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
-import { ChargingStation, ChargingStationConfiguration, OCPPConfigurationStatus, OCPPGeneralResponse, OcppParameter } from 'app/types/ChargingStation';
-import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
 import { KeyValue } from 'app/types/GlobalType';
-import { ButtonType } from 'app/types/Table';
-// @ts-ignore
-import saveAs from 'file-saver';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
-import { ConfigService } from '../../../../services/config.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station-ocpp-parameters-editable-table-data-source.component';
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters',
-  template: '<app-table [dataSource]="ocppParametersDataSource"></app-table>',
+  template: '<div class="ocpp-param-component"><app-table [dataSource]="ocppParametersDataSource"></app-table></div>',
   providers: [ChargingStationOcppParametersEditableTableDataSource]
 })
 @Injectable()

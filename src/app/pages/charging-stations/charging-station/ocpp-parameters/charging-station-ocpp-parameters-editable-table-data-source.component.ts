@@ -1,4 +1,4 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,7 +7,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OcppParameter, OCPPConfigurationStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ChargingStation, OCPPConfigurationStatus, OCPPGeneralResponse, OcppParameter } from 'app/types/ChargingStation';
 import { ActionResponse } from 'app/types/DataResult';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
@@ -15,13 +15,11 @@ import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../../types/GlobalType';
-import { TableNoAction } from 'app/shared/table/actions/table-no-action';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
   private charger!: ChargingStation;
   private inlineSaveAction = new TableInlineSaveAction().getActionDef();
-  private noAction = new TableNoAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -55,16 +53,12 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     ];
   }
 
-  buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
+  public buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
     const actions = [];
     if (!param.readonly) {
       actions.push(this.inlineSaveAction);
     }
-    // actions.push(this.inlineRemoveAction);
-    if (actions.length > 0) {
-      return actions;
-    }
-    return [this.noAction];
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -87,8 +81,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     throw new Error("Method not implemented.");
   }
 
-
-  saveOcppParameter(param: OcppParameter) {
+  private saveOcppParameter(param: OcppParameter) {
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.set_configuration_title'),
@@ -118,20 +111,19 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
                 });
               }
             } else {
-              this.refreshData(true);
               Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
             }
-            this.refreshData(true);
+            this.refreshData(true).subscribe();
           }, (error) => {
             this.spinnerService.hide();
-            this.refreshData(true);
+            this.refreshData(true).subscribe();
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
           });
       }
     });
   }
 
-  public rebootChargingStation() {
+  private rebootChargingStation() {
     this.spinnerService.show();
     // Reboot
     this.centralServerService.rebootChargingStation(this.charger.id).subscribe((response: ActionResponse) => {
@@ -155,7 +147,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     this.charger = charger;
   }
 
-  // tslint:disable-next-line:no-empty
   public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     const index = this.editableRows.indexOf(editableRow);
     let actionDone = false;
@@ -169,19 +160,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         actionDone = true;
         break;
     }
-    // Call post process
-    if (actionDone) {
-      this.refreshData(false).subscribe();
-      if (this.formArray) {
-        this.formArray.markAsDirty();
-      }
-      // Call post data processing
-      if (postDataProcessing) {
-        postDataProcessing();
-      }
-      // Notify
-      this.tableChangedSubject.next(this.editableRows);
-    }
+    // Call super
+    super.rowActionTriggered(actionDef, editableRow, dropdownItem, postDataProcessing, true);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -199,13 +179,14 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         editType: TableEditType.INPUT,
         validators: [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(1),
           Validators.maxLength(500),
         ],
         canBeDisabled: true,
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
           { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 500 } },
+          { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 1 } },
         ],
         headerClass: 'text-left',
         class: 'text-left ocpp-param-field',

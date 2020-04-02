@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.22",
+    "last_update": "Version 2.2.23",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -199,6 +199,7 @@
       "view": "View",
       "send": "Send",
       "clear": "Clear",
+      "save": "Save",
       "download": "Download",
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable"
@@ -744,7 +745,7 @@
       "clear_profile_confirm": "Do you really want to clear ALL charging profiles of '{{chargeBoxID}}'?",
       "clear_profile_success": "Charging profiles of charging station '{{chargeBoxID}}' have been deleted successfully",
       "clear_profile_error": "Error occurred while clearing charging profiles",
-      "clear_profile_not_accepted": "The request has not been accepted by the charging station '{{chargeBoxID}}'",
+      "clear_profile_not_accepted": "The request has not been accepted by the charging station '{{chargeBoxID}}'.",
       "clear_profiles_button": "Clear Profiles",
       "current_limit": "Actual power limit planning",
       "current_limit_title": "Actual power limit",
@@ -775,7 +776,11 @@
         "recurring_weekly": "Weekly recurring"
       },
       "retrieve_schedule": "Retrieve Plans",
-      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'"
+      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
+      "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
+      "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
+      "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",
+      "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s)."
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
@@ -1543,6 +1548,8 @@
     "synchronize_cars_success": "{{synchronized}} car(s) have been synchronized successfully",
     "synchronize_cars_error": "Error occurred while synchronizing the cars",
     "synchronize_cars_up_to_date": "Cars already up to date",
+    "select_car_maker": "Select Car Maker",
+    "car_makers":"Car Makers",
     "type": "Type",
     "unit": {
       "meters": "m",

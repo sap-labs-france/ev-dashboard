@@ -171,7 +171,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         name: 'chargers.charger_param_key',
         editType: TableEditType.DISPLAY_ONLY,
         headerClass: 'text-center col-20p',
-        class: 'text-center col-20p',
+        class: 'text-right col-20p',
       },
       {
         id: 'value',

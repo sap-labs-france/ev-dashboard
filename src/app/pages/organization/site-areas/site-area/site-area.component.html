@@ -73,7 +73,7 @@
                     <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                   </mat-form-field>
                   <div style="text-align: left" *ngIf="isSmartChargingComponentActive">
-                    <mat-checkbox [formControl]="smartCharging">
+                    <mat-checkbox [formControl]="smartCharging" (change)="smartChargingChanged($event)">
                       {{'site_areas.enable_smart_charging' | translate}}
                     </mat-checkbox>
                   </div>

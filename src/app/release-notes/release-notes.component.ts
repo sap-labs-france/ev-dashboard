@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `When Smart Charging is unset in Site Area, all Charging Plans are deleted`,
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
               `Added Site Area column in Building list`,

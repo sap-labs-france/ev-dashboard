@@ -1342,7 +1342,10 @@
       "create_success": "La configuration de SAP Smart Charging a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Smart Charging",
       "update_success": "La configuration SAP Smart Charging a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging",
+      "check_connection_success": "Connection was tested with success",
+      "check_connection_error": "Connection was not successful with the following response: '{{response}}'",
+      "check_connection": "Check Connection"
     },
     "building": {
       "description": "E-Mobility peut gérer la consommation des bâtiments et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",

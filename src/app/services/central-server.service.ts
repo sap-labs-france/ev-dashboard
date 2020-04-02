@@ -1337,7 +1337,7 @@ export class CentralServerService {
   }
 
   public getUserInvoices(params: { [param: string]: string | string[]; },
-      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1761,7 +1761,20 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkSmartChargingConnection(): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CheckSmartChargingConnection`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2244,7 +2257,7 @@ export class CentralServerService {
   }
 
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-      Observable<OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[]> {
+    Observable<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2258,8 +2271,8 @@ export class CentralServerService {
         }
       }`;
     // Execute
-    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[]>(
-        `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
+    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2273,11 +2286,11 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
-        chargeBoxID: charger.id,
-        connectorId,
-        ampLimitValue,
-        forceUpdateChargingPlan,
-      },
+      chargeBoxID: charger.id,
+      connectorId,
+      ampLimitValue,
+      forceUpdateChargingPlan,
+    },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2340,7 +2353,7 @@ export class CentralServerService {
 
   public rebootChargingStation(id: string, hard: boolean = true): Observable<ActionResponse> {
     return this.actionChargingStation(
-      'ChargingStationReset', id , JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
+      'ChargingStationReset', id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
   }
 
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
@@ -2348,11 +2361,11 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const body = (args ?
-        `{
+      `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-        `{
+      `{
         "chargeBoxID": "${id}"
       }`
     );

@@ -1342,7 +1342,10 @@
       "create_success": "SAP Smart Charging settings have been created successfully",
       "create_error": "Error occurred while creating the SAP Smart Charging settings",
       "update_success": "SAP Smart Charging settings have been updated successfully",
-      "update_error": "Error occurred while updating the SAP Smart Charging settings"
+      "update_error": "Error occurred while updating the SAP Smart Charging settings",
+      "check_connection_success": "Connection was tested with success",
+      "check_connection_error": "Connection was not successful with the following response: '{{response}}'",
+      "check_connection": "Check Connection"
     },
     "building": {
       "description": "E-Mobility can manage your building consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",

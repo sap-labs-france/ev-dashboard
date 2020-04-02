@@ -324,7 +324,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           }
         }, (error: any) => {
           this.spinnerService.hide();
-          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
+          if (error.status === HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL) {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.clear_profile_not_accepted',

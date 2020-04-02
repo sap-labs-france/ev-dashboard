@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +14,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Address } from 'app/types/Address';
 import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Site } from 'app/types/Site';
 import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
@@ -49,9 +51,11 @@ export class SiteAreaComponent implements OnInit {
   public address!: Address;
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
+  public isSmartChargingActive = false;
 
   public sites: any;
   public registrationToken!: RegistrationToken;
+
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -131,15 +135,28 @@ export class SiteAreaComponent implements OnInit {
 
     this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
-        this.loadSiteArea();
-      }
-    });
+        // Update user?
+        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
+          this.loadSiteArea();
+        }
+      });
   }
 
   public isOpenInDialog(): boolean {
     return this.inDialog;
+  }
+
+  public smartChargingChanged(event: MatCheckboxChange) {
+    if (!event.checked && this.isSmartChargingActive) {
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
+        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_body'),
+      ).subscribe((result) => {
+        if (result === ButtonType.NO) {
+          this.smartCharging.setValue(true);
+        }
+      });
+    }
   }
 
   public setCurrentSiteAreaId(currentSiteAreaId: string) {
@@ -168,7 +185,6 @@ export class SiteAreaComponent implements OnInit {
 
   public clearMaximumPower() {
     this.maximumPower.setValue(null);
-    this.smartCharging.setValue(false);
     this.formGroup.markAsDirty();
   }
 
@@ -201,6 +217,7 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
+        this.isSmartChargingActive = siteArea.smartCharging;
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
       }
@@ -451,8 +468,14 @@ export class SiteAreaComponent implements OnInit {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
+        case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
+          this.dialogService.createAndShowOkDialog(
+            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
+            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body', { siteAreaName: siteArea.name }));
+          this.closeDialog(true);
+          break;
         // Site Area deleted
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           // Show error
           this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
           break;

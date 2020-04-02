@@ -775,11 +775,11 @@
         "recurring_weekly": "Planification Hebdomadaire"
       },
       "retrieve_schedule": "Récupérer les Plans",
-      "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
-      "disable_smart_charging_for_site_area_title": "Disable smart charging",
-      "disable_smart_charging_for_site_area_body": "If you disable Smart Charging for this site area, all charging profiles will be cleared. Do you want to continue?",
-      "clearing_charging_profiles_not_successful_title": "An Error occurred, while clearing Charging Profiles",
-      "clearing_charging_profiles_not_successful_body": "Clearing Charging Profiles for Site Area: '{{siteAreaName}}' was not successful. Please check the logs and take action on the concerning Charging Stations. The Charging Profiles will be deleted in the database and the Site Area will be updated anyway."
+      "charging_schedule": "Plans de Charge de '{{chargeBoxID}}'",
+      "disable_smart_charging_for_site_area_title": "Désactiver Charge Intelligente",
+      "disable_smart_charging_for_site_area_body": "Si vous désactivez la charge intelligente pour cette zone, tous les plans de charge seront effacés. Voulez-vous continuer ?",
+      "clearing_charging_profiles_not_successful_title": "Une erreur est survenue pendant l'effacement des plans de charge",
+      "clearing_charging_profiles_not_successful_body": "L'effacement des plans de charge des bornes de la zone '{{siteAreaName}}' a échoué !<br>Vérifiez les logs et procédez a l'effacement manuel des plans de charge."
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",
@@ -788,7 +788,7 @@
       "get_diagnostics_dialog_title": "Lecture du diagnostique",
       "get_diagnostics_dialog_confirm": "Voulez-vous vraiment télécharger le diagnostique de la borne '{{chargeBoxID}}'?",
       "get_diagnostics_success": "Le téléchargement du diagnostique a été effectué avec succès",
-      "get_diagnostics_error": "une erreur est survenue pendant le téléchargement du diagnostique"
+      "get_diagnostics_error": "Une erreur est survenue pendant le téléchargement du diagnostique"
     },
     "action_error": {
       "transaction_start_title": "Erreur démarrage de session",

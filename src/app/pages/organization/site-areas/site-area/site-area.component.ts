@@ -470,8 +470,8 @@ export class SiteAreaComponent implements OnInit {
       switch (error.status) {
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(
-          this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
-          this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body', { siteAreaName: siteArea.name }));
+            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
+            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body', { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
         // Site Area deleted

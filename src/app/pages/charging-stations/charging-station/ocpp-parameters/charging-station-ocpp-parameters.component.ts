@@ -33,7 +33,7 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
-    private router: Router,) {
+    private router: Router, ) {
     // Check auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized

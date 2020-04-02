@@ -777,7 +777,7 @@
       "retrieve_schedule": "Récupérer les Plans",
       "charging_schedule": "Plans de Charge de '{{chargeBoxID}}'",
       "disable_smart_charging_for_site_area_title": "Désactiver Charge Intelligente",
-      "disable_smart_charging_for_site_area_body": "Si vous désactivez la charge intelligente pour cette zone, tous les plans de charge seront effacés. Voulez-vous continuer ?",
+      "disable_smart_charging_for_site_area_body": "Si vous désactivez la charge intelligente pour cette zone, tous les plans de charge seront effacés.<br>Voulez-vous continuer ?",
       "clearing_charging_profiles_not_successful_title": "Une erreur est survenue pendant l'effacement des plans de charge",
       "clearing_charging_profiles_not_successful_body": "L'effacement des plans de charge des bornes de la zone '{{siteAreaName}}' a échoué !<br>Vérifiez les logs et procédez a l'effacement manuel des plans de charge."
     },

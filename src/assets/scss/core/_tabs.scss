@@ -69,6 +69,13 @@
   }
 }
 
+.mat-tab-body-content {
+  padding-top: 15px;
+  .card-body {
+    margin-top: initial !important;
+  }
+}
+
 .mat-tab-header-pagination {
   background: $brand-primary;
   box-shadow: initial;

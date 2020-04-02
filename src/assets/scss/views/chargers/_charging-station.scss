@@ -23,7 +23,6 @@
 }
 
 .charger-dialog-component {
-    max-height: 55vh !important;
 }
 
 .connector-type-select-fix .mat-form-field-infix {
@@ -31,19 +30,23 @@
 }
 
 .charger-dialog-container {
-    max-height: 85vh !important;
 }
 
 .charger-param-component {
-    max-height: 74vh !important;
+}
+
+.charger-profile-component {
 }
 
 .charger-prop-component {
-    max-height: 80vh !important;
 }
 
 .ocpp-param-component {
-    max-height: 57vh !important;
+    height: 75vh;
+}
+
+.ocpp-param-field {
+    width: 100%;
 }
 
 .charger-debug-component {

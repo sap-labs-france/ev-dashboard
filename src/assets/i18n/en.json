@@ -1177,7 +1177,8 @@
     "save_error_refund": "Pricing must be active to use Refunding",
     "save_error_billing": "Pricing must be active to use billing",
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
-    "save_error_building": "Organization must be active to use Building"
+    "save_error_building": "Organization must be active to use Building",
+    "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant."
   },
   "settings": {
     "tabs": {

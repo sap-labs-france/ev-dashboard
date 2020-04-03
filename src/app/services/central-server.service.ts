@@ -7,7 +7,7 @@ import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
 import { Car, CarMakersTable } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationConfiguration, OcppParameter } from 'app/types/ChargingStation';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';

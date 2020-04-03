@@ -1274,11 +1274,11 @@ export class CentralServerService {
       );
   }
 
-  public validateBillingConnection(): Observable<ValidateBillingConnectionResponse> {
+  public checkBillingConnection(): Observable<ValidateBillingConnectionResponse> {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<ValidateBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingConnection`,
+    return this.httpClient.get<ValidateBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/CheckBillingConnection`,
       {
         headers: this.buildHttpHeaders(),
       })

@@ -101,7 +101,7 @@ export class SettingsBillingComponent implements OnInit {
 
   public checkConnection() {
     this.spinnerService.show();
-    this.centralServerService.validateBillingConnection().subscribe((response) => {
+    this.centralServerService.checkBillingConnection().subscribe((response) => {
       this.spinnerService.hide();
       if (response.connectionIsValid) {
         this.messageService.showSuccessMessage('settings.billing.connection_success');

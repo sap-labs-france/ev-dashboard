@@ -7,13 +7,14 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OcppParameter, OCPPConfigurationStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
-import { ActionResponse } from 'app/types/DataResult';
+import { ChargingStation, OCPPConfigurationStatus, OCPPGeneralResponse, OcppParameter } from 'app/types/ChargingStation';
+import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 // @ts-ignore
 import saveAs from 'file-saver';
+import { Observable } from 'rxjs';
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
@@ -40,6 +41,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       id: 'ChargingStationOcppParametersTableDataSource',
       isEditable: true,
       rowFieldNameIdentifier: 'key',
+      errorMessage: 'chargers.ocpp_params_list_error',
       hasDynamicRowAction: true,
       search: {
         enabled: true
@@ -55,6 +57,16 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   public buildTableRowActions(): TableActionDef[] {
     // remove default delete action
     return [];
+  }
+
+  public loadDataImpl(): Observable<DataResult<OcppParameter>> {
+    return new Observable((observer) => {
+      observer.next({
+        count: 0,
+        result: this.getContent()
+      });
+      observer.complete();
+    });
   }
 
   public buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
@@ -182,7 +194,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         id: 'key',
         name: 'chargers.charger_param_key',
         editType: TableEditType.DISPLAY_ONLY,
-        headerClass: 'text-center col-20p',
+        headerClass: 'text-right col-20p',
         class: 'text-right col-20p',
       },
       {
@@ -216,6 +228,17 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       value: '',
       readonly: false,
     } as OcppParameter;
+  }
+
+  public getContent(): OcppParameter[] {
+    let ocppParameters = super.getContent();
+    // Filter?
+    if (this.getSearchValue()) {
+      ocppParameters = ocppParameters.filter((ocppParameter) => {
+        return ocppParameter.key.toLowerCase().includes(this.getSearchValue().toLowerCase())
+      });
+    }
+    return ocppParameters;
   }
 
   setContent(content: OcppParameter[]) {

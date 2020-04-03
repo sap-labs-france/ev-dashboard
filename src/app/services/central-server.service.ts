@@ -2161,20 +2161,6 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationConfiguration(id: string): Observable<ChargingStationConfiguration> {
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ChargingStationConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
       // Verify Init
       this.checkInit();

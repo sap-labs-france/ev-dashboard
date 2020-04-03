@@ -819,6 +819,7 @@
     "get_configuration_confirm": "Voulez-vous vraiment télécharger la configuration de la borne '{{chargeBoxID}}'?",
     "reboot_required_title": "Redémarrage Nécessaire",
     "reboot_required_confirm": "Voulez-vous redémarrer la borne '{{chargeBoxID}}' ?",
+    "ocpp_params_list_error": "Aucun Paramètre OCPP à afficher",
     "ocpp_params_update_from_template_title": "Paramètres OCPP",
     "ocpp_params_update_from_template_confirm": "Voulez-vous vraiment mettre à jour les paramètres OCPP de la borne '{{chargeBoxID}}' avec le dernier template ?",
     "ocpp_params_update_from_template_success": "Les paramètres OCPP de la borne '{{chargeBoxID}}' ont été mis à jour avec succès",

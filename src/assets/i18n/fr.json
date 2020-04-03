@@ -1178,7 +1178,7 @@
     "save_error_billing": "La Tarification doit être active pour utiliser la Facturation",
     "save_error_smart_charging": "L'Organisation doit être active pour utiliser Smart Charging",
     "save_error_building": "L'Organisation doit être active pour utiliser Building",
-    "smart_charging_still_active_for_site_area": "Update failed, because Smart Charging is still active for certain Site Areas. Please deactivate Smart Charging for every Site Area in the tenant."
+    "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones."
   },
   "settings": {
     "tabs": {

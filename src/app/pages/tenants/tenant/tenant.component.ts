@@ -260,12 +260,11 @@ export class TenantComponent implements OnInit {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tenants.update_error');
       }
     }, (error) => {
+      this.spinnerService.hide();
       if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
-        this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
       } else {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
       }
     });
   }

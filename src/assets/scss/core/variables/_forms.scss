@@ -8,7 +8,7 @@ $input-border-color: #d2d2d2 !default; // #ccc !default;
 .mat-dialog-container {
   .main-content {
     .form {
-      height: 65vh;
+      min-height: 65vh;
     }
   }
 }

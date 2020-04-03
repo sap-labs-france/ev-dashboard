@@ -14,7 +14,7 @@ export const logActions: KeyValue[] = [
   {key: 'ChargingStationOcppParameters', value: 'ChargingStationOcppParameters'},
   {key: 'ChargingStationConsumption', value: 'ChargingStationConsumption'},
   {key: 'ChargingStationDelete', value: 'ChargingStationDelete'},
-  {key: 'ChargingStationRequestConfiguration', value: 'ChargingStationRequestConfiguration'},
+  {key: 'ChargingStationRequestOcppParameters', value: 'ChargingStationRequestOcppParameters'},
   {key: 'ChargingStationUpdateParams', value: 'ChargingStationUpdateParams'},
   {key: 'ClearCache', value: 'ClearCache'},
   {key: 'ChargingProfileDelete', value: 'ChargingProfileDelete'},

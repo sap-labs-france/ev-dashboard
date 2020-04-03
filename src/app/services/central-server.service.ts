@@ -2381,13 +2381,13 @@ export class CentralServerService {
       );
   }
 
-  public requestChargingStationOCPPConfiguration(id: string) {
+  public requestChargingStationOcppParameters(id: string) {
     // Verify init
     this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: false,
@@ -2406,7 +2406,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: true,

@@ -13,6 +13,7 @@ import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
+import { HTTPError } from 'app/types/HTTPError';
 
 @Component({
   templateUrl: './tenant.component.html',
@@ -260,7 +261,11 @@ export class TenantComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
+      } else {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      }
     });
   }
 }

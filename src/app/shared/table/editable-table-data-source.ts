@@ -63,21 +63,23 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   // tslint:disable-next-line:no-empty
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    let actionDone = false;
-    switch (actionDef.id) {
-      case ButtonAction.INLINE_DELETE:
-        const index = this.editableRows.indexOf(editableRow);
-        const deletedRows = this.editableRows.splice(index, 1);
-        this.refreshData(false).subscribe();
-        if (this.formArray) {
-          this.formArray.markAsDirty();
-        }
-        actionDone = true;
-        break;
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
+    let actionDone = actionAlreadyProcessed;
+    if (!actionAlreadyProcessed) {
+      switch (actionDef.id) {
+        case ButtonAction.INLINE_DELETE:
+          const index = this.editableRows.indexOf(editableRow);
+          this.editableRows.splice(index, 1);
+          actionDone = true;
+          break;
+      }
     }
     // Call post process
     if (actionDone) {
+      this.refreshData(false).subscribe();
+      if (this.formArray) {
+        this.formArray.markAsDirty();
+      }
       // Call post data processing
       if (postDataProcessing) {
         postDataProcessing();

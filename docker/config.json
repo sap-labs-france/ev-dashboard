@@ -1,7 +1,7 @@
 {
   "CentralSystemServer": {
     "protocol": "http",
-    "host": "server",
+    "host": "localhost",
     "port": 81,
     "socketIOEnabled": true,
     "pollEnabled": false,
@@ -13,20 +13,29 @@
   "Authorization": {
     "debug": false
   },
+  "Building": {
+    "maxImageKb": 800
+  },
   "User": {
-    "maxPictureKb": 50,
+    "maxPictureKb": 150,
     "captchaSiteKey": "6LfzXSIUAAAAADTMDaUDMJ8-zYmLSmr8BeIZcK7t"
   },
+  "Car": {
+    "url": "https://ev-database.org/"
+  },
   "Company": {
-    "maxPictureKb": 50
+    "maxLogoKb": 100
   },
   "Site": {
-    "maxPictureKb": 150
+    "maxPictureKb": 800
   },
   "SiteArea": {
-    "maxPictureKb": 150
+    "maxPictureKb": 800
   },
-  "Car": {
+  "VehicleManufacturer": {
+    "maxLogoKb": 100
+  },
+  "Vehicle": {
     "maxPictureKb": 250
   },
   "Locales": {

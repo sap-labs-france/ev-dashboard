@@ -23,3 +23,18 @@
 .mat-dialog-actions {
   padding-bottom: 15px;
 }
+
+mat-dialog-container {
+  .main-content {
+    height: 100%;
+    .card {
+      height: 100%;
+      .mat-tab-group {
+        height: 100%;
+        .card-body{
+          height: 100%;
+        }
+      }
+    }
+  }
+}

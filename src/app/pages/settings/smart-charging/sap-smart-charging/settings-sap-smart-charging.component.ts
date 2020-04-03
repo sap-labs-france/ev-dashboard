@@ -53,7 +53,7 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
 
   updateFormData() {
     // Set data
-    if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging) {
+    if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging && this.sapSmartCharging) {
       this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl);
       this.user.setValue(this.smartChargingSettings.sapSmartCharging.user);
       this.password.setValue(this.smartChargingSettings.sapSmartCharging.password);

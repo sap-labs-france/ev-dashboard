@@ -1287,8 +1287,8 @@
       "update_success": "La configuration de la facturation a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de la facturation",
       "check_connection": "Vérifier connexion",
-      "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
-      "connection_error": "Connexion vers l'application de facturation impossible. Vérifiez votre clé secrète.",
+      "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
+      "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
       "synchronize_users": "Synchroniser Billing",
       "synchronize_user": "Synchroniser Billing",
       "force_synchronize_users": "Forcer Synchro Facturation",
@@ -1347,7 +1347,10 @@
       "create_success": "La configuration de SAP Smart Charging a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Smart Charging",
       "update_success": "La configuration SAP Smart Charging a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging",
+      "connection_success": "Connexion vers le service de charge intelligente vérifiée avec succès",
+      "connection_error": "Connexion vers le service de charge intelligente impossible. Vérifiez votre configuration.",
+      "check_connection": "Vérifier connexion"
     },
     "building": {
       "description": "E-Mobility peut gérer la consommation des bâtiments et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",

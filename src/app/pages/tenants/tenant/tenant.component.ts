@@ -262,7 +262,7 @@ export class TenantComponent implements OnInit {
     }, (error) => {
       if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
       } else {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');

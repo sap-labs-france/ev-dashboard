@@ -123,7 +123,7 @@
     "puppeteer": "^2.1.1",
     "rosie": "^2.0.1",
     "ts-node": "^8.8.1",
-    "tslint": "^6.1.0",
+    "tslint": "^6.1.1",
     "tslint-angular": "^3.0.2",
     "typescript": "~3.8.3",
     "webpack-bundle-analyzer": "^3.6.1"

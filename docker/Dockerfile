@@ -18,7 +18,8 @@ RUN npm run build:${build}
 
 FROM nginx:alpine
 
-COPY docker/nginx.conf /etc/nginx/nginx.conf
+RUN [ -e /etc/nginx/conf.d/default.conf ] && mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf-disabled
+COPY docker/nginx-dashboard.conf /etc/nginx/conf.d/dashboard.conf
 
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /usr/builder/dist ./

@@ -1117,7 +1117,7 @@
       },
       "failed_billing_synchro": {
         "title": "Billing synchronization failed",
-        "description": "The synchronization of this user with the Billing system failed.",
+        "description": "The synchronization of this user with the billing system failed.",
         "action": "Re-synchronize it manually."
       },
       "no_billing_data": {
@@ -1176,7 +1176,7 @@
     "delete_success": "The organization '{{name}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the organization",
     "save_error_refund": "Pricing must be active to use Refunding",
-    "save_error_billing": "Pricing must be active to use Billing",
+    "save_error_billing": "Pricing must be active to use billing",
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_building": "Organization must be active to use Building"
   },
@@ -1266,7 +1266,7 @@
       "create_error": "Error occurred while creating the Pricing settings",
       "update_success": "Pricing settings have been updated successfully",
       "update_error": "Error occurred while updating the Pricing settings",
-      "full_description": "E-Mobility provides two ways to compute the price of an EV session.<br>A simple pricing which allows you to setup a fixed price per kW.h for your charging infrastructure.<br>An external advanced pricing system for complex pricing plans called SAP Convergent Charging (SAP Hybris Billing.)<br>More technical information available at ",
+      "full_description": "E-Mobility provides two ways to compute the price of an EV session.<br>A simple pricing which allows you to setup a fixed price per kW.h for your charging infrastructure.<br>An external advanced pricing system for complex pricing plans called SAP Convergent Charging (SAP Hybris billing.)<br>More technical information available at ",
       "convergentcharging": {
         "title": "SAP Convergent Charging",
         "chargeable_item_name": "Chargeable Item Name",
@@ -1281,15 +1281,15 @@
       }
     },
     "billing": {
-      "description": "The Billing interface enables billing capabilities for charging station providers.",
+      "description": "The billing interface enables billing capabilities for charging station providers.",
       "not_found": "Billing settings not found",
       "create_success": "Billing settings have been created successfully",
-      "create_error": "Error occurred while creating the Billing settings",
+      "create_error": "Error occurred while creating the billing settings",
       "update_success": "Billing settings have been updated successfully",
-      "update_error": "Error occurred while updating the Billing settings",
+      "update_error": "Error occurred while updating the billing settings",
       "check_connection": "Check Connection",
-      "connection_success": "Connection to Billing application tested with success",
-      "connection_error": "Impossible to connect to Billing application. Check your secret key.",
+      "connection_success": "Connection to the billing system was tested with success",
+      "connection_error": "Impossible to connect to the billing system. Check your secret key.",
       "synchronize_users": "Billing Synchronization",
       "synchronize_user": "Billing Synchronization",
       "force_synchronize_users": "Force Billing Synchronization",
@@ -1304,7 +1304,7 @@
       "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
       "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
       "synchronize_users_success_all": "All users are already synchronized",
-      "synchronize_users_failure": "Synchronization failed with {{number}} errors. Check your Billing system's logs.",
+      "synchronize_users_failure": "Synchronization failed with {{number}} errors. Check your billing system's logs.",
       "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
       "synchronize_users_error": "Error occurred while synchronizing users for billing",
       "stripe": {
@@ -1348,7 +1348,10 @@
       "create_success": "SAP Smart Charging settings have been created successfully",
       "create_error": "Error occurred while creating the SAP Smart Charging settings",
       "update_success": "SAP Smart Charging settings have been updated successfully",
-      "update_error": "Error occurred while updating the SAP Smart Charging settings"
+      "update_error": "Error occurred while updating the SAP Smart Charging settings",
+      "connection_success": "Connection to the smart charging service was tested with success",
+      "connection_error": "Impossible to connect to the smart charging service. Check your configuration.",
+      "check_connection": "Check Connection"
     },
     "building": {
       "description": "E-Mobility can manage your building consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",

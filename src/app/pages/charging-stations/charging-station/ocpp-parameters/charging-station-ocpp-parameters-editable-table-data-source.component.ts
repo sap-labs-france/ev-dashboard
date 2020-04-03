@@ -40,7 +40,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       id: 'ChargingStationOcppParametersTableDataSource',
       isEditable: true,
       rowFieldNameIdentifier: 'key',
-      errorMessage: 'chargers.ocpp_params_list_error',
       hasDynamicRowAction: true,
       search: {
         enabled: true

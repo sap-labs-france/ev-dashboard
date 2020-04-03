@@ -2175,18 +2175,18 @@ export class CentralServerService {
   }
 
   public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
-      // Verify Init
-      this.checkInit();
-      // Execute REST Service
-      return this.httpClient.get<DataResult<OcppParameter>>(
-        `${this.centralRestServerServiceSecuredURL}/ChargingStationOcppParameters?ChargeBoxID=${chargingStationID}`,
-        {
-          headers: this.buildHttpHeaders(),
-        })
+    // Verify Init
+    this.checkInit();
+    // Execute REST Service
+    return this.httpClient.get<DataResult<OcppParameter>>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationOcppParameters?ChargeBoxID=${chargingStationID}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
       .pipe(
         catchError(this.handleHttpError),
       );
-    }
+  }
 
   public getCars(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {

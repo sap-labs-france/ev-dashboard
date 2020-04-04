@@ -819,6 +819,7 @@
     "get_configuration_confirm": "Voulez-vous vraiment télécharger la configuration de la borne '{{chargeBoxID}}'?",
     "reboot_required_title": "Redémarrage Nécessaire",
     "reboot_required_confirm": "Voulez-vous redémarrer la borne '{{chargeBoxID}}' ?",
+    "ocpp_params_list_error": "Aucun paramètre OCPP à afficher",
     "ocpp_params_update_from_template_title": "Paramètres OCPP",
     "ocpp_params_update_from_template_confirm": "Voulez-vous vraiment mettre à jour les paramètres OCPP de la borne '{{chargeBoxID}}' avec le dernier template ?",
     "ocpp_params_update_from_template_success": "Les paramètres OCPP de la borne '{{chargeBoxID}}' ont été mis à jour avec succès",
@@ -1174,10 +1175,10 @@
     "delete_title": "Supprimer l'organisation",
     "delete_success": "L'organisation '{{name}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
-    "save_error_refund": "La Tarification doit être active pour utiliser le Remboursement",
-    "save_error_billing": "La Tarification doit être active pour utiliser la Facturation",
-    "save_error_smart_charging": "L'Organisation doit être active pour utiliser Smart Charging",
-    "save_error_building": "L'Organisation doit être active pour utiliser Building",
+    "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
+    "save_error_billing": "La tarification doit être active pour utiliser la facturation",
+    "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
+    "save_error_building": "L'organisation doit être active pour utiliser Building",
     "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones."
   },
   "settings": {

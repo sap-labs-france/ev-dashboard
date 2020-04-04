@@ -8,13 +8,12 @@ import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
 import { ChargingStation, OCPPConfigurationStatus, OCPPGeneralResponse, OcppParameter } from 'app/types/ChargingStation';
-import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { ActionResponse } from 'app/types/DataResult';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 // @ts-ignore
 import saveAs from 'file-saver';
-import { Observable } from 'rxjs';
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
@@ -57,16 +56,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   public buildTableRowActions(): TableActionDef[] {
     // remove default delete action
     return [];
-  }
-
-  public loadDataImpl(): Observable<DataResult<OcppParameter>> {
-    return new Observable((observer) => {
-      observer.next({
-        count: 0,
-        result: this.getContent()
-      });
-      observer.complete();
-    });
   }
 
   public buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
@@ -176,7 +165,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    const index = this.editableRows.indexOf(editableRow);
     let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_SAVE:
@@ -230,18 +218,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     } as OcppParameter;
   }
 
-  public getContent(): OcppParameter[] {
-    let ocppParameters = super.getContent();
-    // Filter?
-    if (this.getSearchValue()) {
-      ocppParameters = ocppParameters.filter((ocppParameter) => {
-        return ocppParameter.key.toLowerCase().includes(this.getSearchValue().toLowerCase())
-      });
-    }
-    return ocppParameters;
-  }
-
-  setContent(content: OcppParameter[]) {
+  public setContent(content: OcppParameter[]) {
     if (content.length === 0) {
       const param = this.createRow();
       content.push(param);

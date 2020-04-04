@@ -295,7 +295,7 @@
                     [class]="(tableColumnDef.class ? tableColumnDef.class + ' p-1 align-middle' : 'p-1 align-middle')"
                     [class.table-field-invalid]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors">
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
-                    [id]="tableColumnDef.id" [name]="tableColumnDef.id"
+                    [name]="tableColumnDef.id"
                     class="form-control text-line"
                     [placeholder]="tableColumnDef.name | translate"
                     [ngModel]="row[tableColumnDef.id]" [disabled]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.disabled"

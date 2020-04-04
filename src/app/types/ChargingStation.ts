@@ -92,12 +92,6 @@ export enum PowerLimitUnits {
   AMPERE = 'A',
 }
 
-export interface ChargingStationConfiguration {
-  id: string;
-  timestamp: Date;
-  configuration: KeyValue[];
-}
-
 export interface OcppParameter extends Data {
   key: string;
   value: string;

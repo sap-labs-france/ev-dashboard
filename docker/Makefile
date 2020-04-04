@@ -1,26 +1,36 @@
 PROJECT_NAME:=evse
+NAME:=dashboard
+DOCKER_REGISTRY:=166296450311.dkr.ecr.eu-west-3.amazonaws.com
+DOCKER_REGISTRY_NAME:=ev_dashboard
 
 .PHONY: all
 
 default: all
 
-dashboard:
+$(NAME):
 	git submodule update --init --recursive
 	docker-compose -p $(PROJECT_NAME) up -d
 
-dashboard-force:
+$(NAME)-force:
 	git submodule update --init --recursive
 	docker-compose -p $(PROJECT_NAME) up -d --build --force-recreate
 
-all: dashboard
+all: $(NAME)
 
 clean-containers:
 	-docker-compose -p $(PROJECT_NAME) down
 
 clean-images:
-	-docker rmi $(PROJECT_NAME)_dashboard
+	-docker rmi $(PROJECT_NAME)_$(NAME)
 
 clean: clean-containers clean-images
+
+docker-ecr-tag:
+	docker tag $(PROJECT_NAME)_$(NAME):latest $(DOCKER_REGISTRY)/$(DOCKER_REGISTRY_NAME):latest
+
+docker-ecr-push: $(NAME)-force docker-ecr-tag
+	aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin $(DOCKER_REGISTRY)/$(DOCKER_REGISTRY_NAME)
+	docker push $(DOCKER_REGISTRY)/$(DOCKER_REGISTRY_NAME):latest
 
 dist-clean-images:
 	docker image prune -a -f

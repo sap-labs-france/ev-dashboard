@@ -33,7 +33,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     };
   }
 
-  setContent(content: Tag[]) {
+  public setContent(content: Tag[]) {
     if (content.length === 0) {
       const tag = this.createRow();
       content.push(tag);
@@ -41,7 +41,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     super.setContent(content);
   }
 
-  buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
+  public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
     const actions = [];
     if (tag.active) {
       actions.push(this.deactivateAction);
@@ -58,7 +58,6 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
   }
 
-  // tslint:disable-next-line:no-empty
   public rowActionTriggered(actionDef: TableActionDef, editableRow: Tag, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     const index = this.editableRows.indexOf(editableRow);
     let actionDone = false;

@@ -7,7 +7,7 @@ import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
 import { Car, CarMakersTable } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationConfiguration, OcppParameter } from 'app/types/ChargingStation';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
@@ -2174,12 +2174,12 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationConfiguration(id: string): Observable<ChargingStationConfiguration> {
-    // Verify init
+  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
+    // Verify Init
     this.checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ChargingStationConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+    // Execute REST Service
+    return this.httpClient.get<DataResult<OcppParameter>>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationOcppParameters?ChargeBoxID=${chargingStationID}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2187,20 +2187,6 @@ export class CentralServerService {
         catchError(this.handleHttpError),
       );
   }
-
-  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
-      // Verify Init
-      this.checkInit();
-      // Execute REST Service
-      return this.httpClient.get<DataResult<OcppParameter>>(
-        `${this.centralRestServerServiceSecuredURL}/ChargingStationOcppParameters?ChargeBoxID=${chargingStationID}`,
-        {
-          headers: this.buildHttpHeaders(),
-        })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-    }
 
   public getCars(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
@@ -2408,13 +2394,13 @@ export class CentralServerService {
       );
   }
 
-  public requestChargingStationOCPPConfiguration(id: string) {
+  public requestChargingStationOcppParameters(id: string) {
     // Verify init
     this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: false,
@@ -2433,7 +2419,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: true,

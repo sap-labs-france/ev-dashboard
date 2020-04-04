@@ -7,12 +7,13 @@ DOCKER_REGISTRY_NAME:=ev_dashboard
 
 default: all
 
-$(NAME):
+submodule-update:
 	git submodule update --init --recursive
+
+$(NAME): submodule-update
 	docker-compose -p $(PROJECT_NAME) up -d
 
-$(NAME)-force:
-	git submodule update --init --recursive
+$(NAME)-force: submodule-update
 	docker-compose -p $(PROJECT_NAME) up -d --build --force-recreate
 
 all: $(NAME)

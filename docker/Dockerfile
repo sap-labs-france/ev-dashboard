@@ -23,3 +23,8 @@ COPY docker/nginx-dashboard.conf /etc/nginx/conf.d/dashboard.conf
 
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /usr/builder/dist ./
+
+COPY docker/autoconfig.sh /autoconfig.sh
+RUN chmod +x /autoconfig.sh
+
+CMD /autoconfig.sh && nginx -g 'daemon off;'

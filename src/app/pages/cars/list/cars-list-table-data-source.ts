@@ -13,6 +13,7 @@ import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableSyncCarsAction } from 'app/shared/table/actions/table-sync-cars-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Car, CarButtonAction, CarImage } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
@@ -270,7 +271,9 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [];
+    return [
+      new CarMakerTableFilter().getFilterDef(),
+    ];
   }
 
   private showCarDialog(car?: Car) {

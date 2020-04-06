@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
 import { Tenant } from 'app/types/Tenant';
 import TenantComponents from 'app/types/TenantComponents';
@@ -260,7 +261,11 @@ export class TenantComponent implements OnInit {
       }
     }, (error) => {
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      if (error.status === HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA) {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
+      } else {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+      }
     });
   }
 }

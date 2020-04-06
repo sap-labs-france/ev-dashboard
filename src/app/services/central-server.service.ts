@@ -5,9 +5,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car } from 'app/types/Car';
+import { Car, CarMakersTable } from 'app/types/Car';
 import { ChargingProfile } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationConfiguration } from 'app/types/ChargingStation';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
@@ -1274,11 +1274,11 @@ export class CentralServerService {
       );
   }
 
-  public validateBillingConnection(): Observable<ValidateBillingConnectionResponse> {
+  public checkBillingConnection(): Observable<ValidateBillingConnectionResponse> {
     // verify init
     this.checkInit();
     // Execute the REST Service
-    return this.httpClient.get<ValidateBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingConnection`,
+    return this.httpClient.get<ValidateBillingConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/CheckBillingConnection`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1337,7 +1337,7 @@ export class CentralServerService {
   }
 
   public getUserInvoices(params: { [param: string]: string | string[]; },
-      paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1761,7 +1761,20 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkSmartChargingConnection(): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CheckSmartChargingConnection`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2161,12 +2174,12 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationConfiguration(id: string): Observable<ChargingStationConfiguration> {
-    // Verify init
+  public getChargingStationOcppParameters(chargingStationID: string): Observable<DataResult<OcppParameter>> {
+    // Verify Init
     this.checkInit();
-    // Execute the REST service
-    // Execute
-    return this.httpClient.get<ChargingStationConfiguration>(`${this.centralRestServerServiceSecuredURL}/ChargingStationConfiguration?ChargeBoxID=${id}`,
+    // Execute REST Service
+    return this.httpClient.get<DataResult<OcppParameter>>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationOcppParameters?ChargeBoxID=${chargingStationID}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2209,6 +2222,21 @@ export class CentralServerService {
       );
   }
 
+  public getCarMakers(params: { [param: string]: string | string[]; }): Observable<DataResult<CarMakersTable>> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<DataResult<CarMakersTable>>(
+      `${this.centralRestServerServiceSecuredURL}/CarMakers`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public synchronizeCars(): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
@@ -2244,7 +2272,7 @@ export class CentralServerService {
   }
 
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-      Observable<OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[]> {
+    Observable<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2258,8 +2286,8 @@ export class CentralServerService {
         }
       }`;
     // Execute
-    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[]>(
-        `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
+    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]>(
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2273,11 +2301,11 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
-        chargeBoxID: charger.id,
-        connectorId,
-        ampLimitValue,
-        forceUpdateChargingPlan,
-      },
+      chargeBoxID: charger.id,
+      connectorId,
+      ampLimitValue,
+      forceUpdateChargingPlan,
+    },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2340,7 +2368,7 @@ export class CentralServerService {
 
   public rebootChargingStation(id: string, hard: boolean = true): Observable<ActionResponse> {
     return this.actionChargingStation(
-      'ChargingStationReset', id , JSON.stringify({type: hard ? 'Hard' : 'Soft'}));
+      'ChargingStationReset', id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
   }
 
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
@@ -2348,11 +2376,11 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const body = (args ?
-        `{
+      `{
         "chargeBoxID": "${id}",
         "args": ${args}
       }` :
-        `{
+      `{
         "chargeBoxID": "${id}"
       }`
     );
@@ -2366,13 +2394,13 @@ export class CentralServerService {
       );
   }
 
-  public requestChargingStationOCPPConfiguration(id: string) {
+  public requestChargingStationOcppParameters(id: string) {
     // Verify init
     this.checkInit();
     // Execute the REST service
     // Execute
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: false,
@@ -2391,7 +2419,7 @@ export class CentralServerService {
     // Execute the REST service
     // Execute
     return this.httpClient.post<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestConfiguration`,
+      `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
         chargeBoxID: id,
         forceUpdateOCPPParamsFromTemplate: true,

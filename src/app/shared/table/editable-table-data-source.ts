@@ -51,6 +51,14 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   public getContent(): T[] {
+    // Filter?
+    if (this.editableRows && this.getSearchValue() && this.tableDef.rowFieldNameIdentifier) {
+      return this.editableRows.filter((editableRow) => {
+        // @ts-ignore
+        return editableRow[this.tableDef.rowFieldNameIdentifier].toLowerCase().includes(
+          this.getSearchValue().toLowerCase());
+      });
+    }
     return this.editableRows;
   }
 
@@ -63,21 +71,23 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   // tslint:disable-next-line:no-empty
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    let actionDone = false;
-    switch (actionDef.id) {
-      case ButtonAction.INLINE_DELETE:
-        const index = this.editableRows.indexOf(editableRow);
-        const deletedRows = this.editableRows.splice(index, 1);
-        this.refreshData(false).subscribe();
-        if (this.formArray) {
-          this.formArray.markAsDirty();
-        }
-        actionDone = true;
-        break;
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
+    let actionDone = actionAlreadyProcessed;
+    if (!actionAlreadyProcessed) {
+      switch (actionDef.id) {
+        case ButtonAction.INLINE_DELETE:
+          const index = this.editableRows.indexOf(editableRow);
+          this.editableRows.splice(index, 1);
+          actionDone = true;
+          break;
+      }
     }
     // Call post process
     if (actionDone) {
+      this.refreshData(false).subscribe();
+      if (this.formArray) {
+        this.formArray.markAsDirty();
+      }
       // Call post data processing
       if (postDataProcessing) {
         postDataProcessing();
@@ -88,11 +98,13 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
+    // Use get content to get the filtered fields
+    const contentRows = this.getContent();
     if (this.formArray) {
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
-        for (const editableRow of this.editableRows) {
+        for (const contentRow of contentRows) {
           // @ts-ignore
-          editableRow[columnDef.id] = false;
+          contentRow[columnDef.id] = false;
         }
         for (const control of this.formArray.controls) {
           // @ts-ignore
@@ -103,27 +115,29 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       // @ts-ignore
       rowGroup.get(columnDef.id).setValue(cellValue);
       // @ts-ignore
-      this.editableRows[cellIndex][columnDef.id] = cellValue;
+      contentRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
     }
     // Call post data processing
     if (postDataProcessing) {
       postDataProcessing();
     }
-    // Notify
+    // Notify all non filtered
     this.tableChangedSubject.next(this.editableRows);
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
-    if (this.editableRows) {
+    // Use the method to take into account the filtering
+    const contentRows = this.getContent();
+    if (contentRows) {
       if (this.formArray) {
         this.formArray.clear();
         // @ts-ignore
-        for (const editableRow of this.editableRows) {
-          this.formArray.push(this.createFormGroupDefinition(editableRow));
+        for (const contentRow of contentRows) {
+          this.formArray.push(this.createFormGroupDefinition(contentRow));
         }
       }
-      return of({ count: this.editableRows.length, result: this.editableRows });
+      return of({ count: contentRows.length, result: contentRows });
     }
     return of({ count: 0, result: [] });
   }

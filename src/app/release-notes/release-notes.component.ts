@@ -24,16 +24,20 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.22',
-        date: new Date('2020-03-31'),
+        version: '2.2.24',
+        date: new Date('2020-04-04'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `When Smart Charging is unset in Site Area, all Charging Plans are deleted`,
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
-              `Add Site Area column in Asset list`,
+              `Added Site Area column in Building list`,
+              `Reworked the OCPP Parameter list`,
+              `Added Car Maker filter`,
               `Disable coordinates button in address if not provided`,
+              `Added the Source of the limitation in Smart Charging (Connector, Static Limitation, Charging Profiles)`,
               `Upgraded to Angular 9`,
             ],
           },

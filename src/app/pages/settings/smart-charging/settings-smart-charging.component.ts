@@ -90,6 +90,20 @@ export class SettingsSmartChargingComponent implements OnInit {
     });
   }
 
+  public checkConnection() {
+    this.spinnerService.show();
+    this.centralServerService.checkSmartChargingConnection().subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        this.messageService.showSuccessMessage('settings.smartCharging.connection_success');
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'settings.smartCharging.connection_error');
+    });
+  }
+
   public refresh() {
     this.loadConfiguration();
   }

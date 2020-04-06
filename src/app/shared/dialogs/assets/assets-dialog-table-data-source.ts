@@ -51,19 +51,6 @@ export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
         direction: 'asc',
         sortable: true,
       },
-      {
-        id: 'address.country',
-        name: 'general.country',
-        class: 'text-left',
-        sorted: true,
-        direction: 'asc',
-        sortable: true,
-      },
-      {
-        id: 'address.city',
-        name: 'general.city',
-        class: 'text-left',
-      },
     ];
   }
 }

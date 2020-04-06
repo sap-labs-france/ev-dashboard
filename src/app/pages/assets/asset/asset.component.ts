@@ -39,7 +39,6 @@ export class AssetComponent implements OnInit {
   public name!: AbstractControl;
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
-  public address!: Address;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -151,9 +150,6 @@ export class AssetComponent implements OnInit {
         this.formGroup.controls.siteAreaID.setValue(asset.siteArea.id);
         this.formGroup.controls.siteArea.setValue(asset.siteArea.name);
       }
-      if (asset.address) {
-        this.address = asset.address;
-      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
@@ -190,13 +186,6 @@ export class AssetComponent implements OnInit {
     } else {
       // No image
       delete asset.image;
-    }
-  }
-
-  public updateAssetCoordinates(asset: Asset) {
-    if (asset.address && asset.address.coordinates &&
-      !(asset.address.coordinates[0] || asset.address.coordinates[1])) {
-      delete asset.address.coordinates;
     }
   }
 
@@ -290,8 +279,6 @@ export class AssetComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateAssetImage(asset);
-    // Set coordinates
-    this.updateAssetCoordinates(asset);
     // Yes: Update
     this.centralServerService.createAsset(asset).subscribe((response) => {
       // Hide
@@ -330,8 +317,6 @@ export class AssetComponent implements OnInit {
     this.spinnerService.show();
     // Set the image
     this.updateAssetImage(asset);
-    // Set coordinates
-    this.updateAssetCoordinates(asset);
     // Yes: Update
     this.centralServerService.updateAsset(asset).subscribe((response) => {
       // Hide

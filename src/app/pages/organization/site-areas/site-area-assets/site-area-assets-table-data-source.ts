@@ -92,30 +92,12 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       {
         id: 'name',
         name: 'assets.titles',
-        headerClass: 'col-35p',
-        class: 'text-left',
+        headerClass: 'col-100p',
+        class: 'text-left col-100p',
         sorted: true,
         direction: 'asc',
         sortable: true,
-      },
-      {
-        id: 'address.country',
-        name: 'general.country',
-        headerClass: 'col-35p',
-        class: 'text-left',
-        sorted: true,
-        direction: 'asc',
-        sortable: true,
-      },
-      {
-        id: 'address.city',
-        name: 'general.city',
-        headerClass: 'col-35p',
-        class: 'text-left',
-        sorted: true,
-        direction: 'asc',
-        sortable: true,
-      },
+      }
     ];
   }
 

@@ -72,6 +72,7 @@ export const logActions: KeyValue[] = [
   {key: 'SiteUpdate', value: 'SiteUpdate'},
   {key: 'StartTransaction', value: 'StartTransaction'},
   {key: 'Startup', value: 'Startup'},
+  {key: 'Locking', value: 'Locking'},
   {key: 'StatusNotification', value: 'StatusNotification'},
   {key: 'StopTransaction', value: 'StopTransaction'},
   {key: 'TransactionDelete', value: 'TransactionDelete'},

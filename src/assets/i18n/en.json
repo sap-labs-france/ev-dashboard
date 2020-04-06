@@ -1189,7 +1189,7 @@
       "pricing": "Pricing",
       "billing": "Billing",
       "analytics": "Analytics",
-      "smartCharging": "Smart Charging",
+      "smart_charging": "Smart Charging",
       "building": "Building"
     },
     "ocpi": {
@@ -1336,8 +1336,8 @@
       "update_success": "SAP Analytics Cloud settings have been updated successfully",
       "update_error": "Error occurred while updating the SAP Analytics Cloud settings"
     },
-    "smartCharging": {
-      "sapSmartCharging": {
+    "smart_charging": {
+      "sap_smart_charging": {
         "title": "SAP Smart Charging",
         "settings": "Settings",
         "user": "User",
@@ -1594,7 +1594,7 @@
       "url": "URL"
     }
   },
-  "smartCharging": {
+  "smart_charging": {
     "title": "Smart Charging",
     "type_placeholder": "Type",
     "description": "Smart Charging Interface",

@@ -12,7 +12,6 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -120,18 +119,13 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableDynamicRowActions(asset: Asset) {
     const actions = [];
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
-    // Check if GPS is available
-    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(asset.address);
     if (this.isAdmin) {
       actions.push(this.editAction);
       actions.push(new TableMoreAction([
-        openInMaps,
         this.deleteAction,
       ]).getActionDef());
     } else {
       actions.push(this.viewAction);
-      actions.push(openInMaps);
     }
     return actions;
   }
@@ -156,9 +150,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         break;
       case ButtonAction.DELETE:
         this.deleteAsset(rowItem);
-        break;
-      case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -193,12 +184,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         this.refreshData().subscribe();
       }
     });
-  }
-
-  private showPlace(asset: Asset) {
-    if (asset && asset.address && asset.address.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${asset.address.coordinates[1]},${asset.address.coordinates[0]}`);
-    }
   }
 
   private deleteAsset(asset: Asset) {

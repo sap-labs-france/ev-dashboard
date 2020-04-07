@@ -48,6 +48,8 @@
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>
+              </div>
+              <div class="form-group">
                 <mat-form-field>
                   <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
                   class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!isAdmin" required/>
@@ -58,6 +60,42 @@
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select [formControl]="assetType" placeholder="{{'assets.asset_type' | translate}}" required>
+                    <mat-option *ngFor="let assetType of assetTypes" value="{{assetType.key}}">
+                      {{assetType.value | translate}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin">
+                      <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
+                      <mat-error *ngIf="latitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+                        <mat-icon>pin_drop</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin">
+                      <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
+                      <mat-error *ngIf="longitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
+                        <mat-icon>pin_drop</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

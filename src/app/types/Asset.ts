@@ -1,4 +1,4 @@
-import { Address } from './Address';
+import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 
@@ -7,13 +7,19 @@ export interface Asset extends Data {
   name: string;
   siteAreaID: string;
   siteArea: SiteArea;
-  address: Address;
+  assetType: string;
+  coordinates: number[];
   image: string;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;
   lastChangedOn: Date;
 }
+
+export const AssetTypes: KeyValue[] = [
+  { key: 'CO', value: 'assets.consume' },
+  { key: 'PR', value: 'assets.produce' },
+];
 
 export enum AssetButtonAction {
   EDIT_ASSETS = 'edit_assets',

@@ -319,6 +319,9 @@
     "asset_number": "Asset(s)",
     "logo": "Logo",
     "name": "Name",
+    "asset_type": "Asset type",
+    "produce": "Asset produces electricity",
+    "consume": "Asset consumes electricity",
     "asset": "Asset",
     "title": "Asset",
     "titles": "Assets",
@@ -1812,7 +1815,7 @@
     }
   },
   "geomap": {
-    "dialog_geolocation_title": "Set Geolocation of Charging Station '{{chargeBoxID}}'",
+    "dialog_geolocation_title": "Set Geolocation of {{componentName}} '{{itemComponentName}}'",
     "select_geolocation": "Select Geo Location",
     "search": "Search Place",
     "max_zoom": "Max Zoom",

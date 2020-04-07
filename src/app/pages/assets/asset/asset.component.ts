@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,12 +10,13 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Address } from 'app/types/Address';
-import { Asset, AssetImage } from 'app/types/Asset';
-import { RestResponse } from 'app/types/GlobalType';
+import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
+import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
@@ -39,6 +40,12 @@ export class AssetComponent implements OnInit {
   public name!: AbstractControl;
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
+  public assetType!: AbstractControl;
+  public coordinates!: FormArray;
+  public longitude!: AbstractControl;
+  public latitude!: AbstractControl;
+  public assetTypes!: KeyValue[];
+  public asset!: Asset;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -62,6 +69,9 @@ export class AssetComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
+    // Get asset types
+    this.assetTypes = AssetTypes;
+
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
@@ -79,12 +89,35 @@ export class AssetComponent implements OnInit {
         Validators.required,
       ])),
       siteAreaID: new FormControl(''),
+      assetType: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
+      coordinates: new FormArray([
+        new FormControl('',
+          Validators.compose([
+            Validators.max(180),
+            Validators.min(-180),
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])),
+        new FormControl('',
+          Validators.compose([
+            Validators.max(90),
+            Validators.min(-90),
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+          ])),
+      ]),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
+    this.assetType = this.formGroup.controls['assetType'];
+    this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
+    this.longitude = this.coordinates.at(0);
+    this.latitude = this.coordinates.at(1);
 
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
@@ -138,17 +171,26 @@ export class AssetComponent implements OnInit {
     this.spinnerService.show();
     // Yes, get it
     // tslint:disable-next-line: cyclomatic-complexity
-    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((asset) => {
+    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((assetResult) => {
+      // Store asset result
+      this.asset = assetResult;
       // Init form
-      if (asset.id) {
-        this.formGroup.controls.id.setValue(asset.id);
+      if (this.asset.id) {
+        this.formGroup.controls.id.setValue(this.asset.id);
       }
-      if (asset.name) {
-        this.formGroup.controls.name.setValue(asset.name);
+      if (this.asset.name) {
+        this.formGroup.controls.name.setValue(this.asset.name);
       }
-      if (asset.siteArea && asset.siteArea.name) {
-        this.formGroup.controls.siteAreaID.setValue(asset.siteArea.id);
-        this.formGroup.controls.siteArea.setValue(asset.siteArea.name);
+      if (this.asset.siteArea && this.asset.siteArea.name) {
+        this.formGroup.controls.siteAreaID.setValue(this.asset.siteArea.id);
+        this.formGroup.controls.siteArea.setValue(this.asset.siteArea.name);
+      }
+      if (this.asset.assetType) {
+        this.formGroup.controls.assetType.setValue(this.asset.assetType);
+      }
+      if (this.asset.coordinates) {
+        this.longitude.setValue(this.asset.coordinates[0]);
+        this.latitude.setValue(this.asset.coordinates[1]);
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -270,6 +312,53 @@ export class AssetComponent implements OnInit {
         this.formGroup.markAsDirty();
         this.formGroup.controls.siteArea.setValue(siteArea.name);
         this.formGroup.controls.siteAreaID.setValue(siteArea.id);
+      }
+    });
+  }
+
+  public assignGeoMap() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '70vw';
+    dialogConfig.disableClose = false;
+    dialogConfig.panelClass = 'transparent-dialog-container';
+
+    // get latitude/longitude from form
+    let latitude = this.latitude.value;
+    let longitude = this.longitude.value;
+
+    // if one is not available try to get from SiteArea
+    if (!latitude || !longitude) {
+      const siteArea = this.asset.siteArea;
+      if (siteArea && siteArea.address) {
+        if (siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
+          latitude = siteArea.address.coordinates[1];
+          longitude = siteArea.address.coordinates[0];
+        }
+      }
+    }
+    // Set data
+    dialogConfig.data = {
+      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title',
+        { componentName: 'Asset', itemComponentName: this.asset.name }),
+      latitude,
+      longitude,
+      label: this.asset.name ? this.asset.name : '',
+    };
+    // Disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialog.open(GeoMapDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+      if (result) {
+        if (result.latitude) {
+          this.latitude.setValue(result.latitude);
+          this.formGroup.markAsDirty();
+        }
+        if (result.longitude) {
+          this.longitude.setValue(result.longitude);
+          this.formGroup.markAsDirty();
+        }
       }
     });
   }

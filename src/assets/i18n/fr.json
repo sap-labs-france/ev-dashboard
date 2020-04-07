@@ -319,6 +319,9 @@
     "asset_number": "Asset(s)",
     "logo": "Logo",
     "name": "Nom",
+    "asset_type": "Type d'asset",
+    "produce": "L'Asset produit de l'électricité",
+    "consume": "L'Asset consomme de l'électricité",
     "asset": "Asset",
     "title": "Asset",
     "titles": "Assets",
@@ -1812,7 +1815,7 @@
     }
   },
   "geomap": {
-    "dialog_geolocation_title": "Placer la borne '{{chargeBoxID}}'",
+    "dialog_geolocation_title": "Définir les coordonnées de '{{itemComponentName}}'",
     "select_geolocation": "Selectionner la Géo",
     "search": "Rechercher une place",
     "max_zoom": "Zoom Max",

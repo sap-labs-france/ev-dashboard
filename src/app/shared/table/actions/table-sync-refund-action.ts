@@ -23,7 +23,7 @@ export class TableSyncRefundAction implements TableAction {
   };
 
   private synchronizeRefund(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh: () => Observable<void>) {
+      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.refund.synchronize_dialog_refund_title'),
       translateService.instant('settings.refund.synchronize_dialog_refund_confirm'),
@@ -33,7 +33,9 @@ export class TableSyncRefundAction implements TableAction {
         centralServerService.synchronizeRefundedTransactions().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage('settings.refund.synchronize_success');
-            refresh().subscribe();
+            if (refresh) {
+              refresh().subscribe();
+            }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.refund.synchronize_error');
           }

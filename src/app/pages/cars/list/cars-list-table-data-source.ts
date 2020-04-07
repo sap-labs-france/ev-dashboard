@@ -58,10 +58,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
         // lookup for image otherwise assign default
         for (const car of cars.result) {
-          if (!car.images || car.images.length < 1) {
+          if (!car.image) {
             car.image = CarImage.NO_IMAGE;
-          } else {
-            car.image = car.images[0];
           }
         }
         observer.next(cars);
@@ -283,7 +281,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (car) {
-      dialogConfig.data = car.id;
+      dialogConfig.data = car;
     }
     // disable outside click close
     dialogConfig.disableClose = false;

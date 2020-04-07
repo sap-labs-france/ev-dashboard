@@ -5,7 +5,7 @@ import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Car, CarImage } from 'app/types/Car';
+import { Car } from 'app/types/Car';
 import { Utils } from 'app/utils/Utils';
 import { CarConverterTableDataSource } from './car-converter-table-data-source';
 
@@ -18,7 +18,6 @@ import { CarConverterTableDataSource } from './car-converter-table-data-source';
 export class CarComponent implements OnInit {
   public car!: Car;
   public isSuperAdmin: boolean;
-  private carID!: number;
 
   constructor(
     public carConverterTableDataSource: CarConverterTableDataSource,
@@ -28,10 +27,10 @@ export class CarComponent implements OnInit {
     public dialogRef: MatDialogRef<CarComponent>,
     private router: Router,
     private authorizationService: AuthorizationService,
-    @Inject(MAT_DIALOG_DATA) data: number) {
+    @Inject(MAT_DIALOG_DATA) data: Car) {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     if (data) {
-      this.carID = data;
+      this.car = data;
     }
   }
 
@@ -49,16 +48,11 @@ export class CarComponent implements OnInit {
   }
 
   loadCar() {
-    if (this.carID) {
+    if (this.car.id) {
       this.spinnerService.show();
-      this.centralServerService.getCar(this.carID).subscribe((car: Car) => {
+      this.centralServerService.getCar(this.car.id).subscribe((car: Car) => {
         this.spinnerService.hide();
-        this.car = car;
-        if (!car.images || car.images.length < 1) {
-          this.car.image = CarImage.NO_IMAGE;
-        } else {
-          this.car.image = car.images[0];
-        }
+        this.car = Object.assign(this.car, car);
         this.carConverterTableDataSource.setCar(this.car);
       }, (error) => {
         // Show error

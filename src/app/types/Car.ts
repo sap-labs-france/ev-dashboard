@@ -50,6 +50,10 @@ export interface CarMakersTable extends Data {
   carMaker: string;
 }
 
+export interface ImageObject extends Data {
+  image: string;
+}
+
 export enum CarImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

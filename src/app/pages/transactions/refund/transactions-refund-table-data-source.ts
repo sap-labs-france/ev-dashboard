@@ -6,6 +6,7 @@ import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refun
 import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
+import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -45,7 +46,6 @@ import { Utils } from '../../../utils/Utils';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
-import { RefundButtonAction } from 'app/types/Refund';
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
@@ -248,7 +248,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       if (this.isAdmin) {
         tableActionsDef.push(
           this.tableSyncRefundAction,
-        )
+        );
       }
     }
     return tableActionsDef;

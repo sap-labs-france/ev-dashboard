@@ -22,6 +22,12 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /**  Angular <= 9 i18n */
 import '@angular/localize/init';
 
+(window as any).global = window;
+
+/** Temporary workaround, see: https://github.com/angular/angular-cli/pull/17364 */
+window['_rollupMoment__default'] = null;
+window['dragulaExpt__default'] = null;
+
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
@@ -34,8 +40,6 @@ import '@angular/localize/init';
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. */
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-(window as any).global = window;
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

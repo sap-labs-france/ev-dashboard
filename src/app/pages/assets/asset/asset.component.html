@@ -75,7 +75,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin">
+                      <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude" [readOnly]="!isAdmin" required>
                       <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
                       <mat-error *ngIf="latitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">
@@ -87,7 +87,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin">
+                      <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude" [readOnly]="!isAdmin" required>
                       <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
                       <mat-error *ngIf="longitude.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()" [hidden]="!isAdmin">

@@ -97,12 +97,14 @@ export class AssetComponent implements OnInit {
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
+            Validators.required,
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
           ])),
         new FormControl('',
           Validators.compose([
+            Validators.required,
             Validators.max(90),
             Validators.min(-90),
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
@@ -231,6 +233,12 @@ export class AssetComponent implements OnInit {
     }
   }
 
+  public updateAssetCoordinates(asset: Asset) {
+    if (asset.coordinates && !(asset.coordinates[0] || asset.coordinates[1])) {
+      delete asset.coordinates;
+    }
+  }
+
   public saveAsset(asset: Asset) {
     if (this.currentAssetID) {
       this.updateAsset(asset);
@@ -323,27 +331,16 @@ export class AssetComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.panelClass = 'transparent-dialog-container';
 
-    // get latitude/longitude from form
-    let latitude = this.latitude.value;
-    let longitude = this.longitude.value;
-
-    // if one is not available try to get from SiteArea
-    if (!latitude || !longitude) {
-      const siteArea = this.asset.siteArea;
-      if (siteArea && siteArea.address) {
-        if (siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
-          latitude = siteArea.address.coordinates[1];
-          longitude = siteArea.address.coordinates[0];
-        }
-      }
-    }
+    // Get latitude/longitude from form
+    const latitude = this.latitude.value;
+    const longitude = this.longitude.value;
     // Set data
     dialogConfig.data = {
       dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title',
-        { componentName: 'Asset', itemComponentName: this.asset.name }),
+        { componentName: 'Asset', itemComponentName: this.name.value ? this.name.value : 'Asset' }),
       latitude,
       longitude,
-      label: this.asset.name ? this.asset.name : '',
+      label: this.name.value ? this.name.value : 'Asset',
     };
     // Disable outside click close
     dialogConfig.disableClose = true;
@@ -366,6 +363,8 @@ export class AssetComponent implements OnInit {
   private createAsset(asset: Asset) {
     // Show
     this.spinnerService.show();
+    // Set coordinates
+    this.updateAssetCoordinates(asset);
     // Set the image
     this.updateAssetImage(asset);
     // Yes: Update
@@ -404,6 +403,8 @@ export class AssetComponent implements OnInit {
   private updateAsset(asset: Asset) {
     // Show
     this.spinnerService.show();
+    // Set coordinates
+    this.updateAssetCoordinates(asset);
     // Set the image
     this.updateAssetImage(asset);
     // Yes: Update

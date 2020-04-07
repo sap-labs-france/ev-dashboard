@@ -23,6 +23,7 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
@@ -119,13 +120,18 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableDynamicRowActions(asset: Asset) {
     const actions = [];
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    // Check if GPS is available
+    openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     if (this.isAdmin) {
       actions.push(this.editAction);
       actions.push(new TableMoreAction([
+        openInMaps,
         this.deleteAction,
       ]).getActionDef());
     } else {
       actions.push(this.viewAction);
+      actions.push(openInMaps);
     }
     return actions;
   }
@@ -150,6 +156,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         break;
       case ButtonAction.DELETE:
         this.deleteAsset(rowItem);
+        break;
+      case ButtonAction.OPEN_IN_MAPS:
+        this.showPlace(rowItem);
         break;
       default:
         super.rowActionTriggered(actionDef, rowItem);
@@ -184,6 +193,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         this.refreshData().subscribe();
       }
     });
+  }
+
+  private showPlace(asset: Asset) {
+    if (asset && asset.coordinates) {
+      window.open(`http://maps.google.com/maps?q=${asset.coordinates[1]},${asset.coordinates[0]}`);
+    }
   }
 
   private deleteAsset(asset: Asset) {

@@ -35,7 +35,6 @@ export class UserConnectionComponent extends AbstractTabComponent {
   private createConcurConnection(state: any) {
     if (this.activatedRoute.snapshot.queryParams['code']) {
       const payload = {
-        settingId: state.appId,
         userId: state.userId,
         connectorId: 'concur',
         data:

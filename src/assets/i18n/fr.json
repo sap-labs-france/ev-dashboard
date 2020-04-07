@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.23",
+    "last_update": "Version 2.2.24",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -820,6 +820,7 @@
     "get_configuration_confirm": "Voulez-vous vraiment télécharger la configuration de la borne '{{chargeBoxID}}'?",
     "reboot_required_title": "Redémarrage Nécessaire",
     "reboot_required_confirm": "Voulez-vous redémarrer la borne '{{chargeBoxID}}' ?",
+    "ocpp_params_list_error": "Aucun paramètre OCPP à afficher",
     "ocpp_params_update_from_template_title": "Paramètres OCPP",
     "ocpp_params_update_from_template_confirm": "Voulez-vous vraiment mettre à jour les paramètres OCPP de la borne '{{chargeBoxID}}' avec le dernier template ?",
     "ocpp_params_update_from_template_success": "Les paramètres OCPP de la borne '{{chargeBoxID}}' ont été mis à jour avec succès",
@@ -1175,10 +1176,11 @@
     "delete_title": "Supprimer l'organisation",
     "delete_success": "L'organisation '{{name}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
-    "save_error_refund": "La Tarification doit être active pour utiliser le Remboursement",
-    "save_error_billing": "La Tarification doit être active pour utiliser la Facturation",
-    "save_error_smart_charging": "L'Organisation doit être active pour utiliser Smart Charging",
-    "save_error_building": "L'Organisation doit être active pour utiliser Building"
+    "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
+    "save_error_billing": "La tarification doit être active pour utiliser la facturation",
+    "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
+    "save_error_building": "L'organisation doit être active pour utiliser Building",
+    "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones."
   },
   "settings": {
     "tabs": {
@@ -1188,7 +1190,7 @@
       "pricing": "Tarification",
       "billing": "Facturation",
       "analytics": "Statistiques",
-      "smartCharging": "Charge Intelligente",
+      "smart_charging": "Charge Intelligente",
       "building": "Bâtiment"
     },
     "ocpi": {
@@ -1288,8 +1290,8 @@
       "update_success": "La configuration de la facturation a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de la facturation",
       "check_connection": "Vérifier connexion",
-      "connection_success": "Connexion vers l'application de facturation vérifiée avec succès",
-      "connection_error": "Connexion vers l'application de facturation impossible. Vérifiez votre clé secrète.",
+      "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
+      "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
       "synchronize_users": "Synchroniser Billing",
       "synchronize_user": "Synchroniser Billing",
       "force_synchronize_users": "Forcer Synchro Facturation",
@@ -1335,8 +1337,8 @@
       "update_success": "La configuration de SAP Analytics Cloud a été mise à jour avec succès",
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration de SAP Analytics Cloud"
     },
-    "smartCharging": {
-      "sapSmartCharging": {
+    "smart_charging": {
+      "sap_smart_charging": {
         "title": "SAP Smart Charging",
         "settings": "Configuration",
         "user": "Utilisateur",
@@ -1348,7 +1350,10 @@
       "create_success": "La configuration de SAP Smart Charging a été créé avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Smart Charging",
       "update_success": "La configuration SAP Smart Charging a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging"
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging",
+      "connection_success": "Connexion vers le service de charge intelligente vérifiée avec succès",
+      "connection_error": "Connexion vers le service de charge intelligente impossible. Vérifiez votre configuration.",
+      "check_connection": "Vérifier connexion"
     },
     "building": {
       "description": "E-Mobility peut gérer la consommation des bâtiments et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
@@ -1590,7 +1595,7 @@
       "url": "URL"
     }
   },
-  "smartCharging": {
+  "smart_charging": {
     "title": "Charge Intelligente",
     "type_placeholder": "Type",
     "description": "Charge Intelligente",

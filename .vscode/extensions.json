@@ -5,6 +5,7 @@
     "codezombiech.gitignore",
     "eamodio.gitlens",
     "EditorConfig.EditorConfig",
+    "ms-azuretools.vscode-docker",
     "ms-vscode.vscode-typescript-tslint-plugin",
     "msjsdiag.debugger-for-chrome",
     "streetsidesoftware.code-spell-checker"

@@ -10,7 +10,10 @@ import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-sav
 import { ChargingStation, OcppParameter, OCPPConfigurationStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { ActionResponse } from 'app/types/DataResult';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+// @ts-ignore
+import saveAs from 'file-saver';
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
@@ -37,7 +40,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       id: 'ChargingStationOcppParametersTableDataSource',
       isEditable: true,
       rowFieldNameIdentifier: 'key',
-      errorMessage: 'placeholder message',
+      errorMessage: 'chargers.ocpp_params_list_error',
       hasDynamicRowAction: true,
       search: {
         enabled: true
@@ -46,11 +49,13 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.buildTableActionsDef();
-    return [
-      new TableExportAction().getActionDef(),
-      ...tableActionsDef,
-    ];
+    // remove default add action + add export action
+    return [new TableExportAction().getActionDef()];
+  }
+
+  public buildTableRowActions(): TableActionDef[] {
+    // remove default delete action
+    return [];
   }
 
   public buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
@@ -78,7 +83,19 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public exportParameters() {
-    throw new Error('Method not implemented.');
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.dialog.exportConfig.title'),
+      this.translateService.instant('chargers.dialog.exportConfig.confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}Site Area${Constants.CSV_SEPARATOR}Site\r\n`;
+        for (const parameter of this.getContent()) {
+          csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${Utils.replaceSpecialCharsInCSVValueParam(parameter.value)}"${Constants.CSV_SEPARATOR}${this.charger.siteArea.name}${Constants.CSV_SEPARATOR}${this.charger.siteArea.site.name}\r\n`;
+        }
+        const blob = new Blob([csv]);
+        saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);
+      }
+    });
   }
 
   private saveOcppParameter(param: OcppParameter) {
@@ -148,13 +165,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    const index = this.editableRows.indexOf(editableRow);
     let actionDone = false;
     switch (actionDef.id) {
-      case ButtonAction.INLINE_DELETE:
-        this.editableRows.splice(index, 1);
-        actionDone = true;
-        break;
       case ButtonAction.INLINE_SAVE:
         this.saveOcppParameter(editableRow);
         actionDone = true;
@@ -170,7 +182,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         id: 'key',
         name: 'chargers.charger_param_key',
         editType: TableEditType.DISPLAY_ONLY,
-        headerClass: 'text-center col-20p',
+        headerClass: 'text-right col-20p',
         class: 'text-right col-20p',
       },
       {
@@ -206,7 +218,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     } as OcppParameter;
   }
 
-  setContent(content: OcppParameter[]) {
+  public setContent(content: OcppParameter[]) {
     if (content.length === 0) {
       const param = this.createRow();
       content.push(param);

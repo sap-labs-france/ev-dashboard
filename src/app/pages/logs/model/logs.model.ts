@@ -11,10 +11,10 @@ export const logActions: KeyValue[] = [
   {key: 'Authorize', value: 'Authorize'},
   {key: 'BuildConsumption', value: 'BuildConsumption'},
   {key: 'BootNotification', value: 'BootNotification'},
-  {key: 'ChargingStationConfiguration', value: 'ChargingStationConfiguration'},
+  {key: 'ChargingStationOcppParameters', value: 'ChargingStationOcppParameters'},
   {key: 'ChargingStationConsumption', value: 'ChargingStationConsumption'},
   {key: 'ChargingStationDelete', value: 'ChargingStationDelete'},
-  {key: 'ChargingStationRequestConfiguration', value: 'ChargingStationRequestConfiguration'},
+  {key: 'ChargingStationRequestOcppParameters', value: 'ChargingStationRequestOcppParameters'},
   {key: 'ChargingStationUpdateParams', value: 'ChargingStationUpdateParams'},
   {key: 'ClearCache', value: 'ClearCache'},
   {key: 'ChargingProfileDelete', value: 'ChargingProfileDelete'},
@@ -72,6 +72,7 @@ export const logActions: KeyValue[] = [
   {key: 'SiteUpdate', value: 'SiteUpdate'},
   {key: 'StartTransaction', value: 'StartTransaction'},
   {key: 'Startup', value: 'Startup'},
+  {key: 'Locking', value: 'Locking'},
   {key: 'StatusNotification', value: 'StatusNotification'},
   {key: 'StopTransaction', value: 'StopTransaction'},
   {key: 'TransactionDelete', value: 'TransactionDelete'},
@@ -148,6 +149,7 @@ export const logActions: KeyValue[] = [
   {key: 'BillingCreateInvoice', value: 'BillingCreateInvoice'},
   {key: 'BillingCreateInvoiceItem', value: 'BillingCreateInvoiceItem'},
   {key: 'SAPSmartCharging', value: 'SAPSmartCharging'},
+  {key: 'CheckAndApplySmartCharging', value: 'CheckAndApplySmartCharging'},
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

@@ -360,7 +360,7 @@
               <div *ngIf="refundSetting" class="col-md-6 col-xl-4">
                 <div class="card">
                   <div class="card-body">
-                    <a [attr.href]="getConcurUrl()" target="_blank">
+                    <a [attr.href]="getRefundUrl()" target="_blank">
                       <div class="d-flex flex-row align-items-center">
                         <img src="/assets/img/integrations/concur-logo.png"
                              class="card-logo img-thumbnail mr-3"/>
@@ -369,21 +369,21 @@
                     </a>
                   </div>
                   <div class="card-footer">
-                    <div *ngIf="isConcurConnectionValid"
+                    <div *ngIf="isRefundConnectionValid"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <div class="d-flex flex-column align-items-start">
-                        <span>{{'users.connectors.created_on' | translate}} {{ concurConnection.createdAt | appDate}}</span>
-                        <span>{{'users.connectors.expired_on' | translate}} {{ concurConnection.validUntil | appDate}}</span>
+                        <span>{{'users.connectors.created_on' | translate}} {{ refundConnection.createdAt | appDate}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ refundConnection.validUntil | appDate}}</span>
                       </div>
-                      <button mat-raised-button color="warn" (click)="revokeConcurAccount()">
+                      <button mat-raised-button color="warn" (click)="revokeRefundAccount()">
                         <mat-icon>delete</mat-icon>
                         <span>{{'users.connectors.revoke' | translate}}</span>
                       </button>
                     </div>
-                    <div *ngIf="!isConcurConnectionValid"
+                    <div *ngIf="!isRefundConnectionValid"
                          class="d-flex flex-row align-items-center justify-content-between">
                       <span>{{'users.connectors.not_connected' | translate}} </span>
-                      <button mat-raised-button color="primary" (click)="linkConcurAccount()">
+                      <button mat-raised-button color="primary" (click)="linkRefundAccount()">
                         <mat-icon>launch</mat-icon>
                         <span>{{'users.connectors.connect' | translate}}</span>
                       </button>
@@ -426,14 +426,14 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="canSeeInvoice">
+            <!-- <div class="row" *ngIf="canSeeInvoice">
               <div class="col-md-1">
                 <button mat-raised-button color="primary" (click)="getInvoice()">
                   <mat-icon>receipt</mat-icon>
                   <span>View invoice</span>
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </mat-tab>
         <mat-tab disabled>

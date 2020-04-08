@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.25',
+        date: new Date('2020-04-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging fixes`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.24',
         date: new Date('2020-04-04'),
         componentChanges: [

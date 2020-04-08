@@ -24,10 +24,6 @@ import '@angular/localize/init';
 
 (window as any).global = window;
 
-/** Temporary workaround, see: https://github.com/angular/angular-cli/issues/17320 */
-window['_rollupMoment__default'] = null;
-window['dragulaExpt__default'] = null;
-
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */

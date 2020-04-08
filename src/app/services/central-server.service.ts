@@ -21,7 +21,7 @@ import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
 import { Site, SiteUser, UserSite } from 'app/types/Site';
-import { SiteArea } from 'app/types/SiteArea';
+import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
@@ -1112,6 +1112,25 @@ export class CentralServerService {
     this.getSorting(ordering, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<OcpiEndpoint>>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpoints`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getSiteAreaConsumption(siteAreaId: string, startDate: Date, endDate: Date): Observable<SiteAreaConsumption> {
+    const params: { [param: string]: string } = {};
+    params['SiteAreaId'] = siteAreaId;
+    params['StartDate'] = startDate.toUTCString();
+    params['EndDate'] = endDate.toUTCString();
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<SiteAreaConsumption>(
+      `${this.centralRestServerServiceSecuredURL}/SiteAreaConsumption`,
       {
         headers: this.buildHttpHeaders(),
         params,

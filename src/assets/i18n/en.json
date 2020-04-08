@@ -1497,6 +1497,11 @@
       "companies": "Companies",
       "sites": "Sites",
       "siteareas": "Site Areas"
+    },
+    "graph": {
+      "power": "Instant Power (kW)",
+      "no_consumption": "No consumption data available",
+      "limit_watts": "Max Limit (kW)"
     }
   },
   "building": {

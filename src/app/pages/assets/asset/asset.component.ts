@@ -97,14 +97,12 @@ export class AssetComponent implements OnInit {
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
-            Validators.required,
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
           ])),
         new FormControl('',
           Validators.compose([
-            Validators.required,
             Validators.max(90),
             Validators.min(-90),
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),

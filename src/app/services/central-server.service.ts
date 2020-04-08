@@ -2473,10 +2473,10 @@ export class CentralServerService {
       );
   }
 
-  public deleteIntegrationConnection(userId: string, connectorId: string): Observable<ActionResponse> {
+  public deleteIntegrationConnection(id: string): Observable<ActionResponse> {
     this.checkInit();
     return this.httpClient.delete<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?userId=${userId}&connectorId=${connectorId}`,
+      `${this.centralRestServerServiceSecuredURL}/IntegrationConnectionDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

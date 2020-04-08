@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
 import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
+import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -49,6 +51,8 @@ import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-s
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
   private refundTransactionEnabled = false;
   private refundSetting!: RefundSettings;
+  private isAdmin: boolean;
+  private tableSyncRefundAction = new TableSyncRefundAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -69,6 +73,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService, translateService);
     this.refundTransactionEnabled = this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
+    this.isAdmin = this.authorizationService.isAdmin();
     // Check
     this.checkConcurConnection();
     // Init
@@ -232,20 +237,38 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   buildTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.buildTableActionsDef();
+    let tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(new TableExportAction().getActionDef());
     if (this.refundTransactionEnabled) {
-      return [
+      tableActionsDef = [
         ...tableActionsDef,
         new TableRefundAction().getActionDef(),
         new TableOpenInConcurAction().getActionDef(),
       ];
+      if (this.isAdmin) {
+        tableActionsDef.push(
+          this.tableSyncRefundAction,
+        );
+      }
     }
     return tableActionsDef;
   }
 
   actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
+      case RefundButtonAction.SYNCHRONIZE:
+        if (this.tableSyncRefundAction.action) {
+          this.tableSyncRefundAction.action(
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
+        }
+        break;
       case TransactionButtonAction.REFUND:
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));

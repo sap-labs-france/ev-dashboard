@@ -17,3 +17,7 @@ export enum RefundType {
   REFUNDED = 'refunded',
   NOT_REFUNDED = 'notRefunded',
 }
+
+export enum RefundButtonAction {
+  SYNCHRONIZE = 'synchronize',
+}

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
 import { RestResponse } from 'app/types/GlobalType';
 import { RefundSettings, RefundSettingsType } from 'app/types/Setting';
-import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -98,25 +98,17 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public synchronize() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.refund.synchronize_dialog_refund_title'),
-      this.translateService.instant('settings.refund.synchronize_dialog_refund_confirm'),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        this.messageService.showInfoMessage('settings.refund.synchronize_started');
-        this.centralServerService.synchronizeRefundedTransactions().subscribe((synchronizeResponse) => {
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('settings.refund.synchronize_success');
-            this.refresh();
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService, 'settings.refund.synchronize_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.refund.synchronize_error');
-        });
-      }
-    });
+    const tableSyncRefundAction = new TableSyncRefundAction().getActionDef();
+    if (tableSyncRefundAction.action) {
+      tableSyncRefundAction.action(
+        this.dialogService,
+        this.translateService,
+        this.messageService,
+        this.centralServerService,
+        this.spinnerService,
+        this.router
+      );
+    }
   }
 
   public refresh() {

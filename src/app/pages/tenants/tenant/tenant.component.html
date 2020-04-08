@@ -200,12 +200,12 @@
                         </div>
                         <div class="d-flex align-items-center component-item">
                           <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
-                            <div><strong><b>{{"smartCharging.title" | translate}}</b></strong></div>
-                            <div>{{"smartCharging.description" | translate}}</div>
+                            <div><strong><b>{{"smart_charging.title" | translate}}</b></strong></div>
+                            <div>{{"smart_charging.description" | translate}}</div>
                           </div>
                           <mat-form-field *ngIf="components['controls'].smartCharging['controls'].active.value" class="flex-shrink-1 mx-5">
                             <mat-select [formControl]="components['controls'].smartCharging['controls'].type"
-                                [placeholder]="'smartCharging.type_placeholder' | translate"
+                                [placeholder]="'smart_charging.type_placeholder' | translate"
                                 [required]="components['controls'].smartCharging['controls'].active.value">
                               <mat-option *ngFor="let smartChargingType of smartChargingTypes" [value]="smartChargingType.key">
                                 {{smartChargingType.description | translate}}

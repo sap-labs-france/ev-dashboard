@@ -71,7 +71,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public address!: Address;
   public refundSetting!: RefundSettings;
   public integrationConnections!: IntegrationConnection[];
-  public concurConnection!: IntegrationConnection;
+  public refundConnection!: IntegrationConnection;
   public passwords!: FormGroup;
   public password!: AbstractControl;
   public repeatPassword!: AbstractControl;
@@ -94,7 +94,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
   public user!: User;
-  public isConcurConnectionValid!: boolean;
+  public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
 
@@ -300,7 +300,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.loadUser();
       }
     });
-    this.loadApplicationSettings();
+    this.loadRefundSettings();
     if (!this.inDialog) {
       super.enableRoutingSynchronization();
     }
@@ -589,106 +589,106 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.formGroup.markAsDirty();
   }
 
-  revokeConcurAccount() {
-    this.centralServerService.deleteIntegrationConnection(this.currentUserID, 'concur').subscribe((response: ActionResponse) => {
+  public revokeRefundAccount() {
+    this.centralServerService.deleteIntegrationConnection(this.refundConnection.id).subscribe(
+      (response: ActionResponse) => {
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('settings.refund.concur.revoke_success');
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'settings.refund.concur.revoke_error');
         }
-        this.loadApplicationSettings();
+        this.loadRefundSettings();
       }, (error) => {
         Utils.handleError(JSON.stringify(error),
           this.messageService, 'settings.refund.concur.revoke_error');
-        this.loadApplicationSettings();
-      },
+        this.loadRefundSettings();
+      }
     );
   }
 
-  linkConcurAccount() {
+  public linkRefundAccount() {
     if (!this.refundSetting || !this.refundSetting.content || !this.refundSetting.content.concur) {
       this.messageService.showErrorMessage(
         this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
       const concurSetting = this.refundSetting.content.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
-      // const returnedUrl = 'https://slfcah.evse.cfapps.eu10.hana.ondemand.com/users/connections';
       const state = {
         connector: 'concur',
         appId: this.refundSetting.id,
         userId: this.currentUserID,
       };
       this.document.location.href =
-        // tslint:disable-next-line:max-line-length
         `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
     }
   }
 
-  getConcurUrl(): string | null {
+  public getRefundUrl(): string | null {
     if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
       return this.refundSetting.content.concur.apiUrl;
     }
     return null;
   }
 
-  getInvoice() {
-    this.spinnerService.show();
-    this.centralServerService.getUserInvoice(this.currentUserID).subscribe((result) => {
-      this.spinnerService.hide();
-      const blob = new Blob([result], { type: 'application/pdf' });
-      const fileUrl = URL.createObjectURL(blob);
-      window.open(fileUrl, '_blank');
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Check status
-      switch (error.status) {
-        case 404:
-          this.messageService.showErrorMessage('users.invoicing.errors.no_invoice_found');
-          break;
-        default:
-          this.messageService.showErrorMessage('users.invoicing.errors.unable_to_get_invoice');
-      }
-    });
-  }
+  // getInvoice() {
+  //   this.spinnerService.show();
+  //   this.centralServerService.getUserInvoice(this.currentUserID).subscribe((result) => {
+  //     this.spinnerService.hide();
+  //     const blob = new Blob([result], { type: 'application/pdf' });
+  //     const fileUrl = URL.createObjectURL(blob);
+  //     window.open(fileUrl, '_blank');
+  //   }, (error) => {
+  //     // Hide
+  //     this.spinnerService.hide();
+  //     // Check status
+  //     switch (error.status) {
+  //       case 404:
+  //         this.messageService.showErrorMessage('users.invoicing.errors.no_invoice_found');
+  //         break;
+  //       default:
+  //         this.messageService.showErrorMessage('users.invoicing.errors.unable_to_get_invoice');
+  //     }
+  //   });
+  // }
 
-  toUpperCase(control: AbstractControl) {
+  public toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
   }
 
-  firstLetterToUpperCase(control: AbstractControl) {
+  public firstLetterToUpperCase(control: AbstractControl) {
     control.setValue(Utils.firstLetterInUpperCase(control.value));
   }
 
-  private loadApplicationSettings() {
-    // if (this.authorizationService.canListSettings()) {
-    this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
-      if (settingResult && settingResult.result && settingResult.result.length > 0) {
-        this.refundSetting = settingResult.result[0] as RefundSettings;
-      }
-    });
-    if (this.currentUserID) {
-      this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
-        // @ts-ignore
-        this.integrationConnections = null;
-        // @ts-ignore
-        this.concurConnection = null;
-        this.isConcurConnectionValid = false;
-        if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
-          for (const connection of connectionResult.result) {
-            if (connection.connectorId === 'concur') {
-              this.concurConnection = connection;
-              this.isConcurConnectionValid = this.concurConnection &&
-                this.concurConnection.validUntil &&
-                new Date(this.concurConnection.validUntil).getTime() > new Date().getTime();
-            }
-          }
-          this.integrationConnections = connectionResult.result;
+  private loadRefundSettings() {
+    if (this.componentService.isActive(TenantComponents.REFUND)) {
+      this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {
+        if (settingResult && settingResult.result && settingResult.result.length > 0) {
+          this.refundSetting = settingResult.result[0] as RefundSettings;
         }
       });
+      if (this.currentUserID) {
+        this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
+          // @ts-ignore
+          this.integrationConnections = null;
+          // @ts-ignore
+          this.refundConnection = null;
+          this.isRefundConnectionValid = false;
+          if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {
+            for (const connection of connectionResult.result) {
+              if (connection.connectorId === 'concur') {
+                this.refundConnection = connection;
+                this.isRefundConnectionValid =
+                  this.refundConnection &&
+                  this.refundConnection.validUntil &&
+                  new Date(this.refundConnection.validUntil).getTime() > new Date().getTime();
+              }
+            }
+            this.integrationConnections = connectionResult.result;
+          }
+        });
+      }
     }
-    // }
   }
 
   private assignTransactionsToUser(user: User) {

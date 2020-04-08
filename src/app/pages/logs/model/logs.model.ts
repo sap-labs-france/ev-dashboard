@@ -54,6 +54,8 @@ export const logActions: KeyValue[] = [
   {key: 'OCPIPullTokens', value: 'OCPIPullTokens'},
   {key: 'OCPIGetVersions', value: 'OCPIGetVersions'},
   {key: 'OCPIDeleteCredentials', value: 'OCPIDeleteCredentials'},
+  {key: 'OCPIPatchStatus', value: 'OCPIPatchStatus'},
+  {key: 'OCPIRegister', value: 'OCPIRegister'},
   {key: 'PricingUpdate', value: 'PricingUpdate'},
   {key: 'RegisterUser', value: 'RegisterUser'},
   {key: 'VerifyEmail', value: 'VerifyEmail'},

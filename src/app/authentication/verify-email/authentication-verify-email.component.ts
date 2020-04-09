@@ -71,7 +71,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
     setTimeout(() => {
-      // after 1000 ms we add the class animated to the login/register card
+      // after 700 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
     // Check email

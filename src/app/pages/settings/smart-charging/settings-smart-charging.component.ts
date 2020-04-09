@@ -49,7 +49,7 @@ export class SettingsSmartChargingComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.smartCharging.setting_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.smart_charging.setting_not_found');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
@@ -71,21 +71,21 @@ export class SettingsSmartChargingComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
-          (!this.smartChargingSettings.id ? 'settings.smartCharging.create_success' : 'settings.smartCharging.update_success'));
+          (!this.smartChargingSettings.id ? 'settings.smart_charging.create_success' : 'settings.smart_charging.update_success'));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.smartChargingSettings.id ? 'settings.smartCharging.create_error' : 'settings.smartCharging.update_error'));
+          this.messageService, (!this.smartChargingSettings.id ? 'settings.smart_charging.create_error' : 'settings.smart_charging.update_error'));
       }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
-          this.messageService.showErrorMessage('settings.smartCharging.setting_do_not_exist');
+          this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.smartChargingSettings.id ? 'settings.smartCharging.create_error' : 'settings.smartCharging.update_error'));
+            (!this.smartChargingSettings.id ? 'settings.smart_charging.create_error' : 'settings.smart_charging.update_error'));
       }
     });
   }
@@ -95,12 +95,12 @@ export class SettingsSmartChargingComponent implements OnInit {
     this.centralServerService.checkSmartChargingConnection().subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('settings.smartCharging.connection_success');
+        this.messageService.showSuccessMessage('settings.smart_charging.connection_success');
       }
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'settings.smartCharging.connection_error');
+        'settings.smart_charging.connection_error');
     });
   }
 

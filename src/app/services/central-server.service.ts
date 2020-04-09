@@ -2509,7 +2509,7 @@ export class CentralServerService {
 
   private buildHttpHeaders(tenant?: string): HttpHeaders {
     const header = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
     if (tenant !== undefined) {
       // @ts-ignore

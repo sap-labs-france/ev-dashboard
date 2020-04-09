@@ -46,6 +46,19 @@ export enum ChargingProfilePurposeType {
   TX_PROFILE = 'TxProfile',
 }
 
+export enum GetCompositeScheduleStatus {
+  ACCEPTED = 'Accepted',
+  REJECTED = 'Rejected',
+}
+
+export interface GetCompositeScheduleCommandResult {
+  status: GetCompositeScheduleStatus;
+  connectorId?: number;
+  scheduleStart?: Date;
+  chargingSchedule: ChargingSchedule;
+}
+
+
 export enum RecurrencyKindType {
   DAILY = 'Daily',
   WEEKLY = 'Weekly',

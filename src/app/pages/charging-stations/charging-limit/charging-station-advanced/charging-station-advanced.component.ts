@@ -6,8 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
-import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -21,7 +21,7 @@ export class ChargingStationAdvancedComponent implements OnInit {
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;
   public connectorIds: string[];
-  public scheduleResult!: OCPPGetCompositeScheduleCommandResult|OCPPGetCompositeScheduleCommandResult[];
+  public scheduleResult!: GetCompositeScheduleCommandResult|GetCompositeScheduleCommandResult[];
   public durationControl!: AbstractControl;
 
   constructor(

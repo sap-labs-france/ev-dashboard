@@ -31,7 +31,7 @@
               <mat-select [disabled]="charger.inactive || (isSmartChargingComponentActive && charger.siteArea.smartCharging) || !chargingProfiles"
                   [formControl]="chargingProfilesControl" placeholder="{{'chargers.smart_charging.charging_profile_limit' | translate}}">
                 <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile">
-                  {{'chargers.connector' | translate}} {{chargingProfile.connectorID}} ({{'chargers.smart_charging.stack_level' | translate}} {{chargingProfile.profile.stackLevel}})
+                  {{'chargers.connector' | translate}}: {{chargingProfile.connectorID}}, {{'chargers.smart_charging.profile_type' | translate}}: {{chargingProfile.profile.chargingProfilePurpose}}, {{'chargers.smart_charging.stack_level' | translate}}: {{chargingProfile.profile.stackLevel}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

@@ -754,7 +754,7 @@
       "planning_energy_limit": "Plans de Charge",
       "from_date": "De",
       "to_date": "à",
-      "profile_type": "Type de profile",
+      "profile_type": "Type",
       "stack_level": "Niveau",
       "profile_id": "Identifiant",
       "duration": "Durée (mins)",

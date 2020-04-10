@@ -150,8 +150,7 @@ export const logActions: KeyValue[] = [
   {key: 'BillingGetOpenedInvoice', value: 'BillingGetOpenedInvoice'},
   {key: 'BillingCreateInvoice', value: 'BillingCreateInvoice'},
   {key: 'BillingCreateInvoiceItem', value: 'BillingCreateInvoiceItem'},
-  {key: 'SAPSmartCharging', value: 'SAPSmartCharging'},
-  {key: 'CheckAndApplySmartCharging', value: 'CheckAndApplySmartCharging'},
+  {key: 'SmartCharging', value: 'SmartCharging'},
 ].sort((action1, action2) => {
   if (action1.value.toLocaleLowerCase() < action2.value.toLocaleLowerCase()) {
     return -1;

@@ -39,7 +39,8 @@ export class ReleaseNotesComponent {
               `Do not delete the Tx Default Profile`,
               `Add the Transaction ID in the Tx Profile`,
               `Display Profile Type in Charging Plan drop down`,
-              `Keep the Charging Plan drop down always enabled`
+              `Keep the Charging Plan drop down always enabled`,
+              `Made Smart Charging button always visible in Charging Stations list`,
             ],
           },
         ],

@@ -15,7 +15,7 @@
     "target": "es2015",
     "module": "esnext",
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ],
     "typeRoots": [

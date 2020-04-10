@@ -2489,7 +2489,10 @@ export class CentralServerService {
 
   private buildHttpHeaders(tenant?: string): HttpHeaders {
     const header = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Sec-Fetch-Dest': 'nested-document',
+      'Sec-Fetch-Mode': 'no-cors',
+      'Sec-Fetch-Site': 'cross-site'
     };
     if (tenant !== undefined) {
       // @ts-ignore

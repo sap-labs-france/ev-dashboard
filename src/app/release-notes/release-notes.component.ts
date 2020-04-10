@@ -24,13 +24,23 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.27',
+        version: '2.2.28',
         date: new Date('2020-04-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Smart Charging fixes`,
+              `Added new SupendedEV/EVSE statuses in Smart Charging`,
+              `Round Amps in Charging Profile before applying it to the Charging Station`,
+              `Delay the Smart Charging call when Start Transaction is received`,
+              `Delete the Tx Profile after Stop Transaction`,
+              `Delete all the Tx Profiles of all Charging Stations after deactivating the Smart Charge for a given Site Area (keep the Tx Default ones)`,
+              `Removed the 4th safe slot in Smart Charging`,
+              `Do not delete the Tx Default Profile`,
+              `Add the Transaction ID in the Tx Profile`,
+              `Display Profile Type in Charging Plan drop down`,
+              `Keep the Charging Plan drop down always enabled`,
+              `Made Smart Charging button always visible in Charging Stations list`,
             ],
           },
         ],

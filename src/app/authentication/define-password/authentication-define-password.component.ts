@@ -74,17 +74,17 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
       window.location.href = mobileAppURL;
     }
+    setTimeout(() => {
+      const card = document.getElementsByClassName('card')[0];
+      // After 700 ms we add the class animated to the login/register card
+      card.classList.remove('card-hidden');
+    }, 700);
   }
 
   ngOnInit() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-    const card = document.getElementsByClassName('card')[0];
-    setTimeout(() => {
-      // After 700 ms we add the class animated to the login/register card
-      card.classList.remove('card-hidden');
-    }, 700);
   }
 
   ngOnDestroy() {

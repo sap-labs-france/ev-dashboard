@@ -28,7 +28,7 @@
         <div class="row">
           <div *ngIf="(isSmartChargingComponentActive && charger.siteArea.smartCharging) || chargingProfiles.length > 1" class="form-group col-md-12 mb-1 m-1">
             <mat-form-field>
-              <mat-select [disabled]="charger.inactive || (isSmartChargingComponentActive && charger.siteArea.smartCharging) || !chargingProfiles"
+              <mat-select
                   [formControl]="chargingProfilesControl" placeholder="{{'chargers.smart_charging.charging_profile_limit' | translate}}">
                 <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile">
                   {{'chargers.connector' | translate}}: {{chargingProfile.connectorID}}, {{'chargers.smart_charging.profile_type' | translate}}: {{chargingProfile.profile.chargingProfilePurpose}}, {{'chargers.smart_charging.stack_level' | translate}}: {{chargingProfile.profile.stackLevel}}

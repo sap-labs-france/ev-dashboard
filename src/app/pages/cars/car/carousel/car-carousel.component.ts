@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -12,7 +12,7 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: './car-carousel.component.html',
   providers: [NgbCarouselConfig],  // add NgbCarouselConfig to the component providers
 })
-export class CarCarouselComponent implements OnInit {
+export class CarCarouselComponent implements AfterViewInit {
   @Input() carID!: number;
   public images!: string[];
   public loading = false;
@@ -29,7 +29,7 @@ export class CarCarouselComponent implements OnInit {
     config.pauseOnHover = false;
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     if (this.carID) {
       this.centralServerService.getCarImages(this.carID, {}, { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
         this.images = Array(carImage.count).fill('');
@@ -43,15 +43,14 @@ export class CarCarouselComponent implements OnInit {
   }
 
   onSlide(event: NgbSlideEvent) {
-    const imageIndex = parseInt(event.current.replace("slideId_", ""), 10);
+    const imageIndex = parseInt(event.current.replace('slideId_', ''), 10);
     if (this.images[imageIndex] === '') {
       this.spinnerService.show();
       this.loading = true;
       this.centralServerService.getCarImages(this.carID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
-        this.images[imageIndex] = carImage.result[0].image;
         this.spinnerService.hide();
+        this.images[imageIndex] = carImage.result[0].image;
         this.loading = false;
-
       }, (error) => {
         // Show error
         this.spinnerService.hide();
@@ -59,5 +58,4 @@ export class CarCarouselComponent implements OnInit {
       });
     }
   }
-
 }

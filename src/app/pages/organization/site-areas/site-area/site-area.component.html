@@ -52,10 +52,8 @@
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field>
-                    <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}"
-                                required>
-                      <mat-option *ngFor="let site of sites"
-                                  value="{{site.id}}">{{site.name}}</mat-option>
+                    <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}" required>
+                      <mat-option *ngFor="let site of sites" value="{{site.id}}">{{site.name}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="siteID.errors?.required">
                       {{"general.mandatory_field" | translate}}

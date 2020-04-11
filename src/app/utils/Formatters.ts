@@ -1,6 +1,9 @@
 
 export class Formatters {
   public static formatTextToHTML(value: any): string {
+    console.log('====================================');
+    console.log(value);
+    console.log('====================================');
     // Check
     if (Array.isArray(value)) {
       for (let i = 0; i < value.length; i++) {
@@ -22,9 +25,9 @@ export class Formatters {
       return Formatters._formatTextToHTML(JSON.stringify(value));
       // String?
     } else if (typeof value === 'string') {
-      let parsedValue;
+      let parsedValue: string;
       try {
-        // Try to parse it
+        // Try to parse and format it
         parsedValue = JSON.stringify(JSON.parse(value), null, 6);
         // Ok: Format
         parsedValue = parsedValue
@@ -41,7 +44,7 @@ export class Formatters {
       return parsedValue;
     } else {
       // Unknown
-      return value;
+      return value + '';
     }
   }
 }

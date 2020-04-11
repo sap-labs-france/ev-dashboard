@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.28',
-        date: new Date('2020-04-10'),
+        version: '2.2.29',
+        date: new Date('2020-04-11'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -40,6 +40,8 @@ export class ReleaseNotesComponent {
               `Add the Transaction ID in the Tx Profile`,
               `Display Profile Type in Charging Plan drop down`,
               `Keep the Charging Plan drop down always enabled`,
+              `Store Car images in the database`,
+              `Optimized Car images loading management`,
               `Made Smart Charging button always visible in Charging Stations list`,
             ],
           },

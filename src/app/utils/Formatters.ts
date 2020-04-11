@@ -1,9 +1,6 @@
 
 export class Formatters {
   public static formatTextToHTML(value: any): string {
-    console.log('====================================');
-    console.log(value);
-    console.log('====================================');
     // Check
     if (Array.isArray(value)) {
       for (let i = 0; i < value.length; i++) {

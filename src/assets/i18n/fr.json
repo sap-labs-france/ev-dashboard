@@ -116,6 +116,7 @@
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "car_error": "Une erreur est survenue pendant la récupération du véhicule",
     "cars_error": "Une erreur est survenue pendant la récupération des véhicules",
+    "car_image_error": "Une erreur est survenue pendant la récupération des images du véhicule",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
     "invalid_content": "Contenu invalide",

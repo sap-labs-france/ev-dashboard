@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
-import { Car, CarMakersTable } from 'app/types/Car';
+import { Car, CarMakersTable, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -2215,6 +2215,24 @@ export class CentralServerService {
       `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCarImages(carID: number, params: { [param: string]: string | string[]; },
+     paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<ImageObject>>(
+      `${this.centralRestServerServiceSecuredURL}/CarImages?CarID=${carID}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),

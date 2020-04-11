@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Building } from 'app/types/Building';
 import { Car, CarMakersTable, ImageObject } from 'app/types/Car';
-import { ChargingProfile } from 'app/types/ChargingProfile';
+import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
@@ -16,7 +16,6 @@ import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
@@ -2290,7 +2289,7 @@ export class CentralServerService {
   }
 
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-    Observable<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]> {
+    Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2304,7 +2303,7 @@ export class CentralServerService {
         }
       }`;
     // Execute
-    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]>(
+    return this.httpClient.post<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]>(
       `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
         headers: this.buildHttpHeaders(),
@@ -2508,7 +2507,7 @@ export class CentralServerService {
 
   private buildHttpHeaders(tenant?: string): HttpHeaders {
     const header = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
     if (tenant !== undefined) {
       // @ts-ignore

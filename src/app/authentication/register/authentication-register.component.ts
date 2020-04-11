@@ -45,7 +45,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
     private configService: ConfigService) {
-    // Load the tranlated messages
+    // Load the translated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
     });
@@ -95,17 +95,17 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.firstName = this.formGroup.controls['firstName'];
     this.acceptEula = this.formGroup.controls['acceptEula'];
+    setTimeout(() => {
+      const card = document.getElementsByClassName('card')[0];
+      // After 700 ms we add the class animated to the login/register card
+      card.classList.remove('card-hidden');
+    }, 700);
   }
 
   ngOnInit() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-    const card = document.getElementsByClassName('card')[0];
-    setTimeout(() => {
-      // After 1000 ms we add the class animated to the login/register card
-      card.classList.remove('card-hidden');
-    }, 700);
   }
 
   ngOnDestroy() {

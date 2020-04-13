@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CentralServerService } from 'app/services/central-server.service';

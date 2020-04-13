@@ -281,7 +281,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (car) {
-      dialogConfig.data = car.id
+      dialogConfig.data = car.id;
     }
     // disable outside click close
     dialogConfig.disableClose = false;

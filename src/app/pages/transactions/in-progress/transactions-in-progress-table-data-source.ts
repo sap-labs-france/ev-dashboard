@@ -31,6 +31,7 @@ import { TableOpenAction } from '../../../shared/table/actions/table-open-action
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -203,15 +204,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   buildTableFiltersDef(): TableFilterDef[] {
-    const filters: TableFilterDef[] = [
-      new ChargerTableFilter().getFilterDef(),
-    ];
+    const filters: TableFilterDef[] = [];
 
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+      filters.push(new IssuerFilter().getFilterDef()),
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
+
+    filters.push(new ChargerTableFilter().getFilterDef());
 
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());

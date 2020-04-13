@@ -19,7 +19,6 @@ export abstract class TableDataSource<T extends Data> {
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
-  private manualRefreshSubject = new Subject<void>();
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -40,7 +39,7 @@ export abstract class TableDataSource<T extends Data> {
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
   public multipleRowSelection!: boolean;
-
+  private manualRefreshSubject = new Subject<void>();
   private loadingNumberOfRecords = false;
   private searchValue = '';
   private staticFilters: object[] = [];
@@ -261,6 +260,22 @@ export abstract class TableDataSource<T extends Data> {
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
     }
+
+    if (filter.multiple) {
+      this.updateFilterLabel(filter);
+    }
+  }
+
+  public updateFilterLabel(filter: TableFilterDef) {
+    if (filter.type === FilterType.DROPDOWN && filter.multiple) {
+      if (Array.isArray(filter.currentValue)) {
+        if (filter.currentValue.length > 0) {
+          filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+        } else {
+          filter.label = '';
+        }
+      }
+    }
   }
 
   public resetFilters() {
@@ -269,12 +284,7 @@ export abstract class TableDataSource<T extends Data> {
       this.tableFiltersDef.forEach((filterDef: TableFilterDef) => {
         switch (filterDef.type) {
           case FilterType.DROPDOWN:
-            if (filterDef.multiple) {
-              filterDef.currentValue = [];
-              filterDef.label = '';
-            } else {
-              filterDef.currentValue = null;
-            }
+            filterDef.reset();
             break;
           case FilterType.DIALOG_TABLE:
             if (filterDef.multiple) {
@@ -288,6 +298,7 @@ export abstract class TableDataSource<T extends Data> {
             filterDef.reset && filterDef.reset();
             break;
         }
+        this.updateFilterLabel(filterDef);
       });
       // Init
       this.resetTotalNumberOfRecords();
@@ -306,7 +317,7 @@ export abstract class TableDataSource<T extends Data> {
   public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
   }
 
-  public getDataChangeSubject(): Observable<ChangeNotification>|null {
+  public getDataChangeSubject(): Observable<ChangeNotification> | null {
     return null;
   }
 
@@ -347,7 +358,7 @@ export abstract class TableDataSource<T extends Data> {
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0) {
+            if (filterDef.currentValue.length > 0 && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
               // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
@@ -560,6 +571,9 @@ export abstract class TableDataSource<T extends Data> {
   private initTableFiltersDef(force: boolean): TableFilterDef[] {
     if (!this.tableFiltersDef || force) {
       this.tableFiltersDef = this.buildTableFiltersDef();
+      for (const tableFilterDef of this.tableFiltersDef) {
+        this.updateFilterLabel(tableFilterDef);
+      }
     }
     return this.tableFiltersDef;
   }

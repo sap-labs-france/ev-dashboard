@@ -37,6 +37,7 @@ import { TableExportAction } from '../../../shared/table/actions/table-export-ac
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -226,6 +227,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       // @ts-ignore
+      new IssuerFilter().getFilterDef(),
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),

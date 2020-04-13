@@ -33,6 +33,7 @@ export interface TableFilterDef {
   dialogComponentData?: any;
   reset?: () => void;
   multiple?: boolean;
+  exhaustive?: boolean;
   cleared?: boolean;
 }
 

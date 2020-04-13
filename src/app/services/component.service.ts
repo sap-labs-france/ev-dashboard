@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
-import { AnalyticsSettings, BillingSettings, BillingSettingsType, BuildingSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import { AnalyticsSettings, AssetSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 // tslint:disable-next-line:max-line-length
@@ -316,22 +316,22 @@ export class ComponentService {
     });
   }
 
-  public getBuildingSettings(): Observable<BuildingSettings> {
+  public getAssetSettings(): Observable<AssetSettings> {
     return new Observable((observer) => {
-      const buildingSettings = {
-        identifier: TenantComponents.BUILDING,
-      } as BuildingSettings;
+      const assetSettings = {
+        identifier: TenantComponents.ASSET,
+      } as AssetSettings;
       // Get the Pricing settings
-      this.centralServerService.getSettings(TenantComponents.BUILDING).subscribe((settings) => {
+      this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
           const config = settings.result[0].content;
           // ID
-          buildingSettings.id = settings.result[0].id;
+          assetSettings.id = settings.result[0].id;
           // Sensitive data
-          buildingSettings.sensitiveData = settings.result[0].sensitiveData;
+          assetSettings.sensitiveData = settings.result[0].sensitiveData;
         }
-        observer.next(buildingSettings);
+        observer.next(assetSettings);
         observer.complete();
       }, (error) => {
         observer.error(error);

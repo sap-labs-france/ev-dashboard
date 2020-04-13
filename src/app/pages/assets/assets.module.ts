@@ -7,12 +7,12 @@ import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import { BuildingComponent } from './building/building.component';
-import { BuildingDialogComponent } from './building/building.dialog.component';
-import { BuildingsComponent } from './buildings.component';
-import { BuildingsRoutes } from './buildings.routing';
-import { BuildingsListTableDataSource } from './list/buildings-list-table-data-source';
-import { BuildingsListComponent } from './list/buildings-list.component';
+import { AssetComponent } from './asset/asset.component';
+import { AssetDialogComponent } from './asset/asset.dialog.component';
+import { AssetsComponent } from './assets.component';
+import { AssetsRoutes } from './assets.routing';
+import { AssetsListTableDataSource } from './list/assets-list-table-data-source';
+import { AssetsListComponent } from './list/assets-list.component';
 
 @NgModule({
   imports: [
@@ -24,24 +24,24 @@ import { BuildingsListComponent } from './list/buildings-list.component';
     MaterialModule,
     TableModule,
     DialogsModule,
-    RouterModule.forChild(BuildingsRoutes),
+    RouterModule.forChild(AssetsRoutes),
   ],
   declarations: [
-    BuildingsComponent,
-    BuildingComponent,
-    BuildingDialogComponent,
-    BuildingsListComponent,
+    AssetsComponent,
+    AssetComponent,
+    AssetDialogComponent,
+    AssetsListComponent,
   ],
   entryComponents: [
-    BuildingsComponent,
-    BuildingComponent,
-    BuildingDialogComponent,
-    BuildingsListComponent,
+    AssetsComponent,
+    AssetComponent,
+    AssetDialogComponent,
+    AssetsListComponent,
   ],
   providers: [
-    BuildingsListTableDataSource,
+    AssetsListTableDataSource,
   ],
 })
 
-export class BuildingsModule {
+export class AssetsModule {
 }

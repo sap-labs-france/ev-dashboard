@@ -12,21 +12,21 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Building, BuildingImage } from 'app/types/Building';
+import { Asset, AssetImage } from 'app/types/Asset';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { BuildingDialogComponent } from '../building/building.dialog.component';
+import { AssetDialogComponent } from '../asset/asset.dialog.component';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 
 @Injectable()
-export class BuildingsListTableDataSource extends TableDataSource<Building> {
+export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -51,21 +51,21 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectBuildings();
+    return this.centralServerNotificationService.getSubjectAssets();
   }
 
-  public loadDataImpl(): Observable<DataResult<Building>> {
+  public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
-      // get buildings
-      this.centralServerService.getBuildings(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((buildings) => {
+      // get assets
+      this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((assets) => {
         // lookup for image otherwise assign default
-        for (const building of buildings.result) {
-          if (!building.image) {
-            building.image = BuildingImage.NO_IMAGE;
+        for (const asset of assets.result) {
+          if (!asset.image) {
+            asset.image = AssetImage.NO_IMAGE;
           }
         }
         // Ok
-        observer.next(buildings);
+        observer.next(assets);
         observer.complete();
       }, (error) => {
         // Show error
@@ -89,32 +89,18 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
-        name: 'buildings.name',
-        headerClass: 'col-30p',
-        class: 'text-left col-30p',
+        name: 'assets.name',
+        headerClass: 'col-40p',
+        class: 'text-left col-40p',
         sorted: true,
         direction: 'asc',
         sortable: true,
       },
       {
-        id: 'address.city',
-        name: 'general.city',
-        headerClass: 'col-30p',
-        class: 'col-30p',
-        sortable: true,
-      },
-      {
-        id: 'address.country',
-        name: 'general.country',
-        headerClass: 'col-30p',
-        class: 'col-30p',
-        sortable: true,
-      },
-      {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        headerClass: 'col-50p',
+        class: 'col-50p',
         sortable: true,
       },
     ];
@@ -132,11 +118,11 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(building: Building) {
+  public buildTableDynamicRowActions(asset: Asset) {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !Utils.containsAddressGPSCoordinates(building.address);
+    openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     if (this.isAdmin) {
       actions.push(this.editAction);
       actions.push(new TableMoreAction([
@@ -155,21 +141,21 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     switch (actionDef.id) {
       // Add
       case ButtonAction.CREATE:
-        this.showBuildingDialog();
+        this.showAssetDialog();
         break;
       default:
         super.actionTriggered(actionDef);
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Building) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: Asset) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showBuildingDialog(rowItem);
+        this.showAssetDialog(rowItem);
         break;
       case ButtonAction.DELETE:
-        this.deleteBuilding(rowItem);
+        this.deleteAsset(rowItem);
         break;
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(rowItem);
@@ -189,19 +175,19 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     return [];
   }
 
-  private showBuildingDialog(building?: Building) {
+  private showAssetDialog(asset?: Asset) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (building) {
-      dialogConfig.data = building.id;
+    if (asset) {
+      dialogConfig.data = asset.id;
     }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = this.dialog.open(BuildingDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AssetDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();
@@ -209,29 +195,29 @@ export class BuildingsListTableDataSource extends TableDataSource<Building> {
     });
   }
 
-  private showPlace(building: Building) {
-    if (building && building.address && building.address.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${building.address.coordinates[1]},${building.address.coordinates[0]}`);
+  private showPlace(asset: Asset) {
+    if (asset && asset.coordinates) {
+      window.open(`http://maps.google.com/maps?q=${asset.coordinates[1]},${asset.coordinates[0]}`);
     }
   }
 
-  private deleteBuilding(building: Building) {
+  private deleteAsset(asset: Asset) {
     this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('buildings.delete_title'),
-      this.translateService.instant('buildings.delete_confirm', {buildingName: building.name}),
+      this.translateService.instant('assets.delete_title'),
+      this.translateService.instant('assets.delete_confirm', {assetName: asset.name}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        this.centralServerService.deleteBuilding(building.id).subscribe((response) => {
+        this.centralServerService.deleteAsset(asset.id).subscribe((response) => {
           if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('buildings.delete_success', {buildingName: building.name});
+            this.messageService.showSuccessMessage('assets.delete_success', {assetName: asset.name});
             this.refreshData().subscribe();
           } else {
             Utils.handleError(JSON.stringify(response),
-              this.messageService, 'buildings.delete_error');
+              this.messageService, 'assets.delete_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'buildings.delete_error');
+            'assets.delete_error');
         });
       }
     });

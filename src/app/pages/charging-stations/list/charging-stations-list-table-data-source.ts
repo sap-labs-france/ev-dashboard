@@ -366,9 +366,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
+        this.smartChargingAction,
         this.rebootAction,
         new TableMoreAction([
-          this.smartChargingAction,
           this.clearCacheAction,
           this.resetAction,
           isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,

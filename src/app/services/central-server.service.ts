@@ -5,8 +5,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car, CarMakersTable } from 'app/types/Car';
-import { ChargingProfile } from 'app/types/ChargingProfile';
+import { Car, CarMakersTable, ImageObject } from 'app/types/Car';
+import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
@@ -16,7 +16,6 @@ import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { OCPPGetCompositeScheduleCommandResult } from 'app/types/OCPPClient';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
@@ -2222,6 +2221,24 @@ export class CentralServerService {
       );
   }
 
+  public getCarImages(carID: number, params: { [param: string]: string | string[]; },
+     paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<ImageObject>>(
+      `${this.centralRestServerServiceSecuredURL}/CarImages?CarID=${carID}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getCarMakers(params: { [param: string]: string | string[]; }): Observable<DataResult<CarMakersTable>> {
     // Verify init
     this.checkInit();
@@ -2272,7 +2289,7 @@ export class CentralServerService {
   }
 
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-    Observable<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]> {
+    Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -2286,7 +2303,7 @@ export class CentralServerService {
         }
       }`;
     // Execute
-    return this.httpClient.post<OCPPGetCompositeScheduleCommandResult | OCPPGetCompositeScheduleCommandResult[]>(
+    return this.httpClient.post<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]>(
       `${this.centralRestServerServiceSecuredURL}/ChargingStationGetCompositeSchedule`, body,
       {
         headers: this.buildHttpHeaders(),
@@ -2341,10 +2358,6 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     const date = new Date().toISOString();
-    // const locationURL = encodeURI('http://192.168.0.253:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk');
-    // const locationURL = encodeURI(`${this.centralRestServerServiceUtilURL}/FirmwareDownload?FileName=${fileName}`);
-    // const locationURL = `http://download.schneider-electric.com/files?p_enDocType=Software+-+Updates&p_File_Name=R7+3.3.0.10.zip&p_Doc_Ref=MFR4341700`;
-    // const locationURL = `http://37.71.38.83:8080/client/util/FirmwareDownload?FileName=r7_update_3.3.0.10_d4.epk`;
     const body = (
       `{
         "chargeBoxID": "${charger.id}",
@@ -2490,7 +2503,7 @@ export class CentralServerService {
 
   private buildHttpHeaders(tenant?: string): HttpHeaders {
     const header = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
     if (tenant !== undefined) {
       // @ts-ignore

@@ -21,7 +21,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { CarComponent } from '../car/car.component';
+import { CarDialogComponent } from '../car/car.dialog.component';
 import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
 
 @Injectable()
@@ -58,10 +58,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
         // lookup for image otherwise assign default
         for (const car of cars.result) {
-          if (!car.images || car.images.length < 1) {
+          if (!car.image) {
             car.image = CarImage.NO_IMAGE;
-          } else {
-            car.image = car.images[0];
           }
         }
         observer.next(cars);
@@ -283,11 +281,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (car) {
-      dialogConfig.data = car.id;
+      dialogConfig.data = car.id
     }
     // disable outside click close
     dialogConfig.disableClose = false;
     // Open
-    this.dialog.open(CarComponent, dialogConfig);
+    this.dialog.open(CarDialogComponent, dialogConfig);
   }
 }

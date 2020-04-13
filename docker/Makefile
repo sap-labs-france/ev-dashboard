@@ -1,7 +1,9 @@
 PROJECT_NAME?=evse
 NAME:=dashboard
-DOCKER_ECR_REGISTRY?=166296450311.dkr.ecr.eu-west-3.amazonaws.com
+DOCKER_ECR_ACCOUNT_ID?=166296450311
+DOCKER_ECR_REGION?=eu-west-3
 DOCKER_ECR_REGISTRY_NAME?=ev_dashboard
+DOCKER_ECR_TAG?=latest
 
 .PHONY: all
 
@@ -26,12 +28,12 @@ clean-images:
 
 clean: clean-containers clean-images
 
-docker-ecr-tag:
-	docker tag $(PROJECT_NAME)_$(NAME):latest $(DOCKER_ECR_REGISTRY)/$(DOCKER_ECR_REGISTRY_NAME):latest
+docker-tag-ecr:
+	docker tag $(PROJECT_NAME)_$(NAME):$(DOCKER_ECR_TAG) $(DOCKER_ECR_ACCOUNT_ID).dkr.ecr.$(DOCKER_ECR_REGION).amazonaws.com/$(DOCKER_ECR_REGISTRY_NAME):$(DOCKER_ECR_TAG)
 
-docker-ecr-push: $(NAME)-force docker-ecr-tag
-	aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin $(DOCKER_ECR_REGISTRY)/$(DOCKER_ECR_REGISTRY_NAME)
-	docker push $(DOCKER_ECR_REGISTRY)/$(DOCKER_ECR_REGISTRY_NAME):latest
+docker-push-ecr: $(NAME)-force docker-tag-ecr
+	aws ecr get-login-password --region $(DOCKER_ECR_REGION) | docker login --username AWS --password-stdin $(DOCKER_ECR_ACCOUNT_ID).dkr.ecr.$(DOCKER_ECR_REGION).amazonaws.com/$(DOCKER_ECR_REGISTRY_NAME)
+	docker push $(DOCKER_ECR_ACCOUNT_ID).dkr.ecr.$(DOCKER_ECR_REGION).amazonaws.com/$(DOCKER_ECR_REGISTRY_NAME):$(DOCKER_ECR_TAG)
 
 dist-clean-images:
 	docker image prune -a -f

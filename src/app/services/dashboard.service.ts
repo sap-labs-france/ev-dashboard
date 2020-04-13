@@ -14,7 +14,7 @@ export class DashboardService {
   currentMetrics: CurrentMetrics[] = [];
   initialLoadDone = new BehaviorSubject<boolean>(false);
   refreshData = new BehaviorSubject<CurrentMetrics[]>([]);
-  intervalReference!: number | null;
+  intervalReference!: ReturnType<typeof setTimeout> | null;
 
   constructor(private centralServerService: CentralServerService,
               private messageService: MessageService,
@@ -163,13 +163,13 @@ export class DashboardService {
     return currentData;
   }
 
-  generateDummyData(numberOfData, maxValue, maxVariation: number = 0): number[] {
-    const data = [];
+  generateDummyData(numberOfData: number, maxValue: number, maxVariation: number = 0): number[] {
+    const data: number[] = [];
     for (let index = 0; index < numberOfData; index++) {
       if (maxVariation > 0 && index > 0) {
         let value = (Math.round(Math.random() * maxVariation));
         value = (Math.random() > 0.5 ? value : value * -1);
-        data.push(data[index - 1] + value > maxValue ? maxValue : ( data[index - 1] + value < 0 ? 0 : data[index - 1] + value));
+        data.push(data[index - 1] + value > maxValue ? maxValue : (data[index - 1] + value < 0 ? 0 : data[index - 1] + value));
       } else {
         data.push(Math.round(Math.random() * maxValue));
       }

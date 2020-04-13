@@ -52,10 +52,10 @@ export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
 // export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
 
 export enum FilterType {
-ALL_KEY = 'all',
-DROPDOWN = 'dropdown',
-DIALOG_TABLE = 'dialog-table',
-DATE = 'date',
+  ALL_KEY = 'all',
+  DROPDOWN = 'dropdown',
+  DIALOG_TABLE = 'dialog-table',
+  DATE = 'date',
 }
 
 export enum ButtonType {
@@ -75,12 +75,12 @@ export enum ButtonColor {
 }
 
 export enum DialogType {
- OK = 'OK',
- YES_NO = 'YES_NO',
- OK_CANCEL = 'OK_CANCEL',
- YES_NO_CANCEL = 'YES_NO_CANCEL',
- INVALID_CHANGE = 'INVALID_CHANGE',
- DIRTY_CHANGE = 'DIRTY_CHANGE',
+  OK = 'OK',
+  YES_NO = 'YES_NO',
+  OK_CANCEL = 'OK_CANCEL',
+  YES_NO_CANCEL = 'YES_NO_CANCEL',
+  INVALID_CHANGE = 'INVALID_CHANGE',
+  DIRTY_CHANGE = 'DIRTY_CHANGE',
 }
 
 export interface TableActionDef {

@@ -9,7 +9,7 @@ export class ChargingStationsSmartChargingAction implements TableAction {
     icon: 'battery_charging_full',
     color: ButtonColor.PRIMARY,
     name: 'chargers.smart_charging_action',
-    tooltip: 'general.tooltips.smartcharging',
+    tooltip: 'general.tooltips.smart_charging',
   };
 
   public getActionDef(): TableActionDef {

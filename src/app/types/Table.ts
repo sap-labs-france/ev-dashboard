@@ -1,7 +1,7 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
+import { AssetButtonAction } from './Asset';
 import { BillingButtonAction } from './Billing';
-import { BuildingButtonAction } from './Building';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { ButtonAction, KeyValue } from './GlobalType';
@@ -33,6 +33,7 @@ export interface TableFilterDef {
   dialogComponentData?: any;
   reset?: () => void;
   multiple?: boolean;
+  exhaustive?: boolean;
   cleared?: boolean;
 }
 
@@ -85,7 +86,7 @@ export enum DialogType {
 
 export interface TableActionDef {
   id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
-    OcpiButtonAction|BuildingButtonAction|BillingButtonAction|CarButtonAction|RefundButtonAction;
+    OcpiButtonAction|AssetButtonAction|BillingButtonAction|CarButtonAction|RefundButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

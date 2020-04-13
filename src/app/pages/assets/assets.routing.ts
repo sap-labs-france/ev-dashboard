@@ -2,14 +2,14 @@ import { Routes } from '@angular/router';
 import { RouteGuardService } from 'app/guard/route-guard';
 import { Action, Entity } from 'app/types/Authorization';
 import TenantComponents from 'app/types/TenantComponents';
-import { BuildingsComponent } from './buildings.component';
+import { AssetsComponent } from './assets.component';
 
-export const BuildingsRoutes: Routes = [
+export const AssetsRoutes: Routes = [
   {
-    path: '', component: BuildingsComponent, canActivate: [RouteGuardService], data: {
-      component: TenantComponents.BUILDING,
+    path: '', component: AssetsComponent, canActivate: [RouteGuardService], data: {
+      component: TenantComponents.ASSET,
       auth: {
-        entity: Entity.BUILDINGS,
+        entity: Entity.ASSETS,
         action: Action.LIST,
       },
     },

@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.29",
+    "last_update": "Version 2.2.30",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -154,7 +154,7 @@
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
-      "buildings": "Bâtiments",
+      "assets": "Assets",
       "organization": "Organisation",
       "cars": "Voitures",
       "template": "Modeles",
@@ -178,8 +178,8 @@
       "edit": "Editer",
       "edit_chargers": "Editer les bornes",
       "display_chargers": "Afficher les bornes",
-      "edit_buildings": "Éditer les bâtiments",
-      "display_buildings": "Afficher les bâtiments",
+      "edit_assets": "Éditer les assets",
+      "display_assets": "Afficher les assets",
       "edit_location": "Assigner au site",
       "edit_users": "Editer un utilisateur",
       "edit_siteArea": "Editer les site areas",
@@ -315,31 +315,34 @@
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
     "select_companies": "Selection Entreprise"
   },
-  "buildings": {
-    "no_buildings": "Aucun bâtiment n'a été trouvé",
-    "building_number": "Bâtiment(s)",
+  "assets": {
+    "no_assets": "Aucun asset n'a été trouvé",
+    "asset_number": "Asset(s)",
     "logo": "Logo",
     "name": "Nom",
-    "building": "Bâtiment",
-    "title": "Bâtiment",
-    "titles": "Bâtiments",
+    "asset_type": "Type d'asset",
+    "produce": "Produit de l'Energie'",
+    "consume": "Consomme de l'Energie",
+    "asset": "Asset",
+    "title": "Asset",
+    "titles": "Assets",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
     "changed_by": "Modifié par",
     "delete_title": "Supprimer",
     "delete_button": "Supprimer",
-    "delete_confirm": "Voulez-vous vraiment supprimer le bâtiment '{{buildingName}}'?",
-    "delete_success": "Le bâtiment '{{buildingName}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du bâtiment",
-    "changed_by_other_user": "Le bâtiment '{{buildingName}}' a été changé par un autre utilisateur et va être rechargé",
-    "update_success": "Le bâtiment '{{buildingName}}' a été mis à jour avec succès",
-    "update_error": "Une erreur est survenue pendant la mise à jour du bâtiment",
-    "building_not_found": "Bâtiment inconnu",
-    "create_success": "Le bâtiment '{{buildingName}}' a été créé avec succès",
-    "create_error": "Une erreur est survenue pendant la création du bâtiment",
+    "delete_confirm": "Voulez-vous vraiment supprimer l'asset '{{assetName}}'?",
+    "delete_success": "L'asset '{{assetName}}' a été supprimé avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression du asset",
+    "changed_by_other_user": "L'asset '{{assetName}}' a été changé par un autre utilisateur et va être rechargé",
+    "update_success": "L'asset '{{assetName}}' a été mis à jour avec succès",
+    "update_error": "Une erreur est survenue pendant la mise à jour du asset",
+    "asset_not_found": "Asset inconnu",
+    "create_success": "L'asset '{{assetName}}' a été créé avec succès",
+    "create_error": "Une erreur est survenue pendant la création du asset",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "select_buildings": "Selection Bâtiment"
+    "select_assets": "Selection Asset"
   },
   "sites": {
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
@@ -396,8 +399,8 @@
   },
   "site_areas": {
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
-    "edit_buildings": "Editer les bâtiments",
-    "display_buildings": "Afficher les bâtiments",
+    "edit_assets": "Editer les assets",
+    "display_assets": "Afficher les assets",
     "no_site_areas": "Aucune zone n'a été trouvée",
     "site_areas_number": "Zone(s)",
     "show_all_chargers": "Afficher Toutes Les Bornes",
@@ -413,7 +416,7 @@
     "image": "Image",
     "assigned_chargers": "Bornes",
     "assigned_chargers_to_site_area": "Bornes assignées à {{siteAreaName}}",
-    "assigned_buildings_to_site_area": "Bâtiments assignés à {{siteAreaName}}",
+    "assigned_assets_to_site_area": "Assets assignés à {{siteAreaName}}",
     "name": "Nom",
     "title": "Zone",
     "titles": "Zones",
@@ -433,11 +436,11 @@
     "remove_chargers_success": "La(les) borne(s) ont été retirée(s) avec succès",
     "remove_chargers_error": "Une erreur est survenue pendant le retrait des bornes",
     "update_chargers_success": "La(les) borne(s) ont été ajoutée(s) avec succès",
-    "remove_buildings_title": "Retirer Bâtiment(s)",
-    "remove_buildings_confirm": "Voulez-vous vraiment retirer le(les) bâtiment(s) de cette zone?",
-    "remove_buildings_success": "Le(les) bâtiment(s) ont été retiré(s) avec succès",
-    "remove_buildings_error": "Une erreur est survenue pendant le retrait des bâtiments",
-    "update_buildings_success": "Le(les) bâtiment(s) ont été ajouté(s) avec succès",
+    "remove_assets_title": "Retirer Asset(s)",
+    "remove_assets_confirm": "Voulez-vous vraiment retirer le(les) asset(s) de cette zone?",
+    "remove_assets_success": "Le(les) asset(s) ont été retiré(s) avec succès",
+    "remove_assets_error": "Une erreur est survenue pendant le retrait des assets",
+    "update_assets_success": "Le(les) asset(s) ont été ajouté(s) avec succès",
     "changed_by_other_user": "La zone '{{siteAreaName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "Le zone '{{siteAreaName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la zone",
@@ -1176,10 +1179,10 @@
     "delete_title": "Supprimer l'organisation",
     "delete_success": "L'organisation '{{name}}' a été supprimée avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression de l'organisation",
+    "save_error_asset": "L'Organisation doit être active pour utiliser Asset",
     "save_error_refund": "La tarification doit être active pour utiliser le remboursement",
     "save_error_billing": "La tarification doit être active pour utiliser la facturation",
     "save_error_smart_charging": "L'organisation doit être active pour utiliser Smart Charging",
-    "save_error_building": "L'organisation doit être active pour utiliser Building",
     "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones."
   },
   "settings": {
@@ -1191,7 +1194,7 @@
       "billing": "Facturation",
       "analytics": "Statistiques",
       "smart_charging": "Charge Intelligente",
-      "building": "Bâtiment"
+      "asset": "Asset"
     },
     "ocpi": {
       "gireve": {
@@ -1355,8 +1358,8 @@
       "connection_error": "Connexion vers le service de charge intelligente impossible. Vérifiez votre configuration.",
       "check_connection": "Vérifier connexion"
     },
-    "building": {
-      "description": "E-Mobility peut gérer la consommation des bâtiments et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
+    "asset": {
+      "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration n'a pas été trouvée"
     },
@@ -1500,11 +1503,11 @@
       "siteareas": "Zones"
     }
   },
-  "building": {
-    "title": "Bâtiment",
-    "description": "Gestion des Bâtiments",
+  "asset": {
+    "title": "Asset",
+    "description": "Gestion des Assets",
     "tabs": {
-      "buildings": "Bâtiments"
+      "assets": "Assets"
     }
   },
   "cars": {
@@ -1813,7 +1816,7 @@
     }
   },
   "geomap": {
-    "dialog_geolocation_title": "Placer la borne '{{chargeBoxID}}'",
+    "dialog_geolocation_title": "Définir les coordonnées de '{{itemComponentName}}'",
     "select_geolocation": "Selectionner la Géo",
     "search": "Rechercher une place",
     "max_zoom": "Zoom Max",

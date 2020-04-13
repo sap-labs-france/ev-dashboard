@@ -5,19 +5,19 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { BuildingSettings } from 'app/types/Setting';
+import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
-  selector: 'app-settings-building',
-  templateUrl: './settings-building.component.html',
+  selector: 'app-settings-asset',
+  templateUrl: './settings-asset.component.html',
 })
-export class SettingsBuildingComponent implements OnInit {
+export class SettingsAssetComponent implements OnInit {
   public isActive = false;
 
   public formGroup!: FormGroup;
-  public buildingSettings!: BuildingSettings;
+  public assetSettings!: AssetSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -26,7 +26,7 @@ export class SettingsBuildingComponent implements OnInit {
     private spinnerService: SpinnerService,
     private router: Router,
   ) {
-    this.isActive = this.componentService.isActive(TenantComponents.BUILDING);
+    this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
   ngOnInit(): void {
@@ -40,17 +40,17 @@ export class SettingsBuildingComponent implements OnInit {
 
   loadConfiguration() {
     this.spinnerService.show();
-    this.componentService.getBuildingSettings().subscribe((settings) => {
+    this.componentService.getAssetSettings().subscribe((settings) => {
       this.spinnerService.hide();
       // Keep
-      this.buildingSettings = settings;
+      this.assetSettings = settings;
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
         case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.building.setting_not_found');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.asset.setting_not_found');
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');

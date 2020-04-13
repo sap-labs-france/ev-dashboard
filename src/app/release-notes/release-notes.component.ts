@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.30',
+        date: new Date('2020-04-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Converted Build to Asset with Consumption or Production of energy`,
+              `Mutli-selection on Internal/External Organization filter`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.29',
         date: new Date('2020-04-11'),
         componentChanges: [
@@ -76,7 +89,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Billing invoice list`,
               `SAP Smart Charging implementation`,
-              `Assign a Building to a Site Area`,
+              `Assign a Asset to a Site Area`,
               `Webasto implementation in Charging Plan management`,
               `Fixed bug in retrieving the current limitation during a Session`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,
@@ -107,7 +120,7 @@ export class ReleaseNotesComponent {
               `Roaming: Implement PUT and PATCH token from IOP`,
               `Added new parameters to check in Charging Station In Errors`,
               `Update Charging Station's template without migration`,
-              `Fixed issues with ABB not getting the limits when building consumption metrics`,
+              `Fixed issues with ABB not getting the limits when asset consumption metrics`,
               `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
               `Add Issuer filtering to display Roaming entities (Companies, Sites, Site Areas...)`,
               `Fixed Connection Lost in Charger in Error`,
@@ -115,7 +128,7 @@ export class ReleaseNotesComponent {
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
               `Update of Charging Stations with Template is always applied during Boot Notificiation`,
               `Set the minimum power to 2 Amps in the Charging Station Limitation`,
-              `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Building lists`,
+              `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Asset lists`,
               `Fixed Delete action not displayed in User's list`,
             ],
           },
@@ -157,8 +170,8 @@ export class ReleaseNotesComponent {
               `Refactoring of the Charging Plan`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,
-              `Activation of Building Management in Master Tenant`,
-              `Added Building Management in Tenants`,
+              `Activation of Asset Management in Master Tenant`,
+              `Added Asset Management in Tenants`,
               `Static Power Limitation for Schneider vendor`,
               `Show Sessions not assigned to a user when ACL is active in a Site Area`,
               `Set default notifications to new registered users`,

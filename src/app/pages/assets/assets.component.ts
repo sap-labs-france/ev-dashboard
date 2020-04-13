@@ -4,14 +4,14 @@ import { WindowService } from 'app/services/window.service';
 import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
-  selector: 'app-buildings',
-  templateUrl: './buildings.component.html',
+  selector: 'app-assets',
+  templateUrl: './assets.component.html',
 })
-export class BuildingsComponent extends AbstractTabComponent {
+export class AssetsComponent extends AbstractTabComponent {
   constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['buildings']);
+    super(activatedRoute, windowService, ['assets']);
   }
 }

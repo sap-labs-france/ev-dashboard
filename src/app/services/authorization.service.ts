@@ -31,8 +31,8 @@ export class AuthorizationService {
     return this.canAccess(Entity.COMPANY, Action.UPDATE);
   }
 
-  public canUpdateBuilding(): boolean {
-    return this.canAccess(Entity.BUILDING, Action.UPDATE);
+  public canUpdateAsset(): boolean {
+    return this.canAccess(Entity.ASSET, Action.UPDATE);
   }
 
   public canUpdateSite(): boolean {

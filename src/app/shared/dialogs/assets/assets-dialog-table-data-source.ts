@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Building } from 'app/types/Building';
+import { Asset } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class BuildingsDialogTableDataSource extends DialogTableDataSource<Building> {
+export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
   constructor(
       public spinnerService: SpinnerService,
       public translateService: TranslateService,
@@ -24,13 +24,13 @@ export class BuildingsDialogTableDataSource extends DialogTableDataSource<Buildi
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<Building>> {
+  public loadDataImpl(): Observable<DataResult<Asset>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getBuildings(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((buildings) => {
+      this.centralServerService.getAssets(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((assets) => {
           // Ok
-          observer.next(buildings);
+          observer.next(assets);
           observer.complete();
         }, (error) => {
           // No longer exists!
@@ -45,24 +45,11 @@ export class BuildingsDialogTableDataSource extends DialogTableDataSource<Buildi
     return [
       {
         id: 'name',
-        name: 'buildings.titles',
+        name: 'assets.titles',
         class: 'text-left',
         sorted: true,
         direction: 'asc',
         sortable: true,
-      },
-      {
-        id: 'address.country',
-        name: 'general.country',
-        class: 'text-left',
-        sorted: true,
-        direction: 'asc',
-        sortable: true,
-      },
-      {
-        id: 'address.city',
-        name: 'general.city',
-        class: 'text-left',
       },
     ];
   }

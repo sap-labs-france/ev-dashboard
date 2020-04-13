@@ -143,20 +143,20 @@ export const AppRoutes: Routes = [
         },
       },
       {
-        path: 'building',
-        loadChildren: () => import('./pages/buildings/buildings.module').then((m) => m.BuildingsModule),
+        path: 'asset',
+        loadChildren: () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
         data: {
           menu: {
-            title: 'buildings',
+            title: 'assets',
             type: 'link',
             icon: 'account_balance',
-            path: '/building',
+            path: '/asset',
           },
           auth: {
-            entity: Entity.BUILDINGS,
+            entity: Entity.ASSETS,
             action: Action.LIST,
           },
-          component: TenantComponents.BUILDING,
+          component: TenantComponents.ASSET,
         },
       },
       {

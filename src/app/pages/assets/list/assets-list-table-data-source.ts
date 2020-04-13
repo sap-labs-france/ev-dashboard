@@ -12,6 +12,7 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -23,7 +24,6 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { AssetDialogComponent } from '../asset/asset.dialog.component';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {

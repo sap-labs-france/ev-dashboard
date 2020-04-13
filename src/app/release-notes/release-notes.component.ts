@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.30',
+        date: new Date('2020-04-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Converted Build to Asset with Consumption or Production of energy`,
+              `Mutli-selection on Internal/External Organization filter`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.29',
         date: new Date('2020-04-11'),
         componentChanges: [

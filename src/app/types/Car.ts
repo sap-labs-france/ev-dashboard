@@ -31,7 +31,6 @@ export interface Car extends Data {
   miscSegment: string;
   miscIsofixSeats: number;
   chargeStandardTables: ChargeStandardTable[];
-  carObject?: any;
 }
 
 export interface ChargeStandardTable extends Data {
@@ -48,6 +47,10 @@ export interface ChargeStandardTable extends Data {
 }
 export interface CarMakersTable extends Data {
   carMaker: string;
+}
+
+export interface ImageObject extends Data {
+  image: string;
 }
 
 export enum CarImage {

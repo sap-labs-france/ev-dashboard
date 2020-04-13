@@ -1,0 +1,27 @@
+
+// Common
+input.app-asset-name-bold {
+  font-size: 2em;
+}
+
+div.app-asset-align-center {
+  align-items: center;
+  padding: 0 0 15px 0;
+}
+
+div.app-asset-image-border {
+  @include shadow-2dp();
+  border-radius: $border-radius-large;
+}
+
+// Asset View
+div.app-asset-image-padding {
+  padding: 10px;
+}
+
+.app-assets-logo {
+  max-width:  3em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -13,7 +13,7 @@
   "Authorization": {
     "debug": false
   },
-	"Building": {
+	"Asset": {
 		"maxImageKb": 800
 	},
   "User": {

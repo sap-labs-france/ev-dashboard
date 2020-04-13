@@ -8,7 +8,7 @@ interface ReleaseNotes {
 
 interface ComponentChange {
   name: string;
-  changes: string [];
+  changes: string[];
 }
 
 @Component({
@@ -24,13 +24,25 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.25',
-        date: new Date('2020-04-07'),
+        version: '2.2.29',
+        date: new Date('2020-04-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Smart Charging fixes`,
+              `Added new SupendedEV/EVSE statuses in Smart Charging`,
+              `Round Amps in Charging Profile before applying it to the Charging Station`,
+              `Delay the Smart Charging call when Start Transaction is received`,
+              `Delete the Tx Profile after Stop Transaction`,
+              `Delete all the Tx Profiles of all Charging Stations after deactivating the Smart Charge for a given Site Area (keep the Tx Default ones)`,
+              `Removed the 4th safe slot in Smart Charging`,
+              `Do not delete the Tx Default Profile`,
+              `Add the Transaction ID in the Tx Profile`,
+              `Display Profile Type in Charging Plan drop down`,
+              `Keep the Charging Plan drop down always enabled`,
+              `Store Car images in the database`,
+              `Optimized Car images loading management`,
+              `Made Smart Charging button always visible in Charging Stations list`,
             ],
           },
         ],
@@ -64,7 +76,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Billing invoice list`,
               `SAP Smart Charging implementation`,
-              `Assign a Building to a Site Area`,
+              `Assign a Asset to a Site Area`,
               `Webasto implementation in Charging Plan management`,
               `Fixed bug in retrieving the current limitation during a Session`,
               `Fixed Session not starting notification when Connector is in Preparing mode`,
@@ -95,7 +107,7 @@ export class ReleaseNotesComponent {
               `Roaming: Implement PUT and PATCH token from IOP`,
               `Added new parameters to check in Charging Station In Errors`,
               `Update Charging Station's template without migration`,
-              `Fixed issues with ABB not getting the limits when building consumption metrics`,
+              `Fixed issues with ABB not getting the limits when asset consumption metrics`,
               `Hide Companies, Sites, Site Areas and Charging Stations coming from the Roaming platform by default`,
               `Add Issuer filtering to display Roaming entities (Companies, Sites, Site Areas...)`,
               `Fixed Connection Lost in Charger in Error`,
@@ -103,7 +115,7 @@ export class ReleaseNotesComponent {
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
               `Update of Charging Stations with Template is always applied during Boot Notificiation`,
               `Set the minimum power to 2 Amps in the Charging Station Limitation`,
-              `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Building lists`,
+              `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Asset lists`,
               `Fixed Delete action not displayed in User's list`,
             ],
           },
@@ -145,8 +157,8 @@ export class ReleaseNotesComponent {
               `Refactoring of the Charging Plan`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,
-              `Activation of Building Management in Master Tenant`,
-              `Added Building Management in Tenants`,
+              `Activation of Asset Management in Master Tenant`,
+              `Added Asset Management in Tenants`,
               `Static Power Limitation for Schneider vendor`,
               `Show Sessions not assigned to a user when ACL is active in a Site Area`,
               `Set default notifications to new registered users`,

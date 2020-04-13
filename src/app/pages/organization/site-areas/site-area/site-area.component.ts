@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -20,7 +20,6 @@ import { Site } from 'app/types/Site';
 import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
@@ -80,7 +79,7 @@ export class SiteAreaComponent implements OnInit {
     // Set
     this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    // refresh available sites
+    // Refresh available sites
     this.refreshAvailableSites();
   }
 
@@ -121,10 +120,8 @@ export class SiteAreaComponent implements OnInit {
     } else if (this.activatedRoute && this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.currentSiteAreaID = params['id'];
-        // this.loadSiteArea();
       });
     }
-
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // check if escape
@@ -132,7 +129,6 @@ export class SiteAreaComponent implements OnInit {
         this.onClose();
       }
     });
-
     this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
         // Update user?
@@ -175,7 +171,6 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSites(params).subscribe((availableSites) => {
       // clear current entries
       this.sites = [];
-
       // add available companies to dropdown
       for (let i = 0; i < availableSites.count; i++) {
         this.sites.push({ id: availableSites.result[i].id, name: availableSites.result[i].name });
@@ -194,9 +189,8 @@ export class SiteAreaComponent implements OnInit {
     }
     // Show spinner
     this.spinnerService.show();
-    // Yes, get it
-    // tslint:disable-next-line:cyclomatic-complexity
     this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
+      this.spinnerService.hide();
       this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
       if (!this.isAdmin) {
@@ -239,7 +233,6 @@ export class SiteAreaComponent implements OnInit {
       if (siteAreaImage && siteAreaImage.image) {
         this.image = siteAreaImage.image.toString();
       }
-      this.spinnerService.hide();
     }, (error) => {
       // Hide
       this.spinnerService.hide();

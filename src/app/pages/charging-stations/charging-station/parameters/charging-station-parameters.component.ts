@@ -434,22 +434,18 @@ export class ChargingStationParametersComponent implements OnInit {
     dialogConfig.minWidth = '70vw';
     dialogConfig.disableClose = false;
     dialogConfig.panelClass = 'transparent-dialog-container';
-
-    // get latitud/longitude from form
+    // Get latitud/longitude from form
     let latitude = this.latitude.value;
     let longitude = this.longitude.value;
-
-    // if one is not available try to get from SiteArea and then from Site
+    // If one is not available try to get from SiteArea and then from Site
     if (!latitude || !longitude) {
       const siteArea = this.charger.siteArea;
-
       if (siteArea && siteArea.address) {
         if (siteArea.address.coordinates && siteArea.address.coordinates.length === 2) {
           latitude = siteArea.address.coordinates[1];
           longitude = siteArea.address.coordinates[0];
         } else {
           const site = siteArea.site;
-
           if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
             latitude = site.address.coordinates[1];
             longitude = site.address.coordinates[0];
@@ -457,10 +453,10 @@ export class ChargingStationParametersComponent implements OnInit {
         }
       }
     }
-
     // Set data
     dialogConfig.data = {
-      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', { chargeBoxID: this.charger.id }),
+      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title',
+        { componentName: 'Charging Station', itemComponentName: this.charger.id }),
       latitude,
       longitude,
       label: this.charger.id ? this.charger.id : '',

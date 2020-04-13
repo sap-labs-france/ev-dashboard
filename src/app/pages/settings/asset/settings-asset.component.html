@@ -1,0 +1,13 @@
+<div *ngIf="!isActive" class="card">
+  <div class="card-header card-header-icon card-header-primary">
+    <div class="card-icon">
+      <mat-icon>info</mat-icon>
+    </div>
+    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+  </div>
+  <div class="card-body">
+    <div [innerHTML]="'settings.asset.description' | translate"></div><br>
+    {{'settings.activation_contact_msg' | translate}}
+  </div>
+</div>
+<h3 *ngIf="isActive" class="card-title">Implementation In Progress...</h3>

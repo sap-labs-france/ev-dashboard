@@ -52,11 +52,11 @@
               <div class="form-group">
                 <mat-form-field>
                   <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
-                  class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!isAdmin" required/>
+                  class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteAreaControl" [disabled]="!isAdmin" required/>
                   <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin">
                     <mat-icon>create</mat-icon>
                   </button>
-                  <mat-error *ngIf="siteArea.errors?.required">
+                  <mat-error *ngIf="siteAreaControl.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>

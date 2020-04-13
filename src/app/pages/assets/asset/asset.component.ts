@@ -34,11 +34,12 @@ export class AssetComponent implements OnInit {
   public isAdmin = false;
   public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
+  public siteArea: SiteArea;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
-  public siteArea!: AbstractControl;
+  public siteAreaControl!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
   public coordinates!: FormArray;
@@ -84,10 +85,10 @@ export class AssetComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      siteArea: new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])),
+      siteAreaControl: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
       siteAreaID: new FormControl(''),
       assetType: new FormControl('',
         Validators.compose([
@@ -112,7 +113,7 @@ export class AssetComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    this.siteArea = this.formGroup.controls['siteArea'];
+    this.siteAreaControl = this.formGroup.controls['siteAreaControl'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
@@ -171,9 +172,9 @@ export class AssetComponent implements OnInit {
     this.spinnerService.show();
     // Yes, get it
     // tslint:disable-next-line: cyclomatic-complexity
-    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((assetResult) => {
+    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((asset) => {
       // Store asset result
-      this.asset = assetResult;
+      this.asset = asset;
       // Init form
       if (this.asset.id) {
         this.formGroup.controls.id.setValue(this.asset.id);
@@ -183,7 +184,8 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.siteArea && this.asset.siteArea.name) {
         this.formGroup.controls.siteAreaID.setValue(this.asset.siteArea.id);
-        this.formGroup.controls.siteArea.setValue(this.asset.siteArea.name);
+        this.formGroup.controls.siteAreaControl.setValue(this.asset.siteArea.name);
+        this.siteArea = this.asset.siteArea;
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
@@ -312,13 +314,14 @@ export class AssetComponent implements OnInit {
       rowMultipleSelection: false,
     };
     this.dialog.open(SiteAreasDialogComponent, dialogConfig)
-    .afterClosed().subscribe((result) => {
-      if (result && result.length > 0 && result[0].objectRef) {
-        const siteArea = ((result[0].objectRef) as SiteArea);
-        this.formGroup.markAsDirty();
-        this.formGroup.controls.siteArea.setValue(siteArea.name);
-        this.formGroup.controls.siteAreaID.setValue(siteArea.id);
-      }
+      .afterClosed().subscribe((result) => {
+        if (result && result.length > 0 && result[0].objectRef) {
+          const siteArea = ((result[0].objectRef) as SiteArea);
+          this.formGroup.markAsDirty();
+          this.formGroup.controls.siteAreaControl.setValue(siteArea.name);
+          this.formGroup.controls.siteAreaID.setValue(siteArea.id);
+          this.siteArea = siteArea;
+        }
     });
   }
 
@@ -328,10 +331,24 @@ export class AssetComponent implements OnInit {
     dialogConfig.minWidth = '70vw';
     dialogConfig.disableClose = false;
     dialogConfig.panelClass = 'transparent-dialog-container';
-
     // Get latitude/longitude from form
-    const latitude = this.latitude.value;
-    const longitude = this.longitude.value;
+    let latitude = this.latitude.value;
+    let longitude = this.longitude.value;
+    // If one is not available try to get from SiteArea and then from Site
+    if (!latitude || !longitude) {
+      if (this.siteArea && this.siteArea.address) {
+        if (this.siteArea.address.coordinates && this.siteArea.address.coordinates.length === 2) {
+          latitude = this.siteArea.address.coordinates[1];
+          longitude = this.siteArea.address.coordinates[0];
+        } else {
+          const site = this.siteArea.site;
+          if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
+            latitude = site.address.coordinates[1];
+            longitude = site.address.coordinates[0];
+          }
+        }
+      }
+    }
     // Set data
     dialogConfig.data = {
       dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title',

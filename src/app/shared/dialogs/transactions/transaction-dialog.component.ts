@@ -142,7 +142,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
 
   loadConsumption(transactionId: number) {
     this.spinnerService.show();
-    this.centralServerService.getConsumptionFromTransaction(this.transactionId).subscribe((transaction: Transaction) => {
+    this.centralServerService.getTransactionConsumption(this.transactionId).subscribe((transaction: Transaction) => {
       this.spinnerService.hide();
       this.transaction = transaction;
       // Transaction in progress?

@@ -127,7 +127,6 @@ export class SiteAreaConsumptionChartComponent implements AfterViewInit {
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant('organization.graph.limit_watts'),
       });
-
       // Assign
       this.data.labels = [];
       this.data.datasets = datasets;
@@ -166,7 +165,6 @@ export class SiteAreaConsumptionChartComponent implements AfterViewInit {
           }
         }
       }
-
       this.data.labels = labels;
     }
   }

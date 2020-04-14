@@ -77,7 +77,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public refresh() {
-    this.centralServerService.getConsumptionFromTransaction(this.transactionId)
+    this.centralServerService.getTransactionConsumption(this.transactionId)
       .subscribe((transaction) => {
         this.transaction = transaction;
         this.prepareOrUpdateGraph();

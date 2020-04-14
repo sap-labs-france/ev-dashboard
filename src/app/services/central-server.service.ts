@@ -1139,7 +1139,7 @@ export class CentralServerService {
       );
   }
 
-  public getConsumptionFromTransaction(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
+  public getTransactionConsumption(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
     // Verify init

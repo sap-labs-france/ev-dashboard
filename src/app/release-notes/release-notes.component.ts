@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.30',
-        date: new Date('2020-04-13'),
+        version: '2.2.31',
+        date: new Date('2020-04-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Converted Build to Asset with Consumption or Production of energy`,
+              `Show Site Area current Consumption`,
               `Mutli-selection on Internal/External Organization filter`
             ],
           },

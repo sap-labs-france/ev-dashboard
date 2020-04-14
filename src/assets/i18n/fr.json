@@ -1501,6 +1501,11 @@
       "companies": "Entreprises",
       "sites": "Sites",
       "siteareas": "Zones"
+    },
+    "graph": {
+      "power": "Instant Power (kW)",
+      "no_consumption": "No consumption data available",
+      "limit_watts": "Max Limit (kW)"
     }
   },
   "asset": {

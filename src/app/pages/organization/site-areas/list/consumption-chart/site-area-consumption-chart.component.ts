@@ -1,32 +1,28 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { Transaction } from 'app/types/Transaction';
+import { SiteAreaConsumption } from 'app/types/SiteArea';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
-import { CentralServerService } from '../../../services/central-server.service';
-import { LocaleService } from '../../../services/locale.service';
-import { AppDatePipe } from '../../formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { LocaleService } from '../../../../../services/locale.service';
+import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
 
 @Component({
-  selector: 'app-transaction-chart',
-  templateUrl: 'consumption-chart.component.html',
+  selector: 'app-site-area-chart',
+  templateUrl: 'site-area-consumption-chart.component.html',
 })
 
-export class ConsumptionChartComponent implements AfterViewInit {
-  @Input() transactionId!: number;
-  @Input() transaction!: Transaction;
-  @Input() ratio!: number;
+export class SiteAreaConsumptionChartComponent implements AfterViewInit {
+  @Input() siteAreaId!: string;
+  @Input() siteAreaConsumption!: SiteAreaConsumption;
 
   @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
-  @ViewChild('accent', { static: true }) accentElement!: ElementRef;
   @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
-  @ViewChild('success', { static: true }) successElement!: ElementRef;
   @ViewChild('chart', { static: true }) chartElement!: ElementRef;
-  @ViewChild('warning', { static: true }) warningElement!: ElementRef;
 
   private graphCreated = false;
   private lineTension = 0;
@@ -36,32 +32,26 @@ export class ConsumptionChartComponent implements AfterViewInit {
   };
   private options!: ChartOptions;
   private chart!: Chart;
-  private consumptionColor!: string;
   private instantPowerColor!: string;
-  private amountColor!: string;
   private limitColor!: string;
-  private stateOfChargeColor!: string;
   private defaultColor!: string;
   private language!: string;
 
   constructor(
+    private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: AppDecimalPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
   }
 
   ngAfterViewInit() {
-    this.consumptionColor = this.getStyleColor(this.accentElement.nativeElement);
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
-    this.amountColor = this.getStyleColor(this.warningElement.nativeElement);
-    this.stateOfChargeColor = this.getStyleColor(this.successElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
     if (this.canDisplayGraph()) {
@@ -77,12 +67,17 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public refresh() {
-    this.centralServerService.getTransactionConsumption(this.transactionId)
-      .subscribe((transaction) => {
-        this.transaction = transaction;
+    this.spinnerService.show();
+    // Change Date for testing e.g.:
+    // this.centralServerService.getSiteAreaConsumption(this.siteAreaId, new Date('2020-02-25T08:29:46.000+00:00'), new Date('2020-02-26T08:29:46.000+00:00'))
+    this.centralServerService.getSiteAreaConsumption(this.siteAreaId, moment().startOf('d').toDate(), moment().endOf('d').toDate())
+      .subscribe((siteAreaConsumption) => {
+        this.spinnerService.hide();
+        this.siteAreaConsumption = siteAreaConsumption;
         this.prepareOrUpdateGraph();
       }, (error) => {
-        delete this.transaction;
+        this.spinnerService.hide();
+        delete this.siteAreaConsumption;
       });
   }
 
@@ -113,7 +108,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
-        label: this.translateService.instant('transactions.graph.power'),
+        label: this.translateService.instant('organization.graph.power'),
       });
       this.options.scales.yAxes.push({
         id: 'power',
@@ -122,43 +117,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
           min: 0,
         },
       });
-      if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
-        datasets.push({
-          name: 'stateOfCharge',
-          type: 'line',
-          data: [],
-          yAxisID: 'percentage',
-          lineTension: this.lineTension,
-          ...Utils.formatLineColor(this.stateOfChargeColor),
-          label: this.translateService.instant('transactions.graph.battery'),
-        });
-        this.options.scales.yAxes.push(
-          {
-            id: 'percentage',
-            type: 'linear',
-            position: 'right',
-            display: 'auto',
-            gridLines: {
-              display: true,
-              color: 'rgba(0,0,0,0.2)',
-            },
-            ticks: {
-              callback: (value) => `${value}%`,
-              fontColor: this.defaultColor,
-            },
-          });
-      }
-      datasets.push({
-        name: 'cumulatedConsumption',
-        type: 'line',
-        data: [],
-        hidden: true,
-        yAxisID: 'power',
-        lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.consumptionColor),
-        label: this.translateService.instant('transactions.graph.energy'),
-      });
-
       datasets.push({
         name: 'limitWatts',
         type: 'line',
@@ -167,39 +125,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
-        label: this.translateService.instant('transactions.graph.limit_watts'),
+        label: this.translateService.instant('organization.graph.limit_watts'),
       });
-
-      if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'cumulatedAmount')) !== undefined) {
-        datasets.push({
-          name: 'cumulatedAmount',
-          type: 'line',
-          data: [],
-          hidden: true,
-          yAxisID: 'amount',
-          lineTension: this.lineTension,
-          ...Utils.formatLineColor(this.amountColor),
-          label: this.translateService.instant('transactions.graph.cumulated_amount'),
-        });
-        this.options.scales.yAxes.push({
-          id: 'amount',
-          type: 'linear',
-          position: 'right',
-          display: 'auto',
-          gridLines: {
-            display: true,
-            color: 'rgba(0,0,0,0.2)',
-          },
-          ticks: {
-            callback: (value: number) => {
-              const result = this.appCurrencyPipe.transform(value, this.transaction.priceUnit);
-              return result ? result : '';
-            },
-            min: 0,
-            fontColor: this.defaultColor,
-          },
-        });
-      }
       // Assign
       this.data.labels = [];
       this.data.datasets = datasets;
@@ -215,7 +142,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.transaction && this.transaction.values && this.transaction.values.length > 1;
+    return this.siteAreaConsumption && this.siteAreaConsumption.values && this.siteAreaConsumption.values.length > 1;
   }
 
   private refreshDataSets() {
@@ -225,32 +152,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
         this.data.datasets[key].data = [];
       }
       const instantPowerDataSet = this.getDataSet('instantPower');
-      const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
-      const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
-      const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const labels: number[] = [];
-      for (const consumption of this.transaction.values) {
+      for (const consumption of this.siteAreaConsumption.values) {
         labels.push(new Date(consumption.date).getTime());
         instantPowerDataSet.push(consumption.instantPower);
-        if (cumulatedConsumptionDataSet) {
-           cumulatedConsumptionDataSet.push(consumption.cumulatedConsumption);
-        }
-        if (cumulatedAmountDataSet) {
-          if (consumption.cumulatedAmount !== undefined) {
-            cumulatedAmountDataSet.push(consumption.cumulatedAmount);
-          } else {
-            cumulatedAmountDataSet.push(cumulatedAmountDataSet.length > 0 ? cumulatedAmountDataSet[cumulatedAmountDataSet.length - 1] : 0);
-          }
-        }
-        if (stateOfChargeDataSet) {
-          if (consumption.stateOfCharge) {
-            stateOfChargeDataSet.push(consumption.stateOfCharge);
-          } else {
-            stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ?
-              stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : this.transaction.stateOfCharge);
-          }
-        }
         if (limitWattsDataSet) {
           if (consumption.limitWatts) {
             limitWattsDataSet.push(consumption.limitWatts);
@@ -274,7 +180,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
       },
       responsive: true,
       maintainAspectRatio: false,
-      // aspectRatio: this.ratio,
       tooltips: {
         bodySpacing: 5,
         mode: 'index',
@@ -298,16 +203,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantPower':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
-                  case 'cumulatedConsumption':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kWh';
                   case 'limitWatts':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
-                  case 'stateOfCharge':
-                    return ` ${value}%`;
-                  case 'amount':
-                    return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
-                  case 'cumulatedAmount':
-                    return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   default:
                     return value + '';
                 }

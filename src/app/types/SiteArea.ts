@@ -16,6 +16,17 @@ export interface SiteArea extends Data {
   chargeBoxes: ChargingStation[];
 }
 
+export interface SiteAreaConsumption {
+  siteAreaId: string;
+  values: SiteAreaConsumptionValues[];
+}
+
+export interface SiteAreaConsumptionValues {
+  date: Date;
+  instantPower: number;
+  limitWatts: number;
+}
+
 export enum SiteAreaImage {
   NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

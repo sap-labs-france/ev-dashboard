@@ -36,7 +36,7 @@ import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-assets-dialog.component';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
-import { SiteAreaConsumptionChartDetailComponent } from './site-area-consumption-chart-detail.component';
+import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {

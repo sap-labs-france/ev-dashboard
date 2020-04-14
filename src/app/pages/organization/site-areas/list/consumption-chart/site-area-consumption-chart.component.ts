@@ -6,10 +6,10 @@ import { SiteAreaConsumption } from 'app/types/SiteArea';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { LocaleService } from '../../../../services/locale.service';
-import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { LocaleService } from '../../../../../services/locale.service';
+import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-site-area-chart',
@@ -70,7 +70,7 @@ export class SiteAreaConsumptionChartComponent implements AfterViewInit {
     this.spinnerService.show();
     // Change Date for testing e.g.:
     // this.centralServerService.getSiteAreaConsumption(this.siteAreaId, new Date('2020-02-25T08:29:46.000+00:00'), new Date('2020-02-26T08:29:46.000+00:00'))
-    this.centralServerService.getSiteAreaConsumption(this.siteAreaId, new Date(new Date().getTime() - (24 * 60 * 60 * 1000)), new Date())
+    this.centralServerService.getSiteAreaConsumption(this.siteAreaId, moment().startOf('d').toDate(), moment().endOf('d').toDate())
       .subscribe((siteAreaConsumption) => {
         this.spinnerService.hide();
         this.siteAreaConsumption = siteAreaConsumption;

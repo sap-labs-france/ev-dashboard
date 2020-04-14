@@ -14,8 +14,8 @@ import { CompaniesListTableDataSource } from './companies/list/companies-list-ta
 import { CompaniesListComponent } from './companies/list/companies-list.component';
 import { OrganizationComponent } from './organization.component';
 import { OrganizationRoutes } from './organization.routing';
-import { SiteAreaConsumptionChartDetailComponent } from './site-areas/list/site-area-consumption-chart-detail.component';
-import { SiteAreaConsumptionChartComponent } from './site-areas/list/site-area-consumption-chart.component';
+import { SiteAreaConsumptionChartDetailComponent } from './site-areas/list/consumption-chart/site-area-consumption-chart-detail.component';
+import { SiteAreaConsumptionChartComponent } from './site-areas/list/consumption-chart/site-area-consumption-chart.component';
 import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
 import { SiteAreasListComponent } from './site-areas/list/site-areas-list.component';
 import { SiteAreaAssetsDialogComponent } from './site-areas/site-area-assets/site-area-assets-dialog.component';

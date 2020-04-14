@@ -10,7 +10,7 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/Ch
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -25,7 +25,7 @@ import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
-import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
+import { throwError, BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';

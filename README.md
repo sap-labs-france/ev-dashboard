@@ -12,7 +12,7 @@ The application:
 * Actions on charging stations: Reboot, Clear Cache, Stop Transaction, Unlock Connector...
 * Energy control: Set the maximum energy delivered by the charging station
 
-**Live demo here** [Smart EVSE](https://smart-evse.com/)
+**Live demo here** [e-Mobility](https://qa.e-mobility-group.com/)
 
 ## Installation
 

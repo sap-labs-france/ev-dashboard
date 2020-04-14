@@ -147,6 +147,12 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public smartChargingChanged(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.maximumPower.enable();
+
+    } else {
+      this.maximumPower.disable();
+    }
     if (!event.checked && this.isSmartChargingActive) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
@@ -220,6 +226,7 @@ export class SiteAreaComponent implements OnInit {
         this.isSmartChargingActive = siteArea.smartCharging;
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
+        this.maximumPower.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);

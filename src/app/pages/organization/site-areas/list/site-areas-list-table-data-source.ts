@@ -36,6 +36,7 @@ import ChangeNotification from '../../../../types/ChangeNotification';
 import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-assets-dialog.component';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
+import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
@@ -89,6 +90,10 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return {
       search: {
         enabled: true,
+      },
+      rowDetails: {
+        enabled: true,
+        angularComponent: SiteAreaConsumptionChartDetailComponent,
       },
       hasDynamicRowAction: true,
     };
@@ -276,7 +281,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (siteArea) {
-     dialogConfig.data = siteArea;
+      dialogConfig.data = siteArea;
     }
     // Disable outside click close
     dialogConfig.disableClose = true;

@@ -1,0 +1,10 @@
+<div *ngIf="siteAreaConsumption?.values?.length === 0" class="graph-no-consumption">
+  {{'organization.graph.no_consumption' | translate}}
+</div>
+<div [hidden]="siteAreaConsumption?.values?.length === 0">
+  <div class="chart-container mt-2">
+    <div #primary class='chart-primary'></div>
+    <div #danger class='chart-danger'></div>
+    <canvas #chart></canvas>
+  </div>
+</div>

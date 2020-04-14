@@ -32,7 +32,12 @@ export const CONNECTOR_TYPE_MAP =
       svgIconName: 'T1CCS',
       svgIconFile: 'assets/img/connectors/type1-ccs.svg',
     },
-    // {key: 'T3C', description: 'chargers.connector_type_type3c', svgIconName: 'T3C', svgIconFile: 'assets/img/connectors/type3c.svg'},
+    // {
+    //   key: 'T3C',
+    //   description: 'chargers.connector_type_type3c',
+    //   svgIconName: 'T3C',
+    //   svgIconFile: 'assets/img/connectors/type3c.svg'
+    // },
     {
       key: 'D',
       description: 'chargers.connector_type_domestic',

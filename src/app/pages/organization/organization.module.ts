@@ -18,8 +18,8 @@ import { SiteAreaConsumptionChartDetailComponent } from './site-areas/list/site-
 import { SiteAreaConsumptionChartComponent } from './site-areas/list/site-area-consumption-chart.component';
 import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-table-data-source';
 import { SiteAreasListComponent } from './site-areas/list/site-areas-list.component';
-import { SiteAreaBuildingsDialogComponent } from './site-areas/site-area-buildings/site-area-buildings-dialog.component';
-import { SiteAreaBuildingsDataSource } from './site-areas/site-area-buildings/site-area-buildings-table-data-source';
+import { SiteAreaAssetsDialogComponent } from './site-areas/site-area-assets/site-area-assets-dialog.component';
+import { SiteAreaAssetsDataSource } from './site-areas/site-area-assets/site-area-assets-table-data-source';
 import { SiteAreaChargersDialogComponent } from './site-areas/site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaChargersDataSource } from './site-areas/site-area-chargers/site-area-chargers-table-data-source';
 import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog.component';
@@ -59,7 +59,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteAreaBuildingsDialogComponent,
+    SiteAreaAssetsDialogComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
     SiteAreaConsumptionChartComponent,
@@ -77,7 +77,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteDialogComponent,
     SiteUsersDialogComponent,
     SiteAreaChargersDialogComponent,
-    SiteAreaBuildingsDialogComponent,
+    SiteAreaAssetsDialogComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
   ],
@@ -85,7 +85,7 @@ import { SiteComponent } from './sites/site/site.component';
     CompaniesListTableDataSource,
     SiteAreasListTableDataSource,
     SiteAreaChargersDataSource,
-    SiteAreaBuildingsDataSource,
+    SiteAreaAssetsDataSource,
     SitesListTableDataSource,
     SiteUsersTableDataSource,
   ],

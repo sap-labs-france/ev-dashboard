@@ -13,9 +13,10 @@ export class IssuerFilter extends TableFilter {
       name: 'issuer.title',
       class: 'col-md-6 col-lg-2 col-xl-2',
       label: '',
-      currentValue: 'true',
+      defaultValue: items[0],
       items: Object.assign([], items),
-      multiple: false,
+      multiple: true,
+      exhaustive: true
     };
     // Set
     this.setFilterDef(filterDef);

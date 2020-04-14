@@ -177,7 +177,7 @@ export class TenantComponent implements OnInit {
     let billingActive = false;
     let smartChargingActive = false;
     let organizationActive = false;
-    let buildingActive = false;
+    let assetActive = false;
     let carActive = false;
 
     for (const component in tenant.components) {
@@ -200,8 +200,8 @@ export class TenantComponent implements OnInit {
         if (component === TenantComponents.ORGANIZATION) {
           organizationActive = tenant.components[component].active;
         }
-        if (component === TenantComponents.BUILDING) {
-          buildingActive = tenant.components[component].active;
+        if (component === TenantComponents.ASSET) {
+          assetActive = tenant.components[component].active;
         }
         if (component === TenantComponents.CAR) {
           carActive = tenant.components[component].active;
@@ -220,8 +220,8 @@ export class TenantComponent implements OnInit {
       this.messageService.showErrorMessage('tenants.save_error_smart_charging');
       return;
     }
-    if (buildingActive && !organizationActive) {
-      this.messageService.showErrorMessage('tenants.save_error_building');
+    if (assetActive && !organizationActive) {
+      this.messageService.showErrorMessage('tenants.save_error_asset');
       return;
     }
     if (this.currentTenant) {

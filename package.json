@@ -1,11 +1,19 @@
 {
   "name": "ev-dashboard",
+  "description": "Dashboard for Electric Vehicle charging station",
+  "homepage": "https://github.com/LucasBrazi06/ev-dashboard-new",
   "version": "2.1.10",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/LucasBrazi06/ev-dashboard-new"
   },
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration=development",

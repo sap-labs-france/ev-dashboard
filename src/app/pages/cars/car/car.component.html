@@ -40,13 +40,16 @@
                             <td class="px-2 py-2 text-left">{{car?.vehicleModelVersion ? car.vehicleModelVersion : '-'}}</td>
                           </tr>
                           <tr class="mat-row" role="row">
-                            <th class="props-header px-2 py-2 text-left">{{"cars.performance_acceleration" | translate}}
-                            </th>
-                            <td class="px-2 py-2 text-left">{{car?.performanceAcceleration ? car.performanceAcceleration : '-'}} {{"cars.unit.seconde" | translate}}</td>
+                            <th class="props-header px-2 py-2 text-left">{{"cars.performance_acceleration" | translate}}</th>
+                            <td class="px-2 py-2 text-left">
+                              {{car?.performanceAcceleration ? car.performanceAcceleration : '-'}} {{"cars.unit.seconde" | translate}}
+                            </td>
                           </tr>
                           <tr class="mat-row" role="row">
                             <th class="props-header px-2 py-2 text-left">{{"cars.drivetrain_torque" | translate}}</th>
-                            <td class="px-2 py-2 text-left">{{car?.drivetrainTorque ? car.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}</td>
+                            <td class="px-2 py-2 text-left">
+                              {{car?.drivetrainTorque ? car.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}
+                            </td>
                           </tr>
                           <tr class="mat-row" role="row">
                             <th class="props-header px-2 py-2 text-left">{{"cars.performance_top_speed" | translate}}</th>
@@ -58,7 +61,9 @@
                           </tr>
                           <tr class="mat-row" role="row">
                             <th class="props-header px-2 py-2 text-left">{{"cars.misc_turning_circle" | translate}}</th>
-                            <td class="px-2 py-2 text-left">{{car?.miscTurningCircle ? car.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}</td>
+                            <td class="px-2 py-2 text-left">
+                              {{car?.miscTurningCircle ? car.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}
+                            </td>
                           </tr>
                         </ng-container>
                       </tbody>
@@ -82,11 +87,15 @@
                 <ng-container>
                   <tr class="mat-row app-car-important-props" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.battery_capacity_full" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car?.batteryCapacityFull ? (car.batteryCapacityFull | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt_heure" | translate}}</td>
+                    <td class="px-2 py-2 text-left">
+                      {{car?.batteryCapacityFull ? (car.batteryCapacityFull | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt_heure" | translate}}
+                    </td>
                   </tr>
                   <tr class="mat-row app-car-important-props" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.battery_capacity_useable" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car?.batteryCapacityUseable ? (car.batteryCapacityUseable | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt_heure" | translate}}</td>
+                    <td class="px-2 py-2 text-left">
+                      {{car?.batteryCapacityUseable ? (car.batteryCapacityUseable | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt_heure" | translate}}
+                    </td>
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.charge_plug" | translate}}</th>
@@ -94,7 +103,9 @@
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.charge_standard_power" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car?.chargeStandardPower ? (car.chargeStandardPower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}</td>
+                    <td class="px-2 py-2 text-left">
+                      {{car?.chargeStandardPower ? (car.chargeStandardPower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}
+                    </td>
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.evse_phase_ac" | translate}}</th>
@@ -106,7 +117,9 @@
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.fast_charge_power_max" | translate}}</th>
-                    <td class="px-2 py-2 text-left">{{car?.fastChargePowerMax ? (car.fastChargePowerMax | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}</td>
+                    <td class="px-2 py-2 text-left">
+                      {{car?.fastChargePowerMax ? (car.fastChargePowerMax | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}
+                    </td>
                   </tr>
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.charge_plug_location" | translate}}</th>
@@ -126,13 +139,15 @@
           <app-table [dataSource]="carConverterTableDataSource"></app-table>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="car?.images">
+      <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>photo_camera</mat-icon><span>Photos</span>
         </ng-template>
-        <div class="card-body">
-          <app-carousel [images]="car.images"></app-carousel>
-        </div>
+        <ng-template matTabContent>
+          <div class="card-body">
+            <app-carousel [carID]="car?.id"></app-carousel>
+          </div>
+        </ng-template>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
@@ -174,7 +189,7 @@
           <mat-icon>info</mat-icon><span>{{"cars.debug_car" | translate}}</span>
         </ng-template>
         <div class="col-md-12 text-left p-3 pl-5 car-advanced">
-          <pre class="m-0"><small>{{ car?.carObject | json }}</small></pre>
+          <pre class="m-0"><small>{{ car | json }}</small></pre>
         </div>
       </mat-tab>
       <mat-tab disabled>

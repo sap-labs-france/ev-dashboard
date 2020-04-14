@@ -9,6 +9,7 @@ COPY package.json package-lock.json ./
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 RUN npm install
 
+COPY NOTICE LICENSE ./
 COPY src ./src
 COPY *.json ./
 COPY *.js ./

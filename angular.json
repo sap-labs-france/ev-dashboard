@@ -22,10 +22,11 @@
             "sourceMap": true,
             "polyfills": "src/polyfills.ts",
             "assets": [
+              { "glob": "@(LICENSE|NOTICE)", "input": "src/../", "output": "/" },
               { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
               { "glob": "favicon.ico", "input": "src/", "output": "/" },
               { "glob": "Staticfile", "input": "src/nginx/", "output": "/" },
-              { "glob": "**", "input": "src/nginx/", "output": "/nginx/" }
+              { "glob": "**/*", "input": "src/nginx/", "output": "/nginx/" }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",

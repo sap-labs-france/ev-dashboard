@@ -1146,7 +1146,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Transaction>(
-      `${this.centralRestServerServiceSecuredURL}/ConsumptionFromTransaction`,
+      `${this.centralRestServerServiceSecuredURL}/TransactionConsumption`,
       {
         headers: this.buildHttpHeaders(),
         params,

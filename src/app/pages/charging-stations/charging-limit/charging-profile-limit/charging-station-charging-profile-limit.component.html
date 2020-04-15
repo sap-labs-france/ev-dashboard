@@ -22,8 +22,8 @@
       <button mat-raised-button color="primary" (click)="refresh()">
         <mat-icon>refresh</mat-icon><span>{{'general.refresh' | translate}}</span>
       </button>
-      <button mat-raised-button *ngIf="(isSmartChargingComponentActive && charger.siteArea.smartCharging)" color="primary" (click)="callOptimizer()">
-        <mat-icon>signal_cellular_alt</mat-icon><span>{{'chargers.smart_charging.call_optimizer' | translate}}</span>
+      <button mat-raised-button *ngIf="(isSmartChargingComponentActive && charger.siteArea.smartCharging)" color="primary" (click)="triggerSmartCharging()">
+        <mat-icon>signal_cellular_alt</mat-icon><span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
       </button>
     </div>
     <div class="row">

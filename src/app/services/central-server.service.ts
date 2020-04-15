@@ -389,12 +389,10 @@ export class CentralServerService {
       );
   }
 
-  public callOptimizer(siteAreaId: string): Observable<ActionResponse> {
-    const params: { [param: string]: string } = {};
-    params['SiteAreaId'] = siteAreaId;
+  public triggerSmartCharging(siteAreaId: string): Observable<ActionResponse> {
     this.checkInit();
     return this.httpClient.get<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/CallOptimizer`,
+      `${this.centralRestServerServiceSecuredURL}/TriggerSmartCharging?SiteAreaID=${siteAreaId}`,
       {
         headers: this.buildHttpHeaders(),
       })

@@ -784,7 +784,10 @@
       "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
       "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",
-      "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s)."
+      "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s).",
+      "call_optimizer": "Optimize Plans",
+      "call_optimizer_success": "Optimizer has been called successfully. Refresh to see the current charging Profile. ",
+      "call_optimizer_error": "Optimizer Call failed. Please check logs for details."
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
@@ -898,7 +901,7 @@
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
-    "invalid_power_value": "Power value must be a positive number",
+    "invalid_power_value": "Power value must be a positive, natural number",
     "invalid_voltage": "Voltage value must be a positive number",
     "invalid_amperage": "Amperage value must be a positive number",
     "unsaved_title": "Unsaved changes",

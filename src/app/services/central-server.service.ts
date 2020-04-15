@@ -389,6 +389,18 @@ export class CentralServerService {
       );
   }
 
+  public triggerSmartCharging(siteAreaId: string): Observable<ActionResponse> {
+    this.checkInit();
+    return this.httpClient.get<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/TriggerSmartCharging?SiteAreaID=${siteAreaId}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getSite(siteId: string, withImage: boolean = false): Observable<Site> {
     const params: { [param: string]: string } = {};
     params['ID'] = siteId;
@@ -2241,7 +2253,7 @@ export class CentralServerService {
   }
 
   public getCarImages(carID: number, params: { [param: string]: string | string[]; },
-     paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
+    paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
     // Verify init
     this.checkInit();
     // Build Paging

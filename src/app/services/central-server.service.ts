@@ -1779,7 +1779,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     // Execute
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

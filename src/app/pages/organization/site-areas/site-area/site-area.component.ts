@@ -145,7 +145,6 @@ export class SiteAreaComponent implements OnInit {
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
       this.maximumPower.enable();
-
     } else {
       this.maximumPower.disable();
     }

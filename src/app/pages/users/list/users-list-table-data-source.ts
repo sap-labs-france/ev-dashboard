@@ -123,7 +123,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'role',
         name: 'users.role',
-        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
+        formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         sortable: true,

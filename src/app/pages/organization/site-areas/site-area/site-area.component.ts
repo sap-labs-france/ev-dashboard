@@ -114,6 +114,7 @@ export class SiteAreaComponent implements OnInit {
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
+    this.maximumPower.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();

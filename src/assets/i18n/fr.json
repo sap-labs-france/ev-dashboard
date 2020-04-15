@@ -722,9 +722,9 @@
       "date_not_in_past": "La date ne doit pas être dans le passé",
       "date_out_of_limit": "La planification ne doit pas dépasser 24 heures",
       "not_supported": "Cette fonctionnalité n'est pas supportée par cette marque de borne",
-      "smart_charging_enabled_static_limitation": "La charge intelligente est activée sur cette zone et gère automatiquement la limitation de la charge de cette borne.",
+      "smart_charging_enabled_static_limitation": "La limite statique est maintenant gérée par la charge intelligente",
       "charging_station_inactive": "La borne n'est pas connectée au serveur",
-      "smart_charging_enabled_charging_profiles": "La charge intelligente est activée sur cette zone et gère automatiquement les plans de charge de cette borne.",
+      "smart_charging_enabled_charging_profiles": "Les plans de charge sont maintenant gérés par la charge intelligente",
       "static_limit": "Limite Statique",
       "charging_profile_limit": "Plan de Charge",
       "debug_charging_station": "Avancé",
@@ -784,7 +784,12 @@
       "disable_smart_charging_for_site_area_title": "Désactiver Charge Intelligente",
       "disable_smart_charging_for_site_area_body": "Si vous désactivez la charge intelligente pour cette zone, tous les plans de charge seront effacés.<br>Voulez-vous continuer ?",
       "clearing_charging_profiles_not_successful_title": "Une erreur est survenue pendant l'effacement des plans de charge",
-      "clearing_charging_profiles_not_successful_body": "L'effacement des plans de charge des bornes de la zone '{{siteAreaName}}' a échoué !<br>Vérifiez les logs et procédez a l'effacement manuel des plans de charge."
+      "clearing_charging_profiles_not_successful_body": "L'effacement des plans de charge des bornes de la zone '{{siteAreaName}}' a échoué !<br>Vérifiez les logs et procédez a l'effacement manuel des plans de charge.",
+      "trigger_smart_charging_title": "Exécuter Charge Intelligente",
+      "trigger_smart_charging_confirm": "Voulez-vous vraiment exécuter l'algorithme de la charge intelligente?",
+      "trigger_smart_charging": "Exécuter Charge Intelligente",
+      "trigger_smart_charging_success": "L'algorithme de la charge intelligente a été éxécuté avec succès",
+      "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs"
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",

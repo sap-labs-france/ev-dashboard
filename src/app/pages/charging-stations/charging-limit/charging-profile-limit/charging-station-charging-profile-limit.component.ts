@@ -177,6 +177,31 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.loadChargingProfiles();
   }
 
+  public triggerSmartCharging() {
+    // Show yes/no dialog
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.smart_charging.trigger_smart_charging_title'),
+      this.translateService.instant('chargers.smart_charging.trigger_smart_charging_confirm'),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        this.spinnerService.show();
+        this.centralServerService.triggerSmartCharging(this.charger.siteArea.id).subscribe((response) => {
+          this.spinnerService.hide();
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
+          } else {
+            Utils.handleError(JSON.stringify(response), this.messageService,
+              this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));
+          }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'chargers.smart_charging.trigger_smart_charging_error');
+        });
+      }
+    });
+  }
+
   public startDateFilterChanged(value: Date) {
     this.scheduleEditableTableDataSource.startDate = new Date(value);
     this.scheduleEditableTableDataSource.refreshChargingSchedules();

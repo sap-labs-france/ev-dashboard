@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Converted Build to Asset with Consumption or Production of energy`,
               `Show Site Area current Consumption`,
+              `Force the Smart Charging in Charging Plans`,
               `Mutli-selection on Internal/External Organization filter`
             ],
           },

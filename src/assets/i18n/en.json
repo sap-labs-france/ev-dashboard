@@ -722,9 +722,9 @@
       "date_not_in_past": "End date must not be in the past",
       "date_out_of_limit": "The plan must not go beyond 24 hours",
       "not_supported": "This feature is not supported by this brand of charging station",
-      "smart_charging_enabled_static_limitation": "The smart charging is active on that site area and manages automatically the charge limitation of that charging station.",
+      "smart_charging_enabled_static_limitation": "The static limitation is now managed by the smart charging",
       "charging_station_inactive": "The charging station is not connected to the server",
-      "smart_charging_enabled_charging_profiles": "The smart charging is active on that site area and manages automatically the charging plans of that charging station.",
+      "smart_charging_enabled_charging_profiles": "The charging plans are now managed by the smart charging",
       "static_limit": "Static Limitation",
       "charging_profile_limit": "Charging Plan",
       "debug_charging_station":"Advanced",
@@ -784,7 +784,12 @@
       "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
       "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",
-      "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s)."
+      "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s).",
+      "trigger_smart_charging_title": "Execute Smart Charging",
+      "trigger_smart_charging_confirm": "Do you really want to execute the smart charging algorithm?",
+      "trigger_smart_charging": "Execute Smart Charging",
+      "trigger_smart_charging_success": "The smart charging algorithm has been executed successfully",
+      "trigger_smart_charging_error": "Error occurred while executing the smart charging algorithm, check the logs"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
@@ -793,7 +798,7 @@
       "get_diagnostics_dialog_title": "Retrieve diagnostics",
       "get_diagnostics_dialog_confirm": "Do you really want to download the charging station '{{chargeBoxID}}' diagnostics file?",
       "get_diagnostics_success": "Diagnostics download started successfully",
-      "get_diagnostics_error": "Error when starting diagnostics download"
+      "get_diagnostics_error": "Error occurred while starting the diagnostics download"
     },
     "action_error": {
       "transaction_start_title": "Start session error",
@@ -898,7 +903,7 @@
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
-    "invalid_power_value": "Power value must be a positive number",
+    "invalid_power_value": "Power value must be a positive, natural number",
     "invalid_voltage": "Voltage value must be a positive number",
     "invalid_amperage": "Amperage value must be a positive number",
     "unsaved_title": "Unsaved changes",

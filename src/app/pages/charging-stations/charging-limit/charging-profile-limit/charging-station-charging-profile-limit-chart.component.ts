@@ -168,6 +168,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       },
       legend: {
         display: true,
+        position: 'bottom',
       },
       responsive: true,
       maintainAspectRatio: this.ratio ? true : false,

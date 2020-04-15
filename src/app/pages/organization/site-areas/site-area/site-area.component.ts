@@ -114,6 +114,7 @@ export class SiteAreaComponent implements OnInit {
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
+    this.maximumPower.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -145,7 +146,6 @@ export class SiteAreaComponent implements OnInit {
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
       this.maximumPower.enable();
-
     } else {
       this.maximumPower.disable();
     }

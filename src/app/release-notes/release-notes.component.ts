@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.32',
-        date: new Date('2020-04-15'),
+        version: '2.2.33',
+        date: new Date('2020-04-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Smart Charging fixes`,
               `Show Site Area current Consumption`,
               `Force the Smart Charging in Charging Plans`,
               `Converted Build to Asset with Consumption or Production of energy`,

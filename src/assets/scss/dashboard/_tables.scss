@@ -325,7 +325,7 @@ tr.element-row:not(.expanded-row):active {
   min-width: $width;
 }
 
-@for $i from 1 through 10 {
+@for $i from 1 through 100 {
   .col-#{$i}em {
     @include col-fixsize(1em*$i)
   }

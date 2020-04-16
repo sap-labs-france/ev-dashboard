@@ -30,10 +30,11 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Smart Charging fixes`,
               `Show Site Area current Consumption`,
               `Force the Smart Charging in Charging Plans`,
               `Converted Build to Asset with Consumption or Production of energy`,
+              `Fixed Charging Station's Connectors not aligned`,
+              `Fixed SAP Smart Charging root fuses not correctly provided`,
               `Mutli-selection on Internal/External Organization filter`
             ],
           },

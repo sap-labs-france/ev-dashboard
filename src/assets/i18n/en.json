@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.32",
+    "last_update": "Version 2.2.33",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -785,11 +785,11 @@
       "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",
       "clearing_charging_profiles_not_successful_body": "Failed to delete the charging plans of the charging stations belonging to the site area '{{siteAreaName}}'!<br>Please check the logs and proceed manually with the deletion of the charging plan(s).",
-      "trigger_smart_charging_title": "Execute Smart Charging",
-      "trigger_smart_charging_confirm": "Do you really want to execute the smart charging algorithm?",
-      "trigger_smart_charging": "Execute Smart Charging",
-      "trigger_smart_charging_success": "The smart charging algorithm has been executed successfully",
-      "trigger_smart_charging_error": "Error occurred while executing the smart charging algorithm, check the logs"
+      "trigger_smart_charging_title": "Trigger Smart Charging",
+      "trigger_smart_charging_confirm": "Do you really want to trigger the smart charging algorithm?",
+      "trigger_smart_charging": "Trigger Smart Charging",
+      "trigger_smart_charging_success": "The smart charging algorithm has been triggered successfully",
+      "trigger_smart_charging_error": "Error occurred while triggering the smart charging algorithm, check the logs"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",

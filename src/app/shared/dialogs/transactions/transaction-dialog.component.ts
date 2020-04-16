@@ -39,7 +39,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   @ViewChild('chartConsumption') chartComponent!: ConsumptionChartComponent;
   private transactionId!: number;
 
-  private autoRefeshTimer!: NodeJS.Timeout;
+  private autoRefeshTimer!: number;
   private autoRefeshPollEnabled!: boolean;
   private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private refreshSubscription!: Subscription;

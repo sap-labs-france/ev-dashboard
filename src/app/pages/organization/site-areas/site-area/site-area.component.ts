@@ -218,6 +218,7 @@ export class SiteAreaComponent implements OnInit {
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
         this.isSmartChargingActive = siteArea.smartCharging;
+        this.maximumPower.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
         this.maximumPower.disable();

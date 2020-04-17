@@ -1,0 +1,51 @@
+<div class="transactions main-content">
+  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
+                 animationDuration="0ms" class="h-100 mat-tab-info" disableRipple="true">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>history</mat-icon><span>{{'transactions.tabs.history' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-transactions-history></app-transactions-history>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>flash_on</mat-icon><span>{{'transactions.tabs.in_progress' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-transactions-in-progress></app-transactions-in-progress>
+      </ng-template>
+    </mat-tab>
+    <ng-container *ngIf="showTransactionInError">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>warning</mat-icon><span>{{'transactions.tabs.in_error' | translate}}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-transactions-in-error></app-transactions-in-error>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+    <ng-container *ngIf="showTransactionRefundTab">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>money</mat-icon><span>{{'transactions.tabs.refund' | translate}}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-transactions-refund></app-transactions-refund>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+    <ng-container *ngIf="showInvoices">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>description</mat-icon><span>{{'transactions.tabs.invoices' | translate}}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-invoices></app-invoices>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</div>

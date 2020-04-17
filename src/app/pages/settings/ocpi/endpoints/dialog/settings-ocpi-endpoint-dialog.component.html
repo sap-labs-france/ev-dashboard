@@ -1,0 +1,162 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>call_split</mat-icon>
+          <span>{{name.value}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <div class="row">
+                <!-- OCPI Endpoint - Name -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                             placeholder="{{'ocpiendpoints.name' | translate}}" type="text"
+                             [formControl]="name" required>
+                      <mat-error
+                        *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="name.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'"
+                             [translateParams]="{length: 100}"></div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <mat-select [formControl]="role" placeholder="{{'ocpiendpoints.role' | translate}}" required>
+                        <mat-option value="CPO">CPO</mat-option>
+                        <mat-option value="EMSP">eMSP</mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="role.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- OCPI Endpoint - URL -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                             placeholder="{{'ocpiendpoints.base_url' | translate}}"
+                             type="text" [formControl]="baseUrl" required>
+                      <mat-error
+                        *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="baseUrl.errors?.pattern">
+                        <div [translate]="'general.error_url_pattern'"></div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- OCPI Endpoint - Country Code / Party id-->
+                <div class="col-md-6">
+                  <div class="form-group" *ngIf="!currentEndpoint.id">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                             placeholder="{{'ocpiendpoints.country_code' | translate}}"
+                             type="text" [formControl]="countryCode">
+                      <mat-error
+                        *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="countryCode.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'"
+                             [translateParams]="{length: 2}"></div>
+                      </mat-error>
+                      <mat-error *ngIf="countryCode.errors?.minlength">
+                        <div [translate]="'general.error_max_length'"
+                             [translateParams]="{length: 2}"></div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" *ngIf="!currentEndpoint.id">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                             placeholder="{{'ocpiendpoints.party_id' | translate}}"
+                             type="text" [formControl]="partyId">
+                      <mat-error
+                        *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="partyId.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'"
+                             [translateParams]="{length: 3}"></div>
+                      </mat-error>
+                      <mat-error *ngIf="partyId.errors?.minlength">
+                        <div [translate]="'general.error_max_length'"
+                             [translateParams]="{length: 3}"></div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <!-- OCPI Endpoint - Token -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="d-flex flex-row">
+                      <div class="flex-grow-1">
+                        <mat-form-field class="endpoint-dialog-no-padding-bottom">
+                          <input appAutofocus matInput
+                                 placeholder="{{'ocpiendpoints.local_token' | translate}}"
+                                 type="text" [formControl]="localToken">
+                          <mat-error *ngIf="localToken.errors?.maxlength">
+                            <div [translate]="'general.error_max_length'"
+                                 [translateParams]="{length: 64}"></div>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div align="right" pull-right>
+                        <button mat-raised-button color="primary"
+                                (click)="generateLocalToken(formGroup.value)">
+                          <mat-icon>vpn_key</mat-icon>
+                          <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field class="endpoint-dialog-no-padding-bottom">
+                      <input appAutofocus matInput
+                             placeholder="{{'ocpiendpoints.token' | translate}}"
+                             type="text" [formControl]="token">
+                      <mat-error *ngIf="token.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'"
+                             [translateParams]="{length: 64}"></div>
+                      </mat-error>
+                    </mat-form-field>
+                    <div align="right" pull-right>
+                      <button mat-raised-button color="primary"
+                              (click)="testConnection(formGroup.value)"
+                              [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
+                        <mat-icon>touch_app</mat-icon>
+                        <span>{{'ocpiendpoints.test_connection' | translate}}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-button (click)="save(formGroup.value)"
+                  [disabled]="!formGroup.valid || !formGroup.dirty">
+            <mat-icon>save</mat-icon>
+            <span>{{'general.save' | translate}}</span>
+          </button>
+          <button mat-icon-button (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

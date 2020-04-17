@@ -1,0 +1,454 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial card-min-height">
+    <form [formGroup]="formGroup" class="form">
+      <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
+                     animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>portrait</mat-icon>
+            <span>{{name.value}} {{firstName.value}}</span>
+          </ng-template>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-2 my-auto">
+                <div class="rotating-card-container img-fluid"
+                     [ngStyle]="{ 'pointer-events': 'all'}">
+                  <div class="card card-rotate card-background img-thumbnail m-0"
+                       style="height: 100px">
+                    <div class="front front-background bg-transparent"
+                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                      </div>
+                    </div>
+                    <div class="back back-background"
+                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div class="card-body">
+                        <div class="justify-content-center">
+                          <button mat-flat-button color="primary">
+                            <mat-icon (click)="file.click()">mode_edit</mat-icon>
+                            <div style="display:none">
+                              <input type="file" accept=".jpg, .jpeg, .png, .gif"
+                                     [maxLength]="maxSize" name="..."
+                                     (change)="imageChanged($event)" #file>
+                            </div>
+                          </button>
+                          <button mat-flat-button color="warn">
+                            <mat-icon (click)="clearImage()">delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="name" appAutofocus matInput
+                           placeholder="{{'users.name' | translate}}" required
+                          (input)="toUpperCase(name)" type="text">
+                    <mat-error *ngIf="name.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="firstName" matInput
+                           placeholder="{{'users.first_name' | translate}}" required
+                           (input)="firstLetterToUpperCase(firstName)" type="text">
+                    <mat-error *ngIf="firstName.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="email" matInput
+                           placeholder="{{'users.email' | translate}}" required
+                           type="text">
+                    <mat-error *ngIf="email.errors?.email">
+                      {{"authentication.invalid_email" | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="email.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select [formControl]="locale" placeholder="{{'users.locale' | translate}}">
+                      <mat-option *ngFor="let userLocale of userLocales" [value]="userLocale.key">
+                        {{userLocale.value | translate}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="phone" matInput
+                           placeholder="{{'users.phone' | translate}}" type="text">
+                    <mat-error *ngIf="phone.errors?.invalidPhone">
+                      {{"users.invalid_phone_number" | translate}}
+                      {{phone.errors?.pattern | json}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="mobile" matInput
+                           placeholder="{{'users.mobile' | translate}}" type="text">
+                    <mat-error *ngIf="mobile.errors?.invalidPhone">
+                      {{"users.invalid_phone_number" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}">
+                      <mat-option *ngFor="let userStatus of userStatuses" [value]="userStatus.key">
+                        {{userStatus.value | translate}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select [formControl]="role" (ngModelChange)="roleChanged($event)" placeholder="{{'users.role' | translate}}">
+                      <mat-option *ngFor="let userRole of userRoles" [value]="userRole.key">
+                        {{userRole.value | translate}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="isAdmin" class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="plateID" matInput
+                           placeholder="{{'users.plate_id' | translate}}" type="text">
+                    <mat-error *ngIf="plateID.errors?.pattern">
+                      {{"users.invalid_plate_id" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="isAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>nfc</mat-icon>
+            <span>{{'users.tags' | translate}}</span>
+          </ng-template>
+          <div class="card-body">
+            <app-table [dataSource]="userTagsEditableTableDataSource"></app-table>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="isSuperAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>email</mat-icon>
+            <span>{{'general.notifications' | translate}}</span>
+          </ng-template>
+          <div class="card-body" class="text-left m-4">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group mb-0">
+                  <mat-checkbox (click)="toggleNotificationsActive()"
+                                [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ml-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group mb-0">
+                    <mat-checkbox [formControl]="sendCarSynchronizationFailed">{{"notifications.car_synchronization_failed" | translate}}</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="isAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>email</mat-icon>
+            <span>{{'general.notifications' | translate}}</span>
+          </ng-template>
+          <div class="card-body" class="text-left m-4">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group mb-0">
+                  <mat-checkbox (click)="toggleNotificationsActive()"
+                                [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ml-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendSessionStarted">{{"notifications.session_started" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendOptimalChargeReached">{{"notifications.optimal_charge_reached" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendEndOfCharge">{{"notifications.end_of_charge" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendEndOfSession">{{"notifications.end_of_session" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendUserAccountStatusChanged">{{"notifications.user_account_status_changed" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendSessionNotStarted">{{"notifications.session_not_started" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                                [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
+                </div>
+              </div>
+              <div *ngIf="role && role.value === 'A'" class="row">
+                <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin_only" | translate}}</div>
+                <div class="ml-3">
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                                    [formControl]="sendBillingUserSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>location_on</mat-icon>
+            <span>{{'general.address' | translate}}</span>
+          </ng-template>
+          <div class="card-body">
+            <app-address [address]="address" [formGroup]="formGroup" [hideGeoLocation]="true"></app-address>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>lock</mat-icon>
+            <span>{{'authentication.password' | translate}}</span>
+          </ng-template>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="password" [type]="hidePassword ? 'password' : 'text'"
+                           matInput
+                           placeholder="{{'authentication.password' | translate}}" type="password">
+                    <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable"
+                              matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
+                    </mat-icon>
+                    <mat-error *ngIf="password.errors?.noSpace">
+                      {{"authentication.no_space_in_password" | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="password.errors?.invalidPassword">
+                      {{"authentication.password_rule" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [errorStateMatcher]="parentErrorStateMatcher"
+                           [formControl]="repeatPassword"
+                           [type]="hideRepeatPassword ? 'password' : 'text'" matInput
+                           placeholder="{{'authentication.repeat_password' | translate}}"
+                           type="password">
+                    <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword"
+                              class="icon-clickable" matSuffix>
+                      {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
+                    </mat-icon>
+                    <mat-error *ngIf="passwords.errors?.notEqual">
+                      {{"authentication.password_not_equal" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="!isSuperAdmin">
+          <ng-template mat-tab-label>
+            <mat-icon>link</mat-icon>
+            <span>{{'general.connectors' | translate}}</span>
+          </ng-template>
+          <div class="card-body">
+            <div class="row">
+              <div *ngIf="refundSetting" class="col-md-6 col-xl-4">
+                <div class="card">
+                  <div class="card-body">
+                    <a [attr.href]="getRefundUrl()" target="_blank">
+                      <div class="d-flex flex-row align-items-center">
+                        <img src="/assets/img/integrations/concur-logo.png"
+                             class="card-logo img-thumbnail mr-3"/>
+                        <h2 class="card-title">Concur</h2>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="card-footer">
+                    <div *ngIf="isRefundConnectionValid"
+                         class="d-flex flex-row align-items-center justify-content-between">
+                      <div class="d-flex flex-column align-items-start">
+                        <span>{{'users.connectors.created_on' | translate}} {{ refundConnection.createdAt | appDate}}</span>
+                        <span>{{'users.connectors.expired_on' | translate}} {{ refundConnection.validUntil | appDate}}</span>
+                      </div>
+                      <button mat-raised-button color="warn" (click)="revokeRefundAccount()">
+                        <mat-icon>delete</mat-icon>
+                        <span>{{'users.connectors.revoke' | translate}}</span>
+                      </button>
+                    </div>
+                    <div *ngIf="!isRefundConnectionValid"
+                         class="d-flex flex-row align-items-center justify-content-between">
+                      <span>{{'users.connectors.not_connected' | translate}} </span>
+                      <button mat-raised-button color="primary" (click)="linkRefundAccount()">
+                        <mat-icon>launch</mat-icon>
+                        <span>{{'users.connectors.connect' | translate}}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!refundSetting" class="mx-auto my-3">
+                <p
+                  class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>more_horiz</mat-icon>
+            <span>{{'users.miscs' | translate}}</span>
+          </ng-template>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="iNumber" matInput
+                           placeholder="{{'users.inumber' | translate}}" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input [formControl]="costCenter" matInput
+                           placeholder="{{'users.cost_center' | translate}}"
+                           type="text">
+                    <mat-error *ngIf="costCenter.errors?.pattern">
+                      {{"general.invalid_value" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row" *ngIf="canSeeInvoice">
+              <div class="col-md-1">
+                <button mat-raised-button color="primary" (click)="getInvoice()">
+                  <mat-icon>receipt</mat-icon>
+                  <span>View invoice</span>
+                </button>
+              </div>
+            </div> -->
+          </div>
+        </mat-tab>
+        <mat-tab disabled>
+          <ng-template mat-tab-label>
+            <button mat-button (click)="saveUser(formGroup.getRawValue())"
+                    [disabled]="!formGroup.valid || !formGroup.dirty">
+              <mat-icon>save</mat-icon>
+              <span>{{'general.save' | translate}}</span>
+            </button>
+            <button mat-icon-button *ngIf="inDialog" mat-dialog-close>
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </div>
+</div>

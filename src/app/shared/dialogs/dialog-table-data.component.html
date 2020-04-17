@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-header card-header-tabs card-header-primary">
+    <div class="nav-tabs-navigation">
+      <h4 class="nav-tabs-title" >{{title | translate}}</h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>
+        </button>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <app-table [dataSource]="dialogDataSource"></app-table>
+  </div>
+
+  <div class="card-footer mat-dialog-actions">
+    <span class="toolbar-spacer"></span>
+
+    <button mat-raised-button color="primary" (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
+      {{buttonTitle | translate}}
+    </button>
+    <button mat-raised-button (click)="cancel()">
+      {{"general.cancel" | translate}}
+    </button>
+  </div>
+</div>

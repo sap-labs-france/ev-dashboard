@@ -1,0 +1,51 @@
+@import "brand";
+
+$res1280: 1280px;
+$res1024: 1024px;
+$res768: 768px; // iPad / iPad Pro
+$res435: 414px; // Iphone 6/7/8 Plus
+$res375: 375px; // Iphone 6/7/8/X
+$res320: 320px; // IPhone 5
+
+.adapt-font-size {
+  font-size: 1em;
+  @media screen and (max-width: $res375) {
+    font-size: 0.8em;
+  }
+}
+
+.auth-link {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.lighter-link-color {
+  a {
+    color: lighten($brand-primary, 40%);
+    &:hover {
+      color: lighten($brand-primary, 60%);
+    }
+    &:visited {
+      color: lighten($brand-primary, 50%);
+    }
+  }
+}
+
+.input-group-no-icon {
+  margin-left: 46px;
+}
+
+mat-form-field .mat-form-field {
+  &-underline {
+    position: static;
+  }
+  &-subscript-wrapper {
+    position: static;
+  }
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

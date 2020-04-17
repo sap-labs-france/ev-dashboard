@@ -1,0 +1,15 @@
+.mat-select-panel {
+  max-height: 50vh !important;
+  border-radius: $border-radius-base !important;
+}
+.mat-select-content {
+  overflow-x: hidden;
+}
+.mat-option {
+  margin: 0;
+}
+
+.mat-select-icon {
+  width:20px !important;
+  height:20px !important;
+}

@@ -1,0 +1,27 @@
+
+.app-car-important-props  {
+  font-size: 1.5em;
+}
+
+.app-car {
+  align-items: center;
+  padding: 0 0 15px 0;
+}
+
+.app-cars-logo {
+  max-width:  3em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.car-advanced {
+  max-height: 70vh;
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.app-car-image-border {
+  @include shadow-2dp();
+  border-radius: $border-radius-large;
+}

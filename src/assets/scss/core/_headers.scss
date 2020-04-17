@@ -1,0 +1,58 @@
+.page-header {
+  height: 100%;
+  min-height: stretch;
+  background-position: center center;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  align-items: center;
+
+  > .container {
+    color: $brand-text;
+  }
+
+  .title {
+    color: $brand-text;
+  }
+
+  &.header-small {
+    height: 65vh;
+    min-height: 65vh;
+  }
+
+  .iframe-container {
+    iframe {
+      width: 100%;
+      box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
+      0 4px 25px 0px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.header-filter {
+  position: relative;
+
+  &:before,
+  &:after {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    content: "";
+  }
+
+  &::before {
+    background: rgba(0, 0, 0, .3);
+  }
+
+  .container {
+    z-index: 2;
+    position: relative;
+  }
+}

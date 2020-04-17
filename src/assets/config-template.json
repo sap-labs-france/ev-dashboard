@@ -1,0 +1,50 @@
+{
+  "CentralSystemServer": {
+    "protocol": "https",
+    "host": "localhost",
+    "port": 443,
+		"socketIOEnabled": true,
+    "pollEnabled": false,
+    "pollIntervalSecs": 10
+  },
+  "FrontEnd": {
+    "host": "localhost"
+  },
+  "Authorization": {
+    "debug": false
+  },
+	"Asset": {
+		"maxImageKb": 800
+	},
+  "User": {
+    "maxPictureKb": 150,
+    "captchaSiteKey": ""
+  },
+  "Company": {
+    "maxPictureKb": 150
+  },
+  "Site": {
+    "maxPictureKb": 800
+  },
+  "SiteArea": {
+    "maxPictureKb": 800
+  },
+  "Car": {
+    "url": ""
+  },
+  "Locales": {
+    "default": "en",
+    "supported": [
+      "en",
+      "fr"
+    ],
+    "fullSupported": [
+      "en_US",
+      "fr_FR"
+    ]
+  },
+  "Advanced": {
+    "debounceTimeNotifMillis": 50,
+    "debounceTimeSearchMillis": 500
+  }
+}

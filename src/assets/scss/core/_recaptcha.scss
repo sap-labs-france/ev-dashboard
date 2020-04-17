@@ -1,0 +1,16 @@
+@import "~bootstrap/scss/bootstrap-grid.scss";
+
+.captcha-container {
+  justify-content: center;
+  margin-left: 10px;
+  @media screen and (max-width: $res375) {
+    margin-left: 40px;
+  }
+}
+
+.captcha {
+  @media screen and (max-width: $res375) {
+    transform: scale(0.77);
+    transform-origin: 0 0;
+  }
+}

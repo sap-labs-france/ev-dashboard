@@ -1,0 +1,17 @@
+src
+test
+node_modules
+output
+documentation
+README.md
+.git
+.gitignore
+.gitattributes
+.vscode
+# vim
+# Persistent undo
+[._]*.un~
+# Temporary
+.netrwhist
+*~
+*.orig

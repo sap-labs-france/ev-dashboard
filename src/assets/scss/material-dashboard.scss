@@ -1,0 +1,73 @@
+
+// Import Core Vars/Mixins
+@import "core/variables";
+@import "core/mixins";
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+@import "core/recaptcha";
+// Core Components
+@import "core/buttons";
+@import "core/checkboxes";
+@import "dashboard/cards";
+@import "core/input-group";
+@import "core/nav";
+@import "core/images";
+@import "dashboard/navbar";
+@import "dashboard/alerts";
+@import "core/type";
+@import "core/tabs";
+@import "core/tooltip";
+@import "core/modal";
+@import "core/dropdown";
+@import "core/headers";
+@import "core/progress";
+@import "core/ripples";
+@import "core/menu";
+@import "dashboard/sidebar-and-main-panel";
+@import "dashboard/tables";
+@import "dashboard/misc";
+@import "dashboard/pages";
+// Components for PRO
+@import "dashboard/fileupload";
+@import "dashboard/responsive";
+// custom
+@import "dashboard/custom";
+// card rotating
+@import "core/cards/card-rotate";
+
+
+// Views
+@import "views/templates/templates";
+
+@import "views/dashboard/card-chart";
+@import "views/dashboard/card-keyfigure";
+@import "views/dashboard/dashboard";
+
+@import "views/browser-not-supported/browser-not-supported";
+
+@import "views/chargers/charging-station";
+@import "views/chargers/charging-stations-data-source-table";
+@import "views/chargers/smart-charging-limit-planner-chart";
+@import "views/chargers/smart-charging-limit-planner";
+@import "views/chargers/smart-charging-power-slider";
+
+@import "views/organization/organization";
+
+@import "views/assets/assets";
+
+@import "views/cars/cars";
+
+@import "views/shared/chip";
+@import "views/shared/connector-cell";
+@import "views/shared/chart";
+@import "views/shared/dialogs";
+@import "views/shared/geomap.dialog";
+@import "views/shared/session.dialog";
+@import "views/shared/recaptcha";
+@import "views/shared/carousel";
+
+@import "views/settings/endpoint.dialog";
+@import "views/settings/settings-ocpi-endpoints-source-table";
+@import "views/settings/settings-sac-links-source-table";
+
+@import "views/release-notes/release-notes";

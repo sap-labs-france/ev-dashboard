@@ -1,0 +1,159 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "md-pro-angular-cli": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "aot": true,
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            },
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "sourceMap": true,
+            "polyfills": "src/polyfills.ts",
+            "assets": [
+              { "glob": "@(LICENSE|NOTICE)", "input": "src/../", "output": "/" },
+              { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
+              { "glob": "favicon.ico", "input": "src/", "output": "/" },
+              { "glob": "Staticfile", "input": "src/nginx/", "output": "/" },
+              { "glob": "**/*", "input": "src/nginx/", "output": "/nginx/" }
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "src/assets/scss/material-dashboard.scss"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.slim.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.min.js",
+              "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
+              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
+              "node_modules/chart.js/dist/Chart.bundle.min.js",
+              "node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js",
+              "node_modules/moment-duration-format/lib/moment-duration-format.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "buildOptimizer": true,
+              "outputHashing": "all",
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "port": 45000,
+            "host": "localhost",
+            "disableHostCheck": true,
+            "browserTarget": "md-pro-angular-cli:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "md-pro-angular-cli:build:production"
+            },
+            "development": {
+              "browserTarget": "md-pro-angular-cli:build:development"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "md-pro-angular-cli:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/custom-webpack:karma",
+          "options": {
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/moment/moment.js",
+              "node_modules/arrive/src/arrive.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"
+            ],
+            "styles": [
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "src/assets/scss/material-dashboard.scss"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    },
+    "md-pro-angular-cli-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "md-pro-angular-cli:serve"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "md-pro-angular-cli",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "style": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.card-profile {
+  @extend %common-card-testimonial;
+}
+
+.card-profile {
+  .card-header:not([class*="card-header-"]) {
+    background: transparent;
+    box-shadow: none;
+  }
+  .card-avatar {
+    max-width: 100px;
+    max-height: 100px;
+
+    .card-avatar-change {
+      cursor: pointer;
+    }
+  }
+  .card-image-remove {
+    position: absolute;
+    padding: 1px 5px;
+    margin-top: 0px;
+    margin-left: -30px;
+    width: 22px;
+  }
+}

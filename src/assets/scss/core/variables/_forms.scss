@@ -1,0 +1,14 @@
+// Forms
+
+$input-border-color: #d2d2d2 !default; // #ccc !default;
+
+.mat-error {
+}
+
+.mat-dialog-container {
+  .main-content {
+    .form {
+      min-height: 65vh;
+    }
+  }
+}

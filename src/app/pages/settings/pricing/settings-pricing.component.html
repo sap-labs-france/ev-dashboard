@@ -1,0 +1,25 @@
+<div *ngIf="!isActive" class="card">
+  <div class="card-header card-header-icon card-header-primary">
+    <div class="card-icon">
+      <mat-icon>info</mat-icon>
+    </div>
+    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+  </div>
+  <div class="card-body">
+    <span [innerHTML]="'settings.pricing.full_description' | translate"></span>
+    <a href="https://help.sap.com/viewer/product/SAP_CONVERGENT_CHARGING/4.0/en-US" target="new"><u>SAP Convergent Charging</u></a><br><br>
+    {{'settings.activation_contact_msg' | translate}}
+  </div>
+</div>
+<form *ngIf="isActive" class="form" [formGroup]="formGroup">
+  <div class="mat-toolbar-row mat-toolbar-settings">
+      <button mat-raised-button color="warn" (click)="save(formGroup.value)"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
+        <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
+      </button>
+  </div>
+  <!-- Simple Pricing -->
+  <app-settings-simple-pricing *ngIf="isActive && pricingSettings?.type === 'simple'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-simple-pricing>
+  <!-- Convergent Charging Pricing -->
+  <app-settings-convergent-charging *ngIf="isActive && pricingSettings?.type === 'convergentCharging'" [pricingSettings]="pricingSettings" [formGroup]="formGroup"></app-settings-convergent-charging>
+</form>

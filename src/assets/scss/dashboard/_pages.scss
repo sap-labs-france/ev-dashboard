@@ -1,0 +1,272 @@
+.wrapper {
+  &:after {
+    display: table;
+    clear: both;
+    content: " ";
+  }
+
+  &.wrapper-full-page {
+    //height: auto;
+    min-height: 100vh;
+  }
+}
+
+.full-page {
+
+  &:after,
+  &:before {
+    display: block;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+
+  &:before {
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  &[data-image]:after {
+    opacity: .8;
+  }
+
+  > .content,
+  > .footer {
+    position: relative;
+    z-index: 4;
+  }
+
+  > .content {
+    min-height: calc(100vh - 80px);
+  }
+
+  .full-page-background {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center center;
+
+  }
+
+  .footer nav > ul a:not(.btn),
+  .footer,
+  .footer .copyright a {
+    color: $brand-text;
+  }
+
+}
+
+.login-page,
+.lock-page {
+  > .content {
+    padding-top: 18vh;
+  }
+  .page-header {
+    min-height: 100vh;
+    height: auto;
+    display: inherit;
+
+    .container {
+      padding-top: 22vh !important;
+    }
+  }
+}
+
+.eula-page {
+  overflow: auto;
+  height: 90vh;
+  padding-top: 0 !important;
+  color: $brand-background;
+}
+
+.login-page {
+
+  .card-login {
+    min-width: 465px;
+    @include transform-translate-y(0);
+    @extend .animation-transition-general;
+
+    background: $brand-background;
+    opacity: 0.9;
+
+    &.card-hidden {
+      opacity: 0;
+      @include transform-translate-y(-60px);
+    }
+
+    .card-header {
+      margin-top: -40px;
+      margin-bottom: 20px;
+    }
+    .card-body {
+      padding: 0px 5% 0px 5%;
+
+      .input-group {
+        .input-group-prepend {
+          width: 100%;
+          padding-right: 5%;
+        }
+        .input-group-text {
+          padding: 0px 10px 0 10px;
+        }
+        .form-control {
+          padding-bottom: 10px;
+          margin: 17px 0 0 0;
+        }
+      }
+    }
+
+    .social-line .btn {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    &.card-hidden {
+      opacity: 0;
+      @include transform-translate-y(-60px);
+    }
+  }
+}
+
+.lock-page {
+
+  .card-profile {
+    width: 240px;
+    margin: 60px auto 0;
+    color: $brand-text;
+    left: 0;
+    right: 0;
+    display: block;
+
+    @include transform-translate-y(0);
+    @extend .animation-transition-general;
+
+    &.card-hidden {
+      opacity: 0;
+      @include transform-translate-y(-60px);
+    }
+
+    .card-avatar {
+      max-width: 90px;
+      max-height: 90px;
+      margin-top: -45px;
+    }
+
+    .card-footer {
+      border: none;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-top: 15px;
+    }
+
+    &.with-animation {
+      @include transition(300ms, $transition-ease-in);
+    }
+
+    .card-body + .card-footer {
+      padding: 0.9375rem 1.875rem;
+      margin: 0;
+    }
+  }
+
+  .footer {
+    z-index: 1;
+    color: $brand-text;
+
+    .copyright {
+      a {
+        color: $brand-text;
+        font-weight: 500;
+
+        &:hover {
+          color: $brand-text;
+        }
+      }
+    }
+  }
+
+}
+
+.register-page {
+
+  .container {
+    position: relative;
+    z-index: 3;
+  }
+
+  .footer {
+    color: $brand-text;
+
+    .container {
+      padding: 0;
+    }
+    .copyright {
+      a {
+        color: $brand-text;
+        font-weight: 500;
+
+        &:hover {
+          color: $brand-text;
+        }
+      }
+    }
+  }
+}
+
+.off-canvas-sidebar {
+  .navbar-toggler .navbar-toggler-icon {
+    background-color: $brand-text !important;
+  }
+
+  .navbar-collapse {
+    .nav {
+      > li > a,
+      > li > a:hover {
+        color: $brand-text;
+        margin: 0 15px;
+      }
+
+      > li > a:focus,
+      > li > a:hover {
+        background: rgba(200, 200, 200, 0.2);
+      }
+    }
+    &:after {
+      background-color: #282828;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .off-canvas-sidebar {
+    .page-header {
+      > .container {
+        padding-top: 70px;
+        padding-bottom: 200px;
+      }
+    }
+  }
+}
+
+.login-page {
+  .footer {
+    .container {
+      padding: 0;
+    }
+    .copyright,
+    a {
+      color: $brand-text;
+      font-weight: 500;
+    }
+  }
+}

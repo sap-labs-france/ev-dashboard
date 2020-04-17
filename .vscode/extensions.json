@@ -1,0 +1,13 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=827846
+  // for the documentation about the extensions.json format
+  "recommendations": [
+    "codezombiech.gitignore",
+    "eamodio.gitlens",
+    "EditorConfig.EditorConfig",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "msjsdiag.debugger-for-chrome",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

@@ -1,0 +1,75 @@
+
+.connector-card {
+    background: rgba($brand-primary, 0.1);
+}
+
+.component-invisible {
+    display: none;
+}
+
+.connector-type-select-option {
+    img {
+        filter: invert(1);
+    }
+    &:hover {
+        img {
+            filter: invert(0);
+        }
+    }
+}
+
+.card-connector-icon {
+    font-family: none !important; // Need to be deactivate to display properly SVG icons
+}
+
+.charger-dialog-component {
+}
+
+.connector-type-select-fix .mat-form-field-infix {
+    height: 45px;
+}
+
+.charger-dialog-container {
+}
+
+.charger-param-component {
+}
+
+.charger-profile-component {
+}
+
+.charger-prop-component {
+}
+
+.ocpp-param-component {
+    height: 75vh;
+}
+
+.ocpp-param-field {
+    width: 100%;
+}
+
+.charger-debug-component {
+    max-height: 50vh;
+    overflow-x: scroll;
+    width: 100%;
+}
+
+.props-header {
+    min-width: 200px;
+}
+
+.feature-not-supported {
+    font-size: 1rem;
+    color: $brand-warn;
+}
+
+.charging-station-inactive {
+    font-size: 1rem;
+    color: $brand-warn;
+}
+
+.smart-charging-active-warn {
+    font-size: 1rem;
+    color: $brand-warn;
+}

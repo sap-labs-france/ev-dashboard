@@ -1,0 +1,73 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+      <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>portrait</mat-icon>
+            <span>{{name.value}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="row app-organization">
+            <div class="col-md-2">
+              <div class="rotating-card-container app-organization-image-border"
+                [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                <div class="card card-rotate card-background app-company-image-padding" style="height: 100px">
+                  <div class="front front-background"
+                    [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    <div class="card-body">
+                    </div>
+                  </div>
+                  <div class="back back-background"
+                    [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    <div *ngIf="this.isAdmin" class="card-body">
+                      <div class="footer justify-content-center">
+                        <button mat-flat-button color="primary" class="mr-2">
+                          <mat-icon (click)="file.click()">mode_edit</mat-icon>
+                          <div style="display:none">
+                            <input type="file" name="..." (change)="logoChanged($event)" #file>
+                          </div>
+                        </button>
+                        <button mat-flat-button color="warn">
+                          <mat-icon (click)="clearLogo()">delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="form-group">
+                <mat-form-field>
+                  <input appAutofocus matInput placeholder="{{'companies.name' | translate}}"
+                    class="app-organization-name" type="text" [formControl]="name" required>
+                  <mat-error *ngIf="name.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <app-address [address]="address" [formGroup]="formGroup"></app-address>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-button *ngIf="this.isAdmin" (click)="saveCompany(formGroup.value)"
+            [disabled]="!formGroup.valid || !formGroup.dirty">
+            <mat-icon>save</mat-icon>
+            <span>{{'general.save' | translate}}</span>
+          </button>
+          <button mat-icon-button *ngIf="isOpenInDialog()" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="table-responsive-md d-flex justify-content-left">
+  <table class="mat-table">
+    <tbody role="rowgroup">
+      <ng-container *ngFor="let item of displayedProperties">
+        <tr *ngIf="item.value" class="mat-row" role="row">
+          <th class="props-header px-2 py-2 text-left">{{item.title | translate}}</th>
+          <td class="px-2 py-2 text-left">{{item.value}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

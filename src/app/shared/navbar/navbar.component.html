@@ -1,0 +1,13 @@
+<nav #navbar class="navbar navbar-expand-lg navbar-transparent  navbar-absolute">
+  <div class="container-fluid">
+    <button mat-button class="navbar-toggler btn-no-ripple pt-3" type="button" (click)="sidebarToggle()">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="navbar-toggler-icon icon-bar"></span>
+      <span class="navbar-toggler-icon icon-bar"></span>
+      <span class="navbar-toggler-icon icon-bar"></span>
+    </button>
+    <div class="navbar-wrapper">
+      <a class="navbar-brand text-center" routerLink="/"> {{'general.app_name' | translate}}</a>
+    </div>
+  </div>
+</nav>

@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.33',
-        date: new Date('2020-04-16'),
+        version: '2.2.34',
+        date: new Date('2020-04-18'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -35,7 +35,8 @@ export class ReleaseNotesComponent {
               `Converted Build to Asset with Consumption or Production of energy`,
               `Fixed Charging Station's Connectors not aligned`,
               `Fixed SAP Smart Charging root fuses not correctly provided`,
-              `Mutli-selection on Internal/External Organization filter`
+              `Migrated Site/Site Area/User to Object IDs in Consumptions`,
+              `Multi-selection on Internal/External Organization filter`
             ],
           },
         ],

@@ -1132,11 +1132,11 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreaConsumption(siteAreaId: string, startDate: Date, endDate: Date): Observable<SiteAreaConsumption> {
+  public getSiteAreaConsumption(siteAreaID: string, startDate: Date, endDate: Date): Observable<SiteAreaConsumption> {
     const params: { [param: string]: string } = {};
-    params['SiteAreaId'] = siteAreaId;
-    params['StartDate'] = startDate.toUTCString();
-    params['EndDate'] = endDate.toUTCString();
+    params['SiteAreaID'] = siteAreaID;
+    params['StartDate'] = startDate.toISOString();
+    params['EndDate'] = endDate.toISOString();
     // Verify init
     this.checkInit();
     // Execute the REST service

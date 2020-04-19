@@ -6,11 +6,11 @@ module.exports = {
     signIn: "#sign-in-link",
     retrievePassword: "#retrieve-password-link"
   },
-  
+
   goToRegisterPage() {
     I.click(this.links.register);
   },
-  
+
   goToSignInPage() {
     I.click(this.links.signIn);
   },

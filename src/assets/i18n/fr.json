@@ -1731,7 +1731,8 @@
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
       "limit_plan_watts": "Limitation du Plan (kW)",
-      "limit_watts": "Limitation Max (kW)"
+      "limit_watts": "Limitation Max (kW)",
+      "load_all_consumptions": "Load all consumption values (without optimization)"
     },
     "dialog": {
       "delete": {

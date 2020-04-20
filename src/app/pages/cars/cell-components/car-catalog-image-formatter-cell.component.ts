@@ -12,5 +12,4 @@ import { CarCatalog } from 'app/types/Car';
 
 export class CarCatalogImageFormatterCellComponent extends CellContentTemplateComponent {
   @Input() row!: CarCatalog;
-
 }

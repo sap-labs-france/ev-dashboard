@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
@@ -10,7 +11,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-transaction-chart',

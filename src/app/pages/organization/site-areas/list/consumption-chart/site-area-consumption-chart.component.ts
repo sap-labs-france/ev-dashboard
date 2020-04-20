@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
@@ -10,19 +10,25 @@ import { CentralServerService } from '../../../../../services/central-server.ser
 import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-site-area-chart',
   templateUrl: 'site-area-consumption-chart.component.html',
 })
 
-export class SiteAreaConsumptionChartComponent implements AfterViewInit {
+export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() siteAreaId!: string;
   @Input() siteAreaConsumption!: SiteAreaConsumption;
 
   @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
   @ViewChild('chart', { static: true }) chartElement!: ElementRef;
+
+  public dateControl!: AbstractControl;
+
+  public startDate = moment().startOf('d').toDate();
+  public endDate = moment().endOf('d').toDate();
 
   private graphCreated = false;
   private lineTension = 0;
@@ -50,6 +56,15 @@ export class SiteAreaConsumptionChartComponent implements AfterViewInit {
     });
   }
 
+  ngOnInit() {
+    // Form controls
+    this.dateControl = new FormControl('dateControl',
+    Validators.compose([
+      Validators.required,
+    ]));
+    this.dateControl.setValue(this.startDate);
+  }
+
   ngAfterViewInit() {
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
@@ -69,8 +84,7 @@ export class SiteAreaConsumptionChartComponent implements AfterViewInit {
   public refresh() {
     this.spinnerService.show();
     // Change Date for testing e.g.:
-    // this.centralServerService.getSiteAreaConsumption(this.siteAreaId, new Date('2020-02-25T08:29:46.000+00:00'), new Date('2020-02-26T08:29:46.000+00:00'))
-    this.centralServerService.getSiteAreaConsumption(this.siteAreaId, moment().startOf('d').toDate(), moment().endOf('d').toDate())
+    this.centralServerService.getSiteAreaConsumption(this.siteAreaId, this.startDate, this.endDate)
       .subscribe((siteAreaConsumption) => {
         this.spinnerService.hide();
         this.siteAreaConsumption = siteAreaConsumption;
@@ -275,5 +289,13 @@ export class SiteAreaConsumptionChartComponent implements AfterViewInit {
       },
     };
     return options;
+  }
+
+  public dateFilterChanged(value: Date) {
+    if (value) {
+    this.startDate = moment(value).startOf('d').toDate();
+    this.endDate = moment(value).endOf('d').toDate();
+    this.refresh();
+    }
   }
 }

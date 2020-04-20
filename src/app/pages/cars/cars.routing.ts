@@ -9,7 +9,7 @@ export const CarsRoutes: Routes = [
     path: '', component: CarsComponent, canActivate: [RouteGuardService], data: {
       component: TenantComponents.CAR,
       auth: {
-        entity: Entity.CARS,
+        entity: Entity.CAR_CATALOGS,
         action: Action.LIST,
       },
     },

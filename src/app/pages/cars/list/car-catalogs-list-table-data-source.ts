@@ -11,24 +11,24 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableSyncCarsAction } from 'app/shared/table/actions/table-sync-cars-action';
+import { TableSyncCarCatalogsAction } from 'app/shared/table/actions/table-sync-car-catalogs-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarButtonAction, CarImage } from 'app/types/Car';
+import { CarButtonAction, CarCatalog, CarImage } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { CarDialogComponent } from '../car/car.dialog.component';
-import { CarImageFormatterCellComponent } from '../cell-components/car-image-formatter-cell.component';
+import { CarCatalogDialogComponent } from '../car/car-catalog.dialog.component';
+import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 
 @Injectable()
-export class CarsListTableDataSource extends TableDataSource<Car> {
+export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
   private openAction = new TableViewAction().getActionDef();
   public isSuperAdmin: boolean;
-  private tableSyncCarsAction = new TableSyncCarsAction().getActionDef();
+  private tableSyncCarCatalogsAction = new TableSyncCarCatalogsAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -52,21 +52,21 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     return 50;
   }
 
-  public loadDataImpl(): Observable<DataResult<Car>> {
+  public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       // Get cars
-      this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((cars) => {
+      this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((carCatalogs) => {
         // lookup for image otherwise assign default
-        for (const car of cars.result) {
-          if (!car.image) {
-            car.image = CarImage.NO_IMAGE;
+        for (const carCatalog of carCatalogs.result) {
+          if (!carCatalog.image) {
+            carCatalog.image = CarImage.NO_IMAGE;
           }
         }
-        observer.next(cars);
+        observer.next(carCatalogs);
         observer.complete();
       }, (error) => {
         // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.cars_error');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_catalogs_error');
         // Error
         observer.error(error);
       });
@@ -90,7 +90,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.isSuperAdmin) {
       return [
-        this.tableSyncCarsAction,
+        this.tableSyncCarCatalogsAction,
         ...tableActionsDef,
       ];
     }
@@ -105,7 +105,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'text-center col-8p',
         class: 'col-8p',
         isAngularComponent: true,
-        angularComponent: CarImageFormatterCellComponent,
+        angularComponent: CarCatalogImageFormatterCellComponent,
       },
       {
         id: 'vehicleMake',
@@ -228,7 +228,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     return tableColumnDef;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Car) {
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: CarCatalog) {
     switch (actionDef.id) {
       case ButtonAction.VIEW:
         this.showCarDialog(rowItem);
@@ -242,8 +242,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     // Action
     switch (actionDef.id) {
       case CarButtonAction.SYNCHRONIZE:
-        if (this.tableSyncCarsAction.action) {
-          this.tableSyncCarsAction.action(
+        if (this.tableSyncCarCatalogsAction.action) {
+          this.tableSyncCarCatalogsAction.action(
             this.dialogService,
             this.translateService,
             this.messageService,
@@ -274,18 +274,18 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     ];
   }
 
-  private showCarDialog(car?: Car) {
+  private showCarDialog(carCatalog?: CarCatalog) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (car) {
-      dialogConfig.data = car.id;
+    if (carCatalog) {
+      dialogConfig.data = carCatalog.id;
     }
     // disable outside click close
     dialogConfig.disableClose = false;
     // Open
-    this.dialog.open(CarDialogComponent, dialogConfig);
+    this.dialog.open(CarCatalogDialogComponent, dialogConfig);
   }
 }

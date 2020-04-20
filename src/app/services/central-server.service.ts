@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car, CarMakersTable, ImageObject } from 'app/types/Car';
+import { CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -2218,8 +2218,8 @@ export class CentralServerService {
       );
   }
 
-  public getCars(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
+  public getCarCatalogs(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<CarCatalog>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -2227,8 +2227,8 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<Car>>(
-      `${this.centralRestServerServiceSecuredURL}/Cars`,
+    return this.httpClient.get<DataResult<CarCatalog>>(
+      `${this.centralRestServerServiceSecuredURL}/CarCatalogs`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2238,12 +2238,12 @@ export class CentralServerService {
       );
   }
 
-  public getCar(carID: number): Observable<Car> {
+  public getCarCatalog(carCatalogID: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<Car>(
-      `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
+    return this.httpClient.get<CarCatalog>(
+      `${this.centralRestServerServiceSecuredURL}/CarCatalog?CarCatalogID=${carCatalogID}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2252,7 +2252,7 @@ export class CentralServerService {
       );
   }
 
-  public getCarImages(carID: number, params: { [param: string]: string | string[]; },
+  public getCarCatalogImages(carCatalogID: number, params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
     // Verify init
     this.checkInit();
@@ -2260,7 +2260,7 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<ImageObject>>(
-      `${this.centralRestServerServiceSecuredURL}/CarImages?CarID=${carID}`,
+      `${this.centralRestServerServiceSecuredURL}/CarCatalogImages?CarCatalogID=${carCatalogID}`,
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2285,11 +2285,11 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeCars(): Observable<ActionsResponse> {
+  public synchronizeCarsCatalog(): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCars`, {},
+    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCarCatalogs`, {},
       {
         headers: this.buildHttpHeaders(),
       })

@@ -9,30 +9,30 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { TableAction } from './table-action';
 
-export class TableSyncCarsAction implements TableAction {
+export class TableSyncCarCatalogsAction implements TableAction {
   private action: TableActionDef = {
     id: CarButtonAction.SYNCHRONIZE,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
-    name: 'settings.car.synchronize_cars',
+    name: 'settings.car.synchronize_car_catalogs',
     tooltip: 'general.synchronize',
-    action: this.synchronizeCars,
+    action: this.synchronizeCarCatalogs,
   };
 
-  private synchronizeCars(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+  private synchronizeCarCatalogs(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.car.synchronize_cars_dialog_title'),
-      translateService.instant('settings.car.synchronize_cars_dialog_confirm'),
+      translateService.instant('settings.car.synchronize_car_catalogs_dialog_title'),
+      translateService.instant('settings.car.synchronize_car_catalogs_dialog_confirm'),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        centralServerService.synchronizeCars().subscribe((synchronizeResponse) => {
+        centralServerService.synchronizeCarsCatalog().subscribe((synchronizeResponse) => {
           spinnerService.hide();
           if (synchronizeResponse.inError) {
             messageService.showErrorMessage(
-              translateService.instant('cars.synchronize_cars_partial',
+              translateService.instant('cars.synchronize_car_catalogs_partial',
                 {
                   synchronized: synchronizeResponse.inSuccess,
                   inError: synchronizeResponse.inError,
@@ -40,16 +40,16 @@ export class TableSyncCarsAction implements TableAction {
               ));
           } else if (synchronizeResponse.inSuccess === 0) {
             messageService.showSuccessMessage(
-              translateService.instant('cars.synchronize_cars_up_to_date'));
+              translateService.instant('cars.synchronize_car_catalogs_up_to_date'));
           } else {
             messageService.showSuccessMessage(
-              translateService.instant('cars.synchronize_cars_success',
+              translateService.instant('cars.synchronize_car_catalogs_success',
                 { synchronized: synchronizeResponse.inSuccess },
               ));
           }
         }, (error) => {
           spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_cars_error');
+          Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_error');
         });
       }
     });

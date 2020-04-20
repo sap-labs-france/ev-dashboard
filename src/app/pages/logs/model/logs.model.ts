@@ -142,7 +142,7 @@ export const logActions: KeyValue[] = [
   {key: 'UpdateUserMobileToken', value: 'UpdateUserMobileToken'},
   {key: 'OptimalChargeReached', value: 'OptimalChargeReached'},
   {key: 'ExtraInactivity', value: 'ExtraInactivity'},
-  {key: 'SynchronizeCars', value: 'SynchronizeCars'},
+  {key: 'SynchronizeCarsCatalog', value: 'SynchronizeCarsCatalog'},
   {key: 'BillingSynchronizeUsers', value: 'BillingSynchronizeUsers'},
   {key: 'BillingForceSynchronizeUser', value: 'BillingForceSynchronizeUser'},
   {key: 'BillingCheckConnection', value: 'BillingCheckConnection'},

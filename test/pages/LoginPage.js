@@ -10,7 +10,7 @@ module.exports = {
   submitButton: {
     css: '#sign-in-button'
   },
-  
+
   login(user) {
     I.fillField(this.fields.email, user.email);
     I.fillField(this.fields.password, user.password);

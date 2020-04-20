@@ -29,8 +29,8 @@ export enum Entity {
   ASSETS = 'Assets',
   INVOICES = 'Invoices',
   INVOICE = 'Invoice',
-  CAR = 'Car',
-  CARS = 'Cars',
+  CAR_CATALOG = 'CarCatalog',
+  CAR_CATALOGS = 'CarCatalogs',
 }
 
 export enum Action {

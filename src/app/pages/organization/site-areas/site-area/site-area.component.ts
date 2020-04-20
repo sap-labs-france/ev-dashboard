@@ -156,6 +156,7 @@ export class SiteAreaComponent implements OnInit {
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
+          this.maximumPower.enable();
         }
       });
     }

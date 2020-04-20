@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.34",
+    "last_update": "Version 2.2.35",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -114,8 +114,8 @@
     "search_placeholder": "Search...",
     "backend_not_running": "Cannot reach to the central server",
     "error_backend": "Error occurred while contacting the central server",
-    "car_error": "Error occurred while retrieving the car",
-    "cars_error": "Error occurred while retrieving the cars",
+    "car_catalog_error": "Error occurred while retrieving the car",
+    "car_catalogs_error": "Error occurred while retrieving the cars",
     "car_image_error": "Error occurred while retrieving the car images",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
@@ -1371,9 +1371,9 @@
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",
     "car": {
-      "synchronize_cars": "Synchronize Cars",
-      "synchronize_cars_dialog_title": "Synchronize Cars",
-      "synchronize_cars_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
+      "synchronize_car_catalogs": "Synchronize Cars",
+      "synchronize_car_catalogs_dialog_title": "Synchronize Cars",
+      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
     }
   },
   "ocpiendpoints": {
@@ -1563,10 +1563,10 @@
     "charge_power": "Charge Power",
     "charge_time": "Charge Time",
     "charge_speed": "Charge Speed",
-    "synchronize_cars_partial": "{{synchronized}} car(s) have been synchronized successfully and {{inError}} car(s) have encountered an error",
-    "synchronize_cars_success": "{{synchronized}} car(s) have been synchronized successfully",
-    "synchronize_cars_error": "Error occurred while synchronizing the cars",
-    "synchronize_cars_up_to_date": "Cars already up to date",
+    "synchronize_car_catalogs_partial": "{{synchronized}} car(s) have been synchronized successfully and {{inError}} car(s) have encountered an error",
+    "synchronize_car_catalogs_success": "{{synchronized}} car(s) have been synchronized successfully",
+    "synchronize_car_catalogs_error": "Error occurred while synchronizing the cars",
+    "synchronize_car_catalogs_up_to_date": "Cars already up to date",
     "select_car_maker": "Select Car Maker",
     "car_makers":"Car Makers",
     "type": "Type",
@@ -1731,7 +1731,8 @@
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
       "limit_plan_watts": "Plan Limit (kW)",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Max Limit (kW)",
+      "load_all_consumptions": "Load all consumption values (without optimization)"
     },
     "dialog": {
       "delete": {
@@ -1856,6 +1857,6 @@
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
-    "car_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
+    "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
   }
 }

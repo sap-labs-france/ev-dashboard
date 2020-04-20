@@ -5,7 +5,7 @@
     "tasks": [
       {
         "type": "npm",
-        "script": "dependencies-update",
+        "script": "angular-dependencies-update",
         "problemMatcher": []
       },
       {

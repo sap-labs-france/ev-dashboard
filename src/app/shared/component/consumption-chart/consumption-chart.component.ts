@@ -10,6 +10,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -27,6 +28,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @ViewChild('success', { static: true }) successElement!: ElementRef;
   @ViewChild('chart', { static: true }) chartElement!: ElementRef;
   @ViewChild('warning', { static: true }) warningElement!: ElementRef;
+
+  public loadAllConsumptions = false;
 
   private graphCreated = false;
   private lineTension = 0;
@@ -77,7 +80,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public refresh() {
-    this.centralServerService.getTransactionConsumption(this.transactionId)
+    this.centralServerService.getTransactionConsumption(this.transactionId, this.loadAllConsumptions)
       .subscribe((transaction) => {
         this.transaction = transaction;
         this.prepareOrUpdateGraph();
@@ -234,7 +237,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         labels.push(new Date(consumption.date).getTime());
         instantPowerDataSet.push(consumption.instantPower);
         if (cumulatedConsumptionDataSet) {
-           cumulatedConsumptionDataSet.push(consumption.cumulatedConsumption);
+          cumulatedConsumptionDataSet.push(consumption.cumulatedConsumption);
         }
         if (cumulatedAmountDataSet) {
           if (consumption.cumulatedAmount !== undefined) {
@@ -378,5 +381,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
       },
     };
     return options;
+  }
+
+  public changeLoadAllConsumptions(matCheckboxChange: MatCheckboxChange) {
+    if (matCheckboxChange) {
+      this.loadAllConsumptions = matCheckboxChange.checked;
+      this.refresh();
+    }
   }
 }

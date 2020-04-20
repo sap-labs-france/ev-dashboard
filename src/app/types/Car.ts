@@ -36,6 +36,7 @@ export interface CarCatalog extends Data {
 export interface ChargeStandardTable extends Data {
   type: string;
   evsePhaseVolt: number;
+  evsePhaseVoltCalculated: number;
   evsePhaseAmp: number;
   evsePhase: number;
   chargePhaseVolt: number;

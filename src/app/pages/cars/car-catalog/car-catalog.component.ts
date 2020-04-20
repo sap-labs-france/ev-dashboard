@@ -24,12 +24,12 @@ export class CarCatalogComponent implements OnInit {
   public isSuperAdmin: boolean;
 
   constructor(
-      public carCatalogConverterTableDataSource: CarCatalogConverterTableDataSource,
-      private centralServerService: CentralServerService,
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private router: Router,
-      private authorizationService: AuthorizationService) {
+    public carCatalogConverterTableDataSource: CarCatalogConverterTableDataSource,
+    private centralServerService: CentralServerService,
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private router: Router,
+    private authorizationService: AuthorizationService) {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
   }
 
@@ -53,7 +53,7 @@ export class CarCatalogComponent implements OnInit {
     this.spinnerService.show();
     this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
       this.spinnerService.hide();
-      this.carCatalog = carCatalog;
+      this.carCatalog = Object.assign(carCatalog, this.carCatalog);
       this.carCatalogConverterTableDataSource.setCar(this.carCatalog);
     }, (error) => {
       // Show error

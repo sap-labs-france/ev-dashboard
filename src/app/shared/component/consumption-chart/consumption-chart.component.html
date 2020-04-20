@@ -2,6 +2,11 @@
   {{'transactions.graph.no_consumption' | translate}}
 </div>
 <div [hidden]="transaction?.values?.length === 0">
+  <div class="mt-2">
+    <mat-checkbox class="mx-auto" (change)="changeLoadAllConsumptions($event)" >
+      {{'transactions.graph.load_all_consumptions' | translate}}
+    </mat-checkbox>
+  </div>
   <div class="chart-container mt-2">
     <div #primary class='chart-primary'></div>
     <div #accent class='chart-accent'></div>
@@ -11,3 +16,4 @@
     <canvas #chart></canvas>
   </div>
 </div>
+

@@ -1151,9 +1151,12 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionConsumption(transactionId: number, ordering: Ordering[] = []): Observable<Transaction> {
+  public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
+    if (loadAllConsumptions) {
+      params['LoadAllConsumptions'] = loadAllConsumptions.toString();
+    }
     // Verify init
     this.checkInit();
     // Execute the REST service

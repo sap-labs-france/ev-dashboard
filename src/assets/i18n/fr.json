@@ -1732,7 +1732,7 @@
       "cumulated_amount": "Montant",
       "limit_plan_watts": "Limitation du Plan (kW)",
       "limit_watts": "Limitation Max (kW)",
-      "load_all_consumptions": "Load all consumption values (without optimization)"
+      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)"
     },
     "dialog": {
       "delete": {

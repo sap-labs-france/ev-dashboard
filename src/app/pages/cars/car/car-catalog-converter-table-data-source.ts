@@ -4,14 +4,14 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, ChargeStandardTable } from 'app/types/Car';
+import { CarCatalog, ChargeStandardTable } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class CarConverterTableDataSource extends TableDataSource<ChargeStandardTable> {
-  public car!: Car;
+export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeStandardTable> {
+  public carCatalog!: CarCatalog;
   constructor(
     public spinnerService: SpinnerService,
     private appDurationPipe: AppDurationPipe,
@@ -32,18 +32,18 @@ export class CarConverterTableDataSource extends TableDataSource<ChargeStandardT
     };
   }
 
-  public setCar(car: Car) {
-    this.car = car;
+  public setCar(carCatalog: CarCatalog) {
+    this.carCatalog = carCatalog;
     this.getManualDataChangeSubject().next();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargeStandardTable>> {
     return new Observable((observer) => {
       // Return charge standard table
-      if (this.car) {
+      if (this.carCatalog) {
         observer.next({
-          count: this.car.chargeStandardTables.length,
-          result: this.car.chargeStandardTables,
+          count: this.carCatalog.chargeStandardTables.length,
+          result: this.carCatalog.chargeStandardTables,
         });
         observer.complete();
       }

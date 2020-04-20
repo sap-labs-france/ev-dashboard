@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Add a checkbox to display all the session chart's points (no optimization)`,
+              `Refactored Cars to Cars Catalog`,
               `Fixed Smart Charging checkbox disabled Site Area's Max Power Limitation`
             ],
           },

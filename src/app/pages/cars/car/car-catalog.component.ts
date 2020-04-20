@@ -1,30 +1,30 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Car } from 'app/types/Car';
+import { CarCatalog } from 'app/types/Car';
 import { Utils } from 'app/utils/Utils';
-import { CarConverterTableDataSource } from './car-converter-table-data-source';
+import { CarCatalogConverterTableDataSource } from './car-catalog-converter-table-data-source';
 
 @Component({
   selector: 'app-car',
-  templateUrl: 'car.component.html',
+  templateUrl: 'car-catalog.component.html',
   providers: [
-    CarConverterTableDataSource,
+    CarCatalogConverterTableDataSource,
   ],
 })
-export class CarComponent implements OnInit {
-  @Input() currentCarID!: number;
+export class CarCatalogComponent implements OnInit {
+  @Input() currentCarCatalogID!: number;
   @Input() inDialog!: boolean;
   @Input() dialogRef!: MatDialogRef<any>;
-  public car: Car;
+  public carCatalog: CarCatalog;
   public isSuperAdmin: boolean;
 
   constructor(
-      public carConverterTableDataSource: CarConverterTableDataSource,
+      public carCatalogConverterTableDataSource: CarCatalogConverterTableDataSource,
       private centralServerService: CentralServerService,
       public spinnerService: SpinnerService,
       private messageService: MessageService,
@@ -47,14 +47,14 @@ export class CarComponent implements OnInit {
   }
 
   loadCar() {
-    if (!this.currentCarID) {
+    if (!this.currentCarCatalogID) {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCar(this.currentCarID).subscribe((car: Car) => {
+    this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
       this.spinnerService.hide();
-      this.car = car;
-      this.carConverterTableDataSource.setCar(this.car);
+      this.carCatalog = carCatalog;
+      this.carCatalogConverterTableDataSource.setCar(this.carCatalog);
     }, (error) => {
       // Show error
       this.spinnerService.hide();

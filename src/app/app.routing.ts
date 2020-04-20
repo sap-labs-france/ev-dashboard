@@ -170,7 +170,7 @@ export const AppRoutes: Routes = [
             path: '/car',
           },
           auth: {
-            entity: Entity.CARS,
+            entity: Entity.CAR_CATALOGS,
             action: Action.LIST,
           },
           activeInSuperTenant: true,

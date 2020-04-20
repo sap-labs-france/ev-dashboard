@@ -114,8 +114,8 @@
     "search_placeholder": "Rechercher...",
     "backend_not_running": "Impossible de se connecter au serveur central",
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
-    "car_error": "Une erreur est survenue pendant la récupération du véhicule",
-    "cars_error": "Une erreur est survenue pendant la récupération des véhicules",
+    "car_catalog_error": "Une erreur est survenue pendant la récupération du véhicule",
+    "car_catalogs_error": "Une erreur est survenue pendant la récupération des véhicules",
     "car_image_error": "Une erreur est survenue pendant la récupération des images du véhicule",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
@@ -1371,9 +1371,9 @@
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
     "car": {
-      "synchronize_cars": "Synchroniser Véhicules",
-      "synchronize_cars_dialog_title": "Synchroniser les Véhicules",
-      "synchronize_cars_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?"
+      "synchronize_car_catalogs": "Synchroniser Véhicules",
+      "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
+      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?"
     }
   },
   "ocpiendpoints": {
@@ -1563,10 +1563,10 @@
     "charge_power": "Charge Power",
     "charge_time": "Temps De Chargement",
     "charge_speed": "Vitesse De Chargement",
-    "synchronize_cars_partial": "{{synchronized}} véhicules ont été synchronisés avec succès et {{inError}} vehicules ont rencontré une erreur",
-    "synchronize_cars_success": "{{synchronized}} véhicules ont été synchronisés avec succès",
-    "synchronize_cars_error": "Une erreur est survenue pendant la synchronisation des véhicules",
-    "synchronize_cars_up_to_date": "Les véhicules sont déjà tous à jour",
+    "synchronize_car_catalogs_partial": "{{synchronized}} véhicules ont été synchronisés avec succès et {{inError}} vehicules ont rencontré une erreur",
+    "synchronize_car_catalogs_success": "{{synchronized}} véhicules ont été synchronisés avec succès",
+    "synchronize_car_catalogs_error": "Une erreur est survenue pendant la synchronisation des véhicules",
+    "synchronize_car_catalogs_up_to_date": "Les véhicules sont déjà tous à jour",
     "select_car_maker": "Selection Constructeur Véhicules",
     "car_makers":"Constructeurs de Véhicules",
     "type": "Type",
@@ -1857,6 +1857,6 @@
     "billing_synchronization_failed": "Me notifier lorsqu'une synchronisation avec le service de facturation a échoué",
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
-    "car_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué"
+    "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué"
   }
 }

@@ -13,7 +13,7 @@ import { Utils } from 'app/utils/Utils';
   providers: [NgbCarouselConfig],  // add NgbCarouselConfig to the component providers
 })
 export class CarCarouselComponent implements AfterViewInit {
-  @Input() carID!: number;
+  @Input() carCatalogID!: number;
   public images!: string[];
   public loading = false;
   constructor(
@@ -30,15 +30,16 @@ export class CarCarouselComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.carID) {
-      this.centralServerService.getCarImages(this.carID, {}, { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
-        this.images = Array(carImage.count).fill('');
-        this.images[0] = carImage.result[0].image;
-        this.spinnerService.hide();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
-      });
+    if (this.carCatalogID) {
+      this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
+        { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
+          this.images = Array(carImage.count).fill('');
+          this.images[0] = carImage.result[0].image;
+          this.spinnerService.hide();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
+        });
     }
   }
 
@@ -47,7 +48,7 @@ export class CarCarouselComponent implements AfterViewInit {
     if (this.images[imageIndex] === '') {
       this.spinnerService.show();
       this.loading = true;
-      this.centralServerService.getCarImages(this.carID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
+      this.centralServerService.getCarCatalogImages(this.carCatalogID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
         this.spinnerService.hide();
         this.images[imageIndex] = carImage.result[0].image;
         this.loading = false;

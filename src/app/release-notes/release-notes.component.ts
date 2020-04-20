@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.35',
+        date: new Date('2020-04-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Smart Charging checkbox disabled Site Area's Max Power Limitation`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.34',
         date: new Date('2020-04-18'),
         componentChanges: [

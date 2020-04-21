@@ -133,7 +133,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(site: Site) {
+  public buildTableDynamicRowActions(site: Site): TableActionDef[] {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
@@ -10,7 +11,6 @@ import { CentralServerService } from '../../../../../services/central-server.ser
 import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-site-area-chart',
@@ -57,7 +57,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   ngOnInit() {
-    // DateControl
+    // Date control
     this.dateControl = new FormControl('dateControl',
     Validators.compose([
       Validators.required,

@@ -185,10 +185,6 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  public clearMaximumPower() {
-    this.maximumPower.setValue(null);
-    this.formGroup.markAsDirty();
-  }
 
   public loadSiteArea() {
     if (!this.currentSiteAreaID) {

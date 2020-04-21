@@ -404,10 +404,11 @@ export class CentralServerService {
       );
   }
 
-  public getSite(siteID: string, withImage: boolean = false): Observable<Site> {
+  public getSite(siteID: string, withImage: boolean = false, withCompany: boolean = false): Observable<Site> {
     const params: { [param: string]: string } = {};
     params['ID'] = siteID;
     params['WithImage'] = withImage.toString();
+    params['WithCompany'] = withImage.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -463,7 +464,7 @@ export class CentralServerService {
     const params: { [param: string]: string } = {};
     params['ID'] = siteAreaID;
     if (withSite) {
-      params['WithSite'] = withSite + '';
+      params['WithSite'] = withSite.toString();
     }
     // Verify init
     this.checkInit();

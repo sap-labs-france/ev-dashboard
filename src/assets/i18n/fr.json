@@ -345,6 +345,7 @@
     "select_assets": "Selection Asset"
   },
   "sites": {
+    "assign_company": "Assigner une Companie",
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",

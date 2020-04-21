@@ -160,7 +160,7 @@ export class SiteAreaComponent implements OnInit {
     // Open
     this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
-        const site: Site = ((result[0].objectRef) as Site);
+        const site: Site = (result[0].objectRef) as Site;
         this.site.setValue(site.name);
         this.siteID.setValue(site.id);
         this.formGroup.markAsDirty();

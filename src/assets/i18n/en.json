@@ -345,6 +345,7 @@
     "select_assets": "Select Asset"
   },
   "sites": {
+    "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",

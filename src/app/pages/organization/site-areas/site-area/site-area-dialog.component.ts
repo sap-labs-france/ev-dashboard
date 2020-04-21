@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   template: '<app-site-area [currentSiteAreaID]="siteAreaID" [inDialog]="true" [dialogRef]="dialogRef"></app-site-area>',
+  providers: [SiteAreaDialogComponent]
 })
 export class SiteAreaDialogComponent {
   siteAreaID!: string;

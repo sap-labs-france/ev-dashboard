@@ -417,8 +417,7 @@ export class ChargingStationParametersComponent implements OnInit {
       rowMultipleSelection: false,
     };
     // Open
-    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
         this.charger.siteArea = ((result[0].objectRef) as SiteArea);
         this.formGroup.markAsDirty();

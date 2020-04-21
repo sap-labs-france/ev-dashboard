@@ -398,6 +398,7 @@
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant au site '{{siteName}}' ?"
   },
   "site_areas": {
+    "assign_site": "Assigner un Site",
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "edit_assets": "Editer les assets",
     "display_assets": "Afficher les assets",
@@ -900,7 +901,7 @@
     "single_phase": "Courant Alternatif - Monophasé",
     "tri_phases": "Courant Alternatif - Triphasé",
     "site_area": "Site - Zone",
-    "assign_site_area": "Assigner une zone",
+    "assign_site_area": "Assigner une Zone",
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "URL Invalide",

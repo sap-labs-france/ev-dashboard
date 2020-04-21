@@ -398,6 +398,7 @@
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
   },
   "site_areas": {
+    "assign_site": "Assign Site",
     "export_all_ocpp_params": "Export All OCPP Params",
     "edit_assets": "Edit assets",
     "display_assets": "Display assets",

@@ -37,7 +37,7 @@
     "error_min_value": "Minimum value is {{value}}",
     "error_url_pattern": "Incorrect URL pattern",
     "error_number_pattern": "Invalid Number",
-    "invalid_date": "Date invalide",
+    "invalid_date": "Date invalid",
     "error_not_a_number": "Not a valid number",
     "error_duplicate": "Duplicate entry",
     "id": "Id",
@@ -449,7 +449,8 @@
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy": "Maximum Power Limitation (kW)",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
+    "consumption_date": "Date"
   },
   "authentication": {
     "accept": "I accept the",

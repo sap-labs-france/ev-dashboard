@@ -24,12 +24,17 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.35',
-        date: new Date('2020-04-20'),
+        version: '2.2.36',
+        date: new Date('2020-04-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Use a dialog pop-up to select Company and Site instead of drop down`,
+              `Asset button in Site Area list is not displayed`,
+              `Maximum Site Area Power Limitation issue should not be modifiable when read-only`,
+              `Display 400V in Car's converter voltage column when there are 3 phases`,
+              `Add a date filter for displaying the Site Area's consumption at a given date`,
               `Add a checkbox to display all the session chart's points (no optimization)`,
               `Refactored Cars to Cars Catalog`,
               `Fixed Smart Charging checkbox disabled Site Area's Max Power Limitation`

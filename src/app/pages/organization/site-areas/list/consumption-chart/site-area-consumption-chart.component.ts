@@ -57,7 +57,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   ngOnInit() {
-    // Form controls
+    // DateControl
     this.dateControl = new FormControl('dateControl',
     Validators.compose([
       Validators.required,

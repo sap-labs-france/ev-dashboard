@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Car } from 'app/types/Car';
+import { CarCatalog } from 'app/types/Car';
 
 @Component({
   template: `
@@ -10,7 +10,7 @@ import { Car } from 'app/types/Car';
   `,
 })
 
-export class CarImageFormatterCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Car;
+export class CarCatalogImageFormatterCellComponent extends CellContentTemplateComponent {
+  @Input() row!: CarCatalog;
 
 }

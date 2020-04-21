@@ -79,7 +79,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public notifications!: FormGroup;
   public sendSessionStarted!: AbstractControl;
   public sendOptimalChargeReached!: AbstractControl;
-  public sendCarSynchronizationFailed!: AbstractControl;
+  public sendCarCatalogSynchronizationFailed!: AbstractControl;
   public sendEndOfCharge!: AbstractControl;
   public sendEndOfSession!: AbstractControl;
   public sendUserAccountStatusChanged!: AbstractControl;
@@ -174,7 +174,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       notifications: new FormGroup({
         sendSessionStarted: new FormControl(true),
         sendOptimalChargeReached: new FormControl(true),
-        sendCarSynchronizationFailed: new FormControl(true),
+        sendCarCatalogSynchronizationFailed: new FormControl(true),
         sendEndOfCharge: new FormControl(true),
         sendEndOfSession: new FormControl(true),
         sendUserAccountStatusChanged: new FormControl(true),
@@ -264,7 +264,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.notifications = this.formGroup.controls['notifications'] as FormGroup;
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
     this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
-    this.sendCarSynchronizationFailed = this.notifications.controls['sendCarSynchronizationFailed'];
+    this.sendCarCatalogSynchronizationFailed = this.notifications.controls['sendCarCatalogSynchronizationFailed'];
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
     this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
     this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
@@ -383,10 +383,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendOptimalChargeReached.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendCarSynchronizationFailed')) {
-        this.notifications.controls.sendCarSynchronizationFailed.setValue(user.notifications.sendCarSynchronizationFailed);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendCarCatalogSynchronizationFailed')) {
+        this.notifications.controls.sendCarCatalogSynchronizationFailed.setValue(user.notifications.sendCarCatalogSynchronizationFailed);
       } else {
-        this.notifications.controls.sendCarSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendCarCatalogSynchronizationFailed.setValue(false);
       }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndOfCharge')) {
         this.notifications.controls.sendEndOfCharge.setValue(user.notifications.sendEndOfCharge);

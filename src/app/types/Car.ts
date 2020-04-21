@@ -1,6 +1,6 @@
 import { Data } from './Table';
 
-export interface Car extends Data {
+export interface CarCatalog extends Data {
   id: number;
   vehicleModel: string;
   vehicleMake: string;

@@ -118,7 +118,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(asset: Asset) {
+  public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available

@@ -21,7 +21,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { CarCatalogDialogComponent } from '../car/car-catalog.dialog.component';
+import { CarCatalogDialogComponent } from '../car-catalog/car-catalog.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 
 @Injectable()

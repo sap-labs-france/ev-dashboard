@@ -24,12 +24,12 @@ export class CarCatalogComponent implements OnInit {
   public isSuperAdmin: boolean;
 
   constructor(
-      public carCatalogConverterTableDataSource: CarCatalogConverterTableDataSource,
-      private centralServerService: CentralServerService,
-      public spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private router: Router,
-      private authorizationService: AuthorizationService) {
+    public carCatalogConverterTableDataSource: CarCatalogConverterTableDataSource,
+    private centralServerService: CentralServerService,
+    public spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private router: Router,
+    private authorizationService: AuthorizationService) {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
   }
 

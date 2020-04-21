@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -37,9 +38,11 @@ import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-ass
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
+import TenantComponents from 'app/types/TenantComponents';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
+  private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private editChargersAction = new TableEditChargersAction().getActionDef();
   private editAssetsAction = new TableEditAssetsAction().getActionDef();
@@ -58,9 +61,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
+    this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
   }
@@ -146,42 +151,37 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(siteArea: SiteArea) {
+  public buildTableDynamicRowActions(siteArea: SiteArea): TableActionDef[] {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
+    let actions: TableActionDef[];
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    if (this.authorizationService.isAdmin()) {
-      return [
+    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      actions = [
         this.editAction,
-        this.editChargersAction,
-        this.editAssetsAction,
+        this.authorizationService.isAdmin() ? this.editChargersAction : this.displayChargersAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
       ];
-    }
-    if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
-      return [
-        this.editAction,
+      if (this.isAssetComponentActive) {
+        actions.splice(2, 0, this.editAssetsAction);
+      }
+    } else {
+      actions = [
+        this.viewAction,
         this.displayChargersAction,
-        this.displayAssetsAction,
         new TableMoreAction([
-          this.exportOCPPParamsAction,
           openInMaps,
-          this.deleteAction,
         ]).getActionDef(),
       ];
+      if (this.isAssetComponentActive) {
+        actions.splice(2, 0, this.displayAssetsAction);
+      }
     }
-    return [
-      this.viewAction,
-      this.displayChargersAction,
-      this.displayAssetsAction,
-      new TableMoreAction([
-        openInMaps,
-      ]).getActionDef(),
-    ];
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

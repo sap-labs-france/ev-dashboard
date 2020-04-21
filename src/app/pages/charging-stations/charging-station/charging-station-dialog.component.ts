@@ -76,16 +76,8 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
 
     // check changes to activate or not save button
     this.chargerParametersComponent.formGroup.statusChanges.subscribe(() => {
-      console.log('statusChanges ====================================');
-      console.log(this.activePane);
-      console.log(this.chargerParametersComponent.formGroup);
-      console.log(!this.chargerParametersComponent.formGroup.valid || !this.chargerParametersComponent.formGroup.dirty);
-      console.log('====================================');
       if (this.activePane === CHARGERS_PANE_NAME) {
         this.isSaveButtonDisabled = this.chargerParametersComponent.formGroup.invalid;
-        console.log(this.isSaveButtonDisabled);
-        console.log(this.chargerParametersComponent.formGroup.pristine);
-        console.log(this.chargerParametersComponent.formGroup.invalid);
         // When we have changes to save we can't navigate to other panes
         // this.isPropertiesPaneDisabled = !this.isSaveButtonDisabled;
         // When we have changes to save we can't navigate to other panes
@@ -93,16 +85,8 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
       }
     });
     this.chargerParametersComponent.formGroup.valueChanges.subscribe(() => {
-      console.log('valueChanges ====================================');
-      console.log(this.activePane);
-      console.log(this.chargerParametersComponent.formGroup);
-      console.log(!this.chargerParametersComponent.formGroup.valid || !this.chargerParametersComponent.formGroup.dirty);
-      console.log('====================================');
       if (this.activePane === CHARGERS_PANE_NAME) {
         this.isSaveButtonDisabled = this.chargerParametersComponent.formGroup.invalid;
-        console.log(this.isSaveButtonDisabled);
-        console.log(this.chargerParametersComponent.formGroup.pristine);
-        console.log(this.chargerParametersComponent.formGroup.invalid);
         // When we have changes to save we can't navigate to other panes
         // this.isPropertiesPaneDisabled = !this.isSaveButtonDisabled;
         // When we have changes to save we can't navigate to other panes

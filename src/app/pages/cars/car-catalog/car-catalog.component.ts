@@ -53,7 +53,7 @@ export class CarCatalogComponent implements OnInit {
     this.spinnerService.show();
     this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
       this.spinnerService.hide();
-      this.carCatalog = Object.assign(carCatalog, this.carCatalog);
+      this.carCatalog = carCatalog;
       this.carCatalogConverterTableDataSource.setCar(this.carCatalog);
     }, (error) => {
       // Show error

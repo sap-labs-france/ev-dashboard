@@ -89,7 +89,6 @@ export class ChargingStationParametersComponent implements OnInit {
   ngOnInit(): void {
     // Admin?
     this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
-
     // Init the form
     this.formGroup = new FormGroup({
       chargingStationURL: new FormControl('',
@@ -107,8 +106,14 @@ export class ChargingStationParametersComponent implements OnInit {
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      siteArea: new FormControl(''),
-      siteAreaID: new FormControl(''),
+      siteArea: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      siteAreaID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
@@ -323,19 +328,11 @@ export class ChargingStationParametersComponent implements OnInit {
         this.longitude.setValue(this.charger.coordinates[0]);
         this.latitude.setValue(this.charger.coordinates[1]);
       }
-      if (this.charger.siteArea && this.charger.siteArea.name) {
-        // tslint:disable-next-line:max-line-length
-        this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
-      } else {
-        if (this.isOrganizationComponentActive) {
-          this.formGroup.controls.siteAreaID.setValue(0);
-          this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'));
-        } else {
-          this.formGroup.controls.siteAreaID.setValue('');
-          this.formGroup.controls.siteArea.setValue('');
-          this.formGroup.controls.siteArea.disable();
-          this.formGroup.controls.siteAreaID.disable();
-        }
+      if (this.charger.siteAreaID) {
+        this.formGroup.controls.siteAreaID.setValue(this.charger.siteArea.id);
+      }
+      if (this.charger.siteArea) {
+        this.formGroup.controls.siteArea.setValue(this.charger.siteArea.name);
       }
       // Update connectors formcontrol
       for (const connector of this.charger.connectors) {
@@ -420,9 +417,9 @@ export class ChargingStationParametersComponent implements OnInit {
     this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
         this.charger.siteArea = ((result[0].objectRef) as SiteArea);
+        this.siteArea.setValue(this.charger.siteArea.name);
+        this.siteAreaID.setValue(this.charger.siteArea.id);
         this.formGroup.markAsDirty();
-        this.formGroup.controls.siteArea.setValue(
-          `${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
       }
     });
   }

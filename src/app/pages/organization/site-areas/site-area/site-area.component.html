@@ -57,15 +57,10 @@
                     <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSite()">
                       <mat-icon>create</mat-icon>
                     </button>
-                  </mat-form-field>
-                          <!-- <mat-form-field>
-                    <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}" required>
-                      <mat-option *ngFor="let site of sites" value="{{site.id}}">{{site.name}}</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="siteID.errors?.required">
+                    <mat-error *ngIf="site.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
-                  </mat-form-field> -->
+                  </mat-form-field>
                   <div style="text-align: left">
                     <mat-checkbox [formControl]="accessControl">
                       {{'site_areas.enable_access_control' | translate}}

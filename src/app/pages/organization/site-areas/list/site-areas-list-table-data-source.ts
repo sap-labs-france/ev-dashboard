@@ -155,21 +155,22 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    // Is asset component activated ?
-    if (this.isAssetComponentActive) {
-      // Display edit asset button
-      return this.buildTableRowActionsWithAsset(siteArea, openInMaps);
-    }
-    // Display without edit asset button
-    return this.buildDefaultTableRowActions(siteArea, openInMaps);
-  }
-
-  public buildTableRowActionsWithAsset(siteArea: SiteArea, openInMaps: TableActionDef) {
     if (this.authorizationService.isAdmin()) {
+      if (this.isAssetComponentActive) {
+        return [
+          this.editAction,
+          this.editChargersAction,
+          this.editAssetsAction,
+          new TableMoreAction([
+            this.exportOCPPParamsAction,
+            openInMaps,
+            this.deleteAction,
+          ]).getActionDef(),
+        ];
+      }
       return [
         this.editAction,
         this.editChargersAction,
-        this.editAssetsAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
           openInMaps,
@@ -178,47 +179,35 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       ];
     }
     if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      if (this.isAssetComponentActive) {
+        return [
+          this.editAction,
+          this.displayChargersAction,
+          this.displayAssetsAction,
+          new TableMoreAction([
+            this.exportOCPPParamsAction,
+            openInMaps,
+            this.deleteAction,
+          ]).getActionDef(),
+        ];
+      }
       return [
         this.editAction,
+        this.displayChargersAction,
+        new TableMoreAction([
+          this.exportOCPPParamsAction,
+          openInMaps,
+          this.deleteAction,
+        ]).getActionDef(),
+      ];
+    }
+    if (this.isAssetComponentActive) {
+      return [
+        this.viewAction,
         this.displayChargersAction,
         this.displayAssetsAction,
         new TableMoreAction([
-          this.exportOCPPParamsAction,
           openInMaps,
-          this.deleteAction,
-        ]).getActionDef(),
-      ];
-    }
-    return [
-      this.viewAction,
-      this.displayChargersAction,
-      this.displayAssetsAction,
-      new TableMoreAction([
-        openInMaps,
-      ]).getActionDef(),
-    ];
-  }
-
-  public buildDefaultTableRowActions(siteArea: SiteArea, openInMaps: TableActionDef) {
-    if (this.authorizationService.isAdmin()) {
-      return [
-        this.editAction,
-        this.editChargersAction,
-        new TableMoreAction([
-          this.exportOCPPParamsAction,
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef(),
-      ];
-    }
-    if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
-      return [
-        this.editAction,
-        this.displayChargersAction,
-        new TableMoreAction([
-          this.exportOCPPParamsAction,
-          openInMaps,
-          this.deleteAction,
         ]).getActionDef(),
       ];
     }

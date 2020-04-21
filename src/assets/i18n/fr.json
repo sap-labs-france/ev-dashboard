@@ -1216,6 +1216,7 @@
     },
     "charging_station": {
       "registration_tokens_title": "Jetons d'enregistrement des bornes de recharge",
+      "registration_token_site_area_name": "Token pour la zone '{{siteAreaName}}'",
       "registration_token_creation_title": "Créer un jeton d'enregistrement",
       "registration_token_creation_confirm": "Voulez-vous vraiment créer un jeton d'enregistrement pour les bornes de recharge de cette zone?",
       "registration_token_creation_success": "Le jeton d'enregistrement a été créé avec succès",

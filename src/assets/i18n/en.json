@@ -1216,6 +1216,7 @@
     },
     "charging_station": {
       "registration_tokens_title": "Charging Station Registration Tokens",
+      "registration_token_site_area_name": "Token for Site Area '{{siteAreaName}}'",
       "registration_token_creation_title": "Create Registration Token",
       "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
       "registration_token_creation_success": "Registration token has been created successfully",

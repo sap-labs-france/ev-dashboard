@@ -302,7 +302,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     ];
   }
 
-  buildTableDynamicRowActions(charger: ChargingStationInError) {
+  buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
     if (this.isAdmin && charger.errorCode) {
       // @ts-ignore
       return this.actions[charger.errorCode];

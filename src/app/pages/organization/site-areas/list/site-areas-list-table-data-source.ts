@@ -151,73 +151,37 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(siteArea: SiteArea) {
+  public buildTableDynamicRowActions(siteArea: SiteArea): TableActionDef[] {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
+    let actions: TableActionDef[];
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    if (this.authorizationService.isAdmin()) {
-      if (this.isAssetComponentActive) {
-        return [
-          this.editAction,
-          this.editChargersAction,
-          this.editAssetsAction,
-          new TableMoreAction([
-            this.exportOCPPParamsAction,
-            openInMaps,
-            this.deleteAction,
-          ]).getActionDef(),
-        ];
-      }
-      return [
+    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      actions = [
         this.editAction,
-        this.editChargersAction,
+        this.authorizationService.isAdmin() ? this.editChargersAction : this.displayChargersAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
       ];
-    }
-    if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
       if (this.isAssetComponentActive) {
-        return [
-          this.editAction,
-          this.displayChargersAction,
-          this.displayAssetsAction,
-          new TableMoreAction([
-            this.exportOCPPParamsAction,
-            openInMaps,
-            this.deleteAction,
-          ]).getActionDef(),
-        ];
+        actions.splice(2, 0, this.editAssetsAction);
       }
-      return [
-        this.editAction,
-        this.displayChargersAction,
-        new TableMoreAction([
-          this.exportOCPPParamsAction,
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef(),
-      ];
-    }
-    if (this.isAssetComponentActive) {
-      return [
+    } else {
+      actions = [
         this.viewAction,
         this.displayChargersAction,
-        this.displayAssetsAction,
         new TableMoreAction([
           openInMaps,
         ]).getActionDef(),
       ];
+      if (this.isAssetComponentActive) {
+        actions.splice(2, 0, this.displayAssetsAction);
+      }
     }
-    return [
-      this.viewAction,
-      this.displayChargersAction,
-      new TableMoreAction([
-        openInMaps,
-      ]).getActionDef(),
-    ];
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

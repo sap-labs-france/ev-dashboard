@@ -135,7 +135,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     }
   }
 
-  public buildTableDynamicRowActions(company: Company) {
+  public buildTableDynamicRowActions(company: Company): TableActionDef[] {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);

@@ -99,7 +99,7 @@ export class SiteAreaComponent implements OnInit {
         Validators.compose(
           this.isSmartChargingComponentActive ?
             [
-              Validators.pattern(/^(0|[1-9]\d*$)/),
+              Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
               Validators.min(1),
               Validators.required,
             ] : [],

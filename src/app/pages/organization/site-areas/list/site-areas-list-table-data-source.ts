@@ -213,7 +213,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         this.showPlace(rowItem);
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
-        this.exportOCOPPParams(rowItem);
+        this.exportOCPPParams(rowItem);
         break;
       case AssetButtonAction.EDIT_ASSETS:
       case AssetButtonAction.DISPLAY_ASSETS:
@@ -311,7 +311,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     });
   }
 
-  private exportOCOPPParams(siteArea: SiteArea) {
+  private exportOCPPParams(siteArea: SiteArea) {
     if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
       this.exportOCPPParamsAction.action(
         this.dialogService,

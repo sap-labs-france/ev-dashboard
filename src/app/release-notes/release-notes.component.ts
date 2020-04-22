@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Use a dialog pop-up to select Company and Site instead of drop down`,
-              `Asset button in Site Area list is not displayed`,
+              `Asset button in Site Area list should not be displayed if Asset component is not active`,
               `Maximum Site Area Power Limitation issue should not be modifiable when read-only`,
               `Display 400V in Car's converter voltage column when there are 3 phases`,
               `Add a date filter for displaying the Site Area's consumption at a given date`,

@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.36',
-        date: new Date('2020-04-21'),
+        version: '2.2.37',
+        date: new Date('2020-04-22'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Allow decimal number in the Site Area Maximum Power Limitation (Kw) field`,
               `Use a dialog pop-up to select Company and Site instead of drop down`,
               `Asset button in Site Area list should not be displayed if Asset component is not active`,
               `Maximum Site Area Power Limitation issue should not be modifiable when read-only`,
@@ -37,6 +38,7 @@ export class ReleaseNotesComponent {
               `Add a date filter for displaying the Site Area's consumption at a given date`,
               `Add a checkbox to display all the session chart's points (no optimization)`,
               `Refactored Cars to Cars Catalog`,
+              `OCPI eMSP Gireve implementation`,
               `Fixed Smart Charging checkbox disabled Site Area's Max Power Limitation`
             ],
           },

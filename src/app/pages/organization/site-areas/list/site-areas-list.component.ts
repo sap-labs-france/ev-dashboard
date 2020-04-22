@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 import { SiteAreasListTableDataSource } from './site-areas-list-table-data-source';
 
 @Component({
   selector: 'app-site-areas-list',
   template: '<app-table [dataSource]="siteAreasListTableDataSource"></app-table>',
-  providers: [SiteAreasListTableDataSource],
+  providers: [SiteAreasListTableDataSource, SiteAreaDialogComponent],
 })
 export class SiteAreasListComponent {
   constructor(

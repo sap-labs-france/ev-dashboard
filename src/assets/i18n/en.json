@@ -906,7 +906,7 @@
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
-    "invalid_power_value": "Power value must be a positive, natural number",
+    "invalid_power_value": "Power value must be a positive number",
     "invalid_voltage": "Voltage value must be a positive number",
     "invalid_amperage": "Amperage value must be a positive number",
     "unsaved_title": "Unsaved changes",

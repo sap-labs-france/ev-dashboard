@@ -906,7 +906,7 @@
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "URL Invalide",
-    "invalid_power_value": "La puissance doit être un nombre entier positif",
+    "invalid_power_value": "La puissance doit être un nombre positif",
     "invalid_voltage": "Le voltage doit être un nombre entier positif",
     "invalid_amperage": "L'ampérage doit être un nombre entier positif",
     "unsaved_title": "Modifications en cours",

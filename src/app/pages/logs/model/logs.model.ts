@@ -8,6 +8,7 @@ export const logLevels: KeyValue[] = [
 ];
 
 export const logActions: KeyValue[] = [
+  {key: 'SocketIO', value: 'SocketIO'},
   {key: 'Authorize', value: 'Authorize'},
   {key: 'BuildConsumption', value: 'BuildConsumption'},
   {key: 'BootNotification', value: 'BootNotification'},

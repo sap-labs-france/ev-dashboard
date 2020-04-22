@@ -52,10 +52,12 @@
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field>
-                    <mat-select [formControl]="siteID" placeholder="{{'sites.site' | translate}}" required>
-                      <mat-option *ngFor="let site of sites" value="{{site.id}}">{{site.name}}</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="siteID.errors?.required">
+                    <input matInput type="text" readonly=true placeholder="{{'sites.site' | translate}}"
+                        class="form-field-popup" (click)="assignSite()" [formControl]="site" required/>
+                    <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSite()">
+                      <mat-icon>create</mat-icon>
+                    </button>
+                    <mat-error *ngIf="site.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
                   </mat-form-field>
@@ -71,11 +73,7 @@
                   </div>
                   <mat-form-field *ngIf="isSmartChargingComponentActive">
                     <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
-                    type="number" [formControl]="maximumPower">
-                    <button mat-button matSuffix mat-icon-button aria-label="Reset"
-                      (click)="clearMaximumPower()" [hidden]="maximumPower.value === null || maximumPower.value === ''">
-                      <mat-icon>clear</mat-icon>
-                    </button>
+                      type="number" [formControl]="maximumPower">
                     <mat-error *ngIf="maximumPower.errors?.min">{{"general.error_min_value" | translate:{value: 1} }}</mat-error>
                     <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}</mat-error>
                     <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>

@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Allow decimal number in the Site Area Maximum Power Limitation (Kw) field`,
+              `Add the name of the Charger in the Charging Plan's drop down and remove the Level`,
+              `When the Charging Plan's schedule list is empty, you cannot delete the plan`,
               `When the Charging Plan list is empty, you cannot delete it`,
               `Use a dialog pop-up to select Company and Site instead of drop down`,
               `Asset button in Site Area list should not be displayed if Asset component is not active`,

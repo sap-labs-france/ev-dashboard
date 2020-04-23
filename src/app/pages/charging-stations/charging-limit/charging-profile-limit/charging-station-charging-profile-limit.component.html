@@ -34,11 +34,11 @@
             <mat-form-field>
               <mat-select [formControl]="chargingProfilesControl"
                 placeholder="{{'chargers.smart_charging.charging_profile_limit' | translate}}">
-                <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile">
+                <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile" matTooltip="Info about the action">
+                  {{chargingProfile.chargingStationID}},
                   {{'chargers.connector' | translate}}: {{chargingProfile.connectorID}},
                   {{'chargers.smart_charging.profile_type' | translate}}:
-                  {{chargingProfile.profile.chargingProfilePurpose}},
-                  {{'chargers.smart_charging.stack_level' | translate}}: {{chargingProfile.profile.stackLevel}}
+                  {{chargingProfile.profile.chargingProfilePurpose}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

@@ -1,5 +1,5 @@
 applications:
-- name: sap-ev-front-end-new
+- name: sap-ev-front-end
   memory: 512M
   disk_quota: 1G
   instances: 1
@@ -7,9 +7,7 @@ applications:
   buildpacks:
   - https://github.com/cloudfoundry/staticfile-buildpack
   routes:
-  - route: sap-ev-front-end-new.cfapps.eu10.hana.ondemand.com
-  - route: slfsap-ev-front-end-new.cfapps.eu10.hana.ondemand.com
-  - route: slfcahsap-ev-front-end-new.cfapps.eu10.hana.ondemand.com
+  - route: sap-ev-front-end.cfapps.eu10.hana.ondemand.com
   path: dist
   env:
     DT_NGINX_ALL_WHITELISTED: true

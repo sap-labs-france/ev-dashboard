@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.37',
-        date: new Date('2020-04-22'),
+        version: '2.2.38',
+        date: new Date('2020-04-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Allow decimal number in the Site Area Maximum Power Limitation (Kw) field`,
+              `When the Charging Plan list is empty, you cannot delete it`,
               `Use a dialog pop-up to select Company and Site instead of drop down`,
               `Asset button in Site Area list should not be displayed if Asset component is not active`,
               `Maximum Site Area Power Limitation issue should not be modifiable when read-only`,

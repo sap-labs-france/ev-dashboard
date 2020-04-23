@@ -7,6 +7,7 @@ README.md
 .git
 .gitignore
 .gitattributes
+.gitmodules
 .vscode
 # vim
 # Persistent undo

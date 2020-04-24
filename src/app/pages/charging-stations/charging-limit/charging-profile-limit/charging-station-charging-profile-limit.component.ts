@@ -108,6 +108,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.scheduleEditableTableDataSource.setFormArray(this.chargingSchedules);
     // Initial values
     this.scheduleEditableTableDataSource.setCharger(this.charger);
+    this.scheduleTableDataSource.setCharger(this.charger);
     this.limitChartPlannerComponent.setLimitPlannerData([]);
     // Change the Profile
     this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
@@ -222,6 +223,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Update charger
       this.charger = charger;
       this.scheduleEditableTableDataSource.setCharger(this.charger);
+      this.scheduleTableDataSource.setCharger(this.charger);
       this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
         this.spinnerService.hide();
         this.formGroup.markAsPristine();
@@ -303,11 +305,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         schedules.push(schedule);
         // Set Schedule
         this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
-        if (this.charger && this.charger.connectors && this.charger.connectors.length > 0 &&
-          this.charger.connectors[chargingProfile.connectorID - 1].numberOfConnectedPhase) {
-          this.scheduleTableDataSource.setNumberOfConnectedPhase(
-            this.charger.connectors[chargingProfile.connectorID - 1].numberOfConnectedPhase);
-          }
       }
       // Set last schedule
       if (chargingProfile.profile.chargingSchedule.duration) {

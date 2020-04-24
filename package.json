@@ -38,7 +38,7 @@
     "material9-update": "ng update @angular/material@9",
     "angular-dependencies-update": "ng update --all",
     "webpack-analyze": "webpack-bundle-analyzer dist/stats-es2015.json",
-    "git:sdiff": "!git diff && git submodule foreach 'git diff'",
+    "git:sdiff": "git diff && git submodule foreach 'git diff'",
     "git:supdate": "git submodule update --remote --merge",
     "git:spush": "git push --recurse-submodules=on-demand"
   },

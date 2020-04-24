@@ -796,8 +796,7 @@
       "trigger_smart_charging_success": "L'algorithme de la charge intelligente a été éxécuté avec succès",
       "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs",
       "unit": {
-        "kilowatt": "kW",
-        "minutes": "min"
+        "minutes": "mins"
       }
     },
     "more_actions": {

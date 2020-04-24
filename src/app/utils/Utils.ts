@@ -172,6 +172,7 @@ export class Utils {
   }
 
   public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true, numberOfDecimals?: number): string {
+    // TBD use corresponding connector, instead of first connector
     if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
       return appUnitFormatter.transform(
         Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);

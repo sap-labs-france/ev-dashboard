@@ -68,7 +68,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         name: 'chargers.smart_charging.limit_title',
         headerClass: 'col-50p',
         class: 'col-45p',
-        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.charger, this.unitPipe, value, 'kW', true )}
+        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.charger, this.unitPipe, value, 'kW', true, 3)}
         ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: value} )}`
       },
     ];

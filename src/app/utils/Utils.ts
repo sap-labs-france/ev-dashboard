@@ -171,10 +171,10 @@ export class Utils {
     return 0;
   }
 
-  public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
+  public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true, numberOfDecimals?: number): string {
     if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
       return appUnitFormatter.transform(
-        Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, 0);
+        Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
     }
     return 'N/A';
   }

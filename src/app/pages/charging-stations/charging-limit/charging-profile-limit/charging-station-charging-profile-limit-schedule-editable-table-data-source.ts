@@ -45,7 +45,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
       },
       {
         id: 'duration',
-        name: 'chargers.smart_charging.duration',
+        name: 'chargers.smart_charging.duration_with_unit',
         headerClass: 'col-20p',
         editType: TableEditType.INPUT,
         validators: [

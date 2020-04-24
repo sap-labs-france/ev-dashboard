@@ -303,6 +303,11 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         schedules.push(schedule);
         // Set Schedule
         this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
+        if (this.charger && this.charger.connectors && this.charger.connectors.length > 0 &&
+          this.charger.connectors[chargingProfile.connectorID - 1].numberOfConnectedPhase) {
+          this.scheduleTableDataSource.setNumberOfConnectedPhase(
+            this.charger.connectors[chargingProfile.connectorID - 1].numberOfConnectedPhase);
+          }
       }
       // Set last schedule
       if (chargingProfile.profile.chargingSchedule.duration) {

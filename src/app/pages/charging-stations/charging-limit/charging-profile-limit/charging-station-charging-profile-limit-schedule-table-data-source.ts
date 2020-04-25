@@ -53,7 +53,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         headerClass: 'col-15p',
         editType: TableEditType.INPUT,
         class: 'text-center col-15p',
-        formatter: (value: number) => `${this.decimalPipe.transform(value)} ${this.translateService.instant('chargers.smart_charging.unit.minutes')}`
+        formatter: (value: number) => `${this.decimalPipe.transform(value)} ${this.translateService.instant('chargers.smart_charging.minutes')}`
       },
       {
         id: 'endDate',

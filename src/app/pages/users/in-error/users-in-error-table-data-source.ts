@@ -201,25 +201,47 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: UserInError) {
+  public rowActionTriggered(actionDef: TableActionDef, user: UserInError) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showUserDialog(rowItem);
+        this.showUserDialog(user);
         break;
       case SiteButtonAction.ASSIGN_SITE:
-        this.showSitesDialog(rowItem);
+        this.showSitesDialog(user);
         break;
       case ButtonAction.DELETE:
-        this.deleteUser(rowItem);
+        this.deleteUser(user);
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
-        this.forceSynchronizeUserForBilling(rowItem);
+      case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
+        if (this.forceSyncBillingUserAction.action) {
+          this.forceSyncBillingUserAction.action(
+            user,
+            this.dialogService,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
+        }
         break;
-      case UserButtonAction.SYNCHRONIZE:
-        this.synchronizeUser(rowItem);
+      case UserButtonAction.BILLING_SYNCHRONIZE_USER:
+        if (this.syncBillingUserAction.action) {
+          this.syncBillingUserAction.action(
+            user,
+            this.dialogService,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
+        }
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, user);
     }
   }
 
@@ -339,60 +361,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
                 'users.delete_error');
           }
-        });
-      }
-    });
-  }
-
-  private forceSynchronizeUserForBilling(user: UserInError) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          this.spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            this.refreshData().subscribe();
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('settings.billing.force_synchronize_user_success',
-              { userFullName: Utils.buildUserFullName(user) }));
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
-              'settings.billing.force_synchronize_user_failure');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          this.messageService.showErrorMessage(
-            this.translateService.instant(['settings.billing.billing_system_error']));
-        });
-      }
-    });
-  }
-
-  private synchronizeUser(user: UserInError) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.synchronize_user_dialog_title'),
-      this.translateService.instant('settings.billing.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.synchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          this.spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            this.refreshData().subscribe();
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('settings.billing.force_synchronize_user_success',
-              { userFullName: Utils.buildUserFullName(user) }));
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
-              'settings.billing.force_synchronize_user_failure');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'settings.billing.force_synchronize_user_failure');
         });
       }
     });

@@ -145,7 +145,7 @@ export const logActions: KeyValue[] = [
   {key: 'ExtraInactivity', value: 'ExtraInactivity'},
   {key: 'SynchronizeCarsCatalog', value: 'SynchronizeCarsCatalog'},
   {key: 'BillingSynchronizeUsers', value: 'BillingSynchronizeUsers'},
-  {key: 'BillingForceSynchronizeUser', value: 'BillingForceSynchronizeUser'},
+  {key: 'BillingSynchronizeUser', value: 'BillingSynchronizeUser'},
   {key: 'BillingCheckConnection', value: 'BillingCheckConnection'},
   {key: 'BillingSendInvoice', value: 'BillingSendInvoice'},
   {key: 'BillingGetOpenedInvoice', value: 'BillingGetOpenedInvoice'},

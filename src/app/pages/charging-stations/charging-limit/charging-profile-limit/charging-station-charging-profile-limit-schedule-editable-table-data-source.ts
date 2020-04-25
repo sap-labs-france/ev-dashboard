@@ -130,9 +130,9 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, row: Schedule, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, schedule: Schedule, dropdownItem?: DropdownItem) {
     // Call parent
-    super.rowActionTriggered(actionDef, row, dropdownItem, this.refreshChargingSchedules.bind(this));
+    super.rowActionTriggered(actionDef, schedule, dropdownItem, this.refreshChargingSchedules.bind(this));
   }
 
   public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {

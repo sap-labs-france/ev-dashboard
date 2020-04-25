@@ -244,70 +244,70 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStation, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showChargingStationDialog(rowItem);
+        this.showChargingStationDialog(chargingStation);
         break;
       case ChargingStationButtonAction.REBOOT:
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
+        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.reboot_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.reboot_success', {chargeBoxID: chargingStation.id}),
           'chargers.reboot_error',
         );
         break;
       case ChargingStationButtonAction.SMART_CHARGING:
-        this.dialogSmartCharging(rowItem);
+        this.dialogSmartCharging(chargingStation);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(chargingStation);
         break;
       case ButtonAction.DELETE:
-        this.deleteChargingStation(rowItem);
+        this.deleteChargingStation(chargingStation);
         break;
       case ChargingStationButtonAction.SOFT_RESET:
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
+        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Soft'}),
           this.translateService.instant('chargers.soft_reset_title'),
-          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: chargingStation.id}),
           'chargers.soft_reset_error',
         );
         break;
       case ChargingStationButtonAction.CLEAR_CACHE:
-        this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
+        this.simpleActionChargingStation('ChargingStationClearCache', chargingStation, '',
           this.translateService.instant('chargers.clear_cache_title'),
-          this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: chargingStation.id}),
           'chargers.clear_cache_error',
         );
         break;
       case ChargingStationButtonAction.FORCE_AVAILABLE_STATUS:
-        this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
+        this.simpleActionChargingStation('ChargingStationChangeAvailability', chargingStation,
           JSON.stringify({
             connectorId: 0,
             type: OCPPAvailabilityType.OPERATIVE,
           }),
           this.translateService.instant('chargers.force_available_status_title'),
-          this.translateService.instant('chargers.force_available_status_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.force_available_status_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.force_available_status_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.force_available_status_success', {chargeBoxID: chargingStation.id}),
           'chargers.force_available_status_error',
           );
         break;
       case ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS:
-        this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
+        this.simpleActionChargingStation('ChargingStationChangeAvailability', chargingStation,
           JSON.stringify({
             connectorId: 0,
             type: OCPPAvailabilityType.INOPERATIVE,
           }),
           this.translateService.instant('chargers.force_unavailable_status_title'),
-          this.translateService.instant('chargers.force_unavailable_status_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.force_unavailable_status_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.force_unavailable_status_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.force_unavailable_status_success', {chargeBoxID: chargingStation.id}),
           'chargers.force_unavailable_status_error',
         );
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, chargingStation);
     }
   }
 

@@ -196,31 +196,31 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: SiteArea) {
+  public rowActionTriggered(actionDef: TableActionDef, siteArea: SiteArea) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showSiteAreaDialog(rowItem);
+        this.showSiteAreaDialog(siteArea);
         break;
       case ChargingStationButtonAction.EDIT_CHARGERS:
       case ChargingStationButtonAction.DISPLAY_CHARGERS:
-        this.showChargersDialog(rowItem);
+        this.showChargersDialog(siteArea);
         break;
       case ButtonAction.DELETE:
-        this.deleteSiteArea(rowItem);
+        this.deleteSiteArea(siteArea);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(siteArea);
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
-        this.exportOCPPParams(rowItem);
+        this.exportOCPPParams(siteArea);
         break;
       case AssetButtonAction.EDIT_ASSETS:
       case AssetButtonAction.DISPLAY_ASSETS:
-        this.showAssetsDialog(rowItem);
+        this.showAssetsDialog(siteArea);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, siteArea);
     }
   }
 

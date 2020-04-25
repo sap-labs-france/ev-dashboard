@@ -228,13 +228,13 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return tableColumnDef;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: CarCatalog) {
+  public rowActionTriggered(actionDef: TableActionDef, car: CarCatalog) {
     switch (actionDef.id) {
       case ButtonAction.VIEW:
-        this.showCarDialog(rowItem);
+        this.showCarDialog(car);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, car);
     }
   }
 

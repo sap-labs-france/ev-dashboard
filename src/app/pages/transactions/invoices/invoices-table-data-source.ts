@@ -138,16 +138,16 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     ];
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: BillingInvoice) {
+  public rowActionTriggered(actionDef: TableActionDef, billingInvoice: BillingInvoice) {
     switch (actionDef.id) {
       case ButtonAction.DOWNLOAD:
-        window.open(rowItem.downloadUrl, '_blank');
+        window.open(billingInvoice.downloadUrl, '_blank');
         break;
       // case BillingButtonAction.PAY:
       //   window.open(rowItem.payUrl, '_blank');
       //   break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, billingInvoice);
     }
   }
 

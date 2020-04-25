@@ -47,5 +47,6 @@ export enum Action {
   REFUND_TRANSACTION = 'RefundTransaction',
   UNLOCK_CONNECTOR = 'UnlockConnector',
   GET_CONFIGURATION = 'GetConfiguration',
-  SYNCHRONIZE_USERS_BILLING = 'SynchronizeUsersBilling',
+  BILLING_SYNCHRONIZE_USER = 'BillingSynchronizeUser',
+  BILLING_SYNCHRONIZE_USERS = 'BillingSynchronizeUsers',
 }

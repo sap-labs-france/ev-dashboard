@@ -148,20 +148,20 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Asset) {
+  public rowActionTriggered(actionDef: TableActionDef, asset: Asset) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showAssetDialog(rowItem);
+        this.showAssetDialog(asset);
         break;
       case ButtonAction.DELETE:
-        this.deleteAsset(rowItem);
+        this.deleteAsset(asset);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(asset);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, asset);
     }
   }
 

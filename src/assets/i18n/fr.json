@@ -756,7 +756,8 @@
       "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
-      "limit_title": "Limite (kW)",
+      "limit_title": "Limite",
+      "limit_in_amps": "({{limitInAmps}}A)",
       "no_current_limit": "Aucun planning de charge trouvé",
       "planning_energy_limit": "Plans de Charge",
       "from_date": "De",
@@ -764,7 +765,8 @@
       "profile_type": "Type",
       "stack_level": "Niveau",
       "profile_id": "Identifiant",
-      "duration": "Durée (mins)",
+      "duration": "Durée",
+      "duration_with_unit": "Durée (mins)",
       "start_date": "Début",
       "end_date": "Fin",
       "add_schedule_button": "Ajouter un Créneau",
@@ -792,7 +794,8 @@
       "trigger_smart_charging_confirm": "Voulez-vous vraiment exécuter l'algorithme de la charge intelligente?",
       "trigger_smart_charging": "Exécuter Charge Intelligente",
       "trigger_smart_charging_success": "L'algorithme de la charge intelligente a été éxécuté avec succès",
-      "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs"
+      "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs",
+      "minutes": "min(s)"
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",

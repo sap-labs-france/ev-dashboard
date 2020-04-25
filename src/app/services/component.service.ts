@@ -54,7 +54,7 @@ export class ComponentService {
               currency: config.simple.currency ? config.simple.currency : '',
             };
           }
-          // Convergeant Charging
+          // Convergent Charging
           if (config.convergentCharging) {
             pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
             pricingSettings.convergentCharging = {

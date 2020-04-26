@@ -13,7 +13,7 @@ import { TableAction } from './table-action';
 
 export class TableSyncBillingUserAction implements TableAction {
   private action: TableActionDef = {
-    id: UserButtonAction.BILLING_SYNCHRONIZE_USER,
+    id: UserButtonAction.SYNCHRONIZE_USER,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,

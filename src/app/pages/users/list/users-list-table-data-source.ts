@@ -256,7 +256,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.BILLING_SYNCHRONIZE_USER)) {
+        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USER)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
@@ -274,7 +274,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.BILLING_SYNCHRONIZE_USERS:
+      case UserButtonAction.SYNCHRONIZE_USERS:
         if (this.syncBillingUsersAction.action) {
           this.syncBillingUsersAction.action(
             this.dialogService,

@@ -226,7 +226,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      case UserButtonAction.BILLING_SYNCHRONIZE_USER:
+      case UserButtonAction.SYNCHRONIZE_USER:
         if (this.syncBillingUserAction.action) {
           this.syncBillingUserAction.action(
             user,

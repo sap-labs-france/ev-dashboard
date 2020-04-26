@@ -693,20 +693,6 @@ export class CentralServerService {
       );
   }
 
-  public getCurrentMetrics(): Observable<CurrentMetrics[]> {
-    const params: { [param: string]: string } = {};
-    params['PeriodInMonth'] = '6';
-    // Call
-    return this.httpClient.get<CurrentMetrics[]>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getChargers(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
     // Verify init
@@ -1330,7 +1316,7 @@ export class CentralServerService {
   public synchronizeUsersForBilling(): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUsers`, {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1342,7 +1328,7 @@ export class CentralServerService {
   public synchronizeUserForBilling(userID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUserForBilling`, { id: userID },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUser`, { id: userID },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1354,7 +1340,7 @@ export class CentralServerService {
   public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ForceSynchronizeUserForBilling`,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingForceSynchronizeUser`,
       { id: userID },
       {
         headers: this.buildHttpHeaders(),

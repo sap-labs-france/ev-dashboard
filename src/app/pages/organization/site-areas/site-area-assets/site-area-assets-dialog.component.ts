@@ -5,6 +5,7 @@ import { SiteAreaAssetsDataSource } from './site-area-assets-table-data-source';
 
 @Component({
   templateUrl: 'site-area-assets-dialog.component.html',
+  providers: [SiteAreaAssetsDataSource]
 })
 export class SiteAreaAssetsDialogComponent {
   public dialogTitle: string;

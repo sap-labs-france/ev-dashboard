@@ -20,6 +20,9 @@
             <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin || !issuer">
               <mat-icon>create</mat-icon>
             </button>
+            <mat-error *ngIf="siteArea.errors?.required">
+              {{"general.mandatory_field" | translate}}
+            </mat-error>
           </mat-form-field>
         </div>
       </div>

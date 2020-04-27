@@ -50,9 +50,7 @@ export class CompanyComponent implements OnInit {
     private dialogService: DialogService,
     private translateService: TranslateService,
     private router: Router) {
-
     this.maxSize = this.configService.getCompany().maxLogoKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateCompany()) {
@@ -76,12 +74,10 @@ export class CompanyComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
     }
-
     if (this.currentCompanyID) {
       this.loadCompany();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -90,7 +86,6 @@ export class CompanyComponent implements OnInit {
         this.loadCompany();
       });
     }
-
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // check if escape
@@ -98,7 +93,6 @@ export class CompanyComponent implements OnInit {
         this.onClose();
       }
     });
-
     this.centralServerNotificationService.getSubjectCompany().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?

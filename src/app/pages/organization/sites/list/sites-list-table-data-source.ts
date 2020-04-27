@@ -133,7 +133,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(site: Site) {
+  public buildTableDynamicRowActions(site: Site): TableActionDef[] {
     const actions = [];
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
@@ -173,25 +173,25 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Site) {
+  public rowActionTriggered(actionDef: TableActionDef, site: Site) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showSiteDialog(rowItem);
+        this.showSiteDialog(site);
         break;
       case UserButtonAction.EDIT_USERS:
-        this.showUsersDialog(rowItem);
+        this.showUsersDialog(site);
         break;
       case ButtonAction.DELETE:
-        this.deleteSite(rowItem);
+        this.deleteSite(site);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(site);
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
-        this.exportOCOPPParams(rowItem);
+        this.exportOCOPPParams(site);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, site);
     }
   }
 

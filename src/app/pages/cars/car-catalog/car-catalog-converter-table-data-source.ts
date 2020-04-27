@@ -59,11 +59,11 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeSt
         class: 'text-center col-20p',
       },
       {
-        id: 'evsePhaseVolt',
+        id: 'evsePhaseVoltCalculated',
         name: 'cars.evse_phase_volt',
         headerClass: 'text-center col-20p',
         class: 'text-center col-20p',
-        formatter: (evsePhaseVolt: number) => evsePhaseVolt ? `${evsePhaseVolt} V` : '-',
+        formatter: (evsePhaseVoltCalculated: number) => evsePhaseVoltCalculated ? `${evsePhaseVoltCalculated} V` : '-',
       },
       {
         id: 'evsePhaseAmp',

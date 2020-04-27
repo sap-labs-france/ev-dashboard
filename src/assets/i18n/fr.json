@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.35",
+    "last_update": "Version 2.2.40",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -122,9 +122,9 @@
     "invalid_content": "Contenu invalide",
     "open_in_maps": "Localisation",
     "change_pending_title": "Modifications en attente",
-    "change_pending_text": "Des modifications sont en cours, voulez-vous...",
+    "change_pending_text": "Des modifications sont en cours.",
     "change_invalid_pending_title": "Modifications en attente",
-    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours. Voulez-vous...",
+    "change_invalid_pending_text": "Des modifications contenant des valeurs invalides sont en cours.",
     "save_and_close": "Sauvegarder et Fermer",
     "do_not_save_and_close": "Ne pas Sauvegarder et Fermer",
     "set_coordinates": "Définir les coordonnées",
@@ -345,6 +345,7 @@
     "select_assets": "Selection Asset"
   },
   "sites": {
+    "assign_company": "Assigner une Companie",
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
@@ -398,6 +399,7 @@
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant au site '{{siteName}}' ?"
   },
   "site_areas": {
+    "assign_site": "Assigner un Site",
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "edit_assets": "Editer les assets",
     "display_assets": "Afficher les assets",
@@ -449,7 +451,8 @@
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "maximum_energy": "Limite de puissance (Watts)",
     "export_all_params_title": "Exporter les paramètres OCPP",
-    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?"
+    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?",
+    "consumption_date": "Date"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -753,7 +756,8 @@
       "clear_profiles_button": "Effacer les profiles",
       "current_limit": "Programme actuel de limite de charge",
       "current_limit_title": "Limite actuelle",
-      "limit_title": "Limite (kW)",
+      "limit_title": "Limite",
+      "limit_in_amps": "({{limitInAmps}}A)",
       "no_current_limit": "Aucun planning de charge trouvé",
       "planning_energy_limit": "Plans de Charge",
       "from_date": "De",
@@ -761,7 +765,8 @@
       "profile_type": "Type",
       "stack_level": "Niveau",
       "profile_id": "Identifiant",
-      "duration": "Durée (mins)",
+      "duration": "Durée",
+      "duration_with_unit": "Durée (mins)",
       "start_date": "Début",
       "end_date": "Fin",
       "add_schedule_button": "Ajouter un Créneau",
@@ -789,7 +794,8 @@
       "trigger_smart_charging_confirm": "Voulez-vous vraiment exécuter l'algorithme de la charge intelligente?",
       "trigger_smart_charging": "Exécuter Charge Intelligente",
       "trigger_smart_charging_success": "L'algorithme de la charge intelligente a été éxécuté avec succès",
-      "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs"
+      "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs",
+      "minutes": "min(s)"
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",
@@ -899,11 +905,11 @@
     "single_phase": "Courant Alternatif - Monophasé",
     "tri_phases": "Courant Alternatif - Triphasé",
     "site_area": "Site - Zone",
-    "assign_site_area": "Assigner une zone",
+    "assign_site_area": "Assigner une Zone",
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "URL Invalide",
-    "invalid_power_value": "La puissance doit être un nombre entier positif",
+    "invalid_power_value": "La puissance doit être un nombre positif",
     "invalid_voltage": "Le voltage doit être un nombre entier positif",
     "invalid_amperage": "L'ampérage doit être un nombre entier positif",
     "unsaved_title": "Modifications en cours",
@@ -1215,6 +1221,7 @@
     },
     "charging_station": {
       "registration_tokens_title": "Jetons d'enregistrement des bornes de recharge",
+      "registration_token_site_area_name": "Token pour la zone '{{siteAreaName}}'",
       "registration_token_creation_title": "Créer un jeton d'enregistrement",
       "registration_token_creation_confirm": "Voulez-vous vraiment créer un jeton d'enregistrement pour les bornes de recharge de cette zone?",
       "registration_token_creation_success": "Le jeton d'enregistrement a été créé avec succès",

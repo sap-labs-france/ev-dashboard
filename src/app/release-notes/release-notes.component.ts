@@ -24,14 +24,40 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.35',
-        date: new Date('2020-04-20'),
+        version: '2.2.40',
+        date: new Date('2020-04-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Enable Static Limitation and Charging Plan for Delta charger`,
+              `Display price and date in Invoice list`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.39',
+        date: new Date('2020-04-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Invoices storage in the backend`,
+              `Remove units in Charging Plans' columns`,
+              `Added Amperage in Charging Plans' power limitation when Smart Charging is active`,
+              `Allow decimal number in the Site Area Maximum Power Limitation (Kw) field`,
+              `Add the name of the Charger in the Charging Plan's drop down and remove the Level`,
+              `When the Charging Plan's schedule list is empty, you cannot delete the plan`,
+              `When the Charging Plan list is empty, you cannot delete it`,
+              `Use a dialog pop-up to select Company and Site instead of drop down`,
+              `Asset button in Site Area list should not be displayed if Asset component is not active`,
+              `Maximum Site Area Power Limitation issue should not be modifiable when read-only`,
+              `Display 400V in Car's converter voltage column when there are 3 phases`,
+              `Add a date filter for displaying the Site Area's consumption at a given date`,
               `Add a checkbox to display all the session chart's points (no optimization)`,
               `Refactored Cars to Cars Catalog`,
+              `Add OCPI charging periods in update and stop sessions`,
               `Fixed Smart Charging checkbox disabled Site Area's Max Power Limitation`
             ],
           },

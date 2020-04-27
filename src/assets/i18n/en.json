@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.35",
+    "last_update": "Version 2.2.40",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -37,7 +37,7 @@
     "error_min_value": "Minimum value is {{value}}",
     "error_url_pattern": "Incorrect URL pattern",
     "error_number_pattern": "Invalid Number",
-    "invalid_date": "Date invalide",
+    "invalid_date": "Date invalid",
     "error_not_a_number": "Not a valid number",
     "error_duplicate": "Duplicate entry",
     "id": "Id",
@@ -122,9 +122,9 @@
     "invalid_content": "Invalid Content",
     "open_in_maps": "Localization",
     "change_pending_title": "Pending Changes",
-    "change_pending_text": "Some changes are pending. Do you want to...",
+    "change_pending_text": "Some changes are pending.",
     "change_invalid_pending_title": "Pending Changes with invalid value(s)",
-    "change_invalid_pending_text": "Some changes with invalid value(s) are pending . Do you want to...",
+    "change_invalid_pending_text": "Some changes with invalid value(s) are pending.",
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
@@ -345,6 +345,7 @@
     "select_assets": "Select Asset"
   },
   "sites": {
+    "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
@@ -398,6 +399,7 @@
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
   },
   "site_areas": {
+    "assign_site": "Assign Site",
     "export_all_ocpp_params": "Export All OCPP Params",
     "edit_assets": "Edit assets",
     "display_assets": "Display assets",
@@ -449,7 +451,8 @@
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy": "Maximum Power Limitation (kW)",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
+    "consumption_date": "Date"
   },
   "authentication": {
     "accept": "I accept the",
@@ -753,7 +756,8 @@
       "clear_profiles_button": "Clear Profiles",
       "current_limit": "Actual power limit planning",
       "current_limit_title": "Actual power limit",
-      "limit_title": "Limit (kW)",
+      "limit_title": "Limit",
+      "limit_in_amps": "({{limitInAmps}}A)",
       "no_current_limit": "No limit planning found",
       "planning_energy_limit": "Charging Plans",
       "from_date": "From",
@@ -761,7 +765,8 @@
       "profile_type": "Type",
       "stack_level": "Level",
       "profile_id": "Profile ID",
-      "duration": "Duration (mins)",
+      "duration": "Duration",
+      "duration_with_unit": "Duration (mins)",
       "start_date": "Start",
       "end_date": "End",
       "add_schedule_button": "Add Schedule",
@@ -789,7 +794,8 @@
       "trigger_smart_charging_confirm": "Do you really want to trigger the smart charging algorithm?",
       "trigger_smart_charging": "Trigger Smart Charging",
       "trigger_smart_charging_success": "The smart charging algorithm has been triggered successfully",
-      "trigger_smart_charging_error": "Error occurred while triggering the smart charging algorithm, check the logs"
+      "trigger_smart_charging_error": "Error occurred while triggering the smart charging algorithm, check the logs",
+      "minutes": "min(s)"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
@@ -903,7 +909,7 @@
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
-    "invalid_power_value": "Power value must be a positive, natural number",
+    "invalid_power_value": "Power value must be a positive number",
     "invalid_voltage": "Voltage value must be a positive number",
     "invalid_amperage": "Amperage value must be a positive number",
     "unsaved_title": "Unsaved changes",
@@ -1215,6 +1221,7 @@
     },
     "charging_station": {
       "registration_tokens_title": "Charging Station Registration Tokens",
+      "registration_token_site_area_name": "Token for Site Area '{{siteAreaName}}'",
       "registration_token_creation_title": "Create Registration Token",
       "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
       "registration_token_creation_success": "Registration token has been created successfully",

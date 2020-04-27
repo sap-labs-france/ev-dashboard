@@ -25,6 +25,7 @@ export interface ChargingStation extends Data {
   inactive: boolean;
   chargingStationURL: string;
   connectors: Connector[];
+  siteAreaID?: string;
   siteArea: SiteArea;
   cannotChargeInParallel: boolean;
   maximumPower: number;

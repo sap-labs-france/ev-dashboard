@@ -108,6 +108,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.scheduleEditableTableDataSource.setFormArray(this.chargingSchedules);
     // Initial values
     this.scheduleEditableTableDataSource.setCharger(this.charger);
+    this.scheduleTableDataSource.setCharger(this.charger);
     this.limitChartPlannerComponent.setLimitPlannerData([]);
     // Change the Profile
     this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
@@ -165,8 +166,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors|null {
     // Check
     if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
-        // @ts-ignore
-        moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
+      // @ts-ignore
+      moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
       // Ok
       return null;
     }
@@ -222,6 +223,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Update charger
       this.charger = charger;
       this.scheduleEditableTableDataSource.setCharger(this.charger);
+      this.scheduleTableDataSource.setCharger(this.charger);
       this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
         this.spinnerService.hide();
         this.formGroup.markAsPristine();
@@ -255,7 +257,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-  });
+    });
   }
 
   private loadProfile(chargingProfile: ChargingProfile) {
@@ -351,7 +353,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.clear_profile_not_accepted',
-              { chargeBoxID: this.charger.id }));
+                { chargeBoxID: this.charger.id }));
           } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
@@ -384,12 +386,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));
           }
         }, (error) => {
-        this.spinnerService.hide();
-        if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
+          this.spinnerService.hide();
+          if (error.status === HTTPError.SET_CHARGING_PROFILE_ERROR) {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted',
-              { chargeBoxID: this.charger.id }));
+                { chargeBoxID: this.charger.id }));
           } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
@@ -423,29 +425,31 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     chargingProfile.profile.stackLevel = profileType.stackLevel;
     chargingProfile.profile.chargingProfilePurpose = ChargingProfilePurposeType.TX_DEFAULT_PROFILE;
     if (profileType.chargingProfileKindType === ChargingProfileKindType.RECURRING &&
-        profileType.recurrencyKindType) {
+      profileType.recurrencyKindType) {
       chargingProfile.profile.recurrencyKind = profileType.recurrencyKindType;
     }
     // Set power unit
     chargingProfile.profile.chargingSchedule.chargingRateUnit = PowerLimitUnits.AMPERE;
     // Build schedule
-    // Set start date
-    const startOfSchedule = new Date(this.scheduleEditableTableDataSource.data[0].startDate);
-    chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
-    // Instantiate chargingSchedulePeriods
-    chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
-    // Helper for duration
-    let duration = 0;
-    for (const schedule of this.scheduleEditableTableDataSource.getContent()) {
-      const period = {} as ChargingSchedulePeriod;
-      const startOfPeriod = new Date(schedule.startDate);
-      period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);
-      period.limit = schedule.limit;
-      chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);
-      duration = duration + schedule.duration * 60;
+    if (this.scheduleEditableTableDataSource.data.length > 0) {
+      // Set start date
+      const startOfSchedule = new Date(this.scheduleEditableTableDataSource.data[0].startDate);
+      chargingProfile.profile.chargingSchedule.startSchedule = startOfSchedule;
+      // Instantiate chargingSchedulePeriods
+      chargingProfile.profile.chargingSchedule.chargingSchedulePeriod = [];
+      // Helper for duration
+      let duration = 0;
+      for (const schedule of this.scheduleEditableTableDataSource.getContent()) {
+        const period = {} as ChargingSchedulePeriod;
+        const startOfPeriod = new Date(schedule.startDate);
+        period.startPeriod = Math.round((startOfPeriod.getTime() - startOfSchedule.getTime()) / 1000);
+        period.limit = schedule.limit;
+        chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.push(period);
+        duration = duration + schedule.duration * 60;
+      }
+      // Set duration
+      chargingProfile.profile.chargingSchedule.duration = duration;
     }
-    // Set duration
-    chargingProfile.profile.chargingSchedule.duration = duration;
     return chargingProfile;
   }
 }

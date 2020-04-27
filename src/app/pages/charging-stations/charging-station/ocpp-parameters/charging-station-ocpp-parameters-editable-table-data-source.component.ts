@@ -164,16 +164,16 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     this.charger = charger;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+  public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_SAVE:
-        this.saveOcppParameter(editableRow);
+        this.saveOcppParameter(ocppParameter);
         actionDone = true;
         break;
     }
     // Call super
-    super.rowActionTriggered(actionDef, editableRow, dropdownItem, postDataProcessing, true);
+    super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

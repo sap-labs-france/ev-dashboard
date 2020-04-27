@@ -25,17 +25,17 @@ export class DashboardService {
   }
 
   loadData() {
-    this.centralServerService.getCurrentMetrics().subscribe((metrics) => {
-      this.currentMetrics = metrics;
-      if (this.initialLoadDone.getValue() === false) {
-        this.initialLoadDone.next(true);
-      } else {
-        this.refreshData.next(this.currentMetrics);
-      }
-    }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-    });
+    // this.centralServerService.getCurrentMetrics().subscribe((metrics) => {
+    //   this.currentMetrics = metrics;
+    //   if (this.initialLoadDone.getValue() === false) {
+    //     this.initialLoadDone.next(true);
+    //   } else {
+    //     this.refreshData.next(this.currentMetrics);
+    //   }
+    // }, (error) => {
+    //     // No longer exists!
+    //     Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+    // });
   }
 
   stopLoading() {

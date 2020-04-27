@@ -2,20 +2,27 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Schedule } from 'app/types/ChargingProfile';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
+  public charger!: ChargingStation;
 
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private datePipe: AppDatePipe,
+    private decimalPipe: AppDecimalPipe,
+    private unitPipe: AppUnitPipe
   ) {
     super(spinnerService, translateService);
     this.initDataSource();
@@ -46,6 +53,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         headerClass: 'col-15p',
         editType: TableEditType.INPUT,
         class: 'text-center col-15p',
+        formatter: (value: number) => `${this.decimalPipe.transform(value)} ${this.translateService.instant('chargers.smart_charging.minutes')}`
       },
       {
         id: 'endDate',
@@ -56,10 +64,12 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
-        id: 'limitInkW',
+        id: 'limit',
         name: 'chargers.smart_charging.limit_title',
         headerClass: 'col-50p',
         class: 'col-45p',
+        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.charger, this.unitPipe, value, 'kW', true, 3)}
+        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: value} )}`
       },
     ];
     return tableColumnDef;
@@ -85,4 +95,8 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     this.schedules = schedules;
     this.getManualDataChangeSubject().next();
   }
+  public setCharger(charger: ChargingStation) {
+    this.charger = charger;
+  }
+
 }

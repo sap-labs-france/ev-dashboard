@@ -372,12 +372,12 @@ export class CentralServerService {
   }
 
   public getChargingProfiles(chargeBoxID: string, connectorID?: number): Observable<DataResult<ChargingProfile>> {
+    this.checkInit();
     const params: { [param: string]: string } = {};
     params['ChargeBoxID'] = chargeBoxID;
     if (connectorID) {
       params['ConnectorID'] = connectorID + '';
     }
-    this.checkInit();
     return this.httpClient.get<DataResult<ChargingProfile>>(
       `${this.centralRestServerServiceSecuredURL}/ChargingProfiles`,
       {
@@ -389,22 +389,26 @@ export class CentralServerService {
       );
   }
 
-  public triggerSmartCharging(siteAreaId: string): Observable<ActionResponse> {
+  public triggerSmartCharging(siteAreaID: string): Observable<ActionResponse> {
     this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteAreaID'] = siteAreaID;
     return this.httpClient.get<ActionResponse>(
-      `${this.centralRestServerServiceSecuredURL}/TriggerSmartCharging?SiteAreaID=${siteAreaId}`,
+      `${this.centralRestServerServiceSecuredURL}/TriggerSmartCharging`,
       {
         headers: this.buildHttpHeaders(),
+        params,
       })
       .pipe(
         catchError(this.handleHttpError),
       );
   }
 
-  public getSite(siteId: string, withImage: boolean = false): Observable<Site> {
+  public getSite(siteID: string, withImage: boolean = false, withCompany: boolean = false): Observable<Site> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteId;
+    params['ID'] = siteID;
     params['WithImage'] = withImage.toString();
+    params['WithCompany'] = withImage.toString();
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -419,9 +423,9 @@ export class CentralServerService {
       );
   }
 
-  public getSiteImage(siteId: string): Observable<Image> {
+  public getSiteImage(siteID: string): Observable<Image> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteId;
+    params['ID'] = siteID;
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -456,9 +460,12 @@ export class CentralServerService {
       );
   }
 
-  public getSiteArea(siteAreaId: string): Observable<SiteArea> {
+  public getSiteArea(siteAreaID: string, withSite?: boolean): Observable<SiteArea> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteAreaId;
+    params['ID'] = siteAreaID;
+    if (withSite) {
+      params['WithSite'] = withSite.toString();
+    }
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -473,9 +480,9 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreaImage(siteAreaId: string): Observable<Image> {
+  public getSiteAreaImage(siteAreaID: string): Observable<Image> {
     const params: { [param: string]: string } = {};
-    params['ID'] = siteAreaId;
+    params['ID'] = siteAreaID;
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -677,20 +684,6 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<StatisticData[]>(`${this.centralRestServerServiceSecuredURL}/UserPricingStatistics`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getCurrentMetrics(): Observable<CurrentMetrics[]> {
-    const params: { [param: string]: string } = {};
-    params['PeriodInMonth'] = '6';
-    // Call
-    return this.httpClient.get<CurrentMetrics[]>(`${this.centralRestServerServiceSecuredURL}/CurrentMetrics`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1323,7 +1316,7 @@ export class CentralServerService {
   public synchronizeUsersForBilling(): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUsersForBilling`, {},
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUsers`, {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1335,7 +1328,7 @@ export class CentralServerService {
   public synchronizeUserForBilling(userID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeUserForBilling`, { id: userID },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUser`, { id: userID },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1347,7 +1340,7 @@ export class CentralServerService {
   public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ForceSynchronizeUserForBilling`,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/BillingForceSynchronizeUser`,
       { id: userID },
       {
         headers: this.buildHttpHeaders(),

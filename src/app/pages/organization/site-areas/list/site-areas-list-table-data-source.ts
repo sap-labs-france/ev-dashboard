@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -29,6 +30,7 @@ import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
@@ -40,6 +42,7 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
+  private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private editChargersAction = new TableEditChargersAction().getActionDef();
   private editAssetsAction = new TableEditAssetsAction().getActionDef();
@@ -58,9 +61,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
+    this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
   }
@@ -146,42 +151,37 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     return tableActionsDef;
   }
 
-  public buildTableDynamicRowActions(siteArea: SiteArea) {
+  public buildTableDynamicRowActions(siteArea: SiteArea): TableActionDef[] {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
+    let actions: TableActionDef[];
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    if (this.authorizationService.isAdmin()) {
-      return [
+    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+      actions = [
         this.editAction,
-        this.editChargersAction,
-        this.editAssetsAction,
+        this.authorizationService.isAdmin() ? this.editChargersAction : this.displayChargersAction,
         new TableMoreAction([
           this.exportOCPPParamsAction,
           openInMaps,
           this.deleteAction,
         ]).getActionDef(),
       ];
-    }
-    if (this.authorizationService.isSiteAdmin(siteArea.siteID)) {
-      return [
-        this.editAction,
+      if (this.isAssetComponentActive) {
+        actions.splice(2, 0, this.editAssetsAction);
+      }
+    } else {
+      actions = [
+        this.viewAction,
         this.displayChargersAction,
-        this.displayAssetsAction,
         new TableMoreAction([
-          this.exportOCPPParamsAction,
           openInMaps,
-          this.deleteAction,
         ]).getActionDef(),
       ];
+      if (this.isAssetComponentActive) {
+        actions.splice(2, 0, this.displayAssetsAction);
+      }
     }
-    return [
-      this.viewAction,
-      this.displayChargersAction,
-      this.displayAssetsAction,
-      new TableMoreAction([
-        openInMaps,
-      ]).getActionDef(),
-    ];
+    return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -196,31 +196,31 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: SiteArea) {
+  public rowActionTriggered(actionDef: TableActionDef, siteArea: SiteArea) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showSiteAreaDialog(rowItem);
+        this.showSiteAreaDialog(siteArea);
         break;
       case ChargingStationButtonAction.EDIT_CHARGERS:
       case ChargingStationButtonAction.DISPLAY_CHARGERS:
-        this.showChargersDialog(rowItem);
+        this.showChargersDialog(siteArea);
         break;
       case ButtonAction.DELETE:
-        this.deleteSiteArea(rowItem);
+        this.deleteSiteArea(siteArea);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(siteArea);
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
-        this.exportOCOPPParams(rowItem);
+        this.exportOCPPParams(siteArea);
         break;
       case AssetButtonAction.EDIT_ASSETS:
       case AssetButtonAction.DISPLAY_ASSETS:
-        this.showAssetsDialog(rowItem);
+        this.showAssetsDialog(siteArea);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, siteArea);
     }
   }
 
@@ -311,7 +311,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     });
   }
 
-  private exportOCOPPParams(siteArea: SiteArea) {
+  private exportOCPPParams(siteArea: SiteArea) {
     if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
       this.exportOCPPParamsAction.action(
         this.dialogService,

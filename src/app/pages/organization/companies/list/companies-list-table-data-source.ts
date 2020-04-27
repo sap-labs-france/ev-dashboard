@@ -135,7 +135,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     }
   }
 
-  public buildTableDynamicRowActions(company: Company) {
+  public buildTableDynamicRowActions(company: Company): TableActionDef[] {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
@@ -168,20 +168,20 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Company) {
+  public rowActionTriggered(actionDef: TableActionDef, company: Company) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showCompanyDialog(rowItem);
+        this.showCompanyDialog(company);
         break;
       case ButtonAction.DELETE:
-        this.deleteCompany(rowItem);
+        this.deleteCompany(company);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(company);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, company);
     }
   }
 

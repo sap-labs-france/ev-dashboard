@@ -213,32 +213,32 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStationInError, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStationInError, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.REBOOT:
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
+        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Hard'}),
           this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.reboot_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.reboot_success', {chargeBoxID: chargingStation.id}),
           'chargers.reboot_error',
         );
         break;
       case ChargingStationButtonAction.SOFT_RESET:
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
+        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Soft'}),
           this.translateService.instant('chargers.soft_reset_title'),
-          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: chargingStation.id}),
           'chargers.soft_reset_error',
         );
         break;
       case ButtonAction.DELETE:
-        this.deleteChargingStation(rowItem);
+        this.deleteChargingStation(chargingStation);
         break;
       case ButtonAction.EDIT:
-        this.showChargingStationDialog(rowItem);
+        this.showChargingStationDialog(chargingStation);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, chargingStation);
     }
   }
 
@@ -302,7 +302,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     ];
   }
 
-  buildTableDynamicRowActions(charger: ChargingStationInError) {
+  buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
     if (this.isAdmin && charger.errorCode) {
       // @ts-ignore
       return this.actions[charger.errorCode];

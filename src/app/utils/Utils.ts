@@ -122,8 +122,7 @@ export class Utils {
     // Check
     if (!chargingStation ||
         !chargingStation.connectors ||
-        Utils.isEmptyArray(chargingStation.connectors) ||
-        chargingStation.currentType !== ChargingStationCurrentType.AC) {
+        Utils.isEmptyArray(chargingStation.connectors)) {
       result.notSupported = true;
       result.currentAmp = result.maxAmp;
       result.currentWatt = Utils.convertAmpToPowerWatts(chargingStation, result.currentAmp);
@@ -165,16 +164,17 @@ export class Utils {
   }
 
   public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
-    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
+    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase !== undefined) {
       return ChargingStations.convertAmpToW(charger.connectors[0].numberOfConnectedPhase, ampValue);
     }
     return 0;
   }
 
-  public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true): string {
-    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase) {
+  public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true, numberOfDecimals?: number): string {
+    // TBD use corresponding connector, instead of first connector
+    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase !== undefined) {
       return appUnitFormatter.transform(
-        Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, 0);
+        Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
     }
     return 'N/A';
   }

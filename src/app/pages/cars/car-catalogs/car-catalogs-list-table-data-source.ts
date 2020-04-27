@@ -21,7 +21,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { CarCatalogDialogComponent } from '../car/car-catalog.dialog.component';
+import { CarCatalogDialogComponent } from '../car-catalog/car-catalog.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 
 @Injectable()
@@ -228,13 +228,13 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return tableColumnDef;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: CarCatalog) {
+  public rowActionTriggered(actionDef: TableActionDef, car: CarCatalog) {
     switch (actionDef.id) {
       case ButtonAction.VIEW:
-        this.showCarDialog(rowItem);
+        this.showCarDialog(car);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, car);
     }
   }
 

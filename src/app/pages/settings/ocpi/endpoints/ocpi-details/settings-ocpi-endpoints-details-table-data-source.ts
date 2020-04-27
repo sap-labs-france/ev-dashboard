@@ -195,37 +195,37 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
+  public rowActionTriggered(actionDef: TableActionDef, ocpiEndpointDetail: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case OcpiButtonAction.SYNC_ALL:
-        this.triggerJobsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.triggerJobsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PUSH_TOKENS:
-        this.pushTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pushTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PUSH_LOCATIONS:
-        this.pushEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pushEVSEStatusesOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_CDRS:
-        this.pullCdrsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullCdrsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_LOCATIONS:
-        this.pullLocationsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullLocationsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_SESSIONS:
-        this.pullSessionsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullSessionsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_TOKENS:
-        this.pullTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case ButtonAction.START:
-        this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
+        this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, true);
         break;
       case ButtonAction.STOP:
-        this.enableDisableBackgroundJob(rowItem.ocpiendpoint, false);
+        this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, false);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, ocpiEndpointDetail);
     }
   }
 

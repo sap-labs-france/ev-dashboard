@@ -48,7 +48,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
+  private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
   private currentUser: UserToken;
 
@@ -233,7 +233,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     tableActionsDef.unshift(new TableCreateAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeUsers()) {
-      tableActionsDef.splice(1, 0, this.tableSyncBillingUsersAction);
+      tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
     return [
       ...tableActionsDef,
@@ -256,7 +256,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING)) {
+        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USER)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
@@ -274,9 +274,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
-        if (this.tableSyncBillingUsersAction.action) {
-          this.tableSyncBillingUsersAction.action(
+      case UserButtonAction.SYNCHRONIZE_USERS:
+        if (this.syncBillingUsersAction.action) {
+          this.syncBillingUsersAction.action(
             this.dialogService,
             this.translateService,
             this.messageService,
@@ -290,50 +290,34 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: User) {
+  public rowActionTriggered(actionDef: TableActionDef, user: User) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showUserDialog(rowItem);
+        this.showUserDialog(user);
         break;
       case SiteButtonAction.ASSIGN_SITE:
-        this.showSitesDialog(rowItem);
+        this.showSitesDialog(user);
         break;
       case ButtonAction.DELETE:
-        this.deleteUser(rowItem);
+        this.deleteUser(user);
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
-        this.forceSynchronizeUser(rowItem);
+      case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
+        if (this.forceSyncBillingUserAction.action) {
+          this.forceSyncBillingUserAction.action(
+            user,
+            this.dialogService,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
+        }
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, user);
     }
-  }
-
-  private forceSynchronizeUser(user: UserInError) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          this.spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            this.refreshData().subscribe();
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('settings.billing.force_synchronize_user_success',
-                { userFullName: Utils.buildUserFullName(user) }));
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
-              'settings.billing.force_synchronize_user_failure');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          this.messageService.showErrorMessage(
-            this.translateService.instant(['settings.billing.billing_system_error']));
-        });
-      }
-    });
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

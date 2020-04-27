@@ -8,13 +8,13 @@ import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import { CarCatalogComponent } from './car/car-catalog.component';
-import { CarCatalogDialogComponent } from './car/car-catalog.dialog.component';
-import { CarCarouselComponent } from './car/carousel/car-carousel.component';
+import { CarCatalogComponent } from './car-catalog/car-catalog.component';
+import { CarCatalogDialogComponent } from './car-catalog/car-catalog.dialog.component';
+import { CarCarouselComponent } from './car-catalog/carousel/car-carousel.component';
+import { CarCatalogsListComponent } from './car-catalogs/car-catalogs-list.component';
 import { CarsComponent } from './cars.component';
 import { CarsRoutes } from './cars.routing';
 import { CarCatalogImageFormatterCellComponent } from './cell-components/car-catalog-image-formatter-cell.component';
-import { CarCatalogsListComponent } from './list/car-catalogs-list.component';
 
 @NgModule({
   imports: [

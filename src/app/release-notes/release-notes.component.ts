@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.40',
+        date: new Date('2020-04-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enable Static Limitation and Charging Plan for Delta charger`,
+              `Display price and date in Invoice list`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.39',
         date: new Date('2020-04-26'),
         componentChanges: [

@@ -4,7 +4,7 @@ import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
@@ -76,7 +76,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.chart.update();
   }
 
-  public setLimitPlannerData(chargingSchedules: Schedule[]) {
+  public setLimitPlannerData(chargingSchedules: Schedule[], connectorId?: number) {
     // Init
     this.prepareOrUpdateGraph();
     // Create chart
@@ -85,12 +85,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       this.data.datasets = [];
       // Fill
       if (chargingSchedules) {
-        this.createGraphData(chargingSchedules);
+        this.createGraphData(chargingSchedules, connectorId);
       }
     }
   }
 
-  private createGraphData(chargingSchedules: Schedule[]) {
+  private createGraphData(chargingSchedules: Schedule[], connectorId?: number) {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
@@ -127,7 +127,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       // Push in the graph
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
-      const chargingStationPowers = Utils.getChargingStationPowers(this.charger);
+      let chargingStationPowers: ChargingStationPowers;
+      if (connectorId !== 0) {
+        chargingStationPowers = Utils.getChargingStationPowers(this.charger, this.charger.connectors[connectorId - 1]);
+      } else {
+        chargingStationPowers = Utils.getChargingStationPowers(this.charger);
+      }
       const limitDataSet: ChartDataSets = {
         name: 'limitWatts',
         type: 'line',

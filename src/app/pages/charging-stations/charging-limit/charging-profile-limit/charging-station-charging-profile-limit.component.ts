@@ -322,7 +322,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Set Schedule Table content
       this.scheduleEditableTableDataSource.setContent(schedules);
       // Set Chart
-      this.limitChartPlannerComponent.setLimitPlannerData(schedules);
+      this.limitChartPlannerComponent.setLimitPlannerData(schedules, chargingProfile.connectorID);
     }
   }
 

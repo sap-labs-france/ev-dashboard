@@ -5,6 +5,7 @@ import { SiteAreaChargersDataSource } from './site-area-chargers-table-data-sour
 
 @Component({
   templateUrl: 'site-area-chargers-dialog.component.html',
+  providers: [SiteAreaChargersDataSource]
 })
 export class SiteAreaChargersDialogComponent {
   public dialogTitle: string;

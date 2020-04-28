@@ -342,7 +342,14 @@
     "create_success": "L'asset '{{assetName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du asset",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "select_assets": "Selection Asset"
+    "select_assets": "Selection Asset",
+    "errors": {
+      "missing_site_area": {
+        "title": "Not Assigned to a Site Area",
+        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
+        "action": "Maintain the site area in the charging station's configuration"
+      }
+    }
   },
   "sites": {
     "assign_company": "Assigner une Companie",
@@ -1524,7 +1531,8 @@
     "title": "Asset",
     "description": "Gestion des Assets",
     "tabs": {
-      "assets": "Assets"
+      "assets": "Assets",
+      "in_error": "En Erreur"
     }
   },
   "cars": {

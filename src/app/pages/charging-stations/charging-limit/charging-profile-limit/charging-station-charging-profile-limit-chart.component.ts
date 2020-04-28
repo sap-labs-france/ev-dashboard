@@ -76,7 +76,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.chart.update();
   }
 
-  public setLimitPlannerData(chargingSchedules: Schedule[], connectorId = 0) {
+  public setLimitPlannerData(chargingSchedules: Schedule[], connectorId: number = 0) {
     // Init
     this.prepareOrUpdateGraph();
     // Create chart

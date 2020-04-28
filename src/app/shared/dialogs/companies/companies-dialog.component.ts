@@ -7,6 +7,7 @@ import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-so
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  providers: [CompaniesDialogTableDataSource]
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   constructor(

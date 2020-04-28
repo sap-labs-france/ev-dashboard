@@ -76,7 +76,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.chart.update();
   }
 
-  public setLimitPlannerData(chargingSchedules: Schedule[], connectorId?: number) {
+  public setLimitPlannerData(chargingSchedules: Schedule[], connectorId = 0) {
     // Init
     this.prepareOrUpdateGraph();
     // Create chart
@@ -90,7 +90,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     }
   }
 
-  private createGraphData(chargingSchedules: Schedule[], connectorId?: number) {
+  private createGraphData(chargingSchedules: Schedule[], connectorId: number) {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];

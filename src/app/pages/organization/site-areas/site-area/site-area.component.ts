@@ -25,6 +25,7 @@ import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { ChargingStations } from '../../../../utils/ChargingStations';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
@@ -47,6 +48,7 @@ export class SiteAreaComponent implements OnInit {
   public site!: AbstractControl;
   public siteID!: AbstractControl;
   public maximumPower!: AbstractControl;
+  public maximumPowerInAmps!: AbstractControl;
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
 
@@ -107,6 +109,7 @@ export class SiteAreaComponent implements OnInit {
               Validators.required,
             ] : [],
         )),
+      maximumPowerInAmps: new FormControl(''),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
     });
@@ -116,9 +119,11 @@ export class SiteAreaComponent implements OnInit {
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
+    this.maximumPowerInAmps = this.formGroup.controls['maximumPowerInAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
     this.maximumPower.disable();
+    this.maximumPowerInAmps.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -224,6 +229,7 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower / 1000);
+        this.maximumPowerChanged();
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
@@ -492,5 +498,11 @@ export class SiteAreaComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
       }
     });
+  }
+
+  public maximumPowerChanged() {
+    if (!this.maximumPower.errors) {
+      this.maximumPowerInAmps.setValue(ChargingStations.convertWToAmp(3, this.maximumPower.value as number * 1000));
+    }
   }
 }

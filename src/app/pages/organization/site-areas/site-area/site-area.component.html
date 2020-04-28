@@ -71,13 +71,23 @@
                       {{'site_areas.enable_smart_charging' | translate}}
                     </mat-checkbox>
                   </div>
-                  <mat-form-field *ngIf="isSmartChargingComponentActive">
-                    <input matInput placeholder="{{'site_areas.maximum_energy' | translate}}"
-                      type="number" [formControl]="maximumPower">
-                    <mat-error *ngIf="maximumPower.errors?.min">{{"general.error_min_value" | translate:{value: 1} }}</mat-error>
-                    <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}</mat-error>
-                    <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                  </mat-form-field>
+                  <div class="row md-6"  *ngIf="isSmartChargingComponentActive">
+                    <div class="col md-6">
+                      <mat-form-field>
+                        <input matInput placeholder="{{'site_areas.maximum_energy_watts' | translate}}"
+                          type="number" [formControl]="maximumPower" (change) = "maximumPowerChanged()">
+                        <mat-error *ngIf="maximumPower.errors?.min">{{"general.error_min_value" | translate:{value: 1} }}</mat-error>
+                        <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}</mat-error>
+                        <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col md-6">
+                      <mat-form-field>
+                        <input matInput placeholder="{{'site_areas.maximum_energy_amps' | translate}}"
+                          type="number" disabled="true" [formControl]="maximumPowerInAmps">
+                      </mat-form-field>
+                    </div>
+                  </div>
                 </div>
                 <div *ngIf="isAdmin && currentSiteAreaID">
                   <div class="d-flex justify-content-start">

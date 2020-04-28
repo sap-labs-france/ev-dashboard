@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.41",
+    "last_update": "Version 2.2.42",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -449,7 +449,8 @@
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "maximum_energy": "Limite de puissance (Watts)",
+    "maximum_energy_watts": "Puissance Maximum (kW)",
+    "maximum_energy_amps": "Puissance Maximum (A)",
     "export_all_params_title": "Exporter les paramètres OCPP",
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?",
     "consumption_date": "Date"

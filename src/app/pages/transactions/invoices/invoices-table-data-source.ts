@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
@@ -18,21 +19,22 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/table-sync-billing-invoices-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingInvoice } from '../../../types/Billing';
+import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ButtonAction } from '../../../types/GlobalType';
+import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-// import { TablePayInvoiceAction } from './actions/table-pay-invoice-action';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
-  // private payAction = new TablePayInvoiceAction().getActionDef();
+  private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -46,7 +48,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
       private datePipe: AppDatePipe,
-      private appCurrencyPipe: AppCurrencyPipe) {
+      private appCurrencyPipe: AppCurrencyPipe,
+      private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -85,11 +88,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableDynamicRowActions(row: BillingInvoice): TableActionDef[] {
-    const actions = [this.downloadAction];
-    // if (row.status === InvoiceStatus.UNPAID) {
-    //   actions.push(this.payAction);
-    // }
-    return actions;
+    return [this.downloadAction];
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -133,9 +132,32 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    if (this.componentService.isActive(TenantComponents.BILLING) &&
+      this.authorizationService.canSynchronizeInvoices()) {
+      tableActionsDef.unshift(this.syncBillingInvoicesAction);
+    }
     return [
       ...tableActionsDef,
     ];
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      case BillingButtonAction.SYNCHRONIZE_INVOICES:
+        if (this.syncBillingInvoicesAction.action) {
+          this.syncBillingInvoicesAction.action(
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+          );
+        }
+        break;
+      default:
+        super.actionTriggered(actionDef);
+    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, billingInvoice: BillingInvoice) {
@@ -143,9 +165,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       case ButtonAction.DOWNLOAD:
         window.open(billingInvoice.downloadUrl, '_blank');
         break;
-      // case BillingButtonAction.PAY:
-      //   window.open(rowItem.payUrl, '_blank');
-      //   break;
       default:
         super.rowActionTriggered(actionDef, billingInvoice);
     }

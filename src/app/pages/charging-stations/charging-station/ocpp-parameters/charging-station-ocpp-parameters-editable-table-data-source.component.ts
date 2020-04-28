@@ -18,6 +18,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../../types/GlobalType';
+import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
@@ -107,7 +108,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       if (result === ButtonType.YES) {
         this.spinnerService.show();
         this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, { key: param.key, value: param.value }).subscribe((response) => {
+          this.charger.id, { key: param.key, value: param.value, readonly: param.readonly }).subscribe((response) => {
             this.spinnerService.hide();
             // Ok?
             if (response.status === OCPPConfigurationStatus.ACCEPTED ||
@@ -164,16 +165,16 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     this.charger = charger;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+  public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_SAVE:
-        this.saveOcppParameter(ocppParameter);
+        this.saveOcppParameter(editableRow);
         actionDone = true;
         break;
     }
     // Call super
-    super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
+    super.rowActionTriggered(actionDef, editableRow, dropdownItem, postDataProcessing, true);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -190,15 +191,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         name: 'chargers.charger_param_value',
         editType: TableEditType.INPUT,
         validators: [
-          Validators.required,
-          Validators.minLength(1),
           Validators.maxLength(500),
         ],
         canBeDisabled: true,
         errors: [
-          { id: 'required', message: 'general.mandatory_field' },
           { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 500 } },
-          { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 1 } },
         ],
         headerClass: 'text-left',
         class: 'text-left ocpp-param-field',
@@ -207,11 +204,15 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
-    return editableRow.readonly;
+    if (columnDef.id === 'value') {
+      return editableRow.readonly;
+    }
+    return (editableRow.id !== 'InputRow');
   }
 
   public createRow() {
     return {
+      id: '',
       key: '',
       value: '',
       readonly: false,
@@ -223,6 +224,13 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       const param = this.createRow();
       content.push(param);
     }
-    super.setContent(content);
+    const inputRow = this.createRow();
+    inputRow.id = 'InputRow';
+    const contentToSet = [
+      inputRow,
+      ...content,
+    ];
+    super.setContent(contentToSet);
   }
 }
+

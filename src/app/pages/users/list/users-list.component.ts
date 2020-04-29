@@ -3,12 +3,13 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { WindowService } from '../../../services/window.service';
+import { UserComponent } from '../user/user.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';
 
 @Component({
   selector: 'app-users-list',
   template: '<app-table [dataSource]="usersListTableDataSource"></app-table>',
-  providers: [UsersListTableDataSource],
+  providers: [UsersListTableDataSource, UserComponent],
 })
 export class UsersListComponent implements OnInit {
   public isAdmin: boolean;

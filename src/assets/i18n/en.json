@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.40",
+    "last_update": "Version 2.2.42",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -456,7 +456,8 @@
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power Limitation (kW)",
+    "maximum_energy_watts": "Maximum Power (kW)",
+    "maximum_energy_amps": "Maximum Power (A)",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
     "consumption_date": "Date"

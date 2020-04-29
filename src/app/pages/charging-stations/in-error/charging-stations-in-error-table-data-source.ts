@@ -276,7 +276,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     ];
   }
 
-  buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
+  public buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
     if (this.isAdmin && charger.errorCode) {
       switch (charger.errorCode) {
         case ChargingStationInErrorType.MISSING_SETTINGS:

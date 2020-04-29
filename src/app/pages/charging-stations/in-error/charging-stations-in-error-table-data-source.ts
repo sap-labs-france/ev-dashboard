@@ -285,14 +285,14 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           return [
             this.editAction,
             new TableMoreAction([
-              new TableDeleteAction().getActionDef()
+              this.deleteAction
             ]).getActionDef(),
           ];
         case ChargingStationInErrorType.CONNECTOR_ERROR:
           return [
             this.editAction,
             new TableMoreAction([
-              new TableDeleteAction().getActionDef(),
+              this.deleteAction,
               this.resetAction,
               this.rebootAction,
             ]).getActionDef(),

@@ -29,14 +29,8 @@ import { AssetDialogComponent } from '../asset/asset.dialog.component';
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
   private isAdmin: boolean;
-  private actions = {
-    missing_site_area: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-  };
+  private editAction = new TableEditAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -174,10 +168,17 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     ];
   }
 
-  buildTableDynamicRowActions(asset: AssetInError): TableActionDef[] {
+  public buildTableDynamicRowActions(asset: AssetInError): TableActionDef[] {
     if (this.isAdmin && asset.errorCode) {
-      // @ts-ignore
-      return this.actions[asset.errorCode];
+      switch (asset.errorCode) {
+        case AssetInErrorType.MISSING_SITE_AREA:
+          return [
+            this.editAction,
+            new TableMoreAction([
+              this.deleteAction,
+            ]).getActionDef()
+          ];
+      }
     }
     return [];
   }

@@ -346,8 +346,8 @@
     "errors": {
       "missing_site_area": {
         "title": "Not Assigned to a Site Area",
-        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
-        "action": "Maintain the site area in the charging station's configuration"
+        "description": "The asset needs to be assigned to a Site Area to be fully operational",
+        "action": "Maintain the site area in the asset's configuration"
       }
     }
   },

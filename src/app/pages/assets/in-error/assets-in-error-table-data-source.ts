@@ -94,8 +94,8 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       {
         id: 'name',
         name: 'assets.name',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        headerClass: 'col-45p',
+        class: 'text-left col-40p',
         sortable: true,
         sorted: true,
         direction: 'asc',
@@ -112,7 +112,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       {
         id: 'errorCode',
         name: 'errors.title',
-        class: 'col-30p text-danger',
+        class: 'col-35p text-danger',
         sortable: true,
         formatter: (value: string) => this.translateService.instant(`assets.errors.${value}.title`),
       },
@@ -155,8 +155,8 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     // Create error type
     const errorTypes = [];
     errorTypes.push({
-    key: AssetInErrorType.MISSING_SITE_AREA,
-    value: `assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`,
+      key: AssetInErrorType.MISSING_SITE_AREA,
+      value: `assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`,
     });
     // Sort
     errorTypes.sort((errorType1, errorType2) => {

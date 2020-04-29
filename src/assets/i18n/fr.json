@@ -345,9 +345,9 @@
     "select_assets": "Selection Asset",
     "errors": {
       "missing_site_area": {
-        "title": "Not Assigned to a Site Area",
-        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
-        "action": "Maintain the site area in the charging station's configuration"
+        "title": "Non Assignée à une Zone",
+        "description": "L'asset doit être assigné à une zone pour être opérationnel",
+        "action": "Renseigner la zone dans la page de configuration de l'asset"
       }
     }
   },

@@ -100,6 +100,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     }
     return tableActionsDef;
   }
+
   public buildTableDef(): TableDef {
     return {
       search: {

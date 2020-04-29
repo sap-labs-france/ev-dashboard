@@ -37,34 +37,10 @@ import { ChargingStationSettingsComponent } from '../charging-station/settings/c
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
   private isAdmin: boolean;
-  private actions = {
-    missing_settings: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-    missing_site_area: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-    connection_broken: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-    connector_error: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-        new ChargingStationsResetAction().getActionDef(),
-        new ChargingStationsRebootAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-  };
+  private editAction = new TableEditAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private resetAction = new ChargingStationsResetAction().getActionDef();
+  private rebootAction = new ChargingStationsRebootAction().getActionDef();
   private isOrganizationComponentActive: boolean;
 
   constructor(
@@ -302,8 +278,26 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
 
   buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
     if (this.isAdmin && charger.errorCode) {
-      // @ts-ignore
-      return this.actions[charger.errorCode];
+      switch (charger.errorCode) {
+        case ChargingStationInErrorType.MISSING_SETTINGS:
+        case ChargingStationInErrorType.MISSING_SITE_AREA:
+        case ChargingStationInErrorType.CONNECTION_BROKEN:
+          return [
+            this.editAction,
+            new TableMoreAction([
+              new TableDeleteAction().getActionDef()
+            ]).getActionDef(),
+          ];
+        case ChargingStationInErrorType.CONNECTOR_ERROR:
+          return [
+            this.editAction,
+            new TableMoreAction([
+              new TableDeleteAction().getActionDef(),
+              this.resetAction,
+              this.rebootAction,
+            ]).getActionDef(),
+          ];
+      }
     }
     return [];
   }

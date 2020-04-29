@@ -21,7 +21,7 @@ import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
 import { Site, SiteUser, UserSite } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
-import { CurrentMetrics, StatisticData } from 'app/types/Statistic';
+import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
@@ -1385,6 +1385,18 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeInvoices`, {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public synchronizeUserInvoicesForBilling(): Observable<ActionsResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUserInvoices`, {},
       {
         headers: this.buildHttpHeaders(),
       })

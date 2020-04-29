@@ -19,7 +19,7 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/table-sync-billing-invoices-action';
+import { TableSyncBillingUserInvoicesAction } from '../../../shared/table/actions/table-sync-billing-user-invoices-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -34,7 +34,7 @@ import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
-  private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
+  private syncBillingUserInvoicesAction = new TableSyncBillingUserInvoicesAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -134,7 +134,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.componentService.isActive(TenantComponents.BILLING) &&
       this.authorizationService.canSynchronizeInvoices()) {
-      tableActionsDef.unshift(this.syncBillingInvoicesAction);
+      tableActionsDef.unshift(this.syncBillingUserInvoicesAction);
     }
     return [
       ...tableActionsDef,
@@ -144,9 +144,9 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case BillingButtonAction.SYNCHRONIZE_INVOICES:
-        if (this.syncBillingInvoicesAction.action) {
-          this.syncBillingInvoicesAction.action(
+      case BillingButtonAction.SYNCHRONIZE_USER_INVOICES:
+        if (this.syncBillingUserInvoicesAction.action) {
+          this.syncBillingUserInvoicesAction.action(
             this.dialogService,
             this.translateService,
             this.messageService,
@@ -154,6 +154,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
             this.router,
           );
         }
+        this.refreshData();
         break;
       default:
         super.actionTriggered(actionDef);

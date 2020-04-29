@@ -1330,7 +1330,7 @@
       "invoice": {
         "synchronize_invoices": "Invoice Synchronization",
         "synchronize_invoices_dialog_title": "Synchronize Invoices in Billing",
-        "synchronize_invoices_dialog_confirm": "Do you really want to synchronize the invoices in the billing system?",
+        "synchronize_invoices_dialog_confirm": "Do you really want to synchronize the invoices with the billing system?",
         "synchronize_invoices_started": "The synchronization of invoices has been started",
         "synchronize_invoices_success": "Successfully synchronized {{number}} invoice(s)",
         "synchronize_invoices_success_all": "All invoices are already synchronized",

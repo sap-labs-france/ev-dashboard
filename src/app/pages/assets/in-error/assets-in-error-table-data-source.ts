@@ -44,7 +44,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-
     this.setStaticFilters([{WithSiteArea: true}]);
     this.initDataSource();
   }
@@ -76,7 +75,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       search: {
         enabled: true,
       },
-      rowFieldNameIdentifier: 'uniqueId',
       hasDynamicRowAction: true,
     };
   }

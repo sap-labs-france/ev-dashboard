@@ -341,7 +341,7 @@
     "asset_not_found": "Asset not found",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "select_assets": "Select Asset",
     "errors": {
       "missing_site_area": {

@@ -5,22 +5,22 @@ import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { TableAction } from './table-action';
 
-export class TableEditAssetAction implements TableAction {
+export class TableDisplayAssetAction implements TableAction {
   private action: TableActionDef = {
-    id: AssetButtonAction.EDIT_ASSET,
+    id: AssetButtonAction.DISPLAY_ASSET,
     type: 'button',
-    icon: 'edit',
+    icon: 'remove_red_eye',
     color: ButtonColor.PRIMARY,
     name: 'general.edit',
-    tooltip: 'general.tooltips.edit',
-    action: this.editAsset,
+    tooltip: 'general.tooltips.view',
+    action: this.displayAsset,
   };
 
   public getActionDef(): TableActionDef {
     return this.action;
   }
 
-  private editAsset(asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
+  private displayAsset(asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';

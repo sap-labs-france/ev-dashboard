@@ -338,7 +338,7 @@
     "changed_by_other_user": "La ressource '{{assetName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "La ressource '{{assetName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la ressource",
-    "asset_not_found": "Ressource inconnu",
+    "asset_not_found": "Ressource inconnue",
     "create_success": "La ressource '{{assetName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",

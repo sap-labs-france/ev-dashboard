@@ -116,7 +116,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         enabled: false,
         multiple: false,
       },
-      rowFieldNameIdentifier: 'uniqueId',
       hasDynamicRowAction: true,
     };
   }

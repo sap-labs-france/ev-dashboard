@@ -10,11 +10,11 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAssetAction } from 'app/shared/table/actions/table-create-asset-action';
 import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
+import { TableDisplayAssetAction } from 'app/shared/table/actions/table-display-asset-action';
 import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetImage } from 'app/types/Asset';
 import ChangeNotification from 'app/types/ChangeNotification';
@@ -29,7 +29,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
-  private viewAction = new TableViewAction().getActionDef();
+  private displayAction = new TableDisplayAssetAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -129,7 +129,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         this.deleteAction,
       ]).getActionDef());
     } else {
-      actions.push(this.viewAction);
+      actions.push(this.displayAction);
       actions.push(openInMaps);
     }
     return actions;
@@ -151,7 +151,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public rowActionTriggered(actionDef: TableActionDef, asset: Asset) {
     switch (actionDef.id) {
-      case ButtonAction.VIEW:
+      case AssetButtonAction.DISPLAY_ASSET:
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           actionDef.action(asset, this.dialog, this.refreshData.bind(this));

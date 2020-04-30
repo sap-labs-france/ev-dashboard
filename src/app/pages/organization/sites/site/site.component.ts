@@ -89,7 +89,6 @@ export class SiteComponent implements OnInit {
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
     if (this.currentSiteID) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -151,7 +150,9 @@ export class SiteComponent implements OnInit {
     if (!this.currentSiteID) {
       return;
     }
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentSiteID) || this.authorizationService.isSiteOwner(this.currentSiteID);
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE) ||
+      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
+      this.authorizationService.isSiteOwner(this.currentSiteID);
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();

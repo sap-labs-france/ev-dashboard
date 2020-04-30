@@ -71,9 +71,9 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : '');
+    this.isAdmin = this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : '');
     this.isSaveButtonHidden = !this.isAdmin;
-
     // check changes to activate or not save button
     this.chargerParametersComponent.formGroup.statusChanges.subscribe(() => {
       if (this.activePane === CHARGERS_PANE_NAME) {
@@ -111,9 +111,6 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * save
-   */
   public save() {
     if (this.activePane === CHARGERS_PANE_NAME) {
       this.chargerParametersComponent.saveChargeBox();
@@ -126,7 +123,6 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
       return;
     }
     this.activePane = paneName;
-    // this.isSaveButtonHidden = /*this.activePane !== CHARGERS_PANE_NAME &&*/ this.isSaveButtonDisabled;
   }
 
   public saveChangesMessage() {
@@ -136,5 +132,4 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
   public onClose() {
     this.chargerParametersComponent.onClose();
   }
-
 }

@@ -80,7 +80,6 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -209,7 +208,8 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSiteArea(this.currentSiteAreaID, true).pipe(mergeMap((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
-      this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
+      this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE) ||
+        this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
       if (!this.isAdmin) {
         this.formGroup.disable();

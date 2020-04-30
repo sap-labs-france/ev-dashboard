@@ -47,6 +47,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public userLocales: KeyValue[];
   public isAdmin = false;
   public isSuperAdmin = false;
+  public isBasic = false;
   public isSiteAdmin = false;
   public originalEmail!: string;
   public image = Constants.USER_NO_PICTURE;
@@ -136,6 +137,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+    this.isBasic = this.authorizationService.isBasic();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
 
     if (!this.isAdmin) {
@@ -204,7 +206,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         ])),
       iNumber: new FormControl(''),
       tags: new FormArray([],
-        Validators.compose(this.isSuperAdmin ? [] : [Validators.required])),
+        Validators.compose(this.isSuperAdmin || this.isBasic ? [] : [Validators.required])),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),

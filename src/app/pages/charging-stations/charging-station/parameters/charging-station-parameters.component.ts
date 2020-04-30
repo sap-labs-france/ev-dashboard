@@ -88,7 +88,8 @@ export class ChargingStationParametersComponent implements OnInit {
 
   ngOnInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
+    this.isAdmin = this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
     // Init the form
     this.formGroup = new FormGroup({
       chargingStationURL: new FormControl('',

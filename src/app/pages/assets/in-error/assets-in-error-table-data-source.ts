@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -9,28 +9,27 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
+import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import { AssetButtonAction } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { AssetInError, AssetInErrorType, ErrorMessage } from 'app/types/InError';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { AssetDialogComponent } from '../asset/asset.dialog.component';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
   private isAdmin: boolean;
-  private editAction = new TableEditAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private editAction = new TableEditAssetAction().getActionDef();
+  private deleteAction = new TableDeleteAssetAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -134,11 +133,16 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
 
   public rowActionTriggered(actionDef: TableActionDef, asset: AssetInError) {
     switch (actionDef.id) {
-      case ButtonAction.EDIT:
-        this.showAssetDialog(asset);
+      case AssetButtonAction.EDIT_ASSET:
+        if (actionDef.action) {
+          actionDef.action(asset, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.DELETE:
-        this.deleteAsset(asset);
+      case AssetButtonAction.DELETE_ASSET:
+        if (actionDef.action) {
+          actionDef.action(asset, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
       default:
         super.rowActionTriggered(actionDef, asset);
@@ -150,18 +154,10 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     const errorTypes = [];
     errorTypes.push({
       key: AssetInErrorType.MISSING_SITE_AREA,
-      value: `assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`,
+      value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
     });
     // Sort
-    errorTypes.sort((errorType1, errorType2) => {
-      if (errorType1.value < errorType2.value) {
-        return -1;
-      }
-      if (errorType1.value > errorType2.value) {
-        return 1;
-      }
-      return 0;
-    });
+    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
     return [
       new SiteAreaTableFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
@@ -195,48 +191,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
         actionParameters: {},
       };
       assetInError.errorMessage = errorMessage;
-    });
-  }
-
-  private showAssetDialog(asset?: AssetInError) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (asset) {
-      dialogConfig.data = asset.id;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    const dialogRef = this.dialog.open(AssetDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
-  }
-
-  private deleteAsset(asset: AssetInError) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('assets.delete_title'),
-      this.translateService.instant('assets.delete_confirm', {assetName: asset.name}),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.centralServerService.deleteAsset(asset.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('assets.delete_success', {assetName: asset.name});
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'assets.delete_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'assets.delete_error');
-        });
-      }
     });
   }
 }

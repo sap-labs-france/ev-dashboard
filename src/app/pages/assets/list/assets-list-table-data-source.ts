@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -8,28 +8,27 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableCreateAssetAction } from 'app/shared/table/actions/table-create-asset-action';
+import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
+import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Asset, AssetImage } from 'app/types/Asset';
+import { Asset, AssetButtonAction, AssetImage } from 'app/types/Asset';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonAction } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { AssetDialogComponent } from '../asset/asset.dialog.component';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
-  private editAction = new TableEditAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private editAction = new TableEditAssetAction().getActionDef();
+  private deleteAction = new TableDeleteAssetAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
 
   constructor(
@@ -111,7 +110,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.isAdmin) {
       return [
-        new TableCreateAction().getActionDef(),
+        new TableCreateAssetAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -140,8 +139,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     // Action
     switch (actionDef.id) {
       // Add
-      case ButtonAction.CREATE:
-        this.showAssetDialog();
+      case AssetButtonAction.CREATE_ASSET:
+        if (actionDef.action) {
+          actionDef.action(this.dialog, this.refreshData.bind(this));
+        }
         break;
       default:
         super.actionTriggered(actionDef);
@@ -150,12 +151,17 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public rowActionTriggered(actionDef: TableActionDef, asset: Asset) {
     switch (actionDef.id) {
-      case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showAssetDialog(asset);
+      case AssetButtonAction.EDIT_ASSET:
+        if (actionDef.action) {
+          actionDef.action(asset, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.DELETE:
-        this.deleteAsset(asset);
+      case AssetButtonAction.DELETE_ASSET:
+        if (actionDef.action) {
+          actionDef.action(asset, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
       case ButtonAction.OPEN_IN_MAPS:
         this.showPlace(asset);
@@ -175,51 +181,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     return [];
   }
 
-  private showAssetDialog(asset?: Asset) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (asset) {
-      dialogConfig.data = asset.id;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    const dialogRef = this.dialog.open(AssetDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
-  }
-
   private showPlace(asset: Asset) {
     if (asset && asset.coordinates) {
       window.open(`http://maps.google.com/maps?q=${asset.coordinates[1]},${asset.coordinates[0]}`);
     }
-  }
-
-  private deleteAsset(asset: Asset) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('assets.delete_title'),
-      this.translateService.instant('assets.delete_confirm', {assetName: asset.name}),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.centralServerService.deleteAsset(asset.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('assets.delete_success', {assetName: asset.name});
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'assets.delete_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'assets.delete_error');
-        });
-      }
-    });
   }
 }

@@ -23,7 +23,10 @@ export const AssetTypes: KeyValue[] = [
 
 export enum AssetButtonAction {
   EDIT_ASSETS = 'edit_assets',
+  EDIT_ASSET = 'edit_asset',
+  CREATE_ASSET = 'create_asset',
   DISPLAY_ASSETS = 'display_assets',
+  DELETE_ASSET = 'delete_asset',
 }
 
 export enum AssetImage {

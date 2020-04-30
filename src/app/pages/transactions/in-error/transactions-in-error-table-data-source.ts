@@ -200,57 +200,48 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const errorTypes = [];
     errorTypes.push({
       key: TransactionInErrorType.INVALID_START_DATE,
-      value: `transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.NEGATIVE_ACTIVITY,
-      value: `transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.LONG_INACTIVITY,
-      value: `transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.NO_CONSUMPTION,
-      value: `transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.OVER_CONSUMPTION,
-      value: `transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.NEGATIVE_DURATION,
-      value: `transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.MISSING_USER,
-      value: `transactions.errors.${TransactionInErrorType.MISSING_USER}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_USER}.title`),
     });
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       errorTypes.push({
         key: TransactionInErrorType.MISSING_PRICE,
-        value: `transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`,
+        value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`),
       });
     }
     // Sort
-    errorTypes.sort((errorType1, errorType2) => {
-      if (errorType1.value < errorType2.value) {
-        return -1;
-      }
-      if (errorType1.value > errorType2.value) {
-        return 1;
-      }
-      return 0;
-    });
-
+    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    // Build filters
     const filters: TableFilterDef[] = [
       // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
-
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -259,11 +250,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     } else {
       filters.push(new ChargerTableFilter().getFilterDef());
     }
-
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
-
     return filters;
   }
 

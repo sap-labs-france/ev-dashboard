@@ -237,33 +237,25 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     const errorTypes = [];
     errorTypes.push({
       key: ChargingStationInErrorType.MISSING_SETTINGS,
-      value: `chargers.errors.${ChargingStationInErrorType.MISSING_SETTINGS}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.MISSING_SETTINGS}.title`),
     });
     errorTypes.push({
       key: ChargingStationInErrorType.CONNECTION_BROKEN,
-      value: `chargers.errors.${ChargingStationInErrorType.CONNECTION_BROKEN}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.CONNECTION_BROKEN}.title`),
     });
     errorTypes.push({
       key: ChargingStationInErrorType.CONNECTOR_ERROR,
-      value: `chargers.errors.${ChargingStationInErrorType.CONNECTOR_ERROR}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.CONNECTOR_ERROR}.title`),
     });
     if (this.isOrganizationComponentActive) {
       errorTypes.push({
       key: ChargingStationInErrorType.MISSING_SITE_AREA,
-      value: `chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`),
       });
     }
     // Sort
-    errorTypes.sort((errorType1, errorType2) => {
-      if (errorType1.value < errorType2.value) {
-        return -1;
-      }
-      if (errorType1.value > errorType2.value) {
-        return 1;
-      }
-      return 0;
-    });
-
+    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    // Build filters
     if (this.isOrganizationComponentActive) {
       return [
         new SiteTableFilter().getFilterDef(),

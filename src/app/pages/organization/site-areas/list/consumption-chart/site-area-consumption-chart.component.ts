@@ -186,6 +186,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createOptions(): ChartOptions {
     const locale = moment.localeData(this.language);
     const options: ChartOptions = {
+      animation: {
+        duration: 0,
+      },
       legend: {
         position: 'bottom',
         labels: {

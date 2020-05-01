@@ -269,6 +269,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private createOptions(): ChartOptions {
     const locale = moment.localeData(this.language);
     const options: ChartOptions = {
+      animation: {
+        duration: 0,
+      },
       legend: {
         position: 'bottom',
         labels: {

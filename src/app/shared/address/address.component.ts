@@ -50,7 +50,11 @@ export class AddressComponent implements OnInit, OnChanges {
       ])
     });
     // Add the form group to the parent component
-    this.formGroup.addControl('address', this.addressFormGroup);
+    if (!this.formGroup.disabled) {
+      this.formGroup.addControl('address', this.addressFormGroup);
+    } else {
+      this.addressFormGroup.disable();
+    }
     // Form
     this.address1 = this.addressFormGroup.controls['address1'];
     this.address2 = this.addressFormGroup.controls['address2'];
@@ -107,7 +111,6 @@ export class AddressComponent implements OnInit, OnChanges {
     // Set data
     let streetNumber = '';
     let route = '';
-
     address.address_components.forEach(((addressComponent) => {
       switch (addressComponent.types[0]) {
         // Postal Code

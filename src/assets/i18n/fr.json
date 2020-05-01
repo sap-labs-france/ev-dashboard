@@ -316,33 +316,40 @@
     "select_companies": "Selection Entreprise"
   },
   "assets": {
-    "no_assets": "Aucun asset n'a été trouvé",
-    "asset_number": "Asset(s)",
+    "no_assets": "Aucune ressource n'a été trouvée",
+    "asset_number": "Ressource(s)",
     "logo": "Logo",
     "name": "Nom",
-    "asset_type": "Type d'asset",
+    "asset_type": "Type de ressource",
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
-    "asset": "Asset",
-    "title": "Asset",
-    "titles": "Assets",
+    "asset": "Ressource",
+    "title": "Ressource",
+    "titles": "Ressources",
     "created_on": "Créé le",
     "created_by": "Créé par",
     "changed_on": "Modifié le",
     "changed_by": "Modifié par",
     "delete_title": "Supprimer",
     "delete_button": "Supprimer",
-    "delete_confirm": "Voulez-vous vraiment supprimer l'asset '{{assetName}}'?",
-    "delete_success": "L'asset '{{assetName}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du asset",
-    "changed_by_other_user": "L'asset '{{assetName}}' a été changé par un autre utilisateur et va être rechargé",
-    "update_success": "L'asset '{{assetName}}' a été mis à jour avec succès",
-    "update_error": "Une erreur est survenue pendant la mise à jour du asset",
-    "asset_not_found": "Asset inconnu",
-    "create_success": "L'asset '{{assetName}}' a été créé avec succès",
-    "create_error": "Une erreur est survenue pendant la création du asset",
-    "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
-    "select_assets": "Selection Asset"
+    "delete_confirm": "Voulez-vous vraiment supprimer la ressource '{{assetName}}'?",
+    "delete_success": "La ressource '{{assetName}}' a été supprimée avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression de la ressource",
+    "changed_by_other_user": "La ressource '{{assetName}}' a été changée par un autre utilisateur et va être rechargée",
+    "update_success": "La ressource '{{assetName}}' a été mise à jour avec succès",
+    "update_error": "Une erreur est survenue pendant la mise à jour de la ressource",
+    "asset_not_found": "Ressource inconnue",
+    "create_success": "La ressource '{{assetName}}' a été créée avec succès",
+    "create_error": "Une erreur est survenue pendant la création de la ressource",
+    "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
+    "select_assets": "Selection Ressource",
+    "errors": {
+      "missing_site_area": {
+        "title": "Non Assignée à une Zone",
+        "description": "La ressource doit être assignée à une zone",
+        "action": "Editer la ressource et renseigner la zone"
+      }
+    }
   },
   "sites": {
     "assign_company": "Assigner une Companie",
@@ -949,7 +956,7 @@
       },
       "missing_site_area": {
         "title": "Non Assignée à une Zone",
-        "description": "La borne doit être assignée à une zone pour être opérationnelle",
+        "description": "La borne doit être assignée à une zone",
         "action": "Renseigner la zone dans la page de configuration de la borne"
       },
       "connector_error": {
@@ -1525,7 +1532,8 @@
     "title": "Asset",
     "description": "Gestion des Assets",
     "tabs": {
-      "assets": "Assets"
+      "assets": "Assets",
+      "in_error": "En Erreur"
     }
   },
   "cars": {

@@ -341,8 +341,15 @@
     "asset_not_found": "Asset not found",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "select_assets": "Select Asset"
+    "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "select_assets": "Select Asset",
+    "errors": {
+      "missing_site_area": {
+        "title": "Not Assigned to a Site Area",
+        "description": "The asset needs to be assigned to a site area",
+        "action": "Edit the asset and maintain the site area"
+      }
+    }
   },
   "sites": {
     "assign_company": "Assign Company",
@@ -949,7 +956,7 @@
       },
       "missing_site_area": {
         "title": "Not Assigned to a Site Area",
-        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
+        "description": "The charging station needs to be assigned to a site area",
         "action": "Maintain the site area in the charging station's configuration"
       },
       "connector_error": {
@@ -1525,7 +1532,8 @@
     "title": "Asset",
     "description": "Manage Assets",
     "tabs": {
-      "assets": "Assets"
+      "assets": "Assets",
+      "in_error": "In Error"
     }
   },
   "cars": {

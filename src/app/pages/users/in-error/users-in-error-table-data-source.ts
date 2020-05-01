@@ -257,27 +257,29 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     const errorTypes = [];
     errorTypes.push({
       key: UserInErrorType.NOT_ACTIVE,
-      value: `users.errors.${UserInErrorType.NOT_ACTIVE}.title`,
+      value: this.translateService.instant(`users.errors.${UserInErrorType.NOT_ACTIVE}.title`),
     });
     errorTypes.push({
       key: UserInErrorType.NOT_ASSIGNED,
-      value: `users.errors.${UserInErrorType.NOT_ASSIGNED}.title`,
+      value: this.translateService.instant(`users.errors.${UserInErrorType.NOT_ASSIGNED}.title`),
     });
     errorTypes.push({
       key: UserInErrorType.INACTIVE_USER_ACCOUNT,
-      value: `users.errors.${UserInErrorType.INACTIVE_USER_ACCOUNT}.title`,
+      value: this.translateService.instant(`users.errors.${UserInErrorType.INACTIVE_USER_ACCOUNT}.title`),
     });
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       errorTypes.push({
         key: UserInErrorType.FAILED_BILLING_SYNCHRO,
-        value: `users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`,
+        value: this.translateService.instant(`users.errors.${UserInErrorType.FAILED_BILLING_SYNCHRO}.title`),
       });
-
       errorTypes.push({
         key: UserInErrorType.NO_BILLING_DATA,
-        value: `users.errors.${UserInErrorType.NO_BILLING_DATA}.title`,
+        value: this.translateService.instant(`users.errors.${UserInErrorType.NO_BILLING_DATA}.title`),
       });
     }
+    // Sort
+    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    // Build filters
     const filters: TableFilterDef[] = [
       new UserRoleFilter(this.centralServerService).getFilterDef(),
     ];
@@ -285,7 +287,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ErrorTypeTableFilter(errorTypes).getFilterDef());
     }
-
     return filters;
   }
 

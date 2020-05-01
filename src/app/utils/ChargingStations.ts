@@ -1,7 +1,7 @@
 import { ChargingStation, ChargingStationCurrentType, PowerLimitUnits } from 'app/types/ChargingStation';
 
 export class ChargingStations {
-  public static convertAmpToW(numberOfConnectedPhase: number, maxIntensityInAmper: number): number {
+  public static convertAmpToWatt(numberOfConnectedPhase: number, maxIntensityInAmper: number): number {
     // Compute it
     if (numberOfConnectedPhase === 0 ) {
       return Math.floor(230 * maxIntensityInAmper * 3);

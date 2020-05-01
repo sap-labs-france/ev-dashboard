@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Asset In Error`,
+              `Store Site Area max limitation in consumptions`,
               `Add corresponding Maximum Power in amperes in Site Area`,
               `Enable Static Limitation and Charging Plan for Delta charger`,
               `Display price and date in Invoice list`,

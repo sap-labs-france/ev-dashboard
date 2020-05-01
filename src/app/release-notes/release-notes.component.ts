@@ -21,7 +21,7 @@ export class ReleaseNotesComponent {
     this.buidlReleaseNotes();
   }
 
-  buidlReleaseNotes() {
+  public buidlReleaseNotes() {
     this.releaseNotes = [
       {
         version: '2.2.43',

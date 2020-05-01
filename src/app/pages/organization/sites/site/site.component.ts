@@ -25,9 +25,9 @@ import { CentralServerNotificationService } from '../../../../services/central-s
   templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
-  @Input() currentSiteID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentSiteID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteImage.NO_IMAGE;
   public maxSize: number;
@@ -65,7 +65,7 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

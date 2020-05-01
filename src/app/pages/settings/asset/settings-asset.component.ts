@@ -29,7 +29,7 @@ export class SettingsAssetComponent implements OnInit {
     this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
       this.formGroup = new FormGroup({});
@@ -38,7 +38,7 @@ export class SettingsAssetComponent implements OnInit {
     }
   }
 
-  loadConfiguration() {
+  public loadConfiguration() {
     this.spinnerService.show();
     this.componentService.getAssetSettings().subscribe((settings) => {
       this.spinnerService.hide();

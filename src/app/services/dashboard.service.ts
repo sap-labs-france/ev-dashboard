@@ -11,10 +11,10 @@ const DATA_LOAD_INTERVAL = 10000;
 
 @Injectable()
 export class DashboardService {
-  currentMetrics: CurrentMetrics[] = [];
-  initialLoadDone = new BehaviorSubject<boolean>(false);
-  refreshData = new BehaviorSubject<CurrentMetrics[]>([]);
-  intervalReference!: ReturnType<typeof setTimeout> | null;
+  public currentMetrics: CurrentMetrics[] = [];
+  public initialLoadDone = new BehaviorSubject<boolean>(false);
+  public refreshData = new BehaviorSubject<CurrentMetrics[]>([]);
+  public intervalReference!: ReturnType<typeof setTimeout> | null;
 
   constructor(private centralServerService: CentralServerService,
               private messageService: MessageService,
@@ -24,7 +24,7 @@ export class DashboardService {
     this.startLoading();
   }
 
-  loadData() {
+  public loadData() {
     // this.centralServerService.getCurrentMetrics().subscribe((metrics) => {
     //   this.currentMetrics = metrics;
     //   if (this.initialLoadDone.getValue() === false) {
@@ -38,14 +38,14 @@ export class DashboardService {
     // });
   }
 
-  stopLoading() {
+  public stopLoading() {
     if (this.intervalReference) {
       clearInterval(this.intervalReference);
       this.intervalReference = null;
     }
   }
 
-  startLoading() {
+  public startLoading() {
     if (!this.intervalReference) {
       this.intervalReference = setInterval(() => {
         this.loadData();
@@ -53,7 +53,7 @@ export class DashboardService {
     }
   }
 
-  getStatistics(period: string, metrics: CurrentMetrics): CurrentMetrics | null {
+  public getStatistics(period: string, metrics: CurrentMetrics): CurrentMetrics | null {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
     if (!currentData) {
       return null;
@@ -126,7 +126,7 @@ export class DashboardService {
     return currentData;
   }
 
-  getRealtime(type: string, metrics: CurrentMetrics): CurrentMetrics {
+  public getRealtime(type: string, metrics: CurrentMetrics): CurrentMetrics {
     const currentData = this.currentMetrics.find((metric) => metric.id === metrics.id);
     if (!currentData) {
       return;
@@ -163,7 +163,7 @@ export class DashboardService {
     return currentData;
   }
 
-  generateDummyData(numberOfData: number, maxValue: number, maxVariation: number = 0): number[] {
+  public generateDummyData(numberOfData: number, maxValue: number, maxVariation: number = 0): number[] {
     const data: number[] = [];
     for (let index = 0; index < numberOfData; index++) {
       if (maxVariation > 0 && index > 0) {

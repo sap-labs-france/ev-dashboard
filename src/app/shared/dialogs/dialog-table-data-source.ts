@@ -12,7 +12,7 @@ export abstract class DialogTableDataSource<T extends Data> extends TableDataSou
     super(spinnerService, translateService);
   }
 
-  buildTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {

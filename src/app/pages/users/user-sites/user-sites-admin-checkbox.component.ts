@@ -19,7 +19,7 @@ import { Utils } from '../../../utils/Utils';
       </div>`,
 })
 export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row!: SiteUser;
+  @Input() public row!: SiteUser;
   public loggedUser: UserToken;
   public user!: User;
 
@@ -37,7 +37,7 @@ export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponen
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.centralServerService.getUser(this.row.userID).subscribe((user) => {
       this.user = user;
     });

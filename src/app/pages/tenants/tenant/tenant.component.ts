@@ -82,7 +82,7 @@ export class TenantComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.formGroup = new FormGroup({
       id: new FormControl(''),
       name: new FormControl('',
@@ -130,7 +130,7 @@ export class TenantComponent implements OnInit {
     });
   }
 
-  loadTenant() {
+  public loadTenant() {
     if (this.tenantID) {
       this.spinnerService.show();
       this.centralServerService.getTenant(this.tenantID).subscribe((tenant) => {
@@ -166,11 +166,11 @@ export class TenantComponent implements OnInit {
     }
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  save(tenant: Tenant) {
+  public save(tenant: Tenant) {
     // Clear Type of inactive tenants
     let pricingActive = false;
     let refundActive = false;

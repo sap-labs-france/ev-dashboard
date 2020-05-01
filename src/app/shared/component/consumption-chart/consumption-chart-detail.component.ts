@@ -11,11 +11,11 @@ import { CellContentTemplateComponent } from '../../table/cell-content-template/
 })
 
 export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row!: Connector|Transaction;
-  @ViewChild('chartConsumption') chartComponent!: ConsumptionChartComponent;
+  @Input() public row!: Connector|Transaction;
+  @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
   public transactionId!: number;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Set the transaction id
     if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
       // Connector
@@ -26,7 +26,7 @@ export class ConsumptionChartDetailComponent extends CellContentTemplateComponen
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     // Set the transaction id
     if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
       // Connector

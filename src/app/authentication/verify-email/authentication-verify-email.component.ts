@@ -70,7 +70,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     }, 700);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
@@ -94,13 +94,13 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('lock-page');
     body.classList.remove('off-canvas-sidebar');
   }
 
-  verifyEmail(data: any) {
+  public verifyEmail(data: any) {
     // Show
     this.spinnerService.show();
     // Verify Email
@@ -163,7 +163,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     });
   }
 
-  resendVerificationEmail(data: any) {
+  public resendVerificationEmail(data: any) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ActivateAccount', (token) => {
       if (token) {
         data['captcha'] = token;

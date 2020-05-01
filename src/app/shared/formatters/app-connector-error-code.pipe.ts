@@ -25,7 +25,7 @@ export class AppConnectorErrorCodePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {
   }
 
-  transform(errocode: string): string {
+  public transform(errocode: string): string {
     return (this.connectorErrorCodeMap[errocode] ?
       this.translateService.instant(this.connectorErrorCodeMap[errocode]) :
       this.translateService.instant('chargers.status_error_unknown'));

@@ -33,8 +33,8 @@ export class StatisticsPricingComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('pricingBarChart', { static: true }) ctxBarChart!: ElementRef;
-  @ViewChild('pricingPieChart', { static: true }) ctxPieChart!: ElementRef;
+  @ViewChild('pricingBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('pricingPieChart', { static: true }) public ctxPieChart!: ElementRef;
 
   private filterParams!: { [param: string]: string | string[]; };
   private barChart!: SimpleChart;
@@ -58,7 +58,7 @@ export class StatisticsPricingComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     let filterDef: TableFilterDef;
 
     filterDef = new LogDateFromTableFilter().getFilterDef();
@@ -84,31 +84,31 @@ export class StatisticsPricingComponent implements OnInit {
     }
   }
 
-  scopeChanged(chartName: string): void {
+  public scopeChanged(chartName: string): void {
     this.selectedChart = chartName;
   }
 
-  categoryChanged(category: string): void {
+  public categoryChanged(category: string): void {
     this.selectedCategory = category;
   }
 
-  yearChanged(year: number): void {
+  public yearChanged(year: number): void {
     this.selectedYear = year;
   }
 
-  dateFromChange(date: Date) {
+  public dateFromChange(date: Date) {
     this.selectedDateFrom = date;
   }
 
-  dateToChange(date: Date) {
+  public dateToChange(date: Date) {
     this.selectedDateTo = date;
   }
 
-  filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
+  public filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
     this.filterParams = filterParams;
   }
 
-  exportData(): void {
+  public exportData(): void {
     const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Pricing',
       this.selectedCategory, this.selectedYear, this.selectedChart);
     this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
@@ -116,7 +116,7 @@ export class StatisticsPricingComponent implements OnInit {
       this.translateService.instant('statistics.dialog.pricing.export.confirm'));
   }
 
-  getChartLabel(): string {
+  public getChartLabel(): string {
     let mainLabel: string;
 
     if (!this.selectedChart || !this.selectedCategory) {
@@ -169,7 +169,7 @@ export class StatisticsPricingComponent implements OnInit {
     return mainLabel;
   }
 
-  initCharts(): void {
+  public initCharts(): void {
     // Guess a currency unit (to be adjusted later)
     this.totalPriceWithUnit.push({ value: 0, unit: 'EUR' });
     const toolTipUnit: string = this.totalPriceWithUnit[0].unit;
@@ -188,7 +188,7 @@ export class StatisticsPricingComponent implements OnInit {
     this.chartsInitialized = true;
   }
 
-  updateCharts(refresh: boolean): void {
+  public updateCharts(refresh: boolean): void {
     if (refresh) {
       if (this.selectedChart === 'month') {
         this.barChartData = this.barChart.cloneChartData(this.barChartData, true);
@@ -212,7 +212,7 @@ export class StatisticsPricingComponent implements OnInit {
     }
   }
 
-  buildCharts(): void {
+  public buildCharts(): void {
     this.spinnerService.show();
     let newToolTipUnit: string;
     let newLabelYAxis: string;

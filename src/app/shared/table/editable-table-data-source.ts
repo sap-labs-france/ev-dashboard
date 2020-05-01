@@ -62,7 +62,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return this.editableRows;
   }
 
-  getTableChangedSubject(): Subject<T[]> {
+  public getTableChangedSubject(): Subject<T[]> {
     return this.tableChangedSubject;
   }
 

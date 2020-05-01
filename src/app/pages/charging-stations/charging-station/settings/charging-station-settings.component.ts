@@ -7,7 +7,7 @@ import { ChargingStation } from 'app/types/ChargingStation';
   templateUrl: 'charging-station-settings.component.html',
 })
 export class ChargingStationSettingsComponent {
-  chargeBox!: ChargingStation;
+  public chargeBox!: ChargingStation;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationSettingsComponent>,

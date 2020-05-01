@@ -14,12 +14,12 @@ import * as moment from 'moment';
   `,
 })
 export class RegistrationTokenStatusComponent extends CellContentTemplateComponent {
-  @Input() row!: RegistrationToken;
+  @Input() public row!: RegistrationToken;
 }
 
 @Pipe({name: 'appRegistrationTokenStatus'})
 export class AppRegistrationTokenStatusPipe implements PipeTransform {
-  transform(registrationToken: RegistrationToken, type: string): string {
+  public transform(registrationToken: RegistrationToken, type: string): string {
     if (type === 'class') {
       return this.buildStatusClasses(registrationToken);
     }
@@ -29,7 +29,7 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildStatusClasses(registrationToken: RegistrationToken): string {
+  public buildStatusClasses(registrationToken: RegistrationToken): string {
     let classNames = 'chip-width-5em ';
     if (this.isExpired(registrationToken)) {
       classNames += ChipType.DANGER;
@@ -41,7 +41,7 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
     return classNames;
   }
 
-  buildStatusText(registrationToken: RegistrationToken): string {
+  public buildStatusText(registrationToken: RegistrationToken): string {
     if (this.isExpired(registrationToken)) {
       return 'settings.charging_station.registration_token_expired';
     }

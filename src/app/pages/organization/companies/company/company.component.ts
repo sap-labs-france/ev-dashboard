@@ -24,9 +24,9 @@ import { CentralServerNotificationService } from '../../../../services/central-s
 })
 export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentCompanyID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentCompanyID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
   public logo: string = CompanyLogo.NO_LOGO;
@@ -60,7 +60,7 @@ export class CompanyComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

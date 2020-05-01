@@ -14,12 +14,12 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiPatchJobResultFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpoint;
+  @Input() public row!: OcpiEndpoint;
 }
 
 @Pipe({name: 'appFormatOcpiPatchJobResult'})
 export class AppFormatOcpiPatchJobResultPipe implements PipeTransform {
-  transform(lastPatchJobResult: any, type: string): string {
+  public transform(lastPatchJobResult: any, type: string): string {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
       if (lastPatchJobResult) {

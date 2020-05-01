@@ -39,9 +39,9 @@ import { UserDialogComponent } from './user.dialog.component';
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentUserID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<UserDialogComponent>;
+  @Input() public currentUserID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<UserDialogComponent>;
   public userStatuses: KeyValue[];
   public userRoles: KeyValue[];
   public userLocales: KeyValue[];
@@ -154,13 +154,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  updateRoute(event: number) {
+  public updateRoute(event: number) {
     if (!this.inDialog) {
       super.updateRoute(event);
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

@@ -6,7 +6,7 @@ import { ErrorMessage } from 'app/types/InError';
   templateUrl: './error-code-details-dialog.component.html',
 })
 export class ErrorCodeDetailsDialogComponent {
-  error!: ErrorMessage;
+  public error!: ErrorMessage;
 
   constructor(
     protected dialogRef: MatDialogRef<ErrorCodeDetailsDialogComponent>,
@@ -16,7 +16,7 @@ export class ErrorCodeDetailsDialogComponent {
     }
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 }

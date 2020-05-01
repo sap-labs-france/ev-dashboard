@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   template: '<app-asset [currentAssetID]="assetID" [inDialog]="true" [dialogRef]="dialogRef"></app-asset>',
 })
 export class AssetDialogComponent {
-  assetID!: string;
+  public assetID!: string;
 
   constructor(
     public dialogRef: MatDialogRef<AssetDialogComponent>,

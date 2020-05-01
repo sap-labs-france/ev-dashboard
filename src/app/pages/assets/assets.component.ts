@@ -9,7 +9,7 @@ import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract
   templateUrl: './assets.component.html',
 })
 export class AssetsComponent extends AbstractTabComponent {
-  isAdmin: boolean;
+  public isAdmin: boolean;
   constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,

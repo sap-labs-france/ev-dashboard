@@ -21,12 +21,12 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
   `,
 })
 export class ChargingStationSmartChargingLimitPlannerChartComponent {
-  @Input() ratio!: number;
-  @Input() charger!: ChargingStation;
+  @Input() public ratio!: number;
+  @Input() public charger!: ChargingStation;
 
-  @ViewChild('primary', {static: true}) primaryElement!: ElementRef;
-  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
-  @ViewChild('chart', {static: true}) chartElement!: ElementRef;
+  @ViewChild('primary', {static: true}) public primaryElement!: ElementRef;
+  @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
+  @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
 
   private graphCreated = false;
   private chart!: Chart;

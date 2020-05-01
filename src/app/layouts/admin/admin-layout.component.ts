@@ -14,11 +14,11 @@ declare const $: any;
 })
 
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
-  url!: string;
-  location: Location;
+  public url!: string;
+  public location: Location;
 
-  @ViewChild('sidebar') sidebar: any;
-  @ViewChild(NavbarComponent, { static: true }) navbar!: NavbarComponent;
+  @ViewChild('sidebar') public sidebar: any;
+  @ViewChild(NavbarComponent, { static: true }) public navbar!: NavbarComponent;
   private _router!: Subscription;
   private lastPoppedUrl!: string|null;
   private yScrollStack: number[] = [];
@@ -27,7 +27,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     this.location = location;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const elemMainPanel = document.querySelector('.main-panel') as HTMLElement;
     const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
     this.location.subscribe((ev: PopStateEvent) => {
@@ -65,7 +65,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.runOnRouteChange();
   }
 
@@ -77,7 +77,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     }
   }
 
-  runOnRouteChange(): void {
+  public runOnRouteChange(): void {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
       const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
       const elemMainPanel = document.querySelector('.main-panel') as HTMLElement;
@@ -87,7 +87,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     }
   }
 
-  isMac(): boolean {
+  public isMac(): boolean {
     let bool = false;
     if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
       bool = true;

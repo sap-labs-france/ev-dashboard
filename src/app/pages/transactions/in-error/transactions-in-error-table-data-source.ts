@@ -191,11 +191,11 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return columns as TableColumnDef[];
   }
 
-  formatChargingStation(chargingStationID: string, row: Transaction) {
+  public formatChargingStation(chargingStationID: string, row: Transaction) {
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     // Create error type
     const errorTypes = [];
     errorTypes.push({
@@ -256,7 +256,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     const actions = [];
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
       actions.push(this.openAction);
@@ -267,7 +267,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return actions;
   }
 
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
         if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
@@ -295,7 +295,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     }
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),

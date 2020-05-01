@@ -14,6 +14,6 @@ export class SettingsOcppComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 }

@@ -9,7 +9,7 @@ export class AppDurationPipe implements PipeTransform {
     this.localeService = localeService;
   }
 
-  transform(durationSecs: number): string {
+  public transform(durationSecs: number): string {
     let result = '';
     if (durationSecs < 1) {
       return `0 ${this.localeService.getI18nSecond()}`;

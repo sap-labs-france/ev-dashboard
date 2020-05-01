@@ -21,12 +21,12 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
   templateUrl: 'charging-station-dialog.component.html',
 })
 export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
-  @Input() currentCharger!: ChargingStation;
+  @Input() public currentCharger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
-  @ViewChild('ocppParameters') ocppParametersComponent!: ChargingStationOcppParametersComponent;
-  @ViewChild('chargerParameters', { static: true }) chargerParametersComponent!: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters') public ocppParametersComponent!: ChargingStationOcppParametersComponent;
+  @ViewChild('chargerParameters', { static: true }) public chargerParametersComponent!: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
   public isSaveButtonHidden!: boolean; // by default deactivate
@@ -51,7 +51,7 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     this.userLocales = this.localeService.getLocales();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Check auth
     if (!this.authorizationService.canAccess(Entity.CHARGING_STATION, Action.UPDATE)
       && !this.authorizationService.isDemo()) {
@@ -69,7 +69,7 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin() ||
       this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : '');
@@ -117,7 +117,7 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  changeActivePane(paneName: string, isDisabled: boolean) {
+  public changeActivePane(paneName: string, isDisabled: boolean) {
     if (isDisabled) {
       this.saveChangesMessage();
       return;

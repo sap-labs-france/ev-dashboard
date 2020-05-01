@@ -18,7 +18,7 @@ export class TransactionsInProgressComponent implements OnInit {
     private messageService: MessageService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Check if transaction ID id provided
     const transactionID = this.windowService.getSearch('TransactionID');
     if (transactionID) {

@@ -32,7 +32,7 @@ export class RegistrationTokenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: any) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.formGroup = new FormGroup({
       siteArea: new FormControl(),
       siteAreaID: new FormControl(),
@@ -52,11 +52,11 @@ export class RegistrationTokenComponent implements OnInit {
     this.expirationDate = this.formGroup.controls['expirationDate'];
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  save(token: RegistrationToken) {
+  public save(token: RegistrationToken) {
     this.spinnerService.show();
     this.centralServerService.createRegistrationToken(token).subscribe((response) => {
       this.spinnerService.hide();

@@ -30,8 +30,8 @@ export class StatisticsUsageComponent implements OnInit {
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('usageBarChart', { static: true }) ctxBarChart!: ElementRef;
-  @ViewChild('usagePieChart', { static: true }) ctxPieChart!: ElementRef;
+  @ViewChild('usageBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('usagePieChart', { static: true }) public ctxPieChart!: ElementRef;
 
   private filterParams = {};
   private barChart!: SimpleChart;
@@ -52,7 +52,7 @@ export class StatisticsUsageComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     let filterDef: TableFilterDef;
 
     filterDef = new LogDateFromTableFilter().getFilterDef();
@@ -76,31 +76,31 @@ export class StatisticsUsageComponent implements OnInit {
     this.initCharts();
   }
 
-  scopeChanged(chartName: string): void {
+  public scopeChanged(chartName: string): void {
     this.selectedChart = chartName;
   }
 
-  categoryChanged(category: string): void {
+  public categoryChanged(category: string): void {
     this.selectedCategory = category;
   }
 
-  yearChanged(year: number): void {
+  public yearChanged(year: number): void {
     this.selectedYear = year;
   }
 
-  dateFromChange(date: Date) {
+  public dateFromChange(date: Date) {
     this.selectedDateFrom = date;
   }
 
-  dateToChange(date: Date) {
+  public dateToChange(date: Date) {
     this.selectedDateTo = date;
   }
 
-  filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
+  public filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
     this.filterParams = filterParams;
   }
 
-  exportData(): void {
+  public exportData(): void {
     const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Usage',
       this.selectedCategory, this.selectedYear, this.selectedChart);
     this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
@@ -108,7 +108,7 @@ export class StatisticsUsageComponent implements OnInit {
       this.translateService.instant('statistics.dialog.usage.export.confirm'));
   }
 
-  getChartLabel(): string {
+  public getChartLabel(): string {
     let mainLabel: string;
 
     if (!this.selectedChart || !this.selectedCategory) {
@@ -153,7 +153,7 @@ export class StatisticsUsageComponent implements OnInit {
     return mainLabel;
   }
 
-  initCharts(): void {
+  public initCharts(): void {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_usage_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
@@ -169,7 +169,7 @@ export class StatisticsUsageComponent implements OnInit {
     this.chartsInitialized = true;
   }
 
-  updateCharts(refresh: boolean): void {
+  public updateCharts(refresh: boolean): void {
     if (refresh) {
       if (this.selectedChart === 'month') {
         this.barChartData = this.barChart.cloneChartData(this.barChartData, true);
@@ -191,7 +191,7 @@ export class StatisticsUsageComponent implements OnInit {
     }
   }
 
-  buildCharts(): void {
+  public buildCharts(): void {
     this.spinnerService.show();
 
     if (this.selectedCategory === 'C') {

@@ -9,9 +9,9 @@ import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects
   templateUrl: 'address.component.html',
 })
 export class AddressComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() hideGeoLocation = false;
-  @Input() address!: Address;
+  @Input() public formGroup!: FormGroup;
+  @Input() public hideGeoLocation = false;
+  @Input() public address!: Address;
   public addressFormGroup!: FormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;
@@ -24,7 +24,7 @@ export class AddressComponent implements OnInit, OnChanges {
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
 
-  ngOnInit() {
+  public ngOnInit() {
     // Set Address form group
     this.addressFormGroup = new FormGroup({
       address1: new FormControl(''),
@@ -70,7 +70,7 @@ export class AddressComponent implements OnInit, OnChanges {
     this.loadAddress();
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.loadAddress();
   }
 
@@ -107,7 +107,7 @@ export class AddressComponent implements OnInit, OnChanges {
     }
   }
 
-  setAddress(address: GoogleAddress) {
+  public setAddress(address: GoogleAddress) {
     // Set data
     let streetNumber = '';
     let route = '';
@@ -161,7 +161,7 @@ export class AddressComponent implements OnInit, OnChanges {
     this.formGroup.markAsDirty();
   }
 
-  showPlace() {
+  public showPlace() {
     window.open(`http://maps.google.com/maps?q=${this.latitude.value},${this.longitude.value}`);
   }
 }

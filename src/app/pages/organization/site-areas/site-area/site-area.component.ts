@@ -502,7 +502,7 @@ export class SiteAreaComponent implements OnInit {
 
   public maximumPowerChanged() {
     if (!this.maximumPower.errors) {
-      this.maximumPowerInAmps.setValue(ChargingStations.convertWToAmp(1, this.maximumPower.value as number * 1000));
+      this.maximumPowerInAmps.setValue(ChargingStations.convertWattToAmp(1, this.maximumPower.value as number * 1000));
     }
   }
 }

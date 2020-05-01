@@ -1,5 +1,13 @@
 name: Build CI
-on: [pull_request, push]
+on:
+  push:
+    branches:
+      - master
+      - master-qa
+  pull_request:
+    branches:
+      - master
+      - master-qa
 jobs:
   build:
     env:

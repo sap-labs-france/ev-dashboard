@@ -145,11 +145,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
 
     this.canSeeInvoice = false;
-    this.componentService.getPricingSettings().subscribe((settings) => {
-      if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
-        this.canSeeInvoice = true;
-      }
-    });
+    if (this.componentService.isActive(TenantComponents.PRICING)) {
+      this.componentService.getPricingSettings().subscribe((settings) => {
+        if (settings && settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
+          this.canSeeInvoice = true;
+        }
+      });
+    }
   }
 
   updateRoute(event: number) {

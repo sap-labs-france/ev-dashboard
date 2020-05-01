@@ -1,13 +1,14 @@
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { RestResponse } from 'app/types/GlobalType';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+
+import { BillingButtonAction } from '../../../types/Billing';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { BillingButtonAction } from '../../../types/Billing';
-import { Utils } from '../../../utils/Utils';
+import { RestResponse } from 'app/types/GlobalType';
+import { Router } from '@angular/router';
 import { TableAction } from './table-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from '../../../utils/Utils';
 
 export class TableSyncBillingInvoicesAction implements TableAction {
   private action: TableActionDef = {
@@ -28,7 +29,7 @@ export class TableSyncBillingInvoicesAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         messageService.showInfoMessage('settings.billing.invoice.synchronize_invoices_started');
-        centralServerService.synchronizeInvoicesForBilling().subscribe((synchronizeResponse) => {
+        centralServerService.synchronizeInvoices().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',

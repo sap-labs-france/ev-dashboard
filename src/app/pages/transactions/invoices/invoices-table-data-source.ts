@@ -1,35 +1,37 @@
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { UserToken } from 'app/types/User';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
+
+import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { ButtonAction } from '../../../types/GlobalType';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ComponentService } from '../../../services/component.service';
+import { DataResult } from 'app/types/DataResult';
+import { DialogService } from '../../../services/dialog.service';
+import { Injectable } from '@angular/core';
+import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
+import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUserInvoicesAction } from '../../../shared/table/actions/table-sync-billing-user-invoices-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { ButtonAction } from '../../../types/GlobalType';
 import TenantComponents from '../../../types/TenantComponents';
-import { Utils } from '../../../utils/Utils';
-import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
-import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { TranslateService } from '@ngx-translate/core';
+import { UserToken } from 'app/types/User';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
@@ -116,7 +118,9 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         formatter: (date: Date) => this.datePipe.transform(date),
         headerClass: 'col-30p',
         class: 'col-30p',
+        sorted: true,
         sortable: true,
+        direction: 'desc',
       },
       {
         id: 'amount',

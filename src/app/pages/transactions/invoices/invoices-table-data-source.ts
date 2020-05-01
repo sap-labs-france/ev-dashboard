@@ -1,38 +1,42 @@
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { UserToken } from 'app/types/User';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
+
+import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { ButtonAction } from '../../../types/GlobalType';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ComponentService } from '../../../services/component.service';
+import { DataResult } from 'app/types/DataResult';
+import { DialogService } from '../../../services/dialog.service';
+import { Injectable } from '@angular/core';
+import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
+import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingInvoice } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { ButtonAction } from '../../../types/GlobalType';
-import { Utils } from '../../../utils/Utils';
-import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
-import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
+import { TableSyncBillingUserInvoicesAction } from '../../../shared/table/actions/table-sync-billing-user-invoices-action';
+import TenantComponents from '../../../types/TenantComponents';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
-// import { TablePayInvoiceAction } from './actions/table-pay-invoice-action';
+import { TranslateService } from '@ngx-translate/core';
+import { UserToken } from 'app/types/User';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
-  // private payAction = new TablePayInvoiceAction().getActionDef();
+  private syncBillingUserInvoicesAction = new TableSyncBillingUserInvoicesAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -46,7 +50,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
       private datePipe: AppDatePipe,
-      private appCurrencyPipe: AppCurrencyPipe) {
+      private appCurrencyPipe: AppCurrencyPipe,
+      private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -85,11 +90,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableDynamicRowActions(row: BillingInvoice): TableActionDef[] {
-    const actions = [this.downloadAction];
-    // if (row.status === InvoiceStatus.UNPAID) {
-    //   actions.push(this.payAction);
-    // }
-    return actions;
+    return [this.downloadAction];
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -117,7 +118,9 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         formatter: (date: Date) => this.datePipe.transform(date),
         headerClass: 'col-30p',
         class: 'col-30p',
+        sorted: true,
         sortable: true,
+        direction: 'desc',
       },
       {
         id: 'amount',
@@ -133,9 +136,33 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    if (this.componentService.isActive(TenantComponents.BILLING) &&
+      this.authorizationService.canSynchronizeInvoices()) {
+      tableActionsDef.unshift(this.syncBillingUserInvoicesAction);
+    }
     return [
       ...tableActionsDef,
     ];
+  }
+
+  public actionTriggered(actionDef: TableActionDef) {
+    // Action
+    switch (actionDef.id) {
+      case BillingButtonAction.SYNCHRONIZE_USER_INVOICES:
+        if (this.syncBillingUserInvoicesAction.action) {
+          this.syncBillingUserInvoicesAction.action(
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+          );
+        }
+        this.refreshData();
+        break;
+      default:
+        super.actionTriggered(actionDef);
+    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, billingInvoice: BillingInvoice) {
@@ -143,9 +170,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       case ButtonAction.DOWNLOAD:
         window.open(billingInvoice.downloadUrl, '_blank');
         break;
-      // case BillingButtonAction.PAY:
-      //   window.open(rowItem.payUrl, '_blank');
-      //   break;
       default:
         super.rowActionTriggered(actionDef, billingInvoice);
     }

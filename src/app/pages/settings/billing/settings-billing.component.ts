@@ -10,6 +10,7 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/table-sync-billing-invoices-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { Utils } from '../../../utils/Utils';
 
@@ -118,6 +119,19 @@ export class SettingsBillingComponent implements OnInit {
 
   public synchronizeUsers() {
     const actionDef = new TableSyncBillingUsersAction().getActionDef();
+    if (actionDef && actionDef.action) {
+      actionDef.action(
+        this.dialogService,
+        this.translateService,
+        this.messageService,
+        this.centralServerService,
+        this.router,
+      );
+    }
+  }
+
+  public synchronizeInvoices() {
+    const actionDef = new TableSyncBillingInvoicesAction().getActionDef();
     if (actionDef && actionDef.action) {
       actionDef.action(
         this.dialogService,

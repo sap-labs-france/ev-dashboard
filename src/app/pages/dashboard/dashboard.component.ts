@@ -69,44 +69,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
    *
    * @memberof DashboardComponent
    */
-  beforeChange = false;
+  public beforeChange = false;
   /**
    * Set  to true after model data was changed to trigger teh second half of the animation
    *
    * @memberof DashboardComponent
    */
-  afterChange = false;
-  isCarouselPaused = false;
+  public afterChange = false;
+  public isCarouselPaused = false;
   /**
    * Reference to the set interval
    *
    * @memberof DashboardComponent
    */
-  carouselInterval;
+  public carouselInterval;
   /**
    * Keep track of teh next site index in order during the animation to update the data model accordingly
    *
    * @memberof DashboardComponent
    */
-  nextSiteIndex = -1;
-  currentSiteIndex = -1;
+  public nextSiteIndex = -1;
+  public currentSiteIndex = -1;
 
-  buttonsStatisticsChart = [
+  public buttonsStatisticsChart = [
     {name: 'day', title: 'dashboard.statistics.button.day'},
     {name: 'week', title: 'dashboard.statistics.button.week'},
     {name: 'month', title: 'dashboard.statistics.button.month'},
     {name: 'year', title: 'dashboard.statistics.button.year'},
   ];
-  @ViewChild('statisticsChart') statisticsChartComponent: CardChartComponent;
-  buttonsRealtimeChart = [
+  @ViewChild('statisticsChart') public statisticsChartComponent: CardChartComponent;
+  public buttonsRealtimeChart = [
     {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
     {name: 'utilization', title: 'dashboard.realtime.button.utilization'},
   ];
-  @ViewChild('realtimeChart') realtimeChartComponent: CardChartComponent;
+  @ViewChild('realtimeChart') public realtimeChartComponent: CardChartComponent;
 
-  dynamicFadeInOutClass = FADE_IN_CLASS;
+  public dynamicFadeInOutClass = FADE_IN_CLASS;
 
-  todayDay: any;
+  public todayDay: any;
 
   /**
    * Current Metrics retrieved from dashboard service
@@ -114,10 +114,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * @type {SiteCurrentMetrics}
    * @memberof DashboardComponent
    */
-  currentMetrics: CurrentMetrics;
+  public currentMetrics: CurrentMetrics;
 
-  realtimeInterval = REALTIME_INTERVAL;
-  statisticsInterval = STATISTICS_INTERVAL;
+  public realtimeInterval = REALTIME_INTERVAL;
+  public statisticsInterval = STATISTICS_INTERVAL;
 
   constructor(private translateService: TranslateService,
               private spinnerService: SpinnerService,
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboardService.startLoading();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.spinnerService.show();
     // Special initialization sequence
     this.dashboardService.initialLoadDone.subscribe((isDone) => {
@@ -155,7 +155,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.carouselInterval) {
       clearInterval(this.carouselInterval);
     }
@@ -169,7 +169,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * @param {AnimationEvent} event
    * @memberof DashboardComponent
    */
-  slideChangeAnimationReloadEnd(event: AnimationEvent) {
+  public slideChangeAnimationReloadEnd(event: AnimationEvent) {
     if (this.beforeChange) {
       this.dynamicFadeInOutClass = FADE_IN_CLASS;
       this.update();
@@ -188,7 +188,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * @param {AnimationEvent} event
    * @memberof DashboardComponent
    */
-  slideChangeAnimationDone(event: AnimationEvent) {
+  public slideChangeAnimationDone(event: AnimationEvent) {
     if (this.afterChange) {
       // retsart rotation on chart components
       this.realtimeChartComponent.startRotation();
@@ -197,7 +197,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  pauseSlide() {
+  public pauseSlide() {
     if (this.isCarouselPaused) {
       // Restart slide show
       this.isCarouselPaused = false;
@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeSite(direction) {
+  public changeSite(direction) {
     if (direction === 'next') {
       this.next(false);
     } else {
@@ -222,11 +222,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  next(triggerAnimation: boolean) {
+  public next(triggerAnimation: boolean) {
     this.rotateSite(1, triggerAnimation);
   }
 
-  prev(triggerAnimation: boolean) {
+  public prev(triggerAnimation: boolean) {
     this.rotateSite(-1, triggerAnimation);
   }
 
@@ -237,7 +237,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * @param {*} triggerAnimation: if ture then boolean are changed in order to trigger animation
    * @memberof DashboardComponent
    */
-  rotateSite(direction, triggerAnimation: boolean) {
+  public rotateSite(direction, triggerAnimation: boolean) {
     this.realtimeChartComponent.pauseRotation();
     this.statisticsChartComponent.pauseRotation();
 
@@ -266,7 +266,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  update() {
+  public update() {
     this.currentSiteIndex = this.nextSiteIndex;
     this.currentMetrics = this.dashboardService.currentMetrics[this.currentSiteIndex];
     // Update charts
@@ -299,7 +299,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  createRealtimeGraphData(chartData) {
+  public createRealtimeGraphData(chartData) {
     return {
       options: this.createRealtimeOptions(chartData),
       data: {
@@ -314,7 +314,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  createRealtimeOptions(target: any) {
+  public createRealtimeOptions(target: any) {
     const optionsLine = {
       legend: {display: false},
       responsive: true,
@@ -385,7 +385,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return optionsLine;
   }
 
-  setRealtimeChartData(event: ChartButton) {
+  public setRealtimeChartData(event: ChartButton) {
     const nextRealtimeChart = this.dashboardService.getRealtime(event.name, this.currentMetrics);
     if (!nextRealtimeChart) {
       return;
@@ -397,7 +397,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  createStatisticsGraphData(chartData) {
+  public createStatisticsGraphData(chartData) {
     return {
       options: this.createStatisticsOptions(chartData),
       data: {
@@ -412,7 +412,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  createStatisticsOptions(target: any) {
+  public createStatisticsOptions(target: any) {
     const optionsLine = {
       legend: {display: false},
       responsive: true,
@@ -483,7 +483,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return optionsLine;
   }
 
-  setStatisticsChartData(event: ChartButton) {
+  public setStatisticsChartData(event: ChartButton) {
     const nextRealtimeChart = this.dashboardService.getStatistics(event.name, this.currentMetrics);
     if (!nextRealtimeChart) {
       return;
@@ -495,7 +495,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  formatLineColor(colors: number[]): any {
+  public formatLineColor(colors: number[]): any {
     return {
       backgroundColor: this.rgba(colors, 0.6),
       borderColor: this.rgba(colors, 1),
@@ -506,7 +506,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  rgba(colour: number[], alpha: number): string {
+  public rgba(colour: number[], alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
 

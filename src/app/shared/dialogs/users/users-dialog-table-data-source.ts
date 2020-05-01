@@ -41,7 +41,7 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
     });
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

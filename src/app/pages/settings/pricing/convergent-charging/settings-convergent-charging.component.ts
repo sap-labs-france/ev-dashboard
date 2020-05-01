@@ -7,8 +7,8 @@ import { PricingSettings } from 'app/types/Setting';
   templateUrl: 'settings-convergent-charging.component.html',
 })
 export class SettingsConvergentChargingComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() pricingSettings!: PricingSettings;
+  @Input() public formGroup!: FormGroup;
+  @Input() public pricingSettings!: PricingSettings;
 
   public convergentCharging!: FormGroup;
   public convergentChargingUrl!: AbstractControl;
@@ -16,7 +16,7 @@ export class SettingsConvergentChargingComponent implements OnInit, OnChanges {
   public convergentChargingUser!: AbstractControl;
   public convergentChargingPassword!: AbstractControl;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Convergent Charging pricing
     this.convergentCharging = new FormGroup({
       url: new FormControl('',
@@ -55,11 +55,11 @@ export class SettingsConvergentChargingComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateFormData();
   }
 
-  updateFormData() {
+  public updateFormData() {
     // Set data
     if (this.convergentCharging) {
       this.convergentChargingUrl.setValue(this.pricingSettings.convergentCharging.url);

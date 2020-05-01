@@ -8,8 +8,8 @@ import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 })
 export class ChargingStationConsumptionGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() consumption = 0;
-  @Input() maxConsumption = 0;
+  @Input() public consumption = 0;
+  @Input() public maxConsumption = 0;
 
   constructor(el: ElementRef,
     zone: NgZone,
@@ -17,7 +17,7 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
     super(el, zone);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.options = this.getOptions();
     this.options.title = this.translateService.instant('dashboard.consumption_gauge_title');
     this.options.units = 'kW';
@@ -82,11 +82,11 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
     super.ngOnInit();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.gauge.draw();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (this.options) {
       if (this.maxConsumption !== this.options.majorTicks[this.options.majorTicks.length - 1]) {
         this.options.maxValue = Math.round(this.maxConsumption / 1000);
@@ -99,7 +99,7 @@ export class ChargingStationConsumptionGaugeComponent extends RadialGaugeCompone
     }
   }
 
-  buildTicks() {
+  public buildTicks() {
     this.options.majorTicks = [];
     this.options.highlights = [];
     const tickRange = (Math.floor(Math.round(this.maxConsumption / 1000) / 5) > 0 ?

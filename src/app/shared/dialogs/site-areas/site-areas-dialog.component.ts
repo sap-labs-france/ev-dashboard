@@ -23,7 +23,7 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
     dialogDataSource.setSitesAdminOnly(data && data.sitesAdminOnly);
   }
 
-  getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {
+  public getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

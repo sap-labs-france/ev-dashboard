@@ -250,12 +250,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.showChargingStationDialog(chargingStation);
         break;
       case ChargingStationButtonAction.REBOOT:
-        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Hard'}),
-          this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: chargingStation.id}),
-          this.translateService.instant('chargers.reboot_success', {chargeBoxID: chargingStation.id}),
-          'chargers.reboot_error',
-        );
+        if (actionDef.action) {
+          actionDef.action(chargingStation, this.dialogService, this.translateService,
+            this.messageService, this.centralServerService, this.spinnerService, this.router);
+        }
         break;
       case ChargingStationButtonAction.SMART_CHARGING:
         this.dialogSmartCharging(chargingStation);
@@ -365,7 +363,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
-    if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
+    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
         this.smartChargingAction,

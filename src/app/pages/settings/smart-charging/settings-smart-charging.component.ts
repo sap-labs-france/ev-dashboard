@@ -30,14 +30,14 @@ export class SettingsSmartChargingComponent implements OnInit {
     this.isActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Build the form
     this.formGroup = new FormGroup({});
     // Load the conf
     this.loadConfiguration();
   }
 
-  loadConfiguration() {
+  public loadConfiguration() {
     this.spinnerService.show();
     this.componentService.getSmartChargingSettings().subscribe((settings) => {
       this.spinnerService.hide();

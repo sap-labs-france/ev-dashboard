@@ -13,7 +13,7 @@ import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionsResponse, ActionResponse, DataResult, LoginResponse, Ordering, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { Image, KeyValue, Logo } from 'app/types/GlobalType';
-import { ChargingStationInError, TransactionInError } from 'app/types/InError';
+import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
@@ -323,6 +323,25 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<Image>(
       `${this.centralRestServerServiceSecuredURL}/AssetImage`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getAssetsInError(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<AssetInError>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<AssetInError>>(`${this.centralRestServerServiceSecuredURL}/AssetsInError`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2087,7 +2106,7 @@ export class CentralServerService {
       );
   }
 
-  deleteTransaction(id: number): Observable<ActionResponse> {
+  public deleteTransaction(id: number): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionDelete?ID=${id}`,
@@ -2099,7 +2118,7 @@ export class CentralServerService {
       );
   }
 
-  refundTransactions(ids: number[]): Observable<ActionsResponse> {
+  public refundTransactions(ids: number[]): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionsRefund`, { transactionIds: ids },
@@ -2111,7 +2130,7 @@ export class CentralServerService {
       );
   }
 
-  synchronizeRefundedTransactions(): Observable<ActionResponse> {
+  public synchronizeRefundedTransactions(): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeRefundedTransactions`, {},
@@ -2123,7 +2142,7 @@ export class CentralServerService {
       );
   }
 
-  softStopTransaction(id: number): Observable<ActionResponse> {
+  public softStopTransaction(id: number): Observable<ActionResponse> {
     this.checkInit();
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/TransactionSoftStop`,
       `{ "ID": "${id}" }`,
@@ -2135,7 +2154,7 @@ export class CentralServerService {
       );
   }
 
-  chargingStationStopTransaction(chargeBoxId: string, transactionId: number): Observable<ActionResponse> {
+  public chargingStationStopTransaction(chargeBoxId: string, transactionId: number): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
@@ -2152,7 +2171,7 @@ export class CentralServerService {
       );
   }
 
-  chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
@@ -2170,7 +2189,7 @@ export class CentralServerService {
       );
   }
 
-  updateChargingStationParams(chargingStation: ChargingStation): Observable<ActionResponse> {
+  public updateChargingStationParams(chargingStation: ChargingStation): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2183,7 +2202,7 @@ export class CentralServerService {
       );
   }
 
-  updateChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
+  public updateChargingProfile(chargingProfile: ChargingProfile): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2196,7 +2215,7 @@ export class CentralServerService {
       );
   }
 
-  deleteChargingProfile(id: string): Observable<ActionResponse> {
+  public deleteChargingProfile(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute

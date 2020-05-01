@@ -15,12 +15,12 @@ import { invoicesStatuses } from '../model/invoices.model';
   `,
 })
 export class InvoiceStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: BillingInvoice;
+  @Input() public row!: BillingInvoice;
 }
 
 @Pipe({name: 'appFormatInvoiceStatus'})
 export class AppFormatInvoiceStatusPipe implements PipeTransform {
-  transform(invoiceStatus: BillingInvoiceStatus, type: string): string {
+  public transform(invoiceStatus: BillingInvoiceStatus, type: string): string {
     if (type === 'class') {
       return this.buildInvoiceStatusClasses(invoiceStatus);
     }
@@ -30,7 +30,7 @@ export class AppFormatInvoiceStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildInvoiceStatusClasses(status: BillingInvoiceStatus): string {
+  public buildInvoiceStatusClasses(status: BillingInvoiceStatus): string {
     let classNames = 'chip-width-5em ';
     switch (status) {
       case BillingInvoiceStatus.PAID:
@@ -45,7 +45,7 @@ export class AppFormatInvoiceStatusPipe implements PipeTransform {
     return classNames;
   }
 
-  buildInvoiceStatusText(status: string): string {
+  public buildInvoiceStatusText(status: string): string {
     for (const invoiceStatus of invoicesStatuses) {
       if (invoiceStatus.key === status) {
         return invoiceStatus.value;

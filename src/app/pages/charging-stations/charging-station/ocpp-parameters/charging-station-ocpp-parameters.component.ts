@@ -19,7 +19,7 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 })
 @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
   public chargerConfiguration!: OcppParameter[];
   public isAdmin: boolean;
   public formGroup!: FormGroup;
@@ -46,7 +46,7 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     this.formGroup = new FormGroup({});
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.parameters = new FormArray([], Validators.compose([Validators.required]));
     this.ocppParametersDataSource.setFormArray(this.parameters);
     this.ocppParametersDataSource.setCharger(this.charger);

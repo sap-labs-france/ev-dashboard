@@ -53,19 +53,19 @@ export abstract class DialogTableDataComponent<T extends Data> {
     });
   }
 
-  validate() {
+  public validate() {
     if (this.dialogDataSource.selectedRows > 0) {
       this.dialogRef.close(this.getSelectedItems(this.dialogDataSource.getSelectedRows()));
     }
   }
 
-  setMultipleRowSelection(mutlipleRowSelection: boolean) {
+  public setMultipleRowSelection(mutlipleRowSelection: boolean) {
     this.dialogDataSource.setMultipleRowSelection(mutlipleRowSelection);
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  abstract getSelectedItems(selectedRows: T[]): KeyValue[];
+  public abstract getSelectedItems(selectedRows: T[]): KeyValue[];
 }

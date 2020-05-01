@@ -37,34 +37,10 @@ import { ChargingStationSettingsComponent } from '../charging-station/settings/c
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
   private isAdmin: boolean;
-  private actions = {
-    missing_settings: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-    missing_site_area: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-    connection_broken: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-    connector_error: [
-      new TableEditAction().getActionDef(),
-      new TableMoreAction([
-        new TableDeleteAction().getActionDef(),
-        new ChargingStationsResetAction().getActionDef(),
-        new ChargingStationsRebootAction().getActionDef(),
-      ]).getActionDef(),
-    ],
-  };
+  private editAction = new TableEditAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
+  private resetAction = new ChargingStationsResetAction().getActionDef();
+  private rebootAction = new ChargingStationsRebootAction().getActionDef();
   private isOrganizationComponentActive: boolean;
 
   constructor(
@@ -140,7 +116,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         enabled: false,
         multiple: false,
       },
-      rowFieldNameIdentifier: 'uniqueId',
       hasDynamicRowAction: true,
     };
   }
@@ -216,12 +191,10 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStationInError, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.REBOOT:
-        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Hard'}),
-          this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: chargingStation.id}),
-          this.translateService.instant('chargers.reboot_success', {chargeBoxID: chargingStation.id}),
-          'chargers.reboot_error',
-        );
+        if (actionDef.action) {
+          actionDef.action(chargingStation, this.dialogService, this.translateService,
+            this.messageService, this.centralServerService, this.spinnerService, this.router);
+        }
         break;
       case ChargingStationButtonAction.SOFT_RESET:
         this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Soft'}),
@@ -263,33 +236,25 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     const errorTypes = [];
     errorTypes.push({
       key: ChargingStationInErrorType.MISSING_SETTINGS,
-      value: `chargers.errors.${ChargingStationInErrorType.MISSING_SETTINGS}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.MISSING_SETTINGS}.title`),
     });
     errorTypes.push({
       key: ChargingStationInErrorType.CONNECTION_BROKEN,
-      value: `chargers.errors.${ChargingStationInErrorType.CONNECTION_BROKEN}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.CONNECTION_BROKEN}.title`),
     });
     errorTypes.push({
       key: ChargingStationInErrorType.CONNECTOR_ERROR,
-      value: `chargers.errors.${ChargingStationInErrorType.CONNECTOR_ERROR}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.CONNECTOR_ERROR}.title`),
     });
     if (this.isOrganizationComponentActive) {
       errorTypes.push({
       key: ChargingStationInErrorType.MISSING_SITE_AREA,
-      value: `chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`,
+      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`),
       });
     }
     // Sort
-    errorTypes.sort((errorType1, errorType2) => {
-      if (errorType1.value < errorType2.value) {
-        return -1;
-      }
-      if (errorType1.value > errorType2.value) {
-        return 1;
-      }
-      return 0;
-    });
-
+    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    // Build filters
     if (this.isOrganizationComponentActive) {
       return [
         new SiteTableFilter().getFilterDef(),
@@ -302,10 +267,28 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     ];
   }
 
-  buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
+  public buildTableDynamicRowActions(charger: ChargingStationInError): TableActionDef[] {
     if (this.isAdmin && charger.errorCode) {
-      // @ts-ignore
-      return this.actions[charger.errorCode];
+      switch (charger.errorCode) {
+        case ChargingStationInErrorType.MISSING_SETTINGS:
+        case ChargingStationInErrorType.MISSING_SITE_AREA:
+        case ChargingStationInErrorType.CONNECTION_BROKEN:
+          return [
+            this.editAction,
+            new TableMoreAction([
+              this.deleteAction
+            ]).getActionDef(),
+          ];
+        case ChargingStationInErrorType.CONNECTOR_ERROR:
+          return [
+            this.editAction,
+            new TableMoreAction([
+              this.deleteAction,
+              this.resetAction,
+              this.rebootAction,
+            ]).getActionDef(),
+          ];
+      }
     }
     return [];
   }

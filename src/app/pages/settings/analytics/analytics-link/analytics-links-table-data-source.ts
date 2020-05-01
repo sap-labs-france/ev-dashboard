@@ -21,7 +21,7 @@ import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component'
 
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
-  @Output() changed = new EventEmitter<boolean>();
+  @Output() public changed = new EventEmitter<boolean>();
   private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();

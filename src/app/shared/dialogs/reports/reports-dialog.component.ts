@@ -21,7 +21,7 @@ export class ReportsDialogComponent extends DialogTableDataComponent<RefundRepor
     this.transactionsListTableDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {
+  public getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

@@ -9,18 +9,18 @@ import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stat
 })
 
 export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {
-  @Input() row!: ChargingStation;
+  @Input() public row!: ChargingStation;
 
   constructor(
       @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {
     super();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.refreshData();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.refreshData();
   }
 

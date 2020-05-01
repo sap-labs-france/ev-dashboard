@@ -13,12 +13,12 @@ import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
   `,
 })
 export class OcpiDetailTotalEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpointDetail;
+  @Input() public row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiEvsesTotal'})
 export class AppFormatOcpiEvsesTotalPipe implements PipeTransform {
-  transform(totalNbr: number, type: string): string {
+  public transform(totalNbr: number, type: string): string {
     if (type === 'class') {
       let classNames = 'chip-width-4em ';
       if (totalNbr > 0) {

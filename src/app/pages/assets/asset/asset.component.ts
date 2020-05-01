@@ -27,9 +27,9 @@ import { debounceTime, mergeMap } from 'rxjs/operators';
 })
 export class AssetComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentAssetID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentAssetID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
   public image: string = AssetImage.NO_IMAGE;
@@ -73,7 +73,7 @@ export class AssetComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

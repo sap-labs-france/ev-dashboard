@@ -6,7 +6,7 @@ import { User } from 'app/types/User';
   template: '<app-user [currentUserID]="userID" [inDialog]="true" [dialogRef]="getDialogRef()"></app-user>',
 })
 export class UserDialogComponent {
-  userID!: string;
+  public userID!: string;
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,
@@ -23,7 +23,7 @@ export class UserDialogComponent {
     });
   }
 
-  getDialogRef(): MatDialogRef<UserDialogComponent> {
+  public getDialogRef(): MatDialogRef<UserDialogComponent> {
     return this.dialogRef;
   }
 }

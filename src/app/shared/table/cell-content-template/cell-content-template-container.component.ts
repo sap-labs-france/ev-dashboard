@@ -10,10 +10,10 @@ import { CellContentTemplateComponent } from './cell-content-template.component'
 
 // tslint:disable-next-line:component-class-suffix
 export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
-  @Input() row!: Data;
-  @Input() columnDef!: TableColumnDef;
-  @Input() tableDef!: TableDef;
-  @Output() componentChanged = new EventEmitter<any>();
+  @Input() public row!: Data;
+  @Input() public columnDef!: TableColumnDef;
+  @Input() public tableDef!: TableDef;
+  @Output() public componentChanged = new EventEmitter<any>();
 
   private cellComponent!: CellContentTemplateComponent;
   private cellComponentRef: any;
@@ -23,7 +23,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
     public viewContainerRef: ViewContainerRef) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {
         // Set the row
       this.cellComponent.row = this.row;
@@ -32,7 +32,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Get the component name
     let component;
     // Table Details?

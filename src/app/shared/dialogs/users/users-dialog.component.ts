@@ -21,7 +21,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     this.usersListTableDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: User[]): KeyValue[] {
+  public getSelectedItems(selectedRows: User[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

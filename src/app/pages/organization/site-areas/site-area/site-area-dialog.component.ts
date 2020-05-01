@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   template: '<app-site-area [currentSiteAreaID]="siteAreaID" [inDialog]="true" [dialogRef]="dialogRef"></app-site-area>'
 })
 export class SiteAreaDialogComponent {
-  siteAreaID!: string;
+  public siteAreaID!: string;
 
   constructor(
     public dialogRef: MatDialogRef<SiteAreaDialogComponent>,

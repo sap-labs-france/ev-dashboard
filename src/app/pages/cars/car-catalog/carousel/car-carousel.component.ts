@@ -13,7 +13,7 @@ import { Utils } from 'app/utils/Utils';
   providers: [NgbCarouselConfig],  // add NgbCarouselConfig to the component providers
 })
 export class CarCarouselComponent implements AfterViewInit {
-  @Input() carCatalogID!: number;
+  @Input() public carCatalogID!: number;
   public images!: string[];
   public loading = false;
   constructor(
@@ -29,7 +29,7 @@ export class CarCarouselComponent implements AfterViewInit {
     config.pauseOnHover = false;
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     if (this.carCatalogID) {
       this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
         { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
@@ -43,7 +43,7 @@ export class CarCarouselComponent implements AfterViewInit {
     }
   }
 
-  onSlide(event: NgbSlideEvent) {
+  public onSlide(event: NgbSlideEvent) {
     const imageIndex = parseInt(event.current.replace('slideId_', ''), 10);
     if (this.images[imageIndex] === '') {
       this.spinnerService.show();

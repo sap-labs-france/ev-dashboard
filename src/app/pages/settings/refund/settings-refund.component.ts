@@ -35,7 +35,7 @@ export class SettingsRefundComponent implements OnInit {
     this.isActive = this.componentService.isActive(TenantComponents.REFUND);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
       this.formGroup = new FormGroup({});
@@ -44,7 +44,7 @@ export class SettingsRefundComponent implements OnInit {
     }
   }
 
-  loadConfiguration() {
+  public loadConfiguration() {
     this.spinnerService.show();
     this.componentService.getRefundSettings().subscribe((settings) => {
       this.spinnerService.hide();

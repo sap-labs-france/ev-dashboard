@@ -205,7 +205,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs: number, row: Transaction) {
+  public formatInactivity(totalInactivitySecs: number, row: Transaction) {
     const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     if (percentage === 0) {
       return '';
@@ -214,11 +214,11 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`;
   }
 
-  formatChargingStation(chargingStationID: string, row: Transaction) {
+  public formatChargingStation(chargingStationID: string, row: Transaction) {
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
@@ -236,7 +236,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return filters;
   }
 
-  buildTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     let tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(new TableExportAction().getActionDef());
     if (this.refundTransactionEnabled) {
@@ -254,7 +254,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return tableActionsDef;
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case RefundButtonAction.SYNCHRONIZE:
         if (this.tableSyncRefundAction.action) {
@@ -311,14 +311,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     }
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }
 
-  isSelectable(row: Transaction) {
+  public isSelectable(row: Transaction) {
     return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
   }
 

@@ -17,9 +17,9 @@ export interface PropertyDisplay {
 })
 @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
-  @Input() charger!: ChargingStation;
-  chargerFormatted: any = {};
-  displayedProperties: PropertyDisplay[] = [
+  @Input() public charger!: ChargingStation;
+  public chargerFormatted: any = {};
+  public displayedProperties: PropertyDisplay[] = [
     {key: 'chargePointVendor', title: 'chargers.vendor'},
     {key: 'chargePointModel', title: 'chargers.model'},
     {key: 'chargeBoxSerialNumber', title: 'chargers.serial_number'},
@@ -95,12 +95,12 @@ export class ChargingStationPropertiesComponent implements OnInit {
     },
   ];
 
-  displayedColumns: string[] = ['title', 'value'];
+  public displayedColumns: string[] = ['title', 'value'];
 
   constructor(private datePipe: AppDatePipe) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Format
     for (const property of this.displayedProperties) {
       if (property.formatter) {

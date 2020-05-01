@@ -59,7 +59,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     this.noAction.getActionDef().disabled = true;
   }
 
-  loadData(showSpinner: boolean = false): Observable<void> {
+  public loadData(showSpinner: boolean = false): Observable<void> {
     return super.loadData(showSpinner);
   }
 

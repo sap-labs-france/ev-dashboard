@@ -120,23 +120,23 @@ export class ConfirmationDialogComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.canCancelDialog = true;
   }
 
-  validate() {
+  public validate() {
     this.dialogRef.close(this.buttonValidateID);
   }
 
-  no() {
+  public no() {
     this.dialogRef.close(this.buttonNoID);
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close(this.buttonCancelID);
   }
 
-  onEnter() {
+  public onEnter() {
     if (this.buttonValidateName === null) {
       this.no();
     } else {
@@ -144,7 +144,7 @@ export class ConfirmationDialogComponent implements AfterViewInit {
     }
   }
 
-  onEscape() {
+  public onEscape() {
     if (!this.canCancelDialog) {
       return;
     }

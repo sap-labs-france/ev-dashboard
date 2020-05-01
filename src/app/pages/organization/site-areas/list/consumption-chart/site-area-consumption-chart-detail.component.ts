@@ -9,15 +9,15 @@ import { SiteAreaConsumptionChartComponent } from './site-area-consumption-chart
 })
 
 export class SiteAreaConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row!: SiteArea;
-  @ViewChild('siteAreaConsumptionChart') chartComponent!: SiteAreaConsumptionChartComponent;
+  @Input() public row!: SiteArea;
+  @ViewChild('siteAreaConsumptionChart') public chartComponent!: SiteAreaConsumptionChartComponent;
   public siteAreaId!: string;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
       this.siteAreaId = this.row.id as string;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.siteAreaId = this.row.id as string;
     this.chartComponent.refresh();
   }

@@ -87,7 +87,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     }, 700);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.dialog.closeAll();
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
@@ -110,7 +110,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  sidebarToggle() {
+  public sidebarToggle() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
     const sidebar = document.getElementsByClassName('navbar-collapse')[0];
@@ -127,13 +127,13 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('login-page');
     body.classList.remove('off-canvas-sidebar');
   }
 
-  login(user: object): void {
+  public login(user: object): void {
     // Show
     this.spinnerService.show();
     // clear User and UserAuthorization

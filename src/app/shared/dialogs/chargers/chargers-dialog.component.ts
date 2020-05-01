@@ -22,7 +22,7 @@ export class ChargersDialogComponent extends DialogTableDataComponent<ChargingSt
     this.chargersDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: ChargingStation[]): KeyValue[] {
+  public getSelectedItems(selectedRows: ChargingStation[]): KeyValue[] {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

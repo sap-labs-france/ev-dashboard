@@ -18,16 +18,16 @@ import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 })
 
 export class ConsumptionChartComponent implements AfterViewInit {
-  @Input() transactionId!: number;
-  @Input() transaction!: Transaction;
-  @Input() ratio!: number;
+  @Input() public transactionId!: number;
+  @Input() public transaction!: Transaction;
+  @Input() public ratio!: number;
 
-  @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
-  @ViewChild('accent', { static: true }) accentElement!: ElementRef;
-  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
-  @ViewChild('success', { static: true }) successElement!: ElementRef;
-  @ViewChild('chart', { static: true }) chartElement!: ElementRef;
-  @ViewChild('warning', { static: true }) warningElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
+  @ViewChild('accent', { static: true }) public accentElement!: ElementRef;
+  @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
+  @ViewChild('success', { static: true }) public successElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
+  @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
 
   public loadAllConsumptions = false;
 
@@ -60,7 +60,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.consumptionColor = this.getStyleColor(this.accentElement.nativeElement);
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
     this.amountColor = this.getStyleColor(this.warningElement.nativeElement);

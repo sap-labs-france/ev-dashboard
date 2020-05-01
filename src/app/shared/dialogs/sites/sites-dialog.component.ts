@@ -22,7 +22,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     this.dialogDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: Site[]): KeyValue[] {
+  public getSelectedItems(selectedRows: Site[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

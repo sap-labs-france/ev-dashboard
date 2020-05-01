@@ -34,9 +34,9 @@ import { RegistrationTokensTableDataSource } from '../../../settings/charging-st
   providers: [RegistrationTokensTableDataSource],
 })
 export class SiteAreaComponent implements OnInit {
-  @Input() currentSiteAreaID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentSiteAreaID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteAreaImage.NO_IMAGE;
   public maxSize: number;
@@ -83,7 +83,7 @@ export class SiteAreaComponent implements OnInit {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

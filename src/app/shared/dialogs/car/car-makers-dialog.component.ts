@@ -22,7 +22,7 @@ export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakers
     this.dialogDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {
+  public getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

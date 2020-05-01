@@ -28,12 +28,12 @@ import { Connector, ConnStatus } from 'app/types/ChargingStation';
 })
 @Injectable()
 export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Connector;
+  @Input() public row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatConnector'})
 export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
-  transform(connector: Connector, type: string): string {
+  public transform(connector: Connector, type: string): string {
     if (type === 'class') {
       return this.buildConnectorClasses(connector);
     }
@@ -43,7 +43,7 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
     return '';
   }
 
-  buildConnectorClasses(connector: Connector): string {
+  public buildConnectorClasses(connector: Connector): string {
     let classNames = 'charger-connector-background charger-connector-text ';
     switch (connector.status) {
       case ConnStatus.AVAILABLE: {
@@ -96,7 +96,7 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
     return classNames;
   }
 
-  buildConnectorText(connector: Connector): string {
+  public buildConnectorText(connector: Connector): string {
     return `chargers.status_${connector.status.toLowerCase()}`;
   }
 }

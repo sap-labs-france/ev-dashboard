@@ -22,7 +22,7 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
     }
   }
 
-  getSelectedItems(selectedRows: Company[]): KeyValue[] {
+  public getSelectedItems(selectedRows: Company[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

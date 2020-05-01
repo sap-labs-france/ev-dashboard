@@ -7,7 +7,7 @@ import { ChargingStation } from 'app/types/ChargingStation';
   templateUrl: 'charging-station-charging-limit-dialog.component.html',
 })
 export class ChargingStationSmartChargingDialogComponent {
-  charger!: ChargingStation;
+  public charger!: ChargingStation;
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationSmartChargingDialogComponent>,

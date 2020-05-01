@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   template: '<app-company [currentCompanyID]="companyID" [inDialog]="true" [dialogRef]="dialogRef"></app-company>',
 })
 export class CompanyDialogComponent {
-  companyID!: string;
+  public companyID!: string;
 
   constructor(
     public dialogRef: MatDialogRef<CompanyDialogComponent>,

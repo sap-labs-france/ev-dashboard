@@ -18,10 +18,10 @@ const misc: any = {
 })
 
 export class NavbarComponent implements OnInit {
-  location: Location;
-  mobileMenuVisible: any = 0;
+  public location: Location;
+  public mobileMenuVisible: any = 0;
 
-  @ViewChild('app-navbar') button: any;
+  @ViewChild('app-navbar') public button: any;
   private listTitles!: any[];
   private nativeElement: Node;
   private toggleButton: any;
@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
     this.sidebarVisible = false;
   }
 
-  minimizeSidebar() {
+  public minimizeSidebar() {
     const body = document.getElementsByTagName('body')[0];
 
     if (misc.sidebar_mini_active === true) {
@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
     // }, 1000);
   }
 
-  hideSidebar() {
+  public hideSidebar() {
     const body = document.getElementsByTagName('body')[0];
     const sidebar = document.getElementsByClassName('sidebar')[0];
 
@@ -98,7 +98,7 @@ export class NavbarComponent implements OnInit {
     }, 1000);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
       this.listTitles = this.activatedRoute.routeConfig.children.filter((route) => {
           return route.data && route.data.menu && this.guard.isRouteAllowed(route);
@@ -121,12 +121,12 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  onResize(event: Event) {
+  public onResize(event: Event) {
     // @ts-ignore
     return jQuery(window).width() <= 991;
   }
 
-  sidebarOpen() {
+  public sidebarOpen() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
     setTimeout(() => {
@@ -137,14 +137,14 @@ export class NavbarComponent implements OnInit {
     this.sidebarVisible = true;
   }
 
-  sidebarClose() {
+  public sidebarClose() {
     const body = document.getElementsByTagName('body')[0];
     this.toggleButton.classList.remove('toggled');
     this.sidebarVisible = false;
     body.classList.remove('nav-open');
   }
 
-  sidebarToggle() {
+  public sidebarToggle() {
     if (this.sidebarVisible === false) {
       this.sidebarOpen();
     } else {
@@ -199,7 +199,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  getTitle() {
+  public getTitle() {
     if (this.listTitles) {
       const titlee: any = this.location.prepareExternalUrl(this.location.path());
 
@@ -219,7 +219,7 @@ export class NavbarComponent implements OnInit {
     return '';
   }
 
-  getPath() {
+  public getPath() {
     return this.location.prepareExternalUrl(this.location.path());
   }
 }

@@ -23,7 +23,7 @@ import { ChargingStationsRebootAction } from '../../actions/charging-stations-re
 })
 @Injectable()
 export class ChargingStationStaticLimitComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   public ampInitialLimit = 0;
@@ -54,7 +54,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Set
     for (const connector of this.charger.connectors) {
       this.ampCurrentLimit += connector.amperageLimit;

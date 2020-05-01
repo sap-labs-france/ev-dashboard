@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.42',
-        date: new Date('2020-04-28'),
+        version: '2.2.43',
+        date: new Date('2020-05-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Asset In Error`,
               `Add corresponding Maximum Power in amperes in Site Area`,
               `Enable Static Limitation and Charging Plan for Delta charger`,
               `Display price and date in Invoice list`,

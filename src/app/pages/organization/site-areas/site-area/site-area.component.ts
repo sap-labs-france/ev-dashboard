@@ -34,9 +34,9 @@ import { RegistrationTokensTableDataSource } from '../../../settings/charging-st
   providers: [RegistrationTokensTableDataSource],
 })
 export class SiteAreaComponent implements OnInit {
-  @Input() currentSiteAreaID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentSiteAreaID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteAreaImage.NO_IMAGE;
   public maxSize: number;
@@ -80,11 +80,10 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -209,7 +208,8 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSiteArea(this.currentSiteAreaID, true).pipe(mergeMap((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
-      this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
+      this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE) ||
+        this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
       if (!this.isAdmin) {
         this.formGroup.disable();
@@ -502,7 +502,7 @@ export class SiteAreaComponent implements OnInit {
 
   public maximumPowerChanged() {
     if (!this.maximumPower.errors) {
-      this.maximumPowerInAmps.setValue(ChargingStations.convertWToAmp(1, this.maximumPower.value as number * 1000));
+      this.maximumPowerInAmps.setValue(ChargingStations.convertWattToAmp(1, this.maximumPower.value as number * 1000));
     }
   }
 }

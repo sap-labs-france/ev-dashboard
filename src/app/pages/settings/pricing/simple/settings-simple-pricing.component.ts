@@ -7,14 +7,14 @@ import { PricingSettings } from 'app/types/Setting';
   templateUrl: 'settings-simple-pricing.component.html',
 })
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() pricingSettings!: PricingSettings;
+  @Input() public formGroup!: FormGroup;
+  @Input() public pricingSettings!: PricingSettings;
 
   public simplePricing!: FormGroup;
   public price!: AbstractControl;
   public currency!: AbstractControl;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Simple pricing
     this.simplePricing = new FormGroup({
       price: new FormControl('',
@@ -40,11 +40,11 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateFormData();
   }
 
-  updateFormData() {
+  public updateFormData() {
     // Set data
     if (this.simplePricing) {
       this.price.setValue(this.pricingSettings.simple.price);

@@ -118,20 +118,20 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() chartType: string;
+  @Input() public chartType: string;
   /**
    *
    * Gives the list of buttons to be displayed and associate to each button the chart data (options + data) according to Chartjs
    * @type {ChartButton[]}
    * @memberof CardChartComponent
    */
-  @Input() chartButtons: ChartButton[];
+  @Input() public chartButtons: ChartButton[];
   /**
    * Start rotation of charts directly after loading
    *
    * @memberof CardChartComponent
    */
-  @Input() autoRotateAtStart = true;
+  @Input() public autoRotateAtStart = true;
 
   /**
    * material design icon name
@@ -139,7 +139,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() cardIcon: string;
+  @Input() public cardIcon: string;
   /**
    *
    * Title text of the card on top right corner.
@@ -147,7 +147,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() cardTitle: string;
+  @Input() public cardTitle: string;
   /**
    *
    * Footer text of the card.
@@ -155,7 +155,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() cardFooter?: string;
+  @Input() public cardFooter?: string;
 
   /**
    *
@@ -163,7 +163,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {number}
    * @memberof CardChartComponent
    */
-  @Input() rotationInterval?: number;
+  @Input() public rotationInterval?: number;
 
   /**
    *
@@ -172,49 +172,49 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() cardClass?: string;
+  @Input() public cardClass?: string;
   /**
    *
    * Additional header class
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() headerClass?: string;
+  @Input() public headerClass?: string;
   /**
    *
    * Additional title class
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() titleClass?: string;
+  @Input() public titleClass?: string;
   /**
    *
    * Additional category class
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() categoryClass?: string;
+  @Input() public categoryClass?: string;
   /**
    *
    * Additional body class
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() bodyClass?: string;
+  @Input() public bodyClass?: string;
   /**
    * Additional footer class
    *
    * @type {string}
    * @memberof CardChartComponent
    */
-  @Input() footerClass?: string;
+  @Input() public footerClass?: string;
 
   /**
    * Event emitted when the rotation changed to another chart
    *
    * @memberof CardChartComponent
    */
-  @Output() activeButtonChanged = new EventEmitter<ChartButton>();
+  @Output() public activeButtonChanged = new EventEmitter<ChartButton>();
 
   /**
    * indicate if rotation is paused or not
@@ -222,14 +222,14 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {boolean}
    * @memberof CardChartComponent
    */
-  isPaused: boolean;
+  public isPaused: boolean;
 
   /**
    * reference to the set interval
    *
    * @memberof CardChartComponent
    */
-  rotationIntervalReference;
+  public rotationIntervalReference;
 
   /**
    * Curretn active button in the card
@@ -237,9 +237,9 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {ChartButton}
    * @memberof CardChartComponent
    */
-  chartActiveButton: ChartButton;
+  public chartActiveButton: ChartButton;
 
-  isInitialized = false;
+  public isInitialized = false;
 
   /**
    * Chart data used in the first DOM chart element
@@ -247,7 +247,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @type {ChartDataLocal}
    * @memberof CardChartComponent
    */
-  firstChart: ChartDataLocal = {
+  public firstChart: ChartDataLocal = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
     isDisplayed: true,
   };
@@ -256,7 +256,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * @memberof CardChartComponent
    */
-  secondChart = {
+  public secondChart = {
     chartData: { options: [], data: { datasets: [], labels: [] } },
     isDisplayed: false,
   };
@@ -267,7 +267,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * If false the animation wil go from second to first DOM element
    * @memberof CardChartComponent
    */
-  changeFromFirstToSecond = false;
+  public changeFromFirstToSecond = false;
 
   /**
    * Indicate that an animation is on-going
@@ -275,9 +275,9 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * @memberof CardChartComponent
    */
-  animationOngoing = false;
+  public animationOngoing = false;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.chartActiveButton = this.chartButtons[0];
     // Initialization is done only in case data exist linked to a button
     if (this.chartButtons[0].chart) {
@@ -285,7 +285,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.isPaused = true;
     // Start automatic rotation
     if (this.autoRotateAtStart) {
@@ -297,7 +297,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.pauseRotation();
   }
 
@@ -307,7 +307,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {ChartButton[]} chartButtons
    * @memberof CardChartComponent
    */
-  setData(chartButtons: ChartButton[]) {
+  public setData(chartButtons: ChartButton[]) {
     this.isInitialized = true;
     this.chartButtons = chartButtons;
     // refresh active button data and graph data
@@ -315,7 +315,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setChartData(this.chartActiveButton.chart, true);
   }
 
-  pauseRotation() {
+  public pauseRotation() {
     if (!this.isPaused) {
       clearInterval(this.rotationIntervalReference);
       this.rotationIntervalReference = null;
@@ -329,7 +329,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {ChartButton} [startingButton] Define the starting button to use when rotation start
    * @memberof CardChartComponent
    */
-  startRotation(startingButton?: ChartButton) {
+  public startRotation(startingButton?: ChartButton) {
     if (this.isPaused) {
       if (startingButton) {
         this.nextChart(startingButton.name);
@@ -346,7 +346,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {*} [chartName=null] name of teh chart button to display
    * @memberof CardChartComponent
    */
-  nextChart(chartName = null) {
+  public nextChart(chartName = null) {
     if (this.chartButtons) {
       let indexChart: number;
       // Get button info and data
@@ -382,7 +382,7 @@ export class CardChartComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param {AnimationEvent} [event]
    * @memberof CardChartComponent
    */
-  chartFadeOutComplete(event?: AnimationEvent) {
+  public chartFadeOutComplete(event?: AnimationEvent) {
     if (this.animationOngoing) {
       this.animationOngoing = false;
       if (this.changeFromFirstToSecond) {

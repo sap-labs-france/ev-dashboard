@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   template: '<app-car [currentCarCatalogID]="carCatalogID" [inDialog]="true" [dialogRef]="dialogRef"></app-car>',
 })
 export class CarCatalogDialogComponent {
-  carCatalogID!: number;
+  public carCatalogID!: number;
 
   constructor(
     public dialogRef: MatDialogRef<CarCatalogDialogComponent>,

@@ -11,10 +11,10 @@ import { MessageService } from '../services/message.service';
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
 
-  static readonly LOGIN_ROUTE = '/auth/login';
-  static readonly TENANT_ROUTE = '/tenants';
-  static readonly CHARGING_STATION_ROUTE = '/charging-stations';
-  static readonly BROWSER_NOT_SUPPORTED_ROUTE = '/browser-not-supported';
+  public static readonly LOGIN_ROUTE = '/auth/login';
+  public static readonly TENANT_ROUTE = '/tenants';
+  public static readonly CHARGING_STATION_ROUTE = '/charging-stations';
+  public static readonly BROWSER_NOT_SUPPORTED_ROUTE = '/browser-not-supported';
 
   private userRole?: string;
 
@@ -107,14 +107,14 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return false;
   }
 
-  canLoad(route: Route, segments: UrlSegment[]): boolean {
+  public canLoad(route: Route, segments: UrlSegment[]): boolean {
     if (route.data && route.data.options && route.data.options.onlyDev) {
       return !environment.production; // if prod = false it will load module
     }
     return true;
   }
 
-  async redirectToDefaultRoute(): Promise<boolean> {
+  public async redirectToDefaultRoute(): Promise<boolean> {
     let route = RouteGuardService.LOGIN_ROUTE;
     if (this.userRole) {
       switch (this.userRole) {
@@ -131,7 +131,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return this.router.navigate([route]);
   }
 
-  async redirectToBrowserNotSupportRoute(): Promise<boolean> {
+  public async redirectToBrowserNotSupportRoute(): Promise<boolean> {
     return this.router.navigate([RouteGuardService.BROWSER_NOT_SUPPORTED_ROUTE]);
   }
 }

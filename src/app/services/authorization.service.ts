@@ -56,6 +56,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS);
   }
 
+  public canSynchronizeInvoices(): boolean {
+    return this.canAccess(Entity.INVOICES, Action.SYNCHRONIZE_INVOICES);
+  }
+
   public canAccess(resource: string, action: string): boolean {
     return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }
@@ -101,9 +105,6 @@ export class AuthorizationService {
   }
 
   public isSiteAdmin(siteID: string): boolean {
-    if (this.isAdmin()) {
-      return true;
-    }
     return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID);
   }
 

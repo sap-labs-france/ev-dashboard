@@ -17,7 +17,7 @@ export class UsersInErrorComponent implements OnInit {
       private windowService: WindowService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Check if User ID id provided
     const userId = this.windowService.getSearch('UserID');
     if (userId) {

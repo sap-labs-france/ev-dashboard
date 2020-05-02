@@ -106,6 +106,7 @@
     "no-tautology-expression": true,
     "no-async-without-await": true,
     "no-return-await": true,
+    "member-access": true,
     "linebreak-style": [
       true,
       "LF"

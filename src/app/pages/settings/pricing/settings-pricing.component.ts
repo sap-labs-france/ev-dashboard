@@ -30,14 +30,14 @@ export class SettingsPricingComponent implements OnInit {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Build the form
     this.formGroup = new FormGroup({});
     // Load the conf
     this.loadConfiguration();
   }
 
-  loadConfiguration() {
+  public loadConfiguration() {
     this.spinnerService.show();
     this.componentService.getPricingSettings().subscribe((settings) => {
       this.spinnerService.hide();

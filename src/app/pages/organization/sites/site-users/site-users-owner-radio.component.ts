@@ -19,8 +19,8 @@ import { Utils } from '../../../../utils/Utils';
       </div>`,
 })
 export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
-  @Input() row!: UserSite;
-  @ViewChild('rbid') radioButtonRef!: MatRadioButton;
+  @Input() public row!: UserSite;
+  @ViewChild('rbid') public radioButtonRef!: MatRadioButton;
   public loggedUser: UserToken;
 
   constructor(

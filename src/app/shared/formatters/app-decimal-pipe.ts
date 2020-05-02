@@ -13,7 +13,7 @@ export class AppDecimalPipe implements PipeTransform {
     });
   }
 
-  transform(value: number, digitsInfo?: string): string | null {
+  public transform(value: number, digitsInfo?: string): string | null {
     return this.decimalPipe.transform(value, digitsInfo);
   }
 }

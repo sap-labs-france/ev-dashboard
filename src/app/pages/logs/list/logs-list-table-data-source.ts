@@ -171,7 +171,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     ];
   }
 
-  buildTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
@@ -182,7 +182,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     return tableActionsDef;
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(

@@ -18,7 +18,7 @@ export class TransactionsHistoryComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Check if transaction ID id provided
     const transactionID = this.windowService.getSearch('TransactionID');
     if (transactionID) {

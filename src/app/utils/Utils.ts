@@ -163,9 +163,19 @@ export class Utils {
     return result;
   }
 
+  public static sortArrayOfJsonWithValue(element1, element2) {
+    if (element1.value < element2.value) {
+      return -1;
+    }
+    if (element1.value > element2.value) {
+      return 1;
+    }
+    return 0;
+  }
+
   public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
     if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase !== undefined) {
-      return ChargingStations.convertAmpToW(charger.connectors[0].numberOfConnectedPhase, ampValue);
+      return ChargingStations.convertAmpToWatt(charger.connectors[0].numberOfConnectedPhase, ampValue);
     }
     return 0;
   }

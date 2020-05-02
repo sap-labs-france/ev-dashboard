@@ -3,10 +3,10 @@ import { Data, TableColumnDef } from 'app/types/Table';
 
 @Directive()
 export abstract class CellContentTemplateComponent implements OnChanges {
-  @Input() row: any;
-  @Input() columnDef!: TableColumnDef;
-  @Output() componentChanged = new EventEmitter<any>();
+  @Input() public row: any;
+  @Input() public columnDef!: TableColumnDef;
+  @Output() public componentChanged = new EventEmitter<any>();
 
   // tslint:disable-next-line:no-empty
-  ngOnChanges(changes: SimpleChanges): void {}
+  public ngOnChanges(changes: SimpleChanges): void {}
 }

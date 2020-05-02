@@ -22,15 +22,15 @@ export class ChargingStationsStartTransactionDialogComponent {
     this.message = data.message;
   }
 
-  forMyself() {
+  public forMyself() {
     this.dialogRef.close(BUTTON_FOR_MYSELF);
   }
 
-  selectUser() {
+  public selectUser() {
     this.dialogRef.close(BUTTON_SELECT_USER);
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close(ButtonType.CANCEL);
   }
 }

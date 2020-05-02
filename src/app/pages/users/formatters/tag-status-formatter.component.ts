@@ -14,12 +14,12 @@ import { Tag } from '../../../types/Tag';
   `,
 })
 export class TagStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: Tag;
+  @Input() public row!: Tag;
 }
 
 @Pipe({name: 'appFormatTagStatus'})
 export class AppFormatTagStatusPipe implements PipeTransform {
-  transform(active: boolean, type: string): string {
+  public transform(active: boolean, type: string): string {
     if (type === 'class') {
       return this.buildTagStatusClasses(active);
     }
@@ -29,11 +29,11 @@ export class AppFormatTagStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildTagStatusClasses(active: boolean): string {
+  public buildTagStatusClasses(active: boolean): string {
     return `chip-width-5em ${active ? ChipType.SUCCESS : ChipType.DANGER}`;
   }
 
-  buildTagStatusText(active: boolean): string {
+  public buildTagStatusText(active: boolean): string {
     return active ? 'tags.activated' : 'tags.deactivated';
   }
 }

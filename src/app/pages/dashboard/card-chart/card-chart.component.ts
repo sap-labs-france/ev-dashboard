@@ -1,4 +1,4 @@
-import { animate, group, query, sequence, style, transition, trigger, AnimationEvent } from '@angular/animations';
+import { AnimationEvent, animate, group, query, sequence, style, transition, trigger } from '@angular/animations';
 import { AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 const DEFAULT_CHART_INTERVAL = 5000;

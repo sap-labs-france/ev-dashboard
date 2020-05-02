@@ -1,5 +1,5 @@
 import { Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { Data } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';

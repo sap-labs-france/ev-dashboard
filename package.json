@@ -15,6 +15,11 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
+  "importSort": {
+    ".js, .jsx, .es6, .es, .mjs, .ts, .tsx": {
+      "style": "module"
+    }
+  },
   "scripts": {
     "git:sinit": "git submodule update --init --recursive --force",
     "git:sdiff": "git diff && git submodule foreach 'git diff'",

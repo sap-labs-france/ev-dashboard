@@ -9,6 +9,7 @@ import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Set
 import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+
 import { ComponentService } from '../../../services/component.service';
 
 @Component({

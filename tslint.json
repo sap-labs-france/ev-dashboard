@@ -91,8 +91,8 @@
     "ordered-imports": [
       true,
       {
-        "import-sources-order": "lowercase-first",
-        "named-imports-order": "lowercase-first"
+        "import-sources-order": "lowercase-last",
+        "named-imports-order": "lowercase-last"
       }
     ],
     "no-unnecessary-callback-wrapper": true,

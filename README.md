@@ -21,12 +21,19 @@ The application:
 * Clone this GitHub project
 * Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
 
-**NOTE**: On Windows with **chocolatey** (https://chocolatey.org/),
-do as an administrator:
+**NOTE**:
+
+* On Windows with **chocolatey** (https://chocolatey.org/), do as an administrator:
+
 ```
 choco install -y nodejs-lts python2
 ```
-to install all needed dependencies
+
+* On Mac OSX with **Homebrew** (https://brew.sh/), do:
+
+```
+brew install node
+```
 
 * Follow the rest of the setup below
 

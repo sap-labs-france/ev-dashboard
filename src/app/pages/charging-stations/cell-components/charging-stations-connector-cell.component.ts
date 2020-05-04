@@ -1,6 +1,6 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Connector, ConnStatus } from 'app/types/ChargingStation';
+import { ConnStatus, Connector } from 'app/types/ChargingStation';
 
 @Component({
   selector: 'app-charging-stations-connector-cell',

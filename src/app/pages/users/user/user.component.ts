@@ -28,7 +28,7 @@ import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { userStatuses, UserRoles } from '../model/users.model';
+import { UserRoles, userStatuses } from '../model/users.model';
 import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 

@@ -1,4 +1,4 @@
-import { animate, group, query, style, transition, trigger, AnimationEvent } from '@angular/animations';
+import { AnimationEvent, animate, group, query, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';

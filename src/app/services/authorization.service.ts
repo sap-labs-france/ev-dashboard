@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
 import { Action, Entity, Role } from 'app/types/Authorization';
+
+import { CentralServerService } from './central-server.service';
+import { ComponentService } from './component.service';
+import { Injectable } from '@angular/core';
 import { SiteArea } from 'app/types/SiteArea';
 import TenantComponents from 'app/types/TenantComponents';
 import { UserToken } from 'app/types/User';
-import { CentralServerService } from './central-server.service';
-import { ComponentService } from './component.service';
 
 @Injectable()
 export class AuthorizationService {
@@ -70,7 +71,7 @@ export class AuthorizationService {
         return true;
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-        return siteArea && this.isSiteAdmin(siteArea.siteID);
+        return siteArea && (this.isSiteAdmin(siteArea.siteID) || this.isAdmin());
       }
       return this.isAdmin();
     }
@@ -83,7 +84,7 @@ export class AuthorizationService {
         if (!siteArea) {
           return false;
         }
-        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) ||
+        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) || this.isAdmin() ||
           (!!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteArea.siteID));
       }
       return true;
@@ -97,7 +98,7 @@ export class AuthorizationService {
         return true;
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION) && siteArea) {
-        return this.isSiteAdmin(siteArea.siteID) || (this.isDemo() && this.isSiteUser(siteArea.siteID));
+        return this.isAdmin() || this.isSiteAdmin(siteArea.siteID) || (this.isDemo() && this.isSiteUser(siteArea.siteID));
       }
       return this.isAdmin() || this.isDemo();
     }

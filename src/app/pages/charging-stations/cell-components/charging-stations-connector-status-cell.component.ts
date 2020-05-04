@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Connector, ConnStatus } from 'app/types/ChargingStation';
+import { ConnStatus, Connector } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
 const TYPE_SUCCESS = 'chip-success';

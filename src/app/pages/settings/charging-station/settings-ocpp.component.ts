@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { RegistrationTokensTableDataSource } from './registration-tokens/registration-tokens-table-data-source';
 
 @Component({

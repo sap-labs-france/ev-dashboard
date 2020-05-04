@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.44',
+        date: new Date('2020-05-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implement OCPI Check Sessions, CDRs and Locations`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.43',
         date: new Date('2020-05-01'),
         componentChanges: [

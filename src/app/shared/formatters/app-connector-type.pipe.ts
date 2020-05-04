@@ -55,7 +55,7 @@ export const CONNECTOR_TYPE_MAP =
 @Pipe({name: 'appConnectorType'})
 export class AppConnectorTypePipe implements PipeTransform {
 
-  transform(type: string, target: string = 'icon'): any {
+  public transform(type: string, target: string = 'icon'): any {
     // Return the found key
     const foundConnectorType = CONNECTOR_TYPE_MAP.find(
       (connectorType) => connectorType.key === type);

@@ -11,6 +11,6 @@ import { Company } from 'app/types/Company';
 })
 
 export class CompanyLogoFormatterCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Company;
+  @Input() public row!: Company;
 
 }

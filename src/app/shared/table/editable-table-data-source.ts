@@ -4,7 +4,7 @@ import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { of, Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
@@ -62,7 +62,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return this.editableRows;
   }
 
-  getTableChangedSubject(): Subject<T[]> {
+  public getTableChangedSubject(): Subject<T[]> {
     return this.tableChangedSubject;
   }
 

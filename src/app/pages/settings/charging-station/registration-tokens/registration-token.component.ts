@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { SiteArea } from 'app/types/SiteArea';
@@ -32,7 +31,7 @@ export class RegistrationTokenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: any) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.formGroup = new FormGroup({
       siteArea: new FormControl(),
       siteAreaID: new FormControl(),
@@ -52,11 +51,11 @@ export class RegistrationTokenComponent implements OnInit {
     this.expirationDate = this.formGroup.controls['expirationDate'];
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  save(token: RegistrationToken) {
+  public save(token: RegistrationToken) {
     this.spinnerService.show();
     this.centralServerService.createRegistrationToken(token).subscribe((response) => {
       this.spinnerService.hide();

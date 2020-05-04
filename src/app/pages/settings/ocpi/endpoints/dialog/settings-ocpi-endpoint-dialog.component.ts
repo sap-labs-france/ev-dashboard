@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
@@ -59,7 +59,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.formGroup = new FormGroup({
       id: new FormControl(this.currentEndpoint.id),
       name: new FormControl(this.currentEndpoint.name,
@@ -118,11 +118,11 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     });
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  save(endpoint: OcpiEndpoint) {
+  public save(endpoint: OcpiEndpoint) {
     // Show
     this.spinnerService.show();
 
@@ -135,7 +135,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     }
   }
 
-  generateLocalToken(ocpiendpoint: OcpiEndpoint) {
+  public generateLocalToken(ocpiendpoint: OcpiEndpoint) {
     // Show
     this.spinnerService.show();
     // Generate new local token
@@ -154,7 +154,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     });
   }
 
-  testConnection(ocpiendpoint: OcpiEndpoint) {
+  public testConnection(ocpiendpoint: OcpiEndpoint) {
     // Show
     this.spinnerService.show();
     // Ping

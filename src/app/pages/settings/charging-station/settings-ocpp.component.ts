@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { RegistrationTokensTableDataSource } from './registration-tokens/registration-tokens-table-data-source';
 
 @Component({
@@ -14,6 +15,6 @@ export class SettingsOcppComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 }

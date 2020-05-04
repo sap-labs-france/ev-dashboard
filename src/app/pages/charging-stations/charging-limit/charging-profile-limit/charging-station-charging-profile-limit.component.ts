@@ -39,8 +39,8 @@ interface ProfileType {
   ],
 })
 export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
-  @Input() charger!: ChargingStation;
-  @ViewChild('limitChart', { static: true }) limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
+  @Input() public charger!: ChargingStation;
+  @ViewChild('limitChart', { static: true }) public limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
   public profileTypeMap: ProfileType[] = [
     { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
       chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3 },
@@ -72,7 +72,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Init the form
     this.formGroup = new FormGroup({
       profileTypeControl: new FormControl('',
@@ -108,6 +108,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.scheduleEditableTableDataSource.setFormArray(this.chargingSchedules);
     // Initial values
     this.scheduleEditableTableDataSource.setCharger(this.charger);
+    this.scheduleTableDataSource.setCharger(this.charger);
     this.limitChartPlannerComponent.setLimitPlannerData([]);
     // Change the Profile
     this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
@@ -148,7 +149,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     });
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.refresh();
   }
 
@@ -222,6 +223,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Update charger
       this.charger = charger;
       this.scheduleEditableTableDataSource.setCharger(this.charger);
+      this.scheduleTableDataSource.setCharger(this.charger);
       this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
         this.spinnerService.hide();
         this.formGroup.markAsPristine();
@@ -286,7 +288,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           startDate: new Date (this.scheduleEditableTableDataSource.startDate),
           duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
           limit: chargingSchedule.limit,
-          limitInkW: ChargingStations.convertAmpToW(
+          limitInkW: ChargingStations.convertAmpToWatt(
             this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0,
             chargingSchedule.limit) / 1000,
         };

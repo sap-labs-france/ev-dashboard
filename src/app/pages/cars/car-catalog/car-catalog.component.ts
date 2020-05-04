@@ -17,9 +17,9 @@ import { CarCatalogConverterTableDataSource } from './car-catalog-converter-tabl
   ],
 })
 export class CarCatalogComponent implements OnInit {
-  @Input() currentCarCatalogID!: number;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentCarCatalogID!: number;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public carCatalog: CarCatalog;
   public isSuperAdmin: boolean;
 
@@ -33,7 +33,7 @@ export class CarCatalogComponent implements OnInit {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Load
     this.loadCar();
   }
@@ -46,7 +46,7 @@ export class CarCatalogComponent implements OnInit {
     this.closeDialog();
   }
 
-  loadCar() {
+  public loadCar() {
     if (!this.currentCarCatalogID) {
       return;
     }

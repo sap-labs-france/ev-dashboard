@@ -9,6 +9,7 @@ import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Set
 import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+
 import { ComponentService } from '../../../services/component.service';
 
 @Component({
@@ -64,7 +65,7 @@ export class SettingsOcpiComponent implements OnInit {
     this.isActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.isActive) {
       // build form
       this.formGroup = new FormGroup({
@@ -214,7 +215,7 @@ export class SettingsOcpiComponent implements OnInit {
     this.loadConfiguration();
   }
 
-  toUpperCase(control: AbstractControl) {
+  public toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
   }
 }

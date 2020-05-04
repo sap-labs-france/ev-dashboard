@@ -6,7 +6,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { of, Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
@@ -238,7 +238,7 @@ export abstract class TableDataSource<T extends Data> {
     return [];
   }
 
-  abstract buildTableDef(): TableDef;
+  public abstract buildTableDef(): TableDef;
 
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
@@ -399,7 +399,7 @@ export abstract class TableDataSource<T extends Data> {
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
   }
 
-  abstract buildTableColumnDefs(): TableColumnDef[];
+  public abstract buildTableColumnDefs(): TableColumnDef[];
 
   public refreshData(showSpinner = true): Observable<void> {
     // Init paging
@@ -452,7 +452,7 @@ export abstract class TableDataSource<T extends Data> {
     });
   }
 
-  abstract loadDataImpl(): Observable<DataResult<T>>;
+  public abstract loadDataImpl(): Observable<DataResult<T>>;
 
   public getData(): T[] {
     return this.data;
@@ -499,15 +499,15 @@ export abstract class TableDataSource<T extends Data> {
     this.setStaticFilters(staticFilters);
   }
 
-  buildTableDynamicRowActions(row: T): TableActionDef[] {
+  public buildTableDynamicRowActions(row: T): TableActionDef[] {
     return [];
   }
 
-  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+  public canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
     return true;
   }
 
-  isSelectable(row: T) {
+  public isSelectable(row: T) {
     return true;
   }
 

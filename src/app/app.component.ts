@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       const body = document.getElementsByTagName('body')[0];
       const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     // Hide
     setTimeout(() => {
       // Hide

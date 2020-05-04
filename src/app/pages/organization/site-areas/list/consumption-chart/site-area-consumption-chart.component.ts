@@ -18,12 +18,12 @@ import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pip
 })
 
 export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
-  @Input() siteAreaId!: string;
-  @Input() siteAreaConsumption!: SiteAreaConsumption;
+  @Input() public siteAreaId!: string;
+  @Input() public siteAreaConsumption!: SiteAreaConsumption;
 
-  @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
-  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
-  @ViewChild('chart', { static: true }) chartElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
+  @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
   public dateControl!: AbstractControl;
 
@@ -56,7 +56,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Date control
     this.dateControl = new FormControl('dateControl',
     Validators.compose([
@@ -65,7 +65,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.dateControl.setValue(this.startDate);
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
@@ -186,6 +186,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createOptions(): ChartOptions {
     const locale = moment.localeData(this.language);
     const options: ChartOptions = {
+      animation: {
+        duration: 0,
+      },
       legend: {
         position: 'bottom',
         labels: {

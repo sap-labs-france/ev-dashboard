@@ -189,22 +189,22 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpoint, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, ocpiEndpoint: OcpiEndpoint, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showOcpiEndpointDialog(rowItem);
+        this.showOcpiEndpointDialog(ocpiEndpoint);
         break;
       case ButtonAction.DELETE:
-        this.deleteOcpiEndpoint(rowItem);
+        this.deleteOcpiEndpoint(ocpiEndpoint);
         break;
       case ButtonAction.REGISTER:
-        this.registerOcpiEndpoint(rowItem);
+        this.registerOcpiEndpoint(ocpiEndpoint);
         break;
       case ButtonAction.UNREGISTER:
-        this.unregisterOcpiEndpoint(rowItem);
+        this.unregisterOcpiEndpoint(ocpiEndpoint);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, ocpiEndpoint);
     }
   }
 

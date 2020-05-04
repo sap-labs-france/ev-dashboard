@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class DevEnvGuard implements CanLoad {
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>|Promise<boolean>|boolean {
+  public canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>|Promise<boolean>|boolean {
     return !environment.production; // if prod = false it will load module
   }
 }

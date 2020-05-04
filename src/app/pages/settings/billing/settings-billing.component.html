@@ -22,7 +22,11 @@
     </button>
     <button mat-raised-button color="primary" (click)="synchronizeUsers()"
       [disabled]="!formGroup.valid || formGroup.dirty">
-      <mat-icon>sync</mat-icon><span>{{'settings.billing.synchronize_users' | translate}}</span>
+      <mat-icon>sync</mat-icon><span>{{'settings.billing.user.synchronize_users' | translate}}</span>
+    </button>
+    <button mat-raised-button color="primary" (click)="synchronizeInvoices()"
+            [disabled]="!formGroup.valid || formGroup.dirty">
+      <mat-icon>sync</mat-icon><span>{{'settings.billing.invoice.synchronize_invoices' | translate}}</span>
     </button>
   </div>
   <!-- Stripe -->

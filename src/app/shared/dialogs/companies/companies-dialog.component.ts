@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Company } from 'app/types/Company';
 import { KeyValue } from 'app/types/GlobalType';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -7,6 +7,7 @@ import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-so
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
+  providers: [CompaniesDialogTableDataSource]
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   constructor(
@@ -21,7 +22,7 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
     }
   }
 
-  getSelectedItems(selectedRows: Company[]): KeyValue[] {
+  public getSelectedItems(selectedRows: Company[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

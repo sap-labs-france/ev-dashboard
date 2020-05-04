@@ -58,8 +58,8 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: Tag, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    const index = this.editableRows.indexOf(editableRow);
+  public rowActionTriggered(actionDef: TableActionDef, tag: Tag, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+    const index = this.editableRows.indexOf(tag);
     let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_DELETE:
@@ -67,10 +67,10 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         actionDone = true;
         break;
       case ButtonAction.ACTIVATE:
-        this.activateTag(editableRow);
+        this.activateTag(tag);
         break;
       case ButtonAction.DEACTIVATE:
-        this.deactivateTag(editableRow);
+        this.deactivateTag(tag);
         break;
     }
     // Call post process

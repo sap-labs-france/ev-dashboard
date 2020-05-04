@@ -9,12 +9,12 @@ import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableAssignAssetsToSiteAreaAction } from 'app/shared/table/actions/table-assign-assets-to-site-area-action';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableDisplayAssetsAction } from 'app/shared/table/actions/table-display-assets-action';
+import { TableDisplayAssetsOfSiteAreaAction } from 'app/shared/table/actions/table-display-assigned-assets-of-site-area-action';
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableEditAssetsAction } from 'app/shared/table/actions/table-edit-assets-action';
 import { TableEditChargersAction } from 'app/shared/table/actions/table-edit-chargers-action';
 import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
@@ -35,7 +35,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-assets-dialog.component';
 import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
 import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
@@ -45,11 +44,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private readonly isAssetComponentActive: boolean;
   private editAction = new TableEditAction().getActionDef();
   private editChargersAction = new TableEditChargersAction().getActionDef();
-  private editAssetsAction = new TableEditAssetsAction().getActionDef();
+  private assignAssetsAction = new TableAssignAssetsToSiteAreaAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private displayChargersAction = new TableDisplayChargersAction().getActionDef();
-  private displayAssetsAction = new TableDisplayAssetsAction().getActionDef();
+  private displayAssetsAction = new TableDisplayAssetsOfSiteAreaAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
 
   constructor(
@@ -167,7 +166,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         ]).getActionDef(),
       ];
       if (this.isAssetComponentActive) {
-        actions.splice(2, 0, this.editAssetsAction);
+        actions.splice(2, 0, this.assignAssetsAction);
       }
     } else {
       actions = [
@@ -196,31 +195,33 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: SiteArea) {
+  public rowActionTriggered(actionDef: TableActionDef, siteArea: SiteArea) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
       case ButtonAction.VIEW:
-        this.showSiteAreaDialog(rowItem);
+        this.showSiteAreaDialog(siteArea);
         break;
       case ChargingStationButtonAction.EDIT_CHARGERS:
       case ChargingStationButtonAction.DISPLAY_CHARGERS:
-        this.showChargersDialog(rowItem);
+        this.showChargersDialog(siteArea);
         break;
       case ButtonAction.DELETE:
-        this.deleteSiteArea(rowItem);
+        this.deleteSiteArea(siteArea);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(siteArea);
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
-        this.exportOCPPParams(rowItem);
+        this.exportOCPPParams(siteArea);
         break;
-      case AssetButtonAction.EDIT_ASSETS:
-      case AssetButtonAction.DISPLAY_ASSETS:
-        this.showAssetsDialog(rowItem);
+      case AssetButtonAction.ASSIGN_ASSETS_TO_SITE_AREA:
+      case AssetButtonAction.DISPLAY_ASSETS_OF_SITE_AREA:
+        if (actionDef.action) {
+          actionDef.action(siteArea, this.dialog);
+        }
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, siteArea);
     }
   }
 
@@ -274,19 +275,6 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     dialogConfig.disableClose = true;
     // Open
     this.dialog.open(SiteAreaChargersDialogComponent, dialogConfig);
-  }
-
-  private showAssetsDialog(siteArea: SiteArea) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (siteArea) {
-      dialogConfig.data = siteArea;
-    }
-    // Disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialog.open(SiteAreaAssetsDialogComponent, dialogConfig);
   }
 
   private deleteSiteArea(siteArea: SiteArea) {

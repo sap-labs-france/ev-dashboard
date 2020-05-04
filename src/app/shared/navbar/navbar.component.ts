@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as jQuery from 'jquery';
 import { filter } from 'rxjs/operators';
+
 import { RouteGuardService } from '../../guard/route-guard';
 import { CentralServerService } from '../../services/central-server.service';
 
@@ -122,7 +123,6 @@ export class NavbarComponent implements OnInit {
   }
 
   public onResize(event: Event) {
-    // @ts-ignore
     return jQuery(window).width() <= 991;
   }
 

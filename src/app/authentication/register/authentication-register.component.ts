@@ -6,6 +6,7 @@ import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { User } from 'app/types/User';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';

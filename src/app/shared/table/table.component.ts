@@ -11,6 +11,7 @@ import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEd
 import { Constants } from 'app/utils/Constants';
 import { Subscription, fromEvent, interval } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
+
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
@@ -83,9 +84,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
       // Observe the Search field
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
-        // @ts-ignore
         takeWhile(() => this.alive),
-        // @ts-ignore
         map((e: KeyboardEvent) => e.target['value']),
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
         distinctUntilChanged(),
@@ -241,7 +240,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (refreshObservable) {
         this.autoRefreshSubscription = refreshObservable.pipe(
-          // @ts-ignore
           takeWhile(() => this.alive),
         ).subscribe(() => {
           if (!this.ongoingRefresh) {
@@ -265,7 +263,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       const refreshObservable = this.dataSource.getManualDataChangeSubject();
       if (refreshObservable) {
         this.manualRefreshSubscription = refreshObservable.pipe(
-          // @ts-ignore
           takeWhile(() => this.alive),
         ).subscribe(() => {
           if (!this.ongoingRefresh) {
@@ -283,7 +280,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.manualRefreshSubscription = null;
   }
 
-  // @ts-ignore
   public toggleAutoRefresh({ checked }) {
     if (checked) {
       this.createAutoRefresh();
@@ -367,7 +363,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // No: Load details from data source
         this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
           // Set details
-          // @ts-ignore
           row[this.dataSource.tableDef.rowDetails.detailsField] = details;
           // No: Expand it!
           row.isExpanded = true;

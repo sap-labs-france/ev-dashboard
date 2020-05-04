@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { AppDecimalPipe } from './app-decimal-pipe';
 
 @Pipe({name: 'appUnit'})
@@ -9,12 +10,9 @@ export class AppUnitPipe implements PipeTransform {
   }
 
   private parseMeasure(measureAsString: string): Measure {
-    // @ts-ignore
     if (Unit[Unit[measureAsString]] === measureAsString) {
-      // @ts-ignore
       return {unit: Unit[measureAsString], size: Size.basis};
     }
-    // @ts-ignore
     return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any};
   }
 

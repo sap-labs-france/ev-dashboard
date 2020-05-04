@@ -96,7 +96,6 @@ export class LocalStorageService {
 
   private sendRequest(data: any) {
     // Keep call back
-    // @ts-ignore
     this.requests[data.request.id] = data.callback;
     // Post
     parent.postMessage(JSON.stringify(data.request), '*');

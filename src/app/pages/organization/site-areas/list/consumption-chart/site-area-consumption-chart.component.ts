@@ -7,6 +7,7 @@ import { SiteAreaConsumption } from 'app/types/SiteArea';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
@@ -162,7 +163,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private refreshDataSets() {
     if (this.data.datasets) {
       for (const key of Object.keys(this.data.datasets)) {
-        // @ts-ignore
         this.data.datasets[key].data = [];
       }
       const instantPowerDataSet = this.getDataSet('instantPower');
@@ -216,7 +216,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
               const dataSet = data.datasets[tooltipItem.datasetIndex];
               if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
                 const value = dataSet.data[tooltipItem.index] as number;
-                // @ts-ignore: usage of unknown fucking 'name' property
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantPower':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';

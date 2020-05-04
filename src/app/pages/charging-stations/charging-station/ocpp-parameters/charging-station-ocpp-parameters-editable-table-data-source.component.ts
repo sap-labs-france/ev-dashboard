@@ -7,12 +7,12 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OcppParameter, OCPPConfigurationStatus } from 'app/types/ChargingStation';
+import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-// @ts-ignore
 import saveAs from 'file-saver';
+
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';

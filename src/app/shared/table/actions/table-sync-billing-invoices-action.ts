@@ -1,14 +1,14 @@
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 
-import { BillingButtonAction } from '../../../types/Billing';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { RestResponse } from 'app/types/GlobalType';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
-import { TableAction } from './table-action';
-import { TranslateService } from '@ngx-translate/core';
+import { BillingButtonAction } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
+import { TableAction } from './table-action';
 
 export class TableSyncBillingInvoicesAction implements TableAction {
   private action: TableActionDef = {

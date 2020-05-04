@@ -10,7 +10,7 @@ import { Utils } from 'app/utils/Utils';
 import { CarCatalogConverterTableDataSource } from './car-catalog-converter-table-data-source';
 
 @Component({
-  selector: 'app-car',
+  selector: 'app-car-catalog',
   templateUrl: 'car-catalog.component.html',
   providers: [
     CarCatalogConverterTableDataSource,

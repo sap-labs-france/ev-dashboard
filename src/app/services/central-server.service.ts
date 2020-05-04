@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
+import { CarCatalog, CarMakersTable, ImageObject, UserCar } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -2248,6 +2248,26 @@ export class CentralServerService {
       );
   }
 
+  public getUserCars(params: { [param: string]: string | string[]; },
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<UserCar>>(
+      `${this.centralRestServerServiceSecuredURL}/UserCars`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getCarCatalog(carCatalogID: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
@@ -2300,6 +2320,19 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCarCatalogs`, {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createCar(userCar: any): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, userCar,
       {
         headers: this.buildHttpHeaders(),
       })

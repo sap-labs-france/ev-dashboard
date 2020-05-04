@@ -33,6 +33,21 @@ export interface CarCatalog extends Data {
   chargeStandardTables: ChargeStandardTable[];
 }
 
+export interface UserCar extends Data {
+  vin: string;
+  licensePlate: string;
+  carCatalog: CarCatalog;
+}
+
+export interface Car extends Data {
+  id: string;
+  vin: string;
+  licensePlate: string;
+  carCatalogID: number;
+  userIDs?: string;
+  forced?: boolean;
+}
+
 export interface ChargeStandardTable extends Data {
   type: string;
   evsePhaseVolt: number;

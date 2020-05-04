@@ -8,6 +8,7 @@ import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDe
 import { Utils } from 'app/utils/Utils';
 import { Observable, Subject, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -330,7 +331,6 @@ export abstract class TableDataSource<T extends Data> {
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           // Date
           if (filterDef.type === 'date') {
-            // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog
           } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
@@ -342,10 +342,8 @@ export abstract class TableDataSource<T extends Data> {
                   for (const value of filterDef.currentValue) {
                     jsonKeys.push(value.key);
                   }
-                  // @ts-ignore
                   filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
                 } else {
-                  // @ts-ignore
                   filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
                 }
               }
@@ -353,18 +351,15 @@ export abstract class TableDataSource<T extends Data> {
             // Dialog with multiple selections
           } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0 && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
-              // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
           } else {
-            // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
         }
@@ -373,7 +368,6 @@ export abstract class TableDataSource<T extends Data> {
     // With Search?
     const searchValue = this.getSearchValue();
     if (withSearch && searchValue) {
-      // @ts-ignore
       filterJson['Search'] = searchValue;
     }
     // Static filters
@@ -534,7 +528,6 @@ export abstract class TableDataSource<T extends Data> {
     if (this.hasRowActions) {
       // Check if authorized
       this.tableRowActionsDef.forEach((rowActionDef) => {
-        // @ts-ignore
         row[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, row);
       });
     }
@@ -634,12 +627,10 @@ export abstract class TableDataSource<T extends Data> {
           let value = freshRow;
           keys.forEach((key) => {
             if (value) {
-              // @ts-ignore
               value = value[key];
             }
           });
           // Create new var for direct access
-          // @ts-ignore
           freshRow[tableColumnDef.id] = value;
         }
       }
@@ -647,7 +638,6 @@ export abstract class TableDataSource<T extends Data> {
       if (this.tableDef.hasDynamicRowAction) {
         const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
         if (dynamicRowActions.length > 0) {
-          // @ts-ignore
           freshRow['dynamicRowActions'] = dynamicRowActions;
         }
       }
@@ -662,7 +652,6 @@ export abstract class TableDataSource<T extends Data> {
         const rowID = this.initTableDef(false).rowFieldNameIdentifier;
         // Set the ID
         if (!rowID) {
-          // @ts-ignore
           freshRow.id = freshRow[rowID];
         }
       }
@@ -674,7 +663,6 @@ export abstract class TableDataSource<T extends Data> {
           // Check if it's still visible
           if (Utils.objectHasProperty(freshRow, this.tableDef.rowDetails.showDetailsField)) {
             // Set
-            // @ts-ignore
             freshRow.isExpanded = freshRow[this.tableDef.rowDetails.showDetailsField];
           } else {
             freshRow.isExpanded = true;
@@ -685,7 +673,6 @@ export abstract class TableDataSource<T extends Data> {
         }
         // Detailed field?
         if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailsField) {
-          // @ts-ignore
           freshRow[this.tableDef.rowDetails.detailsField] = foundExpandedRow[this.tableDef.rowDetails.detailsField];
         }
       }

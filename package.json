@@ -16,8 +16,15 @@
     }
   ],
   "importSort": {
-    ".js, .jsx, .es6, .es, .mjs, .ts, .tsx": {
-      "style": "module"
+    ".js, .jsx, .es6, .es, .mjs": {
+      "parser": "babylon",
+      "style": "module",
+      "options": {}
+    },
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "module",
+      "options": {}
     }
   },
   "scripts": {
@@ -123,6 +130,7 @@
     "codelyzer": "^5.1.2",
     "faker": "^4.1.0",
     "husky": "^4.2.3",
+    "import-sort-parser-typescript": "^6.0.0",
     "jasmine": "^3.5.0",
     "jasmine-core": "^3.5.0",
     "jasmine-spec-reporter": "^5.0.1",

@@ -1,9 +1,9 @@
-
 import { Location, PopStateEvent } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 declare const $: any;
@@ -41,7 +41,6 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       } else if (event instanceof NavigationEnd) {
         if (event.url === this.lastPoppedUrl) {
           this.lastPoppedUrl = null;
-          // @ts-ignore
           window.scrollTo(0, this.yScrollStack.pop());
         } else {
           window.scrollTo(0, 0);

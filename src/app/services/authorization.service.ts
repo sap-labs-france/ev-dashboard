@@ -1,11 +1,11 @@
-import { Action, Entity, Role } from 'app/types/Authorization';
-
-import { CentralServerService } from './central-server.service';
-import { ComponentService } from './component.service';
 import { Injectable } from '@angular/core';
+import { Action, Entity, Role } from 'app/types/Authorization';
 import { SiteArea } from 'app/types/SiteArea';
 import TenantComponents from 'app/types/TenantComponents';
 import { UserToken } from 'app/types/User';
+
+import { CentralServerService } from './central-server.service';
+import { ComponentService } from './component.service';
 
 @Injectable()
 export class AuthorizationService {

@@ -3,7 +3,7 @@ import { AssetComponent } from '../asset/asset.component';
 import { AssetsListTableDataSource } from './assets-list-table-data-source';
 
 @Component({
-  selector: 'app-assets-list',
+  selector: 'app-invoices-list',
   template: '<app-table [dataSource]="assetsListTableDataSource"></app-table>',
   providers: [AssetsListTableDataSource, AssetComponent],
 })

@@ -27,10 +27,10 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { ButtonAction } from '../../../types/GlobalType';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
-import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
 import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {

@@ -1662,7 +1662,11 @@
     "type_placeholder": "Type",
     "description": "Interface de Facturation",
     "id": "ID facturation",
-    "updatedOn": "Synchronisé le"
+    "updatedOn": "Synchronisé le",
+    "tabs": {
+      "invoices": "Factures",
+      "in_error": "En Erreur"
+    }
   },
   "transactions": {
     "id": "Id",

@@ -2,8 +2,8 @@
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
     <mat-tab>
       <ng-template mat-tab-label>
-        <i class="fa fa-lg fa-university"></i>
-        &nbsp;&nbsp;{{'asset.tabs.assets' | translate}}
+        <mat-icon>receipt</mat-icon>
+        &nbsp;&nbsp;{{'billing.tabs.invoices' | translate}}
       </ng-template>
       <ng-template matTabContent>
         <app-invoices-list></app-invoices-list>
@@ -11,7 +11,7 @@
     </mat-tab>
     <mat-tab *ngIf="isAdmin">
       <ng-template mat-tab-label>
-        <mat-icon>warning</mat-icon><span>{{'asset.tabs.in_error' | translate}}</span>
+        <mat-icon>warning</mat-icon><span>{{'billing.tabs.in_error' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-assets-in-error></app-assets-in-error>

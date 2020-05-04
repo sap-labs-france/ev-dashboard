@@ -12,7 +12,6 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppFormatInvoiceStatusPipe, InvoiceStatusFormatterComponent } from './cell-components/invoice-status-formatter.component';
 import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
 import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
@@ -21,7 +20,6 @@ import { TransactionsInErrorTableDataSource } from './in-error/transactions-in-e
 import { TransactionsInErrorComponent } from './in-error/transactions-in-error.component';
 import { TransactionsInProgressTableDataSource } from './in-progress/transactions-in-progress-table-data-source';
 import { TransactionsInProgressComponent } from './in-progress/transactions-in-progress.component';
-import { InvoicesComponent } from './invoices/invoices.component';
 import { TransactionsRefundTableDataSource } from './refund/transactions-refund-table-data-source';
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
 import { TransactionsComponent } from './transactions.component';
@@ -50,9 +48,6 @@ import { TransactionsRoutes } from './transactions.routing';
     AppTransactionsFormatConnector,
     TransactionsConnectorCellComponent,
     TransactionsInactivityCellComponent,
-    InvoiceStatusFormatterComponent,
-    InvoicesComponent,
-    AppFormatInvoiceStatusPipe,
   ],
   entryComponents: [
     TransactionsComponent,
@@ -64,7 +59,6 @@ import { TransactionsRoutes } from './transactions.routing';
     ConsumptionChartComponent,
     ErrorCodeDetailsComponent,
     TransactionsInactivityCellComponent,
-    InvoiceStatusFormatterComponent,
   ],
   exports: [
     TransactionsComponent,

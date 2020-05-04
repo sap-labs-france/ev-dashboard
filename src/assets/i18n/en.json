@@ -1663,7 +1663,11 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on"
+    "updatedOn": "Synchronized on",
+    "tabs": {
+      "invoices": "Invoices",
+      "in_error": "In Error"
+    }
   },
   "transactions": {
     "id": "Id",

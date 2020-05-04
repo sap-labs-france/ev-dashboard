@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Implement OCPI Check Sessions, CDRs and Locations`
+              `Implement OCPI Check Sessions, CDRs and Locations`,
+              `Added Locking on all Scheduler's tasks`
             ],
           },
         ],

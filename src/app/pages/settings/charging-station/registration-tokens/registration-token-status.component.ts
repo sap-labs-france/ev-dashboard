@@ -52,12 +52,10 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
   }
 
   private isExpired(registrationToken: RegistrationToken): boolean {
-    // @ts-ignore
     return registrationToken.expirationDate && moment().isAfter(registrationToken.expirationDate);
   }
 
   private isRevoked(registrationToken: RegistrationToken): boolean {
-    // @ts-ignore
     return registrationToken.revocationDate && moment().isAfter(registrationToken.revocationDate);
   }
 }

@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
+
 import { WINDOW } from '../providers/window.provider';
 import { ConfigService } from './config.service';
 
@@ -57,7 +58,6 @@ export class WindowService {
   }
 
   public getSearch(name: string): string {
-    // @ts-ignore
     return new URLSearchParams(window.location.search).get(name);
   }
 

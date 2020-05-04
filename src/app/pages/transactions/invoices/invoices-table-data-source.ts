@@ -183,7 +183,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
-      // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),

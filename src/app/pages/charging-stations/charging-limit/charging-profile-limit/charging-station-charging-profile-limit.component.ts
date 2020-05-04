@@ -17,6 +17,7 @@ import TenantComponents from 'app/types/TenantComponents';
 import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
+
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
@@ -100,7 +101,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.startDateControl = this.formGroup.controls['startDateControl'];
     this.endDateControl = this.formGroup.controls['endDateControl'];
     this.chargingSchedules = this.formGroup.controls['schedules'] as FormArray;
-    // @ts-ignore
     this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
     this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
     this.profileTypeControl.setValue(this.profileTypeMap[0]);
@@ -126,11 +126,9 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         // Set the date at midnight next day
-        // @ts-ignore
         this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
       } else {
-        // @ts-ignore
         this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
         this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
         this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
@@ -155,7 +153,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
 
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors|null {
     // Check
-    // @ts-ignore
     if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
       // Ok
       return null;
@@ -166,7 +163,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors|null {
     // Check
     if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
-      // @ts-ignore
       moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
       // Ok
       return null;

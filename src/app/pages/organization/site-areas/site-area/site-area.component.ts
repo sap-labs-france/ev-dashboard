@@ -24,6 +24,7 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { ChargingStations } from '../../../../utils/ChargingStations';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
@@ -410,7 +411,6 @@ export class SiteAreaComponent implements OnInit {
   }
 
   private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
-    // @ts-ignore
     const now = moment();
     return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
       && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));

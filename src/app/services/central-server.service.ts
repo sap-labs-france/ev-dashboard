@@ -1977,6 +1977,48 @@ export class CentralServerService {
       );
   }
 
+  public checkLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckLocations`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckSessions`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this.checkInit();

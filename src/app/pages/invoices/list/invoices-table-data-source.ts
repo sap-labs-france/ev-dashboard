@@ -21,6 +21,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUserInvoicesAction } from '../../../shared/table/actions/table-sync-billing-user-invoices-action';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -182,11 +183,15 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [
+    const filters = [
       // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
+    if (this.authorizationService.isAdmin()) {
+      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+    }
+    return filters;
   }
 }

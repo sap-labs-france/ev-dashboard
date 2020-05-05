@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, 
 import { TranslateService } from '@ngx-translate/core';
 import { Role } from 'app/types/Authorization';
 import { environment } from 'environments/environment';
+
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ComponentService } from '../services/component.service';
@@ -55,7 +56,6 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       this.userRole = undefined;
     }
     // Add URL origin
-    // @ts-ignore
     queryParams['returnUrl'] = routerState.url;
     // Check user/pass in URL
     const email = activatedRoute.queryParams['email'];

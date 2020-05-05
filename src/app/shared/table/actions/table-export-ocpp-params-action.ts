@@ -4,8 +4,8 @@ import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
-// @ts-ignore
 import saveAs from 'file-saver';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';

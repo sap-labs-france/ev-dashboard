@@ -1525,7 +1525,6 @@ export class CentralServerService {
     this.setLoggedUserToken(token, true);
     // Init Socket IO
     if (this.currentUser && this.configService.getCentralSystemServer().socketIOEnabled) {
-      // @ts-ignore
       this.centralServerNotificationService.initSocketIO(token);
     }
   }
@@ -1533,7 +1532,6 @@ export class CentralServerService {
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
     // Keep token
     this.currentUserToken = token;
-    // @ts-ignore
     this.currentUser = null;
     // Not null?
     if (token) {
@@ -1578,9 +1576,7 @@ export class CentralServerService {
 
   public clearLoggedUserToken(): void {
     // Clear
-    // @ts-ignore
     this.currentUserToken = null;
-    // @ts-ignore
     this.currentUser = null;
     this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
@@ -1588,7 +1584,6 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    // @ts-ignore
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
@@ -1969,6 +1964,48 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckLocations`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckSessions`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2610,12 +2647,10 @@ export class CentralServerService {
       'Content-Type': 'application/json'
     };
     if (tenant !== undefined) {
-      // @ts-ignore
       header['Tenant'] = tenant;
     }
     // Check token
     if (this.getLoggedUserToken()) {
-      // @ts-ignore
       header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
     }
     // Build Header
@@ -2631,9 +2666,7 @@ export class CentralServerService {
         sortFields.push(order.field);
         sortDirs.push(order.direction);
       });
-      // @ts-ignore
       queryParams['SortFields'] = sortFields;
-      // @ts-ignore
       queryParams['SortDirs'] = sortDirs;
     }
   }

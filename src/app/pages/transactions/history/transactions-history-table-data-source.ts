@@ -13,10 +13,10 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
-// @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -226,7 +226,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      // @ts-ignore
       new IssuerFilter().getFilterDef(),
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),

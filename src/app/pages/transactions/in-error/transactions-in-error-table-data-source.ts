@@ -16,6 +16,7 @@ import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -237,7 +238,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     errorTypes.sort(Utils.sortArrayOfJsonWithValue);
     // Build filters
     const filters: TableFilterDef[] = [
-      // @ts-ignore
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
       new TransactionsDateUntilFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),

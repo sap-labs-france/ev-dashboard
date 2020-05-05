@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'app/services/message.service';
 import { CurrentMetrics } from 'app/types/Statistic';
-import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
+
 import { CentralServerService } from './central-server.service';
 
 const DATA_LOAD_INTERVAL = 10000;
@@ -60,12 +60,10 @@ export class DashboardService {
     }
     const graphLabels = [];
     let graphSerie: any = [];
-    // @ts-ignore
     let date = moment();
     switch (period) {
       case 'day':
-        // create a date/time for each hour
-        // @ts-ignore
+        // Create a date/time for each hour
         date = moment().startOf('day');
         do {
           graphLabels.push(date.format('h:mm'));

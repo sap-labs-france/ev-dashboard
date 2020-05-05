@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
 import { ButtonType } from 'app/types/Table';
+
 import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
@@ -153,17 +154,14 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
       switch (error.status) {
         // Wrong email or password
         case 550:
-          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
           break;
         // Account is locked
         case 570:
-          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['account_locked']);
           break;
         // Account Suspended
         case 580:
-          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['account_suspended']);
           break;
         // Account Pending
@@ -171,7 +169,6 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
           // Pending Users from the Super Tenant should not be able to request an activation email
           if (this.subDomain !== '') {
             // Usual Users
-            // @ts-ignore
             this.messageService.showWarningMessage(this.messages['account_pending']);
             // No Create and show dialog data
             this.dialogService.createAndShowYesNoDialog(
@@ -179,13 +176,11 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               this.translateService.instant('authentication.verify_email_resend_confirm'),
             ).subscribe((response) => {
               if (response === ButtonType.YES) {
-                // @ts-ignore
                 this.router.navigate(['/auth/verify-email'], {queryParams: {Email: user['email']}});
               }
             });
           } else {
             // Super Admin Users
-            // @ts-ignore
             this.messageService.showWarningMessage(this.messages['super_user_account_pending']);
           }
           break;

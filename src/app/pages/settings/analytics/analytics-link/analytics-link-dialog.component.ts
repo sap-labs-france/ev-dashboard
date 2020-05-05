@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyValue } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
@@ -40,7 +40,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.roleList = [
       { key: 'A', value: '' },
       { key: 'D', value: '' },
@@ -79,15 +79,15 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     });
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  setLinkAndClose(analyticsLink: SettingLink) {
+  public setLinkAndClose(analyticsLink: SettingLink) {
     this.dialogRef.close(analyticsLink);
   }
 
-  openUrl() {
+  public openUrl() {
     window.open(this.url.value);
   }
 }

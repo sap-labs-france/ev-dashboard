@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -23,7 +23,7 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
     dialogDataSource.setSitesAdminOnly(data && data.sitesAdminOnly);
   }
 
-  getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {
+  public getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

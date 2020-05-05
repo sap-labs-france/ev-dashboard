@@ -18,7 +18,7 @@ import { Utils } from '../../../../utils/Utils';
     </div>`,
 })
 export class SiteUsersAdminCheckboxComponent extends CellContentTemplateComponent {
-  @Input() row!: UserSite;
+  @Input() public row!: UserSite;
   public loggedUser: UserToken;
 
   constructor(

@@ -2,6 +2,7 @@ import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { ChargingStation, ChargingStationCapabilities, OcppAdvancedCommands } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { Utils } from 'app/utils/Utils';
+
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 
 export interface PropertyDisplay {
@@ -17,9 +18,9 @@ export interface PropertyDisplay {
 })
 @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
-  @Input() charger!: ChargingStation;
-  chargerFormatted: any = {};
-  displayedProperties: PropertyDisplay[] = [
+  @Input() public charger!: ChargingStation;
+  public chargerFormatted: any = {};
+  public displayedProperties: PropertyDisplay[] = [
     {key: 'chargePointVendor', title: 'chargers.vendor'},
     {key: 'chargePointModel', title: 'chargers.model'},
     {key: 'chargeBoxSerialNumber', title: 'chargers.serial_number'},
@@ -44,7 +45,6 @@ export class ChargingStationPropertiesComponent implements OnInit {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
             if (Utils.objectHasProperty(capabilities, key)) {
-              // @ts-ignore
               formatterValues.push(`${key}: ${capabilities[key]}`);
             }
           }
@@ -95,19 +95,17 @@ export class ChargingStationPropertiesComponent implements OnInit {
     },
   ];
 
-  displayedColumns: string[] = ['title', 'value'];
+  public displayedColumns: string[] = ['title', 'value'];
 
   constructor(private datePipe: AppDatePipe) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Format
     for (const property of this.displayedProperties) {
       if (property.formatter) {
-        // @ts-ignore
         property['value'] = property.formatter(this.charger[property.key]);
       } else {
-        // @ts-ignore
         property['value'] = this.charger[property.key];
       }
     }

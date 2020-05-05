@@ -30,6 +30,9 @@ export interface OcpiEndpointDetail extends Data {
 export enum OcpiButtonAction {
   PUSH_TOKENS = 'push_tokens',
   PUSH_LOCATIONS = 'push_locations',
+  CHECK_CDRS = 'check_cdrs',
+  CHECK_LOCATIONS = 'check_locations',
+  CHECK_SESSIONS = 'check_sessions',
   PULL_CDRS = 'pull_cdrs',
   PULL_LOCATIONS = 'pull_locations',
   PULL_SESSIONS = 'pull_sessions',

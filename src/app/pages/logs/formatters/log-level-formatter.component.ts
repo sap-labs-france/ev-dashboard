@@ -14,12 +14,12 @@ import { logLevels } from '../model/logs.model';
   `,
 })
 export class LogLevelFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: Log;
+  @Input() public row!: Log;
 }
 
 @Pipe({name: 'appFormatLogLevel'})
 export class AppFormatLogLevelPipe implements PipeTransform {
-  transform(logLevel: string, type: string): string {
+  public transform(logLevel: string, type: string): string {
     if (type === 'class') {
       return this.buildLogLevelClasses(logLevel);
     }
@@ -29,7 +29,7 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     return '';
   }
 
-  buildLogLevelClasses(logLevel: string): string {
+  public buildLogLevelClasses(logLevel: string): string {
     let classNames = 'chip-width-5em ';
     switch (logLevel) {
       case 'E':
@@ -54,7 +54,7 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     return classNames;
   }
 
-  buildLogLevelText(logLevel: string): string {
+  public buildLogLevelText(logLevel: string): string {
     for (const level of logLevels) {
       if (logLevel === level.key) {
         return level.value;

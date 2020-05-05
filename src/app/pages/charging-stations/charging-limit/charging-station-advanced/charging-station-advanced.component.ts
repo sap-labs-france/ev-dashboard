@@ -16,7 +16,7 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationAdvancedComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
 
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;
@@ -33,7 +33,7 @@ export class ChargingStationAdvancedComponent implements OnInit {
     this.connectorIds = [];
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Set
     for (const connector of this.charger.connectors) {
       this.connectorIds.push(connector.connectorId as unknown as string);

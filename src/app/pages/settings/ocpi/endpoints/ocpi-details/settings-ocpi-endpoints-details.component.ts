@@ -9,17 +9,17 @@ import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-end
 })
 
 export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row!: OcpiEndpoint;
+  @Input() public row!: OcpiEndpoint;
 
   constructor(public settingsOcpiEnpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
     super();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.refreshData();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.refreshData();
   }
 

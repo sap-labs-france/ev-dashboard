@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnalyticsSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
-// @ts-ignore
 import moment from 'moment-timezone';
+
 import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links-table-data-source';
 
 @Component({
@@ -11,8 +11,8 @@ import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links
   templateUrl: 'settings-sac.component.html',
 })
 export class SettingsSacComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() analyticsSettings!: AnalyticsSettings;
+  @Input() public formGroup!: FormGroup;
+  @Input() public analyticsSettings!: AnalyticsSettings;
 
   public sac!: FormGroup;
   public mainUrl!: AbstractControl;
@@ -25,7 +25,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
     this.timezoneList = moment.tz.names();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Add control
     this.sac = new FormGroup({
       mainUrl: new FormControl('',
@@ -45,15 +45,15 @@ export class SettingsSacComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  openUrl() {
+  public openUrl() {
     window.open(this.mainUrl.value);
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateFormData();
   }
 
-  updateFormData() {
+  public updateFormData() {
     // Set data
     if (this.mainUrl) {
       this.mainUrl.setValue(this.analyticsSettings.sac.mainUrl);

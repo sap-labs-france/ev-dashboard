@@ -17,10 +17,10 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
 
 })
 export class ChargingStationsTransactionDetailComponentCellComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row: any;
-  locale!: string;
-  displaySessionAuthorized!: boolean;
-  dialogRef!: MatDialogRef<TransactionDialogComponent>;
+  @Input() public row: any;
+  public locale!: string;
+  public displaySessionAuthorized!: boolean;
+  public dialogRef!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
       private localeService: LocaleService,
@@ -32,7 +32,7 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
     });
   }
 
-  showSessionDialog() {
+  public showSessionDialog() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -51,13 +51,13 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
     this.dialogRef = this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
-  refresh() {
+  public refresh() {
     if (this.dialogRef && this.dialogRef.componentInstance) {
       this.dialogRef.componentInstance.refresh();
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.displaySessionAuthorized = this.authorizationService.isAdmin() || this.authorizationService.isDemo();
   }
 }

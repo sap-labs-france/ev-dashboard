@@ -18,7 +18,7 @@ export class AppInactivityPipe implements PipeTransform {
     });
   }
 
-  transform(totalInactivitySecs: number, totalDurationSecs?: number): string {
+  public transform(totalInactivitySecs: number, totalDurationSecs?: number): string {
     if (totalDurationSecs) {
       const percentage = totalDurationSecs > 0 ? (totalInactivitySecs / totalDurationSecs) : 0;
       return this.appDurationPipe.transform(totalInactivitySecs) +

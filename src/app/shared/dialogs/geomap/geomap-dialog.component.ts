@@ -1,6 +1,6 @@
 import { MapTypeId, MouseEvent } from '@agm/core';
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
@@ -47,7 +47,7 @@ export class GeoMapDialogComponent {
     });
   }
 
-  mapClick(event: MouseEvent) {
+  public mapClick(event: MouseEvent) {
     if (event && event.coords) {
       if (event.coords.lat) {
         this.markerLatitude = event.coords.lat;
@@ -58,7 +58,7 @@ export class GeoMapDialogComponent {
     }
   }
 
-  mapTypeIdChange(mapTypeId: MapTypeId) {
+  public mapTypeIdChange(mapTypeId: MapTypeId) {
     switch (mapTypeId) {
       case MapTypeId.HYBRID:
       case MapTypeId.SATELLITE:
@@ -69,7 +69,7 @@ export class GeoMapDialogComponent {
     }
   }
 
-  setAddress(address: Address) {
+  public setAddress(address: Address) {
     // Latitude
     this.markerLatitude = address.geometry.location.lat();
     this.mapLatitude = address.geometry.location.lat();
@@ -78,26 +78,26 @@ export class GeoMapDialogComponent {
     this.mapLongitude = address.geometry.location.lng();
   }
 
-  validate() {
+  public validate() {
     this.dialogRef.close({ latitude: this.markerLatitude, longitude: this.markerLongitude });
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close();
   }
 
-  maxZoom() {
+  public maxZoom() {
     if (this.map) {
       this.map.setCenter({ lat: this.markerLatitude, lng: this.markerLongitude });
       this.map.setZoom(20);
     }
   }
 
-  minZoom() {
+  public minZoom() {
     this.map.setZoom(4);
   }
 
-  mapReady(map) {
+  public mapReady(map) {
     this.map = map;
     this.map.setTilt(0);
     this.mapTypeIdChange(map.getMapTypeId());

@@ -23,7 +23,7 @@ export class UsersListComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Check if User ID id provided
     const userId = this.windowService.getSearch('UserID');
     if (userId) {

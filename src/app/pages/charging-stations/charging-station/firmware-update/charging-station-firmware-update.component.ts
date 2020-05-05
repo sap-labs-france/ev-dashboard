@@ -17,7 +17,7 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: './charging-station-firmware-update.component.html',
 })
 export class ChargingStationFirmwareUpdateComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   private messages: any;
@@ -48,7 +48,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
   public urlChanged(value: string) {

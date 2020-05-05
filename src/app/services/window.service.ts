@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
+
 import { WINDOW } from '../providers/window.provider';
 import { ConfigService } from './config.service';
 
@@ -8,40 +9,40 @@ export class WindowService {
   constructor(@Inject(WINDOW) private window: Window, private configService: ConfigService) {
   }
 
-  getHostname(): string {
+  public getHostname(): string {
     return this.window.location.hostname;
   }
 
-  getHost(): string {
+  public getHost(): string {
     return this.window.location.host;
   }
 
-  getProtocol(): string {
+  public getProtocol(): string {
     return this.window.location.protocol;
   }
 
-  getPath(): string {
+  public getPath(): string {
     return this.window.location.pathname;
   }
 
-  getOrigin(): string {
+  public getOrigin(): string {
     return this.window.location.origin;
   }
 
-  getHash(): string {
+  public getHash(): string {
     return this.window.location.hash.substring(1);
   }
 
-  getSubdomain(): string {
+  public getSubdomain(): string {
     const subdomain = this.getHostname().split(this.configService.getFrontEnd().host)[0];
     return subdomain.split('.')[0];
   }
 
-  getLocalStorage(): Storage {
+  public getLocalStorage(): Storage {
     return this.window.localStorage;
   }
 
-  rewriteHashUrl(): boolean {
+  public rewriteHashUrl(): boolean {
     if (this.window.location.href.includes('/#/')) {
       const rewrittenUrl = this.window.location.href.replace('/#/', '/');
       this.window.location.replace(rewrittenUrl);
@@ -50,22 +51,21 @@ export class WindowService {
     return false;
   }
 
-  setHash(hash: string): void {
+  public setHash(hash: string): void {
     if (this.getHash() !== hash) {
       this.window.history.replaceState({}, '', `${this.getPath()}#${hash}`);
     }
   }
 
-  getSearch(name: string): string {
-    // @ts-ignore
+  public getSearch(name: string): string {
     return new URLSearchParams(window.location.search).get(name);
   }
 
-  getSearches(name: string): string[] {
+  public getSearches(name: string): string[] {
     return new URLSearchParams(window.location.search).getAll(name);
   }
 
-  appendSearch(name: string, value: string) {
+  public appendSearch(name: string, value: string) {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Add
@@ -74,7 +74,7 @@ export class WindowService {
     this.setSearchQueryParams(urlSearchParams.toString());
   }
 
-  setSearch(name: string, value: string): void {
+  public setSearch(name: string, value: string): void {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Set
@@ -83,7 +83,7 @@ export class WindowService {
     this.setSearchQueryParams(urlSearchParams.toString());
   }
 
-  deleteSearch(name: string): void {
+  public deleteSearch(name: string): void {
     // Parse the query string
     const urlSearchParams = new URLSearchParams(window.location.search);
     // Delete
@@ -92,7 +92,7 @@ export class WindowService {
     this.setSearchQueryParams(urlSearchParams.toString());
   }
 
-  clearSearch() {
+  public clearSearch() {
     this.setSearchQueryParams(null);
   }
 

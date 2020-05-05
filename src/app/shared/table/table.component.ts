@@ -9,8 +9,9 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
-import { fromEvent, interval, Subscription } from 'rxjs';
+import { Subscription, fromEvent, interval } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
+
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
@@ -20,8 +21,8 @@ import { TableDataSource } from './table-data-source';
   templateUrl: 'table.component.html',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() dataSource!: TableDataSource<Data>;
-  @ViewChild('searchInput') searchInput!: ElementRef;
+  @Input() public dataSource!: TableDataSource<Data>;
+  @ViewChild('searchInput') public searchInput!: ElementRef;
   public searchPlaceholder = '';
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
@@ -51,7 +52,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchPlaceholder = this.translateService.instant('general.search');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Handle Poll (config service available only in component not possible in data-source)
     this.autoRefreshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
     this.autoRefreshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
@@ -75,7 +76,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.createRefresh();
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.alive = true;
     // Init Search
     if (this.dataSource.tableDef && this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
@@ -83,9 +84,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
       // Observe the Search field
       fromEvent(this.searchInput.nativeElement, 'input').pipe(
-        // @ts-ignore
         takeWhile(() => this.alive),
-        // @ts-ignore
         map((e: KeyboardEvent) => e.target['value']),
         debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
         distinctUntilChanged(),
@@ -110,13 +109,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadData();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.alive = false;
     this.destroyAutoRefresh();
     this.destroyRefresh();
   }
 
-  displayMoreRecords() {
+  public displayMoreRecords() {
     // Set new paging
     this.dataSource.setPaging({
       skip: this.dataSource.data.length,
@@ -229,7 +228,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  createAutoRefresh() {
+  public createAutoRefresh() {
     // Create timer only if socketIO is not active
     if (!this.autoRefreshSubscription) {
       let refreshObservable;
@@ -241,7 +240,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (refreshObservable) {
         this.autoRefreshSubscription = refreshObservable.pipe(
-          // @ts-ignore
           takeWhile(() => this.alive),
         ).subscribe(() => {
           if (!this.ongoingRefresh) {
@@ -252,20 +250,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  destroyAutoRefresh() {
+  public destroyAutoRefresh() {
     if (this.autoRefreshSubscription) {
       this.autoRefreshSubscription.unsubscribe();
     }
     this.autoRefreshSubscription = null;
   }
 
-  createRefresh() {
+  public createRefresh() {
     // Create timer only if socketIO is not active
     if (!this.manualRefreshSubscription) {
       const refreshObservable = this.dataSource.getManualDataChangeSubject();
       if (refreshObservable) {
         this.manualRefreshSubscription = refreshObservable.pipe(
-          // @ts-ignore
           takeWhile(() => this.alive),
         ).subscribe(() => {
           if (!this.ongoingRefresh) {
@@ -276,14 +273,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  destroyRefresh() {
+  public destroyRefresh() {
     if (this.manualRefreshSubscription) {
       this.manualRefreshSubscription.unsubscribe();
     }
     this.manualRefreshSubscription = null;
   }
 
-  // @ts-ignore
   public toggleAutoRefresh({ checked }) {
     if (checked) {
       this.createAutoRefresh();
@@ -367,7 +363,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         // No: Load details from data source
         this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
           // Set details
-          // @ts-ignore
           row[this.dataSource.tableDef.rowDetails.detailsField] = details;
           // No: Expand it!
           row.isExpanded = true;

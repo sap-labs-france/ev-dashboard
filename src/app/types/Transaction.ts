@@ -1,5 +1,6 @@
-import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
+
+import { ChargingStation } from './ChargingStation';
 import { Data } from './Table';
 import { User } from './User';
 
@@ -18,7 +19,6 @@ export interface Transaction extends Data {
   currentTotalDurationSecs: number;
   stateOfCharge: number;
   currentStateOfCharge: number;
-  isLoading: boolean;
   siteID: string;
   user: User;
   tagID: string;

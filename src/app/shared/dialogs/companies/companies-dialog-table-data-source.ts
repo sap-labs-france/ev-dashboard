@@ -41,7 +41,7 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
     });
   }
 
-  buildTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -54,7 +54,7 @@ export class CompaniesDialogTableDataSource extends DialogTableDataSource<Compan
     };
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

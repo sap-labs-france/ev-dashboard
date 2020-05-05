@@ -21,17 +21,36 @@ export class ReleaseNotesComponent {
     this.buidlReleaseNotes();
   }
 
-  buidlReleaseNotes() {
+  public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.40',
-        date: new Date('2020-04-27'),
+        version: '2.2.44',
+        date: new Date('2020-05-04'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Implement OCPI Check Sessions, CDRs and Locations`,
+              `Added Locking on all Scheduler's tasks`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.43',
+        date: new Date('2020-05-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Asset In Error`,
+              `Added Billing Invoice synchronization`,
+              `Store Site Area max limitation in consumptions`,
+              `Add corresponding Maximum Power in amperes in Site Area`,
               `Enable Static Limitation and Charging Plan for Delta charger`,
               `Display price and date in Invoice list`,
+              `Selection context not cleared in Asset, Site Area or Charging Station pop-ups`,
+              `Divide by 3 the power of the Charging Plan`
             ],
           },
         ],

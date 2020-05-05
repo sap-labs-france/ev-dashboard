@@ -27,8 +27,8 @@ import { Utils } from '../../../../utils/Utils';
 })
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
-  @Input() charger!: ChargingStation;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public charger!: ChargingStation;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
@@ -86,9 +86,10 @@ export class ChargingStationParametersComponent implements OnInit {
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
+    this.isAdmin = this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
     // Init the form
     this.formGroup = new FormGroup({
       chargingStationURL: new FormControl('',

@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
-import { Connector, ConnStatus } from 'app/types/ChargingStation';
+import { ConnStatus, Connector } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
 const TYPE_SUCCESS = 'chip-success';
@@ -18,12 +18,12 @@ const TYPE_GREY = 'chip-grey';
   `,
 })
 export class ChargingStationsConnectorStatusCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Connector;
+  @Input() public row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatConnectorStatus'})
 export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransform {
-  transform(status: string, type: string): string {
+  public transform(status: string, type: string): string {
     if (type === 'class') {
       return this.buildConnectorStatusClasses(status);
     }
@@ -33,7 +33,7 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
     return '';
   }
 
-  buildConnectorStatusClasses(status: string): string {
+  public buildConnectorStatusClasses(status: string): string {
     let classNames = 'chip-width-10em ';
     switch (status) {
       case ConnStatus.AVAILABLE: {
@@ -81,7 +81,7 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
     return classNames;
   }
 
-  buildConnectorStatusText(status: string): string {
+  public buildConnectorStatusText(status: string): string {
     return `chargers.status_${status.toLowerCase()}`;
   }
 }

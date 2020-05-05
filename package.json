@@ -15,12 +15,24 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
+  "importSort": {
+    ".js, .jsx, .es6, .es, .mjs": {
+      "parser": "babylon",
+      "style": "module",
+      "options": {}
+    },
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "module",
+      "options": {}
+    }
+  },
   "scripts": {
     "git:sinit": "git submodule update --init --recursive --force",
     "git:sdiff": "git diff && git submodule foreach 'git diff'",
     "git:supdate": "git submodule update --remote --merge",
     "git:spush": "git push --recurse-submodules=on-demand",
-    "git:sreset": "git submodule foreach 'git reset —-hard'",
+    "git:sreset": "git submodule foreach 'git reset --hard'",
     "postinstall": "ngcc",
     "ng": "ng",
     "start": "ng serve --configuration=development",
@@ -118,6 +130,7 @@
     "codelyzer": "^5.1.2",
     "faker": "^4.1.0",
     "husky": "^4.2.3",
+    "import-sort-parser-typescript": "^6.0.0",
     "jasmine": "^3.5.0",
     "jasmine-core": "^3.5.0",
     "jasmine-spec-reporter": "^5.0.1",
@@ -136,7 +149,7 @@
     "puppeteer": "^2.1.1",
     "rosie": "^2.0.1",
     "ts-node": "^8.8.2",
-    "tslint": "^6.1.1",
+    "tslint": "^6.1.2",
     "tslint-angular": "^3.0.2",
     "typescript": "~3.8.3",
     "webpack": "^4.42.1",

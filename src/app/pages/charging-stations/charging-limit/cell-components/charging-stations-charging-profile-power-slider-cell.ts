@@ -14,10 +14,10 @@ import { Utils } from 'app/utils/Utils';
   `,
 })
 export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row!: Schedule;
-  @Input() charger!: ChargingStation;
+  @Input() public row!: Schedule;
+  @Input() public charger!: ChargingStation;
 
-  ngOnInit() {
+  public ngOnInit() {
     this.charger = this.columnDef.additionalParameters.charger as ChargingStation;
   }
 

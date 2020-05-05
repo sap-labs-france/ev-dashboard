@@ -7,6 +7,7 @@ import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
@@ -18,16 +19,16 @@ import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 })
 
 export class ConsumptionChartComponent implements AfterViewInit {
-  @Input() transactionId!: number;
-  @Input() transaction!: Transaction;
-  @Input() ratio!: number;
+  @Input() public transactionId!: number;
+  @Input() public transaction!: Transaction;
+  @Input() public ratio!: number;
 
-  @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
-  @ViewChild('accent', { static: true }) accentElement!: ElementRef;
-  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
-  @ViewChild('success', { static: true }) successElement!: ElementRef;
-  @ViewChild('chart', { static: true }) chartElement!: ElementRef;
-  @ViewChild('warning', { static: true }) warningElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
+  @ViewChild('accent', { static: true }) public accentElement!: ElementRef;
+  @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
+  @ViewChild('success', { static: true }) public successElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
+  @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
 
   public loadAllConsumptions = false;
 
@@ -60,7 +61,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.consumptionColor = this.getStyleColor(this.accentElement.nativeElement);
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
     this.amountColor = this.getStyleColor(this.warningElement.nativeElement);
@@ -224,7 +225,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private refreshDataSets() {
     if (this.data.datasets) {
       for (const key of Object.keys(this.data.datasets)) {
-        // @ts-ignore
         this.data.datasets[key].data = [];
       }
       const instantPowerDataSet = this.getDataSet('instantPower');
@@ -269,6 +269,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private createOptions(): ChartOptions {
     const locale = moment.localeData(this.language);
     const options: ChartOptions = {
+      animation: {
+        duration: 0,
+      },
       legend: {
         position: 'bottom',
         labels: {
@@ -297,7 +300,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
               const dataSet = data.datasets[tooltipItem.datasetIndex];
               if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
                 const value = dataSet.data[tooltipItem.index] as number;
-                // @ts-ignore: usage of unknown fucking 'name' property
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantPower':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';

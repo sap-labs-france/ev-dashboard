@@ -25,9 +25,9 @@ import { CentralServerNotificationService } from '../../../../services/central-s
   templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
-  @Input() currentSiteID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentSiteID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteImage.NO_IMAGE;
   public maxSize: number;
@@ -65,7 +65,7 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -89,7 +89,6 @@ export class SiteComponent implements OnInit {
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
     if (this.currentSiteID) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -151,7 +150,9 @@ export class SiteComponent implements OnInit {
     if (!this.currentSiteID) {
       return;
     }
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentSiteID) || this.authorizationService.isSiteOwner(this.currentSiteID);
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE) ||
+      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
+      this.authorizationService.isSiteOwner(this.currentSiteID);
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();

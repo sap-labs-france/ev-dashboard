@@ -13,12 +13,12 @@ import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
   `,
 })
 export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpointDetail;
+  @Input() public row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiDetailJobStatus'})
 export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
-  transform(backgroundPatchJob: number, type: string): string {
+  public transform(backgroundPatchJob: number, type: string): string {
     // Class
     if (type === 'class') {
       let classNames = 'chip-width-10em ';

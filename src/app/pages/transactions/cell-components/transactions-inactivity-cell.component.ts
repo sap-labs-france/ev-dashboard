@@ -14,5 +14,5 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 export class TransactionsInactivityCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Transaction;
+  @Input() public row!: Transaction;
 }

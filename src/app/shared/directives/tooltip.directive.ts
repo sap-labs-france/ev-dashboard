@@ -8,13 +8,13 @@ export class TooltipDirective implements AfterViewInit, OnDestroy {
   constructor(private elementRef: ElementRef) {
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     jQuery(this.elementRef.nativeElement).tooltip({
       placement: 'bottom', trigger: 'hover', sanitize: false, sanitizeFn: (content) => content,
     });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     jQuery(this.elementRef.nativeElement).tooltip('dispose');
   }
 }

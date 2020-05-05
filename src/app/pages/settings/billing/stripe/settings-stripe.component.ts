@@ -11,8 +11,8 @@ import { CentralServerService } from '../../../../services/central-server.servic
   templateUrl: 'settings-stripe.component.html',
 })
 export class SettingsStripeComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() billingSettings!: BillingSettings;
+  @Input() public formGroup!: FormGroup;
+  @Input() public billingSettings!: BillingSettings;
 
   public stripe!: FormGroup;
   public url!: AbstractControl;
@@ -24,7 +24,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public taxID!: AbstractControl;
   public taxes: BillingTax[] = [];
 
-  ngOnInit() {
+  public ngOnInit() {
     this.stripe = new FormGroup({
       url: new FormControl('',
         Validators.compose([
@@ -78,7 +78,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateFormData();
   }
 

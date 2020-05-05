@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { MaterialModule } from '../../app.module';
 import { CommonDirectivesModule } from '../directives/directives.module';
 import { FormattersModule } from '../formatters/formatters.module';

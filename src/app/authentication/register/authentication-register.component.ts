@@ -6,6 +6,7 @@ import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { User } from 'app/types/User';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
@@ -102,27 +103,27 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     }, 700);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('lock-page');
     body.classList.remove('off-canvas-sidebar');
   }
 
-  toUpperCase(control: AbstractControl) {
+  public toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
   }
 
-  firstLetterToUpperCase(control: AbstractControl) {
+  public firstLetterToUpperCase(control: AbstractControl) {
     control.setValue(Utils.firstLetterInUpperCase(control.value));
   }
 
-  register(user: User) {
+  public register(user: User) {
     this.reCaptchaV3Service.execute(this.siteKey, 'RegisterUser', (token) => {
       if (token) {
         user['captcha'] = token;

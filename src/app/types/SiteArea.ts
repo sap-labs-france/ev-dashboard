@@ -13,7 +13,7 @@ export interface SiteArea extends Data {
   smartCharging: boolean;
   siteID: string;
   site: Site;
-  chargeBoxes: ChargingStation[];
+  chargingStations: ChargingStation[];
 }
 
 export interface SiteAreaConsumption {

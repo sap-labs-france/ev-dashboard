@@ -41,7 +41,7 @@ export class ChargersDialogTableDataSource extends DialogTableDataSource<Chargin
     });
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

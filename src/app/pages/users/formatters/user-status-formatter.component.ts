@@ -15,12 +15,12 @@ import { userStatuses } from '../model/users.model';
   `,
 })
 export class UserStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: User;
+  @Input() public row!: User;
 }
 
 @Pipe({name: 'appFormatUserStatus'})
 export class AppFormatUserStatusPipe implements PipeTransform {
-  transform(userStatus: string, type: string): string {
+  public transform(userStatus: string, type: string): string {
     if (type === 'class') {
       return this.buildUserStatusClasses(userStatus);
     }
@@ -30,7 +30,7 @@ export class AppFormatUserStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildUserStatusClasses(status: string): string {
+  public buildUserStatusClasses(status: string): string {
     let classNames = 'chip-width-5em ';
     switch (status) {
       case UserStatus.ACTIVE:
@@ -54,7 +54,7 @@ export class AppFormatUserStatusPipe implements PipeTransform {
     return classNames;
   }
 
-  buildUserStatusText(status: string): string {
+  public buildUserStatusText(status: string): string {
     for (const userStatus of userStatuses) {
       if (userStatus.key === status) {
         return userStatus.value;

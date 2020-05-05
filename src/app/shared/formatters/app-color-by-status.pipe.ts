@@ -5,7 +5,7 @@ import { InactivityStatus } from 'app/types/Transaction';
 @Pipe({ name: 'appColorByStatus' })
 export class AppColorByStatusPipe implements PipeTransform {
 
-  transform(status?: InactivityStatus): string {
+  public transform(status?: InactivityStatus): string {
     let classResult = 'ml-1 ';
     switch (status) {
       case InactivityStatus.INFO:

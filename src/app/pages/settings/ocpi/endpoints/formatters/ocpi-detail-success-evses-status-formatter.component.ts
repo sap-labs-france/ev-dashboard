@@ -12,5 +12,5 @@ import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
   `,
 })
 export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpointDetail;
+  @Input() public row!: OcpiEndpointDetail;
 }

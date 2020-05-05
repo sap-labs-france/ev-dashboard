@@ -4,6 +4,7 @@ import { Action } from 'app/types/Authorization';
 import { UserToken } from 'app/types/User';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
 import { RouteGuardService } from '../guard/route-guard';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerNotificationService } from '../services/central-server-notification.service';
@@ -24,7 +25,7 @@ const misc: any = {
   templateUrl: 'sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  mobileMenuVisible: any = 0;
+  public mobileMenuVisible: any = 0;
   public menuItems!: any[];
   public loggedUser!: UserToken;
   public loggedUserImage = Constants.USER_NO_PICTURE;
@@ -63,7 +64,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.refreshUser();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Subscribe to user's change
     this.userSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
@@ -82,12 +83,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.toggleButton = document.getElementById('toggler');
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     // Subscribe to user's change
     this.userSubscription.unsubscribe();
   }
 
-  refreshUser() {
+  public refreshUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
@@ -96,17 +97,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  isMobileMenu() {
+  public isMobileMenu() {
     return false;
   }
 
-  updatePS(): void {
+  public updatePS(): void {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
       const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
     }
   }
 
-  isMac(): boolean {
+  public isMac(): boolean {
     let bool = false;
     if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
       bool = true;
@@ -114,7 +115,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     return bool;
   }
 
-  toggleSidebar() {
+  public toggleSidebar() {
     const body = document.getElementsByTagName('body')[0];
 
     if (misc.sidebar_mini_active === true) {
@@ -126,7 +127,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  logout() {
+  public logout() {
     // Logoff
     this.centralServerService.logout().subscribe(() => {
       // Clear

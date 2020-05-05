@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { User } from 'app/types/User';
 
 @Component({
-  templateUrl: 'user.dialog.component.html',
+  template: '<app-user [currentUserID]="userID" [inDialog]="true" [dialogRef]="getDialogRef()"></app-user>',
 })
 export class UserDialogComponent {
-  userID!: string;
+  public userID!: string;
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,
@@ -23,7 +23,7 @@ export class UserDialogComponent {
     });
   }
 
-  getDialogRef(): MatDialogRef<UserDialogComponent> {
+  public getDialogRef(): MatDialogRef<UserDialogComponent> {
     return this.dialogRef;
   }
 }

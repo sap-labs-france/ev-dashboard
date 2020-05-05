@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
 import { AuthenticationEulaComponent } from './eula/authentication-eula.component';
 import { AuthenticationLoginComponent } from './login/authentication-login.component';

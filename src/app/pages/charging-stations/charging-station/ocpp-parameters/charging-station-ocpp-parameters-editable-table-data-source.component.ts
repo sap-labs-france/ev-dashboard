@@ -17,8 +17,8 @@ import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../../types/GlobalType';
-import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 import { ChargingStationsRebootAction } from '../../actions/charging-stations-reboot-action';
+import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
@@ -157,9 +157,10 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       {
         id: 'key',
         name: 'chargers.charger_param_key',
-        editType: TableEditType.DISPLAY_ONLY,
+        isAngularComponent: true,
+        angularComponent: ChargingStationOcppParametersInputFieldCellComponent,
         headerClass: 'text-right col-20p',
-        class: 'text-right col-20p',
+        class: 'text-right col-20p table-cell-angular-component',
       },
       {
         id: 'value',

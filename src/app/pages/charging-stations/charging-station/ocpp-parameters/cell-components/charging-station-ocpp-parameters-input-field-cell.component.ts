@@ -9,7 +9,7 @@ import { OcppParameter } from 'app/types/ChargingStation';
     <span class="text-right" >{{row.key}}</span>
   </ng-container>
   <ng-container *ngIf="row.id === idValue">
-  <input [id]="tableColumnDefId" [name]="tableColumnDefId" class="form-control text-line"
+  <input [id]="tableColumnDefId" [name]="tableColumnDefId" class="form-control text-line table-cell-angular-input-component"
         [placeholder]="tableColumnDefName | translate"
         [ngModel]="row[tableColumnDefId]" (ngModelChange)= "valueChanged($event)"
         type="text">

@@ -155,7 +155,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
-    // @ts-ignore
     if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
       return [this.deleteAction];
     }

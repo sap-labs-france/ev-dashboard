@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
@@ -111,13 +112,11 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       if (response.status && response.status === RestResponse.SUCCESS) {
         if (this.resetToken) {
           // Show message
-          // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
           // Go to reset password
           this.router.navigate(['auth/define-password'], {queryParams: {hash: this.resetToken}});
         } else {
           // Show message
-          // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_success']);
           // Go to login
           this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
@@ -126,7 +125,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       } else {
         // Unexpected error
         Utils.handleError(JSON.stringify(response),
-          // @ts-ignore
           this.messageService, this.messages['verify_email_error']);
       }
     }, (error) => {
@@ -137,19 +135,16 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         // Account already active
         case 530:
           // Report the error
-          // @ts-ignore
           this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
           break;
         // VerificationToken no longer valid
         case 540:
           // Report the error
-          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
           break;
         // Email does not exist
         case 550:
           // Report the error
-          // @ts-ignore
           this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
           break;
         default:
@@ -168,7 +163,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       if (token) {
         data['captcha'] = token;
       } else {
-          // @ts-ignore
         this.messageService.showErrorMessage(this.messages['invalid_captcha_token']);
         return;
       }
@@ -178,14 +172,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         this.spinnerService.hide();
         // Success
         if (response.status && response.status === RestResponse.SUCCESS) {
-          // @ts-ignore
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login
           this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
           // Unexpected Error
         } else {
           Utils.handleError(JSON.stringify(response),
-            // @ts-ignore
             this.messageService, this.messages['verify_email_resend_error']);
         }
       }, (error) => {
@@ -195,13 +187,11 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         switch (error.status) {
           // Account already active
           case 530:
-            // @ts-ignore
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
             break;
           // Email does not exist
           case 550:
-            // @ts-ignore
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
             break;
           // Unexpected Error

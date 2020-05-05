@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ButtonType, DialogType } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog.component';
 
 @Injectable()

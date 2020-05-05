@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { CarCatalog, CarMakersTable, ImageObject, UserCar } from 'app/types/Car';
+import { CarCatalog, CarMakersTable, ImageObject, Car } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -1525,7 +1525,6 @@ export class CentralServerService {
     this.setLoggedUserToken(token, true);
     // Init Socket IO
     if (this.currentUser && this.configService.getCentralSystemServer().socketIOEnabled) {
-      // @ts-ignore
       this.centralServerNotificationService.initSocketIO(token);
     }
   }
@@ -1533,7 +1532,6 @@ export class CentralServerService {
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
     // Keep token
     this.currentUserToken = token;
-    // @ts-ignore
     this.currentUser = null;
     // Not null?
     if (token) {
@@ -1578,9 +1576,7 @@ export class CentralServerService {
 
   public clearLoggedUserToken(): void {
     // Clear
-    // @ts-ignore
     this.currentUserToken = null;
-    // @ts-ignore
     this.currentUser = null;
     this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
@@ -1588,7 +1584,6 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    // @ts-ignore
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
@@ -1977,6 +1972,48 @@ export class CentralServerService {
       );
   }
 
+  public checkLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckLocations`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckSessions`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public pingOcpiEndpoint(ocpiEndpoint: any): Observable<OCPIPingResponse> {
     // Verify init
     this.checkInit();
@@ -2279,7 +2316,7 @@ export class CentralServerService {
   }
 
   public getUserCars(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -2287,8 +2324,8 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<UserCar>>(
-      `${this.centralRestServerServiceSecuredURL}/UserCars`,
+    return this.httpClient.get<DataResult<Car>>(
+      `${this.centralRestServerServiceSecuredURL}/Cars`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2610,12 +2647,10 @@ export class CentralServerService {
       'Content-Type': 'application/json'
     };
     if (tenant !== undefined) {
-      // @ts-ignore
       header['Tenant'] = tenant;
     }
     // Check token
     if (this.getLoggedUserToken()) {
-      // @ts-ignore
       header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
     }
     // Build Header
@@ -2631,9 +2666,7 @@ export class CentralServerService {
         sortFields.push(order.field);
         sortDirs.push(order.direction);
       });
-      // @ts-ignore
       queryParams['SortFields'] = sortFields;
-      // @ts-ignore
       queryParams['SortDirs'] = sortDirs;
     }
   }

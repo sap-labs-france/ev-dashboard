@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatisticData } from 'app/types/Statistic';
 import { ChartDataSets } from 'chart.js';
 import * as moment from 'moment';
+
 import { LocaleService } from '../../../services/locale.service';
 import { ChartConstants, ChartData } from './chart-utilities';
 
@@ -66,7 +67,6 @@ export class StatisticsBuildService {
         let totalValuePerMonth = 0;
         let newMonth = false;
         monthIndex = transactionValue.month;
-        // @ts-ignore
         monthString = moment().locale(this.language).month(monthIndex).format('MMMM');
         const currentIndex = labels ? labels.indexOf(monthString) : -1;
         if (currentIndex < 0 && labels) {

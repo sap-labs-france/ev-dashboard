@@ -3,7 +3,7 @@ import { CellContentTemplateComponent } from 'app/shared/table/cell-content-temp
 import { OcppParameter } from 'app/types/ChargingStation';
 
 @Component({
-  selector: 'app-charging-station-ocpp-parameters',
+  selector: 'app-charging-station-ocpp-parameters-input-field-cell',
   template: `
   <ng-container *ngIf="row.id !== idValue">
     <span class="text-right" >{{row.key}}</span>

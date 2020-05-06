@@ -28,9 +28,9 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { ButtonAction } from '../../../types/GlobalType';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
+import { InvoicesDateFromFilter } from '../filters/invoices-date-from-filter';
+import { InvoicesDateUntilFilter } from '../filters/invoices-date-until-filter';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 
 @Injectable()
@@ -185,9 +185,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters = [
-      // @ts-ignore
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+      new InvoicesDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new InvoicesDateUntilFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin()) {

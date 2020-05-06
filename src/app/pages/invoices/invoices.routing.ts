@@ -4,7 +4,7 @@ import { Action, Entity } from 'app/types/Authorization';
 import TenantComponents from 'app/types/TenantComponents';
 import { InvoicesComponent } from './invoices.component';
 
-export const AssetsRoutes: Routes = [
+export const InvoicesRoutes: Routes = [
   {
     path: '', component: InvoicesComponent, canActivate: [RouteGuardService], data: {
       component: TenantComponents.BILLING,

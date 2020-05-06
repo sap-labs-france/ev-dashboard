@@ -7,12 +7,9 @@ import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import {
-  AppFormatInvoiceStatusPipe,
-  InvoiceStatusFormatterComponent
-} from './formatters/invoice-status-formatter.component';
+import { AppFormatInvoiceStatusPipe, InvoiceStatusFormatterComponent } from './formatters/invoice-status-formatter.component';
 import { InvoicesComponent } from './invoices.component';
-import { AssetsRoutes } from './invoices.routing';
+import { InvoicesRoutes } from './invoices.routing';
 import { InvoicesListComponent } from './list/invoices-list.component';
 import { InvoicesTableDataSource } from './list/invoices-table-data-source';
 
@@ -26,7 +23,7 @@ import { InvoicesTableDataSource } from './list/invoices-table-data-source';
     MaterialModule,
     TableModule,
     DialogsModule,
-    RouterModule.forChild(AssetsRoutes),
+    RouterModule.forChild(InvoicesRoutes),
   ],
   declarations: [
     InvoicesComponent,

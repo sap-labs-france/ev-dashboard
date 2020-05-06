@@ -9,13 +9,5 @@
         <app-invoices-list></app-invoices-list>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="isAdmin">
-      <ng-template mat-tab-label>
-        <mat-icon>warning</mat-icon><span>{{'billing.tabs.in_error' | translate}}</span>
-      </ng-template>
-      <ng-template matTabContent>
-        <app-assets-in-error></app-assets-in-error>
-      </ng-template>
-    </mat-tab>
   </mat-tab-group>
 </div>

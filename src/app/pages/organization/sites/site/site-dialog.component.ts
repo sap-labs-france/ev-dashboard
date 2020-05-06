@@ -9,7 +9,6 @@ export class SiteDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
-    // @ts-ignore
     @Inject(MAT_DIALOG_DATA) data) {
 
     if (data) {

@@ -1,3 +1,8 @@
+import 'bootstrap';
+import 'chartjs-plugin-zoom';
+import 'moment/locale/fr';
+import 'popper.js';
+
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -39,11 +44,8 @@ import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepic
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
-import 'bootstrap';
-import 'chartjs-plugin-zoom';
-import 'moment/locale/fr';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import 'popper.js';
+
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { DevEnvGuard } from './guard/development.guard';

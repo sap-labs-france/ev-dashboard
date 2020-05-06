@@ -24,9 +24,9 @@ import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, Tab
 import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
+
 import { ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
@@ -45,6 +45,7 @@ import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../
 import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
+
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;

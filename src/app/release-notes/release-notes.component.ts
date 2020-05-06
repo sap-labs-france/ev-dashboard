@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.45',
+        date: new Date('2020-05-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added single phase charging station handling with the SAP Smart Charging`,
+              `Implement OCPI Check Sessions, CDRs and Locations`,
+              `Added Locking on all Scheduler's tasks`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.43',
         date: new Date('2020-05-01'),
         componentChanges: [

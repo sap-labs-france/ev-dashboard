@@ -13,6 +13,7 @@ import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserRole, UserStatus } from 'app/types/User';
 import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -127,7 +128,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     // Get statuses
     this.userStatuses = userStatuses;
     // Get Roles
-    // @ts-ignore
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales
     this.userLocales = this.localeService.getLocales();
@@ -240,7 +240,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Validators.compose([
             Users.validatePassword,
           ])),
-        // @ts-ignore
       }, (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
@@ -672,9 +671,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       });
       if (this.currentUserID) {
         this.centralServerService.getIntegrationConnections(this.currentUserID).subscribe((connectionResult) => {
-          // @ts-ignore
           this.integrationConnections = null;
-          // @ts-ignore
           this.refundConnection = null;
           this.isRefundConnectionValid = false;
           if (connectionResult && connectionResult.result && connectionResult.result.length > 0) {

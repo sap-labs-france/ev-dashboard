@@ -3,6 +3,7 @@ import { ConsumptionChartComponent } from 'app/shared/component/consumption-char
 import { Connector } from 'app/types/ChargingStation';
 import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
+
 import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
 
 @Component({

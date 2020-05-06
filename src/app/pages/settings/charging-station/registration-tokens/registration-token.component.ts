@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { SiteArea } from 'app/types/SiteArea';
 import * as moment from 'moment';
+
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -39,7 +40,6 @@ export class RegistrationTokenComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100),
       ])),
-      // @ts-ignore
       expirationDate: new FormControl(moment().add(1, 'month'),
         Validators.compose([
           Validators.required,

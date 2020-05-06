@@ -1,33 +1,33 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
-import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
-import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
-import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
-import { Image, KeyValue, Logo } from 'app/types/GlobalType';
-import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
-import { Site, SiteUser, UserSite } from 'app/types/Site';
-import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
-import { User, UserToken } from 'app/types/User';
-import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
-
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
+import { BillingInvoice, BillingTax } from 'app/types/Billing';
+import { CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
+import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
+import { IntegrationConnection, UserConnection } from 'app/types/Connection';
+import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
+import { Image, KeyValue, Logo } from 'app/types/GlobalType';
+import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { Setting } from 'app/types/Setting';
+import { Site, SiteUser, UserSite } from 'app/types/Site';
+import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
+import { User, UserToken } from 'app/types/User';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -1538,7 +1538,6 @@ export class CentralServerService {
     this.setLoggedUserToken(token, true);
     // Init Socket IO
     if (this.currentUser && this.configService.getCentralSystemServer().socketIOEnabled) {
-      // @ts-ignore
       this.centralServerNotificationService.initSocketIO(token);
     }
   }
@@ -1546,7 +1545,6 @@ export class CentralServerService {
   public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
     // Keep token
     this.currentUserToken = token;
-    // @ts-ignore
     this.currentUser = null;
     // Not null?
     if (token) {
@@ -1591,9 +1589,7 @@ export class CentralServerService {
 
   public clearLoggedUserToken(): void {
     // Clear
-    // @ts-ignore
     this.currentUserToken = null;
-    // @ts-ignore
     this.currentUser = null;
     this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
@@ -1601,7 +1597,6 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    // @ts-ignore
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
@@ -1982,6 +1977,48 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/OcpiEndpointPullCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkLocationsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckLocations`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkCdrsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckCdrs`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkSessionsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OCPIJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/OcpiEndpointCheckSessions`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2590,12 +2627,10 @@ export class CentralServerService {
       'Content-Type': 'application/json'
     };
     if (tenant !== undefined) {
-      // @ts-ignore
       header['Tenant'] = tenant;
     }
     // Check token
     if (this.getLoggedUserToken()) {
-      // @ts-ignore
       header['Authorization'] = 'Bearer ' + this.getLoggedUserToken();
     }
     // Build Header
@@ -2611,9 +2646,7 @@ export class CentralServerService {
         sortFields.push(order.field);
         sortDirs.push(order.direction);
       });
-      // @ts-ignore
       queryParams['SortFields'] = sortFields;
-      // @ts-ignore
       queryParams['SortDirs'] = sortDirs;
     }
   }

@@ -1393,6 +1393,13 @@
       "check_connection": "Check Connection"
     },
     "asset": {
+      "connection": {
+        "title": "Asset connections",
+        "bms": "Building Management System",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type"
+      },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Asset Settings not found"

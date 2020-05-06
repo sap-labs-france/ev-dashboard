@@ -1392,6 +1392,13 @@
       "check_connection": "Vérifier connexion"
     },
     "asset": {
+      "connection": {
+        "title": "Connection aux ressources",
+        "bms": "Gestion technique de bâtiment",
+        "name": "Nom",
+        "description": "Description",
+        "type": "Type"
+      },
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration n'a pas été trouvée"

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { LocaleService } from '../../services/locale.service';
 import { AppArrayToStringPipe } from './app-array-to-string.pipe';
+import { AppAssetSettingTypes } from './app-asset-setting-types.pipe';
 import { AppBatteryPercentagePipe } from './app-battery-percentage.pipe';
 import { AppColorByStatusPipe } from './app-color-by-status.pipe';
 import { AppConnectorErrorCodePipe } from './app-connector-error-code.pipe';
@@ -36,6 +37,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppCurrencyPipe,
     AppColorByStatusPipe,
     AppUserMultipleRolesPipe,
+    AppAssetSettingTypes,
     AppPercentPipe,
     AppTaxName,
   ],
@@ -55,6 +57,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppCurrencyPipe,
     AppColorByStatusPipe,
     AppUserMultipleRolesPipe,
+    AppAssetSettingTypes,
     AppPercentPipe,
     AppTaxName,
   ],
@@ -72,6 +75,7 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppUnitPipe,
     AppCurrencyPipe,
     AppUserMultipleRolesPipe,
+    AppAssetSettingTypes,
     AppInactivityPipe,
     AppPercentPipe,
     AppColorByStatusPipe,

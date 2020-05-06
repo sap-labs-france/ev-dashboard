@@ -1,3 +1,4 @@
+import { KeyValue } from './GlobalType';
 import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
@@ -19,6 +20,7 @@ export interface SettingContent {
   links?: SettingLink[];
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
+  asset?: AssetConnectionSetting[];
 }
 
 export interface SettingLink extends Data {
@@ -172,7 +174,23 @@ export interface StripeBillingSetting extends BillingSetting {
 export interface AssetSettings extends Setting {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
+  asset: AssetConnectionSetting[];
 }
 
 export enum AssetSettingsType {
+  ASSET = 'asset'
 }
+
+export interface AssetConnectionSetting extends Data {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  url: string;
+  user: string;
+  password: string;
+}
+
+export const AssetConnectionSettingTypes: KeyValue[] = [
+  { key: 'BMS', value: 'settings.asset.type.bms' },
+];

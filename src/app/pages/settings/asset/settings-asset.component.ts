@@ -24,8 +24,7 @@ export class SettingsAssetComponent implements OnInit {
     private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private router: Router,
-  ) {
+    private router: Router) {
     this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
@@ -56,5 +55,13 @@ export class SettingsAssetComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public save(assetSettings: AssetSettings) {
+  }
+
+  public refresh() {
+    // Reload settings
+    this.loadConfiguration();
   }
 }

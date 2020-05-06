@@ -12,6 +12,9 @@ import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analyti
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
+import { AssetConnectionTableDataSource } from './asset/asset-connections/asset-connections-table-data-source';
+import { AssetConnectionsComponent } from './asset/asset-connections/asset-connections.component';
+import { AssetConnectionDialogComponent } from './asset/asset-connections/dialog/asset-connection.dialog.component';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
@@ -76,6 +79,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEnpointsComponent,
     SettingsOcpiEnpointDialogComponent,
     SettingsAssetComponent,
+    AssetConnectionDialogComponent,
+    AssetConnectionsComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusFomatterComponent,
@@ -112,6 +117,8 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSmartChargingComponent,
     SettingsSapSmartChargingComponent,
     SettingsAssetComponent,
+    AssetConnectionDialogComponent,
+    AssetConnectionsComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,
@@ -128,6 +135,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
     SettingsOcpiEndpointsTableDataSource,
+    AssetConnectionTableDataSource,
     AnalyticsLinksTableDataSource,
   ],
 })

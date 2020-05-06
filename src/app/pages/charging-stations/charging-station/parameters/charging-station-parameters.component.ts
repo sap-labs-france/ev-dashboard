@@ -8,6 +8,7 @@ import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.c
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -525,15 +526,18 @@ export class ChargingStationParametersComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 560:
+        case HTTPAuthError.ERROR:
           // Not Authorized
           this.messageService.showErrorMessage(
             this.translateService.instant('chargers.change_config_error'));
           break;
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           // Does not exist
           this.messageService.showErrorMessage(this.messages['change_config_error']);
           break;
+        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+            this.messageService.showErrorMessage('chargers.change_config_phase_error');
+            break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             this.messages['change_config_error']);

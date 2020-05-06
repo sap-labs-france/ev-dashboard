@@ -55,8 +55,8 @@ export class SiteAreaComponent implements OnInit {
   public numberOfConnectedPhases!: AbstractControl;
 
   public connectedPhaseMap = [
-    { key: 1, description: 'chargers.single_phase' },
-    { key: 3, description: 'chargers.tri_phases' },
+    { key: 1, description: 'site_areas.single_phase' },
+    { key: 3, description: 'site_areas.tri_phases' },
   ];
 
   public address!: Address;
@@ -501,6 +501,9 @@ export class SiteAreaComponent implements OnInit {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
+        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+          this.messageService.showErrorMessage('site_areas.update_phase_error');
+          break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),

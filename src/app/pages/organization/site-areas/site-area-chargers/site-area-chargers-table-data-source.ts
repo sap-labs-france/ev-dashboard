@@ -14,6 +14,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
@@ -42,15 +43,15 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
         // Yes: Get data
         this.centralServerService.getChargers(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargers) => {
-          // Ok
-          observer.next(chargers);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+            // Ok
+            observer.next(chargers);
+            observer.complete();
+          }, (error) => {
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            // Error
+            observer.error(error);
+          });
       } else {
         // Ok
         observer.next({
@@ -113,7 +114,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
     this.setStaticFilters([
-      {SiteAreaID: siteArea.id},
+      { SiteAreaID: siteArea.id },
     ]);
     // Set user
     this.siteArea = siteArea;
@@ -218,8 +219,14 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
             this.messageService, this.translateService.instant('site_areas.update_error'));
         }
       }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+        switch (error.status) {
+          case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+            this.messageService.showErrorMessage('site_areas.update_phase_error');
+            break;
+          default:
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+        }
       });
     }
   }

@@ -26,7 +26,7 @@ import { TableAssignSitesAction } from '../../../shared/table/actions/table-assi
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
-import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/table-force-sync-billing-user-action';
+import { TableForceSyncBillingAction } from '../../../shared/table/actions/table-force-sync-billing-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUserAction } from '../../../shared/table/actions/table-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -44,7 +44,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private forceSyncBillingUserAction = new TableForceSyncBillingAction().getActionDef();
   private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
 
   constructor(

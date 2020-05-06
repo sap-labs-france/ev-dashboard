@@ -156,6 +156,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
             this.messageService,
             this.centralServerService,
             this.router,
+            this.refreshData.bind(this)
           );
         }
         this.refreshData();

@@ -1425,6 +1425,19 @@ export class CentralServerService {
       );
   }
 
+  public forceSynchronizeUserInvoicesForBilling(userID: string): Observable<ActionsResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingForceSynchronizeUserInvoices`,
+      { id: userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getRegistrationTokens(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init

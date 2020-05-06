@@ -11,13 +11,13 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { TableAction } from './table-action';
 
-export class TableForceSyncBillingUserAction implements TableAction {
+export class TableForceSyncBillingAction implements TableAction {
   private action: TableActionDef = {
     id: UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
-    name: 'settings.billing.user.force_synchronize_users',
+    name: 'settings.billing.force_synchronize',
     tooltip: 'general.force_synchronize',
     action: this.forceSynchronizeUser,
   };
@@ -52,6 +52,25 @@ export class TableForceSyncBillingUserAction implements TableAction {
           spinnerService.hide();
           messageService.showErrorMessage(
             translateService.instant(['settings.billing.billing_system_error']));
+        });
+        centralServerService.forceSynchronizeUserInvoicesForBilling(user.id).subscribe((synchronizeResponse) => {
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            if (synchronizeResponse.inSuccess) {
+              messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
+                {number: synchronizeResponse.inSuccess}));
+            } else if (!synchronizeResponse.inError) {
+              messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
+            }
+            if (synchronizeResponse.inError) {
+              messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
+                {number: synchronizeResponse.inError}));
+            }
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.invoice.synchronize_invoices_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, router, messageService, centralServerService,
+            'settings.billing.invoice.synchronize_invoices_error');
         });
       }
     });

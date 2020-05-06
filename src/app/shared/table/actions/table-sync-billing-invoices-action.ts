@@ -21,6 +21,11 @@ export class TableSyncBillingInvoicesAction implements TableAction {
     action: this.synchronizeInvoices,
   };
 
+  // Return an action
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
+
   private synchronizeInvoices(dialogService: DialogService, translateService: TranslateService,
       messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     dialogService.createAndShowYesNoDialog(
@@ -50,10 +55,5 @@ export class TableSyncBillingInvoicesAction implements TableAction {
         });
       }
     });
-  }
-
-  // Return an action
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

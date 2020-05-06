@@ -20,6 +20,11 @@ export class TableSyncCarCatalogsAction implements TableAction {
     action: this.synchronizeCarCatalogs,
   };
 
+  // Return an action
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
+
   private synchronizeCarCatalogs(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
     dialogService.createAndShowYesNoDialog(
@@ -53,10 +58,5 @@ export class TableSyncCarCatalogsAction implements TableAction {
         });
       }
     });
-  }
-
-  // Return an action
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

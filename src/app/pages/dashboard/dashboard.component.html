@@ -118,12 +118,12 @@
               <div class="d-flex d-flex-row align-items-stretch justify-content-around mb-3" *ngIf="currentMetrics">
                 <div class="d-flex col-md-6 mx-1">
                   <app-card-chart class="col d-flex px-0" #realtimeChart chartType="line" cardIcon="flash_on" [cardTitle]="'dashboard.realtime_title'"
-                    [chartButtons]="buttonsRealtimeChart" [cardFooter]="chartRealtimeFooter" [rotationInterval]="realtimeInterval"
+                    [chartButtons]="buttonsRealtimeChart" [rotationInterval]="realtimeInterval"
                     headerClass="fade-out-text card-header-primary" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
                 </div>
                 <div class="d-flex col-md-6 mx-1">
                   <app-card-chart class="d-flex col px-0" #statisticsChart chartType="bar" cardIcon="history" [cardTitle]="'dashboard.statistics_title'"
-                    [chartButtons]="buttonsStatisticsChart" [cardFooter]="chartDeliveredFooter" [rotationInterval]="statisticsInterval"
+                    [chartButtons]="buttonsStatisticsChart" [rotationInterval]="statisticsInterval"
                     headerClass="fade-out-text card-header-primary" [bodyClass]="dynamicFadeInOutClass" footerClass="fade-out-text"></app-card-chart>
                 </div>
               </div>

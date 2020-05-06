@@ -23,6 +23,10 @@ export class TableExportOCPPParamsAction implements TableAction {
     tooltip: 'general.tooltips.export',
     action: this.exportOCPPParameters,
   };
+  // Return an action
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
 
   private exportOCPPParameters(dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router,
@@ -49,9 +53,5 @@ export class TableExportOCPPParamsAction implements TableAction {
           });
       }
     });
-  }
-  // Return an action
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

@@ -8,10 +8,10 @@ import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
+import { KeyValue } from 'app/types/GlobalType';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
-import { KeyValue } from 'app/types/GlobalType';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {

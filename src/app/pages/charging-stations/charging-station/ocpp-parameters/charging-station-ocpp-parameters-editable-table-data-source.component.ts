@@ -98,43 +98,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     });
   }
 
-  private saveOcppParameter(param: OcppParameter) {
-    // Show yes/no dialog
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.set_configuration_title'),
-      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: param.key }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, { key: param.key, value: param.value }).subscribe((response) => {
-            this.spinnerService.hide();
-            // Ok?
-            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-              this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: this.charger.id }));
-              // Reboot Required?
-              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                const chargingStationsRebootAction = new ChargingStationsRebootAction().getActionDef();
-                if (chargingStationsRebootAction.action) {
-                  chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
-                    this.messageService, this.centralServerService, this.spinnerService, this.router);
-                }
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
-            }
-            this.refreshData(true).subscribe();
-          }, (error) => {
-            this.spinnerService.hide();
-            this.refreshData(true).subscribe();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
-          });
-      }
-    });
-  }
-
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
   }
@@ -181,10 +144,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     ];
   }
 
-  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
-    return editableRow.readonly;
-  }
-
   public createRow() {
     return {
       key: '',
@@ -199,5 +158,46 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       content.push(param);
     }
     super.setContent(content);
+  }
+
+  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
+    return editableRow.readonly;
+  }
+
+  private saveOcppParameter(param: OcppParameter) {
+    // Show yes/no dialog
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.set_configuration_title'),
+      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: param.key }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        this.spinnerService.show();
+        this.centralServerService.updateChargingStationOCPPConfiguration(
+          this.charger.id, { key: param.key, value: param.value }).subscribe((response) => {
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: this.charger.id }));
+              // Reboot Required?
+              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                const chargingStationsRebootAction = new ChargingStationsRebootAction().getActionDef();
+                if (chargingStationsRebootAction.action) {
+                  chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
+                    this.messageService, this.centralServerService, this.spinnerService, this.router);
+                }
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
+            }
+            this.refreshData(true).subscribe();
+          }, (error) => {
+            this.spinnerService.hide();
+            this.refreshData(true).subscribe();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
+          });
+      }
+    });
   }
 }

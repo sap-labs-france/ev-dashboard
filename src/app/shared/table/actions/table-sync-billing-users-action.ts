@@ -20,6 +20,11 @@ export class TableSyncBillingUsersAction implements TableAction {
     action: this.synchronizeUsers,
   };
 
+  // Return an action
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
+
   private synchronizeUsers(dialogService: DialogService, translateService: TranslateService,
       messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     dialogService.createAndShowYesNoDialog(
@@ -49,10 +54,5 @@ export class TableSyncBillingUsersAction implements TableAction {
         });
       }
     });
-  }
-
-  // Return an action
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

@@ -107,6 +107,12 @@
     "no-async-without-await": true,
     "no-return-await": true,
     "member-access": true,
+    "member-ordering": [
+      true,
+      {
+        "order": "fields-first"
+      }
+    ],
     "linebreak-style": [
       true,
       "LF"

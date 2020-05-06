@@ -54,9 +54,9 @@ export class SiteAreaComponent implements OnInit {
   public smartCharging!: AbstractControl;
   public numberOfPhases!: AbstractControl;
 
-  public connectedPhaseMap = [
+  public phaseMap = [
     { key: 1, description: 'site_areas.single_phased' },
-    { key: 3, description: 'site_areas.tri_phased' },
+    { key: 3, description: 'site_areas.three_phased' },
   ];
 
   public address!: Address;

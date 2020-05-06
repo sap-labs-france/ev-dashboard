@@ -459,12 +459,12 @@
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Maximum Power (kW)",
     "maximum_energy_amps": "Maximum Power (A)",
-    "number_of_connected_phases": "Number of connected Phases",
+    "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
     "consumption_date": "Date",
     "single_phased": "Single Phase",
-    "tri_phased": "Three Phase"
+    "three_phased": "Three Phase"
   },
   "authentication": {
     "accept": "I accept the",

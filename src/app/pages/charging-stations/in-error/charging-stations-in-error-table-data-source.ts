@@ -253,7 +253,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       });
     }
     // Sort
-    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
     if (this.isOrganizationComponentActive) {
       return [

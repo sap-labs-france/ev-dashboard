@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
+import { KeyValue } from 'app/types/GlobalType';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -164,7 +165,7 @@ export class Utils {
     return result;
   }
 
-  public static sortArrayOfJsonWithValue(element1, element2) {
+  public static sortArrayOfKeyValue(element1: KeyValue, element2: KeyValue) {
     if (element1.value < element2.value) {
       return -1;
     }

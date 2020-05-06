@@ -116,7 +116,7 @@
     "error_backend": "Error occurred while contacting the central server",
     "car_catalog_error": "Error occurred while retrieving the car",
     "car_catalogs_error": "Error occurred while retrieving the cars",
-    "user_cars_error": "Error occurred while retrieving the user cars",
+    "cars_error": "Error occurred while retrieving the user cars",
     "car_image_error": "Error occurred while retrieving the car images",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
@@ -1651,7 +1651,7 @@
     "description": "Manage Cars",
     "tabs": {
       "car_catalogs": "Car Catalogs",
-      "user_cars": "Cars"
+      "cars": "Cars"
     }
   },
   "analytics": {

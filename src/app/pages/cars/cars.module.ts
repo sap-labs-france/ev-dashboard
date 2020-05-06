@@ -12,12 +12,12 @@ import { CarCatalogComponent } from './car-catalog/car-catalog.component';
 import { CarCatalogDialogComponent } from './car-catalog/car-catalog.dialog.component';
 import { CarCarouselComponent } from './car-catalog/carousel/car-carousel.component';
 import { CarCatalogsListComponent } from './car-catalogs/car-catalogs-list.component';
+import { CarComponent } from './car/car.component';
+import { CarDialogComponent } from './car/car.dialog.component';
 import { CarsComponent } from './cars.component';
 import { CarsRoutes } from './cars.routing';
+import { CarsListComponent } from './cars/cars-list.component';
 import { CarCatalogImageFormatterCellComponent } from './cell-components/car-catalog-image-formatter-cell.component';
-import { UserCarComponent } from './user-car/user-car.component';
-import { UserCarDialogComponent } from './user-car/user-car.dialog.component';
-import { UserCarsListComponent } from './user-cars/user-cars-list.component';
 
 @NgModule({
   imports: [
@@ -39,9 +39,9 @@ import { UserCarsListComponent } from './user-cars/user-cars-list.component';
     CarCatalogComponent,
     CarsComponent,
     CarCatalogsListComponent,
-    UserCarsListComponent,
-    UserCarDialogComponent,
-    UserCarComponent,
+    CarsListComponent,
+    CarDialogComponent,
+    CarComponent,
   ],
   entryComponents: [
     CarCatalogComponent,
@@ -49,9 +49,9 @@ import { UserCarsListComponent } from './user-cars/user-cars-list.component';
     CarCatalogDialogComponent,
     CarsComponent,
     CarCatalogsListComponent,
-    UserCarsListComponent,
-    UserCarDialogComponent,
-    UserCarComponent,
+    CarsListComponent,
+    CarDialogComponent,
+    CarComponent,
   ],
   providers: [
   ],

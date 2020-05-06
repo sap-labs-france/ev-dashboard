@@ -3,12 +3,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CarCatalog } from 'app/types/Car';
 
 @Component({
-  template: '<app-user-car [inDialog]="true" [dialogRef]="dialogRef"></app-user-car>',
+  template: '<app-car [inDialog]="true" [dialogRef]="dialogRef"></app-car>',
 })
-export class UserCarDialogComponent {
+export class CarDialogComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<UserCarDialogComponent>,
+    public dialogRef: MatDialogRef<CarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
 
   }

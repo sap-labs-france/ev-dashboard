@@ -43,7 +43,8 @@ export interface Car extends Data {
   id: string;
   vin: string;
   licensePlate: string;
-  carCatalogID: number;
+  carCatalog: CarCatalog;
+  carCatalogID?: number;
   userIDs?: string;
   forced?: boolean;
 }

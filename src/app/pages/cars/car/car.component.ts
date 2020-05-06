@@ -20,10 +20,10 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { Utils } from 'app/utils/Utils';
 
 @Component({
-  selector: 'app-user-car',
-  templateUrl: 'user-car.component.html'
+  selector: 'app-car',
+  templateUrl: 'car.component.html'
 })
-export class UserCarComponent implements OnInit {
+export class CarComponent implements OnInit {
   @Input() inDialog!: boolean;
   @Input() dialogRef!: MatDialogRef<any>;
   public isBasic: boolean;

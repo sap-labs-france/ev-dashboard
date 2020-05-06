@@ -2315,7 +2315,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserCars(params: { [param: string]: string | string[]; },
+  public getCars(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
     // Verify init
     this.checkInit();
@@ -2395,11 +2395,11 @@ export class CentralServerService {
       );
   }
 
-  public createCar(userCar: any): Observable<ActionResponse> {
+  public createCar(car: any): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, userCar,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, car,
       {
         headers: this.buildHttpHeaders(),
       })

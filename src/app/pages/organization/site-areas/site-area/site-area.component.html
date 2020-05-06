@@ -95,14 +95,14 @@
                   </div>
                   <div style="text-align: left" *ngIf="isSmartChargingComponentActive">
                     <mat-form-field>
-                      <mat-label for="numberOfConnectedPhases">{{'site_areas.number_of_connected_phases' | translate}} *
+                      <mat-label for="numberOfPhases">{{'site_areas.number_of_connected_phases' | translate}} *
                       </mat-label>
-                      <mat-select appAutofocus id="numberOfConnectedPhases" [formControl]="numberOfConnectedPhases">
+                      <mat-select appAutofocus id="numberOfPhases" [formControl]="numberOfPhases">
                         <mat-option *ngFor="let connectedPhase of connectedPhaseMap" [value]="connectedPhase.key">
                           {{connectedPhase.description | translate}}
                         </mat-option>
                       </mat-select>
-                      <mat-error *ngIf="numberOfConnectedPhases.errors?.required">
+                      <mat-error *ngIf="numberOfPhases.errors?.required">
                         {{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>

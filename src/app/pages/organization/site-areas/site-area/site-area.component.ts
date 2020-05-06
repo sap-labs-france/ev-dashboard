@@ -52,7 +52,7 @@ export class SiteAreaComponent implements OnInit {
   public maximumPowerInAmps!: AbstractControl;
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
-  public numberOfConnectedPhases!: AbstractControl;
+  public numberOfPhases!: AbstractControl;
 
   public connectedPhaseMap = [
     { key: 1, description: 'site_areas.single_phased' },
@@ -118,7 +118,7 @@ export class SiteAreaComponent implements OnInit {
       maximumPowerInAmps: new FormControl(''),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
-      numberOfConnectedPhases: new FormControl('',
+      numberOfPhases: new FormControl('',
       Validators.compose([
         Validators.required,
       ])),
@@ -132,10 +132,10 @@ export class SiteAreaComponent implements OnInit {
     this.maximumPowerInAmps = this.formGroup.controls['maximumPowerInAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
-    this.numberOfConnectedPhases = this.formGroup.controls['numberOfConnectedPhases'];
+    this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPower.disable();
     this.maximumPowerInAmps.disable();
-    this.numberOfConnectedPhases.disable();
+    this.numberOfPhases.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -188,10 +188,10 @@ export class SiteAreaComponent implements OnInit {
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
       this.maximumPower.enable();
-      this.numberOfConnectedPhases.enable();
+      this.numberOfPhases.enable();
     } else {
       this.maximumPower.disable();
-      this.numberOfConnectedPhases.disable();
+      this.numberOfPhases.disable();
     }
     if (!event.checked && this.isSmartChargingActive) {
       this.dialogService.createAndShowYesNoDialog(
@@ -201,7 +201,7 @@ export class SiteAreaComponent implements OnInit {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
           this.maximumPower.enable();
-          this.numberOfConnectedPhases.enable();
+          this.numberOfPhases.enable();
         }
       });
     }
@@ -247,18 +247,18 @@ export class SiteAreaComponent implements OnInit {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower / 1000);
         this.maximumPowerChanged();
       }
-      if (siteArea.numberOfConnectedPhases) {
-        this.formGroup.controls.numberOfConnectedPhases.setValue(siteArea.numberOfConnectedPhases);
+      if (siteArea.numberOfPhases) {
+        this.formGroup.controls.numberOfPhases.setValue(siteArea.numberOfPhases);
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
         this.isSmartChargingActive = siteArea.smartCharging;
         this.maximumPower.enable();
-        this.numberOfConnectedPhases.enable();
+        this.numberOfPhases.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
         this.maximumPower.disable();
-        this.numberOfConnectedPhases.disable();
+        this.numberOfPhases.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);

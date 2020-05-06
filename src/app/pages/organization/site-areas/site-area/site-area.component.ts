@@ -55,8 +55,8 @@ export class SiteAreaComponent implements OnInit {
   public numberOfConnectedPhases!: AbstractControl;
 
   public connectedPhaseMap = [
-    { key: 1, description: 'site_areas.single_phase' },
-    { key: 3, description: 'site_areas.tri_phases' },
+    { key: 1, description: 'site_areas.single_phased' },
+    { key: 3, description: 'site_areas.tri_phased' },
   ];
 
   public address!: Address;

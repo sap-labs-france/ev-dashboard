@@ -221,7 +221,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
       }, (error) => {
         switch (error.status) {
           case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-            this.messageService.showErrorMessage('site_areas.update_phase_error');
+            this.messageService.showErrorMessage('chargers.change_config_phase_error');
             break;
           default:
             // No longer exists!

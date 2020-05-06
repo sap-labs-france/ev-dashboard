@@ -18,11 +18,11 @@ export class OcpiPatchJobStatusFormatterComponent extends CellContentTemplateCom
 
 @Pipe({name: 'appFormatOcpiPatchJobStatus'})
 export class AppFormatOcpiPatchJobStatusPipe implements PipeTransform {
-  public transform(backgroundPatchJob: number, type: string): string {
+  public transform(backgroundPatchJob: boolean, type: string): string {
     // Class
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
-      if (backgroundPatchJob > 0) {
+      if (backgroundPatchJob) {
         classNames += ChipType.SUCCESS;
       } else {
         classNames += ChipType.GREY;
@@ -31,11 +31,10 @@ export class AppFormatOcpiPatchJobStatusPipe implements PipeTransform {
     }
     // Text
     if (type === 'text') {
-      if (backgroundPatchJob > 0) {
+      if (backgroundPatchJob) {
         return 'ocpiendpoints.status_active';
-      } else {
-        return 'ocpiendpoints.status_inactive';
       }
+      return 'ocpiendpoints.status_inactive';
     }
     return '';
   }

@@ -24,6 +24,12 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public taxID!: AbstractControl;
   public taxes: BillingTax[] = [];
 
+  constructor(private centralServerService: CentralServerService) {
+    this.centralServerService.getBillingTaxes().subscribe((taxes) => {
+      this.taxes = taxes;
+    });
+  }
+
   public ngOnInit() {
     this.stripe = new FormGroup({
       url: new FormControl('',
@@ -72,30 +78,8 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  constructor(private centralServerService: CentralServerService) {
-    this.centralServerService.getBillingTaxes().subscribe((taxes) => {
-      this.taxes = taxes;
-    });
-  }
-
   public ngOnChanges() {
     this.updateFormData();
-  }
-
-  private updateFormData() {
-    if (this.stripe) {
-      // Set data
-      this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
-      this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
-      this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
-      this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
-        ? this.billingSettings.stripe.immediateBillingAllowed : false);
-      this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
-        ? this.billingSettings.stripe.periodicBillingAllowed : false);
-      this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
-        ? this.billingSettings.stripe.lastSynchronizedOn : '');
-      this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
-    }
   }
 
   public validatePublicKey(control: AbstractControl) {
@@ -126,6 +110,22 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   public openUrl() {
     if (this.url) {
       window.open(this.url.value);
+    }
+  }
+
+  private updateFormData() {
+    if (this.stripe) {
+      // Set data
+      this.url.setValue(this.billingSettings.stripe.url ? this.billingSettings.stripe.url : '');
+      this.secretKey.setValue(this.billingSettings.stripe.secretKey ? this.billingSettings.stripe.secretKey : '');
+      this.publicKey.setValue(this.billingSettings.stripe.publicKey ? this.billingSettings.stripe.publicKey : '');
+      this.immediateBillingAllowed.setValue(this.billingSettings.stripe.immediateBillingAllowed
+        ? this.billingSettings.stripe.immediateBillingAllowed : false);
+      this.periodicBillingAllowed.setValue(this.billingSettings.stripe.periodicBillingAllowed
+        ? this.billingSettings.stripe.periodicBillingAllowed : false);
+      this.lastSynchronizedOn.setValue(this.billingSettings.stripe.lastSynchronizedOn
+        ? this.billingSettings.stripe.lastSynchronizedOn : '');
+      this.taxID.setValue(this.billingSettings.stripe.taxID ? this.billingSettings.stripe.taxID : '');
     }
   }
 }

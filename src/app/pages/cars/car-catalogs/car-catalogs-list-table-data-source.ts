@@ -26,8 +26,8 @@ import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-ca
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
-  private openAction = new TableViewAction().getActionDef();
   public isSuperAdmin: boolean;
+  private openAction = new TableViewAction().getActionDef();
   private tableSyncCarCatalogsAction = new TableSyncCarCatalogsAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,

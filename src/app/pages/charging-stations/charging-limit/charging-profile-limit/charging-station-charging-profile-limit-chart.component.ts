@@ -52,6 +52,20 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     });
   }
 
+  public setLimitPlannerData(chargingSchedules: Schedule[]) {
+    // Init
+    this.prepareOrUpdateGraph();
+    // Create chart
+    if (this.data && this.data.datasets && this.data.labels) {
+      this.data.labels = [];
+      this.data.datasets = [];
+      // Fill
+      if (chargingSchedules) {
+        this.createGraphData(chargingSchedules);
+      }
+    }
+  }
+
   private getStyleColor(element: Element): string {
     const style = getComputedStyle(element);
     return style && style.color ? style.color : '';
@@ -74,20 +88,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       });
     }
     this.chart.update();
-  }
-
-  public setLimitPlannerData(chargingSchedules: Schedule[]) {
-    // Init
-    this.prepareOrUpdateGraph();
-    // Create chart
-    if (this.data && this.data.datasets && this.data.labels) {
-      this.data.labels = [];
-      this.data.datasets = [];
-      // Fill
-      if (chargingSchedules) {
-        this.createGraphData(chargingSchedules);
-      }
-    }
   }
 
   private createGraphData(chargingSchedules: Schedule[]) {

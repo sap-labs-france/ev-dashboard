@@ -22,6 +22,11 @@ export class TableSyncRefundAction implements TableAction {
     action: this.synchronizeRefund,
   };
 
+  // Return an action
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
+
   private synchronizeRefund(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
       centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
@@ -45,10 +50,5 @@ export class TableSyncRefundAction implements TableAction {
         });
       }
     });
-  }
-
-  // Return an action
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

@@ -77,11 +77,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     }
   }
 
-  private getStyleColor(element: Element): string {
-    const style = getComputedStyle(element);
-    return style && style.color ? style.color : '';
-  }
-
   public refresh() {
     this.spinnerService.show();
     // Change Date for testing e.g.:
@@ -94,6 +89,19 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.spinnerService.hide();
         delete this.siteAreaConsumption;
       });
+  }
+
+  public dateFilterChanged(value: Date) {
+    if (value) {
+    this.startDate = moment(value).startOf('d').toDate();
+    this.endDate = moment(value).endOf('d').toDate();
+    this.refresh();
+    }
+  }
+
+  private getStyleColor(element: Element): string {
+    const style = getComputedStyle(element);
+    return style && style.color ? style.color : '';
   }
 
   private prepareOrUpdateGraph() {
@@ -291,13 +299,5 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       },
     };
     return options;
-  }
-
-  public dateFilterChanged(value: Date) {
-    if (value) {
-    this.startDate = moment(value).startOf('d').toDate();
-    this.endDate = moment(value).endOf('d').toDate();
-    this.refresh();
-    }
   }
 }

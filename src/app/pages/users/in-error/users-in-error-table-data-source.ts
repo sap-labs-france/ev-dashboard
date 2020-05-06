@@ -278,7 +278,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       });
     }
     // Sort
-    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
     const filters: TableFilterDef[] = [
       new UserRoleFilter(this.centralServerService).getFilterDef(),

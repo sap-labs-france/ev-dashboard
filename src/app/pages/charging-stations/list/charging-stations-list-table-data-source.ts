@@ -310,12 +310,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     }
   }
 
-  private showPlace(charger: ChargingStation) {
-    if (charger && charger.coordinates && charger.coordinates.length === 2) {
-      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
-    }
-  }
-
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
@@ -380,6 +374,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       ];
     }
     return [openInMaps];
+  }
+
+  private showPlace(charger: ChargingStation) {
+    if (charger && charger.coordinates && charger.coordinates.length === 2) {
+      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
+    }
   }
 
   private simpleActionChargingStation(action: string, charger: ChargingStation, args: any, title: string,

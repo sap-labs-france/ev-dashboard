@@ -155,7 +155,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
       value: this.translateService.instant(`assets.errors.${AssetInErrorType.MISSING_SITE_AREA}.title`),
     });
     // Sort
-    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    errorTypes.sort(Utils.sortArrayOfKeyValue);
     return [
       new SiteAreaTableFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),

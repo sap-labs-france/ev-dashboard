@@ -1,16 +1,14 @@
 name: Lint CI
 on:
-  push:
-    branches:
-      - master
-      - master-qa
+  # push:
+  #   branches:
+  #     - master
+  #     - master-qa
   pull_request:
     branches:
       - master-qa
 jobs:
   lint:
-    env:
-      CI: true
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -116,6 +116,10 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     });
   }
 
+  public powerSliderChanged(ampValue: number) {
+    this.ampCurrentLimit = ampValue;
+  }
+
   private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
     // Apply to charger
     this.spinnerService.show();
@@ -145,9 +149,5 @@ export class ChargingStationStaticLimitComponent implements OnInit {
       Utils.handleHttpError(
         error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
     });
-  }
-
-  public powerSliderChanged(ampValue: number) {
-    this.ampCurrentLimit = ampValue;
   }
 }

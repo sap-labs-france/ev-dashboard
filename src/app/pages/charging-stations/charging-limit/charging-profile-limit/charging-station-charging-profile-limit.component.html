@@ -75,7 +75,9 @@
         </div>
       </div>
       <div class="text-right col-md-8 chart-position-in-pop-up">
-        <app-charging-station-smart-charging-limit-planner-chart #limitChart [charger]="charger">
+        <app-charging-station-smart-charging-limit-planner-chart
+          [charger]="charger" [connectorId]="currentChargingProfile ? currentChargingProfile.connectorID : 0"
+          [chargingSchedules]="currentChargingSchedules">
         </app-charging-station-smart-charging-limit-planner-chart>
       </div>
     </div>

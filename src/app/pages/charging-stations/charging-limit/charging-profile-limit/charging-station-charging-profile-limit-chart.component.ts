@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
@@ -20,13 +20,16 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
     </div>
   `,
 })
-export class ChargingStationSmartChargingLimitPlannerChartComponent {
+export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnChanges {
   @Input() public ratio!: number;
   @Input() public charger!: ChargingStation;
+  @Input() public connectorId!: number;
+  @Input() public chargingSchedules: Schedule[];
 
   @ViewChild('primary', {static: true}) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
+
 
   private graphCreated = false;
   private chart!: Chart;
@@ -50,6 +53,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
+  }
+
+  public ngOnChanges() {
+    this.prepareAndCreateGraphData();
   }
 
   private getStyleColor(element: Element): string {
@@ -76,7 +83,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.chart.update();
   }
 
-  public setLimitPlannerData(chargingSchedules: Schedule[], connectorId: number = 0) {
+  private prepareAndCreateGraphData() {
     // Init
     this.prepareOrUpdateGraph();
     // Create chart
@@ -84,13 +91,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       this.data.labels = [];
       this.data.datasets = [];
       // Fill
-      if (chargingSchedules) {
-        this.createGraphData(chargingSchedules, connectorId);
-      }
+      this.createGraphData();
     }
   }
 
-  private createGraphData(chargingSchedules: Schedule[], connectorId: number) {
+  private createGraphData() {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
@@ -105,7 +110,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         label: this.translateService.instant('transactions.graph.limit_plan_watts'),
       };
       // Build Schedules
-      for (const chargingSlot of chargingSchedules) {
+      for (const chargingSlot of this.chargingSchedules) {
         // Add a point
         if (this.data.labels && chargingSlotDataSet.data) {
           labels.push(chargingSlot.startDate.getTime());
@@ -116,8 +121,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         }
       }
       // Create the last point with the duration
-      if (chargingSlotDataSet.data && chargingSchedules.length > 0) {
-        const chargingSlot = chargingSchedules[chargingSchedules.length - 1];
+      if (chargingSlotDataSet.data && this.chargingSchedules.length > 0) {
+        const chargingSlot = this.chargingSchedules[this.chargingSchedules.length - 1];
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
@@ -128,8 +133,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
       let chargingStationPowers: ChargingStationPowers;
-      if (connectorId !== 0) {
-        chargingStationPowers = Utils.getChargingStationPowers(this.charger, this.charger.connectors[connectorId - 1]);
+      if (this.connectorId > 0) {
+        chargingStationPowers = Utils.getChargingStationPowers(this.charger, this.charger.connectors[this.connectorId - 1]);
       } else {
         chargingStationPowers = Utils.getChargingStationPowers(this.charger);
       }

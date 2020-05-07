@@ -22,7 +22,6 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   public url: FormControl;
-  public isUrlEmpty: boolean;
   private messages: any;
 
   constructor(
@@ -51,15 +50,10 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.isUrlEmpty = true;
     // Init FormControl
     this.url = new FormControl( '', Validators.compose([
       Validators.required,
     ]));
-  }
-
-  public urlChanged() {
-    this.isUrlEmpty = (this.url.value === '' || this.url.value === null) ? true : false;
   }
 
   public updateFirmware() {

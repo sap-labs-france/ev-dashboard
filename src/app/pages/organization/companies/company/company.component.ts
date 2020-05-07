@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +13,6 @@ import { Address } from 'app/types/Address';
 import { Company, CompanyLogo } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
@@ -25,9 +24,9 @@ import { CentralServerNotificationService } from '../../../../services/central-s
 })
 export class CompanyComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentCompanyID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentCompanyID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
   public logo: string = CompanyLogo.NO_LOGO;
@@ -57,12 +56,11 @@ export class CompanyComponent implements OnInit {
       // Not authorized
       this.router.navigate(['/']);
     }
-
     // get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

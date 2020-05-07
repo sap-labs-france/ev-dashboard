@@ -7,6 +7,8 @@ import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
+
+import { KeyValue } from 'app/types/GlobalType';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
@@ -163,9 +165,19 @@ export class Utils {
     return result;
   }
 
+  public static sortArrayOfKeyValue(element1: KeyValue, element2: KeyValue) {
+    if (element1.value < element2.value) {
+      return -1;
+    }
+    if (element1.value > element2.value) {
+      return 1;
+    }
+    return 0;
+  }
+
   public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
     if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase !== undefined) {
-      return ChargingStations.convertAmpToW(charger.connectors[0].numberOfConnectedPhase, ampValue);
+      return ChargingStations.convertAmpToWatt(charger.connectors[0].numberOfConnectedPhase, ampValue);
     }
     return 0;
   }
@@ -196,7 +208,6 @@ export class Utils {
   }
 
   public static getMobileVendor(): MobileType|null {
-    // @ts-ignore
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
       return MobileType.IOS;
@@ -310,7 +321,6 @@ export class Utils {
   }
 
   public static isValidDate(date: any): boolean {
-    // @ts-ignore
     return moment(date).isValid();
   }
 

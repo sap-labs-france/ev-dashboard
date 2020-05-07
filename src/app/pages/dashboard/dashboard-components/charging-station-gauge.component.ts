@@ -8,8 +8,8 @@ import { RadialGaugeComponent } from 'app/shared/component/gauge/radial-gauge';
 })
 export class ChargingStationGaugeComponent extends RadialGaugeComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() activeChargers = 0;
-  @Input() maxChargers = 0;
+  @Input() public activeChargers = 0;
+  @Input() public maxChargers = 0;
 
   constructor(el: ElementRef,
     zone: NgZone,
@@ -17,7 +17,7 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     super(el, zone);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.options = this.getOptions();
     this.options.title = this.translateService.instant('dashboard.active_stations_gauge_title');
     this.options.units = this.translateService.instant('dashboard.active_stations_gauge_unit');
@@ -83,11 +83,11 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     super.ngOnInit();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.gauge.draw();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (this.options && changes.maxChargers && changes.maxChargers.currentValue !== changes.maxChargers.previousValue) {
       this.options.maxValue = this.maxChargers;
       this.buildTicks();
@@ -101,7 +101,7 @@ export class ChargingStationGaugeComponent extends RadialGaugeComponent implemen
     }
   }
 
-  buildTicks() {
+  public buildTicks() {
     this.options.majorTicks = [];
     const tickRange = (Math.floor(this.maxChargers / 5) > 0 ? Math.floor(this.maxChargers / 5) : 1);
     for (let currentTick = 0; currentTick < this.maxChargers; currentTick += tickRange) {

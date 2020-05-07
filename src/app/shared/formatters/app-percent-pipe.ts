@@ -13,7 +13,7 @@ export class AppPercentPipe implements PipeTransform {
     });
   }
 
-  transform(value: number, digitsInfo?: string): string | null {
+  public transform(value: number, digitsInfo?: string): string | null {
     return this.percentPipe.transform(value, digitsInfo);
   }
 }

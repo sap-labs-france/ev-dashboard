@@ -21,15 +21,35 @@ export class ReleaseNotesComponent {
     this.buidlReleaseNotes();
   }
 
-  buidlReleaseNotes() {
+  public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.41',
-        date: new Date('2020-04-28'),
+        version: '2.2.47',
+        date: new Date('2020-05-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added single/three phases configuration in Site Area for Smart Charging`,
+              `Added single phase charging station handling with the SAP Smart Charging`,
+              `Migration task to store the Site Area's max limitation in former Transactions`,
+              `Implement OCPI Check Sessions, CDRs and Locations`,
+              `Added Locking on all Scheduler's tasks`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.43',
+        date: new Date('2020-05-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Asset In Error`,
+              `Added Billing Invoice synchronization`,
+              `Store Site Area max limitation in consumptions`,
+              `Add corresponding Maximum Power in amperes in Site Area`,
               `Enable Static Limitation and Charging Plan for Delta charger`,
               `Display price and date in Invoice list`,
               `Selection context not cleared in Asset, Site Area or Charging Station pop-ups`,

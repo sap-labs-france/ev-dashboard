@@ -59,7 +59,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
     });
   }
 
-  buildTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -72,7 +72,7 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
     };
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

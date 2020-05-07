@@ -6,10 +6,10 @@ import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -171,7 +171,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     ];
   }
 
-  buildTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
@@ -182,7 +182,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     return tableActionsDef;
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(

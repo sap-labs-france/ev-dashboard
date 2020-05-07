@@ -1,3 +1,4 @@
+import { Asset } from './Asset';
 import { ChargingStation } from './ChargingStation';
 import { Transaction } from './Transaction';
 import { User } from './User';
@@ -25,6 +26,9 @@ export interface ChargingStationInError extends ChargingStation, InError {
 export interface TransactionInError extends Transaction, InError {
 }
 
+export interface AssetInError extends Asset, InError {
+}
+
 export enum TransactionInErrorType {
   NO_CONSUMPTION = 'no_consumption',
   OVER_CONSUMPTION = 'average_consumption_greater_than_connector_capacity',
@@ -49,4 +53,8 @@ export enum UserInErrorType {
   INACTIVE_USER_ACCOUNT = 'inactive_user_account',
   FAILED_BILLING_SYNCHRO = 'failed_billing_synchro',
   NO_BILLING_DATA = 'no_billing_data',
+}
+
+export enum AssetInErrorType {
+  MISSING_SITE_AREA = 'missing_site_area',
 }

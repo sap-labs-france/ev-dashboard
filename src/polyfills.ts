@@ -14,13 +14,12 @@
  * Learn more in https://angular.io/guide/browser-support
  */
 
+/**  Angular <= 9 i18n */
+import '@angular/localize/init';
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
 import 'zone.js/dist/zone'; // Included with Angular CLI.
-
-/**  Angular <= 9 i18n */
-import '@angular/localize/init';
 
 (window as any).global = window;
 

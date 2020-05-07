@@ -12,5 +12,5 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 export class ChargingStationsConnectorsCellComponent extends CellContentTemplateComponent {
-  @Input() row!: ChargingStation;
+  @Input() public row!: ChargingStation;
 }

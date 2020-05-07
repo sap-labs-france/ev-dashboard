@@ -25,7 +25,7 @@ export class AppCurrencyPipe implements PipeTransform {
     });
   }
 
-  transform(price: number, currency?: string, display: string = 'symbol'): string | null {
+  public transform(price: number, currency?: string, display: string = 'symbol'): string | null {
     // Take from the conf
     if (!currency) {
       currency = this.currency;

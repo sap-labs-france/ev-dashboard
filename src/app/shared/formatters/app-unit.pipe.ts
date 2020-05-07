@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { AppDecimalPipe } from './app-decimal-pipe';
 
 @Pipe({name: 'appUnit'})
@@ -8,17 +9,7 @@ export class AppUnitPipe implements PipeTransform {
     private decimalPipe: AppDecimalPipe) {
   }
 
-  private parseMeasure(measureAsString: string): Measure {
-    // @ts-ignore
-    if (Unit[Unit[measureAsString]] === measureAsString) {
-      // @ts-ignore
-      return {unit: Unit[measureAsString], size: Size.basis};
-    }
-    // @ts-ignore
-    return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any};
-  }
-
-  transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,
+  public transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,
             numberOfDecimal: number = 2): string {
     if (value === 0) {
       numberOfDecimal = 0;
@@ -32,6 +23,13 @@ export class AppUnitPipe implements PipeTransform {
     const localDestMeasure = destMeasure.replace('Wh', 'W.h');
     return this.decimalPipe.transform(value / (src.size * dest.size),
       `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + localDestMeasure : ''}`;
+  }
+
+  private parseMeasure(measureAsString: string): Measure {
+    if (Unit[Unit[measureAsString]] === measureAsString) {
+      return {unit: Unit[measureAsString], size: Size.basis};
+    }
+    return {unit: Unit[measureAsString.slice(1)], size: Size[measureAsString.slice(0, 1)] as any};
   }
 }
 

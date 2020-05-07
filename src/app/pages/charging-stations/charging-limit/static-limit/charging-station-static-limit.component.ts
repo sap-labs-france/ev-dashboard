@@ -23,7 +23,7 @@ import { ChargingStationsRebootAction } from '../../actions/charging-stations-re
 })
 @Injectable()
 export class ChargingStationStaticLimitComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   public ampInitialLimit = 0;
@@ -54,7 +54,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Set
     for (const connector of this.charger.connectors) {
       this.ampCurrentLimit += connector.amperageLimit;
@@ -116,6 +116,10 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     });
   }
 
+  public powerSliderChanged(ampValue: number) {
+    this.ampCurrentLimit = ampValue;
+  }
+
   private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
     // Apply to charger
     this.spinnerService.show();
@@ -145,9 +149,5 @@ export class ChargingStationStaticLimitComponent implements OnInit {
       Utils.handleHttpError(
         error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
     });
-  }
-
-  public powerSliderChanged(ampValue: number) {
-    this.ampCurrentLimit = ampValue;
   }
 }

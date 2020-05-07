@@ -7,8 +7,8 @@ import { RefundSettings } from 'app/types/Setting';
   templateUrl: 'settings-concur.component.html',
 })
 export class SettingsConcurComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() refundSettings!: RefundSettings;
+  @Input() public formGroup!: FormGroup;
+  @Input() public refundSettings!: RefundSettings;
 
   public concur!: FormGroup;
   public concurAuthenticationUrl!: AbstractControl;
@@ -21,7 +21,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
   public concurPolicyId!: AbstractControl;
   public concurReportName!: AbstractControl;
 
-  ngOnInit() {
+  public ngOnInit() {
     this.formGroup.addControl('concur',
       new FormGroup({
         authenticationUrl: new FormControl('',
@@ -95,11 +95,11 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateFormData();
   }
 
-  updateFormData() {
+  public updateFormData() {
     // Set data
     if (this.refundSettings && this.refundSettings.concur && this.concur) {
       this.concurAuthenticationUrl.setValue(

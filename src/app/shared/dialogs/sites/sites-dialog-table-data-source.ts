@@ -41,7 +41,7 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
     });
   }
 
-  buildTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -54,7 +54,7 @@ export class SitesDialogTableDataSource extends DialogTableDataSource<Site> {
     };
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

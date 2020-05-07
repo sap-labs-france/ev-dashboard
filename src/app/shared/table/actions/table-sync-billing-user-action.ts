@@ -17,7 +17,7 @@ export class TableSyncBillingUserAction implements TableAction {
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
-    name: 'settings.billing.synchronize_user',
+    name: 'settings.billing.user.synchronize_user',
     tooltip: 'general.synchronize',
     action: this.synchronizeUser,
   };
@@ -30,8 +30,8 @@ export class TableSyncBillingUserAction implements TableAction {
   private synchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
       messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.billing.synchronize_user_dialog_title'),
-      translateService.instant('settings.billing.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
+      translateService.instant('settings.billing.user.synchronize_user_dialog_title'),
+      translateService.instant('settings.billing.user.synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
@@ -42,16 +42,16 @@ export class TableSyncBillingUserAction implements TableAction {
               refresh().subscribe();
             }
             messageService.showSuccessMessage(
-              translateService.instant('settings.billing.force_synchronize_user_success',
+              translateService.instant('settings.billing.user.force_synchronize_user_success',
               { userFullName: Utils.buildUserFullName(user) }));
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
-              'settings.billing.force_synchronize_user_failure');
+              'settings.billing.user.force_synchronize_user_failure');
           }
         }, (error) => {
           spinnerService.hide();
           Utils.handleHttpError(error, router, messageService, centralServerService,
-            'settings.billing.force_synchronize_user_failure');
+            'settings.billing.user.force_synchronize_user_failure');
         });
       }
     });

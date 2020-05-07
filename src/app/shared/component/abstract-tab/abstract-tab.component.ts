@@ -27,11 +27,11 @@ export class AbstractTabComponent implements OnDestroy {
     }
   }
 
-  setHashArray(hashArray: string[]) {
+  public setHashArray(hashArray: string[]) {
     this.hashArray = hashArray;
   }
 
-  updateRoute(index: number) {
+  public updateRoute(index: number) {
     if (this.synchronizeRouting) {
       if (this.hashArray && index < this.hashArray.length) {
         this.windowService.clearSearch();
@@ -40,11 +40,11 @@ export class AbstractTabComponent implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.synchronizeRouting = false;
   }
 
-  enableRoutingSynchronization() {
+  public enableRoutingSynchronization() {
     this.synchronizeRouting = true;
     this.windowService.setHash(this.hashArray[this.activeTabIndex]);
   }

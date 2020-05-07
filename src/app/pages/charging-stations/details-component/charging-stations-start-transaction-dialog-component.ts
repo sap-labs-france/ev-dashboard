@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonType } from 'app/types/Table';
 
@@ -22,15 +22,15 @@ export class ChargingStationsStartTransactionDialogComponent {
     this.message = data.message;
   }
 
-  forMyself() {
+  public forMyself() {
     this.dialogRef.close(BUTTON_FOR_MYSELF);
   }
 
-  selectUser() {
+  public selectUser() {
     this.dialogRef.close(BUTTON_SELECT_USER);
   }
 
-  cancel() {
+  public cancel() {
     this.dialogRef.close(ButtonType.CANCEL);
   }
 }

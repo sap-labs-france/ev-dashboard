@@ -6,12 +6,13 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, Connector, ConnStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ConnStatus, Connector, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -59,7 +60,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     this.noAction.getActionDef().disabled = true;
   }
 
-  loadData(showSpinner: boolean = false): Observable<void> {
+  public loadData(showSpinner: boolean = false): Observable<void> {
     return super.loadData(showSpinner);
   }
 

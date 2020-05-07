@@ -17,7 +17,7 @@ export class TableForceSyncBillingUserAction implements TableAction {
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
-    name: 'settings.billing.force_synchronize_users',
+    name: 'settings.billing.user.force_synchronize_users',
     tooltip: 'general.force_synchronize',
     action: this.forceSynchronizeUser,
   };
@@ -30,8 +30,8 @@ export class TableForceSyncBillingUserAction implements TableAction {
   private forceSynchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
       messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
-      translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
+      translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
+      translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
@@ -42,11 +42,11 @@ export class TableForceSyncBillingUserAction implements TableAction {
               refresh().subscribe();
             }
             messageService.showSuccessMessage(
-              translateService.instant('settings.billing.force_synchronize_user_success',
+              translateService.instant('settings.billing.user.force_synchronize_user_success',
               { userFullName: Utils.buildUserFullName(user) }));
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
-              'settings.billing.force_synchronize_user_failure');
+              'settings.billing.user.force_synchronize_user_failure');
           }
         }, (error) => {
           spinnerService.hide();

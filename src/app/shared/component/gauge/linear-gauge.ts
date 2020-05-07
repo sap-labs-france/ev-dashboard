@@ -14,7 +14,7 @@ export class LinearGaugeComponent extends BaseGauge<CanvasGauges.LinearGauge, Ca
         super(el, zone);
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.gauge = new CanvasGauges.LinearGauge(this.getOptions()).draw();
     }
 }

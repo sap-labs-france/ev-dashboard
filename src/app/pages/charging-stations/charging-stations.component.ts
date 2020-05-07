@@ -8,7 +8,7 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
   templateUrl: 'charging-stations.component.html',
 })
 export class ChargingStationsComponent extends AbstractTabComponent {
-  isAdmin: boolean;
+  public isAdmin: boolean;
   constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,

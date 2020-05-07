@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './auth-layout.component.html',
 })
 export class AuthLayoutComponent implements OnInit {
-  mobileMenuVisible: any = 0;
+  public mobileMenuVisible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
   private _router!: Subscription;
@@ -17,7 +17,7 @@ export class AuthLayoutComponent implements OnInit {
     this.sidebarVisible = false;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const navbar: HTMLElement = this.element.nativeElement;
 
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
@@ -26,7 +26,7 @@ export class AuthLayoutComponent implements OnInit {
     });
   }
 
-  sidebarOpen() {
+  public sidebarOpen() {
     const toggleButton = this.toggleButton;
     const body = document.getElementsByTagName('body')[0];
     setTimeout(() => {
@@ -37,14 +37,14 @@ export class AuthLayoutComponent implements OnInit {
     this.sidebarVisible = true;
   }
 
-  sidebarClose() {
+  public sidebarClose() {
     const body = document.getElementsByTagName('body')[0];
     this.toggleButton.classList.remove('toggled');
     this.sidebarVisible = false;
     body.classList.remove('nav-open');
   }
 
-  sidebarToggle() {
+  public sidebarToggle() {
     const body = document.getElementsByTagName('body')[0];
     if (this.sidebarVisible === false) {
       this.sidebarOpen();

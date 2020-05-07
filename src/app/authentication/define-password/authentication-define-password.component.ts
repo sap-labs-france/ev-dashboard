@@ -6,6 +6,7 @@ import { ConfigService } from 'app/services/config.service';
 import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { ReCaptchaV3Service } from 'ngx-captcha';
+
 import { CentralServerService } from '../../services/central-server.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
@@ -57,7 +58,6 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
             Validators.required,
           ])),
       },
-      // @ts-ignore
       (passwordFormGroup: FormGroup) => {
         return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
       }),
@@ -81,19 +81,19 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     }, 700);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('lock-page');
     body.classList.remove('off-canvas-sidebar');
   }
 
-  resetPassword(data: any) {
+  public resetPassword(data: any) {
     this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
       if (token) {
         data['captcha'] = token;

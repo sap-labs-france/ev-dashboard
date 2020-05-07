@@ -45,7 +45,7 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
     });
   }
 
-  buildTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowFieldNameIdentifier: 'id',
@@ -59,7 +59,7 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
     };
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'id',

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -32,26 +33,26 @@ export class StatisticsFiltersComponent implements OnInit {
   public sacLinks!: SettingLink[];
   public sacLinksActive = false;
 
-  @Output() category = new EventEmitter();
-  @Output() year = new EventEmitter();
-  @Output() dateFrom = new EventEmitter();
-  @Output() dateTo = new EventEmitter();
+  @Output() public category = new EventEmitter();
+  @Output() public year = new EventEmitter();
+  @Output() public dateFrom = new EventEmitter();
+  @Output() public dateTo = new EventEmitter();
 
-  @Input() allYears ?= false;
+  @Input() public allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
   ];
-  @Output() buttonOfScopeGroup = new EventEmitter();
-  @Input() tableFiltersDef?: TableFilterDef[] = [];
+  @Output() public buttonOfScopeGroup = new EventEmitter();
+  @Input() public tableFiltersDef?: TableFilterDef[] = [];
   public statFiltersDef: StatisticsFilterDef[] = [];
-  @Output() filters = new EventEmitter();
-  @Output() update = new EventEmitter();
-  @Output() export = new EventEmitter();
+  @Output() public filters = new EventEmitter();
+  @Output() public update = new EventEmitter();
+  @Output() public export = new EventEmitter();
 
-  private selectedCategory = 'C';
+  public selectedCategory = 'C';
+  public activeButtonOfScopeGroup!: StatisticsButtonGroup;
   private filterParams = {};
-  private activeButtonOfScopeGroup!: StatisticsButtonGroup;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -60,7 +61,7 @@ export class StatisticsFiltersComponent implements OnInit {
     private centralServerService: CentralServerService,
     private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.category.emit(this.selectedCategory);
@@ -299,33 +300,12 @@ export class StatisticsFiltersComponent implements OnInit {
     return filterJson;
   }
 
-  // set Date Filter to corresponding year
-  private setDateFilterYear(): void {
-    this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
-      if (filterDef.type === FilterType.DATE) {
-        if (this.selectedYear === 0) {
-          if (filterDef.id === 'dateFrom') {
-            filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
-          } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date();
-          }
-        } else if (this.selectedYear > 0) {
-          if (filterDef.id === 'dateFrom') {
-            filterDef.currentValue = new Date(this.selectedYear, 0, 1);
-          } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date(this.selectedYear + 1, 0, 1);
-          }
-        }
-      }
-    });
-  }
-
-  categoryChanged(): void {
+  public categoryChanged(): void {
     this.category.emit(this.selectedCategory);
     this.update.emit(true);
   }
 
-  yearChanged(refresh = true): void {
+  public yearChanged(refresh = true): void {
     if (this.allYears) {
       if (this.selectedYear > 0) {
         this.buttonsOfScopeGroup[1].inactive = false;
@@ -362,11 +342,11 @@ export class StatisticsFiltersComponent implements OnInit {
     this.yearChanged();
   }
 
-  refresh(): void {
+  public refresh(): void {
     this.update.emit(true);
   }
 
-  setActiveButtonOfScopeGroup(): void {
+  public setActiveButtonOfScopeGroup(): void {
     // Button group for Scope: always active
     // Set first active button
     const firstActiveButton = this.buttonsOfScopeGroup.find((button) => button.inactive === false);
@@ -376,7 +356,7 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  buttonOfScopeGroupChanged(buttonName: string): void {
+  public buttonOfScopeGroupChanged(buttonName: string): void {
     const index = this.buttonsOfScopeGroup.findIndex((element) => element.name === buttonName);
     if (index >= 0 &&
       this.activeButtonOfScopeGroup.name !== buttonName &&
@@ -387,8 +367,29 @@ export class StatisticsFiltersComponent implements OnInit {
     }
   }
 
-  exportData(): void {
+  public exportData(): void {
     this.export.emit();
+  }
+
+  // set Date Filter to corresponding year
+  private setDateFilterYear(): void {
+    this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
+      if (filterDef.type === FilterType.DATE) {
+        if (this.selectedYear === 0) {
+          if (filterDef.id === 'dateFrom') {
+            filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
+          } else if (filterDef.id === 'dateUntil') {
+            filterDef.currentValue = new Date();
+          }
+        } else if (this.selectedYear > 0) {
+          if (filterDef.id === 'dateFrom') {
+            filterDef.currentValue = new Date(this.selectedYear, 0, 1);
+          } else if (filterDef.id === 'dateUntil') {
+            filterDef.currentValue = new Date(this.selectedYear + 1, 0, 1);
+          }
+        }
+      }
+    });
   }
 
   private testIfFilterIsInitial(filterDef: StatisticsFilterDef): boolean {

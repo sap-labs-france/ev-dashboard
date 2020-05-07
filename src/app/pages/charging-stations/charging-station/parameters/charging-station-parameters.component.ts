@@ -8,6 +8,7 @@ import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.c
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -27,8 +28,8 @@ import { Utils } from '../../../../utils/Utils';
 })
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
-  @Input() charger!: ChargingStation;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public charger!: ChargingStation;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
@@ -86,9 +87,10 @@ export class ChargingStationParametersComponent implements OnInit {
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
+    this.isAdmin = this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
     // Init the form
     this.formGroup = new FormGroup({
       chargingStationURL: new FormControl('',
@@ -524,15 +526,18 @@ export class ChargingStationParametersComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 560:
+        case HTTPAuthError.ERROR:
           // Not Authorized
           this.messageService.showErrorMessage(
             this.translateService.instant('chargers.change_config_error'));
           break;
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           // Does not exist
           this.messageService.showErrorMessage(this.messages['change_config_error']);
           break;
+        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+            this.messageService.showErrorMessage('chargers.change_config_phase_error');
+            break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             this.messages['change_config_error']);

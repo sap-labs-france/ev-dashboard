@@ -18,7 +18,7 @@ export class ChargingStationsListComponent implements OnInit {
     private messageService: MessageService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Check if transaction ID id provided
     const chargingStationID = this.windowService.getSearch('ChargingStationID');
     if (chargingStationID) {

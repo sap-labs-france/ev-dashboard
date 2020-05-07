@@ -186,6 +186,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
+            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response), this.messageService,
               this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));

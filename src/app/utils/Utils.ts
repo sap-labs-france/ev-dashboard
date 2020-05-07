@@ -8,6 +8,7 @@ import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
+import { KeyValue } from 'app/types/GlobalType';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
@@ -164,7 +165,7 @@ export class Utils {
     return result;
   }
 
-  public static sortArrayOfJsonWithValue(element1, element2) {
+  public static sortArrayOfKeyValue(element1: KeyValue, element2: KeyValue) {
     if (element1.value < element2.value) {
       return -1;
     }

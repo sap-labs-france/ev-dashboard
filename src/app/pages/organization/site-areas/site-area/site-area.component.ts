@@ -392,6 +392,12 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
+  public maximumPowerChanged() {
+    if (!this.maximumPower.errors) {
+      this.maximumPowerInAmps.setValue(ChargingStations.convertWattToAmp(1, this.maximumPower.value as number * 1000));
+    }
+  }
+
   private loadRegistrationToken() {
     if (!this.currentSiteAreaID) {
       return;
@@ -498,11 +504,5 @@ export class SiteAreaComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
       }
     });
-  }
-
-  public maximumPowerChanged() {
-    if (!this.maximumPower.errors) {
-      this.maximumPowerInAmps.setValue(ChargingStations.convertWattToAmp(1, this.maximumPower.value as number * 1000));
-    }
   }
 }

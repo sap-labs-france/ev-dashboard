@@ -209,4 +209,3 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     super.setContent(contentToSet);
   }
 }
-

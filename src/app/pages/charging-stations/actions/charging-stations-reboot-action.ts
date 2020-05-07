@@ -21,6 +21,10 @@ export class ChargingStationsRebootAction implements TableAction {
     action: this.reboot,
   };
 
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
+
   private reboot(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
       messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
     // Show yes/no dialog
@@ -48,9 +52,5 @@ export class ChargingStationsRebootAction implements TableAction {
           });
         }
     });
-  }
-
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

@@ -235,7 +235,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       });
     }
     // Sort
-    errorTypes.sort(Utils.sortArrayOfJsonWithValue);
+    errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
     const filters: TableFilterDef[] = [
       new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),

@@ -75,11 +75,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
     }
   }
 
-  private getStyleColor(element: Element): string {
-    const style = getComputedStyle(element);
-    return style && style.color ? style.color : '';
-  }
-
   public refresh() {
     this.centralServerService.getTransactionConsumption(this.transactionId, this.loadAllConsumptions)
       .subscribe((transaction) => {
@@ -88,6 +83,18 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }, (error) => {
         delete this.transaction;
       });
+  }
+
+  public changeLoadAllConsumptions(matCheckboxChange: MatCheckboxChange) {
+    if (matCheckboxChange) {
+      this.loadAllConsumptions = matCheckboxChange.checked;
+      this.refresh();
+    }
+  }
+
+  private getStyleColor(element: Element): string {
+    const style = getComputedStyle(element);
+    return style && style.color ? style.color : '';
   }
 
   private prepareOrUpdateGraph() {
@@ -383,12 +390,5 @@ export class ConsumptionChartComponent implements AfterViewInit {
       },
     };
     return options;
-  }
-
-  public changeLoadAllConsumptions(matCheckboxChange: MatCheckboxChange) {
-    if (matCheckboxChange) {
-      this.loadAllConsumptions = matCheckboxChange.checked;
-      this.refresh();
-    }
   }
 }

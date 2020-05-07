@@ -18,7 +18,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 export class ChargingStationsInstantPowerConnectorProgressBarCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Connector;
+  @Input() public row!: Connector;
 }
 
 @Pipe({name: 'appChargingStationsFormatPowerConnector'})
@@ -26,7 +26,7 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
   constructor(private decimalPipe: AppDecimalPipe) {
   }
 
-  transform(connector: Connector, type: string): string {
+  public transform(connector: Connector, type: string): string {
     let value = 0;
     // Check
     switch (type) {

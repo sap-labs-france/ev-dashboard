@@ -10,11 +10,12 @@ import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+import { ChargingStationsRebootAction } from '../../actions/charging-stations-reboot-action';
 
 @Component({
   selector: 'app-charging-station-static-limit',
@@ -22,7 +23,7 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationStaticLimitComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   public ampInitialLimit = 0;
@@ -53,7 +54,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Set
     for (const connector of this.charger.connectors) {
       this.ampCurrentLimit += connector.amperageLimit;
@@ -115,17 +116,30 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     });
   }
 
+  public powerSliderChanged(ampValue: number) {
+    this.ampCurrentLimit = ampValue;
+  }
+
   private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
     // Apply to charger
     this.spinnerService.show();
     this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
+      if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+          response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
         // Success
         this.ampInitialLimit = this.ampCurrentLimit;
         this.messageService.showSuccessMessage(
           this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
         );
+        // Reboot Required?
+        if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+          const chargingStationsRebootAction = new ChargingStationsRebootAction().getActionDef();
+          if (chargingStationsRebootAction.action) {
+            chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
+              this.messageService, this.centralServerService, this.spinnerService, this.router);
+          }
+        }
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_error'));
@@ -135,9 +149,5 @@ export class ChargingStationStaticLimitComponent implements OnInit {
       Utils.handleHttpError(
         error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.power_limit_error');
     });
-  }
-
-  public powerSliderChanged(ampValue: number) {
-    this.ampCurrentLimit = ampValue;
   }
 }

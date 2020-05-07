@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { CentralServerService } from '../../services/central-server.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class AuthenticationEulaComponent implements OnInit {
     private centralServerService: CentralServerService) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.centralServerService.getEndUserLicenseAgreement(this.translateService.getBrowserLang()).subscribe((eula) => {
       this.eulaText = eula.text;
     });

@@ -137,19 +137,19 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: Tenant) {
+  public rowActionTriggered(actionDef: TableActionDef, tenant: Tenant) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showTenantDialog(rowItem);
+        this.showTenantDialog(tenant);
         break;
       case ButtonAction.DELETE:
-        this.deleteTenant(rowItem);
+        this.deleteTenant(tenant);
         break;
       case ButtonAction.OPEN:
-        this.openTenant(rowItem);
+        this.openTenant(tenant);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, tenant);
     }
   }
 

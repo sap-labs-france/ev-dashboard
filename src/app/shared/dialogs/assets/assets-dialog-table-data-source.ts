@@ -41,7 +41,7 @@ export class AssetsDialogTableDataSource extends DialogTableDataSource<Asset> {
     });
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'name',

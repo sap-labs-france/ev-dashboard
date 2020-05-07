@@ -35,10 +35,10 @@
               <mat-select [formControl]="chargingProfilesControl"
                 placeholder="{{'chargers.smart_charging.charging_profile_limit' | translate}}">
                 <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile">
+                  {{chargingProfile.chargingStationID}},
                   {{'chargers.connector' | translate}}: {{chargingProfile.connectorID}},
                   {{'chargers.smart_charging.profile_type' | translate}}:
-                  {{chargingProfile.profile.chargingProfilePurpose}},
-                  {{'chargers.smart_charging.stack_level' | translate}}: {{chargingProfile.profile.stackLevel}}
+                  {{chargingProfile.profile.chargingProfilePurpose}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -75,7 +75,9 @@
         </div>
       </div>
       <div class="text-right col-md-8 chart-position-in-pop-up">
-        <app-charging-station-smart-charging-limit-planner-chart #limitChart [charger]="charger">
+        <app-charging-station-smart-charging-limit-planner-chart
+          [charger]="charger" [connectorId]="currentChargingProfile ? currentChargingProfile.connectorID : 0"
+          [chargingSchedules]="currentChargingSchedules">
         </app-charging-station-smart-charging-limit-planner-chart>
       </div>
     </div>

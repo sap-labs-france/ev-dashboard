@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CarMakersTable } from 'app/types/Car';
 import { KeyValue } from 'app/types/GlobalType';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -22,7 +22,7 @@ export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakers
     this.dialogDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {
+  public getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

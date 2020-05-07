@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -36,7 +36,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   public percentOfInactivity!: string;
   public locale!: string;
 
-  @ViewChild('chartConsumption') chartComponent!: ConsumptionChartComponent;
+  @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
   private transactionId!: number;
 
   private autoRefeshTimer!: number;
@@ -72,7 +72,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Handle Poll (config service available only in component not possible in data-source)
     this.autoRefeshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
     this.autoRefeshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
@@ -80,12 +80,12 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     // Destroy
     this.destroyAutoRefreshTimer();
   }
 
-  createAutoRefreshTimer() {
+  public createAutoRefreshTimer() {
     // Create timer only if socketIO is not active
     if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
       if (this.autoRefeshPollEnabled) {
@@ -106,7 +106,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  destroyAutoRefreshTimer() {
+  public destroyAutoRefreshTimer() {
     // Clean up
     if (this.autoRefeshTimer) {
       clearInterval(this.autoRefeshTimer);
@@ -116,12 +116,12 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  refresh() {
+  public refresh() {
     this.loadData();
     this.chartComponent.refresh();
   }
 
-  loadData() {
+  public loadData() {
     this.spinnerService.show();
     if (!this.transactionId) {
       this.centralServerService.getLastTransaction(this.chargingStationId,
@@ -140,7 +140,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadConsumption(transactionId: number) {
+  public loadConsumption(transactionId: number) {
     this.spinnerService.show();
     this.centralServerService.getTransactionConsumption(this.transactionId).subscribe((transaction: Transaction) => {
       this.spinnerService.hide();

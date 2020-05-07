@@ -26,8 +26,8 @@ import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-ca
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
-  private openAction = new TableViewAction().getActionDef();
   public isSuperAdmin: boolean;
+  private openAction = new TableViewAction().getActionDef();
   private tableSyncCarCatalogsAction = new TableSyncCarCatalogsAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
@@ -228,13 +228,13 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return tableColumnDef;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: CarCatalog) {
+  public rowActionTriggered(actionDef: TableActionDef, car: CarCatalog) {
     switch (actionDef.id) {
       case ButtonAction.VIEW:
-        this.showCarDialog(rowItem);
+        this.showCarDialog(car);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, car);
     }
   }
 

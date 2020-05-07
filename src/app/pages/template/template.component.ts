@@ -5,7 +5,7 @@ import { AuthorizationService } from 'app/services/authorization.service';
   templateUrl: 'template.component.html',
 })
 export class TemplateComponent {
-  isAdmin: boolean;
+  public isAdmin: boolean;
   constructor(
     private authorizationService: AuthorizationService,
   ) {

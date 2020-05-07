@@ -9,11 +9,12 @@ export interface SiteArea extends Data {
   image: string;
   address: Address;
   maximumPower: number;
+  numberOfPhases: number;
   accessControl: boolean;
   smartCharging: boolean;
   siteID: string;
   site: Site;
-  chargeBoxes: ChargingStation[];
+  chargingStations: ChargingStation[];
 }
 
 export interface SiteAreaConsumption {

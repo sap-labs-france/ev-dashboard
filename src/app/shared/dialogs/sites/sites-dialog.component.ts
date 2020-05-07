@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -22,7 +22,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     this.dialogDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: Site[]): KeyValue[] {
+  public getSelectedItems(selectedRows: Site[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

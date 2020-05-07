@@ -27,9 +27,9 @@ import { debounceTime, mergeMap } from 'rxjs/operators';
 })
 export class AssetComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
-  @Input() currentAssetID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentAssetID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
   public image: string = AssetImage.NO_IMAGE;
@@ -49,35 +49,31 @@ export class AssetComponent implements OnInit {
   public asset!: Asset;
 
   constructor(
-    private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
-    private configService: ConfigService,
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private dialogService: DialogService,
-    private translateService: TranslateService,
-    private router: Router) {
-
+      private authorizationService: AuthorizationService,
+      private centralServerService: CentralServerService,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private messageService: MessageService,
+      private spinnerService: SpinnerService,
+      private configService: ConfigService,
+      private activatedRoute: ActivatedRoute,
+      private dialog: MatDialog,
+      private dialogService: DialogService,
+      private translateService: TranslateService,
+      private router: Router) {
     this.maxSize = this.configService.getAsset().maxImageKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateAsset()) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
     // Get asset types
     this.assetTypes = AssetTypes;
-
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -119,12 +115,10 @@ export class AssetComponent implements OnInit {
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
-
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
     }
-
     if (this.currentAssetID) {
       this.loadAsset();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -133,7 +127,6 @@ export class AssetComponent implements OnInit {
         this.loadAsset();
       });
     }
-
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // check if escape
@@ -141,7 +134,6 @@ export class AssetComponent implements OnInit {
         this.onClose();
       }
     });
-
     this.centralServerNotificationService.getSubjectAsset().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?

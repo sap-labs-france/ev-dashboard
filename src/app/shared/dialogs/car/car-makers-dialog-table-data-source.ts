@@ -40,7 +40,7 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTab
     });
   }
 
-  buildTableDef(): TableDef {
+  public buildTableDef(): TableDef {
     return {
       class: 'table-dialog-list',
       rowSelection: {
@@ -53,7 +53,7 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTab
     };
   }
 
-  buildTableColumnDefs(): TableColumnDef[] {
+  public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
         id: 'carMaker',

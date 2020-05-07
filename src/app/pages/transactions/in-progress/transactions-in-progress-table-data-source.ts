@@ -183,7 +183,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
   }
 
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.STOP:
         this.dialogService.createAndShowYesNoDialog(
@@ -203,7 +203,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [];
 
     // Show Site Area Filter If Organization component is active
@@ -222,7 +222,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return filters;
   }
 
-  buildTableDynamicRowActions(): TableActionDef[] {
+  public buildTableDynamicRowActions(): TableActionDef[] {
     const actions = [
       this.openAction,
     ];
@@ -232,7 +232,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return actions;
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef(),

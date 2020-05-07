@@ -68,7 +68,7 @@
         <!-- Category of statistics -->
         <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
             <mat-form-field>
-                <mat-select (selectionChange)="categoryChanged($event)" [(value)]="selectedCategory"
+                <mat-select (selectionChange)="categoryChanged()" [(value)]="selectedCategory"
                             [placeholder]="'statistics.category_label' | translate">
                     <mat-option [value]="'C'">{{'transactions.charging_station' | translate}}</mat-option>
                      <mat-option [value]="'U'">{{'transactions.user' | translate}}</mat-option>
@@ -95,7 +95,7 @@
               [class]="(filterDef.class ? filterDef.class : '')">
           <!-- Dropdown Filter -->
           <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
                         [placeholder]="filterDef.name | translate">
               <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
               </mat-option>
@@ -103,7 +103,7 @@
           </mat-form-field>
           <!-- Dropdown Filter with multiple selections-->
           <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
-            <mat-select (selectionChange)="filterChanged(filterDef, $event)" [(value)]="filterDef.currentValue"
+            <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
                 [placeholder]="filterDef.name | translate" multiple disableRipple>
               <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
               <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>

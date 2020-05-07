@@ -21,17 +21,66 @@ export class ReleaseNotesComponent {
     this.buidlReleaseNotes();
   }
 
-  buidlReleaseNotes() {
+  public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.35',
-        date: new Date('2020-04-20'),
+        version: '2.2.47',
+        date: new Date('2020-05-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added single/three phases configuration in Site Area for Smart Charging`,
+              `Added single phase charging station handling with the SAP Smart Charging`,
+              `Smart Charging display connectors max limit in chart according connector's max power`,
+              `Migration task to store the Site Area's max limitation in former Transactions`,
+              `Implement OCPI Check Sessions, CDRs and Locations`,
+              `Added Locking on all Scheduler's tasks`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.43',
+        date: new Date('2020-05-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Asset In Error`,
+              `Added Billing Invoice synchronization`,
+              `Store Site Area max limitation in consumptions`,
+              `Add corresponding Maximum Power in amperes in Site Area`,
+              `Enable Static Limitation and Charging Plan for Delta charger`,
+              `Display price and date in Invoice list`,
+              `Selection context not cleared in Asset, Site Area or Charging Station pop-ups`,
+              `Divide by 3 the power of the Charging Plan`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.39',
+        date: new Date('2020-04-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Invoices storage in the backend`,
+              `Remove units in Charging Plans' columns`,
+              `Added Amperage in Charging Plans' power limitation when Smart Charging is active`,
+              `Allow decimal number in the Site Area Maximum Power Limitation (Kw) field`,
+              `Add the name of the Charger in the Charging Plan's drop down and remove the Level`,
+              `When the Charging Plan's schedule list is empty, you cannot delete the plan`,
+              `When the Charging Plan list is empty, you cannot delete it`,
+              `Use a dialog pop-up to select Company and Site instead of drop down`,
+              `Asset button in Site Area list should not be displayed if Asset component is not active`,
+              `Maximum Site Area Power Limitation issue should not be modifiable when read-only`,
+              `Display 400V in Car's converter voltage column when there are 3 phases`,
+              `Add a date filter for displaying the Site Area's consumption at a given date`,
               `Add a checkbox to display all the session chart's points (no optimization)`,
               `Refactored Cars to Cars Catalog`,
+              `Add OCPI charging periods in update and stop sessions`,
               `Fixed Smart Charging checkbox disabled Site Area's Max Power Limitation`
             ],
           },

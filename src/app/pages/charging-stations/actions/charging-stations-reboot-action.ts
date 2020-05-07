@@ -1,6 +1,14 @@
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
+import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ActionResponse } from 'app/types/DataResult';
+import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 
 export class ChargingStationsRebootAction implements TableAction {
   private action: TableActionDef = {
@@ -10,9 +18,39 @@ export class ChargingStationsRebootAction implements TableAction {
     color: ButtonColor.WARN,
     name: 'general.edit',
     tooltip: 'general.tooltips.reboot',
+    action: this.reboot,
   };
 
   public getActionDef(): TableActionDef {
     return this.action;
+  }
+
+  private reboot(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
+    // Show yes/no dialog
+    dialogService.createAndShowYesNoDialog(
+      translateService.instant('chargers.reboot_required_title'),
+      translateService.instant('chargers.reboot_required_confirm', { chargeBoxID: chargingStation.id }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        spinnerService.show();
+        // Reboot
+        centralServerService.rebootChargingStation(chargingStation.id).subscribe((response: ActionResponse) => {
+            spinnerService.hide();
+            if (response.status === OCPPGeneralResponse.ACCEPTED) {
+              // Ok
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.reboot_success', { chargeBoxID: chargingStation.id }));
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, 'chargers.reboot_error');
+            }
+          }, (error: any) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService,
+              centralServerService, 'chargers.reboot_error');
+          });
+        }
+    });
   }
 }

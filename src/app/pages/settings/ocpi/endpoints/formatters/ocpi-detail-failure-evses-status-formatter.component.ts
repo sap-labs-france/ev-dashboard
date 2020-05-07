@@ -14,12 +14,12 @@ import { Constants } from 'app/utils/Constants';
   `,
 })
 export class OcpiDetailFailureEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpointDetail;
+  @Input() public row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiEvsesFailure'})
 export class AppFormatOcpiEvsesFailurePipe implements PipeTransform {
-  transform(failureNbr: number, type: string): string {
+  public transform(failureNbr: number, type: string): string {
     if (type === 'class') {
       let classNames = 'chip-width-4em ';
       if (failureNbr > 0) {

@@ -4,8 +4,8 @@ import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
-// @ts-ignore
 import saveAs from 'file-saver';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -23,6 +23,10 @@ export class TableExportOCPPParamsAction implements TableAction {
     tooltip: 'general.tooltips.export',
     action: this.exportOCPPParameters,
   };
+  // Return an action
+  public getActionDef(): TableActionDef {
+    return this.action;
+  }
 
   private exportOCPPParameters(dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router,
@@ -49,9 +53,5 @@ export class TableExportOCPPParamsAction implements TableAction {
           });
       }
     });
-  }
-  // Return an action
-  public getActionDef(): TableActionDef {
-    return this.action;
   }
 }

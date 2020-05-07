@@ -14,13 +14,13 @@ import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-detail
   }`],
 })
 export class ErrorCodeDetailsComponent extends CellContentTemplateComponent {
-  @Input() row: any;
+  @Input() public row: any;
 
   constructor(private dialog: MatDialog) {
     super();
   }
 
-  showHelpDialog() {
+  public showHelpDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '20vw';
     dialogConfig.data = this.row.errorMessage;

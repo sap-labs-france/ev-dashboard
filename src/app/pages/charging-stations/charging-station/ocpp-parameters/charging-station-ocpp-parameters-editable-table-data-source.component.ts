@@ -7,17 +7,17 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OcppParameter, OCPPConfigurationStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
-import { ActionResponse } from 'app/types/DataResult';
+import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-// @ts-ignore
 import saveAs from 'file-saver';
+
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../../types/GlobalType';
+import { ChargingStationsRebootAction } from '../../actions/charging-stations-reboot-action';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
@@ -98,82 +98,20 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     });
   }
 
-  private saveOcppParameter(param: OcppParameter) {
-    // Show yes/no dialog
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.set_configuration_title'),
-      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: param.key }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, { key: param.key, value: param.value }).subscribe((response) => {
-            this.spinnerService.hide();
-            // Ok?
-            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-              this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: this.charger.id }));
-              // Reboot Required?
-              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                // Show yes/no dialog
-                this.dialogService.createAndShowYesNoDialog(
-                    this.translateService.instant('chargers.reboot_required_title'),
-                    this.translateService.instant('chargers.reboot_required_confirm', { chargeBoxID: this.charger.id }),
-                  ).subscribe((result2) => {
-                    if (result2 === ButtonType.YES) {
-                      // Reboot
-                      this.rebootChargingStation();
-                    }
-                });
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
-            }
-            this.refreshData(true).subscribe();
-          }, (error) => {
-            this.spinnerService.hide();
-            this.refreshData(true).subscribe();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
-          });
-      }
-    });
-  }
-
-  private rebootChargingStation() {
-    this.spinnerService.show();
-    // Reboot
-    this.centralServerService.rebootChargingStation(this.charger.id).subscribe((response: ActionResponse) => {
-        this.spinnerService.hide();
-        if (response.status === OCPPGeneralResponse.ACCEPTED) {
-          // Ok
-          this.messageService.showSuccessMessage(
-            this.translateService.instant('chargers.reboot_success', { chargeBoxID: this.charger.id }));
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'chargers.reboot_error');
-        }
-      }, (error: any) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'chargers.reboot_error');
-      });
-  }
-
   public setCharger(charger: ChargingStation) {
     this.charger = charger;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+  public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_SAVE:
-        this.saveOcppParameter(editableRow);
+        this.saveOcppParameter(ocppParameter);
         actionDone = true;
         break;
     }
     // Call super
-    super.rowActionTriggered(actionDef, editableRow, dropdownItem, postDataProcessing, true);
+    super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -206,10 +144,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     ];
   }
 
-  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
-    return editableRow.readonly;
-  }
-
   public createRow() {
     return {
       key: '',
@@ -224,5 +158,46 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       content.push(param);
     }
     super.setContent(content);
+  }
+
+  protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
+    return editableRow.readonly;
+  }
+
+  private saveOcppParameter(param: OcppParameter) {
+    // Show yes/no dialog
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.set_configuration_title'),
+      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: param.key }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        this.spinnerService.show();
+        this.centralServerService.updateChargingStationOCPPConfiguration(
+          this.charger.id, { key: param.key, value: param.value }).subscribe((response) => {
+            this.spinnerService.hide();
+            // Ok?
+            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+              this.messageService.showSuccessMessage(
+                this.translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: this.charger.id }));
+              // Reboot Required?
+              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                const chargingStationsRebootAction = new ChargingStationsRebootAction().getActionDef();
+                if (chargingStationsRebootAction.action) {
+                  chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
+                    this.messageService, this.centralServerService, this.spinnerService, this.router);
+                }
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
+            }
+            this.refreshData(true).subscribe();
+          }, (error) => {
+            this.spinnerService.hide();
+            this.refreshData(true).subscribe();
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
+          });
+      }
+    });
   }
 }

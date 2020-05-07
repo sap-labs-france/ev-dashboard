@@ -36,7 +36,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.formGroup = new FormGroup({});
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadConfiguration();
   }
 

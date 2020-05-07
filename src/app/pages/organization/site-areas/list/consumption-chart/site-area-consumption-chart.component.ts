@@ -7,6 +7,7 @@ import { SiteAreaConsumption } from 'app/types/SiteArea';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
@@ -18,12 +19,12 @@ import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pip
 })
 
 export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit {
-  @Input() siteAreaId!: string;
-  @Input() siteAreaConsumption!: SiteAreaConsumption;
+  @Input() public siteAreaId!: string;
+  @Input() public siteAreaConsumption!: SiteAreaConsumption;
 
-  @ViewChild('primary', { static: true }) primaryElement!: ElementRef;
-  @ViewChild('danger', { static: true }) dangerElement!: ElementRef;
-  @ViewChild('chart', { static: true }) chartElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
+  @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
   public dateControl!: AbstractControl;
 
@@ -56,7 +57,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Date control
     this.dateControl = new FormControl('dateControl',
     Validators.compose([
@@ -65,7 +66,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     this.dateControl.setValue(this.startDate);
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
@@ -74,11 +75,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     } else {
       this.refresh();
     }
-  }
-
-  private getStyleColor(element: Element): string {
-    const style = getComputedStyle(element);
-    return style && style.color ? style.color : '';
   }
 
   public refresh() {
@@ -93,6 +89,19 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.spinnerService.hide();
         delete this.siteAreaConsumption;
       });
+  }
+
+  public dateFilterChanged(value: Date) {
+    if (value) {
+    this.startDate = moment(value).startOf('d').toDate();
+    this.endDate = moment(value).endOf('d').toDate();
+    this.refresh();
+    }
+  }
+
+  private getStyleColor(element: Element): string {
+    const style = getComputedStyle(element);
+    return style && style.color ? style.color : '';
   }
 
   private prepareOrUpdateGraph() {
@@ -162,7 +171,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private refreshDataSets() {
     if (this.data.datasets) {
       for (const key of Object.keys(this.data.datasets)) {
-        // @ts-ignore
         this.data.datasets[key].data = [];
       }
       const instantPowerDataSet = this.getDataSet('instantPower');
@@ -186,6 +194,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createOptions(): ChartOptions {
     const locale = moment.localeData(this.language);
     const options: ChartOptions = {
+      animation: {
+        duration: 0,
+      },
       legend: {
         position: 'bottom',
         labels: {
@@ -213,7 +224,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
               const dataSet = data.datasets[tooltipItem.datasetIndex];
               if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
                 const value = dataSet.data[tooltipItem.index] as number;
-                // @ts-ignore: usage of unknown fucking 'name' property
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantPower':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
@@ -289,13 +299,5 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       },
     };
     return options;
-  }
-
-  public dateFilterChanged(value: Date) {
-    if (value) {
-    this.startDate = moment(value).startOf('d').toDate();
-    this.endDate = moment(value).endOf('d').toDate();
-    this.refresh();
-    }
   }
 }

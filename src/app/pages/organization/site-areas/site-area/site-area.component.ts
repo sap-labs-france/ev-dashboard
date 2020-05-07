@@ -119,9 +119,9 @@ export class SiteAreaComponent implements OnInit {
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
       numberOfPhases: new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])),
+        Validators.compose([
+          Validators.required,
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];

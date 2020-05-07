@@ -11,7 +11,7 @@
             <div class="row app-organization">
               <div class="col-md-5" style="display: block; margin-top: auto">
                 <div class="rotating-card-container app-organization-image-border"
-                  [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
+                  [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
                   <div class="card card-rotate card-background app-site-area-image-padding" style="margin-top: 0px;">
                     <div class="front front-background"
                       [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="back back-background"
                       [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                      <div *ngIf="this.isAdmin" class="card-body">
+                      <div *ngIf="isAdmin" class="card-body">
                         <h5 class="card-title">
                           {{'general.change_picture' | translate}}
                         </h5>
@@ -156,7 +156,7 @@
     </mat-tab>
     <mat-tab disabled>
       <ng-template mat-tab-label>
-        <button mat-button *ngIf="this.isAdmin" (click)="saveSiteArea(formGroup.value)"
+        <button mat-button *ngIf="isAdmin" (click)="saveSiteArea(formGroup.value)"
           [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
           <span>{{'general.save' | translate}}</span>

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,12 +51,10 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    // remove default add action + add export action
     return [new TableExportAction().getActionDef()];
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    // remove default delete action
     return [];
   }
 
@@ -140,16 +139,16 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     this.charger = charger;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
+  public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_SAVE:
-        this.saveOcppParameter(editableRow);
+        this.saveOcppParameter(ocppParameter);
         actionDone = true;
         break;
     }
     // Call super
-    super.rowActionTriggered(actionDef, editableRow, dropdownItem, postDataProcessing, true);
+    super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -186,26 +185,23 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     return (editableRow.id !== 'InputRow');
   }
 
-  public createRow() {
+  public createRow(): OcppParameter {
     return {
       id: '',
       key: '',
       value: '',
       readonly: false,
-    } as OcppParameter;
+    };
   }
 
   public setContent(content: OcppParameter[]) {
-    if (content.length === 0) {
-      const param = this.createRow();
-      content.push(param);
-    }
-    const inputRow = this.createRow();
-    inputRow.id = 'InputRow';
-    const contentToSet = [
-      inputRow,
+    // Create custom row
+    const customOcppParameterRow = this.createRow();
+    customOcppParameterRow.id = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
+    // Set
+    super.setContent([
+      customOcppParameterRow,
       ...content,
-    ];
-    super.setContent(contentToSet);
+    ]);
   }
 }

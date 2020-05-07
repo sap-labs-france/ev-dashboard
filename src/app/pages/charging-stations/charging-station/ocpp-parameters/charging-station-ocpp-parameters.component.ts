@@ -20,7 +20,6 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit {
   @Input() public charger!: ChargingStation;
-  public chargerConfiguration!: OcppParameter[];
   public isAdmin: boolean;
   public formGroup!: FormGroup;
   public parameters!: FormArray;
@@ -63,27 +62,22 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     }
     this.spinnerService.show();
     this.centralServerService.getChargingStationOcppParameters(this.charger.id)
-    .subscribe((configurationResult: DataResult<OcppParameter>) => {
-      if (configurationResult && Array.isArray(configurationResult.result)) {
-        this.chargerConfiguration = configurationResult.result;
-      } else {
-        this.chargerConfiguration = [];
-      }
-      this.ocppParametersDataSource.setContent(this.chargerConfiguration);
-      this.parameters.markAsPristine();
-      this.spinnerService.hide();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        // Not found
-        case 550:
-          // Charger not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.charger_not_found');
-          break;
-        default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-      }
-    });
+      .subscribe((ocppParametersResult: DataResult<OcppParameter>) => {
+        this.ocppParametersDataSource.setContent(ocppParametersResult.result);
+        this.parameters.markAsPristine();
+        this.spinnerService.hide();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          // Not found
+          case 550:
+            // Charger not found`
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.charger_not_found');
+            break;
+          default:
+            // Unexpected error`
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
   }
 }

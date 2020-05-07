@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added single/three phases configuration in Site Area for Smart Charging`,
               `Added single phase charging station handling with the SAP Smart Charging`,
+              `Smart Charging display connectors max limit in chart according connector's max power`,
               `Migration task to store the Site Area's max limitation in former Transactions`,
               `Implement OCPI Check Sessions, CDRs and Locations`,
               `Added Locking on all Scheduler's tasks`

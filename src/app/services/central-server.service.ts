@@ -1429,7 +1429,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingForceSynchronizeUserInvoices`,
-      { id: userID },
+      { userID },
       {
         headers: this.buildHttpHeaders(),
       })

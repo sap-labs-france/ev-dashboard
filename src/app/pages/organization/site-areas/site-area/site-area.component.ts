@@ -52,6 +52,12 @@ export class SiteAreaComponent implements OnInit {
   public maximumPowerInAmps!: AbstractControl;
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
+  public numberOfPhases!: AbstractControl;
+
+  public phaseMap = [
+    { key: 1, description: 'site_areas.single_phased' },
+    { key: 3, description: 'site_areas.three_phased' },
+  ];
 
   public address!: Address;
   public isAdmin!: boolean;
@@ -81,6 +87,7 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -112,6 +119,10 @@ export class SiteAreaComponent implements OnInit {
       maximumPowerInAmps: new FormControl(''),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
+      numberOfPhases: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -122,8 +133,10 @@ export class SiteAreaComponent implements OnInit {
     this.maximumPowerInAmps = this.formGroup.controls['maximumPowerInAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
+    this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPower.disable();
     this.maximumPowerInAmps.disable();
+    this.numberOfPhases.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -176,16 +189,20 @@ export class SiteAreaComponent implements OnInit {
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
       this.maximumPower.enable();
+      this.numberOfPhases.enable();
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(false);
+          this.maximumPower.disable();
+          this.numberOfPhases.disable();
         }
       });
     } else {
       this.maximumPower.disable();
+      this.numberOfPhases.disable();
     }
     if (!event.checked && this.isSmartChargingActive) {
       this.dialogService.createAndShowYesNoDialog(
@@ -195,6 +212,7 @@ export class SiteAreaComponent implements OnInit {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
           this.maximumPower.enable();
+          this.numberOfPhases.enable();
         }
       });
     }
@@ -240,13 +258,18 @@ export class SiteAreaComponent implements OnInit {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower / 1000);
         this.maximumPowerChanged();
       }
+      if (siteArea.numberOfPhases) {
+        this.formGroup.controls.numberOfPhases.setValue(siteArea.numberOfPhases);
+      }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
         this.isSmartChargingActive = siteArea.smartCharging;
         this.maximumPower.enable();
+        this.numberOfPhases.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
         this.maximumPower.disable();
+        this.numberOfPhases.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);
@@ -495,6 +518,9 @@ export class SiteAreaComponent implements OnInit {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
+        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+          this.messageService.showErrorMessage('site_areas.update_phase_error');
+          break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),

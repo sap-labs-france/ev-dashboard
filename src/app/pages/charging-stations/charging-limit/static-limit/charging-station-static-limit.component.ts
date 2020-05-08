@@ -15,6 +15,7 @@ import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+
 import { ChargingStationsRebootAction } from '../../actions/charging-stations-reboot-action';
 
 @Component({
@@ -97,8 +98,8 @@ export class ChargingStationStaticLimitComponent implements OnInit {
             this.dialogService.createAndShowYesNoDialog(
               this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_title'),
               this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_confim'),
-            ).subscribe((result) => {
-              if (result === ButtonType.YES) {
+            ).subscribe((subresult) => {
+              if (subresult === ButtonType.YES) {
                 // No: Apply it right away
                 this.applyStaticLimit(true);
               }

@@ -73,7 +73,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         observer.complete();
       }, (error) => {
         // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
         // Error
         observer.error(error);
       });

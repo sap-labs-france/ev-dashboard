@@ -1,6 +1,6 @@
 import { DateTableFilter } from '../../../shared/table/filters/date-table-filter';
 
-export class InvoicesDateUntilFilter extends DateTableFilter {
+export class EndDateFilter extends DateTableFilter {
   constructor(currentValue = null) {
     super();
     const filter = this.getFilterDef();

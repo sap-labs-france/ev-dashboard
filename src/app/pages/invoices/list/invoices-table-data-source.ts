@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { UserToken } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,8 +28,6 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { ButtonAction } from '../../../types/GlobalType';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
-import { InvoicesDateFromFilter } from '../filters/invoices-date-from-filter';
-import { InvoicesDateUntilFilter } from '../filters/invoices-date-until-filter';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 
@@ -37,7 +35,6 @@ import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-fo
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
   private syncBillingUserInvoicesAction = new TableSyncBillingUserInvoicesAction().getActionDef();
-  private currentUser: UserToken;
 
   constructor(
       public spinnerService: SpinnerService,
@@ -55,8 +52,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-    // Store the current user
-    this.currentUser = this.centralServerService.getLoggedUser();
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -185,8 +180,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters = [
-      new InvoicesDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new InvoicesDateUntilFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin()) {

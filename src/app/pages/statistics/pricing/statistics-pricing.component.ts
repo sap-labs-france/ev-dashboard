@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
-import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -61,10 +61,10 @@ export class StatisticsPricingComponent implements OnInit {
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
 
-    filterDef = new LogDateFromTableFilter().getFilterDef();
+    filterDef = new StartDateFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
-    filterDef = new LogDateUntilTableFilter().getFilterDef();
+    filterDef = new EndDateFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();

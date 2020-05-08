@@ -1,7 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { User, UserStatus } from 'app/types/User';
+
 import { userStatuses } from '../model/users.model';
 
 @Component({
@@ -14,7 +15,7 @@ import { userStatuses } from '../model/users.model';
     </mat-chip-list>
   `,
 })
-export class UserStatusFormatterComponent extends CellContentTemplateComponent {
+export class UserStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: User;
 }
 

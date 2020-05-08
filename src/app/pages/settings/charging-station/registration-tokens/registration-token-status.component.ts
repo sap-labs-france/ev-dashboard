@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import * as moment from 'moment';
@@ -13,7 +13,7 @@ import * as moment from 'moment';
     </mat-chip-list>
   `,
 })
-export class RegistrationTokenStatusComponent extends CellContentTemplateComponent {
+export class RegistrationTokenStatusComponent extends CellContentTemplateDirective {
   @Input() public row!: RegistrationToken;
 }
 

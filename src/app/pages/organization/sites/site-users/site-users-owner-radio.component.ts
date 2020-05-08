@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
 import { UserSite } from 'app/types/Site';
 import { UserToken } from 'app/types/User';
+
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
-import { CellContentTemplateComponent } from '../../../../shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from '../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -18,7 +19,7 @@ import { Utils } from '../../../../utils/Utils';
                             (click) = "changeSiteOwner()"></mat-radio-button>
       </div>`,
 })
-export class SiteUsersOwnerRadioComponent extends CellContentTemplateComponent {
+export class SiteUsersOwnerRadioComponent extends CellContentTemplateDirective {
   @Input() public row!: UserSite;
   @ViewChild('rbid') public radioButtonRef!: MatRadioButton;
   public loggedUser: UserToken;

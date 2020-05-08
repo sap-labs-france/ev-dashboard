@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ChargingStation } from 'app/types/ChargingStation';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -11,6 +12,6 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
     </div>
   `,
 })
-export class ChargingStationsConnectorsCellComponent extends CellContentTemplateComponent {
+export class ChargingStationsConnectorsCellComponent extends CellContentTemplateDirective {
   @Input() public row!: ChargingStation;
 }

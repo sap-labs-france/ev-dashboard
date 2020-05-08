@@ -12,6 +12,7 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';

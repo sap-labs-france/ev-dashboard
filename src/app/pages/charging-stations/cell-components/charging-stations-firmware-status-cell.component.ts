@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChargingStation, FirmwareStatus } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
@@ -22,7 +22,7 @@ const TYPE_GREY = 'chip-grey';
     </ng-container>
   `,
 })
-export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemplateComponent {
+export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemplateDirective {
   @Input() public row!: ChargingStation;
 
   public isActiveStatus(): boolean {

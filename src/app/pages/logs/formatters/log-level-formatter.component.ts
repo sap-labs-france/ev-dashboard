@@ -1,7 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
+
 import { logLevels } from '../model/logs.model';
 
 @Component({
@@ -13,7 +14,7 @@ import { logLevels } from '../model/logs.model';
     </mat-chip-list>
   `,
 })
-export class LogLevelFormatterComponent extends CellContentTemplateComponent {
+export class LogLevelFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: Log;
 }
 

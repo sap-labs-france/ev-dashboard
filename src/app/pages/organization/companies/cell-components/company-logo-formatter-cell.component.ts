@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { Company } from 'app/types/Company';
 
 @Component({
@@ -10,7 +10,7 @@ import { Company } from 'app/types/Company';
   `,
 })
 
-export class CompanyLogoFormatterCellComponent extends CellContentTemplateComponent {
+export class CompanyLogoFormatterCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Company;
 
 }

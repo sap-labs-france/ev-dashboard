@@ -54,15 +54,15 @@ export class SiteComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
-
     this.maxSize = this.configService.getSite().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateSite()) {
       // Not authorized
       this.router.navigate(['/']);
     }
+    // Set
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
   }
 
   public ngOnInit() {

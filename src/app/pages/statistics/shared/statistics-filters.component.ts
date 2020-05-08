@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -49,9 +50,9 @@ export class StatisticsFiltersComponent implements OnInit {
   @Output() public update = new EventEmitter();
   @Output() public export = new EventEmitter();
 
-  private selectedCategory = 'C';
+  public selectedCategory = 'C';
+  public activeButtonOfScopeGroup!: StatisticsButtonGroup;
   private filterParams = {};
-  private activeButtonOfScopeGroup!: StatisticsButtonGroup;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -299,27 +300,6 @@ export class StatisticsFiltersComponent implements OnInit {
     return filterJson;
   }
 
-  // set Date Filter to corresponding year
-  private setDateFilterYear(): void {
-    this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
-      if (filterDef.type === FilterType.DATE) {
-        if (this.selectedYear === 0) {
-          if (filterDef.id === 'dateFrom') {
-            filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
-          } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date();
-          }
-        } else if (this.selectedYear > 0) {
-          if (filterDef.id === 'dateFrom') {
-            filterDef.currentValue = new Date(this.selectedYear, 0, 1);
-          } else if (filterDef.id === 'dateUntil') {
-            filterDef.currentValue = new Date(this.selectedYear + 1, 0, 1);
-          }
-        }
-      }
-    });
-  }
-
   public categoryChanged(): void {
     this.category.emit(this.selectedCategory);
     this.update.emit(true);
@@ -389,6 +369,27 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public exportData(): void {
     this.export.emit();
+  }
+
+  // set Date Filter to corresponding year
+  private setDateFilterYear(): void {
+    this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
+      if (filterDef.type === FilterType.DATE) {
+        if (this.selectedYear === 0) {
+          if (filterDef.id === 'dateFrom') {
+            filterDef.currentValue = new Date(this.transactionYears[0], 0, 1);
+          } else if (filterDef.id === 'dateUntil') {
+            filterDef.currentValue = new Date();
+          }
+        } else if (this.selectedYear > 0) {
+          if (filterDef.id === 'dateFrom') {
+            filterDef.currentValue = new Date(this.selectedYear, 0, 1);
+          } else if (filterDef.id === 'dateUntil') {
+            filterDef.currentValue = new Date(this.selectedYear + 1, 0, 1);
+          }
+        }
+      }
+    });
   }
 
   private testIfFilterIsInitial(filterDef: StatisticsFilterDef): boolean {

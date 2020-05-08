@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, Directive, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Directive, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import * as CanvasGauges from 'canvas-gauges';
 
 /**
@@ -7,7 +7,7 @@ import * as CanvasGauges from 'canvas-gauges';
  * T2 - Type of the options used within the particular gauge (RadialGaugeOptions, LinearGaugeOptions)
  */
 @Directive()
-export abstract class BaseGauge<T extends CanvasGauges.BaseGauge, T2 extends CanvasGauges.GenericOptions>
+export abstract class BaseGaugeDirective<T extends CanvasGauges.BaseGauge, T2 extends CanvasGauges.GenericOptions>
 
   implements OnInit, AfterViewChecked {
   /**

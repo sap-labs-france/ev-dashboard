@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
+
 import { BillingInvoice, BillingInvoiceStatus } from '../../../types/Billing';
 import { invoicesStatuses } from '../model/invoices.model';
 
@@ -14,7 +15,7 @@ import { invoicesStatuses } from '../model/invoices.model';
     </mat-chip-list>
   `,
 })
-export class InvoiceStatusFormatterComponent extends CellContentTemplateComponent {
+export class InvoiceStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: BillingInvoice;
 }
 

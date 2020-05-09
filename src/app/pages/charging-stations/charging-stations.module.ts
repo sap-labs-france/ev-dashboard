@@ -25,6 +25,7 @@ import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-
 import { ChargingStationSmartChargingModule } from './charging-limit/charging-station-charging-limit.module';
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationFirmwareUpdateComponent } from './charging-station/firmware-update/charging-station-firmware-update.component';
+import { ChargingStationOcppParametersInputFieldCellComponent } from './charging-station/ocpp-parameters/cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters-editable-table-data-source.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
@@ -75,6 +76,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsConnectorStatusCellComponent,
     ChargingStationsConnectorsCellComponent,
     ChargingStationsConnectorCellComponent,
+    ChargingStationOcppParametersInputFieldCellComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
@@ -99,6 +101,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsConnectorStatusCellComponent,
     ChargingStationsConnectorsCellComponent,
     ChargingStationsConnectorCellComponent,
+    ChargingStationOcppParametersInputFieldCellComponent,
     ChargingStationsComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,

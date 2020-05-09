@@ -1412,7 +1412,7 @@
       "synchronize_car_catalogs_dialog_title": "Synchronize Cars",
       "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?",
       "assign_user_to_car_dialog_title": "Assign user to car",
-      "assign_user_to_car_dialog_confirm": "This car already exist, Do you really want to be assigned to it?"
+      "assign_user_to_car_dialog_confirm": "This car already exist, do you really want to use it?"
     }
   },
   "ocpiendpoints": {

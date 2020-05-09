@@ -79,32 +79,43 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
       {
-        id: 'vin',
-        name: 'cars.vin',
-        headerClass: 'text-center col-8p',
-        class: 'col-8p',
-      },
-      {
-        id: 'licensePlate',
-        name: 'cars.license_plate',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sorted: true,
-        direction: 'asc',
-      },
-      {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',
-        class: 'text-left',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        sorted: true,
+        direction: 'asc',
         sortable: true,
       },
       {
         id: 'carCatalog.vehicleModel',
         name: 'cars.vehicle_model',
-        class: 'text-left',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sortable: true,
         formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
-      }
+      },
+      {
+        id: 'carCatalog.vehicleModelVersion',
+        name: 'cars.vehicle_model_version',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        sortable: true,
+        formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
+      },
+      {
+        id: 'vin',
+        name: 'cars.vin',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+      },
+      {
+        id: 'licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+      },
     ];
     return tableColumnDef;
   }

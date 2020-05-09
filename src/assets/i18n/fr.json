@@ -1411,7 +1411,7 @@
       "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
       "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
       "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
-      "assign_user_to_car_dialog_confirm": "Cette voiture  y être affectée?",
+      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?",
       "vin_already_exist_dialog_title": "VIN existe",
       "vin_already_exist_dialog_confirm": "Ce vin existe déjà, voulez-vous vraiment créé ce véhicules?",
       "license_plate_already_exist_dialog_title": "Plaque d'immatriculation existe",
@@ -1583,7 +1583,7 @@
   },
   "cars": {
     "vin": "VIN",
-    "license_plate":"plaque Immatriculation",
+    "license_plate":"Immatriculation",
     "vehicle_model": "Modèle",
     "vehicle_make": "Constructeur",
     "vehicle_model_version": "Version",

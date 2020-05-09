@@ -190,8 +190,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if ((filterDef.type === FilterType.DIALOG_TABLE
-      || filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
+    if ((filterDef.type === FilterType.DIALOG_TABLE ||
+         filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
       filterDef.cleared = true;
     } else {

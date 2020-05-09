@@ -1,20 +1,19 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Car, CarCatalog, CarImage } from 'app/types/Car';
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-
-import { ActionResponse } from 'app/types/DataResult';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
-import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalog-dialog.component';
-import { Cars } from 'app/utils/Cars';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
+import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalog-dialog.component';
+import { Car, CarCatalog, CarImage } from 'app/types/Car';
+import { ActionResponse } from 'app/types/DataResult';
+import { RestResponse } from 'app/types/GlobalType';
+import { ButtonType } from 'app/types/Table';
+import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -22,8 +21,8 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: 'car.component.html'
 })
 export class CarComponent implements OnInit {
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public isBasic: boolean;
   public isAdmin: boolean;
   public formGroup!: FormGroup;
@@ -50,7 +49,7 @@ export class CarComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

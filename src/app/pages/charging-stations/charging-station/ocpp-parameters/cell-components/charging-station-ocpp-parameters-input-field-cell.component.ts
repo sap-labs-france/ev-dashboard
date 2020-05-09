@@ -1,5 +1,4 @@
 import { Component, Injectable, Input } from '@angular/core';
-
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { OcppParameter } from 'app/types/ChargingStation';
 
@@ -20,7 +19,7 @@ import { OcppParameter } from 'app/types/ChargingStation';
 @Injectable()
 export class ChargingStationOcppParametersInputFieldCellComponent extends CellContentTemplateDirective {
   public static CUSTOM_OCPP_PARAMETER_ID = 'CustomOcppParameter';
-  @Input() row!: OcppParameter;
+  @Input() public row!: OcppParameter;
   public customOcppParameterRowID = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
 
   public valueChanged(value: string) {

@@ -1,8 +1,8 @@
-import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract-tab.component';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { Component } from '@angular/core';
 import { WindowService } from 'app/services/window.service';
+import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
   selector: 'app-cars',

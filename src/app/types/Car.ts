@@ -76,4 +76,5 @@ export enum CarImage {
 
 export enum CarButtonAction {
   SYNCHRONIZE = 'synchronize',
+  CREATE_CAR = 'create_car',
 }

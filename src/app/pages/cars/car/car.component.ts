@@ -1,7 +1,7 @@
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Car, CarCatalog, CarImage } from 'app/types/Car';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { ActionResponse } from 'app/types/DataResult';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -15,8 +15,6 @@ import { RestResponse } from 'app/types/GlobalType';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from 'app/types/User';
-import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -95,17 +93,12 @@ export class CarComponent implements OnInit {
   }
 
   private createCar(car: Car) {
-    // Show
     this.spinnerService.show();
     this.centralServerService.createCar(car).subscribe((response: ActionResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
         this.dialogRef.close();
-        // Ok
         this.messageService.showSuccessMessage('cars.create_success', { vin: car.vin });
-        // Refresh
         car.id = response.id!;
         // Init form
         this.formGroup.markAsPristine();
@@ -114,7 +107,6 @@ export class CarComponent implements OnInit {
         Utils.handleError(JSON.stringify(response), this.messageService, 'cars.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
@@ -138,7 +130,8 @@ export class CarComponent implements OnInit {
         case 593:
           this.messageService.showErrorMessage('cars.car_exist_different_car_catalog');
           break;
-          case 594:
+        // User already assigned
+        case 594:
           this.messageService.showErrorMessage('cars.user_already_assigned');
           break;
         // No longer exists!
@@ -147,7 +140,6 @@ export class CarComponent implements OnInit {
       }
     });
   }
-
 
   public addCar() {
     // Create the dialog

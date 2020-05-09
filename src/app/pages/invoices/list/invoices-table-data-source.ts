@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableSyncBillingInvoicesAction } from 'app/shared/table/actions/table-sync-billing-invoices-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
@@ -20,7 +21,6 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingUserInvoicesAction } from '../../../shared/table/actions/table-sync-billing-user-invoices-action';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
@@ -34,7 +34,7 @@ import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-fo
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
-  private syncBillingUserInvoicesAction = new TableSyncBillingUserInvoicesAction().getActionDef();
+  private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -132,8 +132,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-      this.authorizationService.canSynchronizeInvoices()) {
-      tableActionsDef.unshift(this.syncBillingUserInvoicesAction);
+        this.authorizationService.canSynchronizeInvoices()) {
+      tableActionsDef.unshift(this.syncBillingInvoicesAction);
     }
     return [
       ...tableActionsDef,
@@ -143,9 +143,9 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case BillingButtonAction.SYNCHRONIZE_USER_INVOICES:
-        if (this.syncBillingUserInvoicesAction.action) {
-          this.syncBillingUserInvoicesAction.action(
+      case BillingButtonAction.SYNCHRONIZE_INVOICES:
+        if (this.syncBillingInvoicesAction.action) {
+          this.syncBillingInvoicesAction.action(
             this.dialogService,
             this.translateService,
             this.messageService,
@@ -154,7 +154,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
             this.refreshData.bind(this)
           );
         }
-        this.refreshData();
         break;
       default:
         super.actionTriggered(actionDef);

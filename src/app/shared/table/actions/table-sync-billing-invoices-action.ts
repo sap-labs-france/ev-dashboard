@@ -28,7 +28,8 @@ export class TableSyncBillingInvoicesAction implements TableAction {
   }
 
   private synchronizeInvoices(dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
+      messageService: MessageService, centralServerService: CentralServerService, router: Router,
+      refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.billing.invoice.synchronize_invoices_dialog_title'),
       translateService.instant('settings.billing.invoice.synchronize_invoices_dialog_confirm'),

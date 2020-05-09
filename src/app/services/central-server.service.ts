@@ -1413,18 +1413,6 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeUserInvoices(): Observable<ActionsResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUserInvoices`, {},
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public forceSynchronizeUserInvoicesForBilling(userID: string): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service

@@ -11,17 +11,16 @@
             <div class="row app-organization">
               <div class="col-md-5" style="display: block; margin-top: auto">
                 <div class="rotating-card-container app-organization-image-border"
-                     [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
-                  <div class="card card-rotate card-background app-site-area-image-padding"
-                       style="margin-top: 0px;">
+                  [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
+                  <div class="card card-rotate card-background app-site-area-image-padding" style="margin-top: 0px;">
                     <div class="front front-background"
-                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                       <div class="card-body">
                       </div>
                     </div>
                     <div class="back back-background"
-                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-                      <div *ngIf="this.isAdmin" class="card-body">
+                      [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                      <div *ngIf="isAdmin" class="card-body">
                         <h5 class="card-title">
                           {{'general.change_picture' | translate}}
                         </h5>
@@ -74,20 +73,36 @@
                       {{'site_areas.enable_smart_charging' | translate}}
                     </mat-checkbox>
                   </div>
-                  <div class="row"  *ngIf="isSmartChargingComponentActive">
-                    <div class="col-md-6">
+                  <div class="row" *ngIf="isSmartChargingComponentActive">
+                    <div class="col-md-12">
                       <mat-form-field>
-                        <input matInput placeholder="{{'site_areas.maximum_energy_watts' | translate}}"
-                          type="number" [formControl]="maximumPower" (change) = "maximumPowerChanged()">
-                        <mat-error *ngIf="maximumPower.errors?.min">{{"general.error_min_value" | translate:{value: 1} }}</mat-error>
-                        <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}</mat-error>
-                        <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} *
+                        </mat-label>
+                        <mat-select appAutofocus id="numberOfPhases" [formControl]="numberOfPhases">
+                          <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
+                            {{phase.description | translate}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="numberOfPhases.errors?.required">
+                          {{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </div>
                     <div class="col-md-6">
                       <mat-form-field>
-                        <input matInput placeholder="{{'site_areas.maximum_energy_amps' | translate}}"
-                          type="number" disabled="true" [formControl]="maximumPowerInAmps">
+                        <input matInput placeholder="{{'site_areas.maximum_energy_watts' | translate}}" type="number"
+                          [formControl]="maximumPower" (change)="maximumPowerChanged()" required>
+                        <mat-error *ngIf="maximumPower.errors?.min">
+                          {{"general.error_min_value" | translate:{value: 1} }}</mat-error>
+                        <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <input matInput placeholder="{{'site_areas.maximum_energy_amps' | translate}}" type="number"
+                          disabled="true" [formControl]="maximumPowerInAmps">
                       </mat-form-field>
                     </div>
                   </div>
@@ -96,29 +111,35 @@
                   <div class="d-flex justify-content-start">
                     <div *ngIf="registrationToken" class="mr-2">
                       <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
-                        <mat-icon>file_copy</mat-icon><span>{{'settings.charging_station.copy_url_tooltip' | translate}}</span>
+                        <mat-icon>file_copy</mat-icon>
+                        <span>{{'settings.charging_station.copy_url_tooltip' | translate}}</span>
                       </button>
-                      <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
+                      <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false"
+                        class="dropdown-button">
                         <button mat-menu-item (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
-                          <mat-icon color="primary">file_copy</mat-icon><span>{{'settings.charging_station.ocpp_15_soap' | translate}}</span>
+                          <mat-icon color="primary">file_copy</mat-icon>
+                          <span>{{'settings.charging_station.ocpp_15_soap' | translate}}</span>
                         </button>
                         <button mat-menu-item (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
-                          <mat-icon color="primary">file_copy</mat-icon><span>{{'settings.charging_station.ocpp_16_soap' | translate}}</span>
+                          <mat-icon color="primary">file_copy</mat-icon>
+                          <span>{{'settings.charging_station.ocpp_16_soap' | translate}}</span>
                         </button>
                         <button mat-menu-item (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
-                          <mat-icon color="primary">file_copy</mat-icon><span>{{'settings.charging_station.ocpp_16_json' | translate}}</span>
+                          <mat-icon color="primary">file_copy</mat-icon>
+                          <span>{{'settings.charging_station.ocpp_16_json' | translate}}</span>
                         </button>
                       </mat-menu>
                     </div>
                     <div *ngIf="!registrationToken">
                       <button mat-raised-button color="primary" (click)="generateRegistrationToken()">
-                        <mat-icon>link</mat-icon><span>{{'settings.charging_station.generate_connection_url' | translate}}</span>
+                        <mat-icon>link</mat-icon>
+                        <span>{{'settings.charging_station.generate_connection_url' | translate}}</span>
                       </button>
                     </div>
-                    <button mat-raised-button color="primary" (click)="exportAllOCPPParams()" class="ml-2">
+                    <!-- <button mat-raised-button color="primary" class="ml-2">
                       <mat-icon>cloud_download</mat-icon>
                       <span>{{'site_areas.export_all_ocpp_params' | translate}}</span>
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </div>
@@ -135,9 +156,8 @@
     </mat-tab>
     <mat-tab disabled>
       <ng-template mat-tab-label>
-        <button mat-button *ngIf="this.isAdmin"
-                (click)="saveSiteArea(formGroup.value)"
-                [disabled]="!formGroup.valid || !formGroup.dirty">
+        <button mat-button *ngIf="isAdmin" (click)="saveSiteArea(formGroup.value)"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
           <span>{{'general.save' | translate}}</span>
         </button>

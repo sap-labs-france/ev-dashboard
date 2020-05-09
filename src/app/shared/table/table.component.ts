@@ -28,7 +28,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
   public numberOfColumns = 0;
-  private loading = false;
+  public loading = false;
+
+  public readonly FilterType = FilterType;
+  public readonly TableEditType = TableEditType;
   private ongoingRefresh = false;
 
   private autoRefreshSubscription!: Subscription|null;
@@ -36,10 +39,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
-
-  private	readonly FilterType = FilterType;
   private readonly Constants = Constants;
-  private readonly TableEditType = TableEditType;
 
   constructor(
     private configService: ConfigService,
@@ -190,8 +190,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if ((filterDef.type === FilterType.DIALOG_TABLE
-      || filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
+    if ((filterDef.type === FilterType.DIALOG_TABLE ||
+         filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
       filterDef.cleared = true;
     } else {

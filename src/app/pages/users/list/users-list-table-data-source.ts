@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableForceSyncBillingUserAction } from 'app/shared/table/actions/table-force-sync-billing-user-action';
+import { TableForceSyncBillingAction } from 'app/shared/table/actions/table-force-sync-billing-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
@@ -49,7 +49,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
-  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private forceSyncBillingUserAction = new TableForceSyncBillingAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(

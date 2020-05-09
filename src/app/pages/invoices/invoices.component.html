@@ -1,0 +1,13 @@
+<div class="main-content">
+  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>receipt</mat-icon>
+        &nbsp;&nbsp;{{'billing.tabs.invoices' | translate}}
+      </ng-template>
+      <ng-template matTabContent>
+        <app-invoices-list></app-invoices-list>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

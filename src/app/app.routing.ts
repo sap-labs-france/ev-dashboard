@@ -180,6 +180,25 @@ export const AppRoutes: Routes = [
         },
       },
       {
+        path: 'invoices',
+        loadChildren: () => import('./pages/invoices/invoices.module').then((m) => m.InvoicesModule),
+        data: {
+          menu: {
+            title: 'invoices',
+            type: 'link',
+            icon: 'receipt',
+            path: '/invoices',
+          },
+          auth: {
+            entity: Entity.INVOICES,
+            action: Action.LIST,
+          },
+          activeInSuperTenant: false,
+          displayInSuperTenant: false,
+          component: TenantComponents.BILLING,
+        },
+      },
+      {
         path: 'settings',
         loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
         data: {

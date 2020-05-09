@@ -54,10 +54,6 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     return actions;
   }
 
-  protected isCellDisabled(columnDef: TableColumnDef, tag: Tag): boolean {
-    return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
-  }
-
   public rowActionTriggered(actionDef: TableActionDef, tag: Tag, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     const index = this.editableRows.indexOf(tag);
     let actionDone = false;
@@ -86,44 +82,6 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       // Notify
       this.tableChangedSubject.next(this.editableRows);
     }
-  }
-
-  private activateTag(tag: Tag) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('tags.activate_title'),
-      this.translateService.instant('tags.activate_confirm', {tagID: tag.id}),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = true;
-        tag.active = true;
-        this.refreshData(false).subscribe();
-        if (this.formArray) {
-          this.formArray.markAsDirty();
-        }
-        // Notify
-        this.tableChangedSubject.next(this.editableRows);
-      }
-    });
-  }
-
-  private deactivateTag(tag: Tag) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('tags.deactivate_title'),
-      this.translateService.instant('tags.deactivate_confirm', {tagID: tag.id}),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = false;
-        tag.active = false;
-        this.refreshData(false).subscribe();
-        if (this.formArray) {
-          this.formArray.markAsDirty();
-        }
-        // Notify
-        this.tableChangedSubject.next(this.editableRows);
-      }
-    });
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -191,6 +149,48 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       issuer: this.getContent().length === 0 ? true : false,
       active: true,
     };
+  }
+
+  protected isCellDisabled(columnDef: TableColumnDef, tag: Tag): boolean {
+    return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
+  }
+
+  private activateTag(tag: Tag) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('tags.activate_title'),
+      this.translateService.instant('tags.activate_confirm', {tagID: tag.id}),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        const index = this.editableRows.indexOf(tag);
+        this.editableRows[index].active = true;
+        tag.active = true;
+        this.refreshData(false).subscribe();
+        if (this.formArray) {
+          this.formArray.markAsDirty();
+        }
+        // Notify
+        this.tableChangedSubject.next(this.editableRows);
+      }
+    });
+  }
+
+  private deactivateTag(tag: Tag) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('tags.deactivate_title'),
+      this.translateService.instant('tags.deactivate_confirm', {tagID: tag.id}),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        const index = this.editableRows.indexOf(tag);
+        this.editableRows[index].active = false;
+        tag.active = false;
+        this.refreshData(false).subscribe();
+        if (this.formArray) {
+          this.formArray.markAsDirty();
+        }
+        // Notify
+        this.tableChangedSubject.next(this.editableRows);
+      }
+    });
   }
 
   private generateTagID() {

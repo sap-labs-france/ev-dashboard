@@ -1,16 +1,16 @@
-import { Asset, AssetButtonAction } from 'app/types/Asset';
-import { ButtonType, TableActionDef } from 'app/types/Table';
-
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableDeleteAction } from './table-delete-action';
-import { TranslateService } from '@ngx-translate/core';
+import { Asset, AssetButtonAction } from 'app/types/Asset';
+import { RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+
+import { TableDeleteAction } from './table-delete-action';
 
 export class TableDeleteAssetAction extends TableDeleteAction {
   public getActionDef(): TableActionDef {
@@ -18,7 +18,7 @@ export class TableDeleteAssetAction extends TableDeleteAction {
       ...super.getActionDef(),
       id: AssetButtonAction.DELETE_ASSET,
       action: this.deleteAsset,
-    }
+    };
   }
 
   private deleteAsset(asset: Asset, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,

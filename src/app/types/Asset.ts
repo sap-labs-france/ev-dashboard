@@ -1,6 +1,6 @@
-import { Data } from './Table';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
+import { Data } from './Table';
 
 export interface Asset extends Data {
   id: string;

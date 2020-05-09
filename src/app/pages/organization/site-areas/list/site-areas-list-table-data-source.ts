@@ -1,31 +1,17 @@
-import { Action, Entity } from 'app/types/Authorization';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { AssetButtonAction } from 'app/types/Asset';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { ComponentService } from 'app/services/component.service';
-import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
-import { Injectable } from '@angular/core';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { SiteArea } from 'app/types/SiteArea';
-import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
-import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
-import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAssignAssetsToSiteAreaAction } from 'app/shared/table/actions/table-assign-assets-to-site-area-action';
+import { TableViewAssignedAssetsOfSiteAreaAction } from 'app/shared/table/actions/table-assign-view-assets-of-site-area-action';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableDisplayChargersAction } from 'app/shared/table/actions/table-display-chargers-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
@@ -35,10 +21,24 @@ import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { TableViewAssignedAssetsOfSiteAreaAction } from 'app/shared/table/actions/table-assign-view-assets-of-site-area-action';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { AssetButtonAction } from 'app/types/Asset';
+import { Action, Entity } from 'app/types/Authorization';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
+import ChangeNotification from '../../../../types/ChangeNotification';
+import { SiteAreaChargersDialogComponent } from '../site-area-chargers/site-area-chargers-dialog.component';
+import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
+import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {

@@ -190,6 +190,16 @@ export class SiteAreaComponent implements OnInit {
     if (event.checked) {
       this.maximumPower.enable();
       this.numberOfPhases.enable();
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
+        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
+      ).subscribe((result) => {
+        if (result === ButtonType.NO) {
+          this.smartCharging.setValue(false);
+          this.maximumPower.disable();
+          this.numberOfPhases.disable();
+        }
+      });
     } else {
       this.maximumPower.disable();
       this.numberOfPhases.disable();

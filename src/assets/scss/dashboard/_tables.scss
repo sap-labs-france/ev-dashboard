@@ -434,6 +434,10 @@ tr.element-row:not(.expanded-row):active {
     }
   }
 
+  .table-cell-angular-input-component {
+    margin-bottom: 10px !important;
+  }
+
   .table-cell-angular-buttons-component {
     padding: 0px 8px 0px 8px;
     button {

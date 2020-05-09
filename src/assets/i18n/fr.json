@@ -116,6 +116,7 @@
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "car_catalog_error": "Une erreur est survenue pendant la récupération du véhicule",
     "car_catalogs_error": "Une erreur est survenue pendant la récupération des véhicules",
+    "cars_error": "Une erreur est survenue pendant la récupération des véhicules utlisateurs",
     "car_image_error": "Une erreur est survenue pendant la récupération des images du véhicule",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
@@ -798,6 +799,8 @@
       },
       "retrieve_schedule": "Récupérer les Plans",
       "charging_schedule": "Plans de Charge de '{{chargeBoxID}}'",
+      "enable_smart_charging_for_site_area_title": "Activer Charge Intelligente",
+      "enable_smart_charging_for_site_area_body": "Si vous activez la charge intelligente pour cette zone, l'algorithme d'optimisation sera prioritaire sur la limite statique et les plans de charge en cours.<br>Voulez-vous continuer ?",
       "disable_smart_charging_for_site_area_title": "Désactiver Charge Intelligente",
       "disable_smart_charging_for_site_area_body": "Si vous désactivez la charge intelligente pour cette zone, tous les plans de charge seront effacés.<br>Voulez-vous continuer ?",
       "clearing_charging_profiles_not_successful_title": "Une erreur est survenue pendant l'effacement des plans de charge",
@@ -1408,7 +1411,13 @@
     "car": {
       "synchronize_car_catalogs": "Synchroniser Véhicules",
       "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
-      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?"
+      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
+      "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
+      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?",
+      "vin_already_exist_dialog_title": "VIN existe",
+      "vin_already_exist_dialog_confirm": "Ce vin existe déjà, voulez-vous vraiment créé ce véhicules?",
+      "license_plate_already_exist_dialog_title": "Plaque d'immatriculation existe",
+      "license_plate_already_exist_dialog_confirm": "Cette plaque d'immatriculation existe déjà, voulez-vous vraiment créé ce véhicules?"
     }
   },
   "ocpiendpoints": {
@@ -1575,6 +1584,8 @@
     }
   },
   "cars": {
+    "vin": "VIN",
+    "license_plate":"Immatriculation",
     "vehicle_model": "Modèle",
     "vehicle_make": "Constructeur",
     "vehicle_model_version": "Version",
@@ -1623,6 +1634,15 @@
     "synchronize_car_catalogs_up_to_date": "Les véhicules sont déjà tous à jour",
     "select_car_maker": "Selection Constructeur Véhicules",
     "car_makers":"Constructeurs de Véhicules",
+    "create_success": "Vous avez été assigné au véhicule avec succès",
+    "assign_car_catalog": "Assigner véhicule",
+    "create_error": "Une erreur est survenue pendant la création du véhicules",
+    "car_exist": "Vous avez déjà créé cette voiture",
+    "car_exist_different_car_catalog": "Vous avez déjà créé cette voiture avec un modèle different",
+    "user_already_assigned": "Vous êtes déjà assigné au cet véhicule",
+    "company_car": "Véhicules d'entreprise",
+    "invalid_vin": "VIN invalide",
+    "assign_users":"Assigner des utilisateurs",
     "type": "Type",
     "unit": {
       "meters": "m",
@@ -1642,7 +1662,8 @@
     "title": "Car",
     "description": "Gestion des voitures",
     "tabs": {
-      "list": "Voitures"
+      "car_catalogs": "Catalogue Voitures",
+      "cars": "Voitures"
     }
   },
   "analytics": {

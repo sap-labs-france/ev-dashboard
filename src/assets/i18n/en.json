@@ -799,7 +799,7 @@
       "retrieve_schedule": "Retrieve Plans",
       "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
       "enable_smart_charging_for_site_area_title": "Enable Smart Charging",
-      "enable_smart_charging_for_site_area_body": "If you enable smart charging for this site area, the optimization algorithm will take over charging plans and limitation.<br>Do you want to continue?",
+      "enable_smart_charging_for_site_area_body": "If you enable the smart charging for this site area, the optimization algorithm will take over the current static limitation and the charging plans.<br>Do you want to continue?",
       "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
       "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",

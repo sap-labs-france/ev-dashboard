@@ -17,7 +17,6 @@ export class SiteAreaAssetsDialogComponent {
     @Inject(MAT_DIALOG_DATA) data) {
     // default title
     this.dialogTitle = this.translateService.instant('assets.titles');
-
     if (data) {
       this.siteAreaAssetsDataSource.setSiteArea(data);
       this.dialogTitle = this.translateService.instant('site_areas.assigned_assets_to_site_area', { siteAreaName: data.name });

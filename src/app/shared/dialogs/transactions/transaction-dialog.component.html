@@ -67,7 +67,7 @@
               <div class="first-text">{{totalInactivitySecs | appDuration}} {{ percentOfInactivity }}</div>
             </div>
           </div>
-          <div *ngIf="transaction.user && transaction.user.vehicule" class="d-flex flex-column align-items-center">
+          <div *ngIf="transaction.user" class="d-flex flex-column align-items-center">
             <img [src]="loggedUserImage" class="rounded-circle icon avatar mb-3" />
             <div class="text-nowrap first-text">Tesla S 90D</div>
             <div class="text-nowrap second-text">(AA-543-BN)</div>

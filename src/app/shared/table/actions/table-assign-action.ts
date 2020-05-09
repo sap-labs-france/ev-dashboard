@@ -1,36 +1,37 @@
+import { ButtonColor, Data, TableActionDef } from 'app/types/Table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AssetDialogComponent } from 'app/pages/assets/asset/asset.dialog.component';
-import { Asset, AssetButtonAction } from 'app/types/Asset';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
+
+import { ButtonAction } from 'app/types/GlobalType';
+import { ComponentType } from '@angular/cdk/portal';
 import { Observable } from 'rxjs';
 import { TableAction } from './table-action';
 
-export class TableDisplayAssetAction implements TableAction {
+export class TableAssignAction implements TableAction {
   private action: TableActionDef = {
-    id: AssetButtonAction.DISPLAY_ASSET,
+    id: ButtonAction.VIEW,
     type: 'button',
     icon: 'remove_red_eye',
     color: ButtonColor.PRIMARY,
     name: 'general.edit',
     tooltip: 'general.tooltips.view',
-    action: this.displayAsset,
+    action: this.assign
   };
 
   public getActionDef(): TableActionDef {
     return this.action;
   }
 
-  private displayAsset(asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
+  protected assign(component: ComponentType<unknown>, data: Data, dialog: MatDialog, refresh?: () => Observable<void>) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = asset.id;
+    dialogConfig.data = data;
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    const dialogRef = dialog.open(AssetDialogComponent, dialogConfig);
+    const dialogRef = dialog.open(component, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         if (refresh) {

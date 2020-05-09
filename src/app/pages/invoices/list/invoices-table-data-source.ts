@@ -3,12 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableSyncBillingInvoicesAction } from 'app/shared/table/actions/table-sync-billing-invoices-action';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { UserToken } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -20,23 +21,20 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingUserInvoicesAction } from '../../../shared/table/actions/table-sync-billing-user-invoices-action';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ButtonAction } from '../../../types/GlobalType';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
-import { InvoiceStatusFormatterComponent } from '../cell-components/invoice-status-formatter.component';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadAction = new TableDownloadAction().getActionDef();
-  private syncBillingUserInvoicesAction = new TableSyncBillingUserInvoicesAction().getActionDef();
-  private currentUser: UserToken;
+  private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -54,8 +52,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-    // Store the current user
-    this.currentUser = this.centralServerService.getLoggedUser();
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -72,7 +68,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         observer.complete();
       }, (error) => {
         // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
         // Error
         observer.error(error);
       });
@@ -136,8 +132,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-      this.authorizationService.canSynchronizeInvoices()) {
-      tableActionsDef.unshift(this.syncBillingUserInvoicesAction);
+        this.authorizationService.canSynchronizeInvoices()) {
+      tableActionsDef.unshift(this.syncBillingInvoicesAction);
     }
     return [
       ...tableActionsDef,
@@ -147,17 +143,17 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case BillingButtonAction.SYNCHRONIZE_USER_INVOICES:
-        if (this.syncBillingUserInvoicesAction.action) {
-          this.syncBillingUserInvoicesAction.action(
+      case BillingButtonAction.SYNCHRONIZE_INVOICES:
+        if (this.syncBillingInvoicesAction.action) {
+          this.syncBillingInvoicesAction.action(
             this.dialogService,
             this.translateService,
             this.messageService,
             this.centralServerService,
             this.router,
+            this.refreshData.bind(this)
           );
         }
-        this.refreshData();
         break;
       default:
         super.actionTriggered(actionDef);
@@ -182,10 +178,14 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+    const filters = [
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new InvoiceStatusFilter().getFilterDef(),
     ];
+    if (this.authorizationService.isAdmin()) {
+      filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+    }
+    return filters;
   }
 }

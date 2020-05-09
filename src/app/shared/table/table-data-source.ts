@@ -261,14 +261,13 @@ export abstract class TableDataSource<T extends Data> {
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
     }
-
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
-    if (filter.type === FilterType.DROPDOWN && filter.multiple) {
+    if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
           filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');

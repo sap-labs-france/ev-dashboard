@@ -1,7 +1,8 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
 import { ConnStatus } from 'app/types/ChargingStation';
 import { Transaction } from 'app/types/Transaction';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -20,7 +21,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 @Injectable()
-export class TransactionsConnectorCellComponent extends CellContentTemplateComponent {
+export class TransactionsConnectorCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Transaction;
 }
 

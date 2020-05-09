@@ -11,13 +11,13 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { TableAction } from './table-action';
 
-export class TableForceSyncBillingUserAction implements TableAction {
+export class TableForceSyncBillingAction implements TableAction {
   private action: TableActionDef = {
     id: UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER,
     type: 'button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,
-    name: 'settings.billing.user.force_synchronize_users',
+    name: 'settings.billing.force_synchronize',
     tooltip: 'general.force_synchronize',
     action: this.forceSynchronizeUser,
   };
@@ -35,23 +35,34 @@ export class TableForceSyncBillingUserAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            if (refresh) {
-              refresh().subscribe();
-            }
-            messageService.showSuccessMessage(
-              translateService.instant('settings.billing.user.force_synchronize_user_success',
-              { userFullName: Utils.buildUserFullName(user) }));
+        // Synchronize user
+        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeUserResponse) => {
+          if (synchronizeUserResponse.status !== RestResponse.SUCCESS) {
+            spinnerService.hide();
+            messageService.showErrorMessage(
+              translateService.instant('settings.billing.user.force_synchronize_user_failure'));
           } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
-              'settings.billing.user.force_synchronize_user_failure');
+            // Synchronize invoices after user synchronization
+            centralServerService.forceSynchronizeUserInvoicesForBilling(user.id).subscribe((synchronizeInvoicesResponse) => {
+              spinnerService.hide();
+              if (synchronizeInvoicesResponse.inSuccess >= 0 && synchronizeInvoicesResponse.inError === 0) {
+                messageService.showSuccessMessage(
+                  translateService.instant('settings.billing.user.force_synchronize_user_success',
+                  { userFullName: Utils.buildUserFullName(user) }));
+              } else {
+                messageService.showErrorMessage(
+                  translateService.instant('settings.billing.user.force_synchronize_user_failure'));
+              }
+            }, (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(error, router, messageService, centralServerService,
+                'settings.billing.invoice.synchronize_invoices_error');
+            });
           }
         }, (error) => {
           spinnerService.hide();
-          messageService.showErrorMessage(
-            translateService.instant(['settings.billing.billing_system_error']));
+          Utils.handleHttpError(error, router, messageService, centralServerService,
+            'settings.billing.user.force_synchronize_user_failure');
         });
       }
     });

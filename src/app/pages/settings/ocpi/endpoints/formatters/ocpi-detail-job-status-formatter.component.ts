@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 
@@ -12,17 +12,17 @@ import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
     </mat-chip-list>
   `,
 })
-export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateComponent {
+export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateDirective {
   @Input() public row!: OcpiEndpointDetail;
 }
 
 @Pipe({name: 'appFormatOcpiDetailJobStatus'})
 export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
-  public transform(backgroundPatchJob: number, type: string): string {
+  public transform(backgroundPatchJob: boolean, type: string): string {
     // Class
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
-      if (backgroundPatchJob > 0) {
+      if (backgroundPatchJob) {
         classNames += ChipType.SUCCESS;
       } else {
         classNames += ChipType.GREY;
@@ -31,11 +31,10 @@ export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
     }
     // Text
     if (type === 'text') {
-      if (backgroundPatchJob > 0) {
+      if (backgroundPatchJob) {
         return 'ocpiendpoints.status_active';
-      } else {
-        return 'ocpiendpoints.status_inactive';
       }
+      return 'ocpiendpoints.status_inactive';
     }
     return '';
   }

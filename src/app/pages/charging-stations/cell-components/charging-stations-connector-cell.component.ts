@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ConnStatus, Connector } from 'app/types/ChargingStation';
 
 @Component({
@@ -27,7 +27,7 @@ import { ConnStatus, Connector } from 'app/types/ChargingStation';
   `,
 })
 @Injectable()
-export class ChargingStationsConnectorCellComponent extends CellContentTemplateComponent {
+export class ChargingStationsConnectorCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Connector;
 }
 

@@ -101,7 +101,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   private currentLocale!: string;
 
   constructor(
-    private userTagsEditableTableDataSource: UserTagsEditableTableDataSource,
+    public userTagsEditableTableDataSource: UserTagsEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService,

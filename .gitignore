@@ -43,6 +43,8 @@ manifest.yml
 /libpeerconnection.log
 npm-debug.log
 npm-debug.log*
+yarn-error.log
+/yarn.lock
 testem.log
 /typings
 /output
@@ -51,5 +53,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-yarn-error.log
-/yarn.lock

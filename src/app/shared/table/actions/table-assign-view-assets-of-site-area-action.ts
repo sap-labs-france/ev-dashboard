@@ -6,19 +6,19 @@ import { SiteAreaAssetsDialogComponent } from 'app/pages/organization/site-areas
 import { TableActionDef } from 'app/types/Table';
 import { TableAssignAction } from './table-assign-action';
 
-export class TableAssignAssetsToSiteAreaAction extends TableAssignAction {
+export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: AssetButtonAction.ASSIGN_ASSETS_TO_SITE_AREA,
+      id: AssetButtonAction.VIEW_ASSETS_OF_SITE_AREA,
       icon: 'account_balance',
-      name: 'site_areas.edit_assets',
-      tooltip: 'general.tooltips.edit_assets',
-      action: this.assignAssetsToSiteArea,
-    };
+      name: 'site_areas.display_assets',
+      tooltip: 'general.tooltips.display_assets',
+      action: this.viewAssignedAssetsOfSiteArea,
+    }
   }
 
-  private assignAssetsToSiteArea(siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) {
+  private viewAssignedAssetsOfSiteArea(siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) {
     super.assign(SiteAreaAssetsDialogComponent, siteArea, dialog, refresh);
   }
 }

@@ -116,6 +116,7 @@
     "error_backend": "Error occurred while contacting the central server",
     "car_catalog_error": "Error occurred while retrieving the car",
     "car_catalogs_error": "Error occurred while retrieving the cars",
+    "cars_error": "Error occurred while retrieving the user cars",
     "car_image_error": "Error occurred while retrieving the car images",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
@@ -1409,7 +1410,9 @@
     "car": {
       "synchronize_car_catalogs": "Synchronize Cars",
       "synchronize_car_catalogs_dialog_title": "Synchronize Cars",
-      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
+      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?",
+      "assign_user_to_car_dialog_title": "Assign user to car",
+      "assign_user_to_car_dialog_confirm": "This car already exist, do you really want to use it?"
     }
   },
   "ocpiendpoints": {
@@ -1576,6 +1579,8 @@
     }
   },
   "cars": {
+    "vin": "VIN",
+    "license_plate":"License Plate",
     "vehicle_model": "Model",
     "vehicle_make": "Maker",
     "vehicle_model_version": "Version",
@@ -1624,7 +1629,16 @@
     "synchronize_car_catalogs_up_to_date": "Cars already up to date",
     "select_car_maker": "Select Car Maker",
     "car_makers":"Car Makers",
+    "create_success": "You have been assigned to the car successfully",
+    "assign_car_catalog": "Assign car catalog",
+    "create_error": "Error occurred while creating the car",
+    "car_exist": "You already created this car",
+    "car_exist_different_car_catalog": "You already created this car with a different car catalog",
+    "user_already_assigned": "You are already assigned to this car",
+    "company_car": "Company Car",
+    "invalid_vin": "Invalid VIN",
     "type": "Type",
+    "assign_users":"Assign Users",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",
@@ -1643,7 +1657,8 @@
     "title": "Car",
     "description": "Manage Cars",
     "tabs": {
-      "list": "Cars"
+      "car_catalogs": "Car Catalogs",
+      "cars": "Cars"
     }
   },
   "analytics": {

@@ -12,8 +12,11 @@ import { CarCatalogComponent } from './car-catalog/car-catalog.component';
 import { CarCatalogDialogComponent } from './car-catalog/car-catalog.dialog.component';
 import { CarCarouselComponent } from './car-catalog/carousel/car-carousel.component';
 import { CarCatalogsListComponent } from './car-catalogs/car-catalogs-list.component';
+import { CarComponent } from './car/car.component';
+import { CarDialogComponent } from './car/car.dialog.component';
 import { CarsComponent } from './cars.component';
 import { CarsRoutes } from './cars.routing';
+import { CarsListComponent } from './cars/cars-list.component';
 import { CarCatalogImageFormatterCellComponent } from './cell-components/car-catalog-image-formatter-cell.component';
 
 @NgModule({
@@ -36,6 +39,9 @@ import { CarCatalogImageFormatterCellComponent } from './cell-components/car-cat
     CarCatalogComponent,
     CarsComponent,
     CarCatalogsListComponent,
+    CarsListComponent,
+    CarDialogComponent,
+    CarComponent,
   ],
   entryComponents: [
     CarCatalogComponent,
@@ -43,6 +49,9 @@ import { CarCatalogImageFormatterCellComponent } from './cell-components/car-cat
     CarCatalogDialogComponent,
     CarsComponent,
     CarCatalogsListComponent,
+    CarsListComponent,
+    CarDialogComponent,
+    CarComponent,
   ],
   providers: [
   ],

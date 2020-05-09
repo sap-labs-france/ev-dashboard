@@ -4,18 +4,18 @@ import { AssetDialogComponent } from 'app/pages/assets/asset/asset.dialog.compon
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { TableActionDef } from 'app/types/Table';
-import { TableEditAction } from './table-edit-action';
+import { TableViewAction } from './table-view-action';
 
-export class TableEditAssetAction extends TableEditAction {
+export class TableDisplayAssetAction extends TableViewAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: AssetButtonAction.EDIT_ASSET,
-      action: this.editAsset,
-    }
+      id: AssetButtonAction.VIEW_ASSET,
+      action: this.viewAsset,
+    };
   }
 
-  private editAsset(asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.edit(AssetDialogComponent, asset, dialog, refresh);
+  private viewAsset(asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.view(AssetDialogComponent, asset, dialog, refresh);
   }
 }

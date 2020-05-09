@@ -32,6 +32,8 @@ import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { TransactionDialogComponent } from './transactions/transaction-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
+import { CarCatalogsDialogComponent } from './car-catalogs/car-catalog-dialog.component';
+import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
 
 export class FooterModule {
 }
@@ -62,6 +64,7 @@ export class FooterModule {
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
+    CarCatalogsDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -78,6 +81,7 @@ export class FooterModule {
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
+    CarCatalogsDialogComponent,
   ],
   exports: [
     CarMakersDialogComponent,
@@ -93,6 +97,7 @@ export class FooterModule {
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
+    CarCatalogsDialogComponent,
   ],
   providers: [
     AppConnectorIdPipe,
@@ -109,6 +114,7 @@ export class FooterModule {
     CompaniesDialogTableDataSource,
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
+    CarCatalogsDialogTableDataSource,
   ],
 })
 export class DialogsModule {

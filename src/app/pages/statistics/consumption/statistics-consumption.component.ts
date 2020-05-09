@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TableFilterDef } from 'app/types/Table';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -11,8 +13,6 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 
 @Component({
   selector: 'app-statistics-consumption',

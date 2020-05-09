@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 
 import { TableCreateAction } from './table-create-action';
 
-export class TableCreateAssetAction extends TableCreateAction {  public getActionDef(): TableActionDef {
+export class TableCreateAssetAction extends TableCreateAction {
+  public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
       id: AssetButtonAction.CREATE_ASSET,
@@ -14,7 +15,7 @@ export class TableCreateAssetAction extends TableCreateAction {  public getActio
     };
   }
 
-                                                                 private createAsset(dialog: MatDialog, refresh?: () => Observable<void>) {
+  private createAsset(dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(AssetDialogComponent, dialog, refresh);
   }
 }

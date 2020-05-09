@@ -39,6 +39,7 @@ export class ReleaseNotesComponent {
               `Migration task to store the Site Area's max limitation in former Transactions`,
               `Missing mandatory field flag in Site Area`,
               `Implement OCPI Check Sessions, CDRs and Locations`,
+              `When Smart Charging is enabled, inform the user that this will take over the static limitation and the charging plans`,
               `Added Locking on all Scheduler's tasks`
             ],
           },

@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -16,7 +18,6 @@ import { User } from 'app/types/User';
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -45,9 +46,8 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
+
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -227,8 +227,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       new IssuerFilter().getFilterDef(),
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];

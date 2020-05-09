@@ -1171,6 +1171,7 @@
     "id": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
+    "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
     "pay": "Payer"
   },
   "tags": {
@@ -1320,13 +1321,14 @@
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
+      "force_synchronize": "Forcer la synchronisation",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",
         "force_synchronize_users": "Forcer Synchro Utilisateurs (Facturation)",
         "synchronize_users_dialog_title": "Synchroniser Utilisateurs (Facturation)",
         "synchronize_user_dialog_title": "Synchroniser Utilisateur (Facturation)",
-        "force_synchronize_user_dialog_title": "Forcer Synchronisation Utilisateur (Facturation)",
+        "force_synchronize_user_dialog_title": "Forcer Synchronisation (Facturation)",
         "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs avec le système de facturation ?",
         "synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur '{{userFullName}}' avec le système de facturation ?",
         "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de l'utilisateur '{{userFullName}}' avec le système de facturation ?<br>Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées.<br>Cette action est irreversible.",
@@ -1685,7 +1687,11 @@
     "type_placeholder": "Type",
     "description": "Interface de Facturation",
     "id": "ID facturation",
-    "updatedOn": "Synchronisé le"
+    "updatedOn": "Synchronisé le",
+    "tabs": {
+      "invoices": "Factures",
+      "in_error": "En Erreur"
+    }
   },
   "transactions": {
     "id": "Id",

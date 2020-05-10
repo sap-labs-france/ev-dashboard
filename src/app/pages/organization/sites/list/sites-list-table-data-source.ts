@@ -1,42 +1,43 @@
-import { Injectable } from '@angular/core';
+import { Action, Entity } from 'app/types/Authorization';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import ChangeNotification from '../../../../types/ChangeNotification';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
+import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
+import { Injectable } from '@angular/core';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { MessageService } from 'app/services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Site } from 'app/types/Site';
+import { SiteDialogComponent } from '../site/site-dialog.component';
+import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableAssignUsersToSiteAction } from 'app/shared/table/actions/table-assign-users-to-site-action';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
 import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Action, Entity } from 'app/types/Authorization';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { Site } from 'app/types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TranslateService } from '@ngx-translate/core';
 import { UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
-import { Observable } from 'rxjs';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
-import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
   private editAction = new TableEditAction().getActionDef();
-  private editUsersAction = new TableEditUsersAction().getActionDef();
+  private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
@@ -141,7 +142,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     let moreActions;
     if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
-      actions.push(this.editUsersAction);
+      actions.push(this.assignUsersToSite);
       moreActions = new TableMoreAction([
         this.exportOCPPParamsAction,
         openInMaps,

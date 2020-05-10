@@ -125,8 +125,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 

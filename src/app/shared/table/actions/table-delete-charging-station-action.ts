@@ -34,7 +34,9 @@ export class TableDeleteChargingStationAction extends TableDeleteAction {
         translateService.instant('chargers.delete_confirm', {chargeBoxID: chargingStation.id}),
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
+          spinnerService.show();
           centralServerService.deleteChargingStation(chargingStation.id).subscribe((response) => {
+            spinnerService.hide();
             if (response.status === RestResponse.SUCCESS) {
               refresh().subscribe();
               messageService.showSuccessMessage('chargers.delete_success', {chargeBoxID: chargingStation.id});
@@ -43,6 +45,7 @@ export class TableDeleteChargingStationAction extends TableDeleteAction {
                 messageService, 'chargers.delete_error');
             }
           }, (error) => {
+            spinnerService.hide();
             Utils.handleHttpError(error, router, messageService, centralServerService,
               'chargers.delete_error');
           });

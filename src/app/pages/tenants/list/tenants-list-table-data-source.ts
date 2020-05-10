@@ -1,28 +1,29 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tenant } from 'app/types/Tenant';
-import { Observable } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from '../../../services/dialog.service';
+import { Injectable } from '@angular/core';
 import { MessageService } from '../../../services/message.service';
-import { WindowService } from '../../../services/window.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { Utils } from '../../../utils/Utils';
+import { Tenant } from 'app/types/Tenant';
 import { TenantComponent } from '../tenant/tenant.component';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from '../../../utils/Utils';
+import { WindowService } from '../../../services/window.service';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {
@@ -132,8 +133,6 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       case ButtonAction.CREATE:
         this.showTenantDialog();
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 

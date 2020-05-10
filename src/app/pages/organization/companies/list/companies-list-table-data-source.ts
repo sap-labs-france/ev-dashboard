@@ -165,8 +165,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 

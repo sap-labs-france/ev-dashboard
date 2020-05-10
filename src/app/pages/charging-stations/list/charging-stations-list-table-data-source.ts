@@ -237,7 +237,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         });
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation, dropdownItem?: DropdownItem) {
@@ -321,7 +320,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
-    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
+    if (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
         this.smartChargingAction,

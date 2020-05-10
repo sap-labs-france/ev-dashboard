@@ -28,7 +28,9 @@ export class TableDeleteCompanyAction extends TableDeleteAction {
       translateService.instant('companies.delete_confirm', {companyName: company.name}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
+        spinnerService.show();
         centralServerService.deleteCompany(company.id).subscribe((response) => {
+          spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage('companies.delete_success', {companyName: company.name});
             if (refresh) {
@@ -39,6 +41,7 @@ export class TableDeleteCompanyAction extends TableDeleteAction {
               messageService, 'companies.delete_error');
           }
         }, (error) => {
+          spinnerService.hide();
           Utils.handleHttpError(error, router, messageService, centralServerService,
             'companies.delete_error');
         });

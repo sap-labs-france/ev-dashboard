@@ -1,53 +1,54 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { Connector } from 'app/types/ChargingStation';
-import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { RefundStatus } from 'app/types/Refund';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
-import saveAs from 'file-saver';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
+
+import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
+
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
+import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { ButtonAction } from 'app/types/GlobalType';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ComponentService } from '../../../services/component.service';
+import { Connector } from 'app/types/ChargingStation';
+import { Constants } from '../../../utils/Constants';
+import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
+import { DialogService } from '../../../services/dialog.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { Injectable } from '@angular/core';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { RefundStatus } from 'app/types/Refund';
+import { Router } from '@angular/router';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { SpinnerService } from 'app/services/spinner.service';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { Constants } from '../../../utils/Constants';
-import { Utils } from '../../../utils/Utils';
+import TenantComponents from 'app/types/TenantComponents';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
-
+import { TranslateService } from '@ngx-translate/core';
+import { User } from 'app/types/User';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { Utils } from '../../../utils/Utils';
+import saveAs from 'file-saver';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -325,7 +326,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         });
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public openSession(transaction: Transaction) {

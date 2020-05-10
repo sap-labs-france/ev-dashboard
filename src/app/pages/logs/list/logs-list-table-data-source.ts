@@ -1,36 +1,37 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { Log } from 'app/types/Log';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import saveAs from 'file-saver';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AuthorizationService } from '../../../services/authorization.service';
+import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableExportAction } from '../../../shared/table/actions/table-export-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
+import { DataResult } from 'app/types/DataResult';
+import { DialogService } from '../../../services/dialog.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { Formatters } from '../../../utils/Formatters';
-import { Utils } from '../../../utils/Utils';
+import { Injectable } from '@angular/core';
+import { Log } from 'app/types/Log';
 import { LogActionTableFilter } from '../filters/log-action-filter';
 import { LogHostTableFilter } from '../filters/log-host-filter';
+import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
-import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { TableExportAction } from '../../../shared/table/actions/table-export-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TranslateService } from '@ngx-translate/core';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { Utils } from '../../../utils/Utils';
+import { map } from 'rxjs/operators';
+import saveAs from 'file-saver';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
@@ -194,7 +195,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         });
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

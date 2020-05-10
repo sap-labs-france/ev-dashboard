@@ -252,8 +252,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
           );
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 

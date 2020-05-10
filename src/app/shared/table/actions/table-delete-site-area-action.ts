@@ -28,7 +28,9 @@ export class TableDeleteSiteAreaAction extends TableDeleteAction {
       translateService.instant('site_areas.delete_confirm', { siteAreaName: siteArea.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
+        spinnerService.show();
         centralServerService.deleteSiteArea(siteArea.id).subscribe((response) => {
+          spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             messageService.showSuccessMessage('site_areas.delete_success', { siteAreaName: siteArea.name });
             if (refresh) {
@@ -39,6 +41,7 @@ export class TableDeleteSiteAreaAction extends TableDeleteAction {
               messageService, 'site_areas.delete_error');
           }
         }, (error) => {
+          spinnerService.hide();
           Utils.handleHttpError(error, router, messageService, centralServerService,
             'site_areas.delete_error');
         });

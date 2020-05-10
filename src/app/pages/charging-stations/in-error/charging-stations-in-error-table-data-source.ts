@@ -182,8 +182,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 

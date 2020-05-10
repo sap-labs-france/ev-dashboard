@@ -1,16 +1,14 @@
-import { ButtonType, TableActionDef } from 'app/types/Table';
 import { ChargingStation, ChargingStationButtonAction } from 'app/types/ChargingStation';
 
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { Observable } from 'rxjs';
-import { RestResponse } from 'app/types/GlobalType';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableActionDef } from 'app/types/Table';
 import { TableDeleteAction } from './table-delete-action';
 import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 
 export class TableDeleteChargingStationAction extends TableDeleteAction {
   public getActionDef(): TableActionDef {
@@ -29,28 +27,12 @@ export class TableDeleteChargingStationAction extends TableDeleteAction {
         translateService.instant('chargers.action_error.delete_title'),
         translateService.instant('chargers.action_error.delete_active_transaction'));
     } else {
-      dialogService.createAndShowYesNoDialog(
-        translateService.instant('chargers.delete_title'),
-        translateService.instant('chargers.delete_confirm', {chargeBoxID: chargingStation.id}),
-      ).subscribe((result) => {
-        if (result === ButtonType.YES) {
-          spinnerService.show();
-          centralServerService.deleteChargingStation(chargingStation.id).subscribe((response) => {
-            spinnerService.hide();
-            if (response.status === RestResponse.SUCCESS) {
-              refresh().subscribe();
-              messageService.showSuccessMessage('chargers.delete_success', {chargeBoxID: chargingStation.id});
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.delete_error');
-            }
-          }, (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService,
-              'chargers.delete_error');
-          });
-        }
-      });
+      super.delete(
+        chargingStation, 'chargers.delete_title',
+        translateService.instant('chargers.delete_confirm', { chargeBoxID: chargingStation.id }),
+        translateService.instant('chargers.delete_success', { chargeBoxID: chargingStation.id }),
+        'chargers.delete_error', centralServerService.deleteChargingStation.bind(centralServerService),
+        dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
     }
   }
 }

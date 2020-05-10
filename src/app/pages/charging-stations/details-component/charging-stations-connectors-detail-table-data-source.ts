@@ -204,9 +204,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     ];
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
-  }
-
   public rowActionTriggered(actionDef: TableActionDef, connector: Connector) {
     switch (actionDef.id) {
       // Start Transaction

@@ -153,7 +153,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     let actions: TableActionDef[];
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+    if (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(siteArea.siteID)) {
       actions = [
         this.editAction,
         this.authorizationService.isAdmin() ? this.assignChargingStationsToSiteAreaAction : this.viewChargingStationsOfSiteArea,

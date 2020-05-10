@@ -10,6 +10,7 @@ import { RefundButtonAction } from './Refund';
 import { SiteAreaButtonAction } from './SiteArea';
 import { SiteButtonAction } from './Site';
 import { SortDirection } from '@angular/material/sort';
+import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
 import { ValidatorFn } from '@angular/forms';
@@ -88,8 +89,9 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|CompanyButtonAction|SiteAreaButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
-    OcpiButtonAction|AssetButtonAction|BillingButtonAction|CarButtonAction|RefundButtonAction;
+  id: ButtonAction|CompanyButtonAction|TenantButtonAction|SiteAreaButtonAction|ChargingStationButtonAction|
+    UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction|AssetButtonAction|
+    BillingButtonAction|CarButtonAction|RefundButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

@@ -1,45 +1,46 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import * as moment from 'moment';
+
 import { Action, Entity } from 'app/types/Authorization';
 import { ActionResponse, ActionsResponse, DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
-import { RefundStatus } from 'app/types/Refund';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
-import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
+import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonAction } from 'app/types/GlobalType';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { Injectable } from '@angular/core';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { RefundStatus } from 'app/types/Refund';
+import { Router } from '@angular/router';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
+import { SpinnerService } from 'app/services/spinner.service';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import TenantComponents from 'app/types/TenantComponents';
+import { Transaction } from 'app/types/Transaction';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from 'app/types/User';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
-
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {

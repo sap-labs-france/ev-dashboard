@@ -236,7 +236,7 @@ export class SiteAreaComponent implements OnInit {
     this.centralServerService.getSiteArea(this.currentSiteAreaID, true).pipe(mergeMap((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
-      this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE) ||
+      this.isAdmin = this.authorizationService.isAdmin() ||
         this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
       if (!this.isAdmin) {

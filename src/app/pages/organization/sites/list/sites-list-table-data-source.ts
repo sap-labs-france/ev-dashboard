@@ -27,7 +27,7 @@ import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-expo
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { TableViewSiteAction } from 'app/shared/table/actions/table-view-site-action';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
 
@@ -36,7 +36,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private deleteAction = new TableDeleteSiteAction().getActionDef();
-  private viewAction = new TableViewAction().getActionDef();
+  private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
 
   constructor(

@@ -50,6 +50,7 @@ export enum ButtonAction {
   MULTI_CREATE = 'multi-create',
   NO_ACTION = 'block',
   OPEN = 'open',
+  OPEN_URL = 'open_url',
   REGISTER = 'register',
   REMOVE = 'remove',
   RESET_FILTERS = 'reset-filters',

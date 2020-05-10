@@ -1,35 +1,34 @@
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Tenant, TenantButtonAction } from 'app/types/Tenant';
 
+import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { DialogService } from '../../../services/dialog.service';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../../services/message.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableCreateTenantAction } from 'app/shared/table/actions/table-create-tenant-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
-import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
-import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
+import { TableDeleteTenantAction } from 'app/shared/table/actions/table-delete-tenant-action';
+import { TableEditTenantAction } from 'app/shared/table/actions/table-edit-tenant-action';
+import { TableOpenURLAction } from 'app/shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { Tenant } from 'app/types/Tenant';
-import { TenantDialogComponent } from '../tenant/tenant.dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../utils/Utils';
 import { WindowService } from '../../../services/window.service';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {
-  private editAction = new TableEditAction().getActionDef();
-  private openAction = new TableOpenAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private editAction = new TableEditTenantAction().getActionDef();
+  private openUrlAction = new TableOpenURLAction().getActionDef();
+  private deleteAction = new TableDeleteTenantAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -113,7 +112,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableCreateAction().getActionDef(),
+      new TableCreateTenantAction().getActionDef(),
       ...tableActionsDef,
     ];
   }
@@ -121,7 +120,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableRowActions(): TableActionDef[] {
     return [
       this.editAction,
-      this.openAction,
+      this.openUrlAction,
       this.deleteAction,
     ];
   }
@@ -130,25 +129,33 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     // Action
     switch (actionDef.id) {
       // Add
-      case ButtonAction.CREATE:
-        this.showTenantDialog();
+      case TenantButtonAction.CREATE_TENANT:
+        if (actionDef.action) {
+          actionDef.action(this.dialog, this.refreshData.bind(this));
+        }
         break;
     }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, tenant: Tenant) {
     switch (actionDef.id) {
-      case ButtonAction.EDIT:
-        this.showTenantDialog(tenant);
+      case TenantButtonAction.VIEW_TENANT:
+      case TenantButtonAction.EDIT_TENANT:
+        if (actionDef.action) {
+          actionDef.action(tenant, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.DELETE:
-        this.deleteTenant(tenant);
+      case TenantButtonAction.DELETE_TENANT:
+        if (actionDef.action) {
+          actionDef.action(tenant, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.OPEN:
-        this.openTenant(tenant);
+      case ButtonAction.OPEN_URL:
+        if (actionDef.action) {
+          actionDef.action(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, tenant);
     }
   }
 
@@ -161,50 +168,5 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
-  }
-
-  private showTenantDialog(tenant?: Tenant) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '60vw';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (tenant) {
-      dialogConfig.data = tenant.id;
-    }
-    // Open
-    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
-  }
-
-  private openTenant(tenant?: Tenant) {
-    if (tenant) {
-      window.open(`${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`);
-    }
-  }
-
-  private deleteTenant(tenant: Tenant) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('tenants.delete_title'),
-      this.translateService.instant('tenants.delete_confirm', {name: tenant.name}),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.centralServerService.deleteTenant(tenant.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('tenants.delete_success', {name: tenant.name});
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'tenants.delete_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'tenants.delete_error');
-        });
-      }
-    });
   }
 }

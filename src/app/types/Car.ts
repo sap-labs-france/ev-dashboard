@@ -75,6 +75,8 @@ export enum CarImage {
 }
 
 export enum CarButtonAction {
+  VIEW_CAR = 'view_car',
+  VIEW_CAR_CATALOG = 'view_car_catalog',
   SYNCHRONIZE = 'synchronize',
   CREATE_CAR = 'create_car',
 }

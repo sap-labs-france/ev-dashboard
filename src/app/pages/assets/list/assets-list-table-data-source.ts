@@ -1,35 +1,36 @@
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Asset, AssetButtonAction, AssetImage } from 'app/types/Asset';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import ChangeNotification from 'app/types/ChangeNotification';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'app/services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAssetAction } from 'app/shared/table/actions/table-create-asset-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
 import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDisplayAssetAction } from 'app/shared/table/actions/table-view-asset-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Asset, AssetButtonAction, AssetImage } from 'app/types/Asset';
-import ChangeNotification from 'app/types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableViewAssetAction } from 'app/shared/table/actions/table-view-asset-action';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
-  private displayAction = new TableDisplayAssetAction().getActionDef();
+  private displayAction = new TableViewAssetAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,

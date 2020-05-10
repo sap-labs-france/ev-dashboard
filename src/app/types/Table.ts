@@ -7,6 +7,7 @@ import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { OcpiButtonAction } from './OCPIEndpoint';
 import { RefundButtonAction } from './Refund';
+import { SiteAreaButtonAction } from './SiteArea';
 import { SiteButtonAction } from './Site';
 import { SortDirection } from '@angular/material/sort';
 import { TransactionButtonAction } from './Transaction';
@@ -87,7 +88,7 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|CompanyButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
+  id: ButtonAction|CompanyButtonAction|SiteAreaButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
     OcpiButtonAction|AssetButtonAction|BillingButtonAction|CarButtonAction|RefundButtonAction;
   type: ActionType;
   currentValue?: any;

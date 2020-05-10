@@ -1,17 +1,17 @@
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { Site } from 'app/types/Site';
-import { SiteArea } from 'app/types/SiteArea';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
-import saveAs from 'file-saver';
 
 import { CentralServerService } from '../../../services/central-server.service';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { Router } from '@angular/router';
+import { Site } from 'app/types/Site';
+import { SiteArea } from 'app/types/SiteArea';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from '../../../utils/Utils';
+import saveAs from 'file-saver';
 
 export class TableExportOCPPParamsAction implements TableAction {
   private action: TableActionDef = {
@@ -30,20 +30,20 @@ export class TableExportOCPPParamsAction implements TableAction {
 
   private exportOCPPParameters(dialogService: DialogService, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService, currentSiteArea: SiteArea, currentSite: Site) {
+    spinnerService: SpinnerService, siteArea: SiteArea, site: Site) {
       dialogService.createAndShowYesNoDialog(
-      translateService.instant(currentSiteArea ?
+      translateService.instant(siteArea ?
         translateService.instant('site_areas.export_all_params_title') :
         translateService.instant('sites.export_all_params_title')),
-      translateService.instant(currentSiteArea ?
-        translateService.instant('site_areas.export_all_params_confirm', { siteAreaName : currentSiteArea.name }) :
-        translateService.instant('sites.export_all_params_confirm', { siteName : currentSite.name })),
+      translateService.instant(siteArea ?
+        translateService.instant('site_areas.export_all_params_confirm', { siteAreaName : siteArea.name }) :
+        translateService.instant('sites.export_all_params_confirm', { siteName : site.name })),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
         centralServerService.exportAllChargingStationsOCCPParams(
-            currentSiteArea ? currentSiteArea.id : undefined,
-            currentSite ? currentSite.id : undefined)
+            siteArea ? siteArea.id : undefined,
+            site ? site.id : undefined)
           .subscribe((result) => {
             spinnerService.hide();
             saveAs(result, 'exported-occp-params.csv');

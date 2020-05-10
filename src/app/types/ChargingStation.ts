@@ -167,8 +167,6 @@ export enum ChargingStationButtonAction {
   SMART_CHARGING = 'smart_charging',
   EDIT_CHARGING_STATION = 'edit_charging_station',
   DELETE_CHARGING_STATION = 'delete_charging_station',
-  ASSIGN_CHARGING_STATIONS_TO_SITE_AREA = 'assign_charging_stations_to_site_area',
-  VIEW_CHARGING_STATIONS_OF_SITE_AREA = 'view_charging_stations_of_site_area',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',

@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
 
 @Injectable()
-export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation> {
+export class SiteAreaChargingStationsDataSource extends TableDataSource<ChargingStation> {
   private siteArea!: SiteArea;
 
   constructor(

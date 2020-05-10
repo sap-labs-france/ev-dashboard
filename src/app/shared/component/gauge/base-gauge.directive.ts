@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, Directive, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Directive, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import * as CanvasGauges from 'canvas-gauges';
 
 /**
@@ -7,22 +7,22 @@ import * as CanvasGauges from 'canvas-gauges';
  * T2 - Type of the options used within the particular gauge (RadialGaugeOptions, LinearGaugeOptions)
  */
 @Directive()
-export abstract class BaseGauge<T extends CanvasGauges.BaseGauge, T2 extends CanvasGauges.GenericOptions>
+export abstract class BaseGaugeDirective<T extends CanvasGauges.BaseGauge, T2 extends CanvasGauges.GenericOptions>
 
   implements OnInit, AfterViewChecked {
   /**
    * Canvas element on the template used by the library to draw gauge element
    */
-  @ViewChild('gauge', {static: true}) canvas: ElementRef;
+  @ViewChild('gauge', {static: true}) public canvas: ElementRef;
   /**
    * Gauge options for rendering
    */
-  @Input() options: T2;
+  @Input() public options: T2;
   /**
    * Stores gauge object which performs initial rendering and draws updates on the canvas.
    * Shoulbe initialized in the child classes inside the ngOnInit implementation
    */
-  gauge: T;
+  public gauge: T;
 
   /**
    *
@@ -35,12 +35,12 @@ export abstract class BaseGauge<T extends CanvasGauges.BaseGauge, T2 extends Can
   /**
    * Should contain instantiation of the Gauge object in the child component
    */
-  abstract ngOnInit();
+  public abstract ngOnInit();
 
   /**
    * Returns options provided to the Gauge in a single object
    */
-  getOptions() {
+  public getOptions() {
     this.options = Object.assign(this.options || {} as T2, {
       renderTo: this.canvas.nativeElement,
     });
@@ -65,7 +65,7 @@ export abstract class BaseGauge<T extends CanvasGauges.BaseGauge, T2 extends Can
   /**
    * Performs animation redraw if the options were changed by the parent component
    */
-  ngAfterViewChecked() {
+  public ngAfterViewChecked() {
     const props = this.getOptions();
     /*        if (typeof props.value !== 'undefined') {
                 this.zone.runOutsideAngular(() => {

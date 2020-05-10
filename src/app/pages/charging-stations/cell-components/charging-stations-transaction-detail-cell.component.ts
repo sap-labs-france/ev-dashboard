@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
+
 import { LocaleService } from '../../../services/locale.service';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -16,11 +17,11 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   }`],
 
 })
-export class ChargingStationsTransactionDetailComponentCellComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row: any;
-  locale!: string;
-  displaySessionAuthorized!: boolean;
-  dialogRef!: MatDialogRef<TransactionDialogComponent>;
+export class ChargingStationsTransactionDetailComponentCellComponent extends CellContentTemplateDirective implements OnInit {
+  @Input() public row: any;
+  public locale!: string;
+  public displaySessionAuthorized!: boolean;
+  public dialogRef!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
       private localeService: LocaleService,
@@ -32,7 +33,7 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
     });
   }
 
-  showSessionDialog() {
+  public showSessionDialog() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
@@ -51,13 +52,13 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
     this.dialogRef = this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 
-  refresh() {
+  public refresh() {
     if (this.dialogRef && this.dialogRef.componentInstance) {
       this.dialogRef.componentInstance.refresh();
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.displaySessionAuthorized = this.authorizationService.isAdmin() || this.authorizationService.isDemo();
   }
 }

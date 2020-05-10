@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import AssetConfiguration from 'app/types/configuration/AssetConfiguration';
 import CarConfiguration from 'app/types/configuration/CarConfiguration';
+
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';

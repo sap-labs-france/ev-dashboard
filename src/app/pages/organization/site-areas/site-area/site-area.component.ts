@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -11,6 +11,7 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
 import { Address } from 'app/types/Address';
 import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
@@ -23,7 +24,9 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { ChargingStations } from '../../../../utils/ChargingStations';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
@@ -32,29 +35,36 @@ import { RegistrationTokensTableDataSource } from '../../../settings/charging-st
   providers: [RegistrationTokensTableDataSource],
 })
 export class SiteAreaComponent implements OnInit {
-  @Input() currentSiteAreaID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentSiteAreaID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteAreaImage.NO_IMAGE;
   public maxSize: number;
+  public siteArea: SiteArea;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
+  public site!: AbstractControl;
   public siteID!: AbstractControl;
   public maximumPower!: AbstractControl;
+  public maximumPowerInAmps!: AbstractControl;
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
+  public numberOfPhases!: AbstractControl;
+
+  public phaseMap = [
+    { key: 1, description: 'site_areas.single_phased' },
+    { key: 3, description: 'site_areas.three_phased' },
+  ];
 
   public address!: Address;
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
   public isSmartChargingActive = false;
 
-  public sites: any;
   public registrationToken!: RegistrationToken;
-
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -79,15 +89,17 @@ export class SiteAreaComponent implements OnInit {
     // Set
     this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    // Refresh available sites
-    this.refreshAvailableSites();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
       name: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      site: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -99,22 +111,32 @@ export class SiteAreaComponent implements OnInit {
         Validators.compose(
           this.isSmartChargingComponentActive ?
             [
-              Validators.pattern(/^(0|[1-9]\d*$)/),
+              Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
               Validators.min(1),
               Validators.required,
             ] : [],
         )),
+      maximumPowerInAmps: new FormControl(''),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
+      numberOfPhases: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
+    this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
+    this.maximumPowerInAmps = this.formGroup.controls['maximumPowerInAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
+    this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPower.disable();
+    this.maximumPowerInAmps.disable();
+    this.numberOfPhases.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -130,8 +152,8 @@ export class SiteAreaComponent implements OnInit {
         this.onClose();
       }
     });
-    this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+    this.centralServerNotificationService.getSubjectSiteArea().pipe(
+      debounceTime(this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
         // Update user?
         if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
           this.loadSiteArea();
@@ -143,11 +165,44 @@ export class SiteAreaComponent implements OnInit {
     return this.inDialog;
   }
 
+  public assignSite() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'site_areas.assign_site',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+    };
+    // Open
+    this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+        const site: Site = (result[0].objectRef) as Site;
+        this.site.setValue(site.name);
+        this.siteID.setValue(site.id);
+        this.formGroup.markAsDirty();
+      }
+    });
+  }
+
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
       this.maximumPower.enable();
+      this.numberOfPhases.enable();
+      this.dialogService.createAndShowYesNoDialog(
+        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
+        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
+      ).subscribe((result) => {
+        if (result === ButtonType.NO) {
+          this.smartCharging.setValue(false);
+          this.maximumPower.disable();
+          this.numberOfPhases.disable();
+        }
+      });
     } else {
       this.maximumPower.disable();
+      this.numberOfPhases.disable();
     }
     if (!event.checked && this.isSmartChargingActive) {
       this.dialogService.createAndShowYesNoDialog(
@@ -157,6 +212,7 @@ export class SiteAreaComponent implements OnInit {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
           this.maximumPower.enable();
+          this.numberOfPhases.enable();
         }
       });
     }
@@ -167,27 +223,7 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public refresh() {
-    // Load SiteArea
     this.loadSiteArea();
-  }
-
-  public refreshAvailableSites() {
-    const params = {
-      SiteID: this.authorizationService.getSitesAdmin().join('|'),
-    };
-    this.centralServerService.getSites(params).subscribe((availableSites) => {
-      // clear current entries
-      this.sites = [];
-      // add available companies to dropdown
-      for (let i = 0; i < availableSites.count; i++) {
-        this.sites.push({ id: availableSites.result[i].id, name: availableSites.result[i].name });
-      }
-    });
-  }
-
-  public clearMaximumPower() {
-    this.maximumPower.setValue(null);
-    this.formGroup.markAsDirty();
   }
 
   public loadSiteArea() {
@@ -196,9 +232,11 @@ export class SiteAreaComponent implements OnInit {
     }
     // Show spinner
     this.spinnerService.show();
-    this.centralServerService.getSiteArea(this.currentSiteAreaID).pipe(mergeMap((siteArea) => {
+    this.centralServerService.getSiteArea(this.currentSiteAreaID, true).pipe(mergeMap((siteArea) => {
       this.spinnerService.hide();
-      this.isAdmin = this.authorizationService.isSiteAdmin(siteArea.siteID);
+      this.siteArea = siteArea;
+      this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE) ||
+        this.authorizationService.isSiteAdmin(siteArea.siteID);
       // if not admin switch in readonly mode
       if (!this.isAdmin) {
         this.formGroup.disable();
@@ -213,16 +251,25 @@ export class SiteAreaComponent implements OnInit {
       if (siteArea.siteID) {
         this.formGroup.controls.siteID.setValue(siteArea.siteID);
       }
+      if (siteArea.site) {
+        this.site.setValue(siteArea.site.name);
+      }
       if (siteArea.maximumPower) {
         this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower / 1000);
+        this.maximumPowerChanged();
+      }
+      if (siteArea.numberOfPhases) {
+        this.formGroup.controls.numberOfPhases.setValue(siteArea.numberOfPhases);
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
         this.isSmartChargingActive = siteArea.smartCharging;
         this.maximumPower.enable();
+        this.numberOfPhases.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
         this.maximumPower.disable();
+        this.numberOfPhases.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);
@@ -245,15 +292,13 @@ export class SiteAreaComponent implements OnInit {
     }, (error) => {
       // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
         // Not found
         case 550:
-          // Transaction not found`
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.site_invalid');
           break;
+        // Unexpected error`
         default:
-          // Unexpected error`
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'general.unexpected_error_backend');
       }
@@ -263,7 +308,6 @@ export class SiteAreaComponent implements OnInit {
   public updateSiteAreaImage(siteArea: SiteArea) {
     // Set the image
     if (!this.image.endsWith(SiteAreaImage.NO_IMAGE)) {
-      // Set to current image
       siteArea.image = this.image;
     } else {
       // No image
@@ -295,11 +339,10 @@ export class SiteAreaComponent implements OnInit {
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
           this.spinnerService.show();
-
-          const selectedSite = this.sites.find((site: Site) => site.id === this.siteID.value);
           this.centralServerService.createRegistrationToken({
             siteAreaID: this.currentSiteAreaID,
-            description: `Token for ${selectedSite.name} / ${this.name.value}`,
+            description: this.translateService.instant(
+              'settings.charging_station.registration_token_site_area_name', { siteAreaName: this.siteArea.name }),
           }).subscribe((token) => {
             this.spinnerService.hide();
             if (token) {
@@ -380,6 +423,12 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
+  public maximumPowerChanged() {
+    if (!this.maximumPower.errors) {
+      this.maximumPowerInAmps.setValue(ChargingStations.convertWattToAmp(1, this.maximumPower.value as number * 1000));
+    }
+  }
+
   private loadRegistrationToken() {
     if (!this.currentSiteAreaID) {
       return;
@@ -399,7 +448,6 @@ export class SiteAreaComponent implements OnInit {
   }
 
   private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
-    // @ts-ignore
     const now = moment();
     return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
       && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
@@ -470,10 +518,14 @@ export class SiteAreaComponent implements OnInit {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
+        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+          this.messageService.showErrorMessage('site_areas.update_phase_error');
+          break;
         case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
           this.dialogService.createAndShowOkDialog(
             this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
-            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body', { siteAreaName: siteArea.name }));
+            this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body',
+              { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
         // Site Area deleted

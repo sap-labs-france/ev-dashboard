@@ -8,6 +8,7 @@ import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.c
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -27,8 +28,8 @@ import { Utils } from '../../../../utils/Utils';
 })
 @Injectable()
 export class ChargingStationParametersComponent implements OnInit {
-  @Input() charger!: ChargingStation;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public charger!: ChargingStation;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
@@ -86,10 +87,10 @@ export class ChargingStationParametersComponent implements OnInit {
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
-
+    this.isAdmin = this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(this.charger.siteArea ? this.charger.siteArea.siteID : '');
     // Init the form
     this.formGroup = new FormGroup({
       chargingStationURL: new FormControl('',
@@ -107,8 +108,14 @@ export class ChargingStationParametersComponent implements OnInit {
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])),
-      siteArea: new FormControl(''),
-      siteAreaID: new FormControl(''),
+      siteArea: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      siteAreaID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
@@ -323,19 +330,11 @@ export class ChargingStationParametersComponent implements OnInit {
         this.longitude.setValue(this.charger.coordinates[0]);
         this.latitude.setValue(this.charger.coordinates[1]);
       }
-      if (this.charger.siteArea && this.charger.siteArea.name) {
-        // tslint:disable-next-line:max-line-length
-        this.formGroup.controls.siteArea.setValue(`${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
-      } else {
-        if (this.isOrganizationComponentActive) {
-          this.formGroup.controls.siteAreaID.setValue(0);
-          this.formGroup.controls.siteArea.setValue(this.translateService.instant('site_areas.unassigned'));
-        } else {
-          this.formGroup.controls.siteAreaID.setValue('');
-          this.formGroup.controls.siteArea.setValue('');
-          this.formGroup.controls.siteArea.disable();
-          this.formGroup.controls.siteAreaID.disable();
-        }
+      if (this.charger.siteAreaID) {
+        this.formGroup.controls.siteAreaID.setValue(this.charger.siteArea.id);
+      }
+      if (this.charger.siteArea) {
+        this.formGroup.controls.siteArea.setValue(this.charger.siteArea.name);
       }
       // Update connectors formcontrol
       for (const connector of this.charger.connectors) {
@@ -417,13 +416,12 @@ export class ChargingStationParametersComponent implements OnInit {
       rowMultipleSelection: false,
     };
     // Open
-    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
         this.charger.siteArea = ((result[0].objectRef) as SiteArea);
+        this.siteArea.setValue(this.charger.siteArea.name);
+        this.siteAreaID.setValue(this.charger.siteArea.id);
         this.formGroup.markAsDirty();
-        this.formGroup.controls.siteArea.setValue(
-          `${(this.charger.siteArea.site ? this.charger.siteArea.site.name + ' - ' : '')}${this.charger.siteArea.name}`);
       }
     });
   }
@@ -528,15 +526,18 @@ export class ChargingStationParametersComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 560:
+        case HTTPAuthError.ERROR:
           // Not Authorized
           this.messageService.showErrorMessage(
             this.translateService.instant('chargers.change_config_error'));
           break;
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           // Does not exist
           this.messageService.showErrorMessage(this.messages['change_config_error']);
           break;
+        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
+            this.messageService.showErrorMessage('chargers.change_config_phase_error');
+            break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             this.messages['change_config_error']);

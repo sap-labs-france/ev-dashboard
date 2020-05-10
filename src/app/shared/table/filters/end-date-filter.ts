@@ -1,12 +1,12 @@
 import { DateTableFilter } from '../../../shared/table/filters/date-table-filter';
 
-export class LogDateFromTableFilter extends DateTableFilter {
+export class EndDateFilter extends DateTableFilter {
   constructor(currentValue = null) {
     super();
     const filter = this.getFilterDef();
-    filter.id = 'dateFrom';
-    filter.httpId = 'DateFrom';
-    filter.name = 'general.search_date_from';
+    filter.id = 'dateUntil';
+    filter.httpId = 'EndDateTime';
+    filter.name = 'general.search_date_until';
     filter.currentValue = currentValue;
     filter.reset = () => filter.currentValue = currentValue;
   }

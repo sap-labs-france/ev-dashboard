@@ -36,6 +36,9 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private getCdrsAction = new TableDownloadAction(OcpiButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
   private getLocationsAction = new TableDownloadAction(OcpiButtonAction.PULL_LOCATIONS, 'ocpi.pull_locations').getActionDef();
   private getSessionsAction = new TableDownloadAction(OcpiButtonAction.PULL_SESSIONS, 'ocpi.pull_sessions').getActionDef();
+  private checkCdrsAction = new TableDownloadAction(OcpiButtonAction.CHECK_CDRS, 'ocpi.check_cdrs').getActionDef();
+  private checkLocationsAction = new TableDownloadAction(OcpiButtonAction.CHECK_LOCATIONS, 'ocpi.check_locations').getActionDef();
+  private checkSessionsAction = new TableDownloadAction(OcpiButtonAction.CHECK_SESSIONS, 'ocpi.check_sessions').getActionDef();
   private getTokensAction = new TableUploadAction(OcpiButtonAction.PULL_TOKENS, 'ocpi.pull_tokens').getActionDef();
 
   constructor(
@@ -176,7 +179,10 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         syncActions = new TableMultiSyncAction([
           this.synchronizeAllAction,
           this.pushLocationsAction,
-          this.getTokensAction]).getActionDef();
+          this.getTokensAction,
+          this.checkLocationsAction,
+          this.checkSessionsAction,
+          this.checkCdrsAction]).getActionDef();
       } else {
         syncActions = new TableMultiSyncAction([
           this.synchronizeAllAction,
@@ -195,37 +201,46 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: OcpiEndpointDetail) {
+  public rowActionTriggered(actionDef: TableActionDef, ocpiEndpointDetail: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case OcpiButtonAction.SYNC_ALL:
-        this.triggerJobsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.triggerJobsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PUSH_TOKENS:
-        this.pushTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pushTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PUSH_LOCATIONS:
-        this.pushEVSEStatusesOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pushEVSEStatusesOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_CDRS:
-        this.pullCdrsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullCdrsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_LOCATIONS:
-        this.pullLocationsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullLocationsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_SESSIONS:
-        this.pullSessionsOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullSessionsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case OcpiButtonAction.PULL_TOKENS:
-        this.pullTokensOcpiEndpoint(rowItem.ocpiendpoint);
+        this.pullTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+        break;
+      case OcpiButtonAction.CHECK_CDRS:
+        this.checkCdrsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+        break;
+      case OcpiButtonAction.CHECK_SESSIONS:
+        this.checkSessionsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
+        break;
+      case OcpiButtonAction.CHECK_LOCATIONS:
+        this.checkLocationsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
       case ButtonAction.START:
-        this.enableDisableBackgroundJob(rowItem.ocpiendpoint, true);
+        this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, true);
         break;
       case ButtonAction.STOP:
-        this.enableDisableBackgroundJob(rowItem.ocpiendpoint, false);
+        this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, false);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, ocpiEndpointDetail);
     }
   }
 
@@ -410,6 +425,93 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
         }, (error) => {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
             'ocpiendpoints.pull_tokens_error');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private checkLocationsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.check_locations_title'),
+      this.translateService.instant('ocpiendpoints.check_locations_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        // Ping
+        this.centralServerService.checkLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.check_locations_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.check_locations_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.check_locations_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.check_locations_error');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private checkSessionsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.check_sessions_title'),
+      this.translateService.instant('ocpiendpoints.check_sessions_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        // Ping
+        this.centralServerService.checkSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.check_sessions_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.check_sessions_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.check_sessions_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.check_sessions_error');
+          // reload data
+          this.refreshData().subscribe();
+        });
+      }
+    });
+  }
+
+  private checkCdrsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('ocpiendpoints.check_cdrs_title'),
+      this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        // Ping
+        this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
+          if (response.failure === 0 && response.success >= 0) {
+            this.messageService.showSuccessMessage('ocpiendpoints.check_cdrs_success', { success: response.success });
+          } else if (response.failure > 0 && response.success > 0) {
+            this.messageService.showWarningMessage('ocpiendpoints.check_cdrs_partial',
+              { success: response.success, error: response.failure });
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, 'ocpiendpoints.check_cdrs_error');
+          }
+          // reload data
+          this.refreshData().subscribe();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+            'ocpiendpoints.check_cdrs_error');
           // reload data
           this.refreshData().subscribe();
         });

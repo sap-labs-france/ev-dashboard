@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,8 +27,6 @@ import { Constants } from '../../../utils/Constants';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
-import { LogDateFromTableFilter } from '../filters/log-date-from-filter';
-import { LogDateUntilTableFilter } from '../filters/log-date-until-filter';
 import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
@@ -171,7 +170,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     ];
   }
 
-  buildTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
@@ -182,7 +181,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     return tableActionsDef;
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(
@@ -208,8 +207,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new LogDateFromTableFilter().getFilterDef(),
-        new LogDateUntilTableFilter().getFilterDef(),
+        new StartDateFilter().getFilterDef(),
+        new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
@@ -218,8 +217,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     }
     if (this.authorizationService.isAdmin()) {
       return [
-        new LogDateFromTableFilter().getFilterDef(),
-        new LogDateUntilTableFilter().getFilterDef(),
+        new StartDateFilter().getFilterDef(),
+        new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
@@ -228,8 +227,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       ];
     }
     return [
-      new LogDateFromTableFilter().getFilterDef(),
-      new LogDateUntilTableFilter().getFilterDef(),
+      new StartDateFilter().getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
       new LogHostTableFilter().getFilterDef(),

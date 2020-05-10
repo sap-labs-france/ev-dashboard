@@ -10,6 +10,7 @@ import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
@@ -154,7 +155,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
-    // @ts-ignore
     if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
       return [this.deleteAction];
     }
@@ -176,32 +176,32 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: RegistrationToken) {
+  public rowActionTriggered(actionDef: TableActionDef, registrationToken: RegistrationToken) {
     switch (actionDef.id) {
       case ButtonAction.REVOKE:
-        this.revokeToken(rowItem);
+        this.revokeToken(registrationToken);
         break;
       case ButtonAction.DELETE:
-        this.deleteToken(rowItem);
+        this.deleteToken(registrationToken);
         break;
       case ButtonAction.COPY:
         let url;
         switch (actionDef.name) {
           case 'settings.charging_station.ocpp_15_soap':
-            url = rowItem.ocpp15SOAPUrl;
+            url = registrationToken.ocpp15SOAPUrl;
             break;
           case 'settings.charging_station.ocpp_16_soap':
-            url = rowItem.ocpp16SOAPUrl;
+            url = registrationToken.ocpp16SOAPUrl;
             break;
           case 'settings.charging_station.ocpp_16_json':
-            url = rowItem.ocpp16JSONUrl;
+            url = registrationToken.ocpp16JSONUrl;
             break;
         }
         Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('settings.charging_station.url_copied');
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, registrationToken);
     }
   }
 

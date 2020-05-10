@@ -21,12 +21,12 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
   templateUrl: 'charging-station-dialog.component.html',
 })
 export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
-  @Input() currentCharger!: ChargingStation;
+  @Input() public currentCharger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
-  @ViewChild('ocppParameters') ocppParametersComponent!: ChargingStationOcppParametersComponent;
-  @ViewChild('chargerParameters', { static: true }) chargerParametersComponent!: ChargingStationParametersComponent;
+  @ViewChild('ocppParameters') public ocppParametersComponent!: ChargingStationOcppParametersComponent;
+  @ViewChild('chargerParameters', { static: true }) public chargerParametersComponent!: ChargingStationParametersComponent;
 
   public isSaveButtonDisabled = true; // by default deactivate
   public isSaveButtonHidden!: boolean; // by default deactivate
@@ -51,7 +51,7 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     this.userLocales = this.localeService.getLocales();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Check auth
     if (!this.authorizationService.canAccess(Entity.CHARGING_STATION, Action.UPDATE)
       && !this.authorizationService.isDemo()) {
@@ -69,15 +69,15 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     // Admin?
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : '');
+    this.isAdmin = this.authorizationService.isAdmin() ||
+      this.authorizationService.isSiteAdmin(this.currentCharger.siteArea ? this.currentCharger.siteArea.siteID : '');
     this.isSaveButtonHidden = !this.isAdmin;
-
     // check changes to activate or not save button
     this.chargerParametersComponent.formGroup.statusChanges.subscribe(() => {
       if (this.activePane === CHARGERS_PANE_NAME) {
-        this.isSaveButtonDisabled = this.chargerParametersComponent.formGroup.pristine || this.chargerParametersComponent.formGroup.invalid;
+        this.isSaveButtonDisabled = this.chargerParametersComponent.formGroup.invalid;
         // When we have changes to save we can't navigate to other panes
         // this.isPropertiesPaneDisabled = !this.isSaveButtonDisabled;
         // When we have changes to save we can't navigate to other panes
@@ -86,32 +86,13 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     });
     this.chargerParametersComponent.formGroup.valueChanges.subscribe(() => {
       if (this.activePane === CHARGERS_PANE_NAME) {
-        this.isSaveButtonDisabled = this.chargerParametersComponent.formGroup.pristine || this.chargerParametersComponent.formGroup.invalid;
+        this.isSaveButtonDisabled = this.chargerParametersComponent.formGroup.invalid;
         // When we have changes to save we can't navigate to other panes
         // this.isPropertiesPaneDisabled = !this.isSaveButtonDisabled;
         // When we have changes to save we can't navigate to other panes
         // this.isOCPPParametersPaneDisabled = !this.isSaveButtonDisabled;
       }
     });
-    if (this.ocppParametersComponent) {
-      this.ocppParametersComponent.formGroup.statusChanges.subscribe(() => {
-        if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
-          // When we have changes to save we can't navigate to other panes
-          // this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-          // When we have changes to save we can't navigate to other panes
-          // this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-        }
-      });
-      this.ocppParametersComponent.formGroup.valueChanges.subscribe(() => {
-        if (this.activePane === OCPP_PARAMETERS_PANE_NAME) {
-          // When we have changes to save we can't navigate to other panes
-          // this.isPropertiesPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-          // When we have changes to save we can't navigate to other panes
-          // this.isChargerPaneDisabled = this.ocppParametersComponent.formGroup.dirty;
-        }
-      });
-    }
-
     this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
@@ -130,22 +111,18 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * save
-   */
   public save() {
     if (this.activePane === CHARGERS_PANE_NAME) {
       this.chargerParametersComponent.saveChargeBox();
     }
   }
 
-  changeActivePane(paneName: string, isDisabled: boolean) {
+  public changeActivePane(paneName: string, isDisabled: boolean) {
     if (isDisabled) {
       this.saveChangesMessage();
       return;
     }
     this.activePane = paneName;
-    // this.isSaveButtonHidden = /*this.activePane !== CHARGERS_PANE_NAME &&*/ this.isSaveButtonDisabled;
   }
 
   public saveChangesMessage() {
@@ -155,5 +132,4 @@ export class ChargingStationDialogComponent implements OnInit, AfterViewInit {
   public onClose() {
     this.chargerParametersComponent.onClose();
   }
-
 }

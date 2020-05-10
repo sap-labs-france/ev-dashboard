@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, Self, SimpleChanges } from '@angular/core';
 import { ChargingStation } from 'app/types/ChargingStation';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stations-connectors-detail-table-data-source';
 
 @Component({
@@ -8,19 +9,19 @@ import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stat
   providers: [ ChargingStationsConnectorsDetailTableDataSource ],
 })
 
-export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateComponent implements OnInit, OnChanges {
-  @Input() row!: ChargingStation;
+export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
+  @Input() public row!: ChargingStation;
 
   constructor(
       @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {
     super();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.refreshData();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.refreshData();
   }
 

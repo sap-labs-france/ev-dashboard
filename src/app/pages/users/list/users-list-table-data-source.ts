@@ -4,12 +4,11 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableForceSyncBillingUserAction } from 'app/shared/table/actions/table-force-sync-billing-user-action';
+import { TableForceSyncBillingAction } from 'app/shared/table/actions/table-force-sync-billing-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
-import { UserInError } from 'app/types/InError';
 import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
@@ -34,6 +33,7 @@ import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Action, Entity } from '../../../types/Authorization';
+import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
@@ -48,8 +48,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
   private assignSiteAction = new TableAssignSitesAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
-  private tableSyncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
-  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
+  private forceSyncBillingUserAction = new TableForceSyncBillingAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -233,7 +233,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     tableActionsDef.unshift(new TableCreateAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeUsers()) {
-      tableActionsDef.splice(1, 0, this.tableSyncBillingUsersAction);
+      tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
     return [
       ...tableActionsDef,
@@ -256,7 +256,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS_BILLING)) {
+        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USER)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
@@ -274,9 +274,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.CREATE:
         this.showUserDialog();
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
-        if (this.tableSyncBillingUsersAction.action) {
-          this.tableSyncBillingUsersAction.action(
+      case BillingButtonAction.SYNCHRONIZE_USERS:
+        if (this.syncBillingUsersAction.action) {
+          this.syncBillingUsersAction.action(
             this.dialogService,
             this.translateService,
             this.messageService,
@@ -290,50 +290,34 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: User) {
+  public rowActionTriggered(actionDef: TableActionDef, user: User) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showUserDialog(rowItem);
+        this.showUserDialog(user);
         break;
       case SiteButtonAction.ASSIGN_SITE:
-        this.showSitesDialog(rowItem);
+        this.showSitesDialog(user);
         break;
       case ButtonAction.DELETE:
-        this.deleteUser(rowItem);
+        this.deleteUser(user);
         break;
-      case UserButtonAction.FORCE_SYNCHRONIZE_BILLING:
-        this.forceSynchronizeUser(rowItem);
+      case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
+        if (this.forceSyncBillingUserAction.action) {
+          this.forceSyncBillingUserAction.action(
+            user,
+            this.dialogService,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
+        }
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, user);
     }
-  }
-
-  private forceSynchronizeUser(user: UserInError) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_title'),
-      this.translateService.instant('settings.billing.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.forceSynchronizeUserForBilling(user.id).subscribe((synchronizeResponse) => {
-          this.spinnerService.hide();
-          if (synchronizeResponse.status === RestResponse.SUCCESS) {
-            this.refreshData().subscribe();
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('settings.billing.force_synchronize_user_success',
-                { userFullName: Utils.buildUserFullName(user) }));
-          } else {
-            Utils.handleError(JSON.stringify(synchronizeResponse), this.messageService,
-              'settings.billing.force_synchronize_user_failure');
-          }
-        }, (error) => {
-          this.spinnerService.hide();
-          this.messageService.showErrorMessage(
-            this.translateService.instant(['settings.billing.billing_system_error']));
-        });
-      }
-    });
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

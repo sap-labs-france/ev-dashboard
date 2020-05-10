@@ -15,15 +15,15 @@
     "target": "es2015",
     "module": "esnext",
     "lib": [
-      "es2018",
-      "dom"
+      "dom",
+      "es2018"
     ],
     "typeRoots": [
       "node_modules/@types"
     ],
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": false,
+    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }
 }

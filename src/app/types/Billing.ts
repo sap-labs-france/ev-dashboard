@@ -29,4 +29,6 @@ export interface BillingInvoice extends Data {
 
 export enum BillingButtonAction {
   PAY_INVOICE = 'Pay',
+  SYNCHRONIZE_USERS = 'SynchronizeUsers',
+  SYNCHRONIZE_INVOICES = 'SynchronizeInvoices',
 }

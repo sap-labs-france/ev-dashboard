@@ -1,7 +1,8 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
 import { ConnStatus } from 'app/types/ChargingStation';
 import { Transaction } from 'app/types/Transaction';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -20,13 +21,13 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
   `,
 })
 @Injectable()
-export class TransactionsConnectorCellComponent extends CellContentTemplateComponent {
-  @Input() row!: Transaction;
+export class TransactionsConnectorCellComponent extends CellContentTemplateDirective {
+  @Input() public row!: Transaction;
 }
 
 @Pipe({name: 'appTransactionsFormatConnector'})
 export class AppTransactionsFormatConnector implements PipeTransform {
-  transform(transaction: Transaction, type: string): string {
+  public transform(transaction: Transaction, type: string): string {
     if (type === 'class') {
       return this.buildConnectorClasses(transaction);
     }
@@ -36,7 +37,7 @@ export class AppTransactionsFormatConnector implements PipeTransform {
     return '';
   }
 
-  buildConnectorClasses(transaction: Transaction): string {
+  public buildConnectorClasses(transaction: Transaction): string {
     let classNames = 'charger-connector-background charger-connector-text ';
     switch (transaction.status) {
       case ConnStatus.AVAILABLE: {
@@ -88,7 +89,7 @@ export class AppTransactionsFormatConnector implements PipeTransform {
     }
     return classNames;  }
 
-  buildConnectorText(transaction: Transaction): string {
+  public buildConnectorText(transaction: Transaction): string {
     return `chargers.status_${transaction.status.toLowerCase()}`;
   }
 }

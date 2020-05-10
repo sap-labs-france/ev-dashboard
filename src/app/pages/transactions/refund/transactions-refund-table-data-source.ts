@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Action, Entity } from 'app/types/Authorization';
 import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -12,7 +14,6 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
-// @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -43,9 +44,8 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
+
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
@@ -205,7 +205,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs: number, row: Transaction) {
+  public formatInactivity(totalInactivitySecs: number, row: Transaction) {
     const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
     if (percentage === 0) {
       return '';
@@ -214,15 +214,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`;
   }
 
-  formatChargingStation(chargingStationID: string, row: Transaction) {
+  public formatChargingStation(chargingStationID: string, row: Transaction) {
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      // @ts-ignore
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new TransactionsRefundStatusFilter().getFilterDef(),
     ];
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
@@ -236,7 +235,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return filters;
   }
 
-  buildTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     let tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(new TableExportAction().getActionDef());
     if (this.refundTransactionEnabled) {
@@ -254,7 +253,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return tableActionsDef;
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case RefundButtonAction.SYNCHRONIZE:
         if (this.tableSyncRefundAction.action) {
@@ -311,14 +310,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     }
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }
 
-  isSelectable(row: Transaction) {
+  public isSelectable(row: Transaction) {
     return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
   }
 

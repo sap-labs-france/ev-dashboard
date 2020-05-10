@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -22,7 +22,7 @@ export class ChargersDialogComponent extends DialogTableDataComponent<ChargingSt
     this.chargersDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: ChargingStation[]): KeyValue[] {
+  public getSelectedItems(selectedRows: ChargingStation[]): KeyValue[] {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

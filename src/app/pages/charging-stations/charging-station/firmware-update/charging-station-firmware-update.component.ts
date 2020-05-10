@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -17,11 +18,11 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: './charging-station-firmware-update.component.html',
 })
 export class ChargingStationFirmwareUpdateComponent implements OnInit {
-  @Input() charger!: ChargingStation;
+  @Input() public charger!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
+  public url: FormControl;
   private messages: any;
-  private url: string;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -48,25 +49,25 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
 
-  ngOnInit() {
-  }
-
-  public urlChanged(value: string) {
-    this.url = value;
+  public ngOnInit() {
+    // Init FormControl
+    this.url = new FormControl( '', Validators.compose([
+      Validators.required,
+    ]));
   }
 
   public updateFirmware() {
     // Show Dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url}),
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         // Show
         this.spinnerService.show();
         // Update Firmware
         const fileName = 'r7_update_3.3.0.10_d4.epk';
-        this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url).subscribe(() => {
+        this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url.value).subscribe(() => {
           // Hide
           this.spinnerService.hide();
           // Ok

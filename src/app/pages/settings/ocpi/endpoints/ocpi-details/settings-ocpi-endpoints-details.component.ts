@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
 
 @Component({
@@ -8,18 +9,18 @@ import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-end
   providers: [ SettingsOcpiEndpointsDetailsTableDataSource ],
 })
 
-export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row!: OcpiEndpoint;
+export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+  @Input() public row!: OcpiEndpoint;
 
   constructor(public settingsOcpiEnpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
     super();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.refreshData();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.refreshData();
   }
 

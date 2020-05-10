@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 
@@ -12,13 +12,13 @@ import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
     </mat-chip-list>
   `,
 })
-export class OcpiJobResultFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpoint;
+export class OcpiJobResultFormatterComponent extends CellContentTemplateDirective {
+  @Input() public row!: OcpiEndpoint;
 }
 
 @Pipe({name: 'appFormatOcpiJobResult'})
 export class AppFormatOcpiJobResultPipe implements PipeTransform {
-  transform(lastPatchJobResult: any, type: string): string {
+  public transform(lastPatchJobResult: any, type: string): string {
     if (type === 'class') {
       let classNames = 'chip-width-10em ';
       if (lastPatchJobResult) {

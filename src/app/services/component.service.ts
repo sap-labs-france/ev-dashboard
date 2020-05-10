@@ -3,8 +3,8 @@ import { ActionResponse } from 'app/types/DataResult';
 import { AnalyticsSettings, AssetSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
-// tslint:disable-next-line:max-line-length
 import { Observable } from 'rxjs';
+
 import { CentralServerService } from './central-server.service';
 
 @Injectable()
@@ -54,7 +54,7 @@ export class ComponentService {
               currency: config.simple.currency ? config.simple.currency : '',
             };
           }
-          // Convergeant Charging
+          // Convergent Charging
           if (config.convergentCharging) {
             pricingSettings.type = PricingSettingsType.CONVERGENT_CHARGING;
             pricingSettings.convergentCharging = {
@@ -82,7 +82,6 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
-      // @ts-ignore
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
     }
     // Delete IDS
@@ -106,7 +105,6 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === BillingSettingsType.STRIPE) {
-      // @ts-ignore
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
     }
     // Set some temporary defaults
@@ -133,7 +131,6 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === RefundSettingsType.CONCUR) {
-      // @ts-ignore
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
     }
     // Delete IDS
@@ -185,7 +182,6 @@ export class ComponentService {
       content: JSON.parse(JSON.stringify(settings)),
     };
     if (settings.type === SmartChargingSettingsType.SAP_SMART_CHARGING) {
-      // @ts-ignore
       settingsToSave.sensitiveData = ['content.sapSmartCharging.password'];
     }
     // Delete IDS

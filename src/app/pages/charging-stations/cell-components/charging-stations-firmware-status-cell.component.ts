@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChargingStation, FirmwareStatus } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
@@ -22,10 +22,10 @@ const TYPE_GREY = 'chip-grey';
     </ng-container>
   `,
 })
-export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemplateComponent {
-  @Input() row!: ChargingStation;
+export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemplateDirective {
+  @Input() public row!: ChargingStation;
 
-  isActiveStatus(): boolean {
+  public isActiveStatus(): boolean {
     if (this.row.firmwareUpdateStatus) {
       if (this.row.firmwareUpdateStatus === FirmwareStatus.IDLE || this.row.firmwareUpdateStatus === FirmwareStatus.INSTALLED) {
         return false;
@@ -38,7 +38,7 @@ export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemp
 
 @Pipe({name: 'appChargingStationsFormatFirmwareStatus'})
 export class AppChargingStationsFormatFirmwareStatusPipe implements PipeTransform {
-  transform(status: string, type: string): string {
+  public transform(status: string, type: string): string {
     if (type === 'class') {
       return this.buildFirmwareStatusClasses(status);
     }
@@ -48,7 +48,7 @@ export class AppChargingStationsFormatFirmwareStatusPipe implements PipeTransfor
     return '';
   }
 
-  buildFirmwareStatusClasses(status: string): string {
+  public buildFirmwareStatusClasses(status: string): string {
     let classNames = 'chip-width-13em ';
     switch (status) {
       case FirmwareStatus.DOWNLOADED: {
@@ -87,7 +87,7 @@ export class AppChargingStationsFormatFirmwareStatusPipe implements PipeTransfor
     return classNames;
   }
 
-  buildFirmwareStatusText(status: string): string {
+  public buildFirmwareStatusText(status: string): string {
     return `chargers.status_firmware_${status.toLowerCase()}`;
   }
 

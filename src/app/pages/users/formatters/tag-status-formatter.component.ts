@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
+
 import { Tag } from '../../../types/Tag';
 
 @Component({
@@ -13,13 +14,13 @@ import { Tag } from '../../../types/Tag';
     </mat-chip-list>
   `,
 })
-export class TagStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: Tag;
+export class TagStatusFormatterComponent extends CellContentTemplateDirective {
+  @Input() public row!: Tag;
 }
 
 @Pipe({name: 'appFormatTagStatus'})
 export class AppFormatTagStatusPipe implements PipeTransform {
-  transform(active: boolean, type: string): string {
+  public transform(active: boolean, type: string): string {
     if (type === 'class') {
       return this.buildTagStatusClasses(active);
     }
@@ -29,11 +30,11 @@ export class AppFormatTagStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildTagStatusClasses(active: boolean): string {
+  public buildTagStatusClasses(active: boolean): string {
     return `chip-width-5em ${active ? ChipType.SUCCESS : ChipType.DANGER}`;
   }
 
-  buildTagStatusText(active: boolean): string {
+  public buildTagStatusText(active: boolean): string {
     return active ? 'tags.activated' : 'tags.deactivated';
   }
 }

@@ -3,19 +3,20 @@ import { ConsumptionChartComponent } from 'app/shared/component/consumption-char
 import { Connector } from 'app/types/ChargingStation';
 import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
-import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
+
+import { CellContentTemplateDirective } from '../../table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template:
   `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>`,
 })
 
-export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
-  @Input() row!: Connector|Transaction;
-  @ViewChild('chartConsumption') chartComponent!: ConsumptionChartComponent;
+export class ConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+  @Input() public row!: Connector|Transaction;
+  @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
   public transactionId!: number;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Set the transaction id
     if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
       // Connector
@@ -26,7 +27,7 @@ export class ConsumptionChartDetailComponent extends CellContentTemplateComponen
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     // Set the transaction id
     if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
       // Connector

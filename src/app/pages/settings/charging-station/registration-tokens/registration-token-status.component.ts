@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import * as moment from 'moment';
@@ -13,13 +13,13 @@ import * as moment from 'moment';
     </mat-chip-list>
   `,
 })
-export class RegistrationTokenStatusComponent extends CellContentTemplateComponent {
-  @Input() row!: RegistrationToken;
+export class RegistrationTokenStatusComponent extends CellContentTemplateDirective {
+  @Input() public row!: RegistrationToken;
 }
 
 @Pipe({name: 'appRegistrationTokenStatus'})
 export class AppRegistrationTokenStatusPipe implements PipeTransform {
-  transform(registrationToken: RegistrationToken, type: string): string {
+  public transform(registrationToken: RegistrationToken, type: string): string {
     if (type === 'class') {
       return this.buildStatusClasses(registrationToken);
     }
@@ -29,7 +29,7 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
     return '';
   }
 
-  buildStatusClasses(registrationToken: RegistrationToken): string {
+  public buildStatusClasses(registrationToken: RegistrationToken): string {
     let classNames = 'chip-width-5em ';
     if (this.isExpired(registrationToken)) {
       classNames += ChipType.DANGER;
@@ -41,7 +41,7 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
     return classNames;
   }
 
-  buildStatusText(registrationToken: RegistrationToken): string {
+  public buildStatusText(registrationToken: RegistrationToken): string {
     if (this.isExpired(registrationToken)) {
       return 'settings.charging_station.registration_token_expired';
     }
@@ -52,12 +52,10 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
   }
 
   private isExpired(registrationToken: RegistrationToken): boolean {
-    // @ts-ignore
     return registrationToken.expirationDate && moment().isAfter(registrationToken.expirationDate);
   }
 
   private isRevoked(registrationToken: RegistrationToken): boolean {
-    // @ts-ignore
     return registrationToken.revocationDate && moment().isAfter(registrationToken.revocationDate);
   }
 }

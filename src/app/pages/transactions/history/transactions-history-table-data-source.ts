@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -13,7 +15,6 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
-// @ts-ignore
 import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -45,9 +46,8 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
+
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -186,7 +186,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return columns as TableColumnDef[];
   }
 
-  formatInactivity(totalInactivitySecs: number, row: Transaction) {
+  public formatInactivity(totalInactivitySecs: number, row: Transaction) {
     let percentage = 0;
     if (row.stop) {
       percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
@@ -195,7 +195,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       ` (${this.appPercentPipe.transform(percentage, '1.0-0')})`;
   }
 
-  formatChargingStation(chargingStationID: string, connector: Connector) {
+  public formatChargingStation(chargingStationID: string, connector: Connector) {
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(connector.connectorId)}`;
   }
 
@@ -224,12 +224,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return  '';
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
-      // @ts-ignore
       new IssuerFilter().getFilterDef(),
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
@@ -247,7 +246,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     const rowActions = [this.openAction];
     if (this.isAdmin) {
       rowActions.push(this.deleteAction);
@@ -255,7 +254,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return rowActions;
   }
 
-  canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
+  public canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
         return this.isAdmin;
@@ -266,7 +265,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
   }
 
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
         if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
@@ -294,14 +293,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }
 
-  buildTableActionsDef(): TableActionDef[] {
+  public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
@@ -313,7 +312,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
   }
 
-  actionTriggered(actionDef: TableActionDef) {
+  public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case ButtonAction.EXPORT:
         this.dialogService.createAndShowYesNoDialog(

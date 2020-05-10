@@ -8,15 +8,15 @@ import { Constants } from 'app/utils/Constants';
   templateUrl: 'settings-sap-smart-charging.component.html',
 })
 export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
-  @Input() formGroup!: FormGroup;
-  @Input() smartChargingSettings!: SmartChargingSettings;
+  @Input() public formGroup!: FormGroup;
+  @Input() public smartChargingSettings!: SmartChargingSettings;
 
   public sapSmartCharging!: FormGroup;
   public optimizerUrl!: AbstractControl;
   public user!: AbstractControl;
   public password!: AbstractControl;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.sapSmartCharging = new FormGroup({
       optimizerUrl: new FormControl('',
         Validators.compose([
@@ -47,11 +47,11 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
     this.updateFormData();
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateFormData();
   }
 
-  updateFormData() {
+  public updateFormData() {
     // Set data
     if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging && this.sapSmartCharging) {
       this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl);

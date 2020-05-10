@@ -1,7 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ChargingStation, Connector } from 'app/types/ChargingStation';
+
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -17,8 +18,8 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
     </div>
   `,
 })
-export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends CellContentTemplateComponent {
-  @Input() row!: ChargingStation;
+export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends CellContentTemplateDirective {
+  @Input() public row!: ChargingStation;
 }
 
 @Pipe({name: 'appChargingStationsFormatPowerCharger'})
@@ -26,7 +27,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
   constructor(private decimalPipe: AppDecimalPipe) {
   }
 
-  transform(connectors: Connector[], type: string, charger: ChargingStation): string {
+  public transform(connectors: Connector[], type: string, charger: ChargingStation): string {
     let value = 0;
     // Check
     switch (type) {

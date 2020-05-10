@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Action, Entity } from 'app/types/Authorization';
-import { ActionsResponse, ActionResponse, DataResult } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { RefundStatus } from 'app/types/Refund';
@@ -37,8 +39,7 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
+
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
@@ -100,6 +101,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     }
     return tableActionsDef;
   }
+
   public buildTableDef(): TableDef {
     return {
       search: {
@@ -190,66 +192,56 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return columns as TableColumnDef[];
   }
 
-  formatChargingStation(chargingStationID: string, row: Transaction) {
+  public formatChargingStation(chargingStationID: string, row: Transaction) {
     return `${chargingStationID} - ${this.appConnectorIdPipe.transform(row.connectorId)}`;
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     // Create error type
     const errorTypes = [];
     errorTypes.push({
       key: TransactionInErrorType.INVALID_START_DATE,
-      value: `transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.NEGATIVE_ACTIVITY,
-      value: `transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.LONG_INACTIVITY,
-      value: `transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.NO_CONSUMPTION,
-      value: `transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.OVER_CONSUMPTION,
-      value: `transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.NEGATIVE_DURATION,
-      value: `transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
     });
     errorTypes.push({
       key: TransactionInErrorType.MISSING_USER,
-      value: `transactions.errors.${TransactionInErrorType.MISSING_USER}.title`,
+      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_USER}.title`),
     });
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       errorTypes.push({
         key: TransactionInErrorType.MISSING_PRICE,
-        value: `transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`,
+        value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`),
       });
     }
     // Sort
-    errorTypes.sort((errorType1, errorType2) => {
-      if (errorType1.value < errorType2.value) {
-        return -1;
-      }
-      if (errorType1.value > errorType2.value) {
-        return 1;
-      }
-      return 0;
-    });
-
+    errorTypes.sort(Utils.sortArrayOfKeyValue);
+    // Build filters
     const filters: TableFilterDef[] = [
-      // @ts-ignore
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new ErrorTypeTableFilter(errorTypes).getFilterDef(),
     ];
-
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -258,15 +250,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     } else {
       filters.push(new ChargerTableFilter().getFilterDef());
     }
-
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
-
     return filters;
   }
 
-  buildTableRowActions(): TableActionDef[] {
+  public buildTableRowActions(): TableActionDef[] {
     const actions = [];
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
       actions.push(this.openAction);
@@ -277,7 +267,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return actions;
   }
 
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.DELETE:
         if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
@@ -305,7 +295,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     }
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),

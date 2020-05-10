@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
 import { SiteUser } from 'app/types/Site';
 import { User, UserToken } from 'app/types/User';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -18,8 +19,8 @@ import { Utils } from '../../../utils/Utils';
                         (change)="changeSiteAdmin($event)"></mat-checkbox>
       </div>`,
 })
-export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row!: SiteUser;
+export class UserSitesAdminCheckboxComponent extends CellContentTemplateDirective implements OnInit {
+  @Input() public row!: SiteUser;
   public loggedUser: UserToken;
   public user!: User;
 
@@ -37,7 +38,7 @@ export class UserSitesAdminCheckboxComponent extends CellContentTemplateComponen
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.centralServerService.getUser(this.row.userID).subscribe((user) => {
       this.user = user;
     });

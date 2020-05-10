@@ -21,7 +21,7 @@ import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component'
 
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
-  @Output() changed = new EventEmitter<boolean>();
+  @Output() public changed = new EventEmitter<boolean>();
   private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
@@ -156,19 +156,19 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: SettingLink, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, link: SettingLink, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showLinksDialog(rowItem);
+        this.showLinksDialog(link);
         break;
       case ButtonAction.DELETE:
-        this.deleteLink(rowItem);
+        this.deleteLink(link);
         break;
       case ButtonAction.VIEW:
-        this.viewLink(rowItem);
+        this.viewLink(link);
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
+        super.rowActionTriggered(actionDef, link);
     }
   }
 

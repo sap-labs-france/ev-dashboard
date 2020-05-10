@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
@@ -13,11 +13,11 @@ import { Utils } from 'app/utils/Utils';
     </div>
   `,
 })
-export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateComponent implements OnInit {
-  @Input() row!: Schedule;
-  @Input() charger!: ChargingStation;
+export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateDirective implements OnInit {
+  @Input() public row!: Schedule;
+  @Input() public charger!: ChargingStation;
 
-  ngOnInit() {
+  public ngOnInit() {
     this.charger = this.columnDef.additionalParameters.charger as ChargingStation;
   }
 

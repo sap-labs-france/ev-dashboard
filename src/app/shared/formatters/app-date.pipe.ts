@@ -13,7 +13,7 @@ export class AppDatePipe implements PipeTransform {
     });
   }
 
-  transform(value: Date, format: string = 'medium'): string | null {
+  public transform(value: Date, format: string = 'medium'): string | null {
     return this.datePipe.transform(value, format);
   }
 }

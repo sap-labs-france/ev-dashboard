@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -9,8 +9,10 @@ import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { CompaniesDialogComponent } from 'app/shared/dialogs/companies/companies-dialog.component';
 import { Address } from 'app/types/Address';
 import { Action, Entity } from 'app/types/Authorization';
+import { Company } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
 import { Site, SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
@@ -23,9 +25,9 @@ import { CentralServerNotificationService } from '../../../../services/central-s
   templateUrl: 'site.component.html',
 })
 export class SiteComponent implements OnInit {
-  @Input() currentSiteID!: string;
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentSiteID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
 
   public image: any = SiteImage.NO_IMAGE;
   public maxSize: number;
@@ -33,11 +35,11 @@ export class SiteComponent implements OnInit {
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
+  public company!: AbstractControl;
   public companyID!: AbstractControl;
   public autoUserSiteAssignment!: AbstractControl;
 
   public address!: Address;
-  public companies: any;
   public isAdmin = false;
 
   constructor(
@@ -52,25 +54,26 @@ export class SiteComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
-
     this.maxSize = this.configService.getSite().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateSite()) {
       // Not authorized
       this.router.navigate(['/']);
     }
-
-    // refresh comapnies
-    this.refreshAvailableCompanies();
+    // Set
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
       name: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      company: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -83,11 +86,9 @@ export class SiteComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
+    this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
-
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
-
     if (this.currentSiteID) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -96,7 +97,6 @@ export class SiteComponent implements OnInit {
         // this.loadSite();
       });
     }
-
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // check if escape
@@ -104,7 +104,6 @@ export class SiteComponent implements OnInit {
         this.onClose();
       }
     });
-
     this.centralServerNotificationService.getSubjectSite().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
@@ -122,45 +121,45 @@ export class SiteComponent implements OnInit {
     this.currentSiteID = currentSiteID;
   }
 
-  public refresh() {
-    // Load Site
-    this.loadSite();
-  }
-
-  public refreshAvailableCompanies() {
-    this.centralServerService.getCompanies({}).subscribe((availableCompanies) => {
-      // clear current entries
-      this.companies = [];
-
-      // add available companies to dropdown
-      for (let i = 0; i < availableCompanies.count; i++) {
-        this.companies.push({
-          id: availableCompanies.result[i].id,
-          name: availableCompanies.result[i].name,
-        });
+  public assignCompany() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'sites.assign_company',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+    };
+    // Open
+    this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
+      if (result && result.length > 0 && result[0] && result[0].objectRef) {
+        const company: Company = (result[0].objectRef) as Company;
+        this.company.setValue(company.name);
+        this.companyID.setValue(company.id);
+        this.formGroup.markAsDirty();
       }
     });
   }
 
-  public loadSite() {
-    // refresh available companies
-    this.refreshAvailableCompanies();
+  public refresh() {
+    this.loadSite();
+  }
 
+  public loadSite() {
     if (!this.currentSiteID) {
       return;
     }
-
-    this.isAdmin = this.authorizationService.isSiteAdmin(this.currentSiteID) || this.authorizationService.isSiteOwner(this.currentSiteID);
-
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE) ||
+      this.authorizationService.isSiteAdmin(this.currentSiteID) ||
+      this.authorizationService.isSiteOwner(this.currentSiteID);
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
     }
     // Show spinner
     this.spinnerService.show();
-    // Yes, get it
-    // tslint:disable-next-line:cyclomatic-complexity
-    this.centralServerService.getSite(this.currentSiteID).pipe(mergeMap((site) => {
+    this.centralServerService.getSite(this.currentSiteID, false, true).pipe(mergeMap((site) => {
       // Init form
       if (site.id) {
         this.formGroup.controls.id.setValue(site.id);
@@ -170,6 +169,9 @@ export class SiteComponent implements OnInit {
       }
       if (site.companyID) {
         this.formGroup.controls.companyID.setValue(site.companyID);
+      }
+      if (site.company) {
+        this.formGroup.controls.company.setValue(site.company.name);
       }
       if (site.autoUserSiteAssignment) {
         this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);

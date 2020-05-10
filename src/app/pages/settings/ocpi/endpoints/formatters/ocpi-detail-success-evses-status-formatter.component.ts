@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
 
 @Component({
@@ -11,6 +11,6 @@ import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
     </mat-chip-list>
   `,
 })
-export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpointDetail;
+export class OcpiDetailSuccessEvsesStatusFormatterComponent extends CellContentTemplateDirective {
+  @Input() public row!: OcpiEndpointDetail;
 }

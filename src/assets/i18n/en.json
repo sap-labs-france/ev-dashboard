@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.35",
+    "last_update": "Version 2.2.47",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -116,15 +116,16 @@
     "error_backend": "Error occurred while contacting the central server",
     "car_catalog_error": "Error occurred while retrieving the car",
     "car_catalogs_error": "Error occurred while retrieving the cars",
+    "cars_error": "Error occurred while retrieving the user cars",
     "car_image_error": "Error occurred while retrieving the car images",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
     "invalid_content": "Invalid Content",
     "open_in_maps": "Localization",
     "change_pending_title": "Pending Changes",
-    "change_pending_text": "Some changes are pending. Do you want to...",
+    "change_pending_text": "Some changes are pending.",
     "change_invalid_pending_title": "Pending Changes with invalid value(s)",
-    "change_invalid_pending_text": "Some changes with invalid value(s) are pending . Do you want to...",
+    "change_invalid_pending_text": "Some changes with invalid value(s) are pending.",
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
     "set_coordinates": "Set Coordinates",
@@ -341,10 +342,18 @@
     "asset_not_found": "Asset not found",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "select_assets": "Select Asset"
+    "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
+    "select_assets": "Select Asset",
+    "errors": {
+      "missing_site_area": {
+        "title": "Not Assigned to a Site Area",
+        "description": "The asset needs to be assigned to a site area",
+        "action": "Edit the asset and maintain the site area"
+      }
+    }
   },
   "sites": {
+    "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
@@ -398,6 +407,7 @@
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
   },
   "site_areas": {
+    "assign_site": "Assign Site",
     "export_all_ocpp_params": "Export All OCPP Params",
     "edit_assets": "Edit assets",
     "display_assets": "Display assets",
@@ -444,13 +454,18 @@
     "changed_by_other_user": "The site area '{{siteAreaName}}' has been changed by another user and will be reloaded",
     "update_success": "The site area '{{siteAreaName}}' has been updated successfully",
     "update_error": "Error occurred while updating the site area",
+    "update_phase_error": "The site area contains charging station(s) with three phases",
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
-    "maximum_energy": "Maximum Power Limitation (kW)",
+    "maximum_energy_watts": "Maximum Power (kW)",
+    "maximum_energy_amps": "Maximum Power (A)",
+    "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
-    "consumption_date": "Date"
+    "consumption_date": "Date",
+    "single_phased": "Single Phase",
+    "three_phased": "Three Phases"
   },
   "authentication": {
     "accept": "I accept the",
@@ -754,7 +769,8 @@
       "clear_profiles_button": "Clear Profiles",
       "current_limit": "Actual power limit planning",
       "current_limit_title": "Actual power limit",
-      "limit_title": "Limit (kW)",
+      "limit_title": "Limit",
+      "limit_in_amps": "({{limitInAmps}}A)",
       "no_current_limit": "No limit planning found",
       "planning_energy_limit": "Charging Plans",
       "from_date": "From",
@@ -762,7 +778,8 @@
       "profile_type": "Type",
       "stack_level": "Level",
       "profile_id": "Profile ID",
-      "duration": "Duration (mins)",
+      "duration": "Duration",
+      "duration_with_unit": "Duration (mins)",
       "start_date": "Start",
       "end_date": "End",
       "add_schedule_button": "Add Schedule",
@@ -782,6 +799,8 @@
       },
       "retrieve_schedule": "Retrieve Plans",
       "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
+      "enable_smart_charging_for_site_area_title": "Enable Smart Charging",
+      "enable_smart_charging_for_site_area_body": "If you enable the smart charging for this site area, the optimization algorithm will take over the current static limitation and the charging plans.<br>Do you want to continue?",
       "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
       "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",
@@ -790,7 +809,8 @@
       "trigger_smart_charging_confirm": "Do you really want to trigger the smart charging algorithm?",
       "trigger_smart_charging": "Trigger Smart Charging",
       "trigger_smart_charging_success": "The smart charging algorithm has been triggered successfully",
-      "trigger_smart_charging_error": "Error occurred while triggering the smart charging algorithm, check the logs"
+      "trigger_smart_charging_error": "Error occurred while triggering the smart charging algorithm, check the logs",
+      "minutes": "min(s)"
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
@@ -854,6 +874,7 @@
     "retrieve_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
     "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
     "change_config_error": "Cannot retrieve the configuration of the charging station, check the logs",
+    "change_config_phase_error": "Cannot assign three phases charging station to a single phase site area",
     "change_params_success": "The parameter '{{paramKey}}' has been updated successfully in the charging station '{{chargeBoxID}}'",
     "change_params_error": "Error occurred while trying to update the parameter of the charging station",
     "delete_title": "Delete",
@@ -897,14 +918,14 @@
     "direct_current": "Direct Current",
     "alternating_current": "Alternating Current",
     "direct_and_alternating_current": "Direct and Alternating Current",
-    "single_phase": "Alternating Current - Single-phase",
+    "single_phase": "Alternating Current - Single phase",
     "tri_phases": "Alternating Current - Three phases",
     "site_area": "Site - Site Area",
     "assign_site_area": "Assign Site Area",
     "change_site_area": "Change",
     "site": "Site",
     "invalid_url": "Invalid URL",
-    "invalid_power_value": "Power value must be a positive, natural number",
+    "invalid_power_value": "Power value must be a positive number",
     "invalid_voltage": "Voltage value must be a positive number",
     "invalid_amperage": "Amperage value must be a positive number",
     "unsaved_title": "Unsaved changes",
@@ -943,7 +964,7 @@
       },
       "missing_site_area": {
         "title": "Not Assigned to a Site Area",
-        "description": "The charging station needs to be assigned to a Site Area to be fully operational",
+        "description": "The charging station needs to be assigned to a site area",
         "action": "Maintain the site area in the charging station's configuration"
       },
       "connector_error": {
@@ -1153,6 +1174,7 @@
     "id": "Invoice number",
     "createdOn": "Invoice date",
     "price": "Invoice price",
+    "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
     "pay": "Pay"
   },
   "tags": {
@@ -1216,6 +1238,7 @@
     },
     "charging_station": {
       "registration_tokens_title": "Charging Station Registration Tokens",
+      "registration_token_site_area_name": "Token for Site Area '{{siteAreaName}}'",
       "registration_token_creation_title": "Create Registration Token",
       "registration_token_creation_confirm": "Do you really want to create a registration token for charging stations of this site area?",
       "registration_token_creation_success": "Registration token has been created successfully",
@@ -1301,23 +1324,38 @@
       "check_connection": "Check Connection",
       "connection_success": "Connection to the billing system was tested with success",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
-      "synchronize_users": "Billing Synchronization",
-      "synchronize_user": "Billing Synchronization",
-      "force_synchronize_users": "Force Billing Synchronization",
-      "synchronize_users_dialog_title": "Synchronize Users in Billing",
-      "synchronize_user_dialog_title": "Synchronize User in Billing",
-      "force_synchronize_user_dialog_title": "Force Synchronize User in Billing",
-      "synchronize_users_dialog_confirm": "Do you really want to synchronize the users in the billing system?",
-      "synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
-      "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of the user '{{userFullName}}' in the billing system?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
-      "synchronize_users_started": "The synchronization of users has been started",
-      "synchronize_user_started": "The synchronization of the user has been started",
-      "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
-      "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
-      "synchronize_users_success_all": "All users are already synchronized",
-      "synchronize_users_failure": "Synchronization failed with {{number}} errors. Check your billing system's logs.",
-      "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
-      "synchronize_users_error": "Error occurred while synchronizing users for billing",
+      "force_synchronize": "Force synchronization",
+      "user": {
+        "synchronize_users": "Synchronize Billing Users",
+        "synchronize_user": "Synchronize Billing User",
+        "force_synchronize_users": "Force Synchronize Billing Users",
+        "synchronize_users_dialog_title": "Synchronize Billing Users",
+        "synchronize_user_dialog_title": "Synchronize Billing User",
+        "force_synchronize_user_dialog_title": "Force Synchronization (Billing)",
+        "synchronize_users_dialog_confirm": "Do you really want to synchronize the users in the billing system?",
+        "synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
+        "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of the user '{{userFullName}}' in the billing system?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
+        "synchronize_users_started": "The synchronization of users has been started",
+        "synchronize_user_started": "The synchronization of the user has been started",
+        "synchronize_users_success": "Successfully synchronized {{number}} user(s)",
+        "force_synchronize_user_success": "The user '{{userFullName}}' has been synchronized successfully",
+        "synchronize_users_success_all": "All users are already synchronized",
+        "synchronize_users_failure": "Synchronization failed with {{number}} errors. Check your billing system's logs.",
+        "force_synchronize_user_failure": "Failed to synchronize the user, check the logs",
+        "synchronize_users_error": "Error occurred while synchronizing users for billing",
+        "synchronize_invoices": "Billing Invoices Synchronization"
+      },
+      "invoice": {
+        "synchronize_invoices": "Synchronize Invoices",
+        "synchronize_invoices_dialog_title": "Synchronize Invoices",
+        "synchronize_invoices_dialog_confirm": "Do you really want to synchronize the invoices in the billing system?",
+        "synchronize_invoices_started": "The synchronization of invoices has been started",
+        "synchronize_invoices_success": "Successfully synchronized {{number}} invoice(s)",
+        "synchronize_invoices_success_all": "All invoices are already synchronized",
+        "synchronize_invoices_failure": "Synchronization failed with {{number}} errors. Check your billing system's logs.",
+        "synchronize_invoices_error": "Error occurred while synchronizing invoices for billing"
+      },
+
       "stripe": {
         "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",
         "title": "Stripe",
@@ -1374,7 +1412,9 @@
     "car": {
       "synchronize_car_catalogs": "Synchronize Cars",
       "synchronize_car_catalogs_dialog_title": "Synchronize Cars",
-      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
+      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?",
+      "assign_user_to_car_dialog_title": "Assign user to car",
+      "assign_user_to_car_dialog_confirm": "This car already exist, do you really want to use it?"
     }
   },
   "ocpiendpoints": {
@@ -1441,6 +1481,21 @@
     "pull_cdrs_success": "Successfully updated {{success}} charge detail records from IOP",
     "pull_cdrs_partial": "{{success}} charge detail record(s) updated - {{error}} charge detail record(s) not updated - see logs for more details",
     "pull_cdrs_error": "Error occurred while updating the IOP charge detail records - see logs for more details",
+    "check_cdrs_title": "Check Charge Detail Records",
+    "check_cdrs_confirm": "Do you want to check all charge detail records with IOP '{{name}}'?",
+    "check_cdrs_success": "Successfully checked {{success}} charge detail records with IOP",
+    "check_cdrs_partial": "{{success}} charge detail record(s) checked - {{error}} charge detail record(s) not checked - see logs for more details",
+    "check_cdrs_error": "Error occurred while checking the IOP charge detail records - see logs for more details",
+    "check_sessions_title": "Check Sessions",
+    "check_sessions_confirm": "Do you want to check all sessions with IOP '{{name}}'?",
+    "check_sessions_success": "Successfully checked {{success}} sessions with IOP",
+    "check_sessions_partial": "{{success}} session(s) checked - {{error}} session(s) not checked - see logs for more details",
+    "check_sessions_error": "Error occurred while checking the IOP sessions - see logs for more details",
+    "check_locations_title": "Check Locations",
+    "check_locations_confirm": "Do you want to check all locations with IOP '{{name}}'?",
+    "check_locations_success": "Successfully checked {{success}} locations with IOP",
+    "check_locations_partial": "{{success}} location(s) checked - {{error}} location(s) not checked - see logs for more details",
+    "check_locations_error": "Error occurred while checking the IOP locations - see logs for more details",
     "trigger_jobs_error": "Error occurred while executing jobs - see logs for more details",
     "success_ping": "Ping successfull",
     "error_ping_401": "Ping failed: Unauthorized",
@@ -1487,6 +1542,9 @@
     "pull_locations": "Pull Locations",
     "pull_sessions": "Pull Sessions",
     "pull_tokens": "Pull Tokens",
+    "check_locations": "Check Locations",
+    "check_sessions": "Check Sessions",
+    "check_cdrs": "Check Cdrs",
     "businessdetails": {
       "name": "Name of the operator",
       "website": "Link to the operator website",
@@ -1518,10 +1576,13 @@
     "title": "Asset",
     "description": "Manage Assets",
     "tabs": {
-      "assets": "Assets"
+      "assets": "Assets",
+      "in_error": "In Error"
     }
   },
   "cars": {
+    "vin": "VIN",
+    "license_plate":"License Plate",
     "vehicle_model": "Model",
     "vehicle_make": "Maker",
     "vehicle_model_version": "Version",
@@ -1570,7 +1631,16 @@
     "synchronize_car_catalogs_up_to_date": "Cars already up to date",
     "select_car_maker": "Select Car Maker",
     "car_makers":"Car Makers",
+    "create_success": "You have been assigned to the car successfully",
+    "assign_car_catalog": "Assign car catalog",
+    "create_error": "Error occurred while creating the car",
+    "car_exist": "You already created this car",
+    "car_exist_different_car_catalog": "You already created this car with a different car catalog",
+    "user_already_assigned": "You are already assigned to this car",
+    "company_car": "Company Car",
+    "invalid_vin": "Invalid VIN",
     "type": "Type",
+    "assign_users":"Assign Users",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",
@@ -1589,7 +1659,8 @@
     "title": "Car",
     "description": "Manage Cars",
     "tabs": {
-      "list": "Cars"
+      "car_catalogs": "Car Catalogs",
+      "cars": "Cars"
     }
   },
   "analytics": {
@@ -1634,7 +1705,11 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on"
+    "updatedOn": "Synchronized on",
+    "tabs": {
+      "invoices": "Invoices",
+      "in_error": "In Error"
+    }
   },
   "transactions": {
     "id": "Id",

@@ -424,7 +424,6 @@ tr.element-row:not(.expanded-row):active {
   }
 
   .table-cell-angular-component {
-    padding: 0px 8px;
     vertical-align: middle !important;
   }
 
@@ -433,6 +432,10 @@ tr.element-row:not(.expanded-row):active {
     button {
       margin-top: -2px !important;
     }
+  }
+
+  .table-cell-angular-input-component {
+    margin-bottom: 10px !important;
   }
 
   .table-cell-angular-buttons-component {

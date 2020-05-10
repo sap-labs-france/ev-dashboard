@@ -12,6 +12,7 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Transaction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -183,7 +184,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
   }
 
-  rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
+  public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case ButtonAction.STOP:
         this.dialogService.createAndShowYesNoDialog(
@@ -203,7 +204,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
   }
 
-  buildTableFiltersDef(): TableFilterDef[] {
+  public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [];
 
     // Show Site Area Filter If Organization component is active
@@ -222,7 +223,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return filters;
   }
 
-  buildTableDynamicRowActions(): TableActionDef[] {
+  public buildTableDynamicRowActions(): TableActionDef[] {
     const actions = [
       this.openAction,
     ];
@@ -232,7 +233,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     return actions;
   }
 
-  buildTableActionsRightDef(): TableActionDef[] {
+  public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef(),

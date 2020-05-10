@@ -17,16 +17,16 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus, OCPPAvailabilityType, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, ConnStatus, Connector, OCPPAvailabilityType, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-// @ts-ignore
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
+
 import { ComponentService } from '../../../services/component.service';
 import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
@@ -45,6 +45,7 @@ import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../
 import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
+
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
@@ -244,76 +245,68 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     super.actionTriggered(actionDef);
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: ChargingStation, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, chargingStation: ChargingStation, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showChargingStationDialog(rowItem);
+        this.showChargingStationDialog(chargingStation);
         break;
       case ChargingStationButtonAction.REBOOT:
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Hard'}),
-          this.translateService.instant('chargers.reboot_title'),
-          this.translateService.instant('chargers.reboot_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.reboot_success', {chargeBoxID: rowItem.id}),
-          'chargers.reboot_error',
-        );
+        if (actionDef.action) {
+          actionDef.action(chargingStation, this.dialogService, this.translateService,
+            this.messageService, this.centralServerService, this.spinnerService, this.router);
+        }
         break;
       case ChargingStationButtonAction.SMART_CHARGING:
-        this.dialogSmartCharging(rowItem);
+        this.dialogSmartCharging(chargingStation);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(rowItem);
+        this.showPlace(chargingStation);
         break;
       case ButtonAction.DELETE:
-        this.deleteChargingStation(rowItem);
+        this.deleteChargingStation(chargingStation);
         break;
       case ChargingStationButtonAction.SOFT_RESET:
-        this.simpleActionChargingStation('ChargingStationReset', rowItem, JSON.stringify({type: 'Soft'}),
+        this.simpleActionChargingStation('ChargingStationReset', chargingStation, JSON.stringify({type: 'Soft'}),
           this.translateService.instant('chargers.soft_reset_title'),
-          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.soft_reset_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.soft_reset_success', {chargeBoxID: chargingStation.id}),
           'chargers.soft_reset_error',
         );
         break;
       case ChargingStationButtonAction.CLEAR_CACHE:
-        this.simpleActionChargingStation('ChargingStationClearCache', rowItem, '',
+        this.simpleActionChargingStation('ChargingStationClearCache', chargingStation, '',
           this.translateService.instant('chargers.clear_cache_title'),
-          this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.clear_cache_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.clear_cache_success', {chargeBoxID: chargingStation.id}),
           'chargers.clear_cache_error',
         );
         break;
       case ChargingStationButtonAction.FORCE_AVAILABLE_STATUS:
-        this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
+        this.simpleActionChargingStation('ChargingStationChangeAvailability', chargingStation,
           JSON.stringify({
             connectorId: 0,
             type: OCPPAvailabilityType.OPERATIVE,
           }),
           this.translateService.instant('chargers.force_available_status_title'),
-          this.translateService.instant('chargers.force_available_status_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.force_available_status_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.force_available_status_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.force_available_status_success', {chargeBoxID: chargingStation.id}),
           'chargers.force_available_status_error',
           );
         break;
       case ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS:
-        this.simpleActionChargingStation('ChargingStationChangeAvailability', rowItem,
+        this.simpleActionChargingStation('ChargingStationChangeAvailability', chargingStation,
           JSON.stringify({
             connectorId: 0,
             type: OCPPAvailabilityType.INOPERATIVE,
           }),
           this.translateService.instant('chargers.force_unavailable_status_title'),
-          this.translateService.instant('chargers.force_unavailable_status_confirm', {chargeBoxID: rowItem.id}),
-          this.translateService.instant('chargers.force_unavailable_status_success', {chargeBoxID: rowItem.id}),
+          this.translateService.instant('chargers.force_unavailable_status_confirm', {chargeBoxID: chargingStation.id}),
+          this.translateService.instant('chargers.force_unavailable_status_success', {chargeBoxID: chargingStation.id}),
           'chargers.force_unavailable_status_error',
         );
         break;
       default:
-        super.rowActionTriggered(actionDef, rowItem);
-    }
-  }
-
-  private showPlace(charger: ChargingStation) {
-    if (charger && charger.coordinates && charger.coordinates.length === 2) {
-      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
+        super.rowActionTriggered(actionDef, chargingStation);
     }
   }
 
@@ -365,7 +358,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
-    if (this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
+    if (this.authorizationService.isAdmin() || this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
         this.smartChargingAction,
@@ -381,6 +374,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       ];
     }
     return [openInMaps];
+  }
+
+  private showPlace(charger: ChargingStation) {
+    if (charger && charger.coordinates && charger.coordinates.length === 2) {
+      window.open(`http://maps.google.com/maps?q=${charger.coordinates[1]},${charger.coordinates[0]}`);
+    }
   }
 
   private simpleActionChargingStation(action: string, charger: ChargingStation, args: any, title: string,

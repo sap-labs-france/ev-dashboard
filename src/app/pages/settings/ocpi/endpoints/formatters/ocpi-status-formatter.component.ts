@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType, KeyValue } from 'app/types/GlobalType';
 import { OcpiEndpoint, OcpiEndpointStatus } from 'app/types/OCPIEndpoint';
 
@@ -18,13 +18,13 @@ export const ocpiStatuses: KeyValue[] = [
     </mat-chip-list>
   `,
 })
-export class OcpiEndpointStatusFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: OcpiEndpoint;
+export class OcpiEndpointStatusFormatterComponent extends CellContentTemplateDirective {
+  @Input() public row!: OcpiEndpoint;
 }
 
 @Pipe({name: 'appFormatOcpiStatus'})
 export class AppFormatOcpiStatusPipe implements PipeTransform {
-  transform(status: string, type: string): string {
+  public transform(status: string, type: string): string {
     // Class
     if (type === 'class') {
       let classNames = 'chip-width-10em ';

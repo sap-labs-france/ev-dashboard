@@ -8,7 +8,9 @@ export class AppAutofocusDirective implements OnInit {
   constructor(private elementRef: ElementRef) {
   }
 
-  ngOnInit() {
-    this.elementRef.nativeElement.focus();
+  public ngOnInit() {
+    setTimeout(() => {
+      this.elementRef.nativeElement.focus();
+    }, 250);
   }
 }

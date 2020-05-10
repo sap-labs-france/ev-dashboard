@@ -6,8 +6,9 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { of, Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -238,7 +239,7 @@ export abstract class TableDataSource<T extends Data> {
     return [];
   }
 
-  abstract buildTableDef(): TableDef;
+  public abstract buildTableDef(): TableDef;
 
   public setTableDef(tableDef: TableDef) {
     this.tableDef = tableDef;
@@ -260,17 +261,17 @@ export abstract class TableDataSource<T extends Data> {
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
     }
-
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
-    if (filter.type === FilterType.DROPDOWN && filter.multiple) {
+    if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
-          filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+          filter.label = this.translateService.instant(filter.currentValue[0].value ? filter.currentValue[0].value : filter.currentValue[0]) +
+            (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
         } else {
           filter.label = '';
         }
@@ -330,7 +331,6 @@ export abstract class TableDataSource<T extends Data> {
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
           // Date
           if (filterDef.type === 'date') {
-            // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog
           } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
@@ -342,10 +342,8 @@ export abstract class TableDataSource<T extends Data> {
                   for (const value of filterDef.currentValue) {
                     jsonKeys.push(value.key);
                   }
-                  // @ts-ignore
                   filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
                 } else {
-                  // @ts-ignore
                   filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
                 }
               }
@@ -353,18 +351,15 @@ export abstract class TableDataSource<T extends Data> {
             // Dialog with multiple selections
           } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
-              // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (filterDef.currentValue.length > 0 && (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
-              // @ts-ignore
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
           } else {
-            // @ts-ignore
             filterJson[filterDef.httpId] = filterDef.currentValue;
           }
         }
@@ -373,7 +368,6 @@ export abstract class TableDataSource<T extends Data> {
     // With Search?
     const searchValue = this.getSearchValue();
     if (withSearch && searchValue) {
-      // @ts-ignore
       filterJson['Search'] = searchValue;
     }
     // Static filters
@@ -399,7 +393,7 @@ export abstract class TableDataSource<T extends Data> {
   public onRowActionMenuOpen(action: TableActionDef, row: T) {
   }
 
-  abstract buildTableColumnDefs(): TableColumnDef[];
+  public abstract buildTableColumnDefs(): TableColumnDef[];
 
   public refreshData(showSpinner = true): Observable<void> {
     // Init paging
@@ -452,7 +446,7 @@ export abstract class TableDataSource<T extends Data> {
     });
   }
 
-  abstract loadDataImpl(): Observable<DataResult<T>>;
+  public abstract loadDataImpl(): Observable<DataResult<T>>;
 
   public getData(): T[] {
     return this.data;
@@ -499,15 +493,15 @@ export abstract class TableDataSource<T extends Data> {
     this.setStaticFilters(staticFilters);
   }
 
-  buildTableDynamicRowActions(row: T): TableActionDef[] {
+  public buildTableDynamicRowActions(row: T): TableActionDef[] {
     return [];
   }
 
-  canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
+  public canDisplayRowAction(rowAction: TableActionDef, rowItem: T) {
     return true;
   }
 
-  isSelectable(row: T) {
+  public isSelectable(row: T) {
     return true;
   }
 
@@ -534,7 +528,6 @@ export abstract class TableDataSource<T extends Data> {
     if (this.hasRowActions) {
       // Check if authorized
       this.tableRowActionsDef.forEach((rowActionDef) => {
-        // @ts-ignore
         row[`canDisplayRowAction-${rowActionDef.id}`] = this.canDisplayRowAction(rowActionDef, row);
       });
     }
@@ -634,12 +627,10 @@ export abstract class TableDataSource<T extends Data> {
           let value = freshRow;
           keys.forEach((key) => {
             if (value) {
-              // @ts-ignore
               value = value[key];
             }
           });
           // Create new var for direct access
-          // @ts-ignore
           freshRow[tableColumnDef.id] = value;
         }
       }
@@ -647,7 +638,6 @@ export abstract class TableDataSource<T extends Data> {
       if (this.tableDef.hasDynamicRowAction) {
         const dynamicRowActions = this.buildTableDynamicRowActions(freshRow);
         if (dynamicRowActions.length > 0) {
-          // @ts-ignore
           freshRow['dynamicRowActions'] = dynamicRowActions;
         }
       }
@@ -662,7 +652,6 @@ export abstract class TableDataSource<T extends Data> {
         const rowID = this.initTableDef(false).rowFieldNameIdentifier;
         // Set the ID
         if (!rowID) {
-          // @ts-ignore
           freshRow.id = freshRow[rowID];
         }
       }
@@ -674,7 +663,6 @@ export abstract class TableDataSource<T extends Data> {
           // Check if it's still visible
           if (Utils.objectHasProperty(freshRow, this.tableDef.rowDetails.showDetailsField)) {
             // Set
-            // @ts-ignore
             freshRow.isExpanded = freshRow[this.tableDef.rowDetails.showDetailsField];
           } else {
             freshRow.isExpanded = true;
@@ -685,7 +673,6 @@ export abstract class TableDataSource<T extends Data> {
         }
         // Detailed field?
         if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailsField) {
-          // @ts-ignore
           freshRow[this.tableDef.rowDetails.detailsField] = foundExpandedRow[this.tableDef.rowDetails.detailsField];
         }
       }

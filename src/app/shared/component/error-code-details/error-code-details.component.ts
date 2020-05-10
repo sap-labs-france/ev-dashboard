@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
+
 import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-details/error-code-details-dialog.component';
 
 @Component({
@@ -13,14 +14,14 @@ import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-detail
     margin: 0
   }`],
 })
-export class ErrorCodeDetailsComponent extends CellContentTemplateComponent {
-  @Input() row: any;
+export class ErrorCodeDetailsComponent extends CellContentTemplateDirective {
+  @Input() public row: any;
 
   constructor(private dialog: MatDialog) {
     super();
   }
 
-  showHelpDialog() {
+  public showHelpDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '20vw';
     dialogConfig.data = this.row.errorMessage;

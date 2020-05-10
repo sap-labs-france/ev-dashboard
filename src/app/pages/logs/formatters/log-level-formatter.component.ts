@@ -1,7 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { Log } from 'app/types/Log';
+
 import { logLevels } from '../model/logs.model';
 
 @Component({
@@ -13,13 +14,13 @@ import { logLevels } from '../model/logs.model';
     </mat-chip-list>
   `,
 })
-export class LogLevelFormatterComponent extends CellContentTemplateComponent {
-  @Input() row!: Log;
+export class LogLevelFormatterComponent extends CellContentTemplateDirective {
+  @Input() public row!: Log;
 }
 
 @Pipe({name: 'appFormatLogLevel'})
 export class AppFormatLogLevelPipe implements PipeTransform {
-  transform(logLevel: string, type: string): string {
+  public transform(logLevel: string, type: string): string {
     if (type === 'class') {
       return this.buildLogLevelClasses(logLevel);
     }
@@ -29,7 +30,7 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     return '';
   }
 
-  buildLogLevelClasses(logLevel: string): string {
+  public buildLogLevelClasses(logLevel: string): string {
     let classNames = 'chip-width-5em ';
     switch (logLevel) {
       case 'E':
@@ -54,7 +55,7 @@ export class AppFormatLogLevelPipe implements PipeTransform {
     return classNames;
   }
 
-  buildLogLevelText(logLevel: string): string {
+  public buildLogLevelText(logLevel: string): string {
     for (const level of logLevels) {
       if (logLevel === level.key) {
         return level.value;

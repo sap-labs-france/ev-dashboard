@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { RefundReport } from 'app/types/Refund';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
@@ -21,7 +21,7 @@ export class ReportsDialogComponent extends DialogTableDataComponent<RefundRepor
     this.transactionsListTableDataSource.destroyDatasource();
   }
 
-  getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {
+  public getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

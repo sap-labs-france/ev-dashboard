@@ -1,5 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { DevEnvGuard } from './guard/development.guard';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
@@ -176,6 +177,25 @@ export const AppRoutes: Routes = [
           activeInSuperTenant: true,
           displayInSuperTenant: true,
           component: TenantComponents.CAR,
+        },
+      },
+      {
+        path: 'invoices',
+        loadChildren: () => import('./pages/invoices/invoices.module').then((m) => m.InvoicesModule),
+        data: {
+          menu: {
+            title: 'invoices',
+            type: 'link',
+            icon: 'receipt',
+            path: '/invoices',
+          },
+          auth: {
+            entity: Entity.INVOICES,
+            action: Action.LIST,
+          },
+          activeInSuperTenant: false,
+          displayInSuperTenant: false,
+          component: TenantComponents.BILLING,
         },
       },
       {

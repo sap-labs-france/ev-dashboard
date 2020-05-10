@@ -1,16 +1,17 @@
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from 'app/types/ChargingStation';
+
+import { ActionResponse } from 'app/types/DataResult';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from 'app/types/ChargingStation';
-import { ActionResponse } from 'app/types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
 
-export class ChargingStationsRebootAction implements TableAction {
+export class TableChargingStationsRebootAction implements TableAction {
   private action: TableActionDef = {
     id: ChargingStationButtonAction.REBOOT,
     type: 'button',
@@ -35,7 +36,7 @@ export class ChargingStationsRebootAction implements TableAction {
       if (result === ButtonType.YES) {
         spinnerService.show();
         // Reboot
-        centralServerService.rebootChargingStation(chargingStation.id).subscribe((response: ActionResponse) => {
+        centralServerService.chargingStationReset(chargingStation.id).subscribe((response: ActionResponse) => {
             spinnerService.hide();
             if (response.status === OCPPGeneralResponse.ACCEPTED) {
               // Ok

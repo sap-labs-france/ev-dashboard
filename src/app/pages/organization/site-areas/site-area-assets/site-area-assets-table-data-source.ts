@@ -1,27 +1,29 @@
-import { Injectable } from '@angular/core';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+
+import { Asset } from 'app/types/Asset';
+import { AssetsDialogComponent } from 'app/shared/dialogs/assets/assets-dialog.component';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AssetsDialogComponent } from 'app/shared/dialogs/assets/assets-dialog.component';
-import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Asset } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+import { DialogService } from 'app/services/dialog.service';
+import { Injectable } from '@angular/core';
+import { MessageService } from 'app/services/message.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SiteArea } from 'app/types/SiteArea';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableAddAction } from 'app/shared/table/actions/table-add-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Injectable()
 export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   private siteArea!: SiteArea;
+  private removeAction = new TableRemoveAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -42,15 +44,18 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-          // Ok
-          observer.next(assets);
-          observer.complete();
-        }, (error) => {
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          // Error
-          observer.error(error);
-        });
+            // Ok
+            if (assets.count === 0) {
+              this.removeAction.disabled = true;
+            }
+            observer.next(assets);
+            observer.complete();
+          }, (error) => {
+            // No longer exists!
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            // Error
+            observer.error(error);
+          });
       } else {
         // Ok
         observer.next({
@@ -104,7 +109,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
     this.setStaticFilters([
-      {SiteAreaID: siteArea.id},
+      { SiteAreaID: siteArea.id },
     ]);
     // Set user
     this.siteArea = siteArea;
@@ -116,7 +121,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     if (this.siteArea && this.authorizationService.isAdmin()) {
       return [
         new TableAddAction().getActionDef(),
-        new TableRemoveAction().getActionDef(),
+        this.removeAction,
         ...tableActionsDef,
       ];
     }

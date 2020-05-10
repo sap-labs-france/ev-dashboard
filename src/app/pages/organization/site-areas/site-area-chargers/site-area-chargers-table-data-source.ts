@@ -1,24 +1,25 @@
-import { Injectable } from '@angular/core';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog.component';
-import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { DialogService } from 'app/services/dialog.service';
 import { HTTPError } from 'app/types/HTTPError';
-import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+import { Injectable } from '@angular/core';
+import { MessageService } from 'app/services/message.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SiteArea } from 'app/types/SiteArea';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableAddAction } from 'app/shared/table/actions/table-add-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Injectable()
 export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation> {
@@ -41,7 +42,7 @@ export class SiteAreaChargersDataSource extends TableDataSource<ChargingStation>
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
-        this.centralServerService.getChargers(this.buildFilterValues(),
+        this.centralServerService.getChargingStations(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargers) => {
             // Ok
             observer.next(chargers);

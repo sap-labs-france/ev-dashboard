@@ -714,7 +714,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargers(params: { [param: string]: string | string[]; },
+  public getChargingStations(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
     // Verify init
     this.checkInit();
@@ -733,7 +733,7 @@ export class CentralServerService {
       );
   }
 
-  public getCharger(id: string): Observable<ChargingStation> {
+  public getChargingStation(id: string): Observable<ChargingStation> {
     // Verify init
     this.checkInit();
     if (!id) {
@@ -751,7 +751,7 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getChargersInError(params: { [param: string]: string | string[]; },
+  public getChargingStationsInError(params: { [param: string]: string | string[]; },
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
     // Verify init
     this.checkInit();

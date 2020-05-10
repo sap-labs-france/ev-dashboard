@@ -284,7 +284,7 @@
     "changed_by_other_user": "Le constructeur '{{manufacturerName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_success": "Le constructeur '{{manufacturerName}}' a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du constructeur",
-    "manufacturer_not_found": "Constructeur inconnu",
+    "manufacturer_not_found": "Le constructeur n'a pas été trouvé",
     "create_success": "Le constructeur '{{manufacturerName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du constructeur",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko"
@@ -310,7 +310,7 @@
     "changed_by_other_user": "L'entreprise '{{companyName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "L'entreprise '{{companyName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de l'entreprise",
-    "company_not_found": "Entreprise inconnue",
+    "company_not_found": "L'entreprise n'a pas été trouvée",
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'entreprise",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
@@ -339,7 +339,7 @@
     "changed_by_other_user": "La ressource '{{assetName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "La ressource '{{assetName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la ressource",
-    "asset_not_found": "Ressource inconnue",
+    "asset_not_found": "La ressource n'a pas été trouvée",
     "create_success": "La ressource '{{assetName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
@@ -378,7 +378,7 @@
     "changed_on": "Modifié le",
     "changed_by": "Modifié par",
     "delete_title": "Supprimer",
-    "site_not_found": "Site inconnu",
+    "site_not_found": "Le site n'a pas été trouvé",
     "delete_button": "Supprimer",
     "delete_confirm": "Voulez-vous vraiment supprimer le site '{{siteName}}'?",
     "delete_success": "Le site '{{siteName}}' a été supprimé avec succès",
@@ -420,7 +420,7 @@
     "charger_list_source_title": "Disponibles",
     "charger_list_target_title": "Utilisées",
     "number_of_charging_stations": "Nb Bornes",
-    "site_area_not_found": "Zone inconnue",
+    "site_area_not_found": "Le zone n'a pas été trouvée",
     "select_site_areas": "Séléction Zone",
     "unassigned": "Non assigné",
     "image": "Image",
@@ -623,6 +623,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
     "model": "Modèle",
     "name": "Nom",
@@ -705,7 +706,7 @@
     "status_firmware_installed": "Installation Réussie",
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
-    "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
+    "charger_id_not_found": "La borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
     "no_transaction_found": "Aucune session trouvée pour la borne '{{chargerID}}' ",
     "dialog": {
       "export": {
@@ -790,7 +791,7 @@
       "schedule_limit_header": "Limite de puissance du créneau",
       "empty_schedule_list_error": "Vous devez créer au moins un créneau",
       "connectors_all": "all",
-      "charging_profile_not_found": "ChargingProfile not found",
+      "charging_profile_not_found": "Le profile de charge n'a pas été trouvé",
       "profile_types": {
         "relative": "Planification Relative",
         "absolute": "Planification Temporaire",
@@ -1038,8 +1039,8 @@
     "role_invalid": "Rôle invalide",
     "role_mult_all": "Tous les rôles",
     "role_mult_admin_demo": "Admin ou démo",
-    "user_not_found": "Utilisateur inconnu",
-    "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
+    "user_not_found": "L'utilisateur n'a pas été trouvé",
+    "user_id_not_found": "L'utilisateur '{{userId}}' n'a pas été trouvé",
     "invalid_phone_number": "Numéro de téléphone invalide",
     "missing_tag": "Cette liste doit contenir au moins un badge",
     "invalid_tag_id": "Seuls les chiffres et les lettres sont autorisés",
@@ -1193,7 +1194,7 @@
     "title": "Organisation",
     "name": "Nom",
     "tenant_management": "Gestion des Organization",
-    "tenant_not_found": "Cette organisation n'existe pas ! Vous ne pouvez pas vous connecter !",
+    "tenant_not_found": "L'organisation n'a pas été trouvée",
     "email": "Email",
     "subdomain": "Sous Domaine",
     "create_success": "L'organisation '{{name}}' a été créée avec succès",
@@ -1229,7 +1230,7 @@
         "title": "Gireve"
       },
       "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
-      "setting_not_found": "La configuration OCPI n'est pas disponible",
+      "setting_not_found": "La configuration OCPI n'a pas été trouvée",
       "create_success": "La configuration OCPI a été créée avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
@@ -1376,12 +1377,12 @@
         "settings": "Configuration"
       },
       "description": "E-Mobility expose ses données à des outils d'analyse externes.<br>Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes.<br>E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData.<br>SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle.<br>Plus d'informations techniques disponibilite sur ",
-      "setting_not_found": "La configuration n'a pas été trouvée",
-      "create_success": "La configuration de SAP Analytics Cloud a été créé avec succès",
-      "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Analytics Cloud",
-      "setting_do_not_exist": "La configuration de SAP Analytics Cloud n'est pas disponible",
-      "update_success": "La configuration de SAP Analytics Cloud a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de SAP Analytics Cloud"
+      "setting_not_found": "La configuration SAP Analytics n'a pas été trouvée",
+      "create_success": "La configuration de SAP Analytics a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Analytics",
+      "setting_do_not_exist": "La configuration de SAP Analytics n'est pas disponible",
+      "update_success": "La configuration de SAP Analytics a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de SAP Analytics"
     },
     "smart_charging": {
       "sap_smart_charging": {
@@ -1404,7 +1405,7 @@
     "asset": {
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
-      "setting_not_found": "La configuration n'a pas été trouvée"
+      "setting_not_found": "La configuration des ressources n'a pas été trouvée"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
@@ -1772,8 +1773,8 @@
     "refund_submitted": "Soumise",
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Conso. Totale",
-    "transaction_not_found": "Session inconnue",
-    "transaction_id_not_found": "La Session avec l'ID '{{sessionID}}' n'a pas été trouvée",
+    "transaction_not_found": "La session n'a pas été trouvée",
+    "transaction_id_not_found": "La session avec l'ID '{{sessionID}}' n'a pas été trouvée",
     "load_transactions_error": "Une erreur est survenue pendant le chargement des sessions",
     "load_transaction_error": "Une erreur est survenue pendant le chargement de la session",
     "total_duration": "Durée Totale",

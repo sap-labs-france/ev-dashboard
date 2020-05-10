@@ -1,26 +1,27 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from 'app/services/component.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { ChargingStations } from 'app/utils/ChargingStations';
-import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 
-import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
+import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
+
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { ButtonType } from 'app/types/Table';
+import { CentralServerService } from 'app/services/central-server.service';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
+import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
+import { ChargingStations } from 'app/utils/ChargingStations';
+import { ComponentService } from 'app/services/component.service';
+import { DialogService } from 'app/services/dialog.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { MessageService } from 'app/services/message.service';
+import { RestResponse } from 'app/types/GlobalType';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 interface ProfileType {
   key: string;
@@ -206,17 +207,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
   }
 
-  public loadChargingStation() {
-    // Show spinner
-    this.spinnerService.show();
-  }
-
   public loadChargingProfiles() {
     if (!this.charger) {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCharger(this.charger.id).subscribe((charger) => {
+    this.centralServerService.getChargingStation(this.charger.id).subscribe((charger) => {
       // Update charger
       this.charger = charger;
       this.scheduleEditableTableDataSource.setCharger(this.charger);

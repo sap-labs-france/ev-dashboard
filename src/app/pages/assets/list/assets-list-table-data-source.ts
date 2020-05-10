@@ -145,8 +145,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -165,10 +163,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(asset);
+        if (actionDef.action) {
+          actionDef.action(asset.coordinates);
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, asset);
     }
   }
 
@@ -180,11 +178,5 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
-  }
-
-  private showPlace(asset: Asset) {
-    if (asset && asset.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${asset.coordinates[1]},${asset.coordinates[0]}`);
-    }
   }
 }

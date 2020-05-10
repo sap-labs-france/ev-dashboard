@@ -88,9 +88,9 @@
       </div>
     </div>
     <div class="row py-2 connector-row">
-      <ng-container *ngFor="let connector of charger.connectors">
-        <div *ngIf="connector" [class.col]="charger.connectors.length <= 1" [class.col-6]="charger.connectors.length >= 2"
-             [class.mb-4]="charger.connectors.length > 2" class="charger-dialog-connector">
+      <ng-container *ngFor="let connector of chargingStation?.connectors">
+        <div *ngIf="connector" [class.col]="chargingStation?.connectors.length <= 1" [class.col-6]="chargingStation?.connectors.length >= 2"
+             [class.mb-4]="chargingStation?.connectors.length > 2" class="charger-dialog-connector">
           <div class="card card-settings connector-card pt-2">
             <div class="card-header card-header-primary card-header-icon">
               <div class="card-icon">

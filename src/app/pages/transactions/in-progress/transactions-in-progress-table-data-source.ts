@@ -1,45 +1,45 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { ConnStatus } from 'app/types/ChargingStation';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
-import { Observable } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { ButtonAction } from 'app/types/GlobalType';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ComponentService } from '../../../services/component.service';
+import { ConnStatus } from 'app/types/ChargingStation';
+import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
+import { DialogService } from '../../../services/dialog.service';
+import { Injectable } from '@angular/core';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { Utils } from '../../../utils/Utils';
+import TenantComponents from 'app/types/TenantComponents';
+import { Transaction } from 'app/types/Transaction';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from 'app/types/User';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -293,7 +293,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   }
 
   private stopTransaction(transaction: Transaction) {
-    this.centralServerService.getCharger(transaction.chargeBoxID).subscribe((chargingStation) => {
+    this.centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
       if (chargingStation && !chargingStation.inactive) {
         if (chargingStation.connectors &&
             chargingStation.connectors[transaction.connectorId] &&

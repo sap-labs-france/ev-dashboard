@@ -1,31 +1,32 @@
-import { Injectable } from '@angular/core';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Company, CompanyLogo } from 'app/types/Company';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import ChangeNotification from '../../../../types/ChangeNotification';
+import { CompanyDialogComponent } from '../company/company.dialog.component';
+import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
+import { Injectable } from '@angular/core';
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { MessageService } from 'app/services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Company, CompanyLogo } from 'app/types/Company';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
-import { Observable } from 'rxjs';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
-import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -178,10 +179,10 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         this.deleteCompany(company);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(company);
+        if (actionDef.action) {
+          actionDef.action(company.address.coordinates);
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, company);
     }
   }
 
@@ -195,12 +196,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return [
       new IssuerFilter().getFilterDef(),
     ];
-  }
-
-  private showPlace(company: Company) {
-    if (company && company.address && company.address.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${company.address.coordinates[1]},${company.address.coordinates[0]}`);
-    }
   }
 
   private showCompanyDialog(company?: Company) {

@@ -1,33 +1,34 @@
-import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
+
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Action, Entity } from 'app/types/Authorization';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+
+import { Address } from 'app/types/Address';
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ChargingStations } from '../../../../utils/ChargingStations';
 import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
-import { Address } from 'app/types/Address';
-import { Action, Entity } from 'app/types/Authorization';
-import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MessageService } from 'app/services/message.service';
 import { RegistrationToken } from 'app/types/RegistrationToken';
-import { Site } from 'app/types/Site';
-import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
-import * as moment from 'moment';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
-import { ChargingStations } from '../../../../utils/ChargingStations';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
+import { RestResponse } from 'app/types/GlobalType';
+import { Site } from 'app/types/Site';
+import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-site-area',
@@ -290,17 +291,14 @@ export class SiteAreaComponent implements OnInit {
         this.image = siteAreaImage.image.toString();
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
       switch (error.status) {
-        // Not found
-        case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.site_invalid');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('site_areas.site_invalid');
           break;
-        // Unexpected error`
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -454,22 +452,17 @@ export class SiteAreaComponent implements OnInit {
   }
 
   private createSiteArea(siteArea: SiteArea) {
-    // Show
     this.spinnerService.show();
     // Set the image
     this.updateSiteAreaImage(siteArea);
     // Set coordinates
     this.updateSiteAreaCoordinates(siteArea);
-    // Yes: Update
+    // Create
     this.centralServerService.createSiteArea(siteArea).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('site_areas.create_success',
           { siteAreaName: siteArea.name });
-        // Close
         this.currentSiteAreaID = siteArea.id;
         this.closeDialog(true);
       } else {
@@ -477,36 +470,28 @@ export class SiteAreaComponent implements OnInit {
           this.messageService, 'site_areas.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Site Area deleted
-        case 550:
-          // Show error
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('site_areas.site_area_do_not_exist');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'site_areas.create_error');
       }
     });
   }
 
   private updateSiteArea(siteArea: SiteArea) {
-    // Show
     this.spinnerService.show();
     // Set the image
     this.updateSiteAreaImage(siteArea);
     // Set coordinates
     this.updateSiteAreaCoordinates(siteArea);
-    // Yes: Update
+    // Update
     this.centralServerService.updateSiteArea(siteArea).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
         this.closeDialog(true);
       } else {
@@ -514,9 +499,7 @@ export class SiteAreaComponent implements OnInit {
           this.messageService, 'site_areas.update_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
           this.messageService.showErrorMessage('site_areas.update_phase_error');
@@ -528,14 +511,12 @@ export class SiteAreaComponent implements OnInit {
               { siteAreaName: siteArea.name }));
           this.closeDialog(true);
           break;
-        // Site Area deleted
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          // Show error
           this.messageService.showErrorMessage('site_areas.site_areas_do_not_exist');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'site_areas.update_error');
       }
     });
   }

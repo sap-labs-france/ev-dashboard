@@ -1,14 +1,11 @@
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { ChargingStationButtonAction, Connector, OCPPGeneralResponse, OCPPVersion } from 'app/types/ChargingStation';
+import { ChargingStationButtonAction, Connector, OCPPVersion } from 'app/types/ChargingStation';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationSettingsComponent } from '../charging-station/settings/charging-station-settings.component';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ComponentService } from '../../../services/component.service';
@@ -17,6 +14,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'app/services/message.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -27,8 +25,8 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableChargingStationsRebootAction } from '../../../shared/table/actions/table-charging-stations-reboot-action';
 import { TableChargingStationsResetAction } from '../../../shared/table/actions/table-charging-stations-reset-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
+import { TableDeleteChargingStationAction } from 'app/shared/table/actions/table-delete-charging-station-action';
+import { TableEditChargingStationAction } from 'app/shared/table/actions/table-edit-charging-station-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import TenantComponents from 'app/types/TenantComponents';
@@ -38,8 +36,8 @@ import { Utils } from 'app/utils/Utils';
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
   private isAdmin: boolean;
-  private editAction = new TableEditAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private editAction = new TableEditChargingStationAction().getActionDef();
+  private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private resetAction = new TableChargingStationsResetAction().getActionDef();
   private rebootAction = new TableChargingStationsRebootAction().getActionDef();
   private isOrganizationComponentActive: boolean;
@@ -76,7 +74,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   public loadDataImpl(): Observable<DataResult<ChargingStationInError>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getChargersInError(this.buildFilterValues(),
+      this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
         this.formatErrorMessages(chargers.result);
         // Update details status
@@ -193,21 +191,26 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     switch (actionDef.id) {
       case ChargingStationButtonAction.REBOOT:
         if (actionDef.action) {
-          actionDef.action(chargingStation, this.dialogService, this.translateService,
-            this.messageService, this.centralServerService, this.spinnerService, this.router);
+          actionDef.action(chargingStation, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.SOFT_RESET:
         if (actionDef.action) {
-          actionDef.action(chargingStation, this.dialogService, this.translateService,
-            this.messageService, this.centralServerService, this.spinnerService, this.router);
+          actionDef.action(chargingStation, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case ButtonAction.DELETE:
-        this.deleteChargingStation(chargingStation);
+      case ChargingStationButtonAction.DELETE_CHARGING_STATION:
+        if (actionDef.action) {
+          actionDef.action(chargingStation, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.EDIT:
-        this.showChargingStationDialog(chargingStation);
+      case ChargingStationButtonAction.EDIT_CHARGING_STATION:
+        if (actionDef.action) {
+          actionDef.action(chargingStation, this.dialog, this.refreshData.bind(this));
+        }
         break;
       default:
         super.rowActionTriggered(actionDef, chargingStation);
@@ -305,55 +308,5 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       };
       chargerInError.errorMessage = errorMessage;
     });
-  }
-
-  private showChargingStationDialog(chargingStation?: ChargingStationInError) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.height = '90vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (chargingStation) {
-      dialogConfig.data = chargingStation;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    const dialogRef = this.dialog.open(ChargingStationSettingsComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
-  }
-
-  private deleteChargingStation(chargingStation: ChargingStationInError) {
-    if (chargingStation.connectors.findIndex((connector) => connector.activeTransactionID > 0) >= 0) {
-      // Do not delete when active transaction on going
-      this.dialogService.createAndShowOkDialog(
-        this.translateService.instant('chargers.action_error.delete_title'),
-        this.translateService.instant('chargers.action_error.delete_active_transaction'));
-    } else {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.delete_title'),
-        this.translateService.instant('chargers.delete_confirm', {chargeBoxID: chargingStation.id}),
-      ).subscribe((result) => {
-        if (result === ButtonType.YES) {
-          this.centralServerService.deleteChargingStation(chargingStation.id).subscribe((response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.refreshData().subscribe();
-              this.messageService.showSuccessMessage('chargers.delete_success', {chargeBoxID: chargingStation.id});
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'chargers.delete_error');
-            }
-          }, (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'chargers.delete_error');
-          });
-        }
-      });
-    }
   }
 }

@@ -5,6 +5,7 @@ import { ActionResponse } from 'app/types/DataResult';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
@@ -27,7 +28,8 @@ export class TableChargingStationsClearCacheAction implements TableAction {
   }
 
   private clearCache(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) {
     // Show yes/no dialog
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.clear_cache_title'),
@@ -35,13 +37,15 @@ export class TableChargingStationsClearCacheAction implements TableAction {
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();
-        // Reboot
+        // Clear cache
         centralServerService.chargingStationClearCache(chargingStation.id).subscribe((response: ActionResponse) => {
             spinnerService.hide();
             if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              // Ok
               messageService.showSuccessMessage(
                 translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
             } else {
               Utils.handleError(JSON.stringify(response),
                 messageService, 'chargers.clear_cache_error');

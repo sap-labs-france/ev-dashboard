@@ -187,12 +187,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         this.deleteSite(site);
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(site);
+        if (actionDef.action) {
+          actionDef.action(site.address.coordinates);
+        }
+        break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         this.exportOCOPPParams(site);
         break;
-      default:
-        super.rowActionTriggered(actionDef, site);
     }
   }
 
@@ -207,12 +208,6 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       new IssuerFilter().getFilterDef(),
       new CompanyTableFilter().getFilterDef(),
     ];
-  }
-
-  private showPlace(site: Site) {
-    if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
-      window.open(`http://maps.google.com/maps?q=${site.address.coordinates[1]},${site.address.coordinates[0]}`);
-    }
   }
 
   private showSiteDialog(site?: Site) {

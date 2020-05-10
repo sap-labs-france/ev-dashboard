@@ -1,15 +1,17 @@
-import { ValidatorFn } from '@angular/forms';
-import { SortDirection } from '@angular/material/sort';
+import { ButtonAction, KeyValue } from './GlobalType';
+
 import { AssetButtonAction } from './Asset';
 import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
-import { ButtonAction, KeyValue } from './GlobalType';
+import { CompanyButtonAction } from './Company';
 import { OcpiButtonAction } from './OCPIEndpoint';
 import { RefundButtonAction } from './Refund';
 import { SiteButtonAction } from './Site';
+import { SortDirection } from '@angular/material/sort';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
+import { ValidatorFn } from '@angular/forms';
 
 export interface Data {
   id: string|number;
@@ -85,7 +87,7 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
+  id: ButtonAction|CompanyButtonAction|ChargingStationButtonAction|UserButtonAction|TransactionButtonAction|SiteButtonAction|
     OcpiButtonAction|AssetButtonAction|BillingButtonAction|CarButtonAction|RefundButtonAction;
   type: ActionType;
   currentValue?: any;

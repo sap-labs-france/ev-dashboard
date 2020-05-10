@@ -20,7 +20,7 @@ import { TableEditAction } from '../../../shared/table/actions/table-edit-action
 import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { Tenant } from 'app/types/Tenant';
-import { TenantComponent } from '../tenant/tenant.component';
+import { TenantDialogComponent } from '../tenant/tenant.dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../utils/Utils';
 import { WindowService } from '../../../services/window.service';
@@ -169,10 +169,10 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     dialogConfig.minWidth = '60vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (tenant) {
-      dialogConfig.data = tenant;
+      dialogConfig.data = tenant.id;
     }
     // Open
-    const dialogRef = this.dialog.open(TenantComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TenantDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

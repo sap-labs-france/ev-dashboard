@@ -98,6 +98,13 @@ export class AssetConnectionDialogComponent implements OnInit {
     });
   }
 
+  public saveTranslation() {
+    if (this.currentAssetConnection.id === '') {
+      return this.translateService.instant('general.create');
+    }
+    return this.translateService.instant('general.update');
+  }
+
   public cancel() {
     this.dialogRef.close();
   }

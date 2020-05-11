@@ -67,24 +67,15 @@
               <div class="clearfix"></div>
             </div>
           </div>
-        </div>
-        <div class="card-footer mat-dialog-actions" align="end">
-          <span class="app-spacer"></span>
-          <ng-template [ngIf]="this.currentLink.id === ''" [ngIfElse]="update">
+          <div class="card-footer mat-dialog-actions" align="end">
             <button mat-raised-button color="warn" (click)="setLinkAndClose(formGroup.value)"
               [disabled]="!formGroup.valid || !formGroup.dirty">
-              {{"general.create" | translate}}
+              {{ saveLinkButtonTranslation() | translate }}
             </button>
-          </ng-template>
-          <ng-template #update>
-            <button mat-raised-button color="warn" (click)="setLinkAndClose(formGroup.value)"
-              [disabled]="!formGroup.valid || !formGroup.dirty">
-              {{"general.update" | translate}}
+            <button mat-raised-button (click)="cancel()">
+              {{"general.cancel" | translate}}
             </button>
-          </ng-template>
-          <button mat-raised-button (click)="cancel()">
-            {{"general.cancel" | translate}}
-          </button>
+          </div>
         </div>
       </mat-tab>
       <mat-tab disabled>

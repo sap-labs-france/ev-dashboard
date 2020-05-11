@@ -19,13 +19,13 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   public roleList!: KeyValue[];
   public url!: AbstractControl;
 
-  public currentLink: any;
+  public currentLink: Partial<SettingLink>;
 
   constructor(
     protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: Partial<SettingLink>) {
     // Check if data is passed to the dialog
     if (data) {
       this.currentLink = data;
@@ -85,6 +85,13 @@ export class AnalyticsLinkDialogComponent implements OnInit {
 
   public setLinkAndClose(analyticsLink: SettingLink) {
     this.dialogRef.close(analyticsLink);
+  }
+
+  public saveLinkButtonTranslation() {
+    if (this.currentLink.id === '') {
+      return this.translateService.instant('general.create');
+    }
+    return this.translateService.instant('general.update');
   }
 
   public openUrl() {

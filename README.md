@@ -1,4 +1,4 @@
-# Electric Vehicle Charging Station (EVSE) - Dashboard
+# e-Mobility Angular Dashboard App
 
 ## Summary
 

@@ -2,9 +2,8 @@ import * as moment from 'moment';
 
 import { Action, Entity } from 'app/types/Authorization';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { Data, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
@@ -21,6 +20,8 @@ import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { Injectable } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../../services/message.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -35,7 +36,6 @@ import { TableDeleteTransactionsAction } from 'app/shared/table/actions/table-de
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
 import TenantComponents from 'app/types/TenantComponents';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'app/types/User';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -48,6 +48,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private dialogRefSession: any;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
+  private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -80,7 +81,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
-          // Ok
+          if (transactions.count === 0) {
+            this.deleteManyAction.disabled = true;
+          }
           observer.next(transactions);
           observer.complete();
         }, (error) => {
@@ -91,11 +94,27 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
+  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+    super.toggleRowSelection(row, event);
+    this.deleteManyAction.disabled = this.selectedRows === 0;
+  }
+
+  public selectAllRows() {
+    super.selectAllRows();
+    this.deleteManyAction.disabled = this.selectedRows === 0;
+  }
+
+  public clearSelectedRows() {
+    super.clearSelectedRows();
+    this.deleteManyAction.disabled = true;
+  }
+
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
+      this.deleteManyAction.disabled = true;
       return [
-        new TableDeleteTransactionsAction().getActionDef(),
+        this.deleteManyAction,
         ...tableActionsDef,
       ];
     }
@@ -310,21 +329,5 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       }
       transaction.errorMessage = errorMessage;
     });
-  }
-
-  private openSession(transaction: Transaction) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.height = '80vh';
-    dialogConfig.width = '80vw';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      transactionId: transaction.id,
-    };
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialogRefSession = this.dialog.open(TransactionDialogComponent, dialogConfig);
   }
 }

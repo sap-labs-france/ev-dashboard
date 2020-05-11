@@ -4,7 +4,7 @@ import { Action, Entity } from 'app/types/Authorization';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef, Data } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
@@ -40,6 +40,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { User } from 'app/types/User';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { Utils } from '../../../utils/Utils';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
@@ -48,6 +49,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private dialogRefSession: any;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
+  private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -80,7 +82,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe((transactions) => {
           this.formatErrorMessages(transactions.result);
-          // Ok
+          if (transactions.count === 0) {
+            this.deleteManyAction.disabled = true;
+          }
           observer.next(transactions);
           observer.complete();
         }, (error) => {
@@ -91,11 +95,57 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
+  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+    if (this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple) {
+      row.isSelected = event.checked;
+      if (row.isSelected) {
+        this.selectedRows++;
+        this.lastSelectedRow = row;
+      } else {
+        this.selectedRows--;
+        this.lastSelectedRow = null;
+      }
+    } else {
+      this.clearSelectedRows();
+      if (event.checked) {
+        row.isSelected = event.checked;
+        this.selectedRows = 1;
+        this.lastSelectedRow = row;
+      }
+    }
+    this.deleteManyAction.disabled = !(this.selectedRows > 0);
+  }
+
+  public selectAllRows() {
+    // Select All
+    this.selectedRows = 0;
+    this.data.forEach((row) => {
+      if (row.isSelectable) {
+        row.isSelected = true;
+        this.selectedRows++;
+      }
+    });
+    this.deleteManyAction.disabled = !(this.selectedRows > 0);
+  }
+
+  public clearSelectedRows() {
+    // Clear all
+    this.selectedRows = 0;
+    this.lastSelectedRow = null;
+    this.data.forEach((row) => {
+      if (row.isSelectable) {
+        row.isSelected = false;
+      }
+    });
+    this.deleteManyAction.disabled = true;
+  }
+
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
+      this.deleteManyAction.disabled = true;
       return [
-        new TableDeleteTransactionsAction().getActionDef(),
+        this.deleteManyAction,
         ...tableActionsDef,
       ];
     }

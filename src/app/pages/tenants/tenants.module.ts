@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, q } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';

@@ -1,7 +1,5 @@
 import { Action, Entity } from '../../../types/Authorization';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
@@ -16,20 +14,19 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { ComponentService } from '../../../services/component.service';
 import { DataResult } from 'app/types/DataResult';
 import { DialogService } from '../../../services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
 import { Injectable } from '@angular/core';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../../services/message.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { SiteButtonAction } from 'app/types/Site';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAssignSitesToUserAction } from 'app/shared/table/actions/table-assign-sites-to-user-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableCreateUserAction } from 'app/shared/table/actions/table-create-user-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
-import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
+import { TableDeleteUserAction } from 'app/shared/table/actions/table-delete-user-action';
+import { TableEditUserAction } from 'app/shared/table/actions/table-edit-user-action';
 import { TableForceSyncBillingAction } from 'app/shared/table/actions/table-force-sync-billing-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
@@ -37,18 +34,16 @@ import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table
 import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { TranslateService } from '@ngx-translate/core';
-import { UserDialogComponent } from '../user/user.dialog.component';
 import { UserRoleFilter } from '../filters/user-role-filter';
-import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
-  private editAction = new TableEditAction().getActionDef();
+  private editAction = new TableEditUserAction().getActionDef();
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private deleteAction = new TableDeleteUserAction().getActionDef();
   private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingAction().getActionDef();
   private currentUser: UserToken;
@@ -231,7 +226,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableCreateAction().getActionDef());
+    tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeUsers()) {
       tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
@@ -272,8 +267,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      case ButtonAction.CREATE:
-        this.showUserDialog();
+      case UserButtonAction.CREATE_USER:
+        if (actionDef.action) {
+          actionDef.action(this.dialog, this.refreshData.bind(this));
+        }
         break;
       case BillingButtonAction.SYNCHRONIZE_USERS:
         if (this.syncBillingUsersAction.action) {
@@ -291,16 +288,21 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public rowActionTriggered(actionDef: TableActionDef, user: User) {
     switch (actionDef.id) {
-      case ButtonAction.EDIT:
-        this.showUserDialog(user);
+      case UserButtonAction.EDIT_USER:
+        if (actionDef.action) {
+          actionDef.action(user, this.dialog, this.refreshData.bind(this));
+        }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
           actionDef.action(user, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case ButtonAction.DELETE:
-        this.deleteUser(user);
+      case UserButtonAction.DELETE_USER:
+        if (actionDef.action) {
+          actionDef.action(user, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
       case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
         if (this.forceSyncBillingUserAction.action) {
@@ -327,53 +329,5 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
     ];
-  }
-
-  public showUserDialog(user?: User) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (user) {
-      dialogConfig.data = user;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    const dialogRef = this.dialog.open(UserDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
-  }
-
-  private deleteUser(user: User) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('users.delete_title'),
-      this.translateService.instant('users.delete_confirm', {userFullName: this.appUserNamePipe.transform(user)}),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.centralServerService.deleteUser(user.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.refreshData().subscribe();
-            this.messageService.showSuccessMessage('users.delete_success', {userFullName: this.appUserNamePipe.transform(user)});
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'users.delete_error');
-          }
-        }, (error) => {
-          switch (error.status) {
-            case HTTPError.BILLING_DELETE_ERROR:
-              this.messageService.showErrorMessage('users.delete_billing_error');
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                'users.delete_error');
-          }
-        });
-      }
-    });
   }
 }

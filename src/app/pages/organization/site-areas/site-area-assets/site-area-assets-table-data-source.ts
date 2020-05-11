@@ -44,16 +44,14 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-            // Ok
             if (assets.count === 0) {
               this.removeAction.disabled = true;
             }
             observer.next(assets);
             observer.complete();
           }, (error) => {
-            // No longer exists!
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.error_backend');
             observer.error(error);
           });
       } else {
@@ -147,9 +145,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
             this.translateService.instant('site_areas.remove_assets_title'),
             this.translateService.instant('site_areas.remove_assets_confirm'),
           ).subscribe((response) => {
-            // Check
             if (response === ButtonType.YES) {
-              // Remove
               this.removeAssets(this.getSelectedRows().map((row) => row.id));
             }
           });
@@ -174,40 +170,31 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   }
 
   private removeAssets(assetIDs: string[]) {
-    // Yes: Update
+    // Remove
     this.centralServerService.removeAssetsFromSiteArea(this.siteArea.id, assetIDs).subscribe((response) => {
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_assets_success'));
-        // Refresh
         this.refreshData().subscribe();
-        // Clear selection
         this.clearSelectedRows();
       } else {
         Utils.handleError(JSON.stringify(response),
           this.messageService, this.translateService.instant('site_areas.remove_assets_error'));
       }
     }, (error) => {
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_assets_error');
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'site_areas.remove_assets_error');
     });
   }
 
   private addAssets(assets: Asset[]) {
-    // Check
     if (assets && assets.length > 0) {
       // Get the IDs
       const assetIDs = assets.map((asset) => asset.key);
-      // Yes: Update
+      // Add
       this.centralServerService.addAssetsToSiteArea(this.siteArea.id, assetIDs).subscribe((response) => {
-        // Ok?
         if (response.status === RestResponse.SUCCESS) {
-          // Ok
           this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_assets_success'));
-          // Refresh
           this.refreshData().subscribe();
-          // Clear selection
           this.clearSelectedRows();
         } else {
           Utils.handleError(JSON.stringify(response),
@@ -215,7 +202,8 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         }
       }, (error) => {
         // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'site_areas.update_error');
       });
     }
   }

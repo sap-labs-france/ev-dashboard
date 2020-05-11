@@ -1,4 +1,5 @@
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog.component';
 import { TableFilter } from './table-filter';
 

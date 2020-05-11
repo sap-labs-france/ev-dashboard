@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { UserRoles } from '../model/users.model';
 
 @Pipe({name: 'appUserRole'})

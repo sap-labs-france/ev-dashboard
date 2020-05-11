@@ -8,6 +8,7 @@ import { Address } from 'app/types/Address';
 import { IntegrationConnection } from 'app/types/Connection';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -32,7 +33,6 @@ import { Utils } from '../../../utils/Utils';
 import { UserRoles, userStatuses } from '../model/users.model';
 import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
-import { HTTPError } from 'app/types/HTTPError';
 
 @Component({
   selector: 'app-user',

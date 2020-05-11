@@ -1,26 +1,26 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Action, Entity } from 'app/types/Authorization';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { Site, SiteImage } from 'app/types/Site';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
-import { Address } from 'app/types/Address';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { CompaniesDialogComponent } from 'app/shared/dialogs/companies/companies-dialog.component';
-import { Company } from 'app/types/Company';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
+import { CompaniesDialogComponent } from 'app/shared/dialogs/companies/companies-dialog.component';
+import { Address } from 'app/types/Address';
+import { Action, Entity } from 'app/types/Authorization';
+import { Company } from 'app/types/Company';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { Site, SiteImage } from 'app/types/Site';
+import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
   selector: 'app-site',

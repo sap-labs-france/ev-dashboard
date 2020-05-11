@@ -1,18 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStation } from 'app/types/ChargingStation';
 import { DialogService } from 'app/services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
-import { KeyValue } from 'app/types/GlobalType';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
 @Component({

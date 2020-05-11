@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { Data } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+
 import { DialogTableDataSource } from './dialog-table-data-source';
 
 export abstract class DialogTableDataComponent<T extends Data> {

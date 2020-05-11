@@ -1,9 +1,10 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { TableActionDef } from 'app/types/Table';
-import { TableCreateAction } from './table-create-action';
-import { UserButtonAction } from 'app/types/User';
 import { UserDialogComponent } from 'app/pages/users/user/user.dialog.component';
+import { TableActionDef } from 'app/types/Table';
+import { UserButtonAction } from 'app/types/User';
+import { Observable } from 'rxjs';
+
+import { TableCreateAction } from './table-create-action';
 
 export class TableCreateUserAction extends TableCreateAction {
   public getActionDef(): TableActionDef {

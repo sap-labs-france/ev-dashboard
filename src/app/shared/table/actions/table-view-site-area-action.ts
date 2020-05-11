@@ -1,9 +1,9 @@
-import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
-
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { SiteAreaDialogComponent } from 'app/pages/organization/site-areas/site-area/site-area-dialog.component';
+import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableViewAction } from './table-view-action';
 
 export class TableViewSiteAreaAction extends TableViewAction {

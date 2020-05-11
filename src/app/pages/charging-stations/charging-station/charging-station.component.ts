@@ -1,23 +1,23 @@
-import { Action, Entity } from 'app/types/Authorization';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Action, Entity } from 'app/types/Authorization';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { Utils } from 'app/utils/Utils';
+import { debounceTime } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { ChargingStationOcppParametersComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
-import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 import { ConfigService } from '../../../services/config.service';
-import { HTTPError } from 'app/types/HTTPError';
-import { KeyValue } from 'app/types/GlobalType';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
-import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
-import { debounceTime } from 'rxjs/operators';
+import { ChargingStationOcppParametersComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
+import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
 const CHARGERS_PANE_NAME = 'chargers';
 const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';

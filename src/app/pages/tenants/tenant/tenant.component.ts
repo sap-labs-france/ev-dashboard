@@ -1,20 +1,20 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
+import { Tenant } from 'app/types/Tenant';
+import TenantComponents from 'app/types/TenantComponents';
+import { debounceTime } from 'rxjs/operators';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
-import { HTTPError } from 'app/types/HTTPError';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from '../../../services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Tenant } from 'app/types/Tenant';
-import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tenant',

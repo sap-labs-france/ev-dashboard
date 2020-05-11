@@ -1,7 +1,7 @@
 import { Address } from './Address';
 import { Company } from './Company';
-import { Data } from './Table';
 import { SiteArea } from './SiteArea';
+import { Data } from './Table';
 import { User } from './User';
 
 export interface Site extends Data {

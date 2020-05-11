@@ -1,43 +1,43 @@
-import { Action, Entity } from '../../../types/Authorization';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { User, UserButtonAction, UserToken } from 'app/types/User';
-
-import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
-import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
-import { AppUserRolePipe } from '../formatters/user-role.pipe';
-import { AuthorizationService } from '../../../services/authorization.service';
-import { BillingButtonAction } from '../../../types/Billing';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { ComponentService } from '../../../services/component.service';
-import { DataResult } from 'app/types/DataResult';
-import { DialogService } from '../../../services/dialog.service';
 import { Injectable } from '@angular/core';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { MatDialog } from '@angular/material/dialog';
-import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAssignSitesToUserAction } from 'app/shared/table/actions/table-assign-sites-to-user-action';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableCreateUserAction } from 'app/shared/table/actions/table-create-user-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDeleteUserAction } from 'app/shared/table/actions/table-delete-user-action';
 import { TableEditUserAction } from 'app/shared/table/actions/table-edit-user-action';
 import { TableForceSyncBillingAction } from 'app/shared/table/actions/table-force-sync-billing-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import { DataResult } from 'app/types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
+import { User, UserButtonAction, UserToken } from 'app/types/User';
+import { Observable } from 'rxjs';
+
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Action, Entity } from '../../../types/Authorization';
+import { BillingButtonAction } from '../../../types/Billing';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
+import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
-import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {

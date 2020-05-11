@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { CarCatalogsListTableDataSource } from './car-catalogs-list-table-data-source';
 
 @Component({

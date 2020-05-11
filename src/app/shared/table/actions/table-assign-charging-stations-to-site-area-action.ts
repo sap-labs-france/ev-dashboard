@@ -1,9 +1,9 @@
-import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
-
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { SiteAreaChargingStationsDialogComponent } from 'app/pages/organization/site-areas/site-area-charging-stations/site-area-charging-stations-dialog.component';
+import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableAssignAction } from './table-assign-action';
 
 export class TableAssignChargingStationsToSiteAreaAction extends TableAssignAction {

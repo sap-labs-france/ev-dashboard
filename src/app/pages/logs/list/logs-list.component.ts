@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { LogsListTableDataSource } from './logs-list-table-data-source';
 
 @Component({

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+
 import { SiteAreaAssetsDataSource } from './site-area-assets-table-data-source';
 
 @Component({

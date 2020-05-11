@@ -1,33 +1,33 @@
-import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-
-import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
-import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
-import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
-import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
-import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { DataResult } from 'app/types/DataResult';
-import { DialogService } from '../../../services/dialog.service';
 import { Injectable } from '@angular/core';
-import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableChargingStationsStartTransactionAction } from 'app/shared/table/actions/table-charging-stations-start-transaction-action';
 import { TableChargingStationsStopTransactionAction } from 'app/shared/table/actions/table-charging-stations-stop-transaction-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
+import { Observable } from 'rxjs';
+
+import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
+import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { TableNoAction } from '../../../shared/table/actions/table-no-action';
+import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
+import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
+import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {

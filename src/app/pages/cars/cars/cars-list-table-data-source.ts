@@ -2,7 +2,6 @@ import { Car, CarButtonAction } from 'app/types/Car';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DataResult } from 'app/types/DataResult';
 import { Injectable } from '@angular/core';
@@ -13,8 +12,6 @@ import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateCarAction } from 'app/shared/table/actions/table-create-car-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
@@ -22,8 +19,6 @@ import { Utils } from 'app/utils/Utils';
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
   public isSuperAdmin: boolean;
-  private editAction = new TableEditAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
   private createAction = new TableCreateCarAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
@@ -128,8 +123,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -141,8 +134,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      this.editAction,
-      this.deleteAction
     ];
   }
 }

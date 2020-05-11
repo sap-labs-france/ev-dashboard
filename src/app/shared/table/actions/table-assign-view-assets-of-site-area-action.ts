@@ -1,7 +1,7 @@
-import { AssetButtonAction } from 'app/types/Asset';
+import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
+
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { SiteArea } from 'app/types/SiteArea';
 import { SiteAreaAssetsDialogComponent } from 'app/pages/organization/site-areas/site-area-assets/site-area-assets-dialog.component';
 import { TableActionDef } from 'app/types/Table';
 import { TableAssignAction } from './table-assign-action';
@@ -10,12 +10,12 @@ export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: AssetButtonAction.VIEW_ASSETS_OF_SITE_AREA,
+      id: SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA,
       icon: 'account_balance',
       name: 'site_areas.display_assets',
       tooltip: 'general.tooltips.display_assets',
       action: this.viewAssignedAssetsOfSiteArea,
-    }
+    };
   }
 
   private viewAssignedAssetsOfSiteArea(siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) {

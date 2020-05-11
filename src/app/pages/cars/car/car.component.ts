@@ -22,8 +22,10 @@ import { Utils } from 'app/utils/Utils';
   templateUrl: 'car.component.html'
 })
 export class CarComponent implements OnInit {
-  @Input() inDialog!: boolean;
-  @Input() dialogRef!: MatDialogRef<any>;
+  @Input() public currentCarID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
+ 
   public isBasic: boolean;
   public isAdmin: boolean;
   public formGroup!: FormGroup;
@@ -50,7 +52,7 @@ export class CarComponent implements OnInit {
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

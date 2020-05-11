@@ -1,8 +1,9 @@
-import { Routes } from '@angular/router';
 import { Action, Entity } from 'app/types/Authorization';
-import { RouteGuardService } from '../../guard/route-guard';
+
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationsComponent } from './charging-stations.component';
+import { RouteGuardService } from '../../guard/route-guard';
+import { Routes } from '@angular/router';
 
 export const ChargingStationsRoutes: Routes = [
   {

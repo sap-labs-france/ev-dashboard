@@ -9,11 +9,7 @@ export class CompanyDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CompanyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    if (data) {
-      this.companyID = data;
-    }
-
+    @Inject(MAT_DIALOG_DATA) data: string) {
+    this.companyID = data;
   }
 }

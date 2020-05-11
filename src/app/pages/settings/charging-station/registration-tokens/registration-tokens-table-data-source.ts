@@ -1,33 +1,34 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { RegistrationToken } from 'app/types/RegistrationToken';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
 
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../../services/central-server.service';
+import ChangeNotification from '../../../../types/ChangeNotification';
 import { ComponentService } from '../../../../services/component.service';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from '../../../../services/dialog.service';
+import { Injectable } from '@angular/core';
 import { MessageService } from '../../../../services/message.service';
-import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { Observable } from 'rxjs';
+import { RegistrationToken } from 'app/types/RegistrationToken';
+import { RegistrationTokenComponent } from './registration-token.component';
+import { RegistrationTokenStatusComponent } from './registration-token-status.component';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableCopyAction } from '../../../../shared/table/actions/table-copy-action';
+import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { TableMultiCopyAction } from '../../../../shared/table/actions/table-multi-copy-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableRevokeAction } from '../../../../shared/table/actions/table-revoke-action';
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../../utils/Utils';
-import { RegistrationTokenStatusComponent } from './registration-token-status.component';
-import { RegistrationTokenComponent } from './registration-token.component';
 
 @Injectable()
 export class RegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
@@ -171,8 +172,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       case ButtonAction.CREATE:
         this.createRegistrationToken();
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -200,8 +199,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('settings.charging_station.url_copied');
         break;
-      default:
-        super.rowActionTriggered(actionDef, registrationToken);
     }
   }
 

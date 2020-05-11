@@ -1,8 +1,9 @@
-import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
-export class ChargingStationsSmartChargingAction implements TableAction {
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
+import { TableAction } from 'app/shared/table/actions/table-action';
+
+export class TableChargingStationsSmartChargingAction implements TableAction {
   private action: TableActionDef = {
     id: ChargingStationButtonAction.SMART_CHARGING,
     type: 'button',

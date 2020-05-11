@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+
+import { AssetSettings } from 'app/types/Setting';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
+import { FormGroup } from '@angular/forms';
+import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 
@@ -49,11 +51,12 @@ export class SettingsAssetComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.asset.setting_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.asset.setting_not_found');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }

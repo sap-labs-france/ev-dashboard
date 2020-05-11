@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { TableActionDef } from 'app/types/Table';
 import { TableViewAction } from './table-view-action';
 
-export class TableDisplayAssetAction extends TableViewAction {
+export class TableViewAssetAction extends TableViewAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),

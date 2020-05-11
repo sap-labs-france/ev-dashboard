@@ -4,6 +4,7 @@ import { Observable, Subject, of } from 'rxjs';
 
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
+import { FilterParams } from 'app/types/GlobalType';
 import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
@@ -322,7 +323,7 @@ export abstract class TableDataSource<T extends Data> {
     return null;
   }
 
-  public buildFilterValues(withSearch: boolean = true): { [param: string]: string | string[]; } {
+  public buildFilterValues(withSearch: boolean = true): FilterParams {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {

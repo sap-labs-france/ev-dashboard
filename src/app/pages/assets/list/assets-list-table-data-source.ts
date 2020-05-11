@@ -17,11 +17,11 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAssetAction } from 'app/shared/table/actions/table-create-asset-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
-import { TableDisplayAssetAction } from 'app/shared/table/actions/table-view-asset-action';
 import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableViewAssetAction } from 'app/shared/table/actions/table-view-asset-action';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
 
@@ -30,7 +30,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
-  private displayAction = new TableDisplayAssetAction().getActionDef();
+  private displayAction = new TableViewAssetAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -145,8 +145,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -165,10 +163,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(asset);
+        if (actionDef.action) {
+          actionDef.action(asset.coordinates);
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, asset);
     }
   }
 
@@ -180,11 +178,5 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
-  }
-
-  private showPlace(asset: Asset) {
-    if (asset && asset.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${asset.coordinates[1]},${asset.coordinates[0]}`);
-    }
   }
 }

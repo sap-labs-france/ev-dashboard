@@ -9,10 +9,7 @@ export class AssetDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AssetDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    if (data) {
-      this.assetID = data;
-    }
+    @Inject(MAT_DIALOG_DATA) data: string) {
+    this.assetID = data;
   }
 }

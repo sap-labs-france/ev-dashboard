@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { WindowService } from 'app/services/window.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { ReCaptchaV3Service } from 'ngx-captcha';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
+import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from '../../services/message.service';
+import { ReCaptchaV3Service } from 'ngx-captcha';
+import { RestResponse } from 'app/types/GlobalType';
 import { SpinnerService } from '../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-authentication-verify-email',
@@ -143,7 +144,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
           break;
         // Email does not exist
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           // Report the error
           this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
           break;
@@ -170,34 +171,27 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       // Resend
       this.centralServerService.resendVerificationEmail(data).subscribe((response) => {
         this.spinnerService.hide();
-        // Success
         if (response.status && response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login
           this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
-          // Unexpected Error
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, this.messages['verify_email_resend_error']);
         }
       }, (error) => {
-        // Hide
         this.spinnerService.hide();
-        // Check status error code
         switch (error.status) {
-          // Account already active
           case 530:
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
             break;
-          // Email does not exist
-          case 550:
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
             break;
-          // Unexpected Error
           default:
-            Utils.handleHttpError(error, this.router,
-              this.messageService, this.centralServerService, 'authentication.verify_email_resend_error');
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'authentication.verify_email_resend_error');
             break;
         }
       });

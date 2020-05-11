@@ -1,25 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
+import { Component, Input, OnInit } from '@angular/core';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
+import { DialogService } from 'app/services/dialog.service';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { HTTPError } from 'app/types/HTTPError';
+import { MessageService } from 'app/services/message.service';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { SiteArea } from 'app/types/SiteArea';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset',
@@ -160,14 +162,9 @@ export class AssetComponent implements OnInit {
     if (!this.currentAssetID) {
       return;
     }
-    // Show spinner
     this.spinnerService.show();
-    // Yes, get it
-    // tslint:disable-next-line: cyclomatic-complexity
     this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((asset) => {
-      // Store asset result
       this.asset = asset;
-      // Init form
       if (this.asset.id) {
         this.formGroup.controls.id.setValue(this.asset.id);
       }
@@ -197,19 +194,14 @@ export class AssetComponent implements OnInit {
       }
       this.spinnerService.hide();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
-        // Not found
-        case 550:
-          // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'assets.asset_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('assets.asset_not_found');
           break;
         default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -368,22 +360,17 @@ export class AssetComponent implements OnInit {
   }
 
   private createAsset(asset: Asset) {
-    // Show
     this.spinnerService.show();
     // Set coordinates
     this.updateAssetCoordinates(asset);
     // Set the image
     this.updateAssetImage(asset);
-    // Yes: Update
+    // Create
     this.centralServerService.createAsset(asset).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('assets.create_success',
           { assetName: asset.name });
-        // Refresh
         this.currentAssetID = asset.id;
         this.closeDialog(true);
       } else {
@@ -391,36 +378,28 @@ export class AssetComponent implements OnInit {
           this.messageService, 'assets.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Asset deleted
-        case 550:
-          // Show error
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('assets.asset_not_found');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'assets.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'assets.create_error');
       }
     });
   }
 
   private updateAsset(asset: Asset) {
-    // Show
     this.spinnerService.show();
     // Set coordinates
     this.updateAssetCoordinates(asset);
     // Set the image
     this.updateAssetImage(asset);
-    // Yes: Update
+    // Update
     this.centralServerService.updateAsset(asset).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('assets.update_success', { assetName: asset.name });
         this.closeDialog(true);
       } else {
@@ -428,18 +407,14 @@ export class AssetComponent implements OnInit {
           this.messageService, 'assets.update_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Asset deleted
-        case 550:
-          // Show error
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('assets.asset_not_found');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'assets.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'assets.update_error');
       }
     });
   }

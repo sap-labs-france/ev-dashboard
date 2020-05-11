@@ -1,20 +1,22 @@
+import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
+import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
+
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { LocaleService } from '../../../services/locale.service';
-import { SpinnerService } from '../../../services/spinner.service';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ComponentService } from '../../../services/component.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { FilterParams } from 'app/types/GlobalType';
+import { LocaleService } from '../../../services/locale.service';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
-import { ChartData, SimpleChart } from '../shared/chart-utilities';
-import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { StatisticsExportService } from '../shared/statistics-export.service';
+import { TableFilterDef } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 
 @Component({
   selector: 'app-statistics-pricing',
@@ -36,7 +38,7 @@ export class StatisticsPricingComponent implements OnInit {
   @ViewChild('pricingBarChart', { static: true }) public ctxBarChart!: ElementRef;
   @ViewChild('pricingPieChart', { static: true }) public ctxPieChart!: ElementRef;
 
-  private filterParams!: { [param: string]: string | string[]; };
+  private filterParams!: FilterParams;
   private barChart!: SimpleChart;
   private pieChart!: SimpleChart;
   private barChartData!: ChartData;
@@ -104,7 +106,7 @@ export class StatisticsPricingComponent implements OnInit {
     this.selectedDateTo = date;
   }
 
-  public filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
+  public filtersChanged(filterParams: FilterParams): void {
     this.filterParams = filterParams;
   }
 

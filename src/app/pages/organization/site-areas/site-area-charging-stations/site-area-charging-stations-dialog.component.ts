@@ -1,18 +1,18 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { SiteAreaChargersDataSource } from './site-area-chargers-table-data-source';
+import { SiteAreaChargingStationsDataSource } from './site-area-charging-stations-table-data-source';
 
 @Component({
-  templateUrl: 'site-area-chargers-dialog.component.html',
-  providers: [SiteAreaChargersDataSource]
+  templateUrl: 'site-area-charging-stations-dialog.component.html',
+  providers: [SiteAreaChargingStationsDataSource]
 })
-export class SiteAreaChargersDialogComponent {
+export class SiteAreaChargingStationsDialogComponent {
   public dialogTitle: string;
 
   constructor(
-    public siteAreaChargersDataSource: SiteAreaChargersDataSource,
-    private dialogRef: MatDialogRef<SiteAreaChargersDialogComponent>,
+    public siteAreaChargersDataSource: SiteAreaChargingStationsDataSource,
+    private dialogRef: MatDialogRef<SiteAreaChargingStationsDialogComponent>,
     private translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) data) {
     // default title

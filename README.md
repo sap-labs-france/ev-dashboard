@@ -4,13 +4,13 @@
 
 The Angular dashboard connects to the [EVSE Server](https://github.com/LucasBrazi06/ev-server) to display the charging stations in real time.
 
-The application:
+The application features:
 
 * Displays of the charging stations, their status and their delivered power in real time.
 * User management (create, update, delete, authorize, change role...)
-* Charging station charging curve real time
+* Charging station charging curves in real time
 * Actions on charging stations: Reboot, Clear Cache, Stop Transaction, Unlock Connector...
-* Energy control: Set the maximum energy delivered by the charging station
+* Energy control: set the maximum energy delivered by the charging station
 
 **Live demo here** [e-Mobility](https://qa.e-mobility-group.com/)
 

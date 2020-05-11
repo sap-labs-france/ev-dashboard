@@ -96,47 +96,17 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    if (this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple) {
-      row.isSelected = event.checked;
-      if (row.isSelected) {
-        this.selectedRows++;
-        this.lastSelectedRow = row;
-      } else {
-        this.selectedRows--;
-        this.lastSelectedRow = null;
-      }
-    } else {
-      this.clearSelectedRows();
-      if (event.checked) {
-        row.isSelected = event.checked;
-        this.selectedRows = 1;
-        this.lastSelectedRow = row;
-      }
-    }
+    super.toggleRowSelection(row, event);
     this.deleteManyAction.disabled = !(this.selectedRows > 0);
   }
 
   public selectAllRows() {
-    // Select All
-    this.selectedRows = 0;
-    this.data.forEach((row) => {
-      if (row.isSelectable) {
-        row.isSelected = true;
-        this.selectedRows++;
-      }
-    });
+    super.selectAllRows();
     this.deleteManyAction.disabled = !(this.selectedRows > 0);
   }
 
   public clearSelectedRows() {
-    // Clear all
-    this.selectedRows = 0;
-    this.lastSelectedRow = null;
-    this.data.forEach((row) => {
-      if (row.isSelectable) {
-        row.isSelected = false;
-      }
-    });
+    super.clearSelectedRows();
     this.deleteManyAction.disabled = true;
   }
 

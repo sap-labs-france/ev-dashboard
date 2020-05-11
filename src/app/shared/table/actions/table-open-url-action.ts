@@ -19,7 +19,7 @@ export class TableOpenURLAction implements TableAction {
     return this.action;
   }
 
-  private openURL(url: string) {
-      window.open(url);
+  protected openURL(url: string) {
+      window.open(url, '_blank');
   }
 }

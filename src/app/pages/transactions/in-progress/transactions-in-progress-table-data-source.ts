@@ -1,6 +1,5 @@
-import { ActionResponse, DataResult } from 'app/types/DataResult';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
@@ -9,17 +8,18 @@ import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { AuthorizationService } from '../../../services/authorization.service';
-import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { ComponentService } from '../../../services/component.service';
-import { ConnStatus } from 'app/types/ChargingStation';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from '../../../services/dialog.service';
 import { Injectable } from '@angular/core';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../../services/message.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -27,13 +27,11 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableChargingStationsStopTransactionAction } from 'app/shared/table/actions/table-charging-stations-stop-transaction-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableStopAction } from '../../../shared/table/actions/table-stop-action';
+import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
 import TenantComponents from 'app/types/TenantComponents';
-import { Transaction } from 'app/types/Transaction';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -43,8 +41,8 @@ import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
-  private openAction = new TableOpenAction().getActionDef();
-  private stopAction = new TableStopAction().getActionDef();
+  private viewAction = new TableViewTransactionAction().getActionDef();
+  private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -186,46 +184,39 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case ButtonAction.STOP:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('transactions.dialog.soft_stop.title'),
-          this.translateService.instant('transactions.dialog.soft_stop.confirm', { user: this.appUserNamePipe.transform(transaction.user) }),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.stopTransaction(transaction);
-          }
-        });
+      case ChargingStationButtonAction.STOP_TRANSACTION:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.authorizationService,
+            this.dialogService, this.translateService, this.messageService, this.centralServerService, this.spinnerService,
+            this.router, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.OPEN:
-        this.openSession(transaction);
+      case TransactionButtonAction.VIEW_TRANSACTION:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, transaction);
     }
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [];
-
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new IssuerFilter().getFilterDef()),
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
-
     filters.push(new ChargerTableFilter().getFilterDef());
-
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
-
     return filters;
   }
 
   public buildTableDynamicRowActions(): TableActionDef[] {
     const actions = [
-      this.openAction,
+      this.viewAction,
     ];
     if (!this.authorizationService.isDemo()) {
       actions.push(this.stopAction);
@@ -238,76 +229,5 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       new TableAutoRefreshAction(true).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
-  }
-
-  public openSession(transaction: Transaction) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.height = '80vh';
-    dialogConfig.width = '80vw';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      transactionId: transaction.id,
-    };
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialog.open(TransactionDialogComponent, dialogConfig);
-  }
-
-  protected remoteStopTransaction(transaction: Transaction) {
-    this.centralServerService.chargingStationStopTransaction(
-      transaction.chargeBoxID, transaction.id).subscribe((response: ActionResponse) => {
-      if (response.status === 'Rejected') {
-        this.messageService.showErrorMessage(
-          this.translateService.instant('transactions.notification.soft_stop.error'));
-      } else {
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.soft_stop.success',
-            { user: this.appUserNamePipe.transform(transaction.user) }));
-        this.refreshData().subscribe();
-      }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'transactions.notification.soft_stop.error');
-    });
-  }
-
-  protected softStopTransaction(transaction: Transaction) {
-    this.centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      if (response.status === 'Invalid') {
-        this.messageService.showErrorMessage(
-          this.translateService.instant('transactions.notification.soft_stop.error'));
-      } else {
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.notification.soft_stop.success',
-            { user: this.appUserNamePipe.transform(transaction.user) }));
-        this.refreshData().subscribe();
-      }
-    }, (error) => {
-      // tslint:disable-next-line:max-line-length
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'transactions.notification.soft_stop.error');
-    });
-  }
-
-  private stopTransaction(transaction: Transaction) {
-    this.centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
-      if (chargingStation && !chargingStation.inactive) {
-        if (chargingStation.connectors &&
-            chargingStation.connectors[transaction.connectorId] &&
-            chargingStation.connectors[transaction.connectorId].status !== ConnStatus.AVAILABLE) {
-          // Remote Stop
-          this.remoteStopTransaction(transaction);
-          return;
-        }
-      }
-      // Soft Stop
-      this.softStopTransaction(transaction);
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService,
-        this.centralServerService, 'transactions.notification.soft_stop.error');
-    });
   }
 }

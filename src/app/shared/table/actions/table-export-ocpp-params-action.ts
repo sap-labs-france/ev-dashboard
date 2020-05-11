@@ -1,4 +1,4 @@
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -8,24 +8,19 @@ import { Router } from '@angular/router';
 import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableAction } from './table-action';
+import { TableExportAction } from './table-export-action';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../utils/Utils';
 import saveAs from 'file-saver';
 
-export class TableExportOCPPParamsAction implements TableAction {
-  private action: TableActionDef = {
-    id: ChargingStationButtonAction.EXPORT_OCPP_PARAMS,
-    type: 'button',
-    icon: 'cloud_download',
-    name: 'site_areas.export_all_ocpp_params',
-    color: ButtonColor.PRIMARY,
-    tooltip: 'general.tooltips.export',
-    action: this.exportOCPPParameters,
-  };
-  // Return an action
+export class TableExportOCPPParamsAction extends TableExportAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: ChargingStationButtonAction.EXPORT_OCPP_PARAMS,
+      name: 'site_areas.export_all_ocpp_params',
+      action: this.exportOCPPParameters,
+    };
   }
 
   private exportOCPPParameters(dialogService: DialogService, translateService: TranslateService,

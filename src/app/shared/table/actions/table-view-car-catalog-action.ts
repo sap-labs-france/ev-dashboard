@@ -1,4 +1,4 @@
-import { Car, CarButtonAction, CarCatalog } from 'app/types/Car';
+import { CarButtonAction, CarCatalog } from 'app/types/Car';
 
 import { CarCatalogDialogComponent } from 'app/pages/cars/car-catalog/car-catalog.dialog.component';
 import { MatDialog } from '@angular/material/dialog';

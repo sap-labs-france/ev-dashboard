@@ -165,6 +165,8 @@ export enum ChargingStationButtonAction {
   SOFT_RESET = 'soft_reset',
   CLEAR_CACHE = 'clear_cache',
   SMART_CHARGING = 'smart_charging',
+  START_TRANSACTION = 'start_transaction',
+  STOP_TRANSACTION = 'stop_transaction',
   EDIT_CHARGING_STATION = 'edit_charging_station',
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',

@@ -199,8 +199,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         Utils.copyToClipboard(url);
         this.messageService.showInfoMessage('settings.charging_station.url_copied');
         break;
-      default:
-        super.rowActionTriggered(actionDef, registrationToken);
     }
   }
 

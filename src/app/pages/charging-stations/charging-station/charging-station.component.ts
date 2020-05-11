@@ -129,7 +129,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+            this.centralServerService, 'chargers.charger_not_found');
       }
     });
   }

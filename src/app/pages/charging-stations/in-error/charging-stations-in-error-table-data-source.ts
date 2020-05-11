@@ -210,8 +210,6 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           actionDef.action(chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, chargingStation);
     }
   }
 

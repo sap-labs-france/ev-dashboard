@@ -13,7 +13,6 @@ import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { AuthorizationService } from '../../../services/authorization.service';
-import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -35,8 +34,8 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { TableExportAction } from '../../../shared/table/actions/table-export-action';
-import { TableOpenInConcurAction } from '../../../shared/table/actions/table-open-in-concur-action';
+import { TableExportTransactionsAction } from 'app/shared/table/actions/table-export-transactions-action';
+import { TableOpenURLConcurAction } from 'app/shared/table/actions/table-open-url-concur-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
@@ -46,7 +45,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { User } from 'app/types/User';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { Utils } from '../../../utils/Utils';
-import saveAs from 'file-saver';
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
@@ -238,12 +236,12 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   public buildTableActionsDef(): TableActionDef[] {
     let tableActionsDef = super.buildTableActionsDef();
-    tableActionsDef.unshift(new TableExportAction().getActionDef());
+    tableActionsDef.unshift(new TableExportTransactionsAction().getActionDef());
     if (this.refundTransactionEnabled) {
       tableActionsDef = [
         ...tableActionsDef,
         new TableRefundAction().getActionDef(),
-        new TableOpenInConcurAction().getActionDef(),
+        new TableOpenURLConcurAction().getActionDef(),
       ];
       if (this.isAdmin) {
         tableActionsDef.push(
@@ -259,13 +257,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       case RefundButtonAction.SYNCHRONIZE:
         if (this.tableSyncRefundAction.action) {
           this.tableSyncRefundAction.action(
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.spinnerService,
-            this.router,
-            this.refreshData.bind(this)
+            this.dialogService, this.translateService, this.messageService, this.centralServerService,
+            this.spinnerService, this.router, this.refreshData.bind(this)
           );
         }
         break;
@@ -285,26 +278,22 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           });
         }
         break;
-      case TransactionButtonAction.OPEN_IN_CONCUR:
+      case TransactionButtonAction.OPEN_CONCUR_URL:
         if (!this.refundSetting) {
-          this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
-        } else {
-          if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur) {
-            window.open(this.refundSetting.content.concur.appUrl ?
-              this.refundSetting.content.concur.appUrl :
-              this.refundSetting.content.concur.apiUrl, '_blank');
-          }
+          this.messageService.showErrorMessage(
+            this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
+        } else if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur && actionDef.action) {
+          actionDef.action(this.refundSetting.content.concur.appUrl ?
+            this.refundSetting.content.concur.appUrl :
+            this.refundSetting.content.concur.apiUrl);
         }
         break;
-      case ButtonAction.EXPORT:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('transactions.dialog.export.title'),
-          this.translateService.instant('transactions.dialog.export.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.exportTransactionsToRefund();
-          }
-        });
+      case TransactionButtonAction.EXPORT_TRANSACTIONS:
+        if (actionDef.action) {
+          actionDef.action(this.buildFilterValues(), this.getSorting(), this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
+        }
         break;
     }
   }
@@ -368,20 +357,5 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         }
       });
     }
-  }
-
-  private exportTransactionsToRefund() {
-    this.spinnerService.show();
-    this.centralServerService.exportTransactionsToRefund(this.buildFilterValues(), {
-      limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP,
-    }, this.getSorting())
-      .subscribe((result) => {
-        this.spinnerService.hide();
-        saveAs(result, 'exported-refund-transactions.csv');
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
   }
 }

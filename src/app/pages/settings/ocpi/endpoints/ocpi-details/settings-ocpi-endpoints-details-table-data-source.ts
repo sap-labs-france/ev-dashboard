@@ -236,8 +236,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       case ButtonAction.STOP:
         this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, false);
         break;
-      default:
-        super.rowActionTriggered(actionDef, ocpiEndpointDetail);
     }
   }
 

@@ -239,8 +239,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, user);
     }
   }
 

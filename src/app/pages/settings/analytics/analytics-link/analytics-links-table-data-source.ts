@@ -167,8 +167,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
       case ButtonAction.VIEW:
         this.viewLink(link);
         break;
-      default:
-        super.rowActionTriggered(actionDef, link);
     }
   }
 

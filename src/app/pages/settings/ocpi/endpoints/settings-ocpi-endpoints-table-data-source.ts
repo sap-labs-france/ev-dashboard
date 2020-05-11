@@ -203,8 +203,6 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       case ButtonAction.UNREGISTER:
         this.unregisterOcpiEndpoint(ocpiEndpoint);
         break;
-      default:
-        super.rowActionTriggered(actionDef, ocpiEndpoint);
     }
   }
 

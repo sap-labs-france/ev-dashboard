@@ -305,19 +305,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
         if (this.forceSyncBillingUserAction.action) {
           this.forceSyncBillingUserAction.action(
-            user,
-            this.dialogService,
-            this.translateService,
-            this.spinnerService,
-            this.messageService,
-            this.centralServerService,
-            this.router,
+            user, this.dialogService, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router,
             this.refreshData.bind(this)
           );
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, user);
     }
   }
 

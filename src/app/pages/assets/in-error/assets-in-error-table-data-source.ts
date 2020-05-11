@@ -141,8 +141,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, asset);
     }
   }
 

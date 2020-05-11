@@ -1,10 +1,11 @@
-import { ComponentType } from '@angular/cdk/portal';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, Data, TableActionDef } from 'app/types/Table';
-import { Observable } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
+import { ButtonAction } from 'app/types/GlobalType';
+import { ComponentType } from '@angular/cdk/portal';
+import { Observable } from 'rxjs';
 import { TableAction } from './table-action';
+import { Utils } from 'app/utils/Utils';
 
 export class TableViewAction implements TableAction {
   private action: TableActionDef = {
@@ -27,7 +28,11 @@ export class TableViewAction implements TableAction {
     dialogConfig.minWidth = '80vw';
     dialogConfig.minHeight = '80vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = data.id;
+    if (Utils.objectHasProperty(data, 'id')) {
+      dialogConfig.data = data.id;
+    } else {
+      dialogConfig.data = data;
+    }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

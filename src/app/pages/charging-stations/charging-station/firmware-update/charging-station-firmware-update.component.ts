@@ -1,16 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { DialogService } from 'app/services/dialog.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { KeyValue } from 'app/types/GlobalType';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { ButtonType } from 'app/types/Table';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -57,38 +59,29 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   }
 
   public updateFirmware() {
-    // Show Dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
       this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Show
         this.spinnerService.show();
-        // Update Firmware
         const fileName = 'r7_update_3.3.0.10_d4.epk';
         this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url.value).subscribe(() => {
-          // Hide
           this.spinnerService.hide();
-          // Ok
           this.messageService.showSuccessMessage(
             this.translateService.instant('chargers.update_firmware_success', { chargeBoxID: this.charger.id }));
         }, (error) => {
-          // Hide
           this.spinnerService.hide();
-          // Check status
           switch (error.status) {
             case 401:
-              // Not Authorized
-              this.messageService.showErrorMessage(this.translateService.instant('chargers.update_firmware_error'));
+              this.messageService.showErrorMessage('chargers.update_firmware_error');
               break;
-            case 550:
-              // Does not exist
+            case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
               this.messageService.showErrorMessage(this.messages['update_firmware_error']);
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                this.messages['update_firmware_error']);
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, this.messages['update_firmware_error']);
           }
         });
       }

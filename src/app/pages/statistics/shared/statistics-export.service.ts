@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
 import { ButtonType } from 'app/types/Table';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { FilterParams } from 'app/types/GlobalType';
+import { Injectable } from '@angular/core';
+import { MessageService } from 'app/services/message.service';
+import { Router } from '@angular/router';
+import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from 'app/utils/Utils';
 import saveAs from 'file-saver';
-import { CentralServerService } from '../../../services/central-server.service';
-import { SpinnerService } from '../../../services/spinner.service';
 
 @Injectable()
 export class StatisticsExportService {
@@ -18,14 +19,14 @@ export class StatisticsExportService {
     private messageService: MessageService,
     private centralServerService: CentralServerService) { }
 
-  public enhanceFilterParams(filterParams: { [param: string]: string | string[]; }, dataType: string, dataCategory: string, year: number, dataScope?: string): { [param: string]: string | string[]; } {
+  public enhanceFilterParams(filterParams: FilterParams, dataType: string, dataCategory: string, year: number, dataScope?: string): FilterParams {
     if (dataScope) {
       return { ...filterParams, DataType: dataType, DataCategory: dataCategory, DataScope: dataScope, Year: year.toString() };
     }
     return { ...filterParams, DataType: dataType, DataCategory: dataCategory, Year: year.toString() };
   }
 
-  public exportDataWithDialog(filterParams: { [param: string]: string | string[]; }, dialogTitle: string, dialogQuestion: string) {
+  public exportDataWithDialog(filterParams: FilterParams, dialogTitle: string, dialogQuestion: string) {
     this.dialogService.createAndShowYesNoDialog(dialogTitle, dialogQuestion).subscribe((response) => {
       if (response === ButtonType.YES) {
         this.exportStatisticsData(filterParams);
@@ -33,7 +34,7 @@ export class StatisticsExportService {
     });
   }
 
-  private exportStatisticsData(filterParams: { [param: string]: string | string[]; }) {
+  private exportStatisticsData(filterParams: FilterParams) {
     this.spinnerService.show();
     let chartType: string = filterParams['DataType'] as string;
     chartType = chartType.toLowerCase();

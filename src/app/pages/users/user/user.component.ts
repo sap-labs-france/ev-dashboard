@@ -32,6 +32,7 @@ import { Utils } from '../../../utils/Utils';
 import { UserRoles, userStatuses } from '../model/users.model';
 import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
+import { HTTPError } from 'app/types/HTTPError';
 
 @Component({
   selector: 'app-user',
@@ -472,18 +473,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
-        // Not found
-        case 550:
-          // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'users.user_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
-          // Unexpected error`
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'general.unexpected_error_backend');
       }
@@ -754,7 +749,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         // No longer exists!
@@ -799,7 +794,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         // No longer exists!

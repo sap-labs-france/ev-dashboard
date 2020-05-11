@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { RestResponse } from 'app/types/GlobalType';
 import { BillingSettings, BillingSettingsType } from 'app/types/Setting';
-import TenantComponents from 'app/types/TenantComponents';
+import { Component, OnInit } from '@angular/core';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
+import { FormGroup } from '@angular/forms';
+import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from '../../../services/message.service';
+import { RestResponse } from 'app/types/GlobalType';
+import { Router } from '@angular/router';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/table-sync-billing-invoices-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -54,11 +56,12 @@ export class SettingsBillingComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.billing.not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -86,7 +89,7 @@ export class SettingsBillingComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:

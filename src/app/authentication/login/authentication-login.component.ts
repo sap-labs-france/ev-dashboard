@@ -1,18 +1,19 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { WindowService } from 'app/services/window.service';
-import { ButtonType } from 'app/types/Table';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthorizationService } from '../../services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 declare var $: any;
 
@@ -135,25 +136,20 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   }
 
   public login(user: object): void {
-    // Show
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();
     // Login
     this.centralServerService.login(user).subscribe((result) => {
-      // Hide
       this.spinnerService.hide();
-      // Success
       this.centralServerService.loginSucceeded(result.token);
       // login successful so redirect to return url
       this.router.navigateByUrl(this.returnUrl as string);
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check error code
       switch (error.status) {
         // Wrong email or password
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
           break;
         // Account is locked
@@ -185,8 +181,8 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
           }
           break;
         default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }

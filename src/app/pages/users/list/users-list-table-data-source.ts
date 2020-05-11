@@ -1,52 +1,53 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableForceSyncBillingAction } from 'app/shared/table/actions/table-force-sync-billing-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { DataResult } from 'app/types/DataResult';
+import { Action, Entity } from '../../../types/Authorization';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { SiteButtonAction } from 'app/types/Site';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tag } from 'app/types/Tag';
-import TenantComponents from 'app/types/TenantComponents';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
-import { Observable } from 'rxjs';
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
+
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
-import { TableAssignSitesAction } from '../../../shared/table/actions/table-assign-sites-action';
+import { AppUserRolePipe } from '../formatters/user-role.pipe';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { BillingButtonAction } from '../../../types/Billing';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ComponentService } from '../../../services/component.service';
+import { DataResult } from 'app/types/DataResult';
+import { DialogService } from '../../../services/dialog.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { Injectable } from '@angular/core';
+import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SiteButtonAction } from 'app/types/Site';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableAssignSitesToUserAction } from 'app/shared/table/actions/table-assign-sites-to-user-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../shared/table/actions/table-edit-action';
+import { TableForceSyncBillingAction } from 'app/shared/table/actions/table-force-sync-billing-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Action, Entity } from '../../../types/Authorization';
-import { BillingButtonAction } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { Utils } from '../../../utils/Utils';
-import { UserRoleFilter } from '../filters/user-role-filter';
-import { UserStatusFilter } from '../filters/user-status-filter';
-import { AppUserRolePipe } from '../formatters/user-role.pipe';
-import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
-import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
+import { Tag } from 'app/types/Tag';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
 import { UserDialogComponent } from '../user/user.dialog.component';
+import { UserRoleFilter } from '../filters/user-role-filter';
+import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
+import { UserStatusFilter } from '../filters/user-status-filter';
+import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
   private editAction = new TableEditAction().getActionDef();
-  private assignSiteAction = new TableAssignSitesAction().getActionDef();
+  private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingAction().getActionDef();
@@ -247,7 +248,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.authorizationService.canAccess(Entity.SITE, Action.UPDATE)) {
       actions = [
         this.editAction,
-        this.assignSiteAction,
+        this.assignSitesToUser,
       ];
     } else {
       actions = [
@@ -285,8 +286,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -295,8 +294,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case ButtonAction.EDIT:
         this.showUserDialog(user);
         break;
-      case SiteButtonAction.ASSIGN_SITE:
-        this.showSitesDialog(user);
+      case UserButtonAction.ASSIGN_SITES_TO_USER:
+        if (actionDef.action) {
+          actionDef.action(user, this.dialog, this.refreshData.bind(this));
+        }
         break;
       case ButtonAction.DELETE:
         this.deleteUser(user);
@@ -304,19 +305,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER:
         if (this.forceSyncBillingUserAction.action) {
           this.forceSyncBillingUserAction.action(
-            user,
-            this.dialogService,
-            this.translateService,
-            this.spinnerService,
-            this.messageService,
-            this.centralServerService,
-            this.router,
+            user, this.dialogService, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router,
             this.refreshData.bind(this)
           );
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, user);
     }
   }
 
@@ -353,17 +347,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.refreshData().subscribe();
       }
     });
-  }
-
-  private showSitesDialog(user?: User) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (user) {
-      dialogConfig.data = user;
-    }
-    // Open
-    this.dialog.open(UserSitesDialogComponent, dialogConfig);
   }
 
   private deleteUser(user: User) {

@@ -1,23 +1,24 @@
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+
+import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
+import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
+import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import ChangeNotification from '../../../../types/ChangeNotification';
+import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
+import { Observable } from 'rxjs';
+import { SettingLink } from 'app/types/Setting';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { SettingLink } from 'app/types/Setting';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Observable } from 'rxjs';
-import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
@@ -153,7 +154,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
         this.showLinksDialog();
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, link: SettingLink, dropdownItem?: DropdownItem) {
@@ -167,8 +167,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
       case ButtonAction.VIEW:
         this.viewLink(link);
         break;
-      default:
-        super.rowActionTriggered(actionDef, link);
     }
   }
 

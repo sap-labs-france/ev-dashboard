@@ -1,53 +1,53 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { Action, Entity } from 'app/types/Authorization';
-import { ActionResponse, ActionsResponse, DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
-import { RefundStatus } from 'app/types/Refund';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
+
+import { Action, Entity } from 'app/types/Authorization';
+import { ActionResponse, DataResult } from 'app/types/DataResult';
+import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
+
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
-import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { Injectable } from '@angular/core';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
+import { SpinnerService } from 'app/services/spinner.service';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { TableDeleteTransactionAction } from 'app/shared/table/actions/table-delete-transaction-action';
+import { TableDeleteTransactionsAction } from 'app/shared/table/actions/table-delete-transactions-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
+import TenantComponents from 'app/types/TenantComponents';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from 'app/types/User';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { Utils } from '../../../utils/Utils';
-
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private isSiteAdmin = false;
   private dialogRefSession: any;
-  private openAction = new TableOpenAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewTransactionAction().getActionDef();
+  private deleteAction = new TableDeleteTransactionAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -95,7 +95,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableDeleteAction().getActionDef(),
+        new TableDeleteTransactionsAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -115,24 +115,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public actionTriggered(actionDef: TableActionDef) {
-    // Action
     switch (actionDef.id) {
-      // Remove
-      case ButtonAction.DELETE:
-        // Empty?
-        if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          // Confirm
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('transactions.delete_transactions_title'),
-            this.translateService.instant('transactions.delete_transactions_confirm', { quantity: this.getSelectedRows().length }),
-          ).subscribe((response) => {
-            // Check
-            if (response === ButtonType.YES) {
-              this.deleteTransactions(this.getSelectedRows().map((row) => row.id));
-            }
-          });
+      // Delete
+      case TransactionButtonAction.DELETE_TRANSACTIONS:
+        if (actionDef.action) {
+          actionDef.action(
+            this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router,
+            this.clearSelectedRows.bind(this), this.refreshData.bind(this));
         }
         break;
     }
@@ -259,7 +249,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   public buildTableRowActions(): TableActionDef[] {
     const actions = [];
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
-      actions.push(this.openAction);
+      actions.push(this.viewAction);
     }
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
       actions.push(this.deleteAction);
@@ -269,29 +259,17 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case ButtonAction.DELETE:
-        if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
-          transaction.refundData.status === RefundStatus.APPROVED)) {
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
-        } else {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.confirm',
-              {user: this.appUserNamePipe.transform(transaction.user)}),
-          ).subscribe((response) => {
-            if (response === ButtonType.YES) {
-              this.deleteTransaction(transaction);
-            }
-          });
+      case TransactionButtonAction.DELETE_TRANSACTION:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case ButtonAction.OPEN:
-        this.openSession(transaction);
+      case TransactionButtonAction.VIEW_TRANSACTION:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, transaction);
     }
   }
 
@@ -306,37 +284,11 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
         // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.delete.success', {user: this.appUserNamePipe.transform(transaction.user)}));
+        this.translateService.instant('transactions.notification.delete.success',
+          { user: this.appUserNamePipe.transform(transaction.user) }));
       this.refreshData().subscribe();
     }, (error) => {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
-    });
-  }
-
-  private deleteTransactions(transactionsIDs: number[]) {
-    // Yes: Update
-    this.spinnerService.show();
-    this.centralServerService.deleteTransactions(transactionsIDs).subscribe((response: ActionsResponse) => {
-      if (response.inError) {
-        this.messageService.showErrorMessage(
-          this.translateService.instant('transactions.delete_transactions_partial',
-            {
-              inSuccess: response.inSuccess,
-              inError: response.inError,
-            },
-          ));
-      } else {
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('transactions.delete_transactions_success',
-            { inSuccess: response.inSuccess },
-          ));
-      }
-      this.spinnerService.hide();
-      this.clearSelectedRows();
-      this.refreshData().subscribe();
-    }, (error) => {
-      // No longer exists!
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.delete_transactions_error');
     });
   }
 

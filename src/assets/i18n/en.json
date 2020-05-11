@@ -1398,7 +1398,10 @@
         "bms": "Building Management System",
         "name": "Name",
         "description": "Description",
-        "type": "Type"
+        "type": "Type",
+        "base_url": "URL",
+        "user": "User",
+        "password": "Password"
       },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",

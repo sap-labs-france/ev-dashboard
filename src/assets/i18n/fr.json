@@ -1397,7 +1397,10 @@
         "bms": "Gestion technique de bâtiment",
         "name": "Nom",
         "description": "Description",
-        "type": "Type"
+        "type": "Type",
+        "base_url": "URL",
+        "user": "Utilisateur",
+        "password": "Mot de passe"
       },
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",

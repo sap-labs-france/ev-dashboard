@@ -192,5 +192,5 @@ export interface AssetConnectionSetting extends Data {
 }
 
 export const AssetConnectionSettingTypes: KeyValue[] = [
-  { key: 'BMS', value: 'settings.asset.type.bms' },
+  { key: 'BMS', value: 'settings.asset.connection.bms' },
 ];

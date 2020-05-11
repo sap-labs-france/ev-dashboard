@@ -87,8 +87,8 @@ export class AssetConnectionTableDataSource extends TableDataSource<AssetConnect
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: 'name',
-        name: '',
+        id: '',
+        name: 'Name',
         headerClass: 'col-20p',
         class: 'text-left col-20p',
         sorted: true,
@@ -96,25 +96,32 @@ export class AssetConnectionTableDataSource extends TableDataSource<AssetConnect
         sortable: false,
       },
       {
-        id: 'description',
-        name: '',
+        id: '',
+        name: 'Description',
         headerClass: 'col-30p',
         class: 'col-30p',
         sortable: false,
       },
       {
-        id: 'type',
-        name: '',
+        id: '',
+        name: 'Type',
         formatter: (type: string) => this.translateService.instant(this.appAssetSettingTypes.transform(type)),
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: false,
       },
       {
-        id: 'url',
-        name: '',
-        headerClass: 'col-45p',
-        class: 'col-45p',
+        id: '',
+        name: 'Status',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: false,
+      },
+      {
+        id: '',
+        name: 'URL',
+        headerClass: 'col-35p',
+        class: 'col-35p',
         sortable: false,
       },
     ];

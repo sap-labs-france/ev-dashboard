@@ -20,7 +20,7 @@ export class AssetConnectionDialogComponent implements OnInit {
   public user!: AbstractControl;
   public password!: AbstractControl;
 
-  public assetConnectionSettingTypes: KeyValue[];
+  public assetConnectionTypes: KeyValue[];
   public currentAssetConnection: Partial<AssetConnectionSetting>;
 
   constructor(
@@ -29,7 +29,7 @@ export class AssetConnectionDialogComponent implements OnInit {
     private translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) data: Partial<AssetConnectionSetting>) {
     // Get asset connection types
-    this.assetConnectionSettingTypes = AssetConnectionSettingTypes;
+    this.assetConnectionTypes = AssetConnectionSettingTypes;
     // Check if data is passed to the dialog
     if (data) {
       this.currentAssetConnection = data;

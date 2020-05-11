@@ -3,26 +3,102 @@
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
       <mat-tab>
         <ng-template mat-tab-label>
-            <mat-icon>portrait</mat-icon>
-            <span>{{name.value}}</span>
+          <mat-icon>account_balance</mat-icon>
+          <span>{{name.value}}</span>
         </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-    <div class="card-body">
-      <div class="row app-asset-align-center">
-        <div class="col-md-7">
-          <!-- Name -->
-          <div class="form-group">
-            <mat-form-field>
-              <input appAutofocus matInput placeholder="{{'assets.name' | translate}}"
-                class="app-asset-name-bold" type="text" [formControl]="name" required>
-              <mat-error *ngIf="name.errors?.required">
-                {{"general.mandatory_field" | translate}}
-              </mat-error>
-            </mat-form-field>
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <div class="row">
+                <!-- Name -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                        placeholder="{{'settings.asset.connection.name' | translate}}" type="text"
+                        [formControl]="name" required>
+                      <mat-error *ngIf="name.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                      <mat-error *ngIf="name.errors?.maxlength">
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}">
+                        </div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Description -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                        placeholder="{{'settings.asset.connection.description' | translate}}"
+                        type="text" [formControl]="description" required>
+                      <mat-error *ngIf="description.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Type -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <mat-select [formControl]="type" placeholder="{{'settings.asset.connection.type' | translate}}" required>
+                        <mat-option *ngFor="let type of assetConnectionTypes" value="{{type.key}}">
+                          {{ type.value | translate }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="type.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Asset connection URL -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                        placeholder="{{'settings.asset.connection.base_url' | translate}}"
+                        type="text" [formControl]="url" required>
+                      <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="url.errors?.pattern">
+                        <div [translate]="'general.error_url_pattern'"></div>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- User -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                        placeholder="{{'settings.asset.connection.user' | translate}}"
+                        type="text" [formControl]="user" required>
+                      <mat-error
+                        *ngIf="user.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Password -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input appAutofocus matInput
+                        placeholder="{{'settings.asset.connection.password' | translate}}"
+                        type="password" [formControl]="password" required>
+                      <mat-error *ngIf="password.errors?.required">
+                        {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

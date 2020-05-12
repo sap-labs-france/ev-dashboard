@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
+
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { ChargersDialogTableDataSource } from './chargers-dialog-table-data-source';
 

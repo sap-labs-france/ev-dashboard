@@ -1,13 +1,14 @@
-import { ButtonType } from 'app/types/Table';
-import { CentralServerService } from '../../../services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { FilterParams } from 'app/types/GlobalType';
 import { Injectable } from '@angular/core';
-import { MessageService } from 'app/services/message.service';
 import { Router } from '@angular/router';
-import { SpinnerService } from '../../../services/spinner.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { FilterParams } from 'app/types/GlobalType';
+import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import saveAs from 'file-saver';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { SpinnerService } from '../../../services/spinner.service';
 
 @Injectable()
 export class StatisticsExportService {

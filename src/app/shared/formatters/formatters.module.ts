@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { LocaleService } from '../../services/locale.service';
 import { AppArrayToStringPipe } from './app-array-to-string.pipe';
 import { AppBatteryPercentagePipe } from './app-battery-percentage.pipe';

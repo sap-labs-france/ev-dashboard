@@ -1,17 +1,17 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Setting';
-
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { Constants } from 'app/utils/Constants';
-import { HTTPError } from 'app/types/HTTPError';
-import { MessageService } from 'app/services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
+import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
+
+import { ComponentService } from '../../../services/component.service';
 
 @Component({
   selector: 'app-settings-ocpi',

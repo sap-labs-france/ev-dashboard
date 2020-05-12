@@ -7,6 +7,7 @@ import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 

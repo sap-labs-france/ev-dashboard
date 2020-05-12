@@ -8,6 +8,7 @@ import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStatio
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 
 @Component({

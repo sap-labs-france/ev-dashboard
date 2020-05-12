@@ -1,6 +1,7 @@
 import { TableActionDef } from 'app/types/Table';
-import { TableOpenURLAction } from './table-open-url-action';
 import { TransactionButtonAction } from 'app/types/Transaction';
+
+import { TableOpenURLAction } from './table-open-url-action';
 
 export class TableOpenURLConcurAction extends TableOpenURLAction {
   // Return an action

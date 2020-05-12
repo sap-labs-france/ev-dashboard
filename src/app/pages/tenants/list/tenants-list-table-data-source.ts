@@ -1,28 +1,28 @@
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tenant, TenantButtonAction } from 'app/types/Tenant';
-
-import { ButtonAction } from 'app/types/GlobalType';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
-import { DialogService } from '../../../services/dialog.service';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableCreateTenantAction } from 'app/shared/table/actions/table-create-tenant-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDeleteTenantAction } from 'app/shared/table/actions/table-delete-tenant-action';
 import { TableEditTenantAction } from 'app/shared/table/actions/table-edit-tenant-action';
 import { TableOpenURLAction } from 'app/shared/table/actions/table-open-url-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from '../../../utils/Utils';
+import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Tenant, TenantButtonAction } from 'app/types/Tenant';
+import { Observable } from 'rxjs';
+
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {

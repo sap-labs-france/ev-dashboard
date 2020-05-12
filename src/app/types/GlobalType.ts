@@ -34,7 +34,7 @@ export interface KeyValue {
 
 export interface FilterParams {
   [param: string]: string | string[];
-} 
+}
 
 export enum ButtonAction {
   ACTIVATE = 'activate',

@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { LocaleService } from '../../services/locale.service';
 
 @Pipe({name: 'appDuration'})

@@ -1,9 +1,9 @@
-import { Company, CompanyButtonAction } from 'app/types/Company';
-
-import { CompanyDialogComponent } from 'app/pages/organization/companies/company/company.dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { CompanyDialogComponent } from 'app/pages/organization/companies/company/company.dialog.component';
+import { Company, CompanyButtonAction } from 'app/types/Company';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableViewAction } from './table-view-action';
 
 export class TableViewCompanyAction extends TableViewAction {

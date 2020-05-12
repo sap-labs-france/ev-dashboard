@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.48',
-        date: new Date('2020-05-11'),
+        version: '2.2.49',
+        date: new Date('2020-05-12'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Display consumption chart at the first consumption value`,
               `Minor bugs fix`,
             ],
           },

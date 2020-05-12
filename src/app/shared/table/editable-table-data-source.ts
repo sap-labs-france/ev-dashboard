@@ -113,6 +113,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       rowGroup.get(columnDef.id).setValue(cellValue);
       contentRows[cellIndex][columnDef.id] = cellValue;
       this.formArray.markAsDirty();
+      this.addFormControlsToContent();
     }
     // Call post data processing
     if (postDataProcessing) {
@@ -131,6 +132,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
         for (const contentRow of contentRows) {
           this.formArray.push(this.createFormGroupDefinition(contentRow));
         }
+        this.addFormControlsToContent();
       }
       return of({ count: contentRows.length, result: contentRows });
     }
@@ -145,6 +147,22 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   protected isCellDisabled(columnDef: TableColumnDef, editableRow: T): boolean {
     return false;
+  }
+
+  private addFormControlsToContent() {
+    if (this.formArray && this.editableRows) {
+      for (let i = 0; i < this.editableRows.length; i++) {
+        const editableRow = this.editableRows[i];
+        // There is one form group per line containing the form controls (one per props in table column def)
+        const formGroup = this.formArray.controls[i] as FormGroup;
+        if (formGroup) {
+          for (const tableColumnDef of this.tableColumnDefs) {
+            // Assign the form control to the data
+            editableRow[`${tableColumnDef.id}FormControl`] = formGroup.get(tableColumnDef.id);
+          }
+        }
+      }
+    }
   }
 
   private addRow() {

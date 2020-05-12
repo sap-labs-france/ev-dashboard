@@ -1395,13 +1395,17 @@
     "asset": {
       "connection": {
         "title": "Asset connections",
-        "bms": "Building Management System",
         "name": "Name",
         "description": "Description",
         "type": "Type",
         "base_url": "URL",
         "user": "User",
-        "password": "Password"
+        "password": "Password",
+        "delete_title": "Delete Asset connection",
+        "delete_confirm":"Do you really want to delete the connection '{{assetConnectionName}}'?"
+      },
+      "types": {
+        "bms": "Building Management System"
       },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",

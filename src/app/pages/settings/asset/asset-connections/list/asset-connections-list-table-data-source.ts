@@ -3,7 +3,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { AppAssetSettingTypes } from 'app/shared/formatters/app-asset-setting-types.pipe';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
@@ -12,13 +11,13 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting } from 'app/types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { AssetConnectionDialogComponent } from '../connection/asset-connection.dialog.component';
 
 @Injectable()
 export class AssetConnectionListTableDataSource extends TableDataSource<AssetConnectionSetting> {
-  @Output() public changed = new EventEmitter<boolean>();
+  public changed = new EventEmitter<boolean>();
   private assetConnections!: AssetConnectionSetting[];
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
@@ -26,19 +25,18 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    private appAssetSettingTypes: AppAssetSettingTypes,
     private dialogService: DialogService,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-    }
+  }
 
   public setAssetConnections(assetConnections: AssetConnectionSetting[]) {
     this.assetConnections = assetConnections ? assetConnections : [];
   }
 
-  public getLinks(): AssetConnectionSetting[] {
+  public getAssetConnections(): AssetConnectionSetting[] {
     return this.assetConnections;
   }
 
@@ -87,7 +85,7 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
-        id: '',
+        id: 'name',
         name: 'Name',
         headerClass: 'col-20p',
         class: 'text-left col-20p',
@@ -96,29 +94,29 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
         sortable: false,
       },
       {
-        id: '',
+        id: 'description',
         name: 'Description',
         headerClass: 'col-30p',
         class: 'col-30p',
         sortable: false,
       },
       {
-        id: '',
+        id: 'type',
         name: 'Type',
-        formatter: (type: string) => this.translateService.instant(this.appAssetSettingTypes.transform(type)),
+        formatter: (type: string) => this.translateService.instant(`settings.asset.types.${type}`),
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: false,
       },
       {
-        id: '',
+        id: 'status',
         name: 'Status',
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: false,
       },
       {
-        id: '',
+        id: 'url',
         name: 'URL',
         headerClass: 'col-35p',
         class: 'col-35p',
@@ -161,6 +159,7 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
         break;
       case ButtonAction.DELETE:
         this.deleteAssetConnection(assetConnection);
+        break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);
         break;
@@ -205,5 +204,18 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
   }
 
   private deleteAssetConnection(assetConnection: AssetConnectionSetting) {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('settings.asset.connection.delete_title'),
+      this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
+    ).subscribe((result) => {
+      if (result === ButtonType.YES) {
+        const index = this.assetConnections.findIndex((link) => link.id === assetConnection.id);
+        if (index > -1) {
+          this.assetConnections.splice(index, 1);
+        }
+        this.refreshData().subscribe();
+        this.changed.emit(true);
+      }
+    });
   }
 }

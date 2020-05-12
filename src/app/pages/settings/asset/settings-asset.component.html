@@ -19,6 +19,17 @@
         <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
       </button>
     </div>
-    <app-settings-asset-connections-list></app-settings-asset-connections-list>
+    <!-- Connections -->
+    <div class="card">
+      <div class="card-header card-header-icon card-header-primary">
+        <div class="card-icon">
+          <mat-icon>account_balance</mat-icon>
+        </div>
+        <h3 class="card-title">{{"settings.asset.connection.title" | translate}}</h3>
+      </div>
+      <div class="card-body">
+        <app-table [dataSource]="assetConnectionListTableDataSource"></app-table>
+      </div>
+    </div>
   </form>
 </div>

@@ -75,11 +75,15 @@ export class AssetConnectionComponent implements OnInit {
     this.url = this.formGroup.controls['url'];
     this.user = this.formGroup.controls['user'];
     this.password = this.formGroup.controls['password'];
+    // Load current values if connection already exists
+    if (this.currentAssetConnection.id) {
+      this.loadAssetConnection();
+    }
     // Listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // Check if escape
       if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
+        this.cancel();
       }
       if (keydownEvents && keydownEvents.code === 'Enter') {
         if (this.formGroup.valid && this.formGroup.dirty) {
@@ -88,8 +92,35 @@ export class AssetConnectionComponent implements OnInit {
         }
       }
     });
-    // Get Create/Update submit translation
+    // Get Create/Update button translation
     this.submitButtonType = this.submitButtonTranslation();
+  }
+
+  public loadAssetConnection(): void {
+    if (this.currentAssetConnection.id) {
+      this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
+    }
+    if (this.currentAssetConnection.name) {
+      this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
+    }
+    if (this.currentAssetConnection.description) {
+      this.formGroup.controls.description.setValue(this.currentAssetConnection.description);
+    }
+    if (this.currentAssetConnection.type) {
+      this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
+    }
+    if (this.currentAssetConnection.url) {
+      this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
+    }
+    if (this.currentAssetConnection.user) {
+      this.formGroup.controls.user.setValue(this.currentAssetConnection.user);
+    }
+    if (this.currentAssetConnection.password) {
+      this.formGroup.controls.password.setValue(this.currentAssetConnection.password);
+    }
+    this.formGroup.updateValueAndValidity();
+    this.formGroup.markAsPristine();
+    this.formGroup.markAllAsTouched();
   }
 
   public submitButtonTranslation(): any {
@@ -99,11 +130,15 @@ export class AssetConnectionComponent implements OnInit {
     return this.translateService.instant('general.update');
   }
 
-  public cancel() {
-    this.dialogRef.close();
+  public cancel(): void {
+    if (this.inDialog) {
+      this.dialogRef.close();
+    }
   }
 
-  public setConnectionAndClose(assetSettings: AssetSettings) {
-    this.dialogRef.close(assetSettings);
+  public setConnectionAndClose(assetSettings: AssetSettings): void {
+    if (this.inDialog) {
+      this.dialogRef.close(assetSettings);
+    }
   }
 }

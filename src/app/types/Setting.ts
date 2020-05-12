@@ -174,7 +174,7 @@ export interface StripeBillingSetting extends BillingSetting {
 export interface AssetSettings extends Setting {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
-  asset: AssetConnectionSetting[];
+  assets: AssetConnectionSetting[];
 }
 
 export enum AssetSettingsType {
@@ -192,5 +192,5 @@ export interface AssetConnectionSetting extends Data {
 }
 
 export const AssetConnectionSettingTypes: KeyValue[] = [
-  { key: 'BMS', value: 'settings.asset.connection.bms' },
+  { key: 'bms', value: 'settings.asset.types.bms' },
 ];

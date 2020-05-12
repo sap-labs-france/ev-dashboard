@@ -15,7 +15,6 @@ import { SettingsAnalyticsComponent } from './analytics/settings-analytics.compo
 import { AssetConnectionComponent } from './asset/asset-connections/connection/asset-connection.component';
 import { AssetConnectionDialogComponent } from './asset/asset-connections/connection/asset-connection.dialog.component';
 import { AssetConnectionListTableDataSource } from './asset/asset-connections/list/asset-connections-list-table-data-source';
-import { AssetConnectionsListComponent } from './asset/asset-connections/list/asset-connections-list.component';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
@@ -81,7 +80,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEnpointDialogComponent,
     SettingsAssetComponent,
     AssetConnectionComponent,
-    AssetConnectionsListComponent,
     AssetConnectionDialogComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
@@ -120,7 +118,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSapSmartChargingComponent,
     SettingsAssetComponent,
     AssetConnectionComponent,
-    AssetConnectionsListComponent,
     AssetConnectionDialogComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,

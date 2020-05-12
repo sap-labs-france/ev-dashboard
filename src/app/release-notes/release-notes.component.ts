@@ -31,6 +31,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Display consumption chart at the first consumption value`,
+              `Handle duplicate Meter Values for ABB`,
+              `Refresh Charging Plan's chart when the user changes values in the list`,
+              `Do not propagate cell new values in editable list if it's invalid`,
+              `Optimized lists with forms`,
               `Minor bugs fix`,
             ],
           },

@@ -8,7 +8,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
-import { AssetConnectionListTableDataSource } from './asset-connections/list/asset-connections-list-table-data-source';
+import { SettingsAssetConnectionListTableDataSource } from './settings-asset-connections-list-table-data-source';
 
 @Component({
   selector: 'app-settings-asset',
@@ -26,7 +26,7 @@ export class SettingsAssetComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
-    public assetConnectionListTableDataSource: AssetConnectionListTableDataSource) {
+    public assetConnectionListTableDataSource: SettingsAssetConnectionListTableDataSource) {
     this.assetConnectionListTableDataSource.changed.subscribe(() => {
       this.formGroup.markAsDirty();
     });

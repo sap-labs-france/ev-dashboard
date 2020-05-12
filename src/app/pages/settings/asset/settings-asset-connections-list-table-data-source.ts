@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
@@ -13,10 +13,10 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting } from 'app/types/Setting';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
-import { AssetConnectionDialogComponent } from '../connection/asset-connection.dialog.component';
+import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 
 @Injectable()
-export class AssetConnectionListTableDataSource extends TableDataSource<AssetConnectionSetting> {
+export class SettingsAssetConnectionListTableDataSource extends TableDataSource<AssetConnectionSetting> {
   public changed = new EventEmitter<boolean>();
   private assetConnections!: AssetConnectionSetting[];
   private editAction = new TableEditAction().getActionDef();
@@ -87,8 +87,8 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
       {
         id: 'name',
         name: 'Name',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        headerClass: 'col-30p',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: false,
@@ -96,32 +96,18 @@ export class AssetConnectionListTableDataSource extends TableDataSource<AssetCon
       {
         id: 'description',
         name: 'Description',
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        headerClass: 'col-40p',
+        class: 'col-40p',
         sortable: false,
       },
       {
         id: 'type',
         name: 'Type',
         formatter: (type: string) => this.translateService.instant(`settings.asset.types.${type}`),
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-30p',
+        class: 'col-30p',
         sortable: false,
-      },
-      {
-        id: 'status',
-        name: 'Status',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sortable: false,
-      },
-      {
-        id: 'url',
-        name: 'URL',
-        headerClass: 'col-35p',
-        class: 'col-35p',
-        sortable: false,
-      },
+      }
     ];
   }
 

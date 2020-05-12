@@ -196,6 +196,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     const dialogRef = this.dialog.open(AnalyticsLinkDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        console.log(this.analyticsLinks);
         // find object
         const index = this.analyticsLinks.findIndex((link) => link.id === result.id);
         if (index >= 0) {

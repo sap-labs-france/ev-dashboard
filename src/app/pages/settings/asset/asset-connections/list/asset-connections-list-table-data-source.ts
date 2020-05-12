@@ -14,10 +14,10 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
-import { AssetConnectionDialogComponent } from './dialog/asset-connection.dialog.component';
+import { AssetConnectionDialogComponent } from '../connection/asset-connection.dialog.component';
 
 @Injectable()
-export class AssetConnectionTableDataSource extends TableDataSource<AssetConnectionSetting> {
+export class AssetConnectionListTableDataSource extends TableDataSource<AssetConnectionSetting> {
   @Output() public changed = new EventEmitter<boolean>();
   private assetConnections!: AssetConnectionSetting[];
   private editAction = new TableEditAction().getActionDef();

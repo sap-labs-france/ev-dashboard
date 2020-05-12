@@ -1,16 +1,22 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { KeyValue } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionSettingTypes, AssetSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
+import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
 @Component({
-  templateUrl: './asset-connection.dialog.component.html'
+  selector: 'app-settings-asset-connection',
+  templateUrl: './asset-connection.component.html'
 })
-export class AssetConnectionDialogComponent implements OnInit {
+export class AssetConnectionComponent implements OnInit {
+  @Input() public currentAssetConnection!: Partial<AssetConnectionSetting>;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<AssetConnectionDialogComponent>;
+
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
@@ -21,29 +27,12 @@ export class AssetConnectionDialogComponent implements OnInit {
   public password!: AbstractControl;
 
   public assetConnectionTypes: KeyValue[];
-  public currentAssetConnection: Partial<AssetConnectionSetting>;
 
   constructor(
-    protected dialogRef: MatDialogRef<AssetConnectionDialogComponent>,
     private dialogService: DialogService,
-    private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data: Partial<AssetConnectionSetting>) {
+    private translateService: TranslateService) {
     // Get asset connection types
     this.assetConnectionTypes = AssetConnectionSettingTypes;
-    // Check if data is passed to the dialog
-    if (data) {
-      this.currentAssetConnection = data;
-    } else {
-      this.currentAssetConnection = {
-        id: '',
-        name: '',
-        description: '',
-        type: '',
-        url: '',
-        user: '',
-        password: '',
-      };
-    }
   }
 
   public ngOnInit(): void {
@@ -98,8 +87,8 @@ export class AssetConnectionDialogComponent implements OnInit {
     });
   }
 
-  public saveTranslation() {
-    if (this.currentAssetConnection.id === '') {
+  public saveConnectionButtonTranslation() {
+    if (!this.currentAssetConnection.id) {
       return this.translateService.instant('general.create');
     }
     return this.translateService.instant('general.update');

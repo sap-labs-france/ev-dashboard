@@ -20,6 +20,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   public url!: AbstractControl;
 
   public currentLink: Partial<SettingLink>;
+  public submitButtonType!: any;
 
   constructor(
     protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
@@ -77,6 +78,8 @@ export class AnalyticsLinkDialogComponent implements OnInit {
         this.setLinkAndClose(this.formGroup.value);
       }
     });
+    // Get Create/Update submit translation
+    this.submitButtonType = this.submitButtonTranslation();
   }
 
   public cancel() {
@@ -87,8 +90,8 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.dialogRef.close(analyticsLink);
   }
 
-  public saveLinkButtonTranslation() {
-    if (this.currentLink.id === '') {
+  public submitButtonTranslation() {
+    if (!this.currentLink.id) {
       return this.translateService.instant('general.create');
     }
     return this.translateService.instant('general.update');

@@ -76,8 +76,7 @@
                       <input appAutofocus matInput
                         placeholder="{{'settings.asset.connection.user' | translate}}"
                         type="text" [formControl]="user" required>
-                      <mat-error
-                        *ngIf="user.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="user.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -99,7 +98,7 @@
               <div class="card-footer mat-dialog-actions" align="end">
                 <button mat-raised-button color="warn" (click)="setConnectionAndClose(formGroup.value)"
                   [disabled]="!formGroup.valid || !formGroup.dirty">
-                  {{ saveConnectionButtonTranslation() | translate }}
+                  {{ submitButtonType | translate }}
                 </button>
                 <button mat-raised-button (click)="cancel()">
                   {{"general.cancel" | translate}}

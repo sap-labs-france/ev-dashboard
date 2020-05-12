@@ -27,6 +27,7 @@ export class AssetConnectionComponent implements OnInit {
   public password!: AbstractControl;
 
   public assetConnectionTypes: KeyValue[];
+  public submitButtonType!: any;
 
   constructor(
     private dialogService: DialogService,
@@ -81,13 +82,17 @@ export class AssetConnectionComponent implements OnInit {
         this.dialogRef.close();
       }
       if (keydownEvents && keydownEvents.code === 'Enter') {
-        // tslint:disable-next-line: no-unsafe-any
-        this.setConnectionAndClose(this.formGroup.value);
+        if (this.formGroup.valid && this.formGroup.dirty) {
+          // tslint:disable-next-line: no-unsafe-any
+          this.setConnectionAndClose(this.formGroup.value);
+        }
       }
     });
+    // Get Create/Update submit translation
+    this.submitButtonType = this.submitButtonTranslation();
   }
 
-  public saveConnectionButtonTranslation() {
+  public submitButtonTranslation(): any {
     if (!this.currentAssetConnection.id) {
       return this.translateService.instant('general.create');
     }

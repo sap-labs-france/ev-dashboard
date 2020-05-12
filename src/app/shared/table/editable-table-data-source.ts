@@ -97,23 +97,26 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
+  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
     // Use get content to get the filtered fields
     const contentRows = this.getContent();
     if (this.formArray) {
+      const row = contentRows[rowIndex];
+      const formControl = row[`${columnDef.id}FormControl`] as FormControl;
+      // Clear previous selection
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const contentRow of contentRows) {
+          // Set value + form value
           contentRow[columnDef.id] = false;
-        }
-        for (const control of this.formArray.controls) {
-          control.get(columnDef.id).setValue(false);
+          (row[`${columnDef.id}FormControl`] as FormControl).setValue(false);
         }
       }
-      const rowGroup: FormGroup = this.formArray.at(cellIndex) as FormGroup;
-      rowGroup.get(columnDef.id).setValue(cellValue);
-      contentRows[cellIndex][columnDef.id] = cellValue;
+      // Set value + form value
+      formControl.setValue(cellValue);
       this.formArray.markAsDirty();
-      this.addFormControlsToContent();
+      if (!formControl.errors) {
+        contentRows[rowIndex][columnDef.id] = cellValue;
+      }
     }
     // Call post data processing
     if (postDataProcessing) {
@@ -132,6 +135,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
         for (const contentRow of contentRows) {
           this.formArray.push(this.createFormGroupDefinition(contentRow));
         }
+        // Link row properties to form controls
         this.addFormControlsToContent();
       }
       return of({ count: contentRows.length, result: contentRows });

@@ -136,8 +136,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     super.rowActionTriggered(actionDef, schedule, dropdownItem, this.refreshChargingSchedules.bind(this));
   }
 
-  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: number, rowIndex: number, columnDef: TableColumnDef) {
     // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSchedules.bind(this));
+    super.rowCellUpdated(cellValue, rowIndex, columnDef, this.refreshChargingSchedules.bind(this));
   }
 }

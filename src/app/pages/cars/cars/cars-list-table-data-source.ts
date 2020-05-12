@@ -1,20 +1,19 @@
-import { Car, CarButtonAction } from 'app/types/Car';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DataResult } from 'app/types/DataResult';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateCarAction } from 'app/shared/table/actions/table-create-car-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TranslateService } from '@ngx-translate/core';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Car, CarButtonAction } from 'app/types/Car';
+import { DataResult } from 'app/types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {

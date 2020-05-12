@@ -9,6 +9,7 @@ import { RestResponse } from 'app/types/GlobalType';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableAction } from './table-action';
 
 export class TableSyncRefundAction implements TableAction {

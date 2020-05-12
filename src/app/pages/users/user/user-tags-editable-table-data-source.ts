@@ -3,6 +3,7 @@ import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
+
 import { DialogService } from '../../../services/dialog.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TableActivateAction } from '../../../shared/table/actions/table-activate-action';

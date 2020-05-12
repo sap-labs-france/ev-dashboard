@@ -1,19 +1,19 @@
-import { ButtonAction, KeyValue } from './GlobalType';
+import { ValidatorFn } from '@angular/forms';
+import { SortDirection } from '@angular/material/sort';
 
 import { AssetButtonAction } from './Asset';
 import { BillingButtonAction } from './Billing';
 import { CarButtonAction } from './Car';
 import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
+import { ButtonAction, KeyValue } from './GlobalType';
 import { OcpiButtonAction } from './OCPIEndpoint';
 import { RefundButtonAction } from './Refund';
-import { SiteAreaButtonAction } from './SiteArea';
 import { SiteButtonAction } from './Site';
-import { SortDirection } from '@angular/material/sort';
+import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
-import { ValidatorFn } from '@angular/forms';
 
 export interface Data {
   id: string|number;

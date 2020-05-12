@@ -7,6 +7,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { CarButtonAction } from 'app/types/Car';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+
 import { TableAction } from './table-action';
 
 export class TableSyncCarCatalogsAction implements TableAction {

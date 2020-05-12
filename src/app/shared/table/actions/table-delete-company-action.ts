@@ -1,14 +1,14 @@
-import { Company, CompanyButtonAction } from 'app/types/Company';
-
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { Company, CompanyButtonAction } from 'app/types/Company';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableDeleteAction } from './table-delete-action';
-import { TranslateService } from '@ngx-translate/core';
 
 export class TableDeleteCompanyAction extends TableDeleteAction {
   public getActionDef(): TableActionDef {

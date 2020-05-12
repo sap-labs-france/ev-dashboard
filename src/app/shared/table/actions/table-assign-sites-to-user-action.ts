@@ -1,10 +1,10 @@
-import { User, UserButtonAction } from 'app/types/User';
-
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { TableActionDef } from 'app/types/Table';
-import { TableAssignAction } from './table-assign-action';
 import { UserSitesDialogComponent } from 'app/pages/users/user-sites/user-sites-dialog.component';
+import { TableActionDef } from 'app/types/Table';
+import { User, UserButtonAction } from 'app/types/User';
+import { Observable } from 'rxjs';
+
+import { TableAssignAction } from './table-assign-action';
 
 export class TableAssignSitesToUserAction extends TableAssignAction {
   public getActionDef(): TableActionDef {

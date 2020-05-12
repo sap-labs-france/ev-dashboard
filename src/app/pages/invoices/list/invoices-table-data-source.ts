@@ -1,37 +1,36 @@
-import * as moment from 'moment';
-
-import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableSyncBillingInvoicesAction } from 'app/shared/table/actions/table-sync-billing-invoices-action';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
 
-import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
-import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AuthorizationService } from '../../../services/authorization.service';
-import { ButtonAction } from '../../../types/GlobalType';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import ChangeNotification from '../../../types/ChangeNotification';
 import { ComponentService } from '../../../services/component.service';
-import { DataResult } from 'app/types/DataResult';
 import { DialogService } from '../../../services/dialog.service';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { Injectable } from '@angular/core';
-import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
-import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
-import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableDownloadAction } from '../../../shared/table/actions/table-download-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingInvoicesAction } from 'app/shared/table/actions/table-sync-billing-invoices-action';
-import TenantComponents from '../../../types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ButtonAction } from '../../../types/GlobalType';
+import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
+import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
+import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {

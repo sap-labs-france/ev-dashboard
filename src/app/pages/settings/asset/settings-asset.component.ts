@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AssetSettings } from 'app/types/Setting';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
-import { FormGroup } from '@angular/forms';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 

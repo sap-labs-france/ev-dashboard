@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStationsListTableDataSource } from './charging-stations-list-table-data-source';
 import { MatDialog } from '@angular/material/dialog';
-import { MessageService } from '../../../services/message.service';
+import { CentralServerService } from 'app/services/central-server.service';
 import { TableEditChargingStationAction } from 'app/shared/table/actions/table-edit-charging-station-action';
+
+import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
+import { ChargingStationsListTableDataSource } from './charging-stations-list-table-data-source';
 
 @Component({
   selector: 'app-charging-stations-list',

@@ -1,24 +1,23 @@
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { Asset } from 'app/types/Asset';
-import { AssetsDialogComponent } from 'app/shared/dialogs/assets/assets-dialog.component';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
-import { Injectable } from '@angular/core';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { SiteArea } from 'app/types/SiteArea';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AssetsDialogComponent } from 'app/shared/dialogs/assets/assets-dialog.component';
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TranslateService } from '@ngx-translate/core';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Asset } from 'app/types/Asset';
+import { DataResult } from 'app/types/DataResult';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { SiteArea } from 'app/types/SiteArea';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {

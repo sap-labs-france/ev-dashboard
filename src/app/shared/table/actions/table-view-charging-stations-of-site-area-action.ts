@@ -1,6 +1,6 @@
+import { SiteAreaButtonAction } from 'app/types/SiteArea';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
-import { SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableAction } from './table-action';
 
 export class TableViewChargingStationsOfSiteAreaAction implements TableAction {

@@ -1,17 +1,17 @@
-import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
 import { Component, OnInit } from '@angular/core';
-
-import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-table-data-source';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
 import { FormGroup } from '@angular/forms';
-import { HTTPError } from 'app/types/HTTPError';
-import { MessageService } from 'app/services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
 import { Router } from '@angular/router';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+
+import { ComponentService } from '../../../services/component.service';
+import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-table-data-source';
 
 @Component({
   selector: 'app-settings-analytics',

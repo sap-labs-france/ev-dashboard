@@ -9,6 +9,7 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { User, UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableAction } from './table-action';
 
 export class TableSyncBillingUserAction implements TableAction {

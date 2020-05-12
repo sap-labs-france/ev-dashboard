@@ -1,8 +1,9 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { SiteAreaButtonAction } from 'app/types/SiteArea';
 import { SiteAreaDialogComponent } from 'app/pages/organization/site-areas/site-area/site-area-dialog.component';
+import { SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableCreateAction } from './table-create-action';
 
 export class TableCreateSiteAreaAction extends TableCreateAction {  public getActionDef(): TableActionDef {
@@ -13,7 +14,7 @@ export class TableCreateSiteAreaAction extends TableCreateAction {  public getAc
     };
   }
 
-  private createSiteArea(dialog: MatDialog, refresh?: () => Observable<void>) {
+                                                                    private createSiteArea(dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(SiteAreaDialogComponent, dialog, refresh);
   }
 }

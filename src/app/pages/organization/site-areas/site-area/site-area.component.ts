@@ -1,34 +1,33 @@
-import * as moment from 'moment';
-
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Action, Entity } from 'app/types/Authorization';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
-import { Address } from 'app/types/Address';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStations } from '../../../../utils/ChargingStations';
 import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MessageService } from 'app/services/message.service';
-import { RegistrationToken } from 'app/types/RegistrationToken';
-import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
-import { RestResponse } from 'app/types/GlobalType';
-import { Site } from 'app/types/Site';
-import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
 import { SpinnerService } from 'app/services/spinner.service';
+import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
+import { Address } from 'app/types/Address';
+import { Action, Entity } from 'app/types/Authorization';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { RegistrationToken } from 'app/types/RegistrationToken';
+import { Site } from 'app/types/Site';
+import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
+import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+import * as moment from 'moment';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { ChargingStations } from '../../../../utils/ChargingStations';
+import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-site-area',

@@ -1,5 +1,6 @@
 import { TableFilter } from 'app/shared/table/filters/table-filter';
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { logHosts } from '../model/logs.model';
 
 export class LogHostTableFilter extends TableFilter {

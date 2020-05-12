@@ -1,37 +1,37 @@
-import { ChargingStationButtonAction, Connector, OCPPVersion } from 'app/types/ChargingStation';
-import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
-import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
-import { ComponentService } from '../../../services/component.service';
-import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
-import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableChargingStationsRebootAction } from '../../../shared/table/actions/table-charging-stations-reboot-action';
-import { TableChargingStationsResetAction } from '../../../shared/table/actions/table-charging-stations-reset-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteChargingStationAction } from 'app/shared/table/actions/table-delete-charging-station-action';
 import { TableEditChargingStationAction } from 'app/shared/table/actions/table-edit-charging-station-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { ChargingStationButtonAction, Connector, OCPPVersion } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+
+import { ComponentService } from '../../../services/component.service';
+import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { TableChargingStationsRebootAction } from '../../../shared/table/actions/table-charging-stations-reboot-action';
+import { TableChargingStationsResetAction } from '../../../shared/table/actions/table-charging-stations-reset-action';
+import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
+import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
+import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {

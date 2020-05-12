@@ -1,18 +1,18 @@
-import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { KeyValue } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
-import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station-ocpp-parameters-editable-table-data-source.component';
-import { DataResult } from 'app/types/DataResult';
-import { HTTPError } from 'app/types/HTTPError';
-import { KeyValue } from 'app/types/GlobalType';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Utils } from '../../../../utils/Utils';
+import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station-ocpp-parameters-editable-table-data-source.component';
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters',

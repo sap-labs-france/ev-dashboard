@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
-import { CentralServerService } from 'app/services/central-server.service';
 import { MatDialog } from '@angular/material/dialog';
+import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
-import { TableEditUserAction } from 'app/shared/table/actions/table-edit-user-action';
-import { UsersInErrorTableDataSource } from './users-in-error-table-data-source';
 import { WindowService } from 'app/services/window.service';
+import { TableEditUserAction } from 'app/shared/table/actions/table-edit-user-action';
+
+import { UsersInErrorTableDataSource } from './users-in-error-table-data-source';
 
 @Component({
   selector: 'app-users-in-error',
@@ -26,7 +26,7 @@ export class UsersInErrorComponent implements OnInit {
     const userId = this.windowService.getSearch('UserID');
     if (userId) {
       this.centralServerService.getUser(userId).subscribe((user) => {
-        const editAction = new TableEditUserAction().getActionDef()
+        const editAction = new TableEditUserAction().getActionDef();
         if (editAction.action) {
           editAction.action(user, this.dialog);
         }

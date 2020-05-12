@@ -1,9 +1,9 @@
-import { Car, CarButtonAction } from 'app/types/Car';
-
-import { CarDialogComponent } from 'app/pages/cars/car/car.dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { CarDialogComponent } from 'app/pages/cars/car/car.dialog.component';
+import { Car, CarButtonAction } from 'app/types/Car';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableViewAction } from './table-view-action';
 
 export class TableViewCarAction extends TableViewAction {

@@ -1,4 +1,5 @@
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component';
 import { TableFilter } from './table-filter';
 

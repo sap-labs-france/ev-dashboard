@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { PricingSettings, PricingSettingsType } from 'app/types/Setting';
+import TenantComponents from 'app/types/TenantComponents';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
-import { FormGroup } from '@angular/forms';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from '../../../services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../../services/spinner.service';
-import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 
 @Component({

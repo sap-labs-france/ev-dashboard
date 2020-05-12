@@ -1,9 +1,9 @@
-import { Site, SiteButtonAction } from 'app/types/Site';
-
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { SiteUsersDialogComponent } from 'app/pages/organization/sites/site-users/site-users-dialog.component';
+import { Site, SiteButtonAction } from 'app/types/Site';
 import { TableActionDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
 import { TableAssignAction } from './table-assign-action';
 
 export class TableAssignUsersToSiteAction extends TableAssignAction {

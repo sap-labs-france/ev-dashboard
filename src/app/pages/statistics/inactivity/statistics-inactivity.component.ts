@@ -1,20 +1,20 @@
-import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { FilterParams } from 'app/types/GlobalType';
+import { TableFilterDef } from 'app/types/Table';
 
 import { CentralServerService } from '../../../services/central-server.service';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { FilterParams } from 'app/types/GlobalType';
 import { LocaleService } from '../../../services/locale.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
-import { SpinnerService } from '../../../services/spinner.service';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
-import { TableFilterDef } from 'app/types/Table';
-import { TranslateService } from '@ngx-translate/core';
-import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 
 @Component({
   selector: 'app-statistics-inactivity',

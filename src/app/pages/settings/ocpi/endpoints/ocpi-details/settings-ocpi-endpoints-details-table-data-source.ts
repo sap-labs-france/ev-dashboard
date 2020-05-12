@@ -1,30 +1,30 @@
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from 'app/types/OCPIEndpoint';
-
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DataResult } from 'app/types/DataResult';
-import { DialogService } from 'app/services/dialog.service';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableStartAction } from 'app/shared/table/actions/table-start-action';
+import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
+import { TableUploadAction } from 'app/shared/table/actions/table-upload-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from 'app/types/OCPIEndpoint';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
+import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
+import { TableMultiSyncAction } from '../../../../../shared/table/actions/table-multi-sync-action';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { OcpiDetailJobStatusFomatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-success-evses-status-formatter.component';
 import { OcpiDetailTotalEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-total-evses-status-formatter.component';
-import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
-import { TableMultiSyncAction } from '../../../../../shared/table/actions/table-multi-sync-action';
-import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
-import { TableStartAction } from 'app/shared/table/actions/table-start-action';
-import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
-import { TableUploadAction } from 'app/shared/table/actions/table-upload-action';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 
 @Injectable()
 export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource<OcpiEndpointDetail> {

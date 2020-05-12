@@ -1,4 +1,5 @@
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { CompaniesDialogComponent } from '../../dialogs/companies/companies-dialog.component';
 import { TableFilter } from './table-filter';
 

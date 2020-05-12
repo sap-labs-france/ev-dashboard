@@ -7,6 +7,7 @@ import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 
@@ -135,8 +136,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     super.rowActionTriggered(actionDef, schedule, dropdownItem, this.refreshChargingSchedules.bind(this));
   }
 
-  public rowCellUpdated(cellValue: number, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: number, rowIndex: number, columnDef: TableColumnDef) {
     // Call parent
-    super.rowCellUpdated(cellValue, cellIndex, columnDef, this.refreshChargingSchedules.bind(this));
+    super.rowCellUpdated(cellValue, rowIndex, columnDef, this.refreshChargingSchedules.bind(this));
   }
 }

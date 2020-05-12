@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { NavbarComponent } from './navbar.component';
 
 @NgModule({

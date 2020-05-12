@@ -1,24 +1,24 @@
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
-
-import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonAction } from '../../../../types/GlobalType';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
-import { Constants } from 'app/utils/Constants';
-import { DialogService } from '../../../../services/dialog.service';
-import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { Injectable } from '@angular/core';
-import { MessageService } from 'app/services/message.service';
+import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/table-charging-stations-reboot-action';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { TranslateService } from '@ngx-translate/core';
+import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import { Validators } from '@angular/forms';
 import saveAs from 'file-saver';
+
+import { DialogService } from '../../../../services/dialog.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/table-charging-stations-reboot-action';
+import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
+import { ButtonAction } from '../../../../types/GlobalType';
+import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {

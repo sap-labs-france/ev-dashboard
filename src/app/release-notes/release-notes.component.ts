@@ -24,12 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.48',
-        date: new Date('2020-05-11'),
+        version: '2.2.49',
+        date: new Date('2020-05-12'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Display consumption chart at the first consumption value`,
+              `Handle duplicate Meter Values for ABB`,
+              `Refresh Charging Plan's chart when the user changes values in the list`,
+              `Do not propagate cell new values in editable list if it's invalid`,
+              `Optimized lists with forms`,
               `Minor bugs fix`,
             ],
           },

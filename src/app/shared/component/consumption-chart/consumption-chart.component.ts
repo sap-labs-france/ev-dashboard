@@ -226,7 +226,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.transaction && this.transaction.values && this.transaction.values.length > 1;
+    return this.transaction && this.transaction.values && this.transaction.values.length > 0;
   }
 
   private refreshDataSets() {
@@ -247,26 +247,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
           cumulatedConsumptionDataSet.push(consumption.cumulatedConsumption);
         }
         if (cumulatedAmountDataSet) {
-          if (consumption.cumulatedAmount !== undefined) {
-            cumulatedAmountDataSet.push(consumption.cumulatedAmount);
-          } else {
-            cumulatedAmountDataSet.push(cumulatedAmountDataSet.length > 0 ? cumulatedAmountDataSet[cumulatedAmountDataSet.length - 1] : 0);
-          }
+          cumulatedAmountDataSet.push(consumption.cumulatedAmount);
         }
         if (stateOfChargeDataSet) {
-          if (consumption.stateOfCharge) {
-            stateOfChargeDataSet.push(consumption.stateOfCharge);
-          } else {
-            stateOfChargeDataSet.push(stateOfChargeDataSet.length > 0 ?
-              stateOfChargeDataSet[stateOfChargeDataSet.length - 1] : this.transaction.stateOfCharge);
-          }
+          stateOfChargeDataSet.push(consumption.stateOfCharge);
         }
         if (limitWattsDataSet) {
-          if (consumption.limitWatts) {
-            limitWattsDataSet.push(consumption.limitWatts);
-          } else {
-            limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
-          }
+          limitWattsDataSet.push(consumption.limitWatts);
         }
       }
       this.data.labels = labels;

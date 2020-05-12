@@ -1,5 +1,6 @@
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
+
 import { TableAction } from './table-action';
 
 export class TableRefundAction implements TableAction {

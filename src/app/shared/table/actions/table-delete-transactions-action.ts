@@ -1,15 +1,15 @@
-import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
-
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { RefundStatus } from 'app/types/Refund';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { RefundStatus } from 'app/types/Refund';
 import { TableActionDef } from 'app/types/Table';
+import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
+import { Observable } from 'rxjs';
+
 import { TableDeleteManyAction } from './table-delete-many-action';
-import { TranslateService } from '@ngx-translate/core';
 
 export class TableDeleteTransactionsAction extends TableDeleteManyAction {
   public getActionDef(): TableActionDef {

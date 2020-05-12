@@ -1,7 +1,6 @@
-import { ButtonColor, TableActionDef } from 'app/types/Table';
-
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { TableAction } from 'app/shared/table/actions/table-action';
+import { ChargingStationButtonAction } from 'app/types/ChargingStation';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 export class TableChargingStationsSmartChargingAction implements TableAction {
   private action: TableActionDef = {

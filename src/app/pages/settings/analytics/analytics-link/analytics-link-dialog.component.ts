@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { KeyValue } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
+
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 
 @Component({

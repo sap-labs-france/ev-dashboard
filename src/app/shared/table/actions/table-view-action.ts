@@ -1,11 +1,11 @@
-import { ButtonColor, Data, TableActionDef } from 'app/types/Table';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { ButtonAction } from 'app/types/GlobalType';
 import { ComponentType } from '@angular/cdk/portal';
-import { Observable } from 'rxjs';
-import { TableAction } from './table-action';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ButtonAction } from 'app/types/GlobalType';
+import { ButtonColor, Data, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+
+import { TableAction } from './table-action';
 
 export class TableViewAction implements TableAction {
   private action: TableActionDef = {

@@ -1,5 +1,6 @@
 import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { TableFilter } from './table-filter';
 
 export class SiteTableFilter extends TableFilter {

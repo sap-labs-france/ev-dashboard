@@ -1,26 +1,26 @@
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
 import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
-import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-
-import { AuthorizationService } from '../../../../services/authorization.service';
-import { ButtonType } from 'app/types/Table';
-import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentService } from '../../../../services/component.service';
-import { Constants } from '../../../../utils/Constants';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
+import { SiteArea } from 'app/types/SiteArea';
+import { ButtonType } from 'app/types/Table';
+import TenantComponents from 'app/types/TenantComponents';
+
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
-import { Router } from '@angular/router';
-import { SiteArea } from 'app/types/SiteArea';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { SpinnerService } from '../../../../services/spinner.service';
-import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
+import { CONNECTOR_TYPE_MAP } from '../../../../shared/formatters/app-connector-type.pipe';
+import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({

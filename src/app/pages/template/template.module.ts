@@ -9,6 +9,7 @@ import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+
 import { ButtonsTemplateComponent } from './buttons/buttons-template.component';
 import { ColorsTemplateComponent } from './colors/colors-template.component';
 import { DialogsTemplateComponent } from './dialogs/dialogs-template.component';

@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
+
 import { BillingInvoice, BillingInvoiceStatus } from '../../../types/Billing';
 import { invoicesStatuses } from '../model/invoices.model';
 

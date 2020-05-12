@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { ErrorCodeDetailsComponent } from '../../shared/component/error-code-details/error-code-details.component';

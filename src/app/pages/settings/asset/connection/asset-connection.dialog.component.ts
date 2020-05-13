@@ -11,21 +11,6 @@ export class AssetConnectionDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AssetConnectionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: Partial<AssetConnectionSetting>) {
-
-    if (data) {
-      this.currentConnection = data;
-    } else {
-      this.currentConnection = {
-        id: '',
-        name: '',
-        description: '',
-        type: '',
-        url: '',
-        loginCredentials: {
-          user: '',
-          password: ''
-        }
-      };
-    }
+    this.currentConnection = data;
   }
 }

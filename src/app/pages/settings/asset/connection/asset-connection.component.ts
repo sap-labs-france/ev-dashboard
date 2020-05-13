@@ -63,9 +63,7 @@ export class AssetConnectionComponent implements OnInit {
     this.type = this.formGroup.controls['type'];
     this.url = this.formGroup.controls['url'];
     // Load current values if connection already exists
-    if (this.currentAssetConnection.id) {
-      this.loadAssetConnection();
-    }
+    this.loadAssetConnection();
     // Listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // Check if escape
@@ -84,6 +82,9 @@ export class AssetConnectionComponent implements OnInit {
   }
 
   public loadAssetConnection(): void {
+    if (!this.currentAssetConnection) {
+      return;
+    }
     if (this.currentAssetConnection.id) {
       this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
     }
@@ -115,11 +116,11 @@ export class AssetConnectionComponent implements OnInit {
     }
   }
 
-  public getSubmitButtonTranslation(): any {
-    if (!this.currentAssetConnection.id) {
-      return this.translateService.instant('general.create');
+  public getSubmitButtonTranslation(): string {
+    if (this.currentAssetConnection && this.currentAssetConnection.id) {
+      return this.translateService.instant('general.update');
     }
-    return this.translateService.instant('general.update');
+    return this.translateService.instant('general.create');
   }
 
   public cancel(): void {

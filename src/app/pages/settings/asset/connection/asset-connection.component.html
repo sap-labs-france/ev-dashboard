@@ -28,14 +28,28 @@
                   </div>
                 </div>
                 <!-- Description -->
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appAutofocus matInput
+                      <input matInput
                         placeholder="{{'settings.asset.connection.description' | translate}}"
                         type="text" [formControl]="description" required>
                       <mat-error *ngIf="description.errors?.required">
                         {{"general.mandatory_field" | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- Asset connection URL -->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <input matInput
+                        placeholder="{{'settings.asset.connection.base_url' | translate}}"
+                        type="text" [formControl]="url" required>
+                      <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="url.errors?.pattern">
+                        <div [translate]="'general.error_url_pattern'"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -55,20 +69,6 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <!-- Asset connection URL -->
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <mat-form-field>
-                      <input appAutofocus matInput
-                        placeholder="{{'settings.asset.connection.base_url' | translate}}"
-                        type="text" [formControl]="url" required>
-                      <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                      <mat-error *ngIf="url.errors?.pattern">
-                        <div [translate]="'general.error_url_pattern'"></div>
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
-                </div>
               </div>
               <div class="row" *ngIf="type.value === 'schneider'">
                 <div class="col-md-12">
@@ -77,7 +77,6 @@
                   </app-settings-schneider-connection>
                 </div>
               </div>
-            </div>
               <div class="card-footer mat-dialog-actions" align="end">
                 <button mat-raised-button color="warn" (click)="setConnectionAndClose(formGroup.value)"
                   [disabled]="!formGroup.valid || !formGroup.dirty">
@@ -89,6 +88,7 @@
               </div>
             </div>
           </div>
+        </div>
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>

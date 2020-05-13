@@ -78,13 +78,13 @@ npm run build:prod
 
 Next, start the server with:
 ```
-npm run start:prod:dist
+npm run start:prod
 ```
 
 ### Secured Production Mode (SSL)
 Build the sources as above and run it with:
 ```
-npm run start:prod:dist:ssl
+npm run start:prod:ssl
 ```
 
 ## Tests End To End

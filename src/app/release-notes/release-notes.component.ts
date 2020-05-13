@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Handle duplicate Meter Values for ABB`,
               `Refresh Charging Plan's chart when the user changes values in the list`,
               `Do not propagate cell new values in editable list if it's invalid`,
+              `Add OCPI data to Charging Stations`,
               `Optimized lists with forms`,
               `Minor bugs fix`,
             ],

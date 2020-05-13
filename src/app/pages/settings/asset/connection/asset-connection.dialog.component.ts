@@ -21,8 +21,10 @@ export class AssetConnectionDialogComponent {
         description: '',
         type: '',
         url: '',
-        user: '',
-        password: ''
+        loginCredentials: {
+          user: '',
+          password: ''
+        }
       };
     }
   }

@@ -187,10 +187,15 @@ export interface AssetConnectionSetting extends Data {
   description: string;
   type: string;
   url: string;
+  loginCredentials: LoginCredentialsAssetConnection;
+}
+
+export interface LoginCredentialsAssetConnection {
   user: string;
   password: string;
 }
 
 export const AssetConnectionSettingTypes: KeyValue[] = [
   { key: 'bms', value: 'settings.asset.types.bms' },
+  { key: 'schneider', value: 'settings.asset.types.schneider' }
 ];

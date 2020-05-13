@@ -1405,7 +1405,8 @@
         "delete_confirm":"Do you really want to delete the connection '{{assetConnectionName}}'?"
       },
       "types": {
-        "bms": "Building Management System"
+        "bms": "Building Management System",
+        "schneider": "Schneider"
       },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",

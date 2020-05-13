@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
 import { KeyValue } from 'app/types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionSettingTypes, AssetSettings } from 'app/types/Setting';
+import { AssetConnectionSetting, AssetConnectionSettingTypes, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
@@ -23,14 +22,12 @@ export class AssetConnectionComponent implements OnInit {
   public name!: AbstractControl;
   public type!: AbstractControl;
   public url!: AbstractControl;
-  public user!: AbstractControl;
-  public password!: AbstractControl;
 
-  public assetConnectionTypes: KeyValue[];
-  public submitButtonType!: any;
+  public loginCredentials!: LoginCredentialsAssetConnection;
+  public assetConnectionTypes!: KeyValue[];
+  public submitButtonTranslation!: any;
 
   constructor(
-    private dialogService: DialogService,
     private translateService: TranslateService) {
     // Get asset connection types
     this.assetConnectionTypes = AssetConnectionSettingTypes;
@@ -58,14 +55,6 @@ export class AssetConnectionComponent implements OnInit {
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      user: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      password: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -73,8 +62,6 @@ export class AssetConnectionComponent implements OnInit {
     this.description = this.formGroup.controls['description'];
     this.type = this.formGroup.controls['type'];
     this.url = this.formGroup.controls['url'];
-    this.user = this.formGroup.controls['user'];
-    this.password = this.formGroup.controls['password'];
     // Load current values if connection already exists
     if (this.currentAssetConnection.id) {
       this.loadAssetConnection();
@@ -93,7 +80,7 @@ export class AssetConnectionComponent implements OnInit {
       }
     });
     // Get Create/Update button translation
-    this.submitButtonType = this.submitButtonTranslation();
+    this.submitButtonTranslation = this.getSubmitButtonTranslation();
   }
 
   public loadAssetConnection(): void {
@@ -108,22 +95,27 @@ export class AssetConnectionComponent implements OnInit {
     }
     if (this.currentAssetConnection.type) {
       this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
+      this.loadConnectionType();
     }
     if (this.currentAssetConnection.url) {
       this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
-    }
-    if (this.currentAssetConnection.user) {
-      this.formGroup.controls.user.setValue(this.currentAssetConnection.user);
-    }
-    if (this.currentAssetConnection.password) {
-      this.formGroup.controls.password.setValue(this.currentAssetConnection.password);
     }
     this.formGroup.updateValueAndValidity();
     this.formGroup.markAsPristine();
     this.formGroup.markAllAsTouched();
   }
 
-  public submitButtonTranslation(): any {
+  public loadConnectionType(): void {
+    switch (this.currentAssetConnection.type) {
+      case 'schneider':
+        this.loginCredentials = this.currentAssetConnection.loginCredentials;
+        break;
+      default:
+        break;
+    }
+  }
+
+  public getSubmitButtonTranslation(): any {
     if (!this.currentAssetConnection.id) {
       return this.translateService.instant('general.create');
     }

@@ -137,8 +137,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     });
     // Change the Slots/Schedules
     this.scheduleEditableTableDataSource.getTableChangedSubject().subscribe((schedules: Schedule[]) => {
-      // Update Chart
-      this.currentChargingSchedules = schedules;
+      // Update Chart (recreate the array to trigger the ngonchanges event on the chart)
+      this.currentChargingSchedules = [...schedules];
       // Refresh end date
       this.scheduleEditableTableDataSource.refreshChargingSchedules();
       this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);

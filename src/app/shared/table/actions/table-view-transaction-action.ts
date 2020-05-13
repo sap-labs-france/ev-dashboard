@@ -18,12 +18,12 @@ export class TableViewTransactionAction extends TableViewAction {
 
   private viewTransaction(transaction: Transaction, dialog: MatDialog, refresh?: () => Observable<void>) {
     let data: Data|number;
+    // From Transaction
     if (Utils.objectHasProperty(transaction, 'id')) {
-      // From Transaction
       data = transaction.id;
+    // From Charging Station
     } else {
-      // From Charging Station
-      data = data;
+      data = transaction;
     }
     super.view(TransactionDialogComponent, data, dialog, refresh);
   }

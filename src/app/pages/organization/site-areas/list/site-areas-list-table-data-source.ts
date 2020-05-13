@@ -221,8 +221,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, siteArea
+          actionDef.action({ siteArea }, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService
           );
         }
         break;

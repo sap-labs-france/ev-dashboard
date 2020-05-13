@@ -198,8 +198,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, null, site);
+          actionDef.action({ site }, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
         }
         break;
     }

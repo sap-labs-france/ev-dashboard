@@ -289,7 +289,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         break;
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.getSorting(), this.dialogService,
+          actionDef.action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }

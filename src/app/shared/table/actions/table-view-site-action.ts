@@ -16,6 +16,6 @@ export class TableViewSiteAction extends TableViewAction {
   }
 
   private viewSite(site: Site, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(SiteDialogComponent, site, dialog, refresh);
+    super.view(SiteDialogComponent, site.id, dialog, refresh);
   }
 }

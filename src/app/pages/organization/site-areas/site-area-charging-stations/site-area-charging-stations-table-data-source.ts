@@ -23,6 +23,8 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class SiteAreaChargingStationsDataSource extends TableDataSource<ChargingStation> {
   private siteArea!: SiteArea;
+  private addAction = new TableAddAction().getActionDef();
+  private removeAction = new TableRemoveAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -42,9 +44,9 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       if (this.siteArea) {
         // Yes: Get data
         this.centralServerService.getChargingStations(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((chargers) => {
-            // Ok
-            observer.next(chargers);
+          this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
+            this.removeAction.disabled = (chargingStations.count === 0);
+            observer.next(chargingStations);
             observer.complete();
           }, (error) => {
             // No longer exists!
@@ -125,8 +127,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     const tableActionsDef = super.buildTableActionsDef();
     if (this.siteArea && this.authorizationService.isAdmin()) {
       return [
-        new TableAddAction().getActionDef(),
-        new TableRemoveAction().getActionDef(),
+        this.addAction,
+        this.removeAction,
         ...tableActionsDef,
       ];
     }

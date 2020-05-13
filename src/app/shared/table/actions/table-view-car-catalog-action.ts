@@ -16,6 +16,6 @@ export class TableViewCarCatalogAction extends TableViewAction {
   }
 
   private viewCarCatalog(carCatalog: CarCatalog, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(CarCatalogDialogComponent, carCatalog, dialog, refresh);
+    super.view(CarCatalogDialogComponent, carCatalog.id, dialog, refresh);
   }
 }

@@ -714,7 +714,8 @@
     "dialog": {
       "export": {
         "title": "Export charging stations",
-        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+        "confirm": "Do you really want to export all the charging stations matching the filters ?",
+        "error": "Error occurred while trying to export the charging stations"
       },
       "exportConfig": {
         "title": "Export charging station parameters",

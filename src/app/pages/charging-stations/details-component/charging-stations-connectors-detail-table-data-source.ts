@@ -32,10 +32,10 @@ import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '.
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
   // tslint:disable-next-line: no-unsafe-any
-  public stopTransactionAction = new TableChargingStationsStopTransactionAction();
-  public startTransactionAction = new TableChargingStationsStartTransactionAction();
-  public viewTransactionAction = new TableViewTransactionAction();
-  public noAction = new TableNoAction();
+  public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
+  public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
+  public viewTransactionAction = new TableViewTransactionAction().getActionDef();
+  public noAction = new TableNoAction().getActionDef();
 
   private chargingStation!: ChargingStation;
   private dialogRefSession!: MatDialogRef<TransactionDialogComponent>;
@@ -53,7 +53,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-    this.noAction.getActionDef().disabled = true;
+    this.noAction.disabled = true;
   }
 
   public loadData(showSpinner: boolean = false): Observable<void> {
@@ -182,13 +182,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     const actions = [];
     if (connector) {
       if (connector.isTransactionDisplayAuthorized) {
-        actions.push(this.viewTransactionAction.getActionDef());
+        actions.push(this.viewTransactionAction);
       }
       if (connector.isStopAuthorized) {
-        actions.push(this.stopTransactionAction.getActionDef());
+        actions.push(this.stopTransactionAction);
       }
       if (connector.isStartAuthorized && !this.chargingStation.inactive) {
-        actions.push(this.startTransactionAction.getActionDef());
+        actions.push(this.startTransactionAction);
       }
     }
     if (actions.length > 0) {
@@ -196,7 +196,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     }
     // By default no actions
     return [
-      this.noAction.getActionDef(),
+      this.noAction,
     ];
   }
 

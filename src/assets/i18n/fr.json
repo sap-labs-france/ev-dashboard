@@ -714,7 +714,8 @@
     "dialog": {
       "export": {
         "title": "Exporter les bornes",
-        "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?"
+        "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?",
+        "error": "Une erreur est survenue pendant l'exportation des bornes"
       },
       "exportConfig": {
         "title": "Exporter les paramètres de la borne",

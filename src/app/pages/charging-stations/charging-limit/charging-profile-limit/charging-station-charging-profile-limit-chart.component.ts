@@ -5,6 +5,8 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
@@ -14,6 +16,13 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
+    <div class="mt-2">
+      <mat-radio-group class="col-auto" (change)="unitChanged()" [(ngModel)]="selectedUnit">
+        <mat-radio-button  *ngFor="let unit of unitMap" [value]="unit.key" class="col-auto">
+          {{unit.description | translate}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
     <div class="chart-container" style="position: relative; height:27vh;">
       <div #primary class='chart-primary'></div>
       <div #danger class='chart-danger'></div>
@@ -27,10 +36,16 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   @Input() public connectorId!: number;
   @Input() public chargingSchedules: Schedule[];
 
-  @ViewChild('primary', {static: true}) public primaryElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
-  @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
+  public selectedUnit = ConsumptionUnit.KILOWATT;
+
+  public unitMap = [
+    { key: ConsumptionUnit.KILOWATT, description: 'transactions.graph.unit_kilowatts' },
+    { key: ConsumptionUnit.AMPERE, description: 'transactions.graph.unit_amperage' }
+  ];
 
   private graphCreated = false;
   private chart!: Chart;
@@ -46,17 +61,21 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private lineTension = 0;
 
   constructor(
-      private translateService: TranslateService,
-      private durationPipe: AppDurationPipe,
-      private localeService: LocaleService,
-      private datePipe: AppDatePipe,
-      private decimalPipe: AppDecimalPipe) {
+    private translateService: TranslateService,
+    private durationPipe: AppDurationPipe,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
   }
 
   public ngOnChanges() {
+    this.prepareAndCreateGraphData();
+  }
+
+  public unitChanged() {
     this.prepareAndCreateGraphData();
   }
 
@@ -205,6 +224,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
                 const chartPoint = dataSet.data[tooltipItem.index] as ChartPoint;
                 if (chartPoint) {
                   const value = chartPoint.y as number;
+                  if (this.selectedUnit === ConsumptionUnit.AMPERE) {
+                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  }
                   return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';
                 }
               }

@@ -1,14 +1,23 @@
 <div class="w-25 mt-3 ml-2">
-  <mat-form-field>
-    <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-    </mat-datetimepicker>
-    <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
-    <input matInput placeholder="{{'site_areas.consumption_date' | translate}}" required
-      (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="picker"
-      [formControl]="dateControl" autocomplete="false">
-    <mat-error *ngIf="dateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
-    </mat-error>
-  </mat-form-field>
+  <div class="row">
+    <div class="col-auto mr-auto">
+      <mat-form-field>
+        <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
+        </mat-datetimepicker>
+        <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
+        <input matInput placeholder="{{'site_areas.consumption_date' | translate}}" required
+          (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="picker"
+          [formControl]="dateControl" autocomplete="false">
+        <mat-error *ngIf="dateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+      <mat-radio-group (change)="unitChanged()" [(ngModel)]="selectedUnit" class="col-auto" [disabled]="!siteArea ? true : false ">
+        <mat-radio-button *ngFor="let unit of unitMap" [value]="unit.key" class="col-auto">
+          {{unit.description | translate}}
+        </mat-radio-button>
+      </mat-radio-group>
+  </div>
 </div>
 <div *ngIf="siteAreaConsumption?.values?.length === 0" class="graph-no-consumption">
   {{'organization.graph.no_consumption' | translate}}

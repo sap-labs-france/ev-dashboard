@@ -58,6 +58,11 @@ export interface ConsumptionValue {
   limitWatts: number;
 }
 
+export enum ConsumptionUnit {
+  AMPERE = 'A',
+  KILOWATT = 'kW',
+}
+
 export enum InactivityStatus {
   INFO = 'I',
   WARNING = 'W',

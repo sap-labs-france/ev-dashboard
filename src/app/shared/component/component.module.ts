@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
@@ -21,6 +22,7 @@ import { GaugesModule } from './gauge/gauge.module';
     ChartModule,
     GaugesModule,
     MaterialModule,
+    FormsModule,
   ],
   declarations: [
     ConsumptionChartDetailComponent,

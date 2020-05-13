@@ -3,9 +3,18 @@
 </div>
 <div [hidden]="transaction?.values?.length === 0">
   <div class="mt-2">
-    <mat-checkbox class="mx-auto" (change)="changeLoadAllConsumptions($event)" >
-      {{'transactions.graph.load_all_consumptions' | translate}}
-    </mat-checkbox>
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <mat-checkbox class="mx-auto" (change)="changeLoadAllConsumptions($event)">
+          {{'transactions.graph.load_all_consumptions' | translate}}
+        </mat-checkbox>
+      </div>
+      <mat-radio-group class="col-auto" [disabled]="!charger ? true : false " (change)="unitChanged()" [(ngModel)]="selectedUnit" >
+        <mat-radio-button  *ngFor="let unit of unitMap" [value]="unit.key" class="col-auto">
+          {{unit.description | translate}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
   <div class="chart-container mt-2">
     <div #primary class='chart-primary'></div>
@@ -16,4 +25,3 @@
     <canvas #chart></canvas>
   </div>
 </div>
-

@@ -1572,9 +1572,11 @@
       "siteareas": "Zones"
     },
     "graph": {
-      "power": "Instant Power (kW)",
+      "power": "Instant Power",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Max Limit",
+      "unit_kilowatts": "kW",
+      "unit_amperage":  "Amp"
     }
   },
   "asset": {
@@ -1806,13 +1808,13 @@
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Instantanée (kW)",
-      "energy": "Energie Délivrée (kW.h)",
+      "power": "Puissance Instantanée",
+      "energy": "Energie Délivrée",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
       "limit_plan_watts": "Limitation du Plan (kW)",
-      "limit_watts": "Limitation Max (kW)",
+      "limit_watts": "Limitation Max",
       "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)"
     },
     "dialog": {

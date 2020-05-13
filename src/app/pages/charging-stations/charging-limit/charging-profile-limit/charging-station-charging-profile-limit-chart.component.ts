@@ -149,6 +149,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           y: chargingSlot.limitInkW,
         } as number & ChartPoint);
       }
+      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
+        chargingSlotDataSet.data.forEach((element) => element.y = ChargingStations.convertWattToAmp(
+          this.charger.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, element.y * 1000));
+      }
       // Push in the graph
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
@@ -179,6 +183,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           x: (chargingSlotDataSet.data[chargingSlotDataSet.data.length - 1] as ChartPoint).x,
           y: chargingStationPowers.currentWatt / 1000,
         } as number & ChartPoint);
+      }
+      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
+        limitDataSet.data.forEach((element) => element.y = ChargingStations.convertWattToAmp(
+          this.charger.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, element.y * 1000));
       }
       // Push in the graph
       datasets.push(limitDataSet);

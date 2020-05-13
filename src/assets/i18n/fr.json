@@ -1813,7 +1813,7 @@
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
-      "limit_plan_watts": "Limitation du Plan (kW)",
+      "limit_plan_watts": "Limitation du Plan",
       "limit_watts": "Limitation Max",
       "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)"
     },

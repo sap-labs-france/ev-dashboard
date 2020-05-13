@@ -1810,7 +1810,7 @@
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
-      "limit_plan_watts": "Plan Limit (kW)",
+      "limit_plan_watts": "Plan Limit",
       "limit_watts": "Max Limit",
       "load_all_consumptions": "Load all consumption values (without optimization)",
       "unit_kilowatts": "kW",

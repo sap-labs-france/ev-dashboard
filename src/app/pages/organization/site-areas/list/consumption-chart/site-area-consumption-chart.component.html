@@ -1,4 +1,4 @@
-<div class="w-25 mt-3 ml-2">
+<div class="mt-2">
   <div class="row">
     <div class="col-auto mr-auto">
       <mat-form-field>
@@ -12,7 +12,8 @@
         </mat-error>
       </mat-form-field>
     </div>
-      <mat-radio-group (change)="unitChanged()" [(ngModel)]="selectedUnit" class="col-auto" [disabled]="!siteArea ? true : false ">
+      <mat-radio-group (change)="unitChanged()" [(ngModel)]="selectedUnit" class="col-auto"
+        [disabled]="!siteArea ? true : false ">
         <mat-radio-button *ngFor="let unit of unitMap" [value]="unit.key" class="col-auto">
           {{unit.description | translate}}
         </mat-radio-button>

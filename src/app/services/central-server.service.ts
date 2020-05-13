@@ -1002,11 +1002,9 @@ export class CentralServerService {
       );
   }
 
-  public exportTransactions(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportTransactions(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
+    this.getPaging(Constants.MAX_PAGING, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1066,16 +1064,9 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(siteAreaID?: string, siteID?: string): Observable<Blob> {
+  public exportAllChargingStationsOCCPParams(params: FilterParams, siteAreaID?: string, siteID?: string): Observable<Blob> {
     // Verify init
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    if (siteID) {
-      params['SiteID'] = siteID;
-    }
-    if (siteAreaID) {
-      params['SiteAreaID'] = siteAreaID;
-    }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),

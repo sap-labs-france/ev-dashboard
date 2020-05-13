@@ -297,7 +297,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.getSorting(), this.dialogService,
+          actionDef.action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }

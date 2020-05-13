@@ -47,6 +47,8 @@ export interface Car extends Data {
   carCatalogID?: number;
   userIDs?: string;
   forced?: boolean;
+  isDefault?: boolean;
+  isPrivate?: boolean;
 }
 
 export interface ChargeStandardTable extends Data {

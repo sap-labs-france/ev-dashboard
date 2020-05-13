@@ -35,6 +35,8 @@ export class CarComponent implements OnInit {
   public isCompanyCar!: AbstractControl;
   public carCatalogID!: AbstractControl;
   public carCatalog!: AbstractControl;
+  public isDefault!: AbstractControl;
+  public isPrivate!: AbstractControl;
   public users!: AbstractControl;
   public userIDs!: AbstractControl;
   public NoImage = CarImage.NO_IMAGE;
@@ -72,6 +74,13 @@ export class CarComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
+      isDefault: new FormControl('',
+        Validators.compose([
+        ])),
+      isPrivate: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ]))
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -79,6 +88,9 @@ export class CarComponent implements OnInit {
     this.licensePlate = this.formGroup.controls['licensePlate'];
     this.carCatalogID = this.formGroup.controls['carCatalogID'];
     this.carCatalog = this.formGroup.controls['carCatalog'];
+    this.carCatalog = this.formGroup.controls['carCatalog'];
+    this.isDefault = this.formGroup.controls['isDefault'];
+    this.isPrivate = this.formGroup.controls['isPrivate'];
   }
 
   public closeDialog(saved: boolean = false) {

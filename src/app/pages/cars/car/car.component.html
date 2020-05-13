@@ -52,6 +52,24 @@
                 </mat-error>
               </mat-form-field>
             </div>
+            <div class="form-group" *ngIf="isBasic">
+              <div style="text-align: left">
+              <mat-checkbox [formControl]="isDefault">
+                {{'cars.default_car' | translate}}
+              </mat-checkbox>
+            </div>
+            </div>
+            <div class="form-group" *ngIf="isBasic">
+              <div style="text-align: left">
+            <mat-radio-group [formControl]="isPrivate">
+              <mat-radio-button value="true">{{'cars.private_car' | translate}}</mat-radio-button>
+              <br>
+              <mat-radio-button value="false">{{'cars.company_car' | translate}}</mat-radio-button>
+            </mat-radio-group>
+              </div>
+            </div>
+
+
           </div>
           </div>
           <div class="clearfix"></div>

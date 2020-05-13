@@ -1643,6 +1643,8 @@
     "invalid_vin": "Invalid VIN",
     "type": "Type",
     "assign_users":"Assign Users",
+    "default_car": "Default car",
+    "private_car": "Private car",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

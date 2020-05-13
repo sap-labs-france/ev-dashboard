@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ChargingStation } from 'app/types/ChargingStation';
+
 import { LocaleService } from '../../../services/locale.service';
-import { CellContentTemplateComponent } from '../../../shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -20,7 +21,7 @@ import { CellContentTemplateComponent } from '../../../shared/table/cell-content
     </span>
   `,
 })
-export class ChargingStationsHeartbeatCellComponent extends CellContentTemplateComponent {
+export class ChargingStationsHeartbeatCellComponent extends CellContentTemplateDirective {
   @Input() public row!: ChargingStation;
   public locale!: string;
 

@@ -1,9 +1,11 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { KeyValue } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { LocaleService } from '../../../../services/locale.service';
@@ -18,9 +20,8 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
   providers: [ChargingStationOcppParametersEditableTableDataSource]
 })
 @Injectable()
-export class ChargingStationOcppParametersComponent implements OnInit {
-  @Input() public charger!: ChargingStation;
-  public chargerConfiguration!: OcppParameter[];
+export class ChargingStationOcppParametersComponent implements OnInit, OnChanges {
+  @Input() public chargingStation!: ChargingStation;
   public isAdmin: boolean;
   public formGroup!: FormGroup;
   public parameters!: FormArray;
@@ -49,41 +50,33 @@ export class ChargingStationOcppParametersComponent implements OnInit {
   public ngOnInit(): void {
     this.parameters = new FormArray([], Validators.compose([Validators.required]));
     this.ocppParametersDataSource.setFormArray(this.parameters);
-    this.ocppParametersDataSource.setCharger(this.charger);
-    this.loadConfiguration();
   }
 
-  public refresh() {
-    this.loadConfiguration();
+  public ngOnChanges() {
+    this.ocppParametersDataSource.setCharger(this.chargingStation);
+    this.loadOcppParameters();
   }
 
-  public loadConfiguration() {
-    if (!this.charger.id) {
+  public loadOcppParameters() {
+    if (!this.chargingStation) {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getChargingStationOcppParameters(this.charger.id)
-    .subscribe((configurationResult: DataResult<OcppParameter>) => {
-      if (configurationResult && Array.isArray(configurationResult.result)) {
-        this.chargerConfiguration = configurationResult.result;
-      } else {
-        this.chargerConfiguration = [];
-      }
-      this.ocppParametersDataSource.setContent(this.chargerConfiguration);
-      this.parameters.markAsPristine();
-      this.spinnerService.hide();
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        // Not found
-        case 550:
-          // Charger not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.charger_not_found');
-          break;
-        default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-      }
-    });
+    this.centralServerService.getChargingStationOcppParameters(this.chargingStation.id)
+      .subscribe((ocppParametersResult: DataResult<OcppParameter>) => {
+        this.ocppParametersDataSource.setContent(ocppParametersResult.result);
+        this.parameters.markAsPristine();
+        this.spinnerService.hide();
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('chargers.charger_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      });
   }
 }

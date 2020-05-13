@@ -14,10 +14,12 @@ import { Address } from 'app/types/Address';
 import { Action, Entity } from 'app/types/Authorization';
 import { Company } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { Site, SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
@@ -54,15 +56,15 @@ export class SiteComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router) {
-
     this.maxSize = this.configService.getSite().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateSite()) {
       // Not authorized
       this.router.navigate(['/']);
     }
+    // Set
+    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
   }
 
   public ngOnInit() {
@@ -157,7 +159,6 @@ export class SiteComponent implements OnInit {
     if (!this.isAdmin) {
       this.formGroup.disable();
     }
-    // Show spinner
     this.spinnerService.show();
     this.centralServerService.getSite(this.currentSiteID, false, true).pipe(mergeMap((site) => {
       // Init form
@@ -192,19 +193,14 @@ export class SiteComponent implements OnInit {
       }
       this.spinnerService.hide();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
-        // Not found
-        case 550:
-          // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.site_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('sites.site_not_found');
           break;
         default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -292,22 +288,17 @@ export class SiteComponent implements OnInit {
   }
 
   private createSite(site: Site) {
-    // Show
     this.spinnerService.show();
     // Set the image
     this.updateSiteImage(site);
     // Set coordinates
     this.updateSiteCoordinates(site);
-    // Yes: Update
+    // Create
     this.centralServerService.createSite(site).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('sites.create_success',
           { siteName: site.name });
-        // close
         this.currentSiteID = site.id;
         this.closeDialog(true);
       } else {
@@ -315,36 +306,27 @@ export class SiteComponent implements OnInit {
           this.messageService, 'sites.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Site deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('sites.site_do_not_exist');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('sites.site_not_found');
           break;
         default:
-          // No longer exists!
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site.create_error');
       }
     });
   }
 
   private updateSite(site: Site) {
-    // Show
     this.spinnerService.show();
     // Set the image
     this.updateSiteImage(site);
     // Set coordinates
     this.updateSiteCoordinates(site);
-    // Yes: Update
+    // Update
     this.centralServerService.updateSite(site).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('sites.update_success', { siteName: site.name });
         this.closeDialog(true);
       } else {
@@ -352,18 +334,14 @@ export class SiteComponent implements OnInit {
           this.messageService, 'sites.update_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Site deleted
-        case 550:
-          // Show error
-          this.messageService.showErrorMessage('sites.site_do_not_exist');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('sites.site_not_found');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'sites.update_error');
       }
     });
   }

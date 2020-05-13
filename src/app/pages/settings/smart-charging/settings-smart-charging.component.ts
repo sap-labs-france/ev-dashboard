@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
@@ -48,11 +50,12 @@ export class SettingsSmartChargingComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.smart_charging.setting_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -80,7 +83,7 @@ export class SettingsSmartChargingComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
           break;
         default:

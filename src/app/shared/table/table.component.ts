@@ -9,12 +9,12 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
-import { Subscription, fromEvent, interval } from 'rxjs';
+import { fromEvent, interval, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
-
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
+
 
 @Component({
   selector: 'app-table',
@@ -125,9 +125,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadData();
   }
 
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
     if (this.dataSource.tableDef && this.dataSource.tableDef.isEditable) {
-      this.dataSource.rowCellUpdated(cellValue, cellIndex, columnDef);
+      this.dataSource.rowCellUpdated(cellValue, rowIndex, columnDef);
     }
   }
 
@@ -190,8 +190,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
-    if ((filterDef.type === FilterType.DIALOG_TABLE
-      || filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
+    if ((filterDef.type === FilterType.DIALOG_TABLE ||
+         filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
       filterDef.cleared = true;
     } else {

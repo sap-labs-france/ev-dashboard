@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
@@ -20,8 +21,8 @@ import { SiteAreasListTableDataSource } from './site-areas/list/site-areas-list-
 import { SiteAreasListComponent } from './site-areas/list/site-areas-list.component';
 import { SiteAreaAssetsDialogComponent } from './site-areas/site-area-assets/site-area-assets-dialog.component';
 import { SiteAreaAssetsDataSource } from './site-areas/site-area-assets/site-area-assets-table-data-source';
-import { SiteAreaChargersDialogComponent } from './site-areas/site-area-chargers/site-area-chargers-dialog.component';
-import { SiteAreaChargersDataSource } from './site-areas/site-area-chargers/site-area-chargers-table-data-source';
+import { SiteAreaChargingStationsDialogComponent } from './site-areas/site-area-charging-stations/site-area-charging-stations-dialog.component';
+import { SiteAreaChargingStationsDataSource } from './site-areas/site-area-charging-stations/site-area-charging-stations-table-data-source';
 import { SiteAreaDialogComponent } from './site-areas/site-area/site-area-dialog.component';
 import { SiteAreaComponent } from './site-areas/site-area/site-area.component';
 import { SitesListTableDataSource } from './sites/list/sites-list-table-data-source';
@@ -58,7 +59,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
-    SiteAreaChargersDialogComponent,
+    SiteAreaChargingStationsDialogComponent,
     SiteAreaAssetsDialogComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
@@ -76,7 +77,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaComponent,
     SiteDialogComponent,
     SiteUsersDialogComponent,
-    SiteAreaChargersDialogComponent,
+    SiteAreaChargingStationsDialogComponent,
     SiteAreaAssetsDialogComponent,
     SiteUsersAdminCheckboxComponent,
     SiteUsersOwnerRadioComponent,
@@ -84,7 +85,7 @@ import { SiteComponent } from './sites/site/site.component';
   providers: [
     CompaniesListTableDataSource,
     SiteAreasListTableDataSource,
-    SiteAreaChargersDataSource,
+    SiteAreaChargingStationsDataSource,
     SiteAreaAssetsDataSource,
     SitesListTableDataSource,
     SiteUsersTableDataSource,

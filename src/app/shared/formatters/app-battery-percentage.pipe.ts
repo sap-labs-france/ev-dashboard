@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { AppPercentPipe } from './app-percent-pipe';
 
 @Pipe({ name: 'appBatteryPercentage' })

@@ -6,6 +6,7 @@ import { Company } from 'app/types/Company';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';

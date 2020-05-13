@@ -20,6 +20,7 @@ import { AssetInError, AssetInErrorType, ErrorMessage } from 'app/types/InError'
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -124,8 +125,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -142,8 +141,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, asset);
     }
   }
 

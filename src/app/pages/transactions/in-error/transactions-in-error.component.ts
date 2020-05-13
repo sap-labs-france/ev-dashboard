@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { TransactionsInErrorTableDataSource } from './transactions-in-error-table-data-source';
 
 @Component({

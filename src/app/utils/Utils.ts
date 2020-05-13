@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
 import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
-import { KeyValue } from 'app/types/GlobalType';
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
@@ -22,7 +22,7 @@ export class Utils {
   }
 
   public static containsAddressGPSCoordinates(address: Address): boolean {
-    // Check if GPs are available
+    // Check if GPS are available
     if (address && Utils.containsGPSCoordinates(address.coordinates)) {
       return true;
     }

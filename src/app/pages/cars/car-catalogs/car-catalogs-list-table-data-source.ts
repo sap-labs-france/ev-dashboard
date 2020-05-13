@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -12,22 +12,21 @@ import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableSyncCarCatalogsAction } from 'app/shared/table/actions/table-sync-car-catalogs-action';
-import { TableViewAction } from 'app/shared/table/actions/table-view-action';
+import { TableViewCarCatalogAction } from 'app/shared/table/actions/table-view-car-catalog-action';
 import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { CarButtonAction, CarCatalog, CarImage } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { CarCatalogDialogComponent } from '../car-catalog/car-catalog.dialog.component';
+
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
   public isSuperAdmin: boolean;
-  private openAction = new TableViewAction().getActionDef();
+  private openAction = new TableViewCarCatalogAction().getActionDef();
   private tableSyncCarCatalogsAction = new TableSyncCarCatalogsAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
@@ -228,13 +227,13 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return tableColumnDef;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, car: CarCatalog) {
+  public rowActionTriggered(actionDef: TableActionDef, carCatalog: CarCatalog) {
     switch (actionDef.id) {
-      case ButtonAction.VIEW:
-        this.showCarDialog(car);
+      case CarButtonAction.VIEW_CAR_CATALOG:
+        if (actionDef.action) {
+          actionDef.action(carCatalog, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, car);
     }
   }
 
@@ -253,8 +252,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
           );
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -272,20 +269,5 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return [
       new CarMakerTableFilter().getFilterDef(),
     ];
-  }
-
-  private showCarDialog(carCatalog?: CarCatalog) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (carCatalog) {
-      dialogConfig.data = carCatalog.id;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = false;
-    // Open
-    this.dialog.open(CarCatalogDialogComponent, dialogConfig);
   }
 }

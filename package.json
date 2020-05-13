@@ -36,8 +36,9 @@
     "postinstall": "ngcc",
     "ng": "ng",
     "start": "ng serve --configuration=development",
-    "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --configuration=development --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
+    "start:prod": "ng serve --prod",
+    "start:prod:ssl": "ng serve --prod --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "npm run build:dev",
     "build:prod": "ng build --prod --stats-json",
     "build:dev": "ng build --configuration=development --stats-json",
@@ -54,7 +55,8 @@
     "angular9-update": "ng update @angular/core@9 @angular/cli@9",
     "material9-update": "ng update @angular/material@9",
     "angular-dependencies-update": "ng update --all",
-    "webpack-analyze": "webpack-bundle-analyzer dist/stats-es2015.json"
+    "webpack-analyze": "webpack-bundle-analyzer dist/stats-es2015.json",
+    "import-sort": "npx import-sort-cli --write 'src/**/*.ts{,x}' 'test/**/*.ts{,x}'"
   },
   "dependencies": {
     "@agm/core": "^1.1.0",
@@ -131,6 +133,7 @@
     "faker": "^4.1.0",
     "husky": "^4.2.3",
     "import-sort-parser-typescript": "^6.0.0",
+    "import-sort-style-module": "^6.0.0",
     "jasmine": "^3.5.0",
     "jasmine-core": "^3.5.0",
     "jasmine-spec-reporter": "^5.0.1",

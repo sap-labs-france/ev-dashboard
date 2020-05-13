@@ -1,13 +1,14 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleService } from 'app/services/locale.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 
 @Component({
@@ -20,13 +21,16 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
     </div>
   `,
 })
-export class ChargingStationSmartChargingLimitPlannerChartComponent {
+export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnChanges {
   @Input() public ratio!: number;
   @Input() public charger!: ChargingStation;
+  @Input() public connectorId!: number;
+  @Input() public chargingSchedules: Schedule[];
 
   @ViewChild('primary', {static: true}) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
+
 
   private graphCreated = false;
   private chart!: Chart;
@@ -52,18 +56,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     });
   }
 
-  public setLimitPlannerData(chargingSchedules: Schedule[]) {
-    // Init
-    this.prepareOrUpdateGraph();
-    // Create chart
-    if (this.data && this.data.datasets && this.data.labels) {
-      this.data.labels = [];
-      this.data.datasets = [];
-      // Fill
-      if (chargingSchedules) {
-        this.createGraphData(chargingSchedules);
-      }
-    }
+  public ngOnChanges() {
+    this.prepareAndCreateGraphData();
   }
 
   private getStyleColor(element: Element): string {
@@ -90,7 +84,19 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
     this.chart.update();
   }
 
-  private createGraphData(chargingSchedules: Schedule[]) {
+  private prepareAndCreateGraphData() {
+    // Init
+    this.prepareOrUpdateGraph();
+    // Create chart
+    if (this.data && this.data.datasets && this.data.labels) {
+      this.data.labels = [];
+      this.data.datasets = [];
+      // Fill
+      this.createGraphData();
+    }
+  }
+
+  private createGraphData() {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
@@ -105,7 +111,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         label: this.translateService.instant('transactions.graph.limit_plan_watts'),
       };
       // Build Schedules
-      for (const chargingSlot of chargingSchedules) {
+      for (const chargingSlot of this.chargingSchedules) {
         // Add a point
         if (this.data.labels && chargingSlotDataSet.data) {
           labels.push(chargingSlot.startDate.getTime());
@@ -116,8 +122,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
         }
       }
       // Create the last point with the duration
-      if (chargingSlotDataSet.data && chargingSchedules.length > 0) {
-        const chargingSlot = chargingSchedules[chargingSchedules.length - 1];
+      if (chargingSlotDataSet.data && this.chargingSchedules.length > 0) {
+        const chargingSlot = this.chargingSchedules[this.chargingSchedules.length - 1];
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
@@ -127,7 +133,12 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent {
       // Push in the graph
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
-      const chargingStationPowers = Utils.getChargingStationPowers(this.charger);
+      let chargingStationPowers: ChargingStationPowers;
+      if (this.connectorId > 0) {
+        chargingStationPowers = Utils.getChargingStationPowers(this.charger, this.charger.connectors[this.connectorId - 1]);
+      } else {
+        chargingStationPowers = Utils.getChargingStationPowers(this.charger);
+      }
       const limitDataSet: ChartDataSets = {
         name: 'limitWatts',
         type: 'line',

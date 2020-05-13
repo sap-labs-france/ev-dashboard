@@ -18,7 +18,7 @@ export interface PropertyDisplay {
 })
 @Injectable()
 export class ChargingStationPropertiesComponent implements OnInit {
-  @Input() public charger!: ChargingStation;
+  @Input() public chargingStation!: ChargingStation;
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [
     {key: 'chargePointVendor', title: 'chargers.vendor'},
@@ -104,9 +104,9 @@ export class ChargingStationPropertiesComponent implements OnInit {
     // Format
     for (const property of this.displayedProperties) {
       if (property.formatter) {
-        property['value'] = property.formatter(this.charger[property.key]);
+        property['value'] = property.formatter(this.chargingStation[property.key]);
       } else {
-        property['value'] = this.charger[property.key];
+        property['value'] = this.chargingStation[property.key];
       }
     }
   }

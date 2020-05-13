@@ -3,7 +3,7 @@
     "protocol": "https",
     "host": "localhost",
     "port": 443,
-		"socketIOEnabled": true,
+    "socketIOEnabled": true,
     "pollEnabled": false,
     "pollIntervalSecs": 10
   },
@@ -13,9 +13,9 @@
   "Authorization": {
     "debug": false
   },
-	"Asset": {
-		"maxImageKb": 800
-	},
+  "Asset": {
+    "maxImageKb": 800
+  },
   "User": {
     "maxPictureKb": 150,
     "captchaSiteKey": ""

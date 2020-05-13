@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.46",
+    "last_update": "Version 2.2.49",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -77,6 +77,7 @@
     "reload": "Recharger",
     "stop": "Stop",
     "refund": "Rembourser",
+    "open": "Ouvrir",
     "open_in_concur": "Voir vos remboursements",
     "connect": "Connexion",
     "register": "Enregistrer",
@@ -116,6 +117,7 @@
     "error_backend": "Une erreur est survenue pendant la connexion au serveur central",
     "car_catalog_error": "Une erreur est survenue pendant la récupération du véhicule",
     "car_catalogs_error": "Une erreur est survenue pendant la récupération des véhicules",
+    "cars_error": "Une erreur est survenue pendant la récupération des véhicules utlisateurs",
     "car_image_error": "Une erreur est survenue pendant la récupération des images du véhicule",
     "success_backend": "La connexion avec le serveur central a été restaurée",
     "user_or_tenant_updated": "Vous avez été déconnecté suite a une modification de votre profil ou des paramètres de votre organisation",
@@ -283,7 +285,7 @@
     "changed_by_other_user": "Le constructeur '{{manufacturerName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_success": "Le constructeur '{{manufacturerName}}' a été mis à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour du constructeur",
-    "manufacturer_not_found": "Constructeur inconnu",
+    "manufacturer_not_found": "Le constructeur n'a pas été trouvé",
     "create_success": "Le constructeur '{{manufacturerName}}' a été créé avec succès",
     "create_error": "Une erreur est survenue pendant la création du constructeur",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko"
@@ -309,7 +311,7 @@
     "changed_by_other_user": "L'entreprise '{{companyName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "L'entreprise '{{companyName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de l'entreprise",
-    "company_not_found": "Entreprise inconnue",
+    "company_not_found": "L'entreprise n'a pas été trouvée",
     "create_success": "L'entreprise '{{companyName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de l'entreprise",
     "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko",
@@ -338,7 +340,7 @@
     "changed_by_other_user": "La ressource '{{assetName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "La ressource '{{assetName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la ressource",
-    "asset_not_found": "Ressource inconnue",
+    "asset_not_found": "La ressource n'a pas été trouvée",
     "create_success": "La ressource '{{assetName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
@@ -377,7 +379,7 @@
     "changed_on": "Modifié le",
     "changed_by": "Modifié par",
     "delete_title": "Supprimer",
-    "site_not_found": "Site inconnu",
+    "site_not_found": "Le site n'a pas été trouvé",
     "delete_button": "Supprimer",
     "delete_confirm": "Voulez-vous vraiment supprimer le site '{{siteName}}'?",
     "delete_success": "Le site '{{siteName}}' a été supprimé avec succès",
@@ -419,7 +421,7 @@
     "charger_list_source_title": "Disponibles",
     "charger_list_target_title": "Utilisées",
     "number_of_charging_stations": "Nb Bornes",
-    "site_area_not_found": "Zone inconnue",
+    "site_area_not_found": "Le zone n'a pas été trouvée",
     "select_site_areas": "Séléction Zone",
     "unassigned": "Non assigné",
     "image": "Image",
@@ -453,14 +455,18 @@
     "changed_by_other_user": "La zone '{{siteAreaName}}' a été changée par un autre utilisateur et va être rechargée",
     "update_success": "Le zone '{{siteAreaName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la zone",
+    "update_phase_error": "La zone contient des bornes triphasées",
     "create_success": "La zone '{{siteAreaName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "maximum_energy_watts": "Puissance Maximum (kW)",
     "maximum_energy_amps": "Puissance Maximum (A)",
+    "number_of_phases": "Nombre de phases",
     "export_all_params_title": "Exporter les paramètres OCPP",
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?",
-    "consumption_date": "Date"
+    "consumption_date": "Date",
+    "single_phased": "Monophasé",
+    "three_phased": "Triphasé"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -618,6 +624,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
     "model": "Modèle",
     "name": "Nom",
@@ -700,7 +707,7 @@
     "status_firmware_installed": "Installation Réussie",
     "reboot_title": "Redémarrer",
     "soft_reset_title": "Effacer le cache",
-    "charger_id_not_found": "La Borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
+    "charger_id_not_found": "La borne avec l'ID '{{chargerID}}' n'a pas été trouvée",
     "no_transaction_found": "Aucune session trouvée pour la borne '{{chargerID}}' ",
     "dialog": {
       "export": {
@@ -785,7 +792,7 @@
       "schedule_limit_header": "Limite de puissance du créneau",
       "empty_schedule_list_error": "Vous devez créer au moins un créneau",
       "connectors_all": "all",
-      "charging_profile_not_found": "ChargingProfile not found",
+      "charging_profile_not_found": "Le profile de charge n'a pas été trouvé",
       "profile_types": {
         "relative": "Planification Relative",
         "absolute": "Planification Temporaire",
@@ -794,6 +801,8 @@
       },
       "retrieve_schedule": "Récupérer les Plans",
       "charging_schedule": "Plans de Charge de '{{chargeBoxID}}'",
+      "enable_smart_charging_for_site_area_title": "Activer Charge Intelligente",
+      "enable_smart_charging_for_site_area_body": "Si vous activez la charge intelligente pour cette zone, l'algorithme d'optimisation sera prioritaire sur la limite statique et les plans de charge en cours.<br>Voulez-vous continuer ?",
       "disable_smart_charging_for_site_area_title": "Désactiver Charge Intelligente",
       "disable_smart_charging_for_site_area_body": "Si vous désactivez la charge intelligente pour cette zone, tous les plans de charge seront effacés.<br>Voulez-vous continuer ?",
       "clearing_charging_profiles_not_successful_title": "Une erreur est survenue pendant l'effacement des plans de charge",
@@ -866,6 +875,7 @@
     "force_unavailable_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne",
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
     "change_config_error": "impossible de télécharger la configuration de la borne, vérifier les logs",
+    "change_config_phase_error": "Impossible d'assigner une borne triphasée sur une zone monophasée",
     "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_params_success": "Le paramètre '{{paramKey}}' a bien été mis à jour dans la borne '{{chargeBoxID}}'",
     "change_params_error": "Une erreur est survenue pendant la mise à jour du paramètre de la borne",
@@ -1030,8 +1040,8 @@
     "role_invalid": "Rôle invalide",
     "role_mult_all": "Tous les rôles",
     "role_mult_admin_demo": "Admin ou démo",
-    "user_not_found": "Utilisateur inconnu",
-    "user_id_not_found": "Utilisateur '{{userId}}' inconnu",
+    "user_not_found": "L'utilisateur n'a pas été trouvé",
+    "user_id_not_found": "L'utilisateur '{{userId}}' n'a pas été trouvé",
     "invalid_phone_number": "Numéro de téléphone invalide",
     "missing_tag": "Cette liste doit contenir au moins un badge",
     "invalid_tag_id": "Seuls les chiffres et les lettres sont autorisés",
@@ -1166,6 +1176,7 @@
     "id": "Numéro de facture",
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
+    "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
     "pay": "Payer"
   },
   "tags": {
@@ -1184,7 +1195,7 @@
     "title": "Organisation",
     "name": "Nom",
     "tenant_management": "Gestion des Organization",
-    "tenant_not_found": "Cette organisation n'existe pas ! Vous ne pouvez pas vous connecter !",
+    "tenant_not_found": "L'organisation n'a pas été trouvée",
     "email": "Email",
     "subdomain": "Sous Domaine",
     "create_success": "L'organisation '{{name}}' a été créée avec succès",
@@ -1220,7 +1231,7 @@
         "title": "Gireve"
       },
       "setting_do_not_exist": "La configuration OCPI n'est pas disponible",
-      "setting_not_found": "La configuration OCPI n'est pas disponible",
+      "setting_not_found": "La configuration OCPI n'a pas été trouvée",
       "create_success": "La configuration OCPI a été créée avec succès",
       "create_error": "Une erreur est survenue pendant la creation de la configuration OCPI",
       "update_success": "La configuration OCPI a été mis à jour avec succès",
@@ -1315,13 +1326,14 @@
       "check_connection": "Vérifier connexion",
       "connection_success": "Connexion vers le système de facturation vérifiée avec succès",
       "connection_error": "Connexion vers le système de facturation impossible. Vérifiez votre clé secrète.",
+      "force_synchronize": "Forcer la synchronisation",
       "user": {
         "synchronize_users": "Synchro Utilisateurs (Facturation)",
         "synchronize_user": "Synchro Utilisateur (Facturation)",
         "force_synchronize_users": "Forcer Synchro Utilisateurs (Facturation)",
         "synchronize_users_dialog_title": "Synchroniser Utilisateurs (Facturation)",
         "synchronize_user_dialog_title": "Synchroniser Utilisateur (Facturation)",
-        "force_synchronize_user_dialog_title": "Forcer Synchronisation Utilisateur (Facturation)",
+        "force_synchronize_user_dialog_title": "Forcer Synchronisation (Facturation)",
         "synchronize_users_dialog_confirm": "Voulez-vous vraiment synchroniser les utilisateurs avec le système de facturation ?",
         "synchronize_user_dialog_confirm": "Voulez-vous vraiment synchroniser l'utilisateur '{{userFullName}}' avec le système de facturation ?",
         "force_synchronize_user_dialog_confirm": "Voulez-vous vraiment forcer la synchronisation de l'utilisateur '{{userFullName}}' avec le système de facturation ?<br>Attention, cette action peut entraîner la perte des données de facturation qui lui sont liées.<br>Cette action est irreversible.",
@@ -1366,12 +1378,12 @@
         "settings": "Configuration"
       },
       "description": "E-Mobility expose ses données à des outils d'analyse externes.<br>Cette fonctionnalité expose en temps réel toutes les données de session via un connecteur aux outils d'analyse de données externes.<br>E-Mobility utilise actuellement SAP Analytics Cloud au travers d'un connecteur OData.<br>SAP Analytics Cloud utilise de façon intelligente les données de charge afin de simplifier la prise de décision opérationnelle.<br>Plus d'informations techniques disponibilite sur ",
-      "setting_not_found": "La configuration n'a pas été trouvée",
-      "create_success": "La configuration de SAP Analytics Cloud a été créé avec succès",
-      "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Analytics Cloud",
-      "setting_do_not_exist": "La configuration de SAP Analytics Cloud n'est pas disponible",
-      "update_success": "La configuration de SAP Analytics Cloud a été mise à jour avec succès",
-      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de SAP Analytics Cloud"
+      "setting_not_found": "La configuration SAP Analytics n'a pas été trouvée",
+      "create_success": "La configuration de SAP Analytics a été créé avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration de SAP Analytics",
+      "setting_do_not_exist": "La configuration de SAP Analytics n'est pas disponible",
+      "update_success": "La configuration de SAP Analytics a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration de SAP Analytics"
     },
     "smart_charging": {
       "sap_smart_charging": {
@@ -1409,14 +1421,20 @@
       },
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
-      "setting_not_found": "La configuration n'a pas été trouvée"
+      "setting_not_found": "La configuration des ressources n'a pas été trouvée"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
     "car": {
       "synchronize_car_catalogs": "Synchroniser Véhicules",
       "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
-      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?"
+      "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
+      "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
+      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?",
+      "vin_already_exist_dialog_title": "VIN existe",
+      "vin_already_exist_dialog_confirm": "Ce vin existe déjà, voulez-vous vraiment créé ce véhicules?",
+      "license_plate_already_exist_dialog_title": "Plaque d'immatriculation existe",
+      "license_plate_already_exist_dialog_confirm": "Cette plaque d'immatriculation existe déjà, voulez-vous vraiment créé ce véhicules?"
     }
   },
   "ocpiendpoints": {
@@ -1583,6 +1601,8 @@
     }
   },
   "cars": {
+    "vin": "VIN",
+    "license_plate":"Immatriculation",
     "vehicle_model": "Modèle",
     "vehicle_make": "Constructeur",
     "vehicle_model_version": "Version",
@@ -1631,6 +1651,15 @@
     "synchronize_car_catalogs_up_to_date": "Les véhicules sont déjà tous à jour",
     "select_car_maker": "Selection Constructeur Véhicules",
     "car_makers":"Constructeurs de Véhicules",
+    "create_success": "Vous avez été assigné au véhicule avec succès",
+    "assign_car_catalog": "Assigner véhicule",
+    "create_error": "Une erreur est survenue pendant la création du véhicules",
+    "car_exist": "Vous avez déjà créé cette voiture",
+    "car_exist_different_car_catalog": "Vous avez déjà créé cette voiture avec un modèle different",
+    "user_already_assigned": "Vous êtes déjà assigné au cet véhicule",
+    "company_car": "Véhicules d'entreprise",
+    "invalid_vin": "VIN invalide",
+    "assign_users":"Assigner des utilisateurs",
     "type": "Type",
     "unit": {
       "meters": "m",
@@ -1650,7 +1679,8 @@
     "title": "Car",
     "description": "Gestion des voitures",
     "tabs": {
-      "list": "Voitures"
+      "car_catalogs": "Catalogue Voitures",
+      "cars": "Voitures"
     }
   },
   "analytics": {
@@ -1695,7 +1725,11 @@
     "type_placeholder": "Type",
     "description": "Interface de Facturation",
     "id": "ID facturation",
-    "updatedOn": "Synchronisé le"
+    "updatedOn": "Synchronisé le",
+    "tabs": {
+      "invoices": "Factures",
+      "in_error": "En Erreur"
+    }
   },
   "transactions": {
     "id": "Id",
@@ -1755,8 +1789,8 @@
     "refund_submitted": "Soumise",
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Conso. Totale",
-    "transaction_not_found": "Session inconnue",
-    "transaction_id_not_found": "La Session avec l'ID '{{sessionID}}' n'a pas été trouvée",
+    "transaction_not_found": "La session n'a pas été trouvée",
+    "transaction_id_not_found": "La session avec l'ID '{{sessionID}}' n'a pas été trouvée",
     "load_transactions_error": "Une erreur est survenue pendant le chargement des sessions",
     "load_transaction_error": "Une erreur est survenue pendant le chargement de la session",
     "total_duration": "Durée Totale",

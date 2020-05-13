@@ -9,10 +9,7 @@ export class SiteDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SiteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
-    if (data) {
-      this.siteID = data.id;
-    }
+    @Inject(MAT_DIALOG_DATA) data: string) {
+    this.siteID = data;
   }
 }

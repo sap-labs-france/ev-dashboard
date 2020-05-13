@@ -21,6 +21,7 @@ import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
@@ -186,7 +187,6 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
         this.showOcpiEndpointDialog();
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, ocpiEndpoint: OcpiEndpoint, dropdownItem?: DropdownItem) {
@@ -203,8 +203,6 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OcpiEn
       case ButtonAction.UNREGISTER:
         this.unregisterOcpiEndpoint(ocpiEndpoint);
         break;
-      default:
-        super.rowActionTriggered(actionDef, ocpiEndpoint);
     }
   }
 

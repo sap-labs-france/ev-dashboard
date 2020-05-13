@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +18,6 @@ import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 
-import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
 
@@ -41,7 +40,6 @@ interface ProfileType {
 })
 export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
   @Input() public charger!: ChargingStation;
-  @ViewChild('limitChart', { static: true }) public limitChartPlannerComponent!: ChargingStationSmartChargingLimitPlannerChartComponent;
   public profileTypeMap: ProfileType[] = [
     { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
       chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3 },
@@ -56,6 +54,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public endDateControl!: AbstractControl;
   public chargingSchedules!: FormArray;
   public chargingProfiles: ChargingProfile[] = [];
+  public currentChargingProfile: ChargingProfile;
+  public currentChargingSchedules: Schedule[] = [];
   public isSmartChargingComponentActive = false;
 
   constructor(
@@ -109,7 +109,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     // Initial values
     this.scheduleEditableTableDataSource.setCharger(this.charger);
     this.scheduleTableDataSource.setCharger(this.charger);
-    this.limitChartPlannerComponent.setLimitPlannerData([]);
     // Change the Profile
     this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
       // Load Profile
@@ -138,8 +137,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     });
     // Change the Slots/Schedules
     this.scheduleEditableTableDataSource.getTableChangedSubject().subscribe((schedules: Schedule[]) => {
-      // Update Chart
-      this.limitChartPlannerComponent.setLimitPlannerData(schedules);
+      // Update Chart (recreate the array to trigger the ngonchanges event on the chart)
+      this.currentChargingSchedules = [...schedules];
       // Refresh end date
       this.scheduleEditableTableDataSource.refreshChargingSchedules();
       this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
@@ -186,6 +185,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
+            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response), this.messageService,
               this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));
@@ -205,17 +205,12 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
   }
 
-  public loadChargingStation() {
-    // Show spinner
-    this.spinnerService.show();
-  }
-
   public loadChargingProfiles() {
     if (!this.charger) {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCharger(this.charger.id).subscribe((charger) => {
+    this.centralServerService.getChargingStation(this.charger.id).subscribe((charger) => {
       // Update charger
       this.charger = charger;
       this.scheduleEditableTableDataSource.setCharger(this.charger);
@@ -227,7 +222,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.chargingProfiles = chargingProfilesResult.result;
         // Default
         this.scheduleEditableTableDataSource.setContent([]);
-        this.limitChartPlannerComponent.setLimitPlannerData([]);
+        this.currentChargingSchedules = [];
         // Init
         if (chargingProfilesResult.count > 0) {
           if (this.chargingProfilesControl.value) {
@@ -254,6 +249,73 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     });
+  }
+
+  private loadProfile(chargingProfile: ChargingProfile) {
+    const schedules: Schedule[] = [];
+    this.currentChargingProfile = chargingProfile;
+    if (chargingProfile) {
+      // Init values
+      if (chargingProfile.profile.chargingProfileKind) {
+        this.formGroup.controls.profileTypeControl.setValue(chargingProfile.profile.chargingProfileKind);
+      }
+      // Set
+      if (chargingProfile.profile.chargingProfileKind) {
+        const foundProfileType = this.profileTypeMap.find((profileType) => profileType.key === chargingProfile.profile.chargingProfileKind);
+        if (foundProfileType) {
+          this.profileTypeControl.setValue(foundProfileType);
+        }
+      }
+      if (chargingProfile.profile.chargingSchedule.startSchedule) {
+        this.startDateControl.setValue(new Date(chargingProfile.profile.chargingSchedule.startSchedule));
+        this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
+      }
+      // Create Schedule
+      for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
+        const chargingSchedule = chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i];
+        // Current Schedule
+        const schedule: Schedule = {
+          key: '',
+          id: 0,
+          startDate: new Date (this.scheduleEditableTableDataSource.startDate),
+          duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
+          limit: chargingSchedule.limit,
+          limitInkW: ChargingStations.convertAmpToWatt(
+            this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0,
+            chargingSchedule.limit) / 1000,
+        };
+        // Next Schedule?
+        if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
+          schedule.duration = (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1].startPeriod
+            - chargingSchedule.startPeriod) / 60;
+        }
+        // Set Start Date
+        schedule.startDate.setSeconds(schedule.startDate.getSeconds() + chargingSchedule.startPeriod);
+        // Set
+        schedule.endDate = new Date(schedule.startDate.getTime() + schedule.duration * 60 * 1000);
+        // Add
+        schedules.push(schedule);
+        // Set Schedule
+        this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
+      }
+      // Set last schedule
+      if (chargingProfile.profile.chargingSchedule.duration) {
+        // Limit the last schedule with the total duration
+        schedules[schedules.length - 1].duration = (this.scheduleEditableTableDataSource.startDate.getTime() / 1000
+          + chargingProfile.profile.chargingSchedule.duration
+          - schedules[schedules.length - 1].startDate.getTime() / 1000) / 60;
+        // Set
+        schedules[schedules.length - 1].endDate =
+          new Date(schedules[schedules.length - 1].startDate.getTime() + schedules[schedules.length - 1].duration * 60 * 1000);
+        // Set end date
+        this.endDateControl.setValue(new Date(this.scheduleEditableTableDataSource.startDate.getTime() +
+          chargingProfile.profile.chargingSchedule.duration * 1000));
+      }
+      // Set Schedule Table content
+      this.scheduleEditableTableDataSource.setContent(schedules);
+      // Set Chart
+      this.currentChargingSchedules = schedules;
+    }
   }
 
   public deleteChargingProfile() {
@@ -330,72 +392,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         });
       }
     });
-  }
-
-  private loadProfile(chargingProfile: ChargingProfile) {
-    const schedules: Schedule[] = [];
-    if (chargingProfile) {
-      // Init values
-      if (chargingProfile.profile.chargingProfileKind) {
-        this.formGroup.controls.profileTypeControl.setValue(chargingProfile.profile.chargingProfileKind);
-      }
-      // Set
-      if (chargingProfile.profile.chargingProfileKind) {
-        const foundProfileType = this.profileTypeMap.find((profileType) => profileType.key === chargingProfile.profile.chargingProfileKind);
-        if (foundProfileType) {
-          this.profileTypeControl.setValue(foundProfileType);
-        }
-      }
-      if (chargingProfile.profile.chargingSchedule.startSchedule) {
-        this.startDateControl.setValue(new Date(chargingProfile.profile.chargingSchedule.startSchedule));
-        this.scheduleEditableTableDataSource.startDate = this.startDateControl.value as Date;
-      }
-      // Create Schedule
-      for (let i = 0; i < chargingProfile.profile.chargingSchedule.chargingSchedulePeriod.length; i++) {
-        const chargingSchedule = chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i];
-        // Current Schedule
-        const schedule: Schedule = {
-          key: '',
-          id: 0,
-          startDate: new Date (this.scheduleEditableTableDataSource.startDate),
-          duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
-          limit: chargingSchedule.limit,
-          limitInkW: ChargingStations.convertAmpToWatt(
-            this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0,
-            chargingSchedule.limit) / 1000,
-        };
-        // Next Schedule?
-        if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
-          schedule.duration = (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1].startPeriod
-            - chargingSchedule.startPeriod) / 60;
-        }
-        // Set Start Date
-        schedule.startDate.setSeconds(schedule.startDate.getSeconds() + chargingSchedule.startPeriod);
-        // Set
-        schedule.endDate = new Date(schedule.startDate.getTime() + schedule.duration * 60 * 1000);
-        // Add
-        schedules.push(schedule);
-        // Set Schedule
-        this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
-      }
-      // Set last schedule
-      if (chargingProfile.profile.chargingSchedule.duration) {
-        // Limit the last schedule with the total duration
-        schedules[schedules.length - 1].duration = (this.scheduleEditableTableDataSource.startDate.getTime() / 1000
-          + chargingProfile.profile.chargingSchedule.duration
-          - schedules[schedules.length - 1].startDate.getTime() / 1000) / 60;
-        // Set
-        schedules[schedules.length - 1].endDate =
-          new Date(schedules[schedules.length - 1].startDate.getTime() + schedules[schedules.length - 1].duration * 60 * 1000);
-        // Set end date
-        this.endDateControl.setValue(new Date(this.scheduleEditableTableDataSource.startDate.getTime() +
-          chargingProfile.profile.chargingSchedule.duration * 1000));
-      }
-      // Set Schedule Table content
-      this.scheduleEditableTableDataSource.setContent(schedules);
-      // Set Chart
-      this.limitChartPlannerComponent.setLimitPlannerData(schedules);
-    }
   }
 
   private buildChargingProfile(): ChargingProfile {

@@ -22,11 +22,9 @@ export const AssetTypes: KeyValue[] = [
 ];
 
 export enum AssetButtonAction {
-  ASSIGN_ASSETS_TO_SITE_AREA = 'assign_assets_to_site_area',
-  DISPLAY_ASSET = 'display_asset',
+  VIEW_ASSET = 'view_asset',
   EDIT_ASSET = 'edit_asset',
   CREATE_ASSET = 'create_asset',
-  DISPLAY_ASSETS_OF_SITE_AREA = 'display_assets_of_site_area',
   DELETE_ASSET = 'delete_asset',
 }
 

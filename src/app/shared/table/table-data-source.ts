@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
+import { FilterParams } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable, Subject, of } from 'rxjs';
@@ -261,17 +262,17 @@ export abstract class TableDataSource<T extends Data> {
     if (foundFilter) {
       foundFilter.currentValue = filter.currentValue;
     }
-
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
-    if (filter.type === FilterType.DROPDOWN && filter.multiple) {
+    if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
-          filter.label = this.translateService.instant(filter.currentValue[0].value) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+          filter.label = this.translateService.instant(filter.currentValue[0].value ? filter.currentValue[0].value : filter.currentValue[0]) +
+            (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
         } else {
           filter.label = '';
         }
@@ -307,7 +308,7 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   // tslint:disable-next-line:no-empty
-  public rowCellUpdated(cellValue: any, cellIndex: number, columnDef: TableColumnDef) {
+  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
   }
 
   // tslint:disable-next-line:no-empty
@@ -322,7 +323,7 @@ export abstract class TableDataSource<T extends Data> {
     return null;
   }
 
-  public buildFilterValues(withSearch: boolean = true): { [param: string]: string | string[]; } {
+  public buildFilterValues(withSearch: boolean = true): FilterParams {
     let filterJson = {};
     // Parse filters
     if (this.tableFiltersDef) {

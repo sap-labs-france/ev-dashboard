@@ -8,6 +8,8 @@ export class Constants {
   public static INFINITE_RECORDS = -1;
   public static DEFAULT_POLLING_MILLIS = 10000;
 
+  public static readonly MAX_LIMIT = Number.MAX_SAFE_INTEGER;
+
   /* Data Service */
   public static DEFAULT_LIMIT = 100;
   public static DEFAULT_SKIP = 0;

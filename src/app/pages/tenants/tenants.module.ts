@@ -11,6 +11,7 @@ import { TableModule } from '../../shared/table/table.module';
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 import { TenantsListComponent } from './list/tenants-list.component';
 import { TenantComponent } from './tenant/tenant.component';
+import { TenantDialogComponent } from './tenant/tenant.dialog.component';
 import { TenantsRoutes } from './tenants.routing';
 
 @NgModule({
@@ -28,14 +29,14 @@ import { TenantsRoutes } from './tenants.routing';
   declarations: [
     TenantsListComponent,
     TenantComponent,
+    TenantDialogComponent,
   ],
   entryComponents: [
     TenantsListComponent,
-    TenantComponent,
+    TenantDialogComponent,
   ],
   exports: [
     TenantsListComponent,
-    TenantComponent,
   ],
   providers: [
     TenantsListTableDataSource,

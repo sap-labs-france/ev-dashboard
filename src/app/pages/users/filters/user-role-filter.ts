@@ -1,4 +1,5 @@
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { UserRoles } from '../model/users.model';

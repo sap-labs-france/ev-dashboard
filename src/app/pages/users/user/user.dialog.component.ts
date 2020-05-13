@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { User } from 'app/types/User';
 
 @Component({
   template: '<app-user [currentUserID]="userID" [inDialog]="true" [dialogRef]="getDialogRef()"></app-user>',
@@ -10,10 +9,8 @@ export class UserDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<UserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: User) {
-    if (data) {
-      this.userID = data.id;
-    }
+    @Inject(MAT_DIALOG_DATA) data: string) {
+    this.userID = data;
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       // check if escape

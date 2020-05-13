@@ -4,14 +4,14 @@ import { Connector } from 'app/types/ChargingStation';
 import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 
-import { CellContentTemplateComponent } from '../../table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from '../../table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template:
   `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" ratio="3"></app-transaction-chart>`,
 })
 
-export class ConsumptionChartDetailComponent extends CellContentTemplateComponent implements OnChanges, OnInit {
+export class ConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
   @Input() public row!: Connector|Transaction;
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
   public transactionId!: number;

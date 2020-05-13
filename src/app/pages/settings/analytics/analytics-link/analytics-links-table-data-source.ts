@@ -15,6 +15,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
@@ -153,7 +154,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
         this.showLinksDialog();
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public rowActionTriggered(actionDef: TableActionDef, link: SettingLink, dropdownItem?: DropdownItem) {
@@ -167,8 +167,6 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
       case ButtonAction.VIEW:
         this.viewLink(link);
         break;
-      default:
-        super.rowActionTriggered(actionDef, link);
     }
   }
 

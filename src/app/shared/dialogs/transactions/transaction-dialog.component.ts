@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Connector } from 'app/types/ChargingStation';
 import { Image } from 'app/types/GlobalType';
 import { Transaction } from 'app/types/Transaction';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -22,7 +22,7 @@ import { AppPercentPipe } from '../../formatters/app-percent-pipe';
 })
 export class TransactionDialogComponent implements OnInit, OnDestroy {
   public transaction!: Transaction;
-  public connector!: Connector;
+  public connectorId!: number;
   public chargingStationId!: string;
   public stateOfChargeIcon!: string;
   public stateOfCharge!: number;
@@ -59,9 +59,13 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
       this.locale = locale.currentLocaleJS;
     });
     if (data) {
-      this.transactionId = data.transactionId;
-      this.connector = data.connector;
-      this.chargingStationId = data.chargingStationId;
+      if (typeof data === 'object') {
+        this.transactionId = data.transactionId;
+        this.connectorId = data.connectorId;
+        this.chargingStationId = data.chargingStationId;
+      } else {
+        this.transactionId = data;
+      }
     }
     // listen to keystroke
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
@@ -124,16 +128,16 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   public loadData() {
     this.spinnerService.show();
     if (!this.transactionId) {
-      this.centralServerService.getLastTransaction(this.chargingStationId,
-        this.connector.connectorId.toString()).subscribe((dataResult) => {
-        if (dataResult.result && dataResult.result.length > 0) {
-          this.transactionId = dataResult.result[0].id;
-          this.loadConsumption(this.transactionId);
-        } else {
-          this.spinnerService.hide();
-          this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationId });
-          this.dialogRef.close();
-        }
+      this.centralServerService.getLastTransaction(this.chargingStationId, this.connectorId.toString())
+        .subscribe((dataResult) => {
+          if (dataResult.result && dataResult.result.length > 0) {
+            this.transactionId = dataResult.result[0].id;
+            this.loadConsumption(this.transactionId);
+          } else {
+            this.spinnerService.hide();
+            this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationId });
+            this.dialogRef.close();
+          }
       });
     } else {
       this.loadConsumption(this.transactionId);

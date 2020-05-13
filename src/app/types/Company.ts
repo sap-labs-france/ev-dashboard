@@ -12,6 +12,13 @@ export interface Company extends Data {
   lastChangedOn: Date;
 }
 
+export enum CompanyButtonAction {
+  VIEW_COMPANY = 'view_company',
+  EDIT_COMPANY = 'edit_company',
+  CREATE_COMPANY = 'create_company',
+  DELETE_COMPANY = 'delete_company',
+}
+
 export enum CompanyLogo {
   NO_LOGO = 'assets/img/theme/no-logo.png',
 }

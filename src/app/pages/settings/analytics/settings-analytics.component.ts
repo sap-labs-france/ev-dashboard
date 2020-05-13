@@ -5,9 +5,11 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { AnalyticsSettings, AnalyticsSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+
 import { ComponentService } from '../../../services/component.service';
 import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-table-data-source';
 
@@ -52,16 +54,14 @@ export class SettingsAnalyticsComponent implements OnInit {
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
       switch (error.status) {
-        // Not found
-        case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.analytics.setting_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.analytics.setting_not_found');
           break;
-        // Unexpected error`
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -90,7 +90,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.analytics.setting_do_not_exist');
           break;
         default:

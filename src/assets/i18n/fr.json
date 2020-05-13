@@ -1017,7 +1017,8 @@
     "dialog": {
       "export": {
         "title": "Exporter les logs",
-        "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
+        "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?",
+        "error": "Une erreur est survenue pendant l'export des logs"
       }
     }
   },

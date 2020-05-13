@@ -629,10 +629,10 @@ export class CentralServerService {
       );
   }
 
-  public getLastTransaction(chargingStationId: string, connectorId: string): Observable<DataResult<Transaction>> {
+  public getLastTransaction(chargingStationID: string, connectorID: number): Observable<DataResult<Transaction>> {
     const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargingStationId;
-    params['ConnectorId'] = connectorId;
+    params['ChargeBoxID'] = chargingStationID;
+    params['ConnectorId'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
     params['SortFields'] = 'timestamp';

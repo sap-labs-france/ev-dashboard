@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
+import { TransactionDialogComponent } from 'app/pages/transactions/transaction/transaction.dialog.component';
 import { Data, TableActionDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';

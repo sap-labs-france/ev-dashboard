@@ -986,11 +986,8 @@ export class CentralServerService {
       );
   }
 
-  public exportLogs(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1004,7 +1001,6 @@ export class CentralServerService {
 
   public exportTransactions(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(Constants.MAX_PAGING, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1016,11 +1012,8 @@ export class CentralServerService {
       );
   }
 
-  public exportTransactionsToRefund(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportTransactionsToRefund(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1032,11 +1025,8 @@ export class CentralServerService {
       );
   }
 
-  public exportStatistics(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportStatistics(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/StatisticsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1048,11 +1038,8 @@ export class CentralServerService {
       );
   }
 
-  public exportChargingStations(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportChargingStations(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1064,7 +1051,7 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(params: FilterParams, siteAreaID?: string, siteID?: string): Observable<Blob> {
+  public exportAllChargingStationsOCCPParams(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,

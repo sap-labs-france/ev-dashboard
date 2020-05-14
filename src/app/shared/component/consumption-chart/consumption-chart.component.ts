@@ -107,12 +107,14 @@ export class ConsumptionChartComponent implements AfterViewInit, OnInit {
   }
 
   public getCharger() {
-    this.centralServerService.getChargingStation(this.transaction.chargeBoxID)
-    .subscribe((charger) => {
-      this.charger = charger;
-    }, (error) => {
-      this.messageService.showErrorMessage('transactions.graph.error');
-    });
+    if (this.transaction) {
+      this.centralServerService.getChargingStation(this.transaction.chargeBoxID)
+      .subscribe((charger) => {
+        this.charger = charger;
+      }, (error) => {
+        this.messageService.showErrorMessage('transactions.graph.error');
+      });
+    }
   }
 
   public changeLoadAllConsumptions(matCheckboxChange: MatCheckboxChange) {

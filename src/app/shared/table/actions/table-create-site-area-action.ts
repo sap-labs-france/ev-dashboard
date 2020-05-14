@@ -14,7 +14,7 @@ export class TableCreateSiteAreaAction extends TableCreateAction {  public getAc
     };
   }
 
-                                                                    private createSiteArea(dialog: MatDialog, refresh?: () => Observable<void>) {
+  private createSiteArea(dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(SiteAreaDialogComponent, dialog, refresh);
   }
 }

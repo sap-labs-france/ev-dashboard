@@ -3,15 +3,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { Site } from 'app/types/Site';
 import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType, TableActionDef } from 'app/types/Table';
-import saveAs from 'file-saver';
-
+import { TableActionDef } from 'app/types/Table';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { Utils } from '../../../utils/Utils';
 import { TableExportAction } from './table-export-action';
+
 
 export class TableExportOCPPParamsAction extends TableExportAction {
   public getActionDef(): TableActionDef {
@@ -23,30 +21,19 @@ export class TableExportOCPPParamsAction extends TableExportAction {
     };
   }
 
-  private exportOCPPParameters(dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService, siteArea: SiteArea, site: Site) {
-      dialogService.createAndShowYesNoDialog(
-      translateService.instant(siteArea ?
-        translateService.instant('site_areas.export_all_params_title') :
-        translateService.instant('sites.export_all_params_title')),
-      translateService.instant(siteArea ?
-        translateService.instant('site_areas.export_all_params_confirm', { siteAreaName : siteArea.name }) :
-        translateService.instant('sites.export_all_params_confirm', { siteName : site.name })),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        spinnerService.show();
-        centralServerService.exportAllChargingStationsOCCPParams(
-            siteArea ? siteArea.id : undefined,
-            site ? site.id : undefined)
-          .subscribe((result) => {
-            spinnerService.hide();
-            saveAs(result, 'exported-occp-params.csv');
-          }, (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'general.error_backend');
-          });
-      }
-    });
+  private exportOCPPParameters(filters: { siteArea?: SiteArea; site: Site; }, dialogService: DialogService, translateService: TranslateService,
+      messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) {
+    super.export(filters.siteArea ?
+      { SiteAreaID: filters.siteArea.id } :
+      { SiteID: filters.site.id },
+      'exported-ocpp-params.csv',
+      filters.siteArea ? 'site_areas.export_all_params_title' : 'sites.export_all_params_title',
+      filters.siteArea ?
+        translateService.instant('site_areas.export_all_params_confirm', { siteAreaName : filters.siteArea.name }) :
+        translateService.instant('sites.export_all_params_confirm', { siteName : filters.site.name }),
+      filters.siteArea ? 'site_areas.export_all_params_error' : 'sites.export_all_params_error',
+      centralServerService.exportAllChargingStationsOCCPParams.bind(centralServerService),
+      dialogService, translateService, messageService, centralServerService, spinnerService, router
+    );
   }
 }

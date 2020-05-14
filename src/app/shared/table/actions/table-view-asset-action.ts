@@ -16,6 +16,6 @@ export class TableViewAssetAction extends TableViewAction {
   }
 
   private viewAsset(asset: Asset, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(AssetDialogComponent, asset, dialog, refresh);
+    super.view(AssetDialogComponent, asset.id, dialog, refresh);
   }
 }

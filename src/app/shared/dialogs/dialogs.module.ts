@@ -32,7 +32,6 @@ import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-t
 import { SiteAreasDialogComponent } from './site-areas/site-areas-dialog.component';
 import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-source';
 import { SitesDialogComponent } from './sites/sites-dialog.component';
-import { TransactionDialogComponent } from './transactions/transaction-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
 
@@ -60,7 +59,6 @@ export class FooterModule {
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
-    TransactionDialogComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
@@ -76,7 +74,6 @@ export class FooterModule {
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
-    TransactionDialogComponent,
     ConsumptionChartComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
@@ -93,7 +90,6 @@ export class FooterModule {
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
-    TransactionDialogComponent,
     GeoMapDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,

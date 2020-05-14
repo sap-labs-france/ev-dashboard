@@ -1,5 +1,5 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfigService } from 'app/services/config.service';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -7,23 +7,27 @@ import { Image } from 'app/types/GlobalType';
 import { Transaction } from 'app/types/Transaction';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
+import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
+import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-import { ConsumptionChartComponent } from '../../component/consumption-chart/consumption-chart.component';
-import { AppPercentPipe } from '../../formatters/app-percent-pipe';
+
 
 @Component({
-  templateUrl: './transaction-dialog.component.html',
+  selector: 'app-transaction',
+  templateUrl: './transaction.component.html',
 })
-export class TransactionDialogComponent implements OnInit, OnDestroy {
+export class TransactionComponent implements OnInit, OnDestroy {
+  @Input() public transactionID!: number;
+  @Input() public connectorID!: number;
+  @Input() public chargingStationID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public transaction!: Transaction;
-  public connectorId!: number;
-  public chargingStationId!: string;
   public stateOfChargeIcon!: string;
   public stateOfCharge!: number;
   public endStateOfCharge!: number;
@@ -37,7 +41,6 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
   public locale!: string;
 
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
-  private transactionId!: number;
 
   private autoRefeshTimer!: number;
   private autoRefeshPollEnabled!: boolean;
@@ -52,27 +55,9 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService,
     private configService: ConfigService,
-    private localeService: LocaleService,
-    protected dialogRef: MatDialogRef<TransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    private localeService: LocaleService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
-    });
-    if (data) {
-      if (typeof data === 'object') {
-        this.transactionId = data.transactionId;
-        this.connectorId = data.connectorId;
-        this.chargingStationId = data.chargingStationId;
-      } else {
-        this.transactionId = data;
-      }
-    }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
     });
   }
 
@@ -102,7 +87,7 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
         this.refreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
           this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           // Update user?
-          if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.transactionId.toString()) {
+          if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.transactionID.toString()) {
             this.refresh();
           }
         });
@@ -127,26 +112,26 @@ export class TransactionDialogComponent implements OnInit, OnDestroy {
 
   public loadData() {
     this.spinnerService.show();
-    if (!this.transactionId) {
-      this.centralServerService.getLastTransaction(this.chargingStationId, this.connectorId.toString())
+    if (!this.transactionID) {
+      this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID)
         .subscribe((dataResult) => {
           if (dataResult.result && dataResult.result.length > 0) {
-            this.transactionId = dataResult.result[0].id;
-            this.loadConsumption(this.transactionId);
+            this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
+            this.loadConsumption(this.transactionID);
           } else {
             this.spinnerService.hide();
-            this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationId });
+            this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
             this.dialogRef.close();
           }
       });
     } else {
-      this.loadConsumption(this.transactionId);
+      this.loadConsumption(this.transactionID);
     }
   }
 
-  public loadConsumption(transactionId: number) {
+  public loadConsumption(transactionID: number) {
     this.spinnerService.show();
-    this.centralServerService.getTransactionConsumption(this.transactionId).subscribe((transaction: Transaction) => {
+    this.centralServerService.getTransactionConsumption(this.transactionID).subscribe((transaction: Transaction) => {
       this.spinnerService.hide();
       this.transaction = transaction;
       // Transaction in progress?

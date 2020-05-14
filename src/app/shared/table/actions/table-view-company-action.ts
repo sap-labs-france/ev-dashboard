@@ -16,6 +16,6 @@ export class TableViewCompanyAction extends TableViewAction {
   }
 
   private viewCompany(company: Company, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(CompanyDialogComponent, company, dialog, refresh);
+    super.view(CompanyDialogComponent, company.id, dialog, refresh);
   }
 }

@@ -16,6 +16,6 @@ export class TableViewCarAction extends TableViewAction {
   }
 
   private viewCar(car: Car, dialog: MatDialog, refresh?: () => Observable<void>) {
-    super.view(CarDialogComponent, car, dialog, refresh);
+    super.view(CarDialogComponent, car.id, dialog, refresh);
   }
 }

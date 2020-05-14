@@ -405,7 +405,8 @@
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?",
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters"
   },
   "site_areas": {
     "assign_site": "Assign Site",
@@ -464,6 +465,7 @@
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters",
     "consumption_date": "Date",
     "single_phased": "Single Phase",
     "three_phased": "Three Phases"
@@ -712,7 +714,8 @@
     "dialog": {
       "export": {
         "title": "Export charging stations",
-        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+        "confirm": "Do you really want to export all the charging stations matching the filters ?",
+        "error": "Error occurred while trying to export the charging stations"
       },
       "exportConfig": {
         "title": "Export charging station parameters",
@@ -1014,7 +1017,8 @@
     "dialog": {
       "export": {
         "title": "Export Logs",
-        "confirm": "Do you really want to export all the logs matching the filters ?"
+        "confirm": "Do you really want to export all the logs matching the filters ?",
+        "error": "Error occurred while trying to export the logs"
       }
     }
   },

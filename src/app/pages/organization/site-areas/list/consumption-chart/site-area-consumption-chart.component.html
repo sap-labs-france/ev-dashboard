@@ -13,7 +13,7 @@
       </mat-form-field>
     </div>
       <mat-radio-group (change)="unitChanged()" [(ngModel)]="selectedUnit" class="col-auto"
-        [disabled]="!siteArea ? true : false ">
+        [disabled]="!siteArea ? true : false " [hidden]="siteAreaConsumption?.values?.length === 0">
         <mat-radio-button *ngFor="let unit of unitMap" [value]="unit.key" class="col-auto">
           {{unit.description | translate}}
         </mat-radio-button>

@@ -13,7 +13,7 @@ export class TableCreateSiteAction extends TableCreateAction {  public getAction
     };
   }
 
-  private createSite(dialog: MatDialog, refresh?: () => Observable<void>) {
+                                                                private createSite(dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(SiteDialogComponent, dialog, refresh);
   }
 }

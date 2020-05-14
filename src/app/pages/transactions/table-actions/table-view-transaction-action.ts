@@ -6,7 +6,6 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-
 export class TableViewTransactionAction extends TableViewAction {
   public getActionDef(): TableActionDef {
     return {

@@ -9,8 +9,8 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
-import { TableAction } from './table-action';
 
+import { TableAction } from './table-action';
 
 export class TableExportAction implements TableAction {
   private action: TableActionDef = {

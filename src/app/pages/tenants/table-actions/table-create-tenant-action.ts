@@ -13,7 +13,7 @@ export class TableCreateTenantAction extends TableCreateAction {  public getActi
     };
   }
 
-  private createTenant(dialog: MatDialog, refresh?: () => Observable<void>) {
+                                                                  private createTenant(dialog: MatDialog, refresh?: () => Observable<void>) {
     super.create(TenantDialogComponent, dialog, refresh);
   }
 }

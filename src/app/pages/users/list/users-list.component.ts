@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { WindowService } from '../../../services/window.service';
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { UserComponent } from '../user/user.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';
-
 
 @Component({
   selector: 'app-users-list',
@@ -33,7 +33,7 @@ export class UsersListComponent implements OnInit {
     if (userId) {
       this.centralServerService.getUser(userId).subscribe((user) => {
       const editAction = new TableEditUserAction().getActionDef();
-        if (editAction.action) {
+      if (editAction.action) {
           editAction.action(user, this.dialog);
         }
       }, (error) => {

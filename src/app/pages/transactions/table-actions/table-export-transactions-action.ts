@@ -9,6 +9,7 @@ import { FilterParams } from 'app/types/GlobalType';
 import { TableActionDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
 
+import { TableExportAction } from './table-export-action';
 
 export class TableExportTransactionsAction extends TableExportAction {
   public getActionDef(): TableActionDef {

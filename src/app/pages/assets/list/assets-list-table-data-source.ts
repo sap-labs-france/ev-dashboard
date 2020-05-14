@@ -19,6 +19,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
 import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
 import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';

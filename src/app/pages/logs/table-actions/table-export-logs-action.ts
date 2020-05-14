@@ -9,6 +9,7 @@ import { FilterParams } from 'app/types/GlobalType';
 import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef } from 'app/types/Table';
 
+import { TableExportAction } from './table-export-action';
 
 export class TableExportLogsAction extends TableExportAction {
   public getActionDef(): TableActionDef {

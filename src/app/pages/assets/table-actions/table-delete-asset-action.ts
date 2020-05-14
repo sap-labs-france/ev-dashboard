@@ -9,7 +9,6 @@ import { Asset, AssetButtonAction } from 'app/types/Asset';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
-
 export class TableDeleteAssetAction extends TableDeleteAction {
   public getActionDef(): TableActionDef {
     return {

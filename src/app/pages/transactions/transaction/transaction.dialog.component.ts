@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   template: `<app-transaction
-    [transactionID]="transactionID" [connectorID]="connectorID" [chargingStationID]="chargingStationID" 
+    [transactionID]="transactionID" [connectorID]="connectorID" [chargingStationID]="chargingStationID"
     [inDialog]="true" [dialogRef]="dialogRef"></app-transaction>`,
 })
 export class TransactionDialogComponent {

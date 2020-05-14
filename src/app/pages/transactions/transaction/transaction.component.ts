@@ -79,7 +79,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
       if (this.autoRefeshPollEnabled) {
         // Create timer
-        this.autoRefeshTimer = setInterval(() => {
+        this.autoRefeshTimer = window.setInterval(() => {
           // Reload
           this.refresh();
         }, this.autoRefeshPollingIntervalMillis);

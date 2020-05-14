@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableViewTransactionAction } from 'app/pages/transactions/table-actions/table-view-transaction-action';
 import { TransactionDialogComponent } from 'app/pages/transactions/transaction/transaction.dialog.component';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableChargingStationsStartTransactionAction } from 'app/shared/table/actions/table-charging-stations-start-transaction-action';
-import { TableChargingStationsStopTransactionAction } from 'app/shared/table/actions/table-charging-stations-stop-transaction-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
@@ -27,6 +25,8 @@ import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
+import { TableChargingStationsStartTransactionAction } from '../table-actions/table-charging-stations-start-transaction-action';
+import { TableChargingStationsStopTransactionAction } from '../table-actions/table-charging-stations-stop-transaction-action';
 
 
 @Injectable()

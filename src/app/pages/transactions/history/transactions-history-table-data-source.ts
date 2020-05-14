@@ -4,9 +4,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { TableDeleteTransactionAction } from 'app/shared/table/actions/table-delete-transaction-action';
-import { TableExportTransactionsAction } from 'app/shared/table/actions/table-export-transactions-action';
-import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
@@ -18,7 +15,6 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -44,6 +40,10 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
+import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
+import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -251,7 +251,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.DELETE_TRANSACTION:
         return this.isAdmin;
-      case TransactionButtonAction.REFUND:
+      case TransactionButtonAction.REFUND_TRANSACTIONS:
         return !Utils.objectHasProperty(transaction, 'refund');
       default:
         return true;

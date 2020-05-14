@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.49',
-        date: new Date('2020-05-12'),
+        version: '2.2.50',
+        date: new Date('2020-05-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed first SoC value is not provided on Cahors after starting a session`,
               `Display consumption chart at the first consumption value`,
               `Handle duplicate Meter Values for ABB`,
               `Refresh Charging Plan's chart when the user changes values in the list`,

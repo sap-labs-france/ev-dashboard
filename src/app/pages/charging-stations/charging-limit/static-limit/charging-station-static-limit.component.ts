@@ -14,8 +14,7 @@ import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
-
-import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/table-charging-stations-reboot-action';
+import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
 
 @Component({
   selector: 'app-charging-station-static-limit',

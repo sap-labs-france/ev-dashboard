@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableExportLogsAction } from 'app/shared/table/actions/table-export-logs-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
 import { Log, LogButtonAction } from 'app/types/Log';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import saveAs from 'file-saver';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -23,7 +20,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { Constants } from '../../../utils/Constants';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
@@ -31,6 +27,7 @@ import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
+import { TableExportLogsAction } from '../table-actions/table-export-logs-action';
 
 
 @Injectable()

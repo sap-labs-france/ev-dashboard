@@ -2,10 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { TableExportTransactionsAction } from 'app/shared/table/actions/table-export-transactions-action';
-import { TableOpenURLConcurAction } from 'app/shared/table/actions/table-open-url-concur-action';
-import { TableRefundTransactionsAction } from 'app/shared/table/actions/table-refund-transactions-action';
-import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Action, Entity } from 'app/types/Authorization';
@@ -43,6 +39,10 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
+import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableOpenURLConcurAction } from '../table-actions/table-open-url-concur-action';
+import { TableRefundTransactionsAction } from '../table-actions/table-refund-transactions-action';
+import { TableSyncRefundTransactionsAction } from '../table-actions/table-sync-refund-transactions-action';
 
 
 @Injectable()
@@ -50,7 +50,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   private refundTransactionEnabled = false;
   private refundSetting!: RefundSettings;
   private isAdmin: boolean;
-  private tableSyncRefundAction = new TableSyncRefundAction().getActionDef();
+  private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,

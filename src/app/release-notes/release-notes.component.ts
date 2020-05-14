@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Accept Charging Station's iccid and imsi properties with empty value during Boot Notification`,
               `Fixed first SoC value is not provided on Cahors after starting a session`,
               `Display consumption chart at the first consumption value`,
               `Handle duplicate Meter Values for ABB`,

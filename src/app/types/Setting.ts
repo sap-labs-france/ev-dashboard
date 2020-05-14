@@ -1,4 +1,5 @@
 import { Data } from './Table';
+import { KeyValue } from './GlobalType';
 import TenantComponents from './TenantComponents';
 
 export interface Setting extends Data {
@@ -19,6 +20,7 @@ export interface SettingContent {
   links?: SettingLink[];
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
+  asset?: AssetConnectionSetting[];
 }
 
 export interface SettingLink extends Data {
@@ -172,7 +174,27 @@ export interface StripeBillingSetting extends BillingSetting {
 export interface AssetSettings extends Setting {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
+  assets: AssetConnectionSetting[];
 }
 
 export enum AssetSettingsType {
+  ASSET = 'asset'
+}
+
+export interface AssetConnectionSetting extends Data {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  url: string;
+  loginCredentials: LoginCredentialsAssetConnection;
+}
+
+export interface LoginCredentialsAssetConnection {
+  user: string;
+  password: string;
+}
+
+export enum AssetConnectionType {
+  SCHNEIDER = 'schneider',
 }

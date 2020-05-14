@@ -1408,6 +1408,20 @@
       "check_connection": "Vérifier connexion"
     },
     "asset": {
+      "connection": {
+        "title": "Connection aux ressources",
+        "name": "Nom",
+        "description": "Description",
+        "type": "Type",
+        "base_url": "URL",
+        "user": "Utilisateur",
+        "password": "Mot de passe",
+        "delete_title": "Supprimer la connexion à la ressource",
+        "delete_confirm":"Voulez-vous vraiment supprimer la connexion '{{assetConnectionName}}'?"
+      },
+      "types": {
+        "schneider": "Gestion Bâtiment Schneider"
+      },
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration des ressources n'a pas été trouvée"

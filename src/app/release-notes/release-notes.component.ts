@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.50',
+        version: '2.2.51',
         date: new Date('2020-05-14'),
         componentChanges: [
           {
@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Accept Charging Station's iccid and imsi properties with empty value during Boot Notification`,
               `Fixed first SoC value is not provided on Cahors after starting a session`,
+              `Create Schneider Building Management connection in Asset Settings (front-end)`,
               `Display consumption chart at the first consumption value`,
               `Handle duplicate Meter Values for ABB`,
               `Refresh Charging Plan's chart when the user changes values in the list`,

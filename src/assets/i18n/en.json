@@ -1814,7 +1814,8 @@
       "limit_watts": "Max Limit",
       "load_all_consumptions": "Load all consumption values (without optimization)",
       "unit_kilowatts": "kW",
-      "unit_amperage":  "Amp"
+      "unit_amperage":  "Amp",
+      "error": "An error occurred, conversion from kW to Amp is disabled"
     },
     "dialog": {
       "delete": {

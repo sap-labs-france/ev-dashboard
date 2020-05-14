@@ -3,6 +3,7 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'app/services/message.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { ChargingStation } from 'app/types/ChargingStation';
@@ -66,7 +67,8 @@ export class ConsumptionChartComponent implements AfterViewInit, OnInit {
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe,
+    private messageService: MessageService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -109,7 +111,7 @@ export class ConsumptionChartComponent implements AfterViewInit, OnInit {
     .subscribe((charger) => {
       this.charger = charger;
     }, (error) => {
-      delete this.transaction;
+      this.messageService.showErrorMessage('transactions.graph.error');
     });
   }
 
@@ -121,7 +123,6 @@ export class ConsumptionChartComponent implements AfterViewInit, OnInit {
   }
 
   public unitChanged() {
-    console.log(this.charger);
     this.refresh();
   }
 

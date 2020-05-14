@@ -1815,7 +1815,8 @@
       "cumulated_amount": "Montant",
       "limit_plan_watts": "Limitation du Plan",
       "limit_watts": "Limitation Max",
-      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)"
+      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
+      "error": "An error occurred, conversion from kW to Amp is disabled"
     },
     "dialog": {
       "delete": {

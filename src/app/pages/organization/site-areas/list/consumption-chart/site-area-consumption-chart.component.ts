@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
@@ -61,7 +62,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: AppDecimalPipe) {
+    private decimalPipe: AppDecimalPipe,
+    private messageService: MessageService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -78,7 +80,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     .subscribe((siteArea) => {
       this.siteArea = siteArea;
     }, (error) => {
-      delete this.siteAreaConsumption;
+      this.messageService.showErrorMessage('transactions.graph.error');
     });
   }
 

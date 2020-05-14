@@ -1,18 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AssetConnectionSetting, AssetConnectionSettingTypes, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
+import { Constants } from 'app/utils/Constants';
+import { KeyValue } from 'app/types/GlobalType';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { KeyValue } from 'app/types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionSettingTypes, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
-import { Constants } from 'app/utils/Constants';
-import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
 @Component({
   selector: 'app-settings-asset-connection',
   templateUrl: './asset-connection.component.html'
 })
 export class AssetConnectionComponent implements OnInit {
-  @Input() public currentAssetConnection!: Partial<AssetConnectionSetting>;
+  @Input() public currentAssetConnection!: AssetConnectionSetting;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<AssetConnectionDialogComponent>;
 

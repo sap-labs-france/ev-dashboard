@@ -20,26 +20,16 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   public roleList!: KeyValue[];
   public url!: AbstractControl;
 
-  public currentLink: Partial<SettingLink>;
+  public currentLink: SettingLink;
   public submitButtonType!: any;
 
   constructor(
     protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
-    @Inject(MAT_DIALOG_DATA) data: Partial<SettingLink>) {
+    @Inject(MAT_DIALOG_DATA) data: SettingLink) {
     // Check if data is passed to the dialog
-    if (data) {
-      this.currentLink = data;
-    } else {
-      this.currentLink = {
-        id: '',
-        name: '',
-        description: '',
-        role: '',
-        url: '',
-      };
-    }
+    this.currentLink = data;
   }
 
   public ngOnInit(): void {
@@ -49,27 +39,26 @@ export class AnalyticsLinkDialogComponent implements OnInit {
       { key: '', value: '' } ];
     this.roleList.forEach((role) => role.value = this.translateService.instant(this.appUserMultipleRolesPipe.transform(role.key)));
     this.formGroup = new FormGroup({
-      id: new FormControl(this.currentLink.id),
-      name: new FormControl(this.currentLink.name,
+      id: new FormControl(this.currentLink ? this.currentLink.id : ''),
+      name: new FormControl(this.currentLink ? this.currentLink.name : '',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      description: new FormControl(this.currentLink.description, Validators.required),
-      role: new FormControl(this.currentLink.role),
-      url: new FormControl(this.currentLink.url,
+      description: new FormControl(this.currentLink ? this.currentLink.description : '',
+        Validators.required),
+      role: new FormControl(this.currentLink ? this.currentLink.role : ''),
+      url: new FormControl(this.currentLink ? this.currentLink.url : '',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
     });
-
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.description = this.formGroup.controls['description'];
     this.role = this.formGroup.controls['role'];
     this.url = this.formGroup.controls['url'];
-
     // listen to escape key
     this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
       if (keydownEvents && keydownEvents.code === 'Escape') {
@@ -92,7 +81,7 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   }
 
   public submitButtonTranslation() {
-    if (!this.currentLink.id) {
+    if (!this.currentLink || !this.currentLink.id) {
       return this.translateService.instant('general.create');
     }
     return this.translateService.instant('general.update');

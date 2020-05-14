@@ -6,11 +6,11 @@ import { AssetConnectionSetting } from 'app/types/Setting';
   template: '<app-settings-asset-connection [currentAssetConnection]="currentConnection" [inDialog]="true" [dialogRef]="dialogRef"></app-settings-asset-connection>',
 })
 export class AssetConnectionDialogComponent {
-  public currentConnection!: Partial<AssetConnectionSetting>;
+  public currentConnection!: AssetConnectionSetting;
 
   constructor(
     public dialogRef: MatDialogRef<AssetConnectionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: Partial<AssetConnectionSetting>) {
+    @Inject(MAT_DIALOG_DATA) data: AssetConnectionSetting) {
     this.currentConnection = data;
   }
 }

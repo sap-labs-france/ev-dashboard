@@ -88,7 +88,6 @@ export class CarComponent implements OnInit {
     this.licensePlate = this.formGroup.controls['licensePlate'];
     this.carCatalogID = this.formGroup.controls['carCatalogID'];
     this.carCatalog = this.formGroup.controls['carCatalog'];
-    this.carCatalog = this.formGroup.controls['carCatalog'];
     this.isDefault = this.formGroup.controls['isDefault'];
     this.isPrivate = this.formGroup.controls['isPrivate'];
   }

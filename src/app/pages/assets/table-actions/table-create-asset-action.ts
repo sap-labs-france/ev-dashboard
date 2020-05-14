@@ -5,7 +5,6 @@ import { AssetButtonAction } from 'app/types/Asset';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
-
 export class TableCreateAssetAction extends TableCreateAction {
   public getActionDef(): TableActionDef {
     return {

@@ -11,6 +11,7 @@ import { CommonDirectivesModule } from 'app/shared/directives/directives.module'
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { MomentModule } from 'ngx-moment';
+
 import { MaterialModule } from '../../app.module';
 import { TransactionDialogComponent } from '../transactions/transaction/transaction.dialog.component';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';

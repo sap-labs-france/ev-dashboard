@@ -14,6 +14,7 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -43,7 +44,6 @@ import { TableExportTransactionsAction } from '../table-actions/table-export-tra
 import { TableOpenURLConcurAction } from '../table-actions/table-open-url-concur-action';
 import { TableRefundTransactionsAction } from '../table-actions/table-refund-transactions-action';
 import { TableSyncRefundTransactionsAction } from '../table-actions/table-sync-refund-transactions-action';
-
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {

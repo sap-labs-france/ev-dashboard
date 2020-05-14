@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TransactionDialogComponent } from 'app/pages/transactions/transaction/transaction.dialog.component';
 import { AuthorizationService } from 'app/services/authorization.service';
+
 import { LocaleService } from '../../../services/locale.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
-
 
 @Component({
   template: `

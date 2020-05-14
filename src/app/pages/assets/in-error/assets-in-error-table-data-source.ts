@@ -18,13 +18,13 @@ import { AssetInError, AssetInErrorType, ErrorMessage } from 'app/types/InError'
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
 import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
-
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {

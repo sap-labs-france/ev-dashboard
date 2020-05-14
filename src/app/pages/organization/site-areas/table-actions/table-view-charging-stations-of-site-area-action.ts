@@ -5,7 +5,6 @@ import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
-
 export class TableViewChargingStationsOfSiteAreaAction extends TableViewAction {
   public getActionDef(): TableActionDef {
     return {

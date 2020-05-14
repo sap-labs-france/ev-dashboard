@@ -18,10 +18,10 @@ import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 import { TableSyncCarCatalogsAction } from '../table-actions/table-sync-car-catalogs-action';
 import { TableViewCarCatalogAction } from '../table-actions/table-view-car-catalog-action';
-
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {

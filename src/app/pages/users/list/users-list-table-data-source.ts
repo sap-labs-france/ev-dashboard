@@ -10,6 +10,7 @@ import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -37,7 +38,6 @@ import { TableDeleteUserAction } from '../table-actions/table-delete-user-action
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
-
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {

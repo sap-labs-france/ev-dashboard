@@ -5,7 +5,8 @@ import { SiteButtonAction } from 'app/types/Site';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
-export class TableCreateSiteAction extends TableCreateAction {  public getActionDef(): TableActionDef {
+export class TableCreateSiteAction extends TableCreateAction {
+  public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
       id: SiteButtonAction.CREATE_SITE,

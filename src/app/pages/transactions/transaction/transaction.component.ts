@@ -7,6 +7,7 @@ import { Image } from 'app/types/GlobalType';
 import { Transaction } from 'app/types/Transaction';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -15,7 +16,6 @@ import { ConsumptionChartComponent } from '../../../shared/component/consumption
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
-
 
 @Component({
   selector: 'app-transaction',

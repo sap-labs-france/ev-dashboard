@@ -282,14 +282,14 @@ export class ConsumptionChartComponent implements AfterViewInit, OnInit {
           this.selectedUnit === ConsumptionUnit.AMPERE ?
             ChargingStations.convertWattToAmp(
               this.charger.connectors[this.transaction.connectorId - 1].numberOfConnectedPhase,
-              consumption.instantPower) :
+              consumption.instantPower, true) :
             consumption.instantPower);
         if (cumulatedConsumptionDataSet) {
           cumulatedConsumptionDataSet.push(
             this.selectedUnit === ConsumptionUnit.AMPERE ?
               ChargingStations.convertWattToAmp(
                 this.charger.connectors[this.transaction.connectorId - 1].numberOfConnectedPhase,
-                consumption.cumulatedConsumption) :
+                consumption.cumulatedConsumption, true) :
               consumption.cumulatedConsumption);
         }
         if (cumulatedAmountDataSet) {
@@ -303,7 +303,7 @@ export class ConsumptionChartComponent implements AfterViewInit, OnInit {
             this.selectedUnit === ConsumptionUnit.AMPERE ?
               ChargingStations.convertWattToAmp(
                 this.charger.connectors[this.transaction.connectorId - 1].numberOfConnectedPhase,
-                consumption.limitWatts) :
+                consumption.limitWatts, true) :
               consumption.limitWatts);
         }
       }

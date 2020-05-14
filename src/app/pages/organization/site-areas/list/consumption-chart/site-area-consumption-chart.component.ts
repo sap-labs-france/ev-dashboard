@@ -204,7 +204,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.selectedUnit === ConsumptionUnit.AMPERE ?
             ChargingStations.convertWattToAmp(
               this.siteArea.numberOfPhases,
-              consumption.instantPower) :
+              consumption.instantPower, true) :
             consumption.instantPower);
         if (limitWattsDataSet) {
           if (consumption.limitWatts) {
@@ -212,7 +212,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             this.selectedUnit === ConsumptionUnit.AMPERE ?
             ChargingStations.convertWattToAmp(
               this.siteArea.numberOfPhases,
-              consumption.limitWatts) :
+              consumption.limitWatts, true) :
             consumption.limitWatts);
           } else {
             limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);

@@ -12,10 +12,16 @@ export class ChargingStations {
     return Math.floor(230 * maxIntensityInAmper);
   }
 
-  public static convertWattToAmp(numberOfConnectedPhase: number, maxIntensityInW: number): number {
+  public static convertWattToAmp(numberOfConnectedPhase: number, maxIntensityInW: number, forAllPhases = false): number {
     // Compute it
+    if (numberOfConnectedPhase === 0 && forAllPhases) {
+      return Math.round(maxIntensityInW / 230);
+    }
     if (numberOfConnectedPhase === 0) {
       return Math.round(maxIntensityInW / 230 / 3);
+    }
+    if (numberOfConnectedPhase === 3 && forAllPhases) {
+      return Math.round(maxIntensityInW / 230);
     }
     if ( numberOfConnectedPhase === 3) {
       return Math.round(maxIntensityInW / 230 / 3);

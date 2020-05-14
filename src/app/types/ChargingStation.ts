@@ -169,6 +169,7 @@ export enum ChargingStationButtonAction {
   STOP_TRANSACTION = 'stop_transaction',
   EDIT_CHARGING_STATION = 'edit_charging_station',
   DELETE_CHARGING_STATION = 'delete_charging_station',
+  EXPORT_CHARGING_STATIONS = 'export_charging_stations',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',

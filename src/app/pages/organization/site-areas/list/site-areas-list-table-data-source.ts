@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableExportOCPPParamsAction } from 'app/pages/charging-stations/table-actions/table-export-ocpp-params-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -9,18 +10,9 @@ import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAssignAssetsToSiteAreaAction } from 'app/shared/table/actions/table-assign-assets-to-site-area-action';
-import { TableAssignChargingStationsToSiteAreaAction } from 'app/shared/table/actions/table-assign-charging-stations-to-site-area-action';
-import { TableViewAssignedAssetsOfSiteAreaAction } from 'app/shared/table/actions/table-assign-view-assets-of-site-area-action';
-import { TableCreateSiteAreaAction } from 'app/shared/table/actions/table-create-site-area-action';
-import { TableDeleteSiteAreaAction } from 'app/shared/table/actions/table-delete-site-area-action';
-import { TableEditSiteAreaAction } from 'app/shared/table/actions/table-edit-site-area-action';
-import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewChargingStationsOfSiteAreaAction } from 'app/shared/table/actions/table-view-charging-stations-of-site-area-action';
-import { TableViewSiteAreaAction } from 'app/shared/table/actions/table-view-site-area-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
@@ -32,10 +24,18 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { TableAssignAssetsToSiteAreaAction } from '../table-actions/table-assign-assets-to-site-area-action';
+import { TableAssignChargingStationsToSiteAreaAction } from '../table-actions/table-assign-charging-stations-to-site-area-action';
+import { TableViewAssignedAssetsOfSiteAreaAction } from '../table-actions/table-assign-view-assets-of-site-area-action';
+import { TableCreateSiteAreaAction } from '../table-actions/table-create-site-area-action';
+import { TableDeleteSiteAreaAction } from '../table-actions/table-delete-site-area-action';
+import { TableEditSiteAreaAction } from '../table-actions/table-edit-site-area-action';
+import { TableViewChargingStationsOfSiteAreaAction } from '../table-actions/table-view-charging-stations-of-site-area-action';
+import { TableViewSiteAreaAction } from '../table-actions/table-view-site-area-action';
 import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
+
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
@@ -221,8 +221,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService, siteArea
+          actionDef.action({ siteArea }, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService
           );
         }
         break;

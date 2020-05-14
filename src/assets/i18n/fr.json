@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.49",
+    "last_update": "Version 2.2.50",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -405,7 +405,8 @@
     "update_remove_site_owner_success": "L'utilisateur '{{userName}}' n'est désormais plus le propriétaire du site",
     "update_site_users_owner_error": "Une erreur est survenue pendant l'attribution de '{{userName}}' en tant que propriétaire du site",
     "export_all_params_title": "Exporter les paramètres OCPP",
-    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant au site '{{siteName}}' ?"
+    "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant au site '{{siteName}}' ?",
+    "export_all_params_error": "Une erreur est survenue pendant l'exportation des paramètres OCPP"
   },
   "site_areas": {
     "assign_site": "Assigner un Site",
@@ -464,6 +465,7 @@
     "number_of_phases": "Nombre de phases",
     "export_all_params_title": "Exporter les paramètres OCPP",
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?",
+    "export_all_params_error": "Une erreur est survenue pendant l'exportation des paramètres OCPP",
     "consumption_date": "Date",
     "single_phased": "Monophasé",
     "three_phased": "Triphasé"
@@ -712,7 +714,8 @@
     "dialog": {
       "export": {
         "title": "Exporter les bornes",
-        "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?"
+        "confirm": "Voulez-vous vraiment exporter les bornes correspondant aux filtres ?",
+        "error": "Une erreur est survenue pendant l'exportation des bornes"
       },
       "exportConfig": {
         "title": "Exporter les paramètres de la borne",
@@ -1014,7 +1017,8 @@
     "dialog": {
       "export": {
         "title": "Exporter les logs",
-        "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?"
+        "confirm": "Voulez-vous vraiment exporter les logs correspondant aux filtres ?",
+        "error": "Une erreur est survenue pendant l'export des logs"
       }
     }
   },
@@ -1825,7 +1829,8 @@
       },
       "export": {
         "title": "Exporter les sessions",
-        "confirm": "Voulez-vous vraiment exporter les sessions correspondant aux filtres ?"
+        "confirm": "Voulez-vous vraiment exporter les sessions correspondant aux filtres ?",
+        "error": "Une erreur est survenue pendant l'export des sessions"
       },
       "soft_stop": {
         "title": "Arréter la Session",

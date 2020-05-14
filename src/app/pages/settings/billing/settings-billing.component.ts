@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableSyncBillingInvoicesAction } from 'app/pages/invoices/table-actions/table-sync-billing-invoices-action';
+import { TableSyncBillingUsersAction } from 'app/pages/users/table-actions/table-sync-billing-users-action';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { BillingSettings, BillingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
-
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/table-sync-billing-invoices-action';
-import { TableSyncBillingUsersAction } from '../../../shared/table/actions/table-sync-billing-users-action';
 import { Utils } from '../../../utils/Utils';
+
 
 @Component({
   selector: 'app-settings-billing',

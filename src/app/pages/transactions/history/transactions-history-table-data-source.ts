@@ -251,7 +251,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.DELETE_TRANSACTION:
         return this.isAdmin;
-      case TransactionButtonAction.REFUND:
+      case TransactionButtonAction.REFUND_TRANSACTIONS:
         return !Utils.objectHasProperty(transaction, 'refund');
       default:
         return true;

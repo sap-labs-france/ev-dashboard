@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AssetConnectionSetting, AssetConnectionSettingTypes, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
@@ -25,13 +25,13 @@ export class AssetConnectionComponent implements OnInit {
   public url!: AbstractControl;
 
   public loginCredentials!: LoginCredentialsAssetConnection;
-  public assetConnectionTypes!: KeyValue[];
+  public assetConnectionTypes: KeyValue[] = [
+    { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' }
+  ];
   public submitButtonTranslation!: any;
 
   constructor(
     private translateService: TranslateService) {
-    // Get asset connection types
-    this.assetConnectionTypes = AssetConnectionSettingTypes;
   }
 
   public ngOnInit(): void {
@@ -109,10 +109,8 @@ export class AssetConnectionComponent implements OnInit {
 
   public loadConnectionType(): void {
     switch (this.currentAssetConnection.type) {
-      case 'schneider':
+      case AssetConnectionType.SCHNEIDER:
         this.loginCredentials = this.currentAssetConnection.loginCredentials;
-        break;
-      default:
         break;
     }
   }

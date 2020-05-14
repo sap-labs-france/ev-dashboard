@@ -1,5 +1,5 @@
-import { KeyValue } from './GlobalType';
 import { Data } from './Table';
+import { KeyValue } from './GlobalType';
 import TenantComponents from './TenantComponents';
 
 export interface Setting extends Data {
@@ -195,7 +195,6 @@ export interface LoginCredentialsAssetConnection {
   password: string;
 }
 
-export const AssetConnectionSettingTypes: KeyValue[] = [
-  { key: 'bms', value: 'settings.asset.types.bms' },
-  { key: 'schneider', value: 'settings.asset.types.schneider' }
-];
+export enum AssetConnectionType {
+  SCHNEIDER = 'schneider',
+}

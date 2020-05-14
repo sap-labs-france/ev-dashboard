@@ -48,7 +48,13 @@ export interface Car extends Data {
   userIDs?: string;
   forced?: boolean;
   isDefault?: boolean;
-  isPrivate?: boolean;
+  type?: CarType;
+}
+
+export enum CarType {
+  PRIVATE = 'private',
+  COMPANY = 'company',
+  POOL = 'pool',
 }
 
 export interface ChargeStandardTable extends Data {

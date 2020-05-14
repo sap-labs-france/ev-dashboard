@@ -72,5 +72,5 @@ export enum TransactionButtonAction {
   DELETE_TRANSACTIONS = 'delete_transactions',
   EXPORT_TRANSACTIONS = 'export_transactions',
   OPEN_CONCUR_URL = 'open_concur_url',
-  REFUND = 'refund_transaction',
+  REFUND_TRANSACTIONS = 'refund_transactions',
 }

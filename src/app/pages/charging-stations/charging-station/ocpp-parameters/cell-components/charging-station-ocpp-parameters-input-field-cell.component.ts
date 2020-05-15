@@ -14,12 +14,12 @@ import { OcppParameter } from 'app/types/ChargingStation';
       required [placeholder]="'chargers.charger_param_key' | translate"
       [ngModel]="row['key']" #key="ngModel" (ngModelChange)= "valueChanged($event)"
       type="text">
-      <mat-error *ngIf="key.invalid && (key.dirty || key.touched)"
-        role="alert" class="mat-error">
-        <div *ngIf="key.errors.required" class="table-mat-error text-left">
-          {{'general.mandatory_field' | translate}}
-        </div>
-      </mat-error>
+    <mat-error *ngIf="key.invalid && (key.dirty || key.touched)"
+      role="alert" class="mat-error">
+      <div *ngIf="key.errors.required" class="table-mat-error text-left">
+        {{'general.mandatory_field' | translate}}
+      </div>
+    </mat-error>
     </ng-container>
   `,
 })

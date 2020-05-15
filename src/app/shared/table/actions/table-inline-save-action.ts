@@ -32,44 +32,46 @@ export class TableInlineSaveAction implements TableAction {
   private saveOcppParameter(charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
     spinnerService: SpinnerService, router: Router,  refresh?: () => Observable<void>) {
-    // Show yes/no dialog
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('chargers.set_configuration_title'),
-      translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: charger.id, key: param.key }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        spinnerService.show();
-        centralServerService.updateChargingStationOCPPConfiguration(
-          charger.id, { key: param.key, value: param.value, readonly: param.readonly }).subscribe((response) => {
-            spinnerService.hide();
-            // Ok?
-            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
-              // Reboot Required?
-              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
-                if (chargingStationsRebootAction.action) {
-                  chargingStationsRebootAction.action(charger, dialogService, translateService,
-                    messageService, centralServerService, spinnerService, router);
+    // Show yes/no dialog only if fields are not empty
+    if (param.key !== null && param.key !== '' && param.value !== null && param.value !== '') {
+      dialogService.createAndShowYesNoDialog(
+        translateService.instant('chargers.set_configuration_title'),
+        translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: charger.id, key: param.key }),
+      ).subscribe((result) => {
+        if (result === ButtonType.YES) {
+          spinnerService.show();
+          centralServerService.updateChargingStationOCPPConfiguration(
+            charger.id, { key: param.key, value: param.value, readonly: param.readonly }).subscribe((response) => {
+              spinnerService.hide();
+              // Ok?
+              if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+                  response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                messageService.showSuccessMessage(
+                  translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
+                // Reboot Required?
+                if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                  const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
+                  if (chargingStationsRebootAction.action) {
+                    chargingStationsRebootAction.action(charger, dialogService, translateService,
+                      messageService, centralServerService, spinnerService, router);
+                  }
                 }
+              } else {
+                Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
               }
-            } else {
-              Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
-            }
-            if (refresh) {
-              refresh().subscribe();
-            }
-          }, (error) => {
-            spinnerService.hide();
-            if (refresh) {
-              refresh().subscribe();
-            }
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
-          });
-      }
-    });
+              if (refresh) {
+                refresh().subscribe();
+              }
+            }, (error) => {
+              spinnerService.hide();
+              if (refresh) {
+                refresh().subscribe();
+              }
+              Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
+            });
+        }
+      });
+    }
   }
 
 }

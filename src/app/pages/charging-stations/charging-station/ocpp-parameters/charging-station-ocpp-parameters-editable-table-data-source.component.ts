@@ -41,7 +41,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       hasDynamicRowAction: true,
       search: {
         enabled: true
-      }
+      },
+      hasPristineFormAtLoad: true
     };
   }
 
@@ -87,6 +88,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     }
     // Call super
     super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
+    this.formArray?.controls[0].get('key').markAllAsTouched();
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

@@ -152,7 +152,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.editableRows.push(data);
     this.refreshData(false).subscribe();
     this.tableChangedSubject.next(this.editableRows);
-    if (this.formArray) {
+    if (this.formArray && !this.tableDef.hasPristineFormAtLoad) {
       this.formArray.markAsDirty();
     }
     // Scroll to the inserted element

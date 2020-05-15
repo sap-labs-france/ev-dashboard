@@ -9,6 +9,7 @@ import { HTTPError } from 'app/types/HTTPError';
 import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+
 import { SettingsAssetConnectionListTableDataSource } from './settings-asset-connections-list-table-data-source';
 
 @Component({

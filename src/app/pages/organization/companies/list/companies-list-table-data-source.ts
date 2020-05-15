@@ -1,31 +1,31 @@
-import { Company, CompanyButtonAction, CompanyLogo } from 'app/types/Company';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonAction } from 'app/types/GlobalType';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
-import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
-import { Injectable } from '@angular/core';
-import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
-import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateCompanyAction } from 'app/shared/table/actions/table-create-company-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableDeleteCompanyAction } from 'app/shared/table/actions/table-delete-company-action';
-import { TableEditCompanyAction } from 'app/shared/table/actions/table-edit-company-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewCompanyAction } from 'app/shared/table/actions/table-view-company-action';
-import { TranslateService } from '@ngx-translate/core';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { Company, CompanyButtonAction, CompanyLogo } from 'app/types/Company';
+import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+
+import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
+import ChangeNotification from '../../../../types/ChangeNotification';
+import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
+import { TableCreateCompanyAction } from '../table-actions/table-create-company-action';
+import { TableDeleteCompanyAction } from '../table-actions/table-delete-company-action';
+import { TableEditCompanyAction } from '../table-actions/table-edit-company-action';
+import { TableViewCompanyAction } from '../table-actions/table-view-company-action';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {

@@ -1,5 +1,6 @@
 import { KeyValue } from 'app/types/GlobalType';
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 
 export class ErrorTypeTableFilter extends TableFilter {

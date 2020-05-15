@@ -18,6 +18,7 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/
 import { User } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
 import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component';
@@ -25,6 +26,8 @@ import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   private site!: Site;
+  private addAction = new TableAddAction().getActionDef();
+  private removeAction = new TableRemoveAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -45,9 +48,9 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       if (this.site) {
         // Yes: Get data
         this.centralServerService.getSiteUsers(
-          {...this.buildFilterValues(), SiteID: this.site.id},
-          this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
-          // Ok
+            {...this.buildFilterValues(), SiteID: this.site.id},
+            this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
+          this.removeAction.disabled = (siteUsers.count === 0);
           observer.next(siteUsers);
           observer.complete();
         }, (error) => {
@@ -129,8 +132,8 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     return [
-      new TableAddAction().getActionDef(),
-      new TableRemoveAction().getActionDef(),
+      this.addAction,
+      this.removeAction,
       ...tableActionsDef,
     ];
   }

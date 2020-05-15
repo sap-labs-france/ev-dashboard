@@ -3,8 +3,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { BillingTax } from 'app/types/Billing';
 import { BillingSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
-import { CentralServerService } from '../../../../services/central-server.service';
 
+import { CentralServerService } from '../../../../services/central-server.service';
 
 @Component({
   selector: 'app-settings-stripe-billing',

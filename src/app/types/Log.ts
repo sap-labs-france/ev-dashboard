@@ -16,3 +16,8 @@ export interface Log extends Data {
   actionOnUser: string;
   detailedMessages: string[];
 }
+
+export enum LogButtonAction {
+  EXPORT_LOGS = 'export_logs',
+}
+

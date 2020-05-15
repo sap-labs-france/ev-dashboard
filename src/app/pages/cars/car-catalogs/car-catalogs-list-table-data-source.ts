@@ -1,27 +1,27 @@
-import { CarButtonAction, CarCatalog, CarImage } from 'app/types/Car';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-
-import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
-import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ConfigService } from 'app/services/config.service';
-import { DataResult } from 'app/types/DataResult';
-import { DialogService } from 'app/services/dialog.service';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableSyncCarCatalogsAction } from 'app/shared/table/actions/table-sync-car-catalogs-action';
-import { TableViewCarCatalogAction } from 'app/shared/table/actions/table-view-car-catalog-action';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { CarButtonAction, CarCatalog, CarImage } from 'app/types/Car';
+import { DataResult } from 'app/types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
+
+import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
+import { TableSyncCarCatalogsAction } from '../table-actions/table-sync-car-catalogs-action';
+import { TableViewCarCatalogAction } from '../table-actions/table-view-car-catalog-action';
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {

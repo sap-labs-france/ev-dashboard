@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { WindowService } from '../../../services/window.service';
+import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { UserComponent } from '../user/user.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';
 
@@ -17,6 +20,7 @@ export class UsersListComponent implements OnInit {
   constructor(
     public usersListTableDataSource: UsersListTableDataSource,
     private authorizationService: AuthorizationService,
+    private dialog: MatDialog,
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private windowService: WindowService) {
@@ -28,8 +32,10 @@ export class UsersListComponent implements OnInit {
     const userId = this.windowService.getSearch('UserID');
     if (userId) {
       this.centralServerService.getUser(userId).subscribe((user) => {
-        // Found
-        this.usersListTableDataSource.showUserDialog(user);
+      const editAction = new TableEditUserAction().getActionDef();
+      if (editAction.action) {
+          editAction.action(user, this.dialog);
+        }
       }, (error) => {
         // Not Found
         this.messageService.showErrorMessage('users.user_id_not_found', {userId});

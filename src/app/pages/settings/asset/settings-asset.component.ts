@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AssetSettings } from 'app/types/Setting';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
-import { FormGroup } from '@angular/forms';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+
+import { SettingsAssetConnectionListTableDataSource } from './settings-asset-connections-list-table-data-source';
 
 @Component({
   selector: 'app-settings-asset',
@@ -27,7 +28,10 @@ export class SettingsAssetComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
-  ) {
+    public assetConnectionListTableDataSource: SettingsAssetConnectionListTableDataSource) {
+    this.assetConnectionListTableDataSource.changed.subscribe(() => {
+      this.formGroup.markAsDirty();
+    });
     this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
@@ -46,6 +50,9 @@ export class SettingsAssetComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.assetSettings = settings;
+      // Set
+      this.assetConnectionListTableDataSource.setAssetConnections(this.assetSettings.assets);
+      this.assetConnectionListTableDataSource.loadData().subscribe();
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -59,5 +66,13 @@ export class SettingsAssetComponent implements OnInit {
             this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public save(assetSettings: AssetSettings) {
+  }
+
+  public refresh() {
+    // Reload settings
+    this.loadConfiguration();
   }
 }

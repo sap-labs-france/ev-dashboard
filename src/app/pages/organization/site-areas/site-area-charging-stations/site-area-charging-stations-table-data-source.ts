@@ -1,29 +1,30 @@
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog.component';
+import { TableAddAction } from 'app/shared/table/actions/table-add-action';
+import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
+import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { DialogService } from 'app/services/dialog.service';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
-import { Injectable } from '@angular/core';
-import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SiteArea } from 'app/types/SiteArea';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TranslateService } from '@ngx-translate/core';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SiteAreaChargingStationsDataSource extends TableDataSource<ChargingStation> {
   private siteArea!: SiteArea;
+  private addAction = new TableAddAction().getActionDef();
+  private removeAction = new TableRemoveAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -43,9 +44,9 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       if (this.siteArea) {
         // Yes: Get data
         this.centralServerService.getChargingStations(this.buildFilterValues(),
-          this.getPaging(), this.getSorting()).subscribe((chargers) => {
-            // Ok
-            observer.next(chargers);
+          this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
+            this.removeAction.disabled = (chargingStations.count === 0);
+            observer.next(chargingStations);
             observer.complete();
           }, (error) => {
             // No longer exists!
@@ -126,8 +127,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     const tableActionsDef = super.buildTableActionsDef();
     if (this.siteArea && this.authorizationService.isAdmin()) {
       return [
-        new TableAddAction().getActionDef(),
-        new TableRemoveAction().getActionDef(),
+        this.addAction,
+        this.removeAction,
         ...tableActionsDef,
       ];
     }

@@ -1,4 +1,4 @@
-# Electric Vehicle Charging Station (EVSE) - Dashboard
+# e-Mobility Angular Dashboard App
 
 ## Summary
 
@@ -12,8 +12,7 @@ The application features:
 * Actions on charging stations: Reboot, Clear Cache, Stop Transaction, Unlock Connector...
 * Energy control: set the maximum energy delivered by the charging station
 
-**Live demo here** [e-Mobility](https://qa.e-mobility-group.com/)
-
+**Live demo here** <a href="https://slf.evse.cfapps.eu10.hana.ondemand.com/auth/login?email=demo.demo@sap.com&password=DeM*Us$r1" target="_blank">e-Mobility</a>
 ## Installation
 
 * Install NodeJS: https://nodejs.org/ (install the LTS version)
@@ -79,13 +78,13 @@ npm run build:prod
 
 Next, start the server with:
 ```
-npm run start:prod:dist
+npm run start:prod
 ```
 
 ### Secured Production Mode (SSL)
 Build the sources as above and run it with:
 ```
-npm run start:prod:dist:ssl
+npm run start:prod:ssl
 ```
 
 ## Tests End To End

@@ -22,6 +22,8 @@ import { TransactionsInProgressTableDataSource } from './in-progress/transaction
 import { TransactionsInProgressComponent } from './in-progress/transactions-in-progress.component';
 import { TransactionsRefundTableDataSource } from './refund/transactions-refund-table-data-source';
 import { TransactionsRefundComponent } from './refund/transactions-refund.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { TransactionDialogComponent } from './transaction/transaction.dialog.component';
 import { TransactionsComponent } from './transactions.component';
 import { TransactionsRoutes } from './transactions.routing';
 
@@ -46,6 +48,8 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsInProgressComponent,
     TransactionsRefundComponent,
     AppTransactionsFormatConnector,
+    TransactionComponent,
+    TransactionDialogComponent,
     TransactionsConnectorCellComponent,
     TransactionsInactivityCellComponent,
   ],
@@ -57,10 +61,13 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsRefundComponent,
     TransactionsConnectorCellComponent,
     ConsumptionChartComponent,
+    TransactionComponent,
+    TransactionDialogComponent,
     ErrorCodeDetailsComponent,
     TransactionsInactivityCellComponent,
   ],
   exports: [
+    TransactionComponent,
     TransactionsComponent,
   ],
   providers: [

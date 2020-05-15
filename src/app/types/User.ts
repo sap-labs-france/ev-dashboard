@@ -85,6 +85,9 @@ export interface UserToken {
 }
 
 export enum UserButtonAction {
+  EDIT_USER = 'edit_user',
+  CREATE_USER = 'create_user',
+  DELETE_USER = 'delete_user',
   SYNCHRONIZE_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',
   SYNCHRONIZE_USERS = 'billing_synchronize_users',

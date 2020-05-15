@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableChargingStationsRebootAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-reboot-action';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
@@ -11,7 +12,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { TableAction } from './table-action';
-import { TableChargingStationsRebootAction } from './table-charging-stations-reboot-action';
 
 export class TableInlineSaveAction implements TableAction {
   private action: TableActionDef = {

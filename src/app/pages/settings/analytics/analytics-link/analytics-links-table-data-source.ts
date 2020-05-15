@@ -1,28 +1,28 @@
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
-import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
-import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
-import { ButtonAction } from 'app/types/GlobalType';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
 import { DialogService } from 'app/services/dialog.service';
-import { Observable } from 'rxjs';
-import { SettingLink } from 'app/types/Setting';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableViewAction } from 'app/shared/table/actions/table-view-action';
-import { TranslateService } from '@ngx-translate/core';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { DataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
+import { SettingLink } from 'app/types/Setting';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
+
+import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
+import ChangeNotification from '../../../../types/ChangeNotification';
+import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
-  @Output() public changed = new EventEmitter<boolean>();
+  public changed = new EventEmitter<boolean>();
   private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();

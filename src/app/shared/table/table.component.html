@@ -12,6 +12,7 @@
               *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
               (click)="actionTriggered(actionDef)"
               [color]="(actionDef.color ? actionDef.color : '')"
+              [disabled]="actionDef.disabled"
               appTooltip [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
@@ -293,13 +294,15 @@
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
                     [class]="(tableColumnDef.class ? tableColumnDef.class + ' p-1 align-middle' : 'p-1 align-middle')"
-                    [class.table-field-invalid]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors && !dataSource.tableDef.hasPristineFormAtLoad">
+                    [class.table-field-invalid]="row[tableColumnDef.id + 'FormControl']?.errors">
+                    [class.table-field-invalid]=".errors && !dataSource.tableDef.hasPristineFormAtLoad">
+                    [class.table-field-invalid]="row[tableColumnDef.id + 'FormControl']?.errors">
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                     [name]="tableColumnDef.id"
                     class="form-control text-line"
-                    [class.table-warning]="(dataSource.formArray?.dirty || dataSource.formArray?.touched) && dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors"
+                    [class.table-warning]="(dataSource.formArray?.dirty || dataSource.formArray?.touched) && row[tableColumnDef.id + 'FormControl']?.errors"
                     [placeholder]="tableColumnDef.name | translate"
-                    [ngModel]="row[tableColumnDef.id]" [disabled]="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.disabled"
+                    [ngModel]="row[tableColumnDef.id]" [disabled]="row[tableColumnDef.id + 'FormControl']?.disabled"
                     (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)"
                     (blur)="dataSource.formArray?.markAsDirty()"
                     type="text">
@@ -313,10 +316,11 @@
                     (change)="$event.source.checked  = !$event.source.checked;"
                     (click)="rowCellUpdated(!row[tableColumnDef.id], rowIndex, tableColumnDef)">
                   </mat-radio-button>
-                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center" [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
+                  <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center"
+                    [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                   </span>
                   <ng-container *ngIf="!dataSource.tableDef.hasPristineFormAtLoad || dataSource.formArray?.dirty || dataSource.formArray?.touched">
-                    <mat-error *ngIf="dataSource.formArray?.controls[rowIndex]?.get(tableColumnDef.id)?.errors as errors">
+                    <mat-error *ngIf="row[tableColumnDef.id + 'FormControl']?.errors as errors">
                       <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
                         <div class="table-mat-error text-left" *ngIf="errors ? errors[error.id] : false"
                           [translate]="error.message" [translateParams]="error.messageParams">

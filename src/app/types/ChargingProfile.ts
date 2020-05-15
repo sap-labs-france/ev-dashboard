@@ -1,4 +1,5 @@
 import { PowerLimitUnits } from 'app/types/ChargingStation';
+
 import { Data } from './Table';
 
 export interface ChargingProfile extends Data {

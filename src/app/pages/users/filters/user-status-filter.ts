@@ -1,4 +1,5 @@
 import { FilterType, TableFilterDef } from 'app/types/Table';
+
 import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { userStatuses } from '../model/users.model';
 

@@ -4,7 +4,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{currentCarCatalog?.vehicleMake}} {{currentCarCatalog?.vehicleModel}} {{currentCarCatalog?.vehicleModelVersion}}</span>
+          <span>{{selectedCarCatalog?.vehicleMake}} {{selectedCarCatalog?.vehicleModel}} {{selectedCarCatalog?.vehicleModelVersion}}</span>
         </ng-template>
         <div class="card-body">
           <div class="row app-car align-items-start">
@@ -12,7 +12,7 @@
               <div class="rotating-card-container app-car-image-border" [ngStyle]="{ 'pointer-events': 'none'}">
                 <div class="card card-rotate card-background" style="margin-top: 0px;">
                   <div class="front front-background"
-                    [ngStyle]="{'background-image': (currentCarCatalog ? 'url(' + currentCarCatalog?.image + ')' : 'url(' + NoImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    [ngStyle]="{'background-image': (selectedCarCatalog ? 'url(' + selectedCarCatalog?.image + ')' : 'url(' + NoImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div class="card-body">
                     </div>
                   </div>
@@ -61,9 +61,9 @@
               <div class="form-group" *ngIf="isBasic">
                 <div style="text-align: left">
                   <mat-radio-group [formControl]="type">
-                    <mat-radio-button value="private">{{'cars.private_car' | translate}}</mat-radio-button>
-                    <br>
                     <mat-radio-button value="company">{{'cars.company_car' | translate}}</mat-radio-button>
+                    <br>
+                    <mat-radio-button value="private">{{'cars.private_car' | translate}}</mat-radio-button>
                   </mat-radio-group>
                 </div>
               </div>

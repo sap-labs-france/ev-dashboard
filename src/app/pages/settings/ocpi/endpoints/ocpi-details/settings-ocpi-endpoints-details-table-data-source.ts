@@ -18,6 +18,7 @@ import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from 'ap
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
 import { TableMultiSyncAction } from '../../../../../shared/table/actions/table-multi-sync-action';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
@@ -197,10 +198,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     return _actionRowButtons;
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
-    super.actionTriggered(actionDef);
-  }
-
   public rowActionTriggered(actionDef: TableActionDef, ocpiEndpointDetail: OcpiEndpointDetail) {
     switch (actionDef.id) {
       case OcpiButtonAction.SYNC_ALL:
@@ -239,8 +236,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       case ButtonAction.STOP:
         this.enableDisableBackgroundJob(ocpiEndpointDetail.ocpiendpoint, false);
         break;
-      default:
-        super.rowActionTriggered(actionDef, ocpiEndpointDetail);
     }
   }
 

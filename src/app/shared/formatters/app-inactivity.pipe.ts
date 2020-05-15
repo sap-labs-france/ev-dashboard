@@ -1,5 +1,6 @@
 import { PercentPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { Locale, LocaleService } from '../../services/locale.service';
 import { AppDurationPipe } from '../../shared/formatters/app-duration.pipe';
 

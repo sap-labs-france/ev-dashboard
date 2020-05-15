@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ConnStatus, Connector } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
@@ -17,7 +17,7 @@ const TYPE_GREY = 'chip-grey';
     </mat-chip-list>
   `,
 })
-export class ChargingStationsConnectorStatusCellComponent extends CellContentTemplateComponent {
+export class ChargingStationsConnectorStatusCellComponent extends CellContentTemplateDirective {
   @Input() public row!: Connector;
 }
 

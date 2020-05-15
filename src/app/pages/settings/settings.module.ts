@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { MaterialModule } from '../../app.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
@@ -12,6 +13,10 @@ import { AnalyticsLinkDialogComponent } from './analytics/analytics-link/analyti
 import { AnalyticsLinksTableDataSource } from './analytics/analytics-link/analytics-links-table-data-source';
 import { SettingsSacComponent } from './analytics/sac/settings-sac.component';
 import { SettingsAnalyticsComponent } from './analytics/settings-analytics.component';
+import { AssetConnectionComponent } from './asset/connection/asset-connection.component';
+import { AssetConnectionDialogComponent } from './asset/connection/asset-connection.dialog.component';
+import { SchneiderAssetConnectionComponent } from './asset/connection/schneider/schneider-asset-connection.component';
+import { SettingsAssetConnectionListTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
@@ -76,6 +81,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOcpiEnpointsComponent,
     SettingsOcpiEnpointDialogComponent,
     SettingsAssetComponent,
+    AssetConnectionComponent,
+    AssetConnectionDialogComponent,
+    SchneiderAssetConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusFomatterComponent,
@@ -112,6 +120,9 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSmartChargingComponent,
     SettingsSapSmartChargingComponent,
     SettingsAssetComponent,
+    AssetConnectionComponent,
+    AssetConnectionDialogComponent,
+    SchneiderAssetConnectionComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiEnpointDialogComponent,
     OcpiEndpointStatusFormatterComponent,
@@ -128,6 +139,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
     SettingsOcpiEndpointsTableDataSource,
+    SettingsAssetConnectionListTableDataSource,
     AnalyticsLinksTableDataSource,
   ],
 })

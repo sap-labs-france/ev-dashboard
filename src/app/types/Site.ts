@@ -40,7 +40,11 @@ export interface SiteUser extends Data {
 }
 
 export enum SiteButtonAction {
-  ASSIGN_SITE = 'assign_site',
+  VIEW_SITE = 'view_site',
+  EDIT_SITE = 'edit_site',
+  CREATE_SITE = 'create_site',
+  DELETE_SITE = 'delete_site',
+  ASSIGN_USERS_TO_SITE = 'assign_users_to_site'
 }
 
 export enum SiteImage {

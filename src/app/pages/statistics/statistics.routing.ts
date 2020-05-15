@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Action, Entity } from 'app/types/Authorization';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { RouteGuardService } from '../../guard/route-guard';
 import { StatisticsComponent } from './statistics.component';
 

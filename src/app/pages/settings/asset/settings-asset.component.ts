@@ -5,9 +5,11 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { HTTPError } from 'app/types/HTTPError';
 import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
+import { SettingsAssetConnectionListTableDataSource } from './settings-asset-connections-list-table-data-source';
 
 @Component({
   selector: 'app-settings-asset',
@@ -25,7 +27,10 @@ export class SettingsAssetComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
-  ) {
+    public assetConnectionListTableDataSource: SettingsAssetConnectionListTableDataSource) {
+    this.assetConnectionListTableDataSource.changed.subscribe(() => {
+      this.formGroup.markAsDirty();
+    });
     this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
@@ -44,17 +49,29 @@ export class SettingsAssetComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.assetSettings = settings;
+      // Set
+      this.assetConnectionListTableDataSource.setAssetConnections(this.assetSettings.assets);
+      this.assetConnectionListTableDataSource.loadData().subscribe();
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.asset.setting_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('settings.asset.setting_not_found');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public save(assetSettings: AssetSettings) {
+  }
+
+  public refresh() {
+    // Reload settings
+    this.loadConfiguration();
   }
 }

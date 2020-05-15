@@ -8,10 +8,6 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAssetAction } from 'app/shared/table/actions/table-create-asset-action';
-import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
-import { TableDisplayAssetAction } from 'app/shared/table/actions/table-display-asset-action';
-import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -24,12 +20,17 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
+import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
+import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
+import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
+
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private isAdmin = false;
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
-  private displayAction = new TableDisplayAssetAction().getActionDef();
+  private displayAction = new TableViewAssetAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -144,14 +145,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, asset: Asset) {
     switch (actionDef.id) {
-      case AssetButtonAction.DISPLAY_ASSET:
+      case AssetButtonAction.VIEW_ASSET:
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
           actionDef.action(asset, this.dialog, this.refreshData.bind(this));
@@ -164,10 +163,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(asset);
+        if (actionDef.action) {
+          actionDef.action(asset.coordinates);
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, asset);
     }
   }
 
@@ -179,11 +178,5 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [];
-  }
-
-  private showPlace(asset: Asset) {
-    if (asset && asset.coordinates) {
-      window.open(`http://maps.google.com/maps?q=${asset.coordinates[1]},${asset.coordinates[0]}`);
-    }
   }
 }

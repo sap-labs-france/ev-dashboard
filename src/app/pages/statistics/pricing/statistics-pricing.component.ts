@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LogDateFromTableFilter } from 'app/pages/logs/filters/log-date-from-filter';
-import { LogDateUntilTableFilter } from 'app/pages/logs/filters/log-date-until-filter';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { FilterParams } from 'app/types/GlobalType';
 import { TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -36,7 +38,7 @@ export class StatisticsPricingComponent implements OnInit {
   @ViewChild('pricingBarChart', { static: true }) public ctxBarChart!: ElementRef;
   @ViewChild('pricingPieChart', { static: true }) public ctxPieChart!: ElementRef;
 
-  private filterParams!: { [param: string]: string | string[]; };
+  private filterParams!: FilterParams;
   private barChart!: SimpleChart;
   private pieChart!: SimpleChart;
   private barChartData!: ChartData;
@@ -61,10 +63,10 @@ export class StatisticsPricingComponent implements OnInit {
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
 
-    filterDef = new LogDateFromTableFilter().getFilterDef();
+    filterDef = new StartDateFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
-    filterDef = new LogDateUntilTableFilter().getFilterDef();
+    filterDef = new EndDateFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();
@@ -104,7 +106,7 @@ export class StatisticsPricingComponent implements OnInit {
     this.selectedDateTo = date;
   }
 
-  public filtersChanged(filterParams: { [param: string]: string | string[]; }): void {
+  public filtersChanged(filterParams: FilterParams): void {
     this.filterParams = filterParams;
   }
 

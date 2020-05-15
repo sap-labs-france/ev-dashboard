@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import { FilterParams } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -253,7 +254,7 @@ export class StatisticsFiltersComponent implements OnInit {
     });
   }
 
-  public buildFilterValues(): { [param: string]: string | string[]; } {
+  public buildFilterValues(): FilterParams {
     const filterJson = {};
     // Parse filters
     if (this.statFiltersDef) {

@@ -1,5 +1,6 @@
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, DropdownItem, TableActionDef } from 'app/types/Table';
+
 import { TableAction } from './table-action';
 
 export class TableMultiSyncAction implements TableAction {

@@ -4,15 +4,19 @@ export class Constants {
 
   public static CSV_SEPARATOR = '\t';
 
+  public static MAX_PAGE_SIZE = Number.MAX_SAFE_INTEGER;
   public static DEFAULT_PAGE_SIZE = 100;
   public static INFINITE_RECORDS = -1;
   public static DEFAULT_POLLING_MILLIS = 10000;
+
+  public static readonly MAX_LIMIT = Number.MAX_SAFE_INTEGER;
 
   /* Data Service */
   public static DEFAULT_LIMIT = 100;
   public static DEFAULT_SKIP = 0;
   public static FIRST_ITEM_PAGING = {limit: 1, skip: Constants.DEFAULT_SKIP};
   public static DEFAULT_PAGING = {limit: Constants.DEFAULT_LIMIT, skip: Constants.DEFAULT_SKIP};
+  public static MAX_PAGING = {limit: Constants.MAX_PAGE_SIZE, skip: Constants.DEFAULT_SKIP};
 
   public static USER_NO_PICTURE = 'assets/img/theme/no-photo.png';
 

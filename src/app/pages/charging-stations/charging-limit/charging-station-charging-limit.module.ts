@@ -7,10 +7,10 @@ import { ChartModule } from 'angular2-chartjs';
 import { MaterialModule } from 'app/app.module';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from './cell-components/charging-stations-charging-profile-power-slider-cell';
 import { ChargingStationSmartChargingLimitPlannerChartComponent } from './charging-profile-limit/charging-station-charging-profile-limit-chart.component';
 import { ChargingStationChargingProfileLimitComponent } from './charging-profile-limit/charging-station-charging-profile-limit.component';
@@ -18,6 +18,7 @@ import { ChargingStationAdvancedComponent } from './charging-station-advanced/ch
 import { ChargingStationSmartChargingDialogComponent } from './charging-station-charging-limit-dialog.component';
 import { ChargingStationPowerSliderComponent } from './component/charging-station-power-slider.component';
 import { ChargingStationStaticLimitComponent } from './static-limit/charging-station-static-limit.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +40,6 @@ import { ChargingStationStaticLimitComponent } from './static-limit/charging-sta
     ChargingStationPowerSliderComponent,
     ChargingStationsChargingProfilePowerSliderCellComponent,
     ChargingStationStaticLimitComponent,
-    TransactionDialogComponent,
     ChargingStationSmartChargingLimitPlannerChartComponent,
     ChargingStationAdvancedComponent,
   ],

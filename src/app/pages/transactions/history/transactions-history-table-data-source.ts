@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
-import { ActionResponse, DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { RefundStatus } from 'app/types/Refund';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
-import saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
@@ -24,7 +23,6 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
-import { TransactionDialogComponent } from '../../../shared/dialogs/transactions/transaction-dialog.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
@@ -32,9 +30,6 @@ import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
-import { TableExportAction } from '../../../shared/table/actions/table-export-action';
-import { TableOpenAction } from '../../../shared/table/actions/table-open-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
@@ -45,16 +40,17 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TransactionsDateFromFilter } from '../filters/transactions-date-from-filter';
-import { TransactionsDateUntilFilter } from '../filters/transactions-date-until-filter';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
+import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
+import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private isSiteAdmin = false;
-  private openAction = new TableOpenAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  private viewAction = new TableViewTransactionAction().getActionDef();
+  private deleteAction = new TableDeleteTransactionAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -227,27 +223,24 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       new IssuerFilter().getFilterDef(),
-      new TransactionsDateFromFilter(moment().startOf('y').toDate()).getFilterDef(),
-      new TransactionsDateUntilFilter().getFilterDef(),
+      new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new ChargerTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
-
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
-
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }
-
     return filters;
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    const rowActions = [this.openAction];
+    const rowActions = [this.viewAction];
     if (this.isAdmin) {
       rowActions.push(this.deleteAction);
     }
@@ -256,9 +249,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public canDisplayRowAction(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case ButtonAction.DELETE:
+      case TransactionButtonAction.DELETE_TRANSACTION:
         return this.isAdmin;
-      case TransactionButtonAction.REFUND:
+      case TransactionButtonAction.REFUND_TRANSACTIONS:
         return !Utils.objectHasProperty(transaction, 'refund');
       default:
         return true;
@@ -267,29 +260,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
-      case ButtonAction.DELETE:
-        if (transaction.refundData && (transaction.refundData.status === RefundStatus.SUBMITTED ||
-          transaction.refundData.status === RefundStatus.APPROVED)) {
-          this.dialogService.createAndShowOkDialog(
-            this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
-        } else {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('transactions.dialog.delete.title'),
-            this.translateService.instant('transactions.dialog.delete.confirm',
-              {user: this.appUserNamePipe.transform(transaction.user)}),
-          ).subscribe((response) => {
-            if (response === ButtonType.YES) {
-              this.deleteTransaction(transaction);
-            }
-          });
+      case TransactionButtonAction.DELETE_TRANSACTION:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case ButtonAction.OPEN:
-        this.openSession(transaction);
+      case TransactionButtonAction.VIEW_TRANSACTION:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, transaction);
     }
   }
 
@@ -304,7 +285,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
-        new TableExportAction().getActionDef(),
+        new TableExportTransactionsAction().getActionDef(),
         ...tableActionsDef,
       ];
     } else {
@@ -314,62 +295,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ButtonAction.EXPORT:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('transactions.dialog.export.title'),
-          this.translateService.instant('transactions.dialog.export.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.exportTransactions();
-          }
-        });
+      case TransactionButtonAction.EXPORT_TRANSACTIONS:
+        if (actionDef.action) {
+          actionDef.action(this.buildFilterValues(), this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
+        }
         break;
     }
-    super.actionTriggered(actionDef);
-  }
-
-  public openSession(transaction: Transaction) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
-    dialogConfig.height = '80vh';
-    dialogConfig.width = '80vw';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      transactionId: transaction.id,
-    };
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialog.open(TransactionDialogComponent, dialogConfig);
-  }
-
-  protected deleteTransaction(transaction: Transaction) {
-    this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
-        this.translateService.instant('transactions.notification.delete.success',
-          {
-            user: this.appUserNamePipe.transform(transaction.user),
-          }));
-      this.refreshData().subscribe();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
-    });
-  }
-
-  private exportTransactions() {
-    this.spinnerService.show();
-    this.centralServerService.exportTransactions(this.buildFilterValues(), {
-      limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP,
-    }, this.getSorting())
-      .subscribe((result) => {
-        this.spinnerService.hide();
-        saveAs(result, 'exported-transactions.csv');
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-    });
   }
 }

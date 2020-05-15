@@ -8,6 +8,7 @@ import { Address } from 'app/types/Address';
 import { IntegrationConnection } from 'app/types/Connection';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -472,18 +473,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
-        // Not found
-        case 550:
-          // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'users.user_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         default:
-          // Unexpected error`
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'general.unexpected_error_backend');
       }
@@ -754,7 +749,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         // No longer exists!
@@ -799,7 +794,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
           break;
         // No longer exists!

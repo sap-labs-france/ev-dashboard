@@ -32,6 +32,10 @@ export interface KeyValue {
   tooltip?: string;
 }
 
+export interface FilterParams {
+  [param: string]: string | string[];
+}
+
 export enum ButtonAction {
   ACTIVATE = 'activate',
   DEACTIVATE = 'deactivate',
@@ -39,6 +43,7 @@ export enum ButtonAction {
   OPEN_IN_MAPS = 'open_in_maps',
   MORE = 'more',
   DELETE = 'delete',
+  DELETE_MANY = 'delete_many',
   INLINE_DELETE = 'inline-delete',
   REFRESH = 'refresh',
   AUTO_REFRESH = 'auto-refresh',
@@ -50,6 +55,7 @@ export enum ButtonAction {
   MULTI_CREATE = 'multi-create',
   NO_ACTION = 'block',
   OPEN = 'open',
+  OPEN_URL = 'open_url',
   REGISTER = 'register',
   REMOVE = 'remove',
   RESET_FILTERS = 'reset-filters',

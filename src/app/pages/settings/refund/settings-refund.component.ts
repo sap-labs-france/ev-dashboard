@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
+import { TableSyncRefundTransactionsAction } from 'app/pages/transactions/table-actions/table-sync-refund-transactions-action';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { RefundSettings, RefundSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -55,7 +57,7 @@ export class SettingsRefundComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.setting_not_found');
           break;
         default:
@@ -87,7 +89,7 @@ export class SettingsRefundComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case 550:
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
           break;
         default:
@@ -98,7 +100,7 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public synchronize() {
-    const tableSyncRefundAction = new TableSyncRefundAction().getActionDef();
+    const tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
     if (tableSyncRefundAction.action) {
       tableSyncRefundAction.action(
         this.dialogService,

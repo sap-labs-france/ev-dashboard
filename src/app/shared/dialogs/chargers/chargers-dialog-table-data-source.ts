@@ -6,6 +6,7 @@ import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
@@ -27,7 +28,7 @@ export class ChargersDialogTableDataSource extends DialogTableDataSource<Chargin
   public loadDataImpl(): Observable<DataResult<ChargingStation>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getChargers(this.buildFilterValues(),
+      this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
           // Ok
           observer.next(chargers);

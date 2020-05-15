@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from 'app/services/config.service';
 import { WindowService } from 'app/services/window.service';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../services/central-server.service';
@@ -102,35 +103,29 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
         return;
       }
       data['hash'] = this.resetPasswordHash;
-      // Show
       this.spinnerService.show();
-      // Yes: Update
+      // Reset
       this.centralServerService.resetUserPassword(data).subscribe((response) => {
-        // Hide
         this.spinnerService.hide();
-        // Success
         if (response.status && response.status === RestResponse.SUCCESS) {
-          // Show message`
+          // Show message
           this.messageService.showSuccessMessage('authentication.define_password_success');
           // Go back to login
           this.router.navigate(['/auth/login']);
-          // Unexpected Error
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, 'authentication.define_password_error');
         }
       }, (error) => {
-        // Hide
         this.spinnerService.hide();
-        // Check status error code
         switch (error.status) {
           // Hash no longer valid
-          case 550:
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
             this.messageService.showErrorMessage('authentication.define_password_hash_not_valid');
             break;
-          // Unexpected error`
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
         }
       });
     });

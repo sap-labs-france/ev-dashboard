@@ -9,8 +9,6 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
-import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -20,10 +18,13 @@ import { AssetInError, AssetInErrorType, ErrorMessage } from 'app/types/InError'
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
+import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
@@ -124,8 +125,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -142,8 +141,6 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      default:
-        super.rowActionTriggered(actionDef, asset);
     }
   }
 

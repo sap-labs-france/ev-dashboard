@@ -12,10 +12,12 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { Address } from 'app/types/Address';
 import { Company, CompanyLogo } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 
 @Component({
@@ -117,12 +119,8 @@ export class CompanyComponent implements OnInit {
     if (!this.currentCompanyID) {
       return;
     }
-
-    // Show spinner
     this.spinnerService.show();
-    // Yes, get it
     this.centralServerService.getCompany(this.currentCompanyID).pipe(mergeMap((company) => {
-      // Init form
       if (company.id) {
         this.formGroup.controls.id.setValue(company.id);
       }
@@ -143,19 +141,14 @@ export class CompanyComponent implements OnInit {
       }
       this.spinnerService.hide();
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Handle error
       switch (error.status) {
-        // Not found
-        case 550:
-          // Transaction not found`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'companies.company_not_found');
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('companies.company_not_found');
           break;
         default:
-          // Unexpected error`
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
       }
     });
   }
@@ -243,22 +236,17 @@ export class CompanyComponent implements OnInit {
   }
 
   private createCompany(company: Company) {
-    // Show
     this.spinnerService.show();
     // Set the logo
     this.updateCompanyLogo(company);
     // Set coordinates
     this.updateCompanyCoordinates(company);
-    // Yes: Update
+    // Create
     this.centralServerService.createCompany(company).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('companies.create_success',
           { companyName: company.name });
-        // Refresh
         this.currentCompanyID = company.id;
         this.closeDialog(true);
       } else {
@@ -266,36 +254,28 @@ export class CompanyComponent implements OnInit {
           this.messageService, 'companies.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Company deleted
-        case 550:
-          // Show error
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('companies.company_not_found');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'companies.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'companies.create_error');
       }
     });
   }
 
   private updateCompany(company: Company) {
-    // Show
     this.spinnerService.show();
     // Set the logo
     this.updateCompanyLogo(company);
     // Set coordinates
     this.updateCompanyCoordinates(company);
-    // Yes: Update
+    // Update
     this.centralServerService.updateCompany(company).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('companies.update_success', { companyName: company.name });
         this.closeDialog(true);
       } else {
@@ -303,18 +283,14 @@ export class CompanyComponent implements OnInit {
           this.messageService, 'companies.update_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
-        // Company deleted
-        case 550:
-          // Show error
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('companies.company_not_found');
           break;
         default:
-          // No longer exists!
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'companies.update_error');
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'companies.update_error');
       }
     });
   }

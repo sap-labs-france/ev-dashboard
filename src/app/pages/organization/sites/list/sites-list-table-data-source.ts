@@ -1,44 +1,42 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableExportOCPPParamsAction } from 'app/pages/charging-stations/table-actions/table-export-ocpp-params-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableEditUsersAction } from 'app/shared/table/actions/table-edit-users-action';
-import { TableExportOCPPParamsAction } from 'app/shared/table/actions/table-export-ocpp-params-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewAction } from 'app/shared/table/actions/table-view-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { Site } from 'app/types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { UserButtonAction } from 'app/types/User';
+import { ButtonAction } from 'app/types/GlobalType';
+import { Site, SiteButtonAction } from 'app/types/Site';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
-import { SiteDialogComponent } from '../site/site-dialog.component';
+import { TableAssignUsersToSiteAction } from '../table-actions/table-assign-users-to-site-action';
+import { TableCreateSiteAction } from '../table-actions/table-create-site-action';
+import { TableDeleteSiteAction } from '../table-actions/table-delete-site-action';
+import { TableEditSiteAction } from '../table-actions/table-edit-site-action';
+import { TableViewSiteAction } from '../table-actions/table-view-site-action';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
-  private editAction = new TableEditAction().getActionDef();
-  private editUsersAction = new TableEditUsersAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
-  private viewAction = new TableViewAction().getActionDef();
+  private editAction = new TableEditSiteAction().getActionDef();
+  private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
+  private deleteAction = new TableDeleteSiteAction().getActionDef();
+  private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
 
   constructor(
@@ -126,7 +124,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.canAccess(Entity.SITE, Action.CREATE)) {
       return [
-        new TableCreateAction().getActionDef(),
+        new TableCreateSiteAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -139,9 +137,11 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     let moreActions;
-    if (this.authorizationService.isSiteAdmin(site.id) || this.authorizationService.isSiteOwner(site.id)) {
+    if (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(site.id) ||
+        this.authorizationService.isSiteOwner(site.id)) {
       actions.push(this.editAction);
-      actions.push(this.editUsersAction);
+      actions.push(this.assignUsersToSite);
       moreActions = new TableMoreAction([
         this.exportOCPPParamsAction,
         openInMaps,
@@ -165,33 +165,43 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     // Action
     switch (actionDef.id) {
       // Add
-      case ButtonAction.CREATE:
-        this.showSiteDialog();
-        break;
-      default:
-        super.actionTriggered(actionDef);
+      case SiteButtonAction.CREATE_SITE:
+        if (actionDef.action) {
+          actionDef.action(this.dialog, this.refreshData.bind(this));
+        }
     }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, site: Site) {
     switch (actionDef.id) {
-      case ButtonAction.EDIT:
-      case ButtonAction.VIEW:
-        this.showSiteDialog(site);
+      case SiteButtonAction.EDIT_SITE:
+      case SiteButtonAction.VIEW_SITE:
+        if (actionDef.action) {
+          actionDef.action(site, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      case UserButtonAction.EDIT_USERS:
-        this.showUsersDialog(site);
+      case SiteButtonAction.ASSIGN_USERS_TO_SITE:
+        if (actionDef.action) {
+          actionDef.action(site, this.dialog, this.refreshData.bind(this));
+        }
         break;
-      case ButtonAction.DELETE:
-        this.deleteSite(site);
+      case SiteButtonAction.DELETE_SITE:
+        if (actionDef.action) {
+          actionDef.action(site, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
       case ButtonAction.OPEN_IN_MAPS:
-        this.showPlace(site);
-      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
-        this.exportOCOPPParams(site);
+        if (actionDef.action) {
+          actionDef.action(site.address.coordinates);
+        }
         break;
-      default:
-        super.rowActionTriggered(actionDef, site);
+      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
+        if (actionDef.action) {
+          actionDef.action({ site }, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
+        }
+        break;
     }
   }
 
@@ -206,80 +216,5 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       new IssuerFilter().getFilterDef(),
       new CompanyTableFilter().getFilterDef(),
     ];
-  }
-
-  private showPlace(site: Site) {
-    if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
-      window.open(`http://maps.google.com/maps?q=${site.address.coordinates[1]},${site.address.coordinates[0]}`);
-    }
-  }
-
-  private showSiteDialog(site?: Site) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '70vw';
-    dialogConfig.minHeight = '70vh';
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (site) {
-      dialogConfig.data = site;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    const dialogRef = this.dialog.open(SiteDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((saved) => {
-      if (saved) {
-        this.refreshData().subscribe();
-      }
-    });
-  }
-
-  private showUsersDialog(site?: Site) {
-    // Create the dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'transparent-dialog-container';
-    if (site) {
-      dialogConfig.data = site;
-    }
-    // disable outside click close
-    dialogConfig.disableClose = true;
-    // Open
-    this.dialog.open(SiteUsersDialogComponent, dialogConfig);
-  }
-
-  private deleteSite(site: Site) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('sites.delete_title'),
-      this.translateService.instant('sites.delete_confirm', { siteName: site.name }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.centralServerService.deleteSite(site.id).subscribe((response) => {
-          if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage('sites.delete_success', { siteName: site.name });
-            this.refreshData().subscribe();
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'sites.delete_error');
-          }
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'sites.delete_error');
-        });
-      }
-    });
-  }
-  private exportOCOPPParams(site: Site) {
-    if (this.exportOCPPParamsAction && this.exportOCPPParamsAction.action) {
-      this.exportOCPPParamsAction.action(
-        this.dialogService,
-        this.translateService,
-        this.messageService,
-        this.centralServerService,
-        this.router,
-        this.spinnerService,
-        null,
-        site,
-      );
-    }
   }
 }

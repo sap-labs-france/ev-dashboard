@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.46",
+    "last_update": "Version 2.2.51",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -77,6 +77,7 @@
     "reload": "Reload",
     "stop": "Stop",
     "refund": "Refund",
+    "open": "Open",
     "open_in_concur": "Jump to your Expenses",
     "connect": "Connect",
     "register": "Register",
@@ -116,6 +117,7 @@
     "error_backend": "Error occurred while contacting the central server",
     "car_catalog_error": "Error occurred while retrieving the car",
     "car_catalogs_error": "Error occurred while retrieving the cars",
+    "cars_error": "Error occurred while retrieving the user cars",
     "car_image_error": "Error occurred while retrieving the car images",
     "success_backend": "Connection to the central server has been restored",
     "user_or_tenant_updated": "You have been logged off because either your profile or your organization's settings have been updated",
@@ -283,7 +285,7 @@
     "changed_by_other_user": "The manufacturer '{{manufacturerName}}' has been changed by another user and will be reloaded",
     "update_success": "The manufacturer '{{manufacturerName}}' has been updated successfully",
     "update_error": "Error occurred while updating the manufacturer",
-    "manufacturer_not_found": "Manufacturer not found",
+    "manufacturer_not_found": "Manufacturer has not been found",
     "create_success": "The manufacturer '{{manufacturerName}}' has been created successfully",
     "create_error": "Error occurred while creating the manufacturer",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
@@ -309,7 +311,7 @@
     "changed_by_other_user": "The company '{{companyName}}' has been changed by another user and will be reloaded",
     "update_success": "The company '{{companyName}}' has been updated successfully",
     "update_error": "Error occurred while updating the company",
-    "company_not_found": "Company not found",
+    "company_not_found": "Company has not been found",
     "create_success": "The company '{{companyName}}' has been created successfully",
     "create_error": "Error occurred while creating the company",
     "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb",
@@ -338,7 +340,7 @@
     "changed_by_other_user": "The asset '{{assetName}}' has been changed by another user and will be reloaded",
     "update_success": "The asset '{{assetName}}' has been updated successfully",
     "update_error": "Error occurred while updating the asset",
-    "asset_not_found": "Asset not found",
+    "asset_not_found": "Asset has not been found",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset",
     "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
@@ -377,7 +379,7 @@
     "changed_on": "Changed On",
     "changed_by": "Changed By",
     "delete_title": "Delete",
-    "site_not_found": "Site not found",
+    "site_not_found": "Site has not been found",
     "delete_button": "Delete",
     "delete_confirm": "Do you really want to delete the site '{{siteName}}'?",
     "delete_success": "The site '{{siteName}}' has been deleted successfully",
@@ -403,7 +405,8 @@
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?",
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters"
   },
   "site_areas": {
     "assign_site": "Assign Site",
@@ -419,7 +422,7 @@
     "charger_list_source_title": "Available",
     "charger_list_target_title": "Assigned",
     "number_of_charging_stations": "Nb Chargers",
-    "site_area_not_found": "Site Area not found",
+    "site_area_not_found": "Site Area has not been found",
     "select_site_areas": "Select Site Area",
     "unassigned": "Unassigned",
     "image": "Image",
@@ -453,14 +456,19 @@
     "changed_by_other_user": "The site area '{{siteAreaName}}' has been changed by another user and will be reloaded",
     "update_success": "The site area '{{siteAreaName}}' has been updated successfully",
     "update_error": "Error occurred while updating the site area",
+    "update_phase_error": "The site area contains charging station(s) with three phases",
     "create_success": "The site area '{{siteAreaName}}' has been created successfully",
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Maximum Power (kW)",
     "maximum_energy_amps": "Maximum Power (A)",
+    "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
-    "consumption_date": "Date"
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters",
+    "consumption_date": "Date",
+    "single_phased": "Single Phase",
+    "three_phased": "Three Phases"
   },
   "authentication": {
     "accept": "I accept the",
@@ -618,6 +626,7 @@
   },
   "chargers": {
     "chargers": "Charging Stations",
+    "charger_not_found": "The charging station has not been found",
     "vendor": "Vendor",
     "model": "Model",
     "name": "Name",
@@ -700,12 +709,13 @@
     "status_firmware_installed": "Installed",
     "reboot_title": "Reboot Charging Station",
     "soft_reset_title": "Reset Charging Station",
-    "charger_id_not_found": "Charging Station ID '{{chargerID}}' has not been found",
+    "charger_id_not_found": "The charging station ID '{{chargerID}}' has not been found",
     "no_transaction_found": "No session found for Charging Station '{{chargerID}}' ",
     "dialog": {
       "export": {
         "title": "Export charging stations",
-        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+        "confirm": "Do you really want to export all the charging stations matching the filters ?",
+        "error": "Error occurred while trying to export the charging stations"
       },
       "exportConfig": {
         "title": "Export charging station parameters",
@@ -785,7 +795,7 @@
       "schedule_limit_header": "Schedule power limit",
       "empty_schedule_list_error": "You must create at least one schedule",
       "connectors_all": "all",
-      "charging_profile_not_found": "ChargingProfile not found",
+      "charging_profile_not_found": "Charging Profile has not been found",
       "profile_types": {
         "relative": "Relative",
         "absolute": "Temporary Planning",
@@ -794,6 +804,8 @@
       },
       "retrieve_schedule": "Retrieve Plans",
       "charging_schedule": "Charging Plans of '{{chargeBoxID}}'",
+      "enable_smart_charging_for_site_area_title": "Enable Smart Charging",
+      "enable_smart_charging_for_site_area_body": "If you enable the smart charging for this site area, the optimization algorithm will take over the current static limitation and the charging plans.<br>Do you want to continue?",
       "disable_smart_charging_for_site_area_title": "Disable Smart Charging",
       "disable_smart_charging_for_site_area_body": "If you disable the smart charging for this site area, all charging plans will be deleted.<br>Do you want to continue?",
       "clearing_charging_profiles_not_successful_title": "An error occurred while deleting the charging plans",
@@ -867,6 +879,7 @@
     "retrieve_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
     "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
     "change_config_error": "Cannot retrieve the configuration of the charging station, check the logs",
+    "change_config_phase_error": "Cannot assign three phases charging station to a single phase site area",
     "change_params_success": "The parameter '{{paramKey}}' has been updated successfully in the charging station '{{chargeBoxID}}'",
     "change_params_error": "Error occurred while trying to update the parameter of the charging station",
     "delete_title": "Delete",
@@ -910,7 +923,7 @@
     "direct_current": "Direct Current",
     "alternating_current": "Alternating Current",
     "direct_and_alternating_current": "Direct and Alternating Current",
-    "single_phase": "Alternating Current - Single-phase",
+    "single_phase": "Alternating Current - Single phase",
     "tri_phases": "Alternating Current - Three phases",
     "site_area": "Site - Site Area",
     "assign_site_area": "Assign Site Area",
@@ -1004,7 +1017,8 @@
     "dialog": {
       "export": {
         "title": "Export Logs",
-        "confirm": "Do you really want to export all the logs matching the filters ?"
+        "confirm": "Do you really want to export all the logs matching the filters ?",
+        "error": "Error occurred while trying to export the logs"
       }
     }
   },
@@ -1030,8 +1044,8 @@
     "role_invalid": "Invalid role",
     "role_mult_all": "All Roles",
     "role_mult_admin_demo": "Admin or Demo",
-    "user_not_found": "User not found",
-    "user_id_not_found": "User '{{userId}}' not found",
+    "user_not_found": "User has not been found",
+    "user_id_not_found": "User '{{userId}}' has not been found",
     "invalid_phone_number": "Invalid phone number",
     "missing_tag": "This list must contain at least one badge",
     "invalid_tag_id": "Only numbers and letters are allowed",
@@ -1166,6 +1180,7 @@
     "id": "Invoice number",
     "createdOn": "Invoice date",
     "price": "Invoice price",
+    "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
     "pay": "Pay"
   },
   "tags": {
@@ -1184,7 +1199,7 @@
     "title": "Organization",
     "name": "Name",
     "tenant_management": "Organization Management",
-    "tenant_not_found": "This organization does not exist! You cannot login!",
+    "tenant_not_found": "This organization has not been found",
     "email": "Email",
     "subdomain": "Subdomain",
     "create_success": "The organization '{{name}}' has been created successfully",
@@ -1220,7 +1235,7 @@
         "title": "Gireve"
       },
       "setting_do_not_exist": "OCPI Settings not found",
-      "setting_not_found": "OCPI Settings not found",
+      "setting_not_found": "OCPI settings has not been found",
       "create_success": "OCPI settings have been created successfully",
       "create_error": "Error occurred while creating the OCPI settings",
       "update_success": "OCPI settings have been updated successfully",
@@ -1315,13 +1330,14 @@
       "check_connection": "Check Connection",
       "connection_success": "Connection to the billing system was tested with success",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
+      "force_synchronize": "Force synchronization",
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",
         "force_synchronize_users": "Force Synchronize Billing Users",
         "synchronize_users_dialog_title": "Synchronize Billing Users",
         "synchronize_user_dialog_title": "Synchronize Billing User",
-        "force_synchronize_user_dialog_title": "Force Synchronize Billing User",
+        "force_synchronize_user_dialog_title": "Force Synchronization (Billing)",
         "synchronize_users_dialog_confirm": "Do you really want to synchronize the users in the billing system?",
         "synchronize_user_dialog_confirm": "Do you really want to synchronize the user '{{userFullName}}' in the billing system?",
         "force_synchronize_user_dialog_confirm": "Do you really want to force synchronization of the user '{{userFullName}}' in the billing system?<br>Warning, this action may result in the loss of related billing data.<br>This action is irreversible.",
@@ -1368,7 +1384,7 @@
       },
       "description": "E-Mobility exposes its data to external analytics tools.<br>This feature exposes real-time all the session data through a connector to external data analytics tools.<br>E-Mobility is currently using SAP Analytics Cloud via an OData connector.<br>SAP Analytics Cloud supports the intelligent use of charging data to simplify operational decision making.<br>More technical information available at ",
       "setting_do_not_exist": "Configuration has not been found",
-      "setting_not_found": "SAP Analytics Cloud Settings not found",
+      "setting_not_found": "SAP Analytics settings have not been found",
       "create_success": "SAP Analytics Cloud settings have been created successfully",
       "create_error": "Error occurred while creating the SAP Analytics Cloud settings",
       "update_success": "SAP Analytics Cloud settings have been updated successfully",
@@ -1383,7 +1399,7 @@
       },
       "description": "E-Mobility can use smart charging algorithm to optimize power distribution and charging schedules based on complex constraints",
       "setting_do_not_exist": "Configuration has not been found",
-      "setting_not_found": "SAP Smart Charging Settings not found",
+      "setting_not_found": "SAP Smart Charging settings have not been found",
       "create_success": "SAP Smart Charging settings have been created successfully",
       "create_error": "Error occurred while creating the SAP Smart Charging settings",
       "update_success": "SAP Smart Charging settings have been updated successfully",
@@ -1393,16 +1409,32 @@
       "check_connection": "Check Connection"
     },
     "asset": {
+      "connection": {
+        "title": "Asset connections",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "base_url": "URL",
+        "user": "User",
+        "password": "Password",
+        "delete_title": "Delete Asset connection",
+        "delete_confirm":"Do you really want to delete the connection '{{assetConnectionName}}'?"
+      },
+      "types": {
+        "schneider": "Schneider Building Management"
+      },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
-      "setting_not_found": "Asset Settings not found"
+      "setting_not_found": "Asset settings have not been found"
     },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",
     "car": {
       "synchronize_car_catalogs": "Synchronize Cars",
       "synchronize_car_catalogs_dialog_title": "Synchronize Cars",
-      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?"
+      "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?",
+      "assign_user_to_car_dialog_title": "Assign user to car",
+      "assign_user_to_car_dialog_confirm": "This car already exist, do you really want to use it?"
     }
   },
   "ocpiendpoints": {
@@ -1569,6 +1601,8 @@
     }
   },
   "cars": {
+    "vin": "VIN",
+    "license_plate":"License Plate",
     "vehicle_model": "Model",
     "vehicle_make": "Maker",
     "vehicle_model_version": "Version",
@@ -1617,7 +1651,16 @@
     "synchronize_car_catalogs_up_to_date": "Cars already up to date",
     "select_car_maker": "Select Car Maker",
     "car_makers":"Car Makers",
+    "create_success": "You have been assigned to the car successfully",
+    "assign_car_catalog": "Assign car catalog",
+    "create_error": "Error occurred while creating the car",
+    "car_exist": "You already created this car",
+    "car_exist_different_car_catalog": "You already created this car with a different car catalog",
+    "user_already_assigned": "You are already assigned to this car",
+    "company_car": "Company Car",
+    "invalid_vin": "Invalid VIN",
     "type": "Type",
+    "assign_users":"Assign Users",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",
@@ -1636,7 +1679,8 @@
     "title": "Car",
     "description": "Manage Cars",
     "tabs": {
-      "list": "Cars"
+      "car_catalogs": "Car Catalogs",
+      "cars": "Cars"
     }
   },
   "analytics": {
@@ -1681,7 +1725,11 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on"
+    "updatedOn": "Synchronized on",
+    "tabs": {
+      "invoices": "Invoices",
+      "in_error": "In Error"
+    }
   },
   "transactions": {
     "id": "Id",
@@ -1741,7 +1789,7 @@
     "refund_submitted": "Submitted",
     "transaction_number": "Session(s)",
     "total_consumption_kw": "Total Consumption",
-    "transaction_not_found": "Session not found",
+    "transaction_not_found": "Session has not been found",
     "transaction_id_not_found": "Session ID '{{sessionID}}' has not been found",
     "load_transactions_error": "Error occurred while retrieving the sessions",
     "load_transaction_error": "Error occurred while retrieving the session",

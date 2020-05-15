@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateComponent } from 'app/shared/table/cell-content-template/cell-content-template.component';
+import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
+
 import { Tag } from '../../../types/Tag';
 
 @Component({
@@ -13,7 +14,7 @@ import { Tag } from '../../../types/Tag';
     </mat-chip-list>
   `,
 })
-export class TagStatusFormatterComponent extends CellContentTemplateComponent {
+export class TagStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: Tag;
 }
 

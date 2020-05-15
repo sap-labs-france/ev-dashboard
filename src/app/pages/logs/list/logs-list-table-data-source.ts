@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
+import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { Log } from 'app/types/Log';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import saveAs from 'file-saver';
+import { Log, LogButtonAction } from 'app/types/Log';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -17,21 +17,18 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { Constants } from '../../../utils/Constants';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
-import { LogDateFromTableFilter } from '../filters/log-date-from-filter';
-import { LogDateUntilTableFilter } from '../filters/log-date-until-filter';
 import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
+import { TableExportLogsAction } from '../table-actions/table-export-logs-action';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
@@ -175,7 +172,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const tableActionsDef = super.buildTableActionsDef();
     if (!this.authorizationService.isDemo()) {
       return [
-        new TableExportAction().getActionDef(),
+        new TableExportLogsAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -184,18 +181,14 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ButtonAction.EXPORT:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('logs.dialog.export.title'),
-          this.translateService.instant('logs.dialog.export.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.exportLogs();
-          }
-        });
+      case LogButtonAction.EXPORT_LOGS:
+        if (actionDef.action) {
+          actionDef.action(this.buildFilterValues(), this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
+        }
         break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
@@ -208,8 +201,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.authorizationService.isSuperAdmin()) {
       return [
-        new LogDateFromTableFilter().getFilterDef(),
-        new LogDateUntilTableFilter().getFilterDef(),
+        new StartDateFilter().getFilterDef(),
+        new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
@@ -218,8 +211,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     }
     if (this.authorizationService.isAdmin()) {
       return [
-        new LogDateFromTableFilter().getFilterDef(),
-        new LogDateUntilTableFilter().getFilterDef(),
+        new StartDateFilter().getFilterDef(),
+        new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
@@ -228,27 +221,12 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       ];
     }
     return [
-      new LogDateFromTableFilter().getFilterDef(),
-      new LogDateUntilTableFilter().getFilterDef(),
+      new StartDateFilter().getFilterDef(),
+      new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
       new LogHostTableFilter().getFilterDef(),
       new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
       new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];
-  }
-
-  private exportLogs() {
-    this.spinnerService.show();
-    this.centralServerService.exportLogs(this.buildFilterValues(), {
-      limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP,
-    }, this.getSorting())
-      .subscribe((result) => {
-        this.spinnerService.hide();
-        saveAs(result, 'exported-logs.csv');
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
   }
 }

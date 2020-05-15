@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
@@ -8,6 +8,7 @@ import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, Refund
 import { Tenant } from 'app/types/Tenant';
 import TenantComponents from 'app/types/TenantComponents';
 import { debounceTime } from 'rxjs/operators';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
@@ -16,16 +17,20 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
+  selector: 'app-tenant',
   templateUrl: './tenant.component.html',
 })
 export class TenantComponent implements OnInit {
+  @Input() public currentTenantID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
+
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public subdomain!: AbstractControl;
   public email!: AbstractControl;
   public components!: FormGroup;
-  public tenantID!: string;
   public pricingTypes = [
     {
       key: PricingSettingsType.CONVERGENT_CHARGING,
@@ -73,13 +78,7 @@ export class TenantComponent implements OnInit {
     private configService: ConfigService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private router: Router,
-    protected dialogRef: MatDialogRef<TenantComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
-    // Check if data is passed to the dialog
-    if (data) {
-      this.tenantID = data.id;
-    }
+    private router: Router) {
   }
 
   public ngOnInit() {
@@ -124,16 +123,16 @@ export class TenantComponent implements OnInit {
     this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
       this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
       // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.tenantID) {
+      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentTenantID) {
         this.loadTenant();
       }
     });
   }
 
   public loadTenant() {
-    if (this.tenantID) {
+    if (this.currentTenantID) {
       this.spinnerService.show();
-      this.centralServerService.getTenant(this.tenantID).subscribe((tenant) => {
+      this.centralServerService.getTenant(this.currentTenantID).subscribe((tenant) => {
         this.spinnerService.hide();
         if (tenant) {
           this.currentTenant = tenant;

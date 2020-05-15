@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Data, TableActionDef, TableDef } from 'app/types/Table';
+
 import { TableDataSource } from '../table/table-data-source';
 
 @Injectable()

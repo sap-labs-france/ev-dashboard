@@ -5,19 +5,20 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
+import { Car, CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
-import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
+import { ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
-import { Image, KeyValue, Logo } from 'app/types/GlobalType';
+import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
+import { ServerAction } from 'app/types/Server';
 import { Setting } from 'app/types/Setting';
 import { Site, SiteUser, UserSite } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
@@ -208,7 +209,7 @@ export class CentralServerService {
       );
   }
 
-  public getCompanies(params: { [param: string]: string | string[]; },
+  public getCompanies(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Company>> {
     // Verify init
     this.checkInit();
@@ -277,7 +278,7 @@ export class CentralServerService {
       );
   }
 
-  public getAssets(params: { [param: string]: string | string[]; },
+  public getAssets(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Asset>> {
     // Verify init
     this.checkInit();
@@ -333,7 +334,7 @@ export class CentralServerService {
       );
   }
 
-  public getAssetsInError(params: { [param: string]: string | string[]; },
+  public getAssetsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<AssetInError>> {
     // Verify init
     this.checkInit();
@@ -352,7 +353,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserSites(params: { [param: string]: string | string[]; },
+  public getUserSites(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteUser>> {
     // Verify init
     this.checkInit();
@@ -371,7 +372,7 @@ export class CentralServerService {
       );
   }
 
-  public getSites(params: { [param: string]: string | string[]; },
+  public getSites(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Site>> {
     // Verify init
     this.checkInit();
@@ -460,7 +461,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreas(params: { [param: string]: string | string[]; } = {},
+  public getSiteAreas(params: FilterParams = {},
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<SiteArea>> {
     // Verify init
     this.checkInit();
@@ -533,7 +534,7 @@ export class CentralServerService {
   }
 
   public getChargingStationConsumptionStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -549,7 +550,7 @@ export class CentralServerService {
   }
 
   public getUserConsumptionStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -565,7 +566,7 @@ export class CentralServerService {
   }
 
   public getChargingStationUsageStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -581,7 +582,7 @@ export class CentralServerService {
   }
 
   public getUserUsageStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -597,7 +598,7 @@ export class CentralServerService {
   }
 
   public getChargingStationInactivityStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -613,7 +614,7 @@ export class CentralServerService {
   }
 
   public getUserInactivityStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -628,10 +629,10 @@ export class CentralServerService {
       );
   }
 
-  public getLastTransaction(chargingStationId: string, connectorId: string): Observable<DataResult<Transaction>> {
+  public getLastTransaction(chargingStationID: string, connectorID: number): Observable<DataResult<Transaction>> {
     const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargingStationId;
-    params['ConnectorId'] = connectorId;
+    params['ChargeBoxID'] = chargingStationID;
+    params['ConnectorId'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
     params['SortFields'] = 'timestamp';
@@ -650,7 +651,7 @@ export class CentralServerService {
   }
 
   public getChargingStationTransactionsStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -666,7 +667,7 @@ export class CentralServerService {
   }
 
   public getUserTransactionsStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -682,7 +683,7 @@ export class CentralServerService {
   }
 
   public getChargingStationPricingStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -698,7 +699,7 @@ export class CentralServerService {
   }
 
   public getUserPricingStatistics(year: number,
-    params: { [param: string]: string | string[]; } = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticData[]> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
@@ -713,7 +714,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargers(params: { [param: string]: string | string[]; },
+  public getChargingStations(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStation>> {
     // Verify init
     this.checkInit();
@@ -732,7 +733,7 @@ export class CentralServerService {
       );
   }
 
-  public getCharger(id: string): Observable<ChargingStation> {
+  public getChargingStation(id: string): Observable<ChargingStation> {
     // Verify init
     this.checkInit();
     if (!id) {
@@ -750,7 +751,7 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getChargersInError(params: { [param: string]: string | string[]; },
+  public getChargingStationsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
     // Verify init
     this.checkInit();
@@ -769,7 +770,7 @@ export class CentralServerService {
       );
   }
 
-  public getSiteUsers(params: { [param: string]: string | string[]; },
+  public getSiteUsers(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserSite>> {
     // Verify init
     this.checkInit();
@@ -788,7 +789,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsers(params: { [param: string]: string | string[]; },
+  public getUsers(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this.checkInit();
@@ -807,7 +808,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsersInError(params: { [param: string]: string | string[]; },
+  public getUsersInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init
     this.checkInit();
@@ -826,7 +827,7 @@ export class CentralServerService {
       );
   }
 
-  public getTenants(params: { [param: string]: string | string[]; },
+  public getTenants(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tenant>> {
     // Verify init
     this.checkInit();
@@ -862,7 +863,7 @@ export class CentralServerService {
       );
   }
 
-  public getTransactions(params: { [param: string]: string | string[]; },
+  public getTransactions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this.checkInit();
@@ -881,7 +882,7 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionsToRefund(params: { [param: string]: string | string[]; },
+  public getTransactionsToRefund(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
@@ -901,7 +902,7 @@ export class CentralServerService {
       );
   }
 
-  public getRefundReports(params: { [param: string]: string | string[]; },
+  public getRefundReports(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<DataResult<RefundReport>> {
     // Verify init
@@ -921,7 +922,7 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionsToRefundList(params: { [param: string]: string | string[]; },
+  public getTransactionsToRefundList(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init
     this.checkInit();
@@ -968,7 +969,7 @@ export class CentralServerService {
       );
   }
 
-  public getTransaction(id: string): Observable<Transaction> {
+  public getTransaction(id: number): Observable<Transaction> {
     // Verify init
     this.checkInit();
     if (!id) {
@@ -978,18 +979,15 @@ export class CentralServerService {
     return this.httpClient.get<Transaction>(`${this.centralRestServerServiceSecuredURL}/Transaction`,
       {
         headers: this.buildHttpHeaders(),
-        params: { ID: id },
+        params: { ID: id.toString() },
       })
       .pipe(
         catchError(this.handleHttpError),
       );
   }
 
-  public exportLogs(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/LoggingsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1001,11 +999,8 @@ export class CentralServerService {
       );
   }
 
-  public exportTransactions(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportTransactions(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1017,11 +1012,8 @@ export class CentralServerService {
       );
   }
 
-  public exportTransactionsToRefund(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportTransactionsToRefund(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/TransactionsToRefundExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1033,11 +1025,8 @@ export class CentralServerService {
       );
   }
 
-  public exportStatistics(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportStatistics(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/StatisticsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1049,11 +1038,8 @@ export class CentralServerService {
       );
   }
 
-  public exportChargingStations(params: { [param: string]: string | string[]; },
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<Blob> {
+  public exportChargingStations(params: FilterParams): Observable<Blob> {
     this.checkInit();
-    this.getPaging(paging, params);
-    this.getSorting(ordering, params);
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1065,16 +1051,9 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(siteAreaID?: string, siteID?: string): Observable<Blob> {
+  public exportAllChargingStationsOCCPParams(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    if (siteID) {
-      params['SiteID'] = siteID;
-    }
-    if (siteAreaID) {
-      params['SiteAreaID'] = siteAreaID;
-    }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/ChargingStationsOCPPParamsExport`,
       {
         headers: this.buildHttpHeaders(),
@@ -1086,7 +1065,7 @@ export class CentralServerService {
       );
   }
 
-  public getTransactionsInError(params: { [param: string]: string | string[]; },
+  public getTransactionsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<TransactionInError>> {
     // Verify init
     this.checkInit();
@@ -1105,7 +1084,7 @@ export class CentralServerService {
       );
   }
 
-  public getActiveTransactions(params: { [param: string]: string | string[]; },
+  public getActiveTransactions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [])
     : Observable<DataResult<Transaction>> {
     // Verify init
@@ -1126,7 +1105,7 @@ export class CentralServerService {
   }
 
   // tslint:disable-next-line:max-line-length
-  public getOcpiEndpoints(params: { [param: string]: string | string[]; },
+  public getOcpiEndpoints(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OcpiEndpoint>> {
     // Verify init
     this.checkInit();
@@ -1222,7 +1201,7 @@ export class CentralServerService {
       );
   }
 
-  public getLogs(params: { [param: string]: string | string[]; },
+  public getLogs(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Log>> {
     // Verify init
     this.checkInit();
@@ -1382,7 +1361,7 @@ export class CentralServerService {
       );
   }
 
-  public getUserInvoices(params: { [param: string]: string | string[]; },
+  public getUserInvoices(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<BillingInvoice>> {
     // Verify init
     this.checkInit();
@@ -1413,10 +1392,11 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeUserInvoices(): Observable<ActionsResponse> {
+  public forceSynchronizeUserInvoicesForBilling(userID: string): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingSynchronizeUserInvoices`, {},
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/BillingForceSynchronizeUserInvoices`,
+      { userID },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1425,7 +1405,7 @@ export class CentralServerService {
       );
   }
 
-  public getRegistrationTokens(params: { [param: string]: string | string[]; },
+  public getRegistrationTokens(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<RegistrationToken>> {
     // Verify init
     this.checkInit();
@@ -2112,7 +2092,7 @@ export class CentralServerService {
       );
   }
 
-  public verifyEmail(params: { [param: string]: string | string[]; }): Observable<ActionResponse> {
+  public verifyEmail(params: FilterParams): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Set the tenant
@@ -2295,7 +2275,7 @@ export class CentralServerService {
       );
   }
 
-  public getCarCatalogs(params: { [param: string]: string | string[]; },
+  public getCarCatalogs(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<CarCatalog>> {
     // Verify init
     this.checkInit();
@@ -2306,6 +2286,26 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.get<DataResult<CarCatalog>>(
       `${this.centralRestServerServiceSecuredURL}/CarCatalogs`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCars(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Car>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Car>>(
+      `${this.centralRestServerServiceSecuredURL}/Cars`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2329,7 +2329,7 @@ export class CentralServerService {
       );
   }
 
-  public getCarCatalogImages(carCatalogID: number, params: { [param: string]: string | string[]; },
+  public getCarCatalogImages(carCatalogID: number, params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
     // Verify init
     this.checkInit();
@@ -2347,7 +2347,7 @@ export class CentralServerService {
       );
   }
 
-  public getCarMakers(params: { [param: string]: string | string[]; }): Observable<DataResult<CarMakersTable>> {
+  public getCarMakers(params: FilterParams): Observable<DataResult<CarMakersTable>> {
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -2367,6 +2367,19 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/SynchronizeCarCatalogs`, {},
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createCar(car: any): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, car,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2487,9 +2500,22 @@ export class CentralServerService {
       );
   }
 
-  public rebootChargingStation(id: string, hard: boolean = true): Observable<ActionResponse> {
+  public chargingStationChangeAvailability(id: string, available: boolean, connectorID: number = 0): Observable<ActionResponse> {
     return this.actionChargingStation(
-      'ChargingStationReset', id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
+      ServerAction.CHARGING_STATION_CHANGE_AVAILABILITY, id, JSON.stringify({
+        connectorId: connectorID,
+        type: available ? OCPPAvailabilityType.OPERATIVE : OCPPAvailabilityType.INOPERATIVE,
+      })
+    );
+  }
+
+  public chargingStationReset(id: string, hard: boolean = true): Observable<ActionResponse> {
+    return this.actionChargingStation(
+      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
+  }
+
+  public chargingStationClearCache(id: string): Observable<ActionResponse> {
+    return this.actionChargingStation(ServerAction.CHARGING_STATION_CLEAR_CACHE, id, '');
   }
 
   public actionChargingStation(action: string, id: string, args: string): Observable<ActionResponse> {
@@ -2624,7 +2650,7 @@ export class CentralServerService {
     return new HttpHeaders(header);
   }
 
-  private getSorting(ordering: Ordering[], queryParams: { [param: string]: string | string[]; }) {
+  private getSorting(ordering: Ordering[], queryParams: FilterParams) {
     // Check
     if (ordering && ordering.length) {
       const sortFields: string[] = [];
@@ -2638,7 +2664,7 @@ export class CentralServerService {
     }
   }
 
-  private getPaging(paging: Paging, queryParams: { [param: string]: string | string[]; }) {
+  private getPaging(paging: Paging, queryParams: FilterParams) {
     // Limit
     if (paging.limit) {
       queryParams['Limit'] = paging.limit.toString();

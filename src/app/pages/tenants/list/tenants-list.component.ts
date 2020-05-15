@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { TenantsListTableDataSource } from './tenants-list-table-data-source';
 
 @Component({

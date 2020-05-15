@@ -1,6 +1,5 @@
-import { RefundStatus, RefundType } from './Refund';
-
 import { ChargingStation } from './ChargingStation';
+import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
 
@@ -66,6 +65,12 @@ export enum InactivityStatus {
 }
 
 export enum TransactionButtonAction {
-  REFUND = 'refund',
-  OPEN_IN_CONCUR = 'open_in_concur',
+  VIEW_TRANSACTION = 'view_transaction',
+  EDIT_TRANSACTION = 'edit_transaction',
+  CREATE_TRANSACTION = 'create_transaction',
+  DELETE_TRANSACTION = 'delete_transaction',
+  DELETE_TRANSACTIONS = 'delete_transactions',
+  EXPORT_TRANSACTIONS = 'export_transactions',
+  OPEN_CONCUR_URL = 'open_concur_url',
+  REFUND_TRANSACTIONS = 'refund_transactions',
 }

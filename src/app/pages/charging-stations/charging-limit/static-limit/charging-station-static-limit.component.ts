@@ -1,4 +1,3 @@
-// tslint:disable-next-line:max-line-length
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -15,7 +14,8 @@ import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
-import { ChargingStationsRebootAction } from '../../actions/charging-stations-reboot-action';
+
+import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
 
 @Component({
   selector: 'app-charging-station-static-limit',
@@ -97,8 +97,8 @@ export class ChargingStationStaticLimitComponent implements OnInit {
             this.dialogService.createAndShowYesNoDialog(
               this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_title'),
               this.translateService.instant('chargers.smart_charging.power_limit_has_charging_plan_confim'),
-            ).subscribe((result) => {
-              if (result === ButtonType.YES) {
+            ).subscribe((subresult) => {
+              if (subresult === ButtonType.YES) {
                 // No: Apply it right away
                 this.applyStaticLimit(true);
               }
@@ -123,6 +123,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
   private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
     // Apply to charger
     this.spinnerService.show();
+    // tslint:disable-next-line: max-line-length
     this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === OCPPConfigurationStatus.ACCEPTED ||
@@ -130,11 +131,12 @@ export class ChargingStationStaticLimitComponent implements OnInit {
         // Success
         this.ampInitialLimit = this.ampCurrentLimit;
         this.messageService.showSuccessMessage(
+          // tslint:disable-next-line: max-line-length
           this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
         );
         // Reboot Required?
         if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-          const chargingStationsRebootAction = new ChargingStationsRebootAction().getActionDef();
+          const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
           if (chargingStationsRebootAction.action) {
             chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
               this.messageService, this.centralServerService, this.spinnerService, this.router);

@@ -3,9 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAssignSitesToUserAction } from 'app/shared/table/actions/table-assign-sites-to-user-action';
-import { TableDeleteUserAction } from 'app/shared/table/actions/table-delete-user-action';
-import { TableEditUserAction } from 'app/shared/table/actions/table-edit-user-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { DataResult } from 'app/types/DataResult';
 import { ErrorMessage, UserInError, UserInErrorType } from 'app/types/InError';
@@ -24,9 +21,7 @@ import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-st
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableForceSyncBillingAction } from '../../../shared/table/actions/table-force-sync-billing-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableSyncBillingUserAction } from '../../../shared/table/actions/table-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -34,6 +29,11 @@ import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
+import { TableAssignSitesToUserAction } from '../table-actions/table-assign-sites-to-user-action';
+import { TableDeleteUserAction } from '../table-actions/table-delete-user-action';
+import { TableEditUserAction } from '../table-actions/table-edit-user-action';
+import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
+import { TableSyncBillingUserAction } from '../table-actions/table-sync-billing-user-action';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -41,7 +41,8 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private deleteAction = new TableDeleteUserAction().getActionDef();
   private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
-  private forceSyncBillingUserAction = new TableForceSyncBillingAction().getActionDef();
+  // tslint:disable-next-line: no-unsafe-any
+  private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,

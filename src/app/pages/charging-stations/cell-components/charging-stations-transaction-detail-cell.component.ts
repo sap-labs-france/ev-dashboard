@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { TransactionDialogComponent } from 'app/pages/transactions/transaction/transaction.dialog.component';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
 
 import { LocaleService } from '../../../services/locale.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
@@ -54,7 +54,6 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
 
   public refresh() {
     if (this.dialogRef && this.dialogRef.componentInstance) {
-      this.dialogRef.componentInstance.refresh();
     }
   }
 

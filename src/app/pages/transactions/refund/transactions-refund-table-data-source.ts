@@ -2,16 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { TableExportTransactionsAction } from 'app/shared/table/actions/table-export-transactions-action';
-import { TableOpenURLConcurAction } from 'app/shared/table/actions/table-open-url-concur-action';
-import { TableSyncRefundAction } from 'app/shared/table/actions/table-sync-refund-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Action, Entity } from 'app/types/Authorization';
-import { ActionsResponse, DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
+import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
@@ -34,7 +31,6 @@ import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableRefundAction } from '../../../shared/table/actions/table-refund-action';
 import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
 import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -44,13 +40,17 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
+import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableOpenURLConcurAction } from '../table-actions/table-open-url-concur-action';
+import { TableRefundTransactionsAction } from '../table-actions/table-refund-transactions-action';
+import { TableSyncRefundTransactionsAction } from '../table-actions/table-sync-refund-transactions-action';
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
   private refundTransactionEnabled = false;
   private refundSetting!: RefundSettings;
   private isAdmin: boolean;
-  private tableSyncRefundAction = new TableSyncRefundAction().getActionDef();
+  private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -239,7 +239,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     if (this.refundTransactionEnabled) {
       tableActionsDef = [
         ...tableActionsDef,
-        new TableRefundAction().getActionDef(),
+        new TableRefundTransactionsAction().getActionDef(),
         new TableOpenURLConcurAction().getActionDef(),
       ];
       if (this.isAdmin) {
@@ -254,27 +254,20 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case RefundButtonAction.SYNCHRONIZE:
-        if (this.tableSyncRefundAction.action) {
-          this.tableSyncRefundAction.action(
+        if (actionDef.action) {
+          actionDef.action(
             this.dialogService, this.translateService, this.messageService, this.centralServerService,
             this.spinnerService, this.router, this.refreshData.bind(this)
           );
         }
         break;
-      case TransactionButtonAction.REFUND:
-        if (!this.refundSetting) {
-          this.messageService.showErrorMessage(this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
-        } else if (this.getSelectedRows().length === 0) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
-        } else {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('transactions.dialog.refund.title'),
-            this.translateService.instant('transactions.dialog.refund.confirm', { quantity: this.getSelectedRows().length }),
-          ).subscribe((response) => {
-            if (response === ButtonType.YES) {
-              this.refundTransactions(this.getSelectedRows());
-            }
-          });
+      case TransactionButtonAction.REFUND_TRANSACTIONS:
+        if (actionDef.action) {
+          actionDef.action(
+            this.refundSetting, this.getSelectedRows(),
+            this.dialogService, this.translateService, this.messageService, this.centralServerService,
+            this.spinnerService, this.router, this.clearSelectedRows.bind(this), this.refreshData.bind(this)
+          );
         }
         break;
       case TransactionButtonAction.OPEN_CONCUR_URL:
@@ -289,7 +282,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         break;
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.getSorting(), this.dialogService,
+          actionDef.action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }
@@ -306,46 +299,6 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   public isSelectable(row: Transaction) {
     return this.authorizationService.isSiteOwner(row.siteID) && (!row.refundData || row.refundData.status === 'cancelled');
-  }
-
-  protected refundTransactions(transactions: Transaction[]) {
-    this.spinnerService.show();
-    this.centralServerService.refundTransactions(transactions.map((transaction) => transaction.id))
-      .subscribe((response: ActionsResponse) => {
-        if (response.inError) {
-          this.messageService.showErrorMessage(
-            this.translateService.instant('transactions.notification.refund.partial',
-              {
-                inSuccess: response.inSuccess,
-                inError: response.inError,
-              },
-            ));
-        } else {
-          this.messageService.showSuccessMessage(
-            this.translateService.instant('transactions.notification.refund.success',
-              { inSuccess: response.inSuccess },
-            ));
-        }
-        this.spinnerService.hide();
-        this.clearSelectedRows();
-        this.refreshData().subscribe();
-    }, (error: any) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case 560: // not authorized
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'transactions.notification.refund.not_authorized');
-          break;
-        case 551: // cannot refund another user transactions
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'transactions.notification.refund.error');
-          break;
-      }
-    });
   }
 
   private checkConcurConnection() {

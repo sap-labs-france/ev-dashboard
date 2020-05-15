@@ -9,8 +9,6 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableDeleteChargingStationAction } from 'app/shared/table/actions/table-delete-charging-station-action';
-import { TableEditChargingStationAction } from 'app/shared/table/actions/table-edit-charging-station-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -19,21 +17,12 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStation, ChargingStationButtonAction, ConnStatus, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import saveAs from 'file-saver';
 import { Observable } from 'rxjs';
 
 import { ComponentService } from '../../../services/component.service';
-import { TableChargingStationsClearCacheAction } from '../../../shared/table/actions/table-charging-stations-clear-cache-action';
-import { TableChargingStationsForceAvailableStatusAction } from '../../../shared/table/actions/table-charging-stations-force-available-status-action';
-import { TableChargingStationsForceUnavailableStatusAction } from '../../../shared/table/actions/table-charging-stations-force-unavailable-status-action';
-import { TableChargingStationsRebootAction } from '../../../shared/table/actions/table-charging-stations-reboot-action';
-import { TableChargingStationsResetAction } from '../../../shared/table/actions/table-charging-stations-reset-action';
-import { TableChargingStationsSmartChargingAction } from '../../../shared/table/actions/table-charging-stations-smart-charging-action';
-import { TableExportAction } from '../../../shared/table/actions/table-export-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -43,6 +32,15 @@ import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charg
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
+import { TableChargingStationsClearCacheAction } from '../table-actions/table-charging-stations-clear-cache-action';
+import { TableChargingStationsForceAvailableStatusAction } from '../table-actions/table-charging-stations-force-available-status-action';
+import { TableChargingStationsForceUnavailableStatusAction } from '../table-actions/table-charging-stations-force-unavailable-status-action';
+import { TableChargingStationsRebootAction } from '../table-actions/table-charging-stations-reboot-action';
+import { TableChargingStationsResetAction } from '../table-actions/table-charging-stations-reset-action';
+import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
+import { TableDeleteChargingStationAction } from '../table-actions/table-delete-charging-station-action';
+import { TableEditChargingStationAction } from '../table-actions/table-edit-charging-station-action';
+import { TableExportChargingStationsAction } from '../table-actions/table-export-charging-stations-action';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -217,7 +215,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableExportAction().getActionDef(),
+        new TableExportChargingStationsAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -226,15 +224,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ButtonAction.EXPORT:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('chargers.dialog.export.title'),
-          this.translateService.instant('chargers.dialog.export.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.exportChargingStations();
-          }
-        });
+      case ChargingStationButtonAction.EXPORT_CHARGING_STATIONS:
+        if (actionDef.action) {
+          actionDef.action(this.buildFilterValues(), this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
+        }
         break;
     }
   }
@@ -362,20 +357,5 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         this.refreshData().subscribe();
       });
     }
-  }
-
-  private exportChargingStations() {
-    this.spinnerService.show();
-    this.centralServerService.exportChargingStations(this.buildFilterValues(), {
-      limit: this.getTotalNumberOfRecords(),
-      skip: Constants.DEFAULT_SKIP,
-    }, this.getSorting())
-      .subscribe((result) => {
-        this.spinnerService.hide();
-        saveAs(result, 'exported-charging-stations.csv');
-      }, (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-      });
   }
 }

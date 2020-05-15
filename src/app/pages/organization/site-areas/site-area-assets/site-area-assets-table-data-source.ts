@@ -22,6 +22,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
   private siteArea!: SiteArea;
+  private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
 
   constructor(
@@ -43,9 +44,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-            if (assets.count === 0) {
-              this.removeAction.disabled = true;
-            }
+            this.removeAction.disabled = (assets.count === 0);
             observer.next(assets);
             observer.complete();
           }, (error) => {
@@ -117,7 +116,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.siteArea && this.authorizationService.isAdmin()) {
       return [
-        new TableAddAction().getActionDef(),
+        this.addAction,
         this.removeAction,
         ...tableActionsDef,
       ];

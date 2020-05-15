@@ -5,9 +5,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableDeleteTransactionAction } from 'app/shared/table/actions/table-delete-transaction-action';
-import { TableDeleteTransactionsAction } from 'app/shared/table/actions/table-delete-transactions-action';
-import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
@@ -39,6 +36,9 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
+import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
+import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
+import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {

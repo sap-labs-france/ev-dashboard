@@ -7,13 +7,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { ComponentModule } from 'app/shared/component/component.module';
 import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { TransactionDialogComponent } from 'app/shared/dialogs/transactions/transaction-dialog.component';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { MomentModule } from 'ngx-moment';
 
 import { MaterialModule } from '../../app.module';
+import { TransactionDialogComponent } from '../transactions/transaction/transaction.dialog.component';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';

@@ -8,13 +8,9 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateCompanyAction } from 'app/shared/table/actions/table-create-company-action';
-import { TableDeleteCompanyAction } from 'app/shared/table/actions/table-delete-company-action';
-import { TableEditCompanyAction } from 'app/shared/table/actions/table-edit-company-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewCompanyAction } from 'app/shared/table/actions/table-view-company-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Company, CompanyButtonAction, CompanyLogo } from 'app/types/Company';
 import { DataResult } from 'app/types/DataResult';
@@ -26,6 +22,10 @@ import { Observable } from 'rxjs';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
+import { TableCreateCompanyAction } from '../table-actions/table-create-company-action';
+import { TableDeleteCompanyAction } from '../table-actions/table-delete-company-action';
+import { TableEditCompanyAction } from '../table-actions/table-edit-company-action';
+import { TableViewCompanyAction } from '../table-actions/table-view-company-action';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {

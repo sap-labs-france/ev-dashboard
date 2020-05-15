@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableChargingStationsStopTransactionAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableChargingStationsStopTransactionAction } from 'app/shared/table/actions/table-charging-stations-stop-transaction-action';
-import { TableViewTransactionAction } from 'app/shared/table/actions/table-view-transaction-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
@@ -38,6 +37,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
+import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {

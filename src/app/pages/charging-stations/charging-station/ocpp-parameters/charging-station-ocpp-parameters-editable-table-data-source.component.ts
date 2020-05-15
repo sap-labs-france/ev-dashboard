@@ -11,13 +11,13 @@ import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/typ
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import saveAs from 'file-saver';
+import * as FileSaver from 'file-saver';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/table-charging-stations-reboot-action';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../../types/GlobalType';
+import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
@@ -92,7 +92,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
           csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${Utils.replaceSpecialCharsInCSVValueParam(parameter.value)}"${Constants.CSV_SEPARATOR}${this.charger.siteArea.name}${Constants.CSV_SEPARATOR}${this.charger.siteArea.site.name}\r\n`;
         }
         const blob = new Blob([csv]);
-        saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);
+        FileSaver.saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);
       }
     });
   }

@@ -11,8 +11,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableSyncCarCatalogsAction } from 'app/shared/table/actions/table-sync-car-catalogs-action';
-import { TableViewCarCatalogAction } from 'app/shared/table/actions/table-view-car-catalog-action';
 import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { CarButtonAction, CarCatalog, CarImage } from 'app/types/Car';
@@ -22,6 +20,8 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
+import { TableSyncCarCatalogsAction } from '../table-actions/table-sync-car-catalogs-action';
+import { TableViewCarCatalogAction } from '../table-actions/table-view-car-catalog-action';
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {

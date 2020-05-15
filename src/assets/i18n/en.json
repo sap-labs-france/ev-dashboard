@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.49",
+    "last_update": "Version 2.2.51",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -380,7 +380,8 @@
     "update_remove_site_owner_success": "The user '{{userName}}' is no more owner on this site",
     "update_site_users_owner_error": "Error occurred while trying to grant the user '{{userName}}' as site owner",
     "export_all_params_title": "Export OCPP parameters",
-    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?"
+    "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site '{{siteName}}' ?",
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters"
   },
   "site_areas": {
     "assign_site": "Assign Site",
@@ -439,6 +440,7 @@
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
+    "export_all_params_error": "Error occurred while trying to export all the OCPP parameters",
     "consumption_date": "Date",
     "single_phased": "Single Phase",
     "three_phased": "Three Phases"
@@ -687,7 +689,8 @@
     "dialog": {
       "export": {
         "title": "Export charging stations",
-        "confirm": "Do you really want to export all the charging stations matching the filters ?"
+        "confirm": "Do you really want to export all the charging stations matching the filters ?",
+        "error": "Error occurred while trying to export the charging stations"
       },
       "exportConfig": {
         "title": "Export charging station parameters",
@@ -989,7 +992,8 @@
     "dialog": {
       "export": {
         "title": "Export Logs",
-        "confirm": "Do you really want to export all the logs matching the filters ?"
+        "confirm": "Do you really want to export all the logs matching the filters ?",
+        "error": "Error occurred while trying to export the logs"
       }
     }
   },
@@ -1380,6 +1384,20 @@
       "check_connection": "Check Connection"
     },
     "asset": {
+      "connection": {
+        "title": "Asset connections",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "base_url": "URL",
+        "user": "User",
+        "password": "Password",
+        "delete_title": "Delete Asset connection",
+        "delete_confirm":"Do you really want to delete the connection '{{assetConnectionName}}'?"
+      },
+      "types": {
+        "schneider": "Schneider Building Management"
+      },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Asset settings have not been found"

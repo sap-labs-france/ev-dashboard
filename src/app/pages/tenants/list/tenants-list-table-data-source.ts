@@ -3,9 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateTenantAction } from 'app/shared/table/actions/table-create-tenant-action';
-import { TableDeleteTenantAction } from 'app/shared/table/actions/table-delete-tenant-action';
-import { TableEditTenantAction } from 'app/shared/table/actions/table-edit-tenant-action';
 import { TableOpenURLAction } from 'app/shared/table/actions/table-open-url-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -23,6 +20,9 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
+import { TableCreateTenantAction } from '../table-actions/table-create-tenant-action';
+import { TableDeleteTenantAction } from '../table-actions/table-delete-tenant-action';
+import { TableEditTenantAction } from '../table-actions/table-edit-tenant-action';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {

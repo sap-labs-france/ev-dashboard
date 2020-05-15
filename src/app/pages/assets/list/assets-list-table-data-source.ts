@@ -8,13 +8,9 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAssetAction } from 'app/shared/table/actions/table-create-asset-action';
-import { TableDeleteAssetAction } from 'app/shared/table/actions/table-delete-asset-action';
-import { TableEditAssetAction } from 'app/shared/table/actions/table-edit-asset-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableViewAssetAction } from 'app/shared/table/actions/table-view-asset-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Asset, AssetButtonAction, AssetImage } from 'app/types/Asset';
 import ChangeNotification from 'app/types/ChangeNotification';
@@ -23,6 +19,11 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
+import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
+import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
+import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
+import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {

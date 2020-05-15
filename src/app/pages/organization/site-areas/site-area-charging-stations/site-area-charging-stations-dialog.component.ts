@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { SiteArea } from 'app/types/SiteArea';
 
 import { SiteAreaChargingStationsDataSource } from './site-area-charging-stations-table-data-source';
 
@@ -15,10 +16,9 @@ export class SiteAreaChargingStationsDialogComponent {
     public siteAreaChargersDataSource: SiteAreaChargingStationsDataSource,
     private dialogRef: MatDialogRef<SiteAreaChargingStationsDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data: SiteArea) {
     // default title
     this.dialogTitle = this.translateService.instant('chargers.chargers');
-
     if (data) {
       this.siteAreaChargersDataSource.setSiteArea(data);
       this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area', { siteAreaName: data.name });

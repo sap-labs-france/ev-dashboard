@@ -10,6 +10,8 @@ import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 
+import { SettingsAssetConnectionListTableDataSource } from './settings-asset-connections-list-table-data-source';
+
 @Component({
   selector: 'app-settings-asset',
   templateUrl: './settings-asset.component.html',
@@ -26,7 +28,10 @@ export class SettingsAssetComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
-  ) {
+    public assetConnectionListTableDataSource: SettingsAssetConnectionListTableDataSource) {
+    this.assetConnectionListTableDataSource.changed.subscribe(() => {
+      this.formGroup.markAsDirty();
+    });
     this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
@@ -45,6 +50,9 @@ export class SettingsAssetComponent implements OnInit {
       this.spinnerService.hide();
       // Keep
       this.assetSettings = settings;
+      // Set
+      this.assetConnectionListTableDataSource.setAssetConnections(this.assetSettings.assets);
+      this.assetConnectionListTableDataSource.loadData().subscribe();
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -58,5 +66,13 @@ export class SettingsAssetComponent implements OnInit {
             this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public save(assetSettings: AssetSettings) {
+  }
+
+  public refresh() {
+    // Reload settings
+    this.loadConfiguration();
   }
 }

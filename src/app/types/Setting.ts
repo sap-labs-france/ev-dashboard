@@ -1,5 +1,5 @@
-import { Data } from './Table';
 import { KeyValue } from './GlobalType';
+import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
 export interface Setting extends Data {

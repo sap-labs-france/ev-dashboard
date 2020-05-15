@@ -1,26 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
+import { Component, Input, OnInit } from '@angular/core';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { debounceTime, mergeMap } from 'rxjs/operators';
+
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
+import { DialogService } from 'app/services/dialog.service';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { HTTPError } from 'app/types/HTTPError';
+import { MessageService } from 'app/services/message.service';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
+import { SiteArea } from 'app/types/SiteArea';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset',
@@ -35,12 +36,12 @@ export class AssetComponent implements OnInit {
   public isAdmin = false;
   public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
-  public siteArea: SiteArea;
+  public selectedSiteArea: SiteArea;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
-  public siteAreaControl!: AbstractControl;
+  public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
   public coordinates!: FormArray;
@@ -82,7 +83,7 @@ export class AssetComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      siteAreaControl: new FormControl('',
+      siteArea: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -110,7 +111,7 @@ export class AssetComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    this.siteAreaControl = this.formGroup.controls['siteAreaControl'];
+    this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
@@ -172,8 +173,8 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.siteArea && this.asset.siteArea.name) {
         this.formGroup.controls.siteAreaID.setValue(this.asset.siteArea.id);
-        this.formGroup.controls.siteAreaControl.setValue(this.asset.siteArea.name);
-        this.siteArea = this.asset.siteArea;
+        this.formGroup.controls.siteArea.setValue(this.asset.siteArea.name);
+        this.selectedSiteArea = this.asset.siteArea;
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
@@ -301,9 +302,9 @@ export class AssetComponent implements OnInit {
         if (result && result.length > 0 && result[0].objectRef) {
           const siteArea = ((result[0].objectRef) as SiteArea);
           this.formGroup.markAsDirty();
-          this.formGroup.controls.siteAreaControl.setValue(siteArea.name);
+          this.formGroup.controls.siteArea.setValue(siteArea.name);
           this.formGroup.controls.siteAreaID.setValue(siteArea.id);
-          this.siteArea = siteArea;
+          this.selectedSiteArea = siteArea;
         }
     });
   }
@@ -319,12 +320,12 @@ export class AssetComponent implements OnInit {
     let longitude = this.longitude.value;
     // If one is not available try to get from SiteArea and then from Site
     if (!latitude || !longitude) {
-      if (this.siteArea && this.siteArea.address) {
-        if (this.siteArea.address.coordinates && this.siteArea.address.coordinates.length === 2) {
-          latitude = this.siteArea.address.coordinates[1];
-          longitude = this.siteArea.address.coordinates[0];
+      if (this.selectedSiteArea && this.selectedSiteArea.address) {
+        if (this.selectedSiteArea.address.coordinates && this.selectedSiteArea.address.coordinates.length === 2) {
+          latitude = this.selectedSiteArea.address.coordinates[1];
+          longitude = this.selectedSiteArea.address.coordinates[0];
         } else {
-          const site = this.siteArea.site;
+          const site = this.selectedSiteArea.site;
           if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
             latitude = site.address.coordinates[1];
             longitude = site.address.coordinates[0];

@@ -1,17 +1,19 @@
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { Address } from 'app/types/Address';
-import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { MobileType } from 'app/types/Mobile';
-import { User } from 'app/types/User';
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
+import { Car, CarCatalog } from 'app/types/Car';
+import { ChargingStation, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import { FormControl, FormGroup } from '@angular/forms';
+
+import { Address } from 'app/types/Address';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { CentralServerService } from '../services/central-server.service';
-import { MessageService } from '../services/message.service';
 import { ChargingStations } from './ChargingStations';
+import { KeyValue } from 'app/types/GlobalType';
+import { MessageService } from '../services/message.service';
+import { MobileType } from 'app/types/Mobile';
+import { Router } from '@angular/router';
+import { User } from 'app/types/User';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -205,6 +207,21 @@ export class Utils {
       fullName = user.name;
     }
     return fullName;
+  }
+
+  public static buildCarName(carCatalog: CarCatalog) {
+    let carName: string;
+    if (!carCatalog) {
+      return '######';
+    }
+    carName = carCatalog.vehicleMake;
+    if (carCatalog.vehicleModel) {
+      carName += ` ${carCatalog.vehicleModel}`;
+    }
+    if (carCatalog.vehicleModelVersion) {
+      carName += ` ${carCatalog.vehicleModelVersion}`;
+    }
+    return carName;
   }
 
   public static getMobileVendor(): MobileType|null {

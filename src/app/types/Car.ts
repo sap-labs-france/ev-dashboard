@@ -54,7 +54,7 @@ export interface Car extends Data {
 export enum CarType {
   PRIVATE = 'private',
   COMPANY = 'company',
-  POOL = 'pool',
+  POOL_CAR = 'pool_car',
 }
 
 export interface ChargeStandardTable extends Data {

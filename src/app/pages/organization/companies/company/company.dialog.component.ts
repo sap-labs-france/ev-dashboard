@@ -11,5 +11,12 @@ export class CompanyDialogComponent {
     public dialogRef: MatDialogRef<CompanyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.companyID = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

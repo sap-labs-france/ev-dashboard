@@ -50,7 +50,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         // Yes: Get data
         this.centralServerService.getUserSites(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((userSites) => {
-          // Ok
+          this.removeAction.disabled = (userSites.count === 0);
           observer.next(userSites);
           observer.complete();
         }, (error) => {

@@ -31,7 +31,7 @@ export class LocalStorageService {
       // Send
       this.sendRequest(data);
     } else {
-      // Not in iFrame: use it rightaway
+      // Not in iFrame: use it right away
       localStorage.setItem(key, value);
     }
   }
@@ -52,7 +52,7 @@ export class LocalStorageService {
         // Send request
         this.sendRequest(data);
       } else {
-        // Not in iFrame: use it rightaway
+        // Not in iFrame: use it right away
         observer.next(localStorage.getItem(key));
         observer.complete();
       }

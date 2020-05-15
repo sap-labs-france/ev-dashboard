@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Entity } from 'app/types/Authorization';
 import { Observable, Subject } from 'rxjs';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 
 import ChangeNotification from '../types/ChangeNotification';
 import SingleChangeNotification from '../types/SingleChangeNotification';
@@ -31,7 +31,7 @@ export class CentralServerNotificationService {
   private subjectAssets = new Subject<ChangeNotification>();
   private subjectAsset = new Subject<SingleChangeNotification>();
   private subjectAnalyticsLinks = new Subject<ChangeNotification>();
-  private socket: io.Socket;
+  private socket: SocketIOClient.Socket;
 
   public setcentralRestServerServiceURL(url: string) {
     this.centralRestServerServiceURL = url;

@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Create Schneider Building Management connection in Asset Settings (front-end)`,
               `Display consumption chart at the first consumption value`,
               `Handle duplicate Meter Values for ABB`,
+              `Add Default, Company and Private Car information for end-user`,
               `Refresh Charging Plan's chart when the user changes values in the list`,
               `Do not propagate cell new values in editable list if it's invalid`,
               `Add OCPI data to Charging Stations`,

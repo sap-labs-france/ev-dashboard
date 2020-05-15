@@ -34,7 +34,7 @@ export interface KeyValue {
 
 export interface FilterParams {
   [param: string]: string | string[];
-} 
+}
 
 export enum ButtonAction {
   ACTIVATE = 'activate',
@@ -48,6 +48,7 @@ export enum ButtonAction {
   REFRESH = 'refresh',
   AUTO_REFRESH = 'auto-refresh',
   EXPORT = 'export',
+  EXPORT_AS_CSV = 'export-as-csv',
   ADD = 'add',
   CREATE = 'create',
   COPY = 'copy',

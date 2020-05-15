@@ -1,24 +1,20 @@
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
-
-import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonAction } from '../../../../types/GlobalType';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
-import { Constants } from 'app/utils/Constants';
-import { DialogService } from '../../../../services/dialog.service';
-import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { Injectable } from '@angular/core';
-import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/table-charging-stations-reboot-action';
-import { TableExportAction } from 'app/shared/table/actions/table-export-action';
-import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 import { Validators } from '@angular/forms';
-import saveAs from 'file-saver';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
+import { TableExportAsCSVAction } from 'app/shared/table/actions/table-export-as-csv-action';
+import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
+import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+
+import { DialogService } from '../../../../services/dialog.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
+import { ButtonAction } from '../../../../types/GlobalType';
+import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
@@ -50,7 +46,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [new TableExportAction().getActionDef()];
+    return [new TableExportAsCSVAction().getActionDef()];
   }
 
   public buildTableRowActions(): TableActionDef[] {
@@ -67,71 +63,13 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ButtonAction.EXPORT:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('chargers.dialog.export.title'),
-          this.translateService.instant('chargers.dialog.export.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.exportParameters();
-          }
-        });
+      case ButtonAction.EXPORT_AS_CSV:
+        if (actionDef.action) {
+          actionDef.action(this.charger, this.getContent(), this.dialogService, this.translateService);
+        }
         break;
     }
     super.actionTriggered(actionDef);
-  }
-
-  public exportParameters() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.dialog.exportConfig.title'),
-      this.translateService.instant('chargers.dialog.exportConfig.confirm'),
-    ).subscribe((response) => {
-      if (response === ButtonType.YES) {
-        let csv = `Charging Station${Constants.CSV_SEPARATOR}Parameter Name${Constants.CSV_SEPARATOR}Parameter Value${Constants.CSV_SEPARATOR}Site Area${Constants.CSV_SEPARATOR}Site\r\n`;
-        for (const parameter of this.getContent()) {
-          csv += `${this.charger.id}${Constants.CSV_SEPARATOR}${parameter.key}${Constants.CSV_SEPARATOR}"${Utils.replaceSpecialCharsInCSVValueParam(parameter.value)}"${Constants.CSV_SEPARATOR}${this.charger.siteArea.name}${Constants.CSV_SEPARATOR}${this.charger.siteArea.site.name}\r\n`;
-        }
-        const blob = new Blob([csv]);
-        saveAs(blob, `exported-${this.charger.id.toLowerCase()}-ocpp-parameters.csv`);
-      }
-    });
-  }
-
-  private saveOcppParameter(param: OcppParameter) {
-    // Show yes/no dialog
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.set_configuration_title'),
-      this.translateService.instant('chargers.set_configuration_confirm', { chargeBoxID: this.charger.id, key: param.key }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        this.spinnerService.show();
-        this.centralServerService.updateChargingStationOCPPConfiguration(
-          this.charger.id, { key: param.key, value: param.value, readonly: param.readonly }).subscribe((response) => {
-            this.spinnerService.hide();
-            // Ok?
-            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-              this.messageService.showSuccessMessage(
-                this.translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: this.charger.id }));
-              // Reboot Required?
-              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
-                if (chargingStationsRebootAction.action) {
-                  chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
-                    this.messageService, this.centralServerService, this.spinnerService, this.router);
-                }
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response), this.messageService, 'chargers.change_params_error');
-            }
-            this.refreshData(true).subscribe();
-          }, (error) => {
-            this.spinnerService.hide();
-            this.refreshData(true).subscribe();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'chargers.change_params_error');
-          });
-      }
-    });
   }
 
   public setCharger(charger: ChargingStation) {
@@ -139,11 +77,12 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    let actionDone = false;
     switch (actionDef.id) {
       case ButtonAction.INLINE_SAVE:
-        this.saveOcppParameter(ocppParameter);
-        actionDone = true;
+        if (actionDef.action) {
+          actionDef.action(this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
     }
     // Call super
@@ -158,7 +97,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         isAngularComponent: true,
         angularComponent: ChargingStationOcppParametersInputFieldCellComponent,
         headerClass: 'text-right col-20p',
-        class: 'text-right col-20p table-cell-angular-component',
+        class: 'text-right col-20p table-cell-angular-big-component',
       },
       {
         id: 'value',
@@ -166,9 +105,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         editType: TableEditType.INPUT,
         validators: [
           Validators.maxLength(500),
+          Validators.required,
         ],
         canBeDisabled: true,
         errors: [
+          { id: 'required', message: 'general.mandatory_field' },
           { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 500 } },
         ],
         headerClass: 'text-left',

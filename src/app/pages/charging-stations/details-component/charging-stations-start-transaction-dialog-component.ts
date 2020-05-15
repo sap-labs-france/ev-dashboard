@@ -20,6 +20,13 @@ export class ChargingStationsStartTransactionDialogComponent {
     // Set
     this.title = data.title;
     this.message = data.message;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   public forMyself() {

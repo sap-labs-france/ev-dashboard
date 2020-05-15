@@ -30,6 +30,13 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: SettingLink) {
     // Check if data is passed to the dialog
     this.currentLink = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   public ngOnInit(): void {

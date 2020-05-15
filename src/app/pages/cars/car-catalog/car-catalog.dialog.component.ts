@@ -10,8 +10,13 @@ export class CarCatalogDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CarCatalogDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: number) {
-    if (data) {
-      this.carCatalogID = data;
-    }
+    this.carCatalogID = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

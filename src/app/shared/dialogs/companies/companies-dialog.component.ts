@@ -12,15 +12,23 @@ import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-so
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   constructor(
-      public dialogDataSource: CompaniesDialogTableDataSource,
+      public companiesDataSource: CompaniesDialogTableDataSource,
       protected dialogRef: MatDialogRef<CompaniesDialogComponent>,
       @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
-    super(data, dialogRef, dialogDataSource);
+    super(data, dialogRef, companiesDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'companies.select_companies';
     }
+    this.companiesDataSource.destroyDatasource();
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   public getSelectedItems(selectedRows: Company[]): KeyValue[] {

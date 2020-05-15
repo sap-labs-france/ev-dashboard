@@ -30,6 +30,13 @@ export class RegistrationTokenComponent implements OnInit {
     private router: Router,
     protected dialogRef: MatDialogRef<RegistrationTokenComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   public ngOnInit(): void {

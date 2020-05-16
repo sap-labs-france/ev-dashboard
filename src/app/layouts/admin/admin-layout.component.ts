@@ -71,9 +71,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   public isMap() {
     if (this.location.prepareExternalUrl(this.location.path()) === '/maps/fullscreen') {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   public runOnRouteChange(): void {

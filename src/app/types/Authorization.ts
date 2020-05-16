@@ -41,7 +41,9 @@ export enum Entity {
   CAR_CATALOGS = 'CarCatalogs',
   INVOICE = 'Invoice',
   INVOICES = 'Invoices',
-  TAXES = 'Taxes'
+  TAXES = 'Taxes',
+  REGISTRATION_TOKEN = 'RegistrationToken',
+  REGISTRATION_TOKENS = 'RegistrationTokens'
 }
 export enum Action {
   READ = 'Read',

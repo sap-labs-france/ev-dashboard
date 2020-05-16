@@ -39,7 +39,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
-  private readonly Constants = Constants;
 
   constructor(
     private configService: ConfigService,
@@ -53,11 +52,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // Initial Load
-    this.loadData();
     // Handle Poll (config service available only in component not possible in data-source)
     this.autoRefreshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
     this.autoRefreshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
+    // Initial Load
+    this.loadData();
     if (this.dataSource) {
       // Init Sort
       if (this.dataSource.tableColumnDefs) {

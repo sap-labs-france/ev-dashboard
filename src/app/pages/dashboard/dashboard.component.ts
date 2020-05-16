@@ -193,7 +193,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    */
   public slideChangeAnimationDone(event: AnimationEvent) {
     if (this.afterChange) {
-      // retsart rotation on chart components
+      // Restart rotation on chart components
       this.realtimeChartComponent.startRotation();
       this.statisticsChartComponent.startRotation();
       this.afterChange = false;

@@ -104,6 +104,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     if (this.refreshSubscription) {
       this.refreshSubscription.unsubscribe();
     }
+    this.refreshSubscription = null;
   }
 
   public refresh() {

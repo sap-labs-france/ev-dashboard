@@ -103,14 +103,6 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
         // this.isOCPPParametersPaneDisabled = !this.isSaveButtonDisabled;
       }
     });
-    this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
-          singleChangeNotification.data.id === this.chargingStation.id) {
-        this.dialog.closeAll();
-      }
-    });
   }
 
   public loadChargingStation() {

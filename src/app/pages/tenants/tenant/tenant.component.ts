@@ -119,14 +119,6 @@ export class TenantComponent implements OnInit {
     }
     // Load
     this.loadTenant();
-
-    this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentTenantID) {
-        this.loadTenant();
-      }
-    });
   }
 
   public loadTenant() {

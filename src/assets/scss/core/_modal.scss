@@ -217,10 +217,15 @@
   .mat-tab-header {
     margin-left: 15px;
     margin-right: 15px;
+    background: $brand-primary;
+  }
+
+  .mat-tabs-with-actions {
+    padding-right: 125px;
   }
 
   .mat-tab-labels {
-    padding: 15px 15px 13px 15px;
+    padding: 11px 7px 7px 7px;
   }
 
   .mat-dialog-content {

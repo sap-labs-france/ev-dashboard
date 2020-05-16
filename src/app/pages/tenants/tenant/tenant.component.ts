@@ -7,11 +7,8 @@ import { HTTPError } from 'app/types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
 import { Tenant } from 'app/types/Tenant';
 import TenantComponents from 'app/types/TenantComponents';
-import { debounceTime } from 'rxjs/operators';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
@@ -74,8 +71,6 @@ export class TenantComponent implements OnInit {
 
   constructor(
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router) {

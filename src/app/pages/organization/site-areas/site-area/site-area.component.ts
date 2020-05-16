@@ -23,9 +23,8 @@ import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
-import { debounceTime, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
 import { ChargingStations } from '../../../../utils/ChargingStations';
 import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
 
@@ -69,7 +68,6 @@ export class SiteAreaComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,

@@ -4,7 +4,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -20,7 +19,7 @@ import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset',
@@ -52,7 +51,6 @@ export class AssetComponent implements OnInit {
   constructor(
       private authorizationService: AuthorizationService,
       private centralServerService: CentralServerService,
-      private centralServerNotificationService: CentralServerNotificationService,
       private messageService: MessageService,
       private spinnerService: SpinnerService,
       private configService: ConfigService,

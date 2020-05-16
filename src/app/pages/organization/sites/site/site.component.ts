@@ -18,9 +18,7 @@ import { HTTPError } from 'app/types/HTTPError';
 import { Site, SiteImage } from 'app/types/Site';
 import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-site',
@@ -47,7 +45,6 @@ export class SiteComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,

@@ -5107,7 +5107,7 @@ select.selectpicker {
   transition-duration: 0.3s !important;
 }
 
-/* perfect-scrollbar v0.6.13 */
+/* perfect-scrollbar */
 .ps-container {
   -ms-touch-action: auto;
   touch-action: auto;

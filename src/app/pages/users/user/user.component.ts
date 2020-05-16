@@ -13,7 +13,7 @@ import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserRole, UserStatus } from 'app/types/User';
-import { debounceTime, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -105,7 +105,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     public userTagsEditableTableDataSource: UserTagsEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,

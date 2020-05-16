@@ -9,18 +9,14 @@ import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { ConfigService } from '../../../services/config.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { ChargingStationOcppParametersComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
 const CHARGERS_PANE_NAME = 'chargers';
-const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 
 @Component({
   selector: 'app-charging-station',
@@ -46,13 +42,11 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private localeService: LocaleService,
-    private configService: ConfigService,
     private dialog: MatDialog,
     private router: Router,
     public dialogRef: MatDialogRef<ChargingStationComponent>) {

@@ -23,7 +23,7 @@
     "connectors": "Connecteurs",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.50",
+    "last_update": "Version 2.2.52",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -264,31 +264,6 @@
     "trends_of_day_max": "Maximum",
     "trends_of_day_min": "Minimum",
     "trends_of_day_title": "Tendance pour {{todayDay}}"
-  },
-  "manufacturers": {
-    "no_manufacturers": "Aucun constructeur n'a été trouvé",
-    "manufacturer_number": "Constructeur(s)",
-    "number_of_vehicles": "Nb Véhicules",
-    "logo": "Logo",
-    "name": "Nom",
-    "manufacturer": "Constructeur",
-    "title": "Constructeur",
-    "created_on": "Créé le",
-    "created_by": "Créé par",
-    "changed_on": "Modifié le",
-    "changed_by": "Modifié par",
-    "delete_title": "Supprimer",
-    "delete_button": "Supprimer",
-    "delete_confirm": "Voulez-vous vraiment supprimer le constructeur '{{manufacturerName}}'?",
-    "delete_success": "Le constructeur '{{manufacturerName}}' a été supprimé avec succès",
-    "delete_error": "Une erreur est survenue pendant la suppression du constructeur",
-    "changed_by_other_user": "Le constructeur '{{manufacturerName}}' a été changé par un autre utilisateur et va être rechargé",
-    "update_success": "Le constructeur '{{manufacturerName}}' a été mis à jour avec succès",
-    "update_error": "Une erreur est survenue pendant la mise à jour du constructeur",
-    "manufacturer_not_found": "Le constructeur n'a pas été trouvé",
-    "create_success": "Le constructeur '{{manufacturerName}}' a été créé avec succès",
-    "create_error": "Une erreur est survenue pendant la création du constructeur",
-    "logo_size_error": "La taille du logo est trop importante, la limite est de {{maxPictureKb}} Ko"
   },
   "companies": {
     "no_companies": "Aucune entreprise n'a été trouvée",
@@ -1408,6 +1383,20 @@
       "check_connection": "Vérifier connexion"
     },
     "asset": {
+      "connection": {
+        "title": "Connection aux ressources",
+        "name": "Nom",
+        "description": "Description",
+        "type": "Type",
+        "base_url": "URL",
+        "user": "Utilisateur",
+        "password": "Mot de passe",
+        "delete_title": "Supprimer la connexion à la ressource",
+        "delete_confirm":"Voulez-vous vraiment supprimer la connexion '{{assetConnectionName}}'?"
+      },
+      "types": {
+        "schneider": "Gestion Bâtiment Schneider"
+      },
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration des ressources n'a pas été trouvée"
@@ -1640,9 +1629,9 @@
     "synchronize_car_catalogs_up_to_date": "Les véhicules sont déjà tous à jour",
     "select_car_maker": "Selection Constructeur Véhicules",
     "car_makers":"Constructeurs de Véhicules",
-    "create_success": "Vous avez été assigné au véhicule avec succès",
+    "create_success": "Le véhicule '{{carName}}' a été créé avec succès",
     "assign_car_catalog": "Assigner véhicule",
-    "create_error": "Une erreur est survenue pendant la création du véhicules",
+    "create_error": "Une erreur est survenue pendant la création du véhicule",
     "car_exist": "Vous avez déjà créé cette voiture",
     "car_exist_different_car_catalog": "Vous avez déjà créé cette voiture avec un modèle different",
     "user_already_assigned": "Vous êtes déjà assigné au cet véhicule",
@@ -1650,6 +1639,8 @@
     "invalid_vin": "VIN invalide",
     "assign_users":"Assigner des utilisateurs",
     "type": "Type",
+    "default_car": "Véhicule par défaut",
+    "private_car": "Véhicules privé",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

@@ -19,7 +19,6 @@ export class UserSitesDialogComponent {
     private translateService: TranslateService,
     private dialogRef: MatDialogRef<UserSitesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: User) {
-
     if (data) {
       this.userSitesTableDataSource.setUser(data);
       this.dialogTitle = this.translateService.instant('users.assigned_sites_to_user', {userName: Users.buildUserFullName(data) });

@@ -9,6 +9,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tenant, TenantButtonAction } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -22,7 +23,6 @@ import { Utils } from '../../../utils/Utils';
 import { TableCreateTenantAction } from '../table-actions/table-create-tenant-action';
 import { TableDeleteTenantAction } from '../table-actions/table-delete-tenant-action';
 import { TableEditTenantAction } from '../table-actions/table-edit-tenant-action';
-
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {

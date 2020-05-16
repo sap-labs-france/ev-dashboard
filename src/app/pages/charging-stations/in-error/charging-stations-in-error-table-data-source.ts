@@ -20,6 +20,7 @@ import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef 
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { ComponentService } from '../../../services/component.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -31,7 +32,6 @@ import { TableChargingStationsRebootAction } from '../table-actions/table-chargi
 import { TableChargingStationsResetAction } from '../table-actions/table-charging-stations-reset-action';
 import { TableDeleteChargingStationAction } from '../table-actions/table-delete-charging-station-action';
 import { TableEditChargingStationAction } from '../table-actions/table-edit-charging-station-action';
-
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {

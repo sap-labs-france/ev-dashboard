@@ -9,7 +9,6 @@ import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { FilterParams } from 'app/types/GlobalType';
 import { TableActionDef } from 'app/types/Table';
 
-
 export class TableExportChargingStationsAction extends TableExportAction {
   public getActionDef(): TableActionDef {
     return {

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnalyticsSettings } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
-import moment from 'moment-timezone';
+import * as moment from 'moment-timezone';
 
 import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links-table-data-source';
 

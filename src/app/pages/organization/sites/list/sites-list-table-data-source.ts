@@ -22,6 +22,7 @@ import { Site, SiteButtonAction } from 'app/types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { TableAssignUsersToSiteAction } from '../table-actions/table-assign-users-to-site-action';
@@ -29,7 +30,6 @@ import { TableCreateSiteAction } from '../table-actions/table-create-site-action
 import { TableDeleteSiteAction } from '../table-actions/table-delete-site-action';
 import { TableEditSiteAction } from '../table-actions/table-edit-site-action';
 import { TableViewSiteAction } from '../table-actions/table-view-site-action';
-
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {

@@ -13,6 +13,7 @@ import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
 import { Observable } from 'rxjs';
+
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -27,7 +28,6 @@ import { ChargingStationsConnectorStatusCellComponent } from '../cell-components
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { TableChargingStationsStartTransactionAction } from '../table-actions/table-charging-stations-start-transaction-action';
 import { TableChargingStationsStopTransactionAction } from '../table-actions/table-charging-stations-stop-transaction-action';
-
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {

@@ -24,16 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.50',
-        date: new Date('2020-05-14'),
+        version: '2.2.52',
+        date: new Date('2020-05-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Accept Charging Station's iccid and imsi properties with empty value during Boot Notification`,
+              `Fix OCPI invalid status when remote start is rejected`,
               `Fixed first SoC value is not provided on Cahors after starting a session`,
+              `Create Schneider Building Management connection in Asset Settings (front-end)`,
               `Display consumption chart at the first consumption value`,
               `Handle duplicate Meter Values for ABB`,
+              `Add Default, Company and Private Car information for end-user`,
               `Refresh Charging Plan's chart when the user changes values in the list`,
               `Do not propagate cell new values in editable list if it's invalid`,
               `Add OCPI data to Charging Stations`,

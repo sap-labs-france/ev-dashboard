@@ -8,13 +8,13 @@ import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { BillingSettings, BillingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
-
 
 @Component({
   selector: 'app-settings-billing',

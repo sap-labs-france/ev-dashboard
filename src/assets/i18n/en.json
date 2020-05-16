@@ -23,7 +23,7 @@
     "connectors": "Connectors",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.50",
+    "last_update": "Version 2.2.52",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -264,31 +264,6 @@
     "trends_of_day_max": "Maximum",
     "trends_of_day_min": "Minimum",
     "trends_of_day_title": "{{todayDay}} trends"
-  },
-  "manufacturers": {
-    "no_manufacturers": "No manufacturers found",
-    "manufacturer_number": "Manufacturer(s)",
-    "number_of_vehicles": "Nb Vehicles",
-    "logo": "Logo",
-    "name": "Name",
-    "manufacturer": "Manufacturer",
-    "title": "Manufacturer",
-    "created_on": "Created On",
-    "created_by": "Created By",
-    "changed_on": "Changed On",
-    "changed_by": "Changed By",
-    "delete_title": "Delete",
-    "delete_button": "Delete",
-    "delete_confirm": "Do you really want to delete the manufacturer '{{manufacturerName}}'?",
-    "delete_success": "The manufacturer '{{manufacturerName}}' has been deleted successfully",
-    "delete_error": "Error occurred while deleting the manufacturer",
-    "changed_by_other_user": "The manufacturer '{{manufacturerName}}' has been changed by another user and will be reloaded",
-    "update_success": "The manufacturer '{{manufacturerName}}' has been updated successfully",
-    "update_error": "Error occurred while updating the manufacturer",
-    "manufacturer_not_found": "Manufacturer has not been found",
-    "create_success": "The manufacturer '{{manufacturerName}}' has been created successfully",
-    "create_error": "Error occurred while creating the manufacturer",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
   "companies": {
     "no_companies": "No companies found",
@@ -1409,6 +1384,20 @@
       "check_connection": "Check Connection"
     },
     "asset": {
+      "connection": {
+        "title": "Asset connections",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "base_url": "URL",
+        "user": "User",
+        "password": "Password",
+        "delete_title": "Delete Asset connection",
+        "delete_confirm":"Do you really want to delete the connection '{{assetConnectionName}}'?"
+      },
+      "types": {
+        "schneider": "Schneider Building Management"
+      },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Asset settings have not been found"
@@ -1637,7 +1626,7 @@
     "synchronize_car_catalogs_up_to_date": "Cars already up to date",
     "select_car_maker": "Select Car Maker",
     "car_makers":"Car Makers",
-    "create_success": "You have been assigned to the car successfully",
+    "create_success": "The car '{{carName}}' has been created with success",
     "assign_car_catalog": "Assign car catalog",
     "create_error": "Error occurred while creating the car",
     "car_exist": "You already created this car",
@@ -1647,6 +1636,8 @@
     "invalid_vin": "Invalid VIN",
     "type": "Type",
     "assign_users":"Assign Users",
+    "default_car": "Default car",
+    "private_car": "Private car",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

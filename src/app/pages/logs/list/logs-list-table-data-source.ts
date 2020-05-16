@@ -9,6 +9,7 @@ import { Log, LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,7 +29,6 @@ import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
 import { TableExportLogsAction } from '../table-actions/table-export-logs-action';
-
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {

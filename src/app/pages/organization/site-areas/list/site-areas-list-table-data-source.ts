@@ -24,6 +24,7 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { TableAssignAssetsToSiteAreaAction } from '../table-actions/table-assign-assets-to-site-area-action';
@@ -35,7 +36,6 @@ import { TableEditSiteAreaAction } from '../table-actions/table-edit-site-area-a
 import { TableViewChargingStationsOfSiteAreaAction } from '../table-actions/table-view-charging-stations-of-site-area-action';
 import { TableViewSiteAreaAction } from '../table-actions/table-view-site-area-action';
 import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
-
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {

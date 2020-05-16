@@ -5,7 +5,7 @@ import { MessageService } from 'app/services/message.service';
 import { FilterParams } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import saveAs from 'file-saver';
+import * as FileSaver from 'file-saver';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -42,7 +42,7 @@ export class StatisticsExportService {
     this.centralServerService.exportStatistics(filterParams)
       .subscribe((result) => {
         this.spinnerService.hide();
-        saveAs(result, `exported-${chartType}-statistics.csv`);
+        FileSaver.saveAs(result, `exported-${chartType}-statistics.csv`);
       }, (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');

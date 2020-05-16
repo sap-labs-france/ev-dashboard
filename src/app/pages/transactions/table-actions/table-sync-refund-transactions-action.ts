@@ -11,7 +11,6 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-
 export class TableSyncRefundTransactionsAction implements TableAction {
   private action: TableActionDef = {
     id: CarButtonAction.SYNCHRONIZE,

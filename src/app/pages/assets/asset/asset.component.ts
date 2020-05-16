@@ -1,27 +1,26 @@
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
 import { Component, Input, OnInit } from '@angular/core';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
-import { Constants } from 'app/utils/Constants';
 import { DialogService } from 'app/services/dialog.service';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
-import { SiteArea } from 'app/types/SiteArea';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { SiteArea } from 'app/types/SiteArea';
+import { ButtonType } from 'app/types/Table';
+import { Constants } from 'app/utils/Constants';
+import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset',
@@ -134,13 +133,6 @@ export class AssetComponent implements OnInit {
       // check if escape
       if (keydownEvents && keydownEvents.code === 'Escape') {
         this.onClose();
-      }
-    });
-    this.centralServerNotificationService.getSubjectAsset().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentAssetID) {
-        this.loadAsset();
       }
     });
   }

@@ -106,13 +106,6 @@ export class SiteComponent implements OnInit {
         this.onClose();
       }
     });
-    this.centralServerNotificationService.getSubjectSite().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteID) {
-        this.loadSite();
-      }
-    });
   }
 
   public isOpenInDialog(): boolean {

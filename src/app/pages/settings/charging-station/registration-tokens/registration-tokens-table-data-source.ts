@@ -58,6 +58,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
+    // TODO: Add and get the Token Subject based on collection 'registrationtokens'
     return this.centralServerNotificationService.getSubjectUsers();
   }
 

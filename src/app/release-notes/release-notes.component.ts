@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.52',
+        version: '2.2.53',
         date: new Date('2020-05-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Accept Charging Station's iccid and imsi properties with empty value during Boot Notification`,
+              `Save button in pop-up with many tabs is always visible`,
               `Fix OCPI invalid status when remote start is rejected`,
               `Fixed first SoC value is not provided on Cahors after starting a session`,
               `Create Schneider Building Management connection in Asset Settings (front-end)`,

@@ -53,6 +53,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
+    // TODO: Add and get the Invoice Subject based on collection 'invoices'
     return this.centralServerNotificationService.getSubjectUsers();
   }
 

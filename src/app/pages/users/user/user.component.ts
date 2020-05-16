@@ -296,13 +296,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Create default badge
       this.userTagsEditableTableDataSource.setContent([this.userTagsEditableTableDataSource.createRow()]);
     }
-    this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentUserID) {
-        this.loadUser();
-      }
-    });
     this.loadRefundSettings();
     if (!this.inDialog) {
       super.enableRoutingSynchronization();

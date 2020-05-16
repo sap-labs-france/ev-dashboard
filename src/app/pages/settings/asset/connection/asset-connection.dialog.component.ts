@@ -12,5 +12,12 @@ export class AssetConnectionDialogComponent {
     public dialogRef: MatDialogRef<AssetConnectionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: AssetConnectionSetting) {
     this.currentConnection = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

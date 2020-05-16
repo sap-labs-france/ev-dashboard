@@ -93,13 +93,6 @@ export class CompanyComponent implements OnInit {
         this.onClose();
       }
     });
-    this.centralServerNotificationService.getSubjectCompany().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentCompanyID) {
-        this.loadCompany();
-      }
-    });
   }
 
   public isOpenInDialog(): boolean {

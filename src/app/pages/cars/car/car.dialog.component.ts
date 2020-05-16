@@ -8,8 +8,15 @@ export class CarDialogComponent {
   public carID!: string;
 
   constructor(
-    public dialogRef: MatDialogRef<CarDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: string) {
-      this.carID = data;
-    }
+      public dialogRef: MatDialogRef<CarDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) data: string) {
+    this.carID = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
+  }
 }

@@ -11,5 +11,12 @@ export class TenantDialogComponent {
     public dialogRef: MatDialogRef<TenantDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.tenantID = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

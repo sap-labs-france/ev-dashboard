@@ -11,9 +11,14 @@ export class ErrorCodeDetailsDialogComponent {
   constructor(
     protected dialogRef: MatDialogRef<ErrorCodeDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
-    if (data) {
-      this.error = data;
-    }
+    this.error = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   public cancel() {

@@ -152,13 +152,6 @@ export class SiteAreaComponent implements OnInit {
         this.onClose();
       }
     });
-    this.centralServerNotificationService.getSubjectSiteArea().pipe(
-      debounceTime(this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        // Update user?
-        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentSiteAreaID) {
-          this.loadSiteArea();
-        }
-      });
   }
 
   public isOpenInDialog(): boolean {

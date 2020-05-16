@@ -11,5 +11,11 @@ export class AssetDialogComponent {
     public dialogRef: MatDialogRef<AssetDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.assetID = data;
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 }

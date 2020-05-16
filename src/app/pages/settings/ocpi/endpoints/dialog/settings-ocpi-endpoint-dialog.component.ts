@@ -58,6 +58,13 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
         backgroundPatchJob: false,
       };
     }
+    // listen to keystroke
+    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      // check if escape
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        this.dialogRef.close();
+      }
+    });
   }
 
   public ngOnInit(): void {

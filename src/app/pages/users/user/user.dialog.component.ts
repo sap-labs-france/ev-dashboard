@@ -1,26 +1,25 @@
-import { Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Utils } from 'app/utils/Utils';
+
+import { UserComponent } from './user.component';
 
 @Component({
-  template: '<app-user [currentUserID]="userID" [inDialog]="true" [dialogRef]="getDialogRef()"></app-user>',
+  template: '<app-user #appRef [currentUserID]="userID" [inDialog]="true" [dialogRef]="dialogRef"></app-user>',
 })
-export class UserDialogComponent {
+export class UserDialogComponent implements AfterViewInit {
+  @ViewChild('appRef') public appRef!: UserComponent;
   public userID!: string;
 
   constructor(
-    private dialogRef: MatDialogRef<UserDialogComponent>,
+    public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.userID = data;
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
-  public getDialogRef(): MatDialogRef<UserDialogComponent> {
-    return this.dialogRef;
+  public ngAfterViewInit() {
+    // Register key event
+    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
+      this.appRef.saveUser.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }

@@ -21,13 +21,6 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
       this.title = 'sites.select_sites';
     }
     this.dialogDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: Site[]): KeyValue[] {

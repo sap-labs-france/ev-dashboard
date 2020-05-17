@@ -21,13 +21,6 @@ export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
       this.title = 'assets.select_assets';
     }
     this.assetsDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: Asset[]): KeyValue[] {

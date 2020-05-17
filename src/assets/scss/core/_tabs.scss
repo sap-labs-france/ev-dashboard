@@ -129,12 +129,12 @@
   color: $brand-background !important;
   border: 0;
   margin: 0;
-  height: 45px !important;
   min-width: 3em !important;
   border-radius: $border-radius-base;
   line-height: $mdb-btn-font-size-base * 2;
   font-size: $mdb-btn-font-size-base;
-  padding: 0 0.7em !important;
+  padding: 0 0.8em !important;
+  margin-right: 5px;
   background-color: transparent;
   transition: 0.3s background-color 0s;
   text-transform: uppercase;

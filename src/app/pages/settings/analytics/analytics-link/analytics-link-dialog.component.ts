@@ -2,9 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
 import { KeyValue } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
+import { Utils } from 'app/utils/Utils';
 
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
 
@@ -26,17 +28,11 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   constructor(
     protected dialogRef: MatDialogRef<AnalyticsLinkDialogComponent>,
     private translateService: TranslateService,
+    private dialogService: DialogService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
     @Inject(MAT_DIALOG_DATA) data: SettingLink) {
     // Check if data is passed to the dialog
     this.currentLink = data;
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public ngOnInit(): void {
@@ -66,21 +62,20 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.description = this.formGroup.controls['description'];
     this.role = this.formGroup.controls['role'];
     this.url = this.formGroup.controls['url'];
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.cancel();
-      }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        this.setLinkAndClose(this.formGroup.value);
-      }
-    });
+    // Register key event
+    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
+      this.setLinkAndClose.bind(this), this.close.bind(this));
     // Get Create/Update submit translation
     this.submitButtonType = this.submitButtonTranslation();
   }
 
-  public cancel() {
-    this.dialogRef.close();
+  public closeDialog(saved: boolean = false) {
+    this.dialogRef.close(saved);
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.setLinkAndClose.bind(this), this.closeDialog.bind(this));
   }
 
   public setLinkAndClose(analyticsLink: SettingLink) {

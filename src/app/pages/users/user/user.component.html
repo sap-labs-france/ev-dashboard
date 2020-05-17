@@ -425,12 +425,11 @@
         </mat-tab>
       </mat-tab-group>
       <div class="tabs-actions">
-        <button mat-button (click)="saveUser(formGroup.getRawValue())"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+        <button mat-button (click)="saveUser(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
           <span>{{'general.save' | translate}}</span>
         </button>
-        <button mat-icon-button *ngIf="inDialog" mat-dialog-close>
+        <button mat-icon-button *ngIf="inDialog" (click)="close()">
           <mat-icon>close</mat-icon>
         </button>
       </div>

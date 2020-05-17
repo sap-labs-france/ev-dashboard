@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from 'app/types/User';
 import { Users } from 'app/utils/Users';
+import { Utils } from 'app/utils/Utils';
 
 import { UserSitesTableDataSource } from './user-sites-table-data-source';
 
@@ -25,12 +26,6 @@ export class UserSitesDialogComponent {
     } else {
       this.dialogTitle = this.translateService.instant('users.sites');
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

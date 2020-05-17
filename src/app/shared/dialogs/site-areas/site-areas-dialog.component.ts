@@ -23,13 +23,6 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
     }
     this.siteAreasDataSource.destroyDatasource();
     siteAreasDataSource.setSitesAdminOnly(data && data.sitesAdminOnly);
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: SiteArea[]): KeyValue[] {

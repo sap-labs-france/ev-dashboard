@@ -96,13 +96,6 @@ export class SiteComponent implements OnInit {
         // this.loadSite();
       });
     }
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
   }
 
   public isOpenInDialog(): boolean {
@@ -251,30 +244,9 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveSite(this.formGroup.value);
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveSite.bind(this), this.closeDialog.bind(this));
   }
 
   private createSite(site: Site) {

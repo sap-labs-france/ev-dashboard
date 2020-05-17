@@ -65,19 +65,6 @@ export class AssetConnectionComponent implements OnInit {
     this.url = this.formGroup.controls['url'];
     // Load current values if connection already exists
     this.loadAssetConnection();
-    // Listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // Check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.cancel();
-      }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        if (this.formGroup.valid && this.formGroup.dirty) {
-          // tslint:disable-next-line: no-unsafe-any
-          this.setConnectionAndClose(this.formGroup.value);
-        }
-      }
-    });
     // Get Create/Update button translation
     this.submitButtonTranslation = this.getSubmitButtonTranslation();
   }

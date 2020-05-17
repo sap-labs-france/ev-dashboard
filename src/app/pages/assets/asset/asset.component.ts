@@ -15,7 +15,6 @@ import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
@@ -26,11 +25,11 @@ import { mergeMap } from 'rxjs/operators';
   templateUrl: 'asset.component.html',
 })
 export class AssetComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() public currentAssetID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public isAdmin = false;
   public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
@@ -126,17 +125,6 @@ export class AssetComponent implements OnInit {
         this.loadAsset();
       });
     }
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
-  }
-
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
   }
 
   public setCurrentAssetId(currentAssetId: string) {
@@ -144,7 +132,6 @@ export class AssetComponent implements OnInit {
   }
 
   public refresh() {
-    // Load Asset
     this.loadAsset();
   }
 
@@ -251,30 +238,9 @@ export class AssetComponent implements OnInit {
     }
   }
 
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveAsset(this.formGroup.value);
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveAsset.bind(this), this.closeDialog.bind(this));
   }
 
   public assignSiteArea() {

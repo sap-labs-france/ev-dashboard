@@ -21,13 +21,6 @@ export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakers
       this.title = 'cars.select_car_maker';
     }
     this.carMakersDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {

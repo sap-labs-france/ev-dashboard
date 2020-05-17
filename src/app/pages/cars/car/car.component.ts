@@ -1,21 +1,20 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Car, CarCatalog, CarImage, CarType } from 'app/types/Car';
 import { Component, Input, OnInit } from '@angular/core';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-
-import { ActionResponse } from 'app/types/DataResult';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
-import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Cars } from 'app/utils/Cars';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
+import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
+import { Car, CarCatalog, CarImage, CarType } from 'app/types/Car';
+import { ActionResponse } from 'app/types/DataResult';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { ButtonType } from 'app/types/Table';
+import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -100,11 +99,14 @@ export class CarComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    this.dialogRef.close(saved);
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
   }
 
-  public onClose() {
-    this.closeDialog();
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveCar.bind(this), this.closeDialog.bind(this));
   }
 
   public saveCar(car: Car) {

@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonType } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 
 export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
 export const BUTTON_SELECT_USER = 'SELECT_USER';
@@ -15,18 +16,11 @@ export class ChargingStationsStartTransactionDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
-    private translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
     this.title = data.title;
     this.message = data.message;
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 
   public forMyself() {

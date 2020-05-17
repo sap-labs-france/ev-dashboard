@@ -1,7 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { SiteArea } from 'app/types/SiteArea';
 import * as moment from 'moment';
@@ -11,11 +13,16 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { Utils } from '../../../../utils/Utils';
+import { RegistrationTokenDialogComponent } from './registration-token.dialog.component';
 
 @Component({
+  selector: 'app-settings-registration-token',
   templateUrl: 'registration-token.component.html',
 })
 export class RegistrationTokenComponent implements OnInit {
+  @Input() public currentToken!: RegistrationToken;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<RegistrationTokenDialogComponent>;
   public formGroup!: FormGroup;
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
@@ -26,17 +33,10 @@ export class RegistrationTokenComponent implements OnInit {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private translateService: TranslateService,
     private dialog: MatDialog,
-    private router: Router,
-    protected dialogRef: MatDialogRef<RegistrationTokenComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
+    private router: Router) {
   }
 
   public ngOnInit(): void {
@@ -58,8 +58,15 @@ export class RegistrationTokenComponent implements OnInit {
     this.expirationDate = this.formGroup.controls['expirationDate'];
   }
 
-  public cancel() {
-    this.dialogRef.close();
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
   public save(token: RegistrationToken) {
@@ -68,7 +75,7 @@ export class RegistrationTokenComponent implements OnInit {
       this.spinnerService.hide();
       if (token) {
         this.messageService.showSuccessMessage('settings.charging_station.registration_token_creation_success');
-        this.dialogRef.close(true);
+        this.closeDialog(true);
       } else {
         Utils.handleError(null,
           this.messageService, 'settings.charging_station.registration_token_creation_error');

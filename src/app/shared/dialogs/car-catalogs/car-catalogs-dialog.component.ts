@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CarCatalog } from 'app/types/Car';
 import { KeyValue } from 'app/types/GlobalType';
+
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs-dialog-table-data-source';
-
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
@@ -20,13 +20,6 @@ export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCata
       this.title = 'users.select_users';
     }
     this.carCatalogsDialogTableDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: CarCatalog[]): KeyValue[] {

@@ -11,23 +11,23 @@ import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } 
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentService } from '../../../../services/component.service';
-import { DialogService } from '../../../../services/dialog.service';
-import { MessageService } from '../../../../services/message.service';
-import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
-import { TableCopyAction } from '../../../../shared/table/actions/table-copy-action';
-import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
-import { TableMultiCopyAction } from '../../../../shared/table/actions/table-multi-copy-action';
-import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { TableRevokeAction } from '../../../../shared/table/actions/table-revoke-action';
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import ChangeNotification from '../../../../types/ChangeNotification';
-import { Utils } from '../../../../utils/Utils';
-import { RegistrationTokenStatusComponent } from './registration-token-status.component';
-import { RegistrationTokenComponent } from './registration-token.component';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableCopyAction } from '../../../shared/table/actions/table-copy-action';
+import { TableDeleteAction } from '../../../shared/table/actions/table-delete-action';
+import { TableMultiCopyAction } from '../../../shared/table/actions/table-multi-copy-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableRevokeAction } from '../../../shared/table/actions/table-revoke-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { Utils } from '../../../utils/Utils';
+import { RegistrationTokenStatusComponent } from './registration-token/registration-token-status.component';
+import { RegistrationTokenDialogComponent } from './registration-token/registration-token.dialog.component';
 
 @Injectable()
 export class RegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
@@ -58,8 +58,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
-    // TODO: Add and get the Token Subject based on collection 'registrationtokens'
-    return this.centralServerNotificationService.getSubjectUsers();
+    return this.centralServerNotificationService.getSubjectRegistrationTokens();
   }
 
   public loadDataImpl(): Observable<DataResult<RegistrationToken>> {
@@ -67,7 +66,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tokens) => {
-        // Ok
         observer.next(tokens);
         observer.complete();
       }, (error) => {
@@ -135,7 +133,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       {
         id: 'siteAreaID',
         name: 'site_areas.title',
-        formatter: (siteAreaID: string, token: any) => {
+        formatter: (siteAreaID: string, token: RegistrationToken) => {
           if (token.siteArea) {
             return token.siteArea.name;
           }
@@ -219,7 +217,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.minWidth = '50vw';
     // Open
-    const dialogRef = this.dialog.open(RegistrationTokenComponent, dialogConfig);
+    const dialogRef = this.dialog.open(RegistrationTokenDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((saved) => {
       if (saved) {
         this.refreshData().subscribe();

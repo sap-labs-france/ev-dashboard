@@ -20,13 +20,6 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
       this.title = 'users.select_users';
     }
     this.usersListTableDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: User[]): KeyValue[] {

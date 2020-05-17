@@ -13,12 +13,9 @@ import { Address } from 'app/types/Address';
 import { Company, CompanyLogo } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime, mergeMap } from 'rxjs/operators';
-
-import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-company',
@@ -42,7 +39,6 @@ export class CompanyComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private configService: ConfigService,
@@ -86,17 +82,6 @@ export class CompanyComponent implements OnInit {
         this.loadCompany();
       });
     }
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
-  }
-
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
   }
 
   public setCurrentCompanyId(currentCompanyId: string) {
@@ -104,7 +89,6 @@ export class CompanyComponent implements OnInit {
   }
 
   public refresh() {
-    // Load Company
     this.loadCompany();
   }
 
@@ -202,30 +186,9 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveCompany(this.formGroup.value);
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveCompany.bind(this), this.closeDialog.bind(this));
   }
 
   private createCompany(company: Company) {

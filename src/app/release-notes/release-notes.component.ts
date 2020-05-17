@@ -24,13 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.52',
-        date: new Date('2020-05-16'),
+        version: '2.2.54',
+        date: new Date('2020-05-17'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Accept Charging Station's iccid and imsi properties with empty value during Boot Notification`,
+              `Save button in pop-up with many tabs is always visible`,
+              `Search input field gets always the focus`,
+              `Disable Remove button on assignment pop-ups when no record is selected`,
+              `Enter key does no longer closes the pop-up in all Add/Remove templates`,
+              `General handling on Enter / Escape key in all Create / Update pop-ups`,
               `Fix OCPI invalid status when remote start is rejected`,
               `Fixed first SoC value is not provided on Cahors after starting a session`,
               `Create Schneider Building Management connection in Asset Settings (front-end)`,

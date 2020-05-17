@@ -3,24 +3,21 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { ConfigService } from '../../../services/config.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { ChargingStationOcppParametersComponent } from './ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
 const CHARGERS_PANE_NAME = 'chargers';
-const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 
 @Component({
   selector: 'app-charging-station',
@@ -28,6 +25,9 @@ const OCPP_PARAMETERS_PANE_NAME = 'ocppParameters';
 })
 export class ChargingStationComponent implements OnInit, AfterViewInit {
   @Input() public chargingStationID!: string;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
+
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
@@ -46,16 +46,14 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private centralServerNotificationService: CentralServerNotificationService,
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private translateService: TranslateService,
     private localeService: LocaleService,
-    private configService: ConfigService,
+    private dialogService: DialogService,
     private dialog: MatDialog,
-    private router: Router,
-    public dialogRef: MatDialogRef<ChargingStationComponent>) {
+    private router: Router) {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
   }
@@ -67,16 +65,10 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     if (!this.authorizationService.canAccess(Entity.CHARGING_STATION, Action.UPDATE)
       && !this.authorizationService.isDemo()) {
       // Not authorized
-      this.messageService.showErrorMessage(this.translateService.instant('chargers.action_error.not_authorize'));
+      this.messageService.showErrorMessage(
+        this.translateService.instant('chargers.action_error.not_authorize'));
       this.dialog.closeAll();
     }
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
   }
 
   public ngAfterViewInit(): void {
@@ -88,19 +80,11 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     this.chargingStationParametersComponent.formGroup.statusChanges.subscribe(() => {
       if (this.activePane === CHARGERS_PANE_NAME) {
         this.isSaveButtonDisabled = this.chargingStationParametersComponent.formGroup.invalid;
-        // When we have changes to save we can't navigate to other panes
-        // this.isPropertiesPaneDisabled = !this.isSaveButtonDisabled;
-        // When we have changes to save we can't navigate to other panes
-        // this.isOCPPParametersPaneDisabled = !this.isSaveButtonDisabled;
       }
     });
     this.chargingStationParametersComponent.formGroup.valueChanges.subscribe(() => {
       if (this.activePane === CHARGERS_PANE_NAME) {
         this.isSaveButtonDisabled = this.chargingStationParametersComponent.formGroup.invalid;
-        // When we have changes to save we can't navigate to other panes
-        // this.isPropertiesPaneDisabled = !this.isSaveButtonDisabled;
-        // When we have changes to save we can't navigate to other panes
-        // this.isOCPPParametersPaneDisabled = !this.isSaveButtonDisabled;
       }
     });
   }
@@ -144,7 +128,14 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     this.messageService.showErrorMessage(this.translateService.instant('chargers.unsaved_changes'));
   }
 
-  public onClose() {
-    this.chargingStationParametersComponent.onClose();
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.chargingStationParametersComponent.formGroup,
+      this.dialogService, this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 }

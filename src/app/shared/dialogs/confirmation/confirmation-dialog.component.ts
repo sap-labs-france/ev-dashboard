@@ -28,7 +28,7 @@ export class ConfirmationDialogComponent implements AfterViewInit {
     this.title = data.title;
     this.message = data.message;
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
-      this.onEnter.bind(this), this.onEscape.bind(this))
+      this.onEnter.bind(this), this.onEscape.bind(this));
     // set name
     switch (data.dialogType) {
       // Ok / Cancel
@@ -100,7 +100,7 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         break;
     }
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
-      this.onEnter.bind(this), this.onEscape.bind(this))
+      this.onEnter.bind(this), this.onEscape.bind(this));
   }
 
   public ngAfterViewInit() {

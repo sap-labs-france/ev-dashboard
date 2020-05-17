@@ -16,7 +16,7 @@ export class CompanyDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.companyID = data;
   }
-  
+
   public ngAfterViewInit() {
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,

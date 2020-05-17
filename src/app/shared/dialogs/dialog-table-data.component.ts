@@ -42,7 +42,7 @@ export abstract class DialogTableDataComponent<T extends Data> {
       this.dialogDataSource.setMultipleRowSelection(data.rowMultipleSelection);
     }
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
-      this.validate.bind(this), this.cancel.bind(this))
+      this.validate.bind(this), this.cancel.bind(this));
   }
 
   public validate() {

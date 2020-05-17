@@ -148,11 +148,12 @@ export class CentralServerNotificationService {
   public initSocketIO(token: string) {
     // Check
     if (!this.socket && token) {
-      // Connect to Socket IO
+      // Init and connect Socket IO
       this.socket = io(this.centralRestServerServiceURL, {
         query: 'token=' + token,
       });
     } else {
+      // Connect Socket IO
       this.socket.connect();
     }
     // Temporary debug log

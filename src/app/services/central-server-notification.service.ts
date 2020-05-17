@@ -155,6 +155,9 @@ export class CentralServerNotificationService {
     } else {
       this.socket.connect();
     }
+    // Temporary debug log
+    this.socket.on('reconnecting', (attempt) => { console.log(`SocketIO client #${attempt} try to reconnect`); });
+    this.socket.on('reconnect_error', (error) => { console.log(`SocketIO client reconnect error: ${error}`); });
     this.monitorChangeNotification();
   }
 

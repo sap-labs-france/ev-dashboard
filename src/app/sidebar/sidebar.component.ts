@@ -84,8 +84,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    // Subscribe to user's change
-    this.userSubscription.unsubscribe();
+    if (this.userSubscription) {
+      // Unsubscribe to user's change
+      this.userSubscription.unsubscribe();
+    }
+    this.userSubscription = null;
   }
 
   public refreshUser() {

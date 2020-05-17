@@ -31,6 +31,10 @@ export class CentralServerNotificationService {
   private subjectAssets = new Subject<ChangeNotification>();
   private subjectAsset = new Subject<SingleChangeNotification>();
   private subjectAnalyticsLinks = new Subject<ChangeNotification>();
+  private subjectRegistrationTokens = new Subject<ChangeNotification>();
+  private subjectRegistrationToken = new Subject<SingleChangeNotification>();
+  private subjectInvoices = new Subject<ChangeNotification>();
+  private subjectInvoice = new Subject<SingleChangeNotification>();
   private socket: SocketIOClient.Socket;
 
   public setcentralRestServerServiceURL(url: string) {
@@ -125,6 +129,22 @@ export class CentralServerNotificationService {
     return this.subjectAsset.asObservable();
   }
 
+  public getSubjectRegistrationTokens(): Observable<ChangeNotification> {
+    return this.subjectRegistrationTokens.asObservable();
+  }
+
+  public getSubjectRegistrationToken(): Observable<ChangeNotification> {
+    return this.subjectRegistrationToken.asObservable();
+  }
+
+  public getSubjectInvoices(): Observable<ChangeNotification> {
+    return this.subjectInvoices.asObservable();
+  }
+
+  public getSubjectInvoice(): Observable<ChangeNotification> {
+    return this.subjectInvoice.asObservable();
+  }
+
   public initSocketIO(token: string) {
     // Check
     if (!this.socket && token) {
@@ -133,7 +153,7 @@ export class CentralServerNotificationService {
         query: 'token=' + token,
       });
 
-      // Monitor Companies`
+      // Monitor Companies
       this.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
         // Notify
         this.subjectCompanies.next(changeNotification);
@@ -231,6 +251,26 @@ export class CentralServerNotificationService {
       // Monitor Asset
       this.socket.on(Entity.ASSET, (singleChangeNotification: SingleChangeNotification) => {
         this.subjectAsset.next(singleChangeNotification);
+      });
+
+      // Monitor Registration Tokens
+      this.socket.on(Entity.REGISTRATION_TOKENS, (changeNotification: ChangeNotification) => {
+        this.subjectRegistrationTokens.next(changeNotification);
+      });
+
+       // Monitor Registration Token
+      this.socket.on(Entity.REGISTRATION_TOKEN, (singleChangeNotification: SingleChangeNotification) => {
+        this.subjectRegistrationToken.next(singleChangeNotification);
+      });
+
+       // Monitor Invoices
+      this.socket.on(Entity.INVOICES, (changeNotification: ChangeNotification) => {
+        this.subjectInvoices.next(changeNotification);
+      });
+
+       // Monitor Invoice
+      this.socket.on(Entity.INVOICE, (singleChangeNotification: SingleChangeNotification) => {
+        this.subjectInvoice.next(singleChangeNotification);
       });
     }
   }

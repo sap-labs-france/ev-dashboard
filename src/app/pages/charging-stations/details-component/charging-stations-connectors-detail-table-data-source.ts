@@ -31,7 +31,6 @@ import { TableChargingStationsStopTransactionAction } from '../table-actions/tab
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
-  // tslint:disable-next-line: no-unsafe-any
   public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
   public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
   public viewTransactionAction = new TableViewTransactionAction().getActionDef();

@@ -35,6 +35,12 @@ export class CentralServerNotificationService {
   private subjectRegistrationToken = new Subject<SingleChangeNotification>();
   private subjectInvoices = new Subject<ChangeNotification>();
   private subjectInvoice = new Subject<SingleChangeNotification>();
+  private subjectChargingProfiles = new Subject<ChangeNotification>();
+  private subjectChargingProfile = new Subject<SingleChangeNotification>();
+  private subjectCars = new Subject<ChangeNotification>();
+  private subjectCar = new Subject<SingleChangeNotification>();
+  private subjectCarCatalogs = new Subject<ChangeNotification>();
+  private subjectCarCatalog = new Subject<SingleChangeNotification>();
   private socket: SocketIOClient.Socket;
 
   public setcentralRestServerServiceURL(url: string) {
@@ -133,7 +139,7 @@ export class CentralServerNotificationService {
     return this.subjectRegistrationTokens.asObservable();
   }
 
-  public getSubjectRegistrationToken(): Observable<ChangeNotification> {
+  public getSubjectRegistrationToken(): Observable<SingleChangeNotification> {
     return this.subjectRegistrationToken.asObservable();
   }
 
@@ -141,8 +147,32 @@ export class CentralServerNotificationService {
     return this.subjectInvoices.asObservable();
   }
 
-  public getSubjectInvoice(): Observable<ChangeNotification> {
+  public getSubjectInvoice(): Observable<SingleChangeNotification> {
     return this.subjectInvoice.asObservable();
+  }
+
+  public getSubjectChargingProfiles(): Observable<ChangeNotification> {
+    return this.subjectChargingProfiles.asObservable();
+  }
+
+  public getSubjectChargingProfile(): Observable<SingleChangeNotification> {
+    return this.subjectChargingProfile.asObservable();
+  }
+
+  public getSubjectCars(): Observable<ChangeNotification> {
+    return this.subjectCars.asObservable();
+  }
+
+  public getSubjectCar(): Observable<SingleChangeNotification> {
+    return this.subjectCar.asObservable();
+  }
+
+  public getSubjectCarCatalogs(): Observable<ChangeNotification> {
+    return this.subjectCarCatalogs.asObservable();
+  }
+
+  public getSubjectCarCatalog(): Observable<SingleChangeNotification> {
+    return this.subjectCarCatalog.asObservable();
   }
 
   public initSocketIO(token: string) {

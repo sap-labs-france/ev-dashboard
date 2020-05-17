@@ -106,8 +106,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
-    // Initial Load
-    this.loadData();
   }
 
   public ngOnDestroy() {

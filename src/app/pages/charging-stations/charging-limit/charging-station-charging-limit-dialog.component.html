@@ -1,6 +1,6 @@
 <div class="main-content">
   <div class="card card-profile card-testimonial card-min-height">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>battery_charging_full</mat-icon>
@@ -61,15 +61,13 @@
               </div>
             </div>
           </ng-template>
-      </div>
-      </mat-tab>
-      <mat-tab disabled>
-        <ng-template mat-tab-label>
-          <button mat-icon-button mat-dialog-close>
-            <mat-icon>close</mat-icon>
-          </button>
-        </ng-template>
+        </div>
       </mat-tab>
     </mat-tab-group>
+    <div class="tabs-actions">
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

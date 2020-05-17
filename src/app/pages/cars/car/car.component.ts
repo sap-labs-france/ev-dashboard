@@ -99,11 +99,14 @@ export class CarComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    this.dialogRef.close(saved);
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
   }
 
-  public onClose() {
-    this.closeDialog();
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveCar.bind(this), this.closeDialog.bind(this));
   }
 
   public saveCar(car: Car) {

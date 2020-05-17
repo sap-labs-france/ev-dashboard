@@ -26,7 +26,7 @@ import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
 
 import { ChargingStations } from '../../../../utils/ChargingStations';
-import { RegistrationTokensTableDataSource } from '../../../settings/charging-station/registration-tokens/registration-tokens-table-data-source';
+import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-site-area',
@@ -143,17 +143,6 @@ export class SiteAreaComponent implements OnInit {
         this.currentSiteAreaID = params['id'];
       });
     }
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
-  }
-
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
   }
 
   public assignSite() {
@@ -385,30 +374,9 @@ export class SiteAreaComponent implements OnInit {
     }
   }
 
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveSiteArea(this.formGroup.value);
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveSiteArea.bind(this), this.closeDialog.bind(this));
   }
 
   public maximumPowerChanged() {

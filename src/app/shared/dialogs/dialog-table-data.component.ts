@@ -41,17 +41,8 @@ export abstract class DialogTableDataComponent<T extends Data> {
     if (Utils.objectHasProperty(data, 'rowMultipleSelection')) {
       this.dialogDataSource.setMultipleRowSelection(data.rowMultipleSelection);
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.cancel();
-      }
-      // check if enter
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        this.validate();
-      }
-    });
+    Utils.registerValidateCloseKeyEvents(this.dialogRef,
+      this.validate.bind(this), this.cancel.bind(this))
   }
 
   public validate() {

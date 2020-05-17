@@ -16,7 +16,6 @@ import { User, UserRole, UserStatus } from 'app/types/User';
 import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
@@ -620,27 +619,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     return null;
   }
 
-  // getInvoice() {
-  //   this.spinnerService.show();
-  //   this.centralServerService.getUserInvoice(this.currentUserID).subscribe((result) => {
-  //     this.spinnerService.hide();
-  //     const blob = new Blob([result], { type: 'application/pdf' });
-  //     const fileUrl = URL.createObjectURL(blob);
-  //     window.open(fileUrl, '_blank');
-  //   }, (error) => {
-  //     // Hide
-  //     this.spinnerService.hide();
-  //     // Check status
-  //     switch (error.status) {
-  //       case 404:
-  //         this.messageService.showErrorMessage('users.invoicing.errors.no_invoice_found');
-  //         break;
-  //       default:
-  //         this.messageService.showErrorMessage('users.invoicing.errors.unable_to_get_invoice');
-  //     }
-  //   });
-  // }
-
   public toUpperCase(control: AbstractControl) {
     control.setValue(control.value.toUpperCase());
   }
@@ -693,9 +671,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
       }
       // Close dialog
-      if (this.inDialog && this.dialogRef) {
-        this.dialogRef.close(true);
-      }
+      this.closeDialog(true);
     }, (error) => {
       // Hide
       this.spinnerService.hide();
@@ -796,6 +772,17 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     });
   }
 
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
+  }
+
   private checkUnassignedTransactions(user: User) {
     // Admin?
     if (this.isAdmin) {
@@ -811,16 +798,12 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
               this.assignTransactionsToUser(user);
             } else {
               // Close dialog
-              if (this.inDialog && this.dialogRef) {
-                this.dialogRef.close(true);
-              }
+              this.closeDialog(true);
             }
           });
         } else {
           // Close dialog
-          if (this.inDialog && this.dialogRef) {
-            this.dialogRef.close(true);
-          }
+          this.closeDialog(true);
         }
       }, (error) => {
         // Hide
@@ -833,9 +816,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       });
     } else {
       // Close dialog
-      if (this.inDialog && this.dialogRef) {
-        this.dialogRef.close(true);
-      }
+      this.closeDialog(true);
     }
   }
 }

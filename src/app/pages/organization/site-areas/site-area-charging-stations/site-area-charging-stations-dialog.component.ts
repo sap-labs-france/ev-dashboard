@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteArea } from 'app/types/SiteArea';
+import { Utils } from 'app/utils/Utils';
 
 import { SiteAreaChargingStationsDataSource } from './site-area-charging-stations-table-data-source';
 
@@ -23,12 +24,6 @@ export class SiteAreaChargingStationsDialogComponent {
       this.siteAreaChargersDataSource.setSiteArea(data);
       this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area', { siteAreaName: data.name });
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +15,7 @@ import { Action, Entity } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site, UserSite } from 'app/types/Site';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -50,7 +51,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         this.centralServerService.getSiteUsers(
             {...this.buildFilterValues(), SiteID: this.site.id},
             this.getPaging(), this.getSorting()).subscribe((siteUsers) => {
-          this.removeAction.disabled = (siteUsers.count === 0);
+          this.removeAction.disabled = (siteUsers.count === 0 || !this.hasSelectedRows());
           observer.next(siteUsers);
           observer.complete();
         }, (error) => {
@@ -67,6 +68,11 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
         observer.complete();
       }
     });
+  }
+
+  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+    super.toggleRowSelection(row, event);
+    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {

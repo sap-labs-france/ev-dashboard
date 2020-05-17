@@ -15,12 +15,11 @@
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
-                    <button mat-button (click)="save(formGroup.value)"
-                            [disabled]="!formGroup.valid">
+                    <button mat-button (click)="save(formGroup.value)" [disabled]="!formGroup.valid">
                       <mat-icon>save</mat-icon>
                       <span>{{'general.save' | translate}}</span>
                     </button>
-                    <button mat-icon-button mat-dialog-close>
+                    <button mat-icon-button (click)="close()">
                       <mat-icon>close</mat-icon>
                     </button>
                   </ul>

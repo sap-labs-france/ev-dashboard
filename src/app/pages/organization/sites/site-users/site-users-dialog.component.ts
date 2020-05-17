@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 import { SiteUsersTableDataSource } from './site-users-table-data-source';
 
@@ -24,12 +25,6 @@ export class SiteUsersDialogComponent {
     } else {
       this.dialogTitle = this.translateService.instant('sites.users');
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

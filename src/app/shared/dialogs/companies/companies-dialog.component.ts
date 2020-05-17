@@ -22,13 +22,6 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
       this.title = 'companies.select_companies';
     }
     this.companiesDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: Company[]): KeyValue[] {

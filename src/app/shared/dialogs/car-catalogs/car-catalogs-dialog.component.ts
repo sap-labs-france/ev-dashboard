@@ -20,13 +20,6 @@ export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCata
       this.title = 'users.select_users';
     }
     this.carCatalogsDialogTableDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: CarCatalog[]): KeyValue[] {

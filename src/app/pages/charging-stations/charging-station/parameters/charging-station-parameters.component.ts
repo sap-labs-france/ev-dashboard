@@ -485,13 +485,13 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   private updateChargeBoxID() {
     this.spinnerService.show();
-    // Update
     this.centralServerService.updateChargingStationParams(this.chargingStation).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         // tslint:disable-next-line:max-line-length
         this.messageService.showSuccessMessage(
-          this.translateService.instant('chargers.change_config_success', { chargeBoxID: this.chargingStation.id }));
+          this.translateService.instant('chargers.change_config_success',
+            { chargeBoxID: this.chargingStation.id }));
         this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response),
@@ -508,7 +508,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           this.messageService.showErrorMessage(this.messages['change_config_error']);
           break;
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-            this.messageService.showErrorMessage('chargers.change_config_phase_error');
+            this.messageService.showErrorMessage(this.messages['chargers.change_config_phase_error']);
             break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,

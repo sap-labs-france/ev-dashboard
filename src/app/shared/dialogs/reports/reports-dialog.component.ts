@@ -20,13 +20,6 @@ export class ReportsDialogComponent extends DialogTableDataComponent<RefundRepor
       this.title = 'transactions.select_report';
     }
     this.transactionsListTableDataSource.destroyDatasource();
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
   }
 
   public getSelectedItems(selectedRows: RefundReport[]): KeyValue[] {

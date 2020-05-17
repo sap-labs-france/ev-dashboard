@@ -1,6 +1,7 @@
 import { MapTypeId, MouseEvent } from '@agm/core';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Utils } from 'app/utils/Utils';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
@@ -38,13 +39,7 @@ export class GeoMapDialogComponent {
       this.dialogTitle = data.dialogTitle ? data.dialogTitle : '';
       this.markers = data.markers ? data.markers : [];
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.cancel();
-      }
-    });
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 
   public mapClick(event: MouseEvent) {

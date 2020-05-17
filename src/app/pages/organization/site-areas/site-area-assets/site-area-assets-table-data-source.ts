@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,7 +16,7 @@ import { Asset } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
@@ -44,7 +45,7 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-            this.removeAction.disabled = (assets.count === 0);
+            this.removeAction.disabled = (assets.count === 0 || !this.hasSelectedRows());
             observer.next(assets);
             observer.complete();
           }, (error) => {
@@ -61,6 +62,11 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         observer.complete();
       }
     });
+  }
+
+  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+    super.toggleRowSelection(row, event);
+    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {

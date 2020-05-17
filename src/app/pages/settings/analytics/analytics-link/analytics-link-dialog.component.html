@@ -58,7 +58,7 @@
                       </mat-error>
                       <button mat-icon-button matSuffix aria-label="View" (click)="openUrl()"
                         [disabled]="url.errors?.pattern || url.errors?.required">
-                        <mat-icon>remove_red_eye</mat-icon>
+                        <mat-icon>open_in_new</mat-icon>
                       </button>
                     </mat-form-field>
                   </div>
@@ -72,7 +72,7 @@
               [disabled]="!formGroup.valid || !formGroup.dirty">
               {{ submitButtonType | translate }}
             </button>
-            <button mat-raised-button (click)="cancel()">
+            <button mat-raised-button (click)="close()">
               {{"general.cancel" | translate}}
             </button>
           </div>
@@ -80,7 +80,7 @@
       </mat-tab>
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button ngClass="mat-button-tab-close-only" (click)="cancel()">
+          <button mat-icon-button (click)="close()">
             <mat-icon>close</mat-icon>
           </button>
         </ng-template>

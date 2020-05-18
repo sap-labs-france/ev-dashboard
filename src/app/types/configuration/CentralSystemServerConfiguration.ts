@@ -2,7 +2,7 @@ export default interface CentralSystemServerConfiguration {
   protocol: string;
   host: string;
   port: number;
-  pollEnable?: boolean;
+  pollEnabled?: boolean;
   pollIntervalSecs?: number;
   socketIOEnabled: boolean;
 }

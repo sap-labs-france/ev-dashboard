@@ -298,17 +298,17 @@ export class CentralServerNotificationService {
       this.subjectRegistrationTokens.next(changeNotification);
     });
 
-     // Monitor Registration Token
+    // Monitor Registration Token
     this.socket.on(Entity.REGISTRATION_TOKEN, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectRegistrationToken.next(singleChangeNotification);
     });
 
-     // Monitor Invoices
+    // Monitor Invoices
     this.socket.on(Entity.INVOICES, (changeNotification: ChangeNotification) => {
       this.subjectInvoices.next(changeNotification);
     });
 
-     // Monitor Invoice
+    // Monitor Invoice
     this.socket.on(Entity.INVOICE, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectInvoice.next(singleChangeNotification);
     });

@@ -10,7 +10,7 @@ import { WindowService } from 'app/services/window.service';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
-import { Observable, Subscription, fromEvent, interval } from 'rxjs';
+import { Observable, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
 import { ConfigService } from '../../services/config.service';

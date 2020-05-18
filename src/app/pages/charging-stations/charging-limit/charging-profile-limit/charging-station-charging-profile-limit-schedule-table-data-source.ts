@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
+import ChangeNotification from 'app/types/ChangeNotification';
 import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
@@ -22,10 +24,15 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     public translateService: TranslateService,
     private datePipe: AppDatePipe,
     private decimalPipe: AppDecimalPipe,
-    private unitPipe: AppUnitPipe
+    private unitPipe: AppUnitPipe,
+    private centralServerNotificationService: CentralServerNotificationService,
   ) {
     super(spinnerService, translateService);
     this.initDataSource();
+  }
+
+  public getDataChangeSubject(): Observable<ChangeNotification> {
+    return this.centralServerNotificationService.getSubjectChargingProfiles();
   }
 
   public buildTableDef(): TableDef {

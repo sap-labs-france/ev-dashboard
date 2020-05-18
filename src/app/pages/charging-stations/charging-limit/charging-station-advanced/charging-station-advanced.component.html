@@ -1,17 +1,17 @@
-<div class="main-content">
-  <div class="row" *ngIf="charger.inactive">
+<div class="main-content pt-4">
+  <div class="row" *ngIf="chargingStation.inactive">
     <div class="col-md-12 text-left charging-station-inactive mb-5">
       {{"chargers.smart_charging.charging_station_inactive" | translate }}
     </div>
   </div>
-  <div class="form-group">
+  <div class="mt-4">
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>schedule</mat-icon>
         </div>
         <h3 class="card-title text-left">
-          {{'chargers.smart_charging.debug_charging_station_title' | translate: {chargeBoxID: charger.id} }}
+          {{'chargers.smart_charging.debug_charging_station_title' | translate: {chargeBoxID: chargingStation.id} }}
         </h3>
       </div>
       <div class="card-body">
@@ -33,11 +33,11 @@
               </mat-form-field>
             </div>
           </div>
-          <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()" [disabled]="charger.inactive || !formGroup.valid">
+          <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()" [disabled]="chargingStation.inactive || !formGroup.valid">
             <mat-icon>get_app</mat-icon><span>{{'chargers.smart_charging.retrieve_schedule' | translate}}</span>
           </button>
         </div>
-        <div class="col-md-12 text-left pt-3 charger-debug-component" >
+        <div class="col-md-12 text-left pt-3 chargingStation-debug-component" >
           <pre><small>{{ scheduleResult | json }}</small></pre>
         </div>
       </div>

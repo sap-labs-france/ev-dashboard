@@ -1,21 +1,21 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSort } from '@angular/material/sort';
-import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import ChangeNotification from 'app/types/ChangeNotification';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscription, fromEvent, interval } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
+import ChangeNotification from 'app/types/ChangeNotification';
 import { ConfigService } from '../../services/config.service';
+import { Constants } from 'app/utils/Constants';
 import { LocaleService } from '../../services/locale.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSort } from '@angular/material/sort';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableDataSource } from './table-data-source';
+import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-table',
@@ -36,7 +36,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private ongoingRefresh = false;
 
   private autoRefreshSubscription!: Subscription;
-  // private manualRefreshSubscription!: Subscription;
+  private manualRefreshSubscription!: Subscription;
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
@@ -73,7 +73,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           (this.dataSource.hasRowActions ? 1 : 0);
       }
     }
-    // this.createRefresh();
+    this.createRefresh();
   }
 
   public ngAfterViewInit() {
@@ -112,7 +112,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnDestroy() {
     this.alive = false;
     this.destroyAutoRefresh();
-    // this.destroyRefresh();
+    this.destroyRefresh();
   }
 
   public displayMoreRecords() {
@@ -257,28 +257,28 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.autoRefreshSubscription = null;
   }
 
-  // public createRefresh() {
-  //   // Create timer only if socketIO is not active
-  //   if (!this.manualRefreshSubscription) {
-  //     const refreshObservable = this.dataSource.getManualDataChangeSubject();
-  //     if (refreshObservable) {
-  //       this.manualRefreshSubscription = refreshObservable.pipe(
-  //         takeWhile(() => this.alive),
-  //       ).subscribe(() => {
-  //         if (!this.ongoingRefresh) {
-  //           this.refresh(true);
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
+  public createRefresh() {
+    // Create timer only if socketIO is not active
+    if (!this.manualRefreshSubscription) {
+      const refreshObservable = this.dataSource.getManualDataChangeSubject();
+      if (refreshObservable) {
+        this.manualRefreshSubscription = refreshObservable.pipe(
+          takeWhile(() => this.alive),
+        ).subscribe(() => {
+          if (!this.ongoingRefresh) {
+            this.refresh(true);
+          }
+        });
+      }
+    }
+  }
 
-  // public destroyRefresh() {
-  //   if (this.manualRefreshSubscription) {
-  //     this.manualRefreshSubscription.unsubscribe();
-  //   }
-  //   this.manualRefreshSubscription = null;
-  // }
+  public destroyRefresh() {
+    if (this.manualRefreshSubscription) {
+      this.manualRefreshSubscription.unsubscribe();
+    }
+    this.manualRefreshSubscription = null;
+  }
 
   public toggleAutoRefresh({ checked }) {
     if (checked) {

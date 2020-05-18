@@ -1,15 +1,16 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
-import { Utils } from 'app/utils/Utils';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
+import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
+
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { LocaleService } from 'app/services/locale.service';
+import { Schedule } from 'app/types/ChargingProfile';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -23,7 +24,7 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 })
 export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnChanges {
   @Input() public ratio!: number;
-  @Input() public charger!: ChargingStation;
+  @Input() public chargingStation!: ChargingStation;
   @Input() public connectorId!: number;
   @Input() public chargingSchedules: Schedule[];
 
@@ -135,9 +136,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       // Build Max Limit dataset
       let chargingStationPowers: ChargingStationPowers;
       if (this.connectorId > 0) {
-        chargingStationPowers = Utils.getChargingStationPowers(this.charger, this.charger.connectors[this.connectorId - 1]);
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, this.chargingStation.connectors[this.connectorId - 1]);
       } else {
-        chargingStationPowers = Utils.getChargingStationPowers(this.charger);
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
       }
       const limitDataSet: ChartDataSets = {
         name: 'limitWatts',

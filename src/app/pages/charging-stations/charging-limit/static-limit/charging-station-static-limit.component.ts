@@ -1,21 +1,21 @@
+import { ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
-import { LocaleService } from 'app/services/locale.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
-
+import { LocaleService } from 'app/services/locale.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageService } from 'app/services/message.service';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-static-limit',
@@ -23,7 +23,7 @@ import { TableChargingStationsRebootAction } from '../../table-actions/table-cha
 })
 @Injectable()
 export class ChargingStationStaticLimitComponent implements OnInit {
-  @Input() public charger!: ChargingStation;
+  @Input() public chargingStation!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
   public ampInitialLimit = 0;
@@ -56,7 +56,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
 
   public ngOnInit() {
     // Set
-    for (const connector of this.charger.connectors) {
+    for (const connector of this.chargingStation.connectors) {
       this.ampCurrentLimit += connector.amperageLimit;
     }
     this.ampInitialLimit = this.ampCurrentLimit;
@@ -66,11 +66,11 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     // Confirm dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.charger.id }),
+      this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
+        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfilesResult) => {
           this.spinnerService.hide();
           let foundLimitIsExeeded = false;
           if (chargingProfilesResult.count > 0) {
@@ -121,10 +121,10 @@ export class ChargingStationStaticLimitComponent implements OnInit {
   }
 
   private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
-    // Apply to charger
+    // Apply to chargingStation
     this.spinnerService.show();
     // tslint:disable-next-line: max-line-length
-    this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
+    this.centralServerService.chargingStationLimitPower(this.chargingStation, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === OCPPConfigurationStatus.ACCEPTED ||
           response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
@@ -132,13 +132,13 @@ export class ChargingStationStaticLimitComponent implements OnInit {
         this.ampInitialLimit = this.ampCurrentLimit;
         this.messageService.showSuccessMessage(
           // tslint:disable-next-line: max-line-length
-          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
+          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.chargingStation.id, forceUpdateChargingPlan }),
         );
         // Reboot Required?
         if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
           const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
           if (chargingStationsRebootAction.action) {
-            chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
+            chargingStationsRebootAction.action(this.chargingStation, this.dialogService, this.translateService,
               this.messageService, this.centralServerService, this.spinnerService, this.router);
           }
         }

@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.55',
+        date: new Date('2020-05-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Charging Limitation pop-up not closing`,
+              `Enhanced auto-refresh of lists when data is changing in database`,
+              `Fixed CSS in save pop-up`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.54',
         date: new Date('2020-05-17'),
         componentChanges: [

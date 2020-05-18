@@ -312,6 +312,36 @@ export class CentralServerNotificationService {
     this.socket.on(Entity.INVOICE, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectInvoice.next(singleChangeNotification);
     });
+
+    // Monitor Charging Profiles
+    this.socket.on(Entity.CHARGING_PROFILES, (changeNotification: ChangeNotification) => {
+      this.subjectChargingProfiles.next(changeNotification);
+    });
+
+    // Monitor Charging Profile
+    this.socket.on(Entity.CHARGING_PROFILE, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectChargingProfile.next(singleChangeNotification);
+    });
+
+    // Monitor Cars
+    this.socket.on(Entity.CARS, (changeNotification: ChangeNotification) => {
+      this.subjectCars.next(changeNotification);
+    });
+
+    // Monitor Car
+    this.socket.on(Entity.CAR, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectCar.next(singleChangeNotification);
+    });
+
+    // Monitor Car Catalogs
+    this.socket.on(Entity.CAR_CATALOGS, (changeNotification: ChangeNotification) => {
+      this.subjectCars.next(changeNotification);
+    });
+
+    // Monitor Car Catalog
+    this.socket.on(Entity.CAR_CATALOG, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectCar.next(singleChangeNotification);
+    });
   }
 
   public resetSocketIO() {

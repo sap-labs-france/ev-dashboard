@@ -16,10 +16,6 @@
           <mat-error *ngIf="optimizerUrl.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>
           </mat-error>
-          <button mat-button matSuffix mat-icon-button aria-label="View"
-            [disabled]="optimizerUrl.errors?.pattern">
-            <mat-icon>remove_red_eye</mat-icon>
-          </button>
         </mat-form-field>
       </div>
       <div class="col-md-6">

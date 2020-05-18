@@ -1,15 +1,26 @@
-import { Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Utils } from 'app/utils/Utils';
+
+import { ChargingStationComponent } from './charging-station.component';
 
 @Component({
-  template: '<app-charging-station [chargingStationID]="chargingStationID" ></app-charging-station>',
+  template: '<app-charging-station #appRef [chargingStationID]="chargingStationID" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-station>',
 })
-export class ChargingStationDialogComponent {
+export class ChargingStationDialogComponent implements AfterViewInit {
+  @ViewChild('appRef') public appRef!: ChargingStationComponent;
   public chargingStationID!: string;
 
   constructor(
-    private dialogRef: MatDialogRef<ChargingStationDialogComponent>,
+    public dialogRef: MatDialogRef<ChargingStationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: string) {
     this.chargingStationID = data;
+  }
+
+  public ngAfterViewInit() {
+    // Register key event
+    Utils.registerSaveCloseKeyEvents(this.dialogRef,
+      this.appRef.chargingStationParametersComponent.formGroup,
+      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }

@@ -47,6 +47,14 @@ export interface Car extends Data {
   carCatalogID?: number;
   userIDs?: string;
   forced?: boolean;
+  isDefault?: boolean;
+  type?: CarType;
+}
+
+export enum CarType {
+  PRIVATE = 'P',
+  COMPANY = 'C',
+  POOL_CAR = 'PC',
 }
 
 export interface ChargeStandardTable extends Data {

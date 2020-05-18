@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   template: '<app-car-catalog [currentCarCatalogID]="carCatalogID" [inDialog]="true" [dialogRef]="dialogRef"></app-car-catalog>',
@@ -10,8 +11,7 @@ export class CarCatalogDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CarCatalogDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: number) {
-    if (data) {
-      this.carCatalogID = data;
-    }
+    this.carCatalogID = data;
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

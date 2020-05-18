@@ -23,7 +23,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { SettingsOcpiEnpointDialogComponent } from './dialog/settings-ocpi-endpoint-dialog.component';
+import { SettingsOcpiEnpointDialogComponent } from './endpoint/settings-ocpi-endpoint.dialog.component';
 import { OcpiPatchJobResultFormatterComponent } from './formatters/ocpi-patch-job-result-formatter.component';
 import { OcpiPatchJobStatusFormatterComponent } from './formatters/ocpi-patch-job-status-formatter.component';
 import { OcpiEndpointStatusFormatterComponent } from './formatters/ocpi-status-formatter.component';

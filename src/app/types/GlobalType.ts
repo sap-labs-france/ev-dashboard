@@ -1,4 +1,3 @@
-import { Data } from './Table';
 
 export interface Image {
   id: string;

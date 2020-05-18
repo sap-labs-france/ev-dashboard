@@ -1,12 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
-import { ButtonType } from 'app/types/Table';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
@@ -15,9 +14,13 @@ import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
 @Component({
-  templateUrl: './settings-ocpi-endpoint-dialog.component.html',
+  selector: 'app-ocpi-endpoint',
+  templateUrl: './settings-ocpi-endpoint.component.html',
 })
-export class SettingsOcpiEnpointDialogComponent implements OnInit {
+export class SettingsOcpiEnpointComponent implements OnInit {
+  @Input() public currentEndpoint!: OcpiEndpoint;
+  @Input() public inDialog!: boolean;
+  @Input() public dialogRef!: MatDialogRef<any>;
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
@@ -30,8 +33,6 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
   public token!: AbstractControl;
   public isBackgroundPatchJobActive!: AbstractControl;
 
-  public currentEndpoint: Partial<OcpiEndpoint>;
-
   constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
@@ -39,67 +40,48 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
-    private router: Router,
-    protected dialogRef: MatDialogRef<SettingsOcpiEnpointDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
-    // Check if data is passed to the dialog
-    if (data) {
-      this.currentEndpoint = data;
-    } else {
-      this.currentEndpoint = {
-        id: '',
-        name: '',
-        role: '',
-        baseUrl: '',
-        countryCode: '',
-        partyId: '',
-        localToken: '',
-        token: '',
-        backgroundPatchJob: false,
-      };
-    }
+    private router: Router) {
   }
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
-      id: new FormControl(this.currentEndpoint.id),
-      name: new FormControl(this.currentEndpoint.name,
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      role: new FormControl(this.currentEndpoint.role,
+      role: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      baseUrl: new FormControl(this.currentEndpoint.baseUrl,
+      baseUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      countryCode: new FormControl(this.currentEndpoint.countryCode,
+      countryCode: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
           Validators.minLength(2),
         ])),
-      partyId: new FormControl(this.currentEndpoint.partyId,
+      partyId: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
           Validators.minLength(3),
         ])),
-      localToken: new FormControl(this.currentEndpoint.localToken,
+      localToken: new FormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      token: new FormControl(this.currentEndpoint.token,
+      token: new FormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      backgroundPatchJob: new FormControl(this.currentEndpoint.backgroundPatchJob),
+      backgroundPatchJob: new FormControl(false),
     });
-
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.role = this.formGroup.controls['role'];
@@ -109,25 +91,58 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     this.localToken = this.formGroup.controls['localToken'];
     this.token = this.formGroup.controls['token'];
     this.isBackgroundPatchJobActive = this.formGroup.controls['backgroundPatchJob'];
-
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
+    this.loadEndpoint();
   }
 
-  public cancel() {
-    this.dialogRef.close();
+  public loadEndpoint(): void {
+    if (!this.currentEndpoint) {
+      return;
+    }
+    if (this.currentEndpoint.id) {
+      this.formGroup.controls.id.setValue(this.currentEndpoint.id);
+    }
+    if (this.currentEndpoint.name) {
+      this.formGroup.controls.name.setValue(this.currentEndpoint.name);
+    }
+    if (this.currentEndpoint.role) {
+      this.formGroup.controls.role.setValue(this.currentEndpoint.role);
+    }
+    if (this.currentEndpoint.baseUrl) {
+      this.formGroup.controls.baseUrl.setValue(this.currentEndpoint.baseUrl);
+    }
+    if (this.currentEndpoint.countryCode) {
+      this.formGroup.controls.countryCode.setValue(this.currentEndpoint.countryCode);
+    }
+    if (this.currentEndpoint.partyId) {
+      this.formGroup.controls.partyId.setValue(this.currentEndpoint.partyId);
+    }
+    if (this.currentEndpoint.localToken) {
+      this.formGroup.controls.localToken.setValue(this.currentEndpoint.localToken);
+    }
+    if (this.currentEndpoint.token) {
+      this.formGroup.controls.token.setValue(this.currentEndpoint.token);
+    }
+    if (Utils.objectHasProperty(this.currentEndpoint, 'isBackgroundPatchJobActive')) {
+      this.formGroup.controls.isBackgroundPatchJobActive.setValue(this.currentEndpoint.backgroundPatchJob);
+    }
+    this.formGroup.updateValueAndValidity();
+    this.formGroup.markAsPristine();
+    this.formGroup.markAllAsTouched();
+  }
+
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
+  }
+
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
   }
 
   public save(endpoint: OcpiEndpoint) {
-    // Show
-    this.spinnerService.show();
-
-    if (this.currentEndpoint.id) {
+    if (this.currentEndpoint && this.currentEndpoint.id) {
       // update existing Ocpi Endpoint
       this.updateOcpiEndpoint(endpoint);
     } else {
@@ -156,9 +171,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
   }
 
   public testConnection(ocpiendpoint: OcpiEndpoint) {
-    // Show
     this.spinnerService.show();
-    // Ping
     this.centralServerService.pingOcpiEndpoint(ocpiendpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
@@ -188,37 +201,8 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
     });
   }
 
-  public closeDialog(saved: boolean = false) {
-    this.dialogRef.close(saved);
-  }
-
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.save(this.formGroup.value);
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
-  }
-
   private createOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
+    this.spinnerService.show();
     this.centralServerService.createOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
@@ -236,6 +220,7 @@ export class SettingsOcpiEnpointDialogComponent implements OnInit {
   }
 
   private updateOcpiEndpoint(ocpiEndpoint: OcpiEndpoint) {
+    this.spinnerService.show();
     this.centralServerService.updateOcpiEndpoint(ocpiEndpoint).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {

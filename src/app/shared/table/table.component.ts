@@ -7,9 +7,10 @@ import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
+import ChangeNotification from 'app/types/ChangeNotification';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
-import { Subscription, fromEvent, interval } from 'rxjs';
+import { Observable, Subscription, fromEvent, interval } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
 import { ConfigService } from '../../services/config.service';
@@ -34,12 +35,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly TableEditType = TableEditType;
   private ongoingRefresh = false;
 
-  private autoRefreshSubscription!: Subscription|null;
-  private manualRefreshSubscription!: Subscription|null;
+  private autoRefreshSubscription!: Subscription;
+  // private manualRefreshSubscription!: Subscription;
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
-  private readonly Constants = Constants;
 
   constructor(
     private configService: ConfigService,
@@ -73,7 +73,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           (this.dataSource.hasRowActions ? 1 : 0);
       }
     }
-    this.createRefresh();
+    // this.createRefresh();
   }
 
   public ngAfterViewInit() {
@@ -112,7 +112,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnDestroy() {
     this.alive = false;
     this.destroyAutoRefresh();
-    this.destroyRefresh();
+    // this.destroyRefresh();
   }
 
   public displayMoreRecords() {
@@ -231,7 +231,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public createAutoRefresh() {
     // Create timer only if socketIO is not active
     if (!this.autoRefreshSubscription) {
-      let refreshObservable;
+      let refreshObservable: Observable<ChangeNotification|number>;
       if (this.autoRefreshPollEnabled) {
         // Create timer
         refreshObservable = interval(this.autoRefreshPollingIntervalMillis);
@@ -257,28 +257,28 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.autoRefreshSubscription = null;
   }
 
-  public createRefresh() {
-    // Create timer only if socketIO is not active
-    if (!this.manualRefreshSubscription) {
-      const refreshObservable = this.dataSource.getManualDataChangeSubject();
-      if (refreshObservable) {
-        this.manualRefreshSubscription = refreshObservable.pipe(
-          takeWhile(() => this.alive),
-        ).subscribe(() => {
-          if (!this.ongoingRefresh) {
-            this.refresh(true);
-          }
-        });
-      }
-    }
-  }
+  // public createRefresh() {
+  //   // Create timer only if socketIO is not active
+  //   if (!this.manualRefreshSubscription) {
+  //     const refreshObservable = this.dataSource.getManualDataChangeSubject();
+  //     if (refreshObservable) {
+  //       this.manualRefreshSubscription = refreshObservable.pipe(
+  //         takeWhile(() => this.alive),
+  //       ).subscribe(() => {
+  //         if (!this.ongoingRefresh) {
+  //           this.refresh(true);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 
-  public destroyRefresh() {
-    if (this.manualRefreshSubscription) {
-      this.manualRefreshSubscription.unsubscribe();
-    }
-    this.manualRefreshSubscription = null;
-  }
+  // public destroyRefresh() {
+  //   if (this.manualRefreshSubscription) {
+  //     this.manualRefreshSubscription.unsubscribe();
+  //   }
+  //   this.manualRefreshSubscription = null;
+  // }
 
   public toggleAutoRefresh({ checked }) {
     if (checked) {

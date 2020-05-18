@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonType, DialogType } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   templateUrl: './confirmation-dialog.component.html',
@@ -26,17 +27,8 @@ export class ConfirmationDialogComponent implements AfterViewInit {
     // Set
     this.title = data.title;
     this.message = data.message;
-    // Listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.key === 'Escape') {
-        this.onEscape();
-      }
-      // check if enter
-      if (keydownEvents && keydownEvents.key === 'Enter') {
-        this.onEnter();
-      }
-    });
+    Utils.registerValidateCloseKeyEvents(this.dialogRef,
+      this.onEnter.bind(this), this.onEscape.bind(this));
     // set name
     switch (data.dialogType) {
       // Ok / Cancel
@@ -107,17 +99,8 @@ export class ConfirmationDialogComponent implements AfterViewInit {
         this.buttonNoColor = 'warn';
         break;
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onEscape();
-      }
-      // check if enter
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        this.onEnter();
-      }
-    });
+    Utils.registerValidateCloseKeyEvents(this.dialogRef,
+      this.onEnter.bind(this), this.onEscape.bind(this));
   }
 
   public ngAfterViewInit() {

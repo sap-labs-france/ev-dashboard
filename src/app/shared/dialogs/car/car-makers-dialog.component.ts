@@ -11,16 +11,16 @@ import { CarMakersTableDataSource } from './car-makers-dialog-table-data-source'
 })
 export class CarMakersDialogComponent extends DialogTableDataComponent<CarMakersTable> {
   constructor(
-    public dialogDataSource: CarMakersTableDataSource,
+    public carMakersDataSource: CarMakersTableDataSource,
     protected dialogRef: MatDialogRef<CarMakersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
-    super(data, dialogRef, dialogDataSource);
+    super(data, dialogRef, carMakersDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'cars.select_car_maker';
     }
-    this.dialogDataSource.destroyDatasource();
+    this.carMakersDataSource.destroyDatasource();
   }
 
   public getSelectedItems(selectedRows: CarMakersTable[]): KeyValue[] {

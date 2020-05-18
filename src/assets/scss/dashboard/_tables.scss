@@ -11,7 +11,8 @@ $outer-spinner: $brand-warn !default;
   }
   margin-left: -15px;
   margin-right: -15px;
-
+  margin-top: 0px;
+  
   &>div {
     margin-left: 15px !important;
     padding-left: 0 !important;
@@ -99,7 +100,7 @@ tr.mat-header-row {
     overflow: auto;
   }
   background: mat-color($app-background, dialog);
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 .mat-toolbar-row {

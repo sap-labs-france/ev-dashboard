@@ -2,16 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
 import { Tenant } from 'app/types/Tenant';
 import TenantComponents from 'app/types/TenantComponents';
-import { debounceTime } from 'rxjs/operators';
 
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Utils } from '../../../utils/Utils';
@@ -74,10 +73,10 @@ export class TenantComponent implements OnInit {
 
   constructor(
     private centralServerService: CentralServerService,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private configService: ConfigService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private translateService: TranslateService,
     private router: Router) {
   }
 
@@ -119,14 +118,6 @@ export class TenantComponent implements OnInit {
     }
     // Load
     this.loadTenant();
-
-    this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentTenantID) {
-        this.loadTenant();
-      }
-    });
   }
 
   public loadTenant() {
@@ -165,11 +156,18 @@ export class TenantComponent implements OnInit {
     }
   }
 
-  public cancel() {
-    this.dialogRef.close();
+  public closeDialog(saved: boolean = false) {
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
   }
 
-  public save(tenant: Tenant) {
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveTenant.bind(this), this.closeDialog.bind(this));
+  }
+
+  public saveTenant(tenant: Tenant) {
     // Clear Type of inactive tenants
     let pricingActive = false;
     let refundActive = false;

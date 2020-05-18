@@ -4,7 +4,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
@@ -16,31 +15,30 @@ import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
-import { debounceTime, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset',
   templateUrl: 'asset.component.html',
 })
 export class AssetComponent implements OnInit {
-  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   @Input() public currentAssetID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
+  public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public isAdmin = false;
   public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
-  public siteArea: SiteArea;
+  public selectedSiteArea: SiteArea;
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
-  public siteAreaControl!: AbstractControl;
+  public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
   public coordinates!: FormArray;
@@ -52,7 +50,6 @@ export class AssetComponent implements OnInit {
   constructor(
       private authorizationService: AuthorizationService,
       private centralServerService: CentralServerService,
-      private centralServerNotificationService: CentralServerNotificationService,
       private messageService: MessageService,
       private spinnerService: SpinnerService,
       private configService: ConfigService,
@@ -82,7 +79,7 @@ export class AssetComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      siteAreaControl: new FormControl('',
+      siteArea: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -110,7 +107,7 @@ export class AssetComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
-    this.siteAreaControl = this.formGroup.controls['siteAreaControl'];
+    this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
@@ -128,24 +125,6 @@ export class AssetComponent implements OnInit {
         this.loadAsset();
       });
     }
-    // listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.onClose();
-      }
-    });
-    this.centralServerNotificationService.getSubjectAsset().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.currentAssetID) {
-        this.loadAsset();
-      }
-    });
-  }
-
-  public isOpenInDialog(): boolean {
-    return this.inDialog;
   }
 
   public setCurrentAssetId(currentAssetId: string) {
@@ -153,7 +132,6 @@ export class AssetComponent implements OnInit {
   }
 
   public refresh() {
-    // Load Asset
     this.loadAsset();
   }
 
@@ -172,8 +150,8 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.siteArea && this.asset.siteArea.name) {
         this.formGroup.controls.siteAreaID.setValue(this.asset.siteArea.id);
-        this.formGroup.controls.siteAreaControl.setValue(this.asset.siteArea.name);
-        this.siteArea = this.asset.siteArea;
+        this.formGroup.controls.siteArea.setValue(this.asset.siteArea.name);
+        this.selectedSiteArea = this.asset.siteArea;
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
@@ -260,30 +238,9 @@ export class AssetComponent implements OnInit {
     }
   }
 
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveAsset(this.formGroup.value);
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveAsset.bind(this), this.closeDialog.bind(this));
   }
 
   public assignSiteArea() {
@@ -301,9 +258,9 @@ export class AssetComponent implements OnInit {
         if (result && result.length > 0 && result[0].objectRef) {
           const siteArea = ((result[0].objectRef) as SiteArea);
           this.formGroup.markAsDirty();
-          this.formGroup.controls.siteAreaControl.setValue(siteArea.name);
+          this.formGroup.controls.siteArea.setValue(siteArea.name);
           this.formGroup.controls.siteAreaID.setValue(siteArea.id);
-          this.siteArea = siteArea;
+          this.selectedSiteArea = siteArea;
         }
     });
   }
@@ -319,12 +276,12 @@ export class AssetComponent implements OnInit {
     let longitude = this.longitude.value;
     // If one is not available try to get from SiteArea and then from Site
     if (!latitude || !longitude) {
-      if (this.siteArea && this.siteArea.address) {
-        if (this.siteArea.address.coordinates && this.siteArea.address.coordinates.length === 2) {
-          latitude = this.siteArea.address.coordinates[1];
-          longitude = this.siteArea.address.coordinates[0];
+      if (this.selectedSiteArea && this.selectedSiteArea.address) {
+        if (this.selectedSiteArea.address.coordinates && this.selectedSiteArea.address.coordinates.length === 2) {
+          latitude = this.selectedSiteArea.address.coordinates[1];
+          longitude = this.selectedSiteArea.address.coordinates[0];
         } else {
-          const site = this.siteArea.site;
+          const site = this.selectedSiteArea.site;
           if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
             latitude = site.address.coordinates[1];
             longitude = site.address.coordinates[0];

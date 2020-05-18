@@ -221,11 +221,15 @@
   }
 
   .mat-tabs-with-actions {
-    padding-right: 125px;
+    .mat-tab-header {
+      padding-right: 125px !important;
+    }
   }
 
   .mat-tabs-with-close-action {
-    padding-right: 40px;
+    .mat-tab-header {
+      padding-right: 40px !important;
+    }
   }
 
   .mat-tab-labels {

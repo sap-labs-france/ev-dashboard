@@ -1,0 +1,61 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial card-min-height">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>battery_charging_full</mat-icon>
+          <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <div class="card-body row" *ngIf="chargingStation?.capabilities?.supportStaticLimitationForChargingStation || chargingStation?.capabilities?.supportStaticLimitationPerConnector; else notSupported">
+            <div class="col-md-6">
+              <app-charging-station-static-limit [chargingStation]="chargingStation"></app-charging-station-static-limit>
+            </div>
+          </div>
+          <ng-template #notSupported>
+            <div class="card-body feature-not-supported">
+              {{'chargers.smart_charging.not_supported' | translate }}
+            </div>
+          </ng-template>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>show_chart</mat-icon>
+          <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <div class="card-body" *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
+            <app-charging-station-charging-profile-limit [chargingStation]="chargingStation"></app-charging-station-charging-profile-limit>
+          </div>
+          <ng-template #notSupported>
+            <div class="card-body feature-not-supported">
+              {{'chargers.smart_charging.not_supported' | translate }}
+            </div>
+          </ng-template>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>info</mat-icon>
+          <span>{{'chargers.smart_charging.debug_charging_station' | translate }}</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <div class="card-body" *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
+            <app-charging-station-advanced [chargingStation]="chargingStation"></app-charging-station-advanced>
+          </div>
+          <ng-template #notSupported>
+            <div class="card-body feature-not-supported">
+              {{'chargers.smart_charging.not_supported' | translate }}
+            </div>
+          </ng-template>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="tabs-actions">
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

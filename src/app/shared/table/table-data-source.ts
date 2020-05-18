@@ -1,18 +1,18 @@
-import { FormArray } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSort } from '@angular/material/sort';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DataResult, Ordering, Paging } from 'app/types/DataResult';
-import { FilterParams } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { Observable, Subject, of } from 'rxjs';
-import { first } from 'rxjs/operators';
 
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
+import { FilterParams } from 'app/types/GlobalType';
+import { FormArray } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatSort } from '@angular/material/sort';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
+import { first } from 'rxjs/operators';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
@@ -515,7 +515,6 @@ export abstract class TableDataSource<T extends Data> {
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
 
-    // tslint:disable-next-line:max-line-length
     this.hasActions = (this.tableActionsDef && this.tableActionsDef.length > 0) ||
       (this.tableActionsRightDef && this.tableActionsRightDef.length > 0);
     this.hasFilters = (this.tableFiltersDef && this.tableFiltersDef.length > 0);

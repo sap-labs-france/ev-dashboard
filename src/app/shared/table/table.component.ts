@@ -1,20 +1,21 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSort } from '@angular/material/sort';
-import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
-import { Subscription, fromEvent, interval } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Observable, Subscription, fromEvent, interval } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
+import ChangeNotification from 'app/types/ChangeNotification';
 import { ConfigService } from '../../services/config.service';
+import { Constants } from 'app/utils/Constants';
 import { LocaleService } from '../../services/locale.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSort } from '@angular/material/sort';
+import { SpinnerService } from 'app/services/spinner.service';
 import { TableDataSource } from './table-data-source';
+import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-table',
@@ -34,8 +35,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly TableEditType = TableEditType;
   private ongoingRefresh = false;
 
-  private autoRefreshSubscription!: Subscription|null;
-  private manualRefreshSubscription!: Subscription|null;
+  private autoRefreshSubscription!: Subscription;
+  private manualRefreshSubscription!: Subscription;
   private autoRefreshPollEnabled!: boolean;
   private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
   private alive!: boolean;
@@ -230,7 +231,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public createAutoRefresh() {
     // Create timer only if socketIO is not active
     if (!this.autoRefreshSubscription) {
-      let refreshObservable;
+      let refreshObservable: Observable<ChangeNotification|number>;
       if (this.autoRefreshPollEnabled) {
         // Create timer
         refreshObservable = interval(this.autoRefreshPollingIntervalMillis);

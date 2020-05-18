@@ -34,6 +34,7 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeSt
 
   public setCar(carCatalog: CarCatalog) {
     this.carCatalog = carCatalog;
+    this.refreshData(false).subscribe();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargeStandardTable>> {

@@ -100,6 +100,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
 
   public setChargingProfileSchedule(schedules: Schedule[]) {
     this.schedules = schedules;
+    this.refreshData(false).subscribe();
   }
 
   public setChargingStation(chargingStation: ChargingStation) {

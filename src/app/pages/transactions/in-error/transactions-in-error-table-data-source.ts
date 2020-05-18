@@ -300,7 +300,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   protected deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success',
           { user: this.appUserNamePipe.transform(transaction.user) }));
       this.refreshData().subscribe();

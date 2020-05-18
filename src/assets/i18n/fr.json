@@ -845,7 +845,9 @@
       "smart_charging_charger_version": "La borne doit utiliser au minimum la version 1.6 du protocole OCPP pour utiliser Smart Charging",
       "session_details_title": "Erreur pour les details de session",
       "session_details_not_authorized": "Vous n'êtes pas autorisé à afficher les details cette session",
-      "not_authorize": "Vous n'êtes pas autorisé a exécuter cette action"
+      "not_authorize": "Vous n'êtes pas autorisé a exécuter cette action",
+      "ocpp_parameters_should_not_be_empty": "La clé et la valeur d'un paramètre OCPP ne doivent pas être vides",
+      "ocpp_parameters_change_title": "Erreur paramètre OCPP"
     },
     "reboot_confirm": "Voulez-vous vraiment redémarrer la borne '{{chargeBoxID}}'?",
     "reboot_success": "La borne '{{chargeBoxID}}' a redémarré avec succès",

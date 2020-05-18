@@ -845,7 +845,9 @@
       "smart_charging_charger_version": "Smart charging needs at least OCPP version 1.6 on the charging station",
       "session_details_title": "Session details error",
       "session_details_not_authorized": "You are not authorized to display the session details",
-      "not_authorize": "You are not authorized to perform this action"
+      "not_authorize": "You are not authorized to perform this action",
+      "ocpp_parameters_should_not_be_empty": "OCPP Parameter key and value should not be empty",
+      "ocpp_parameters_change_title": "OCPP Parameter Error"
     },
     "reboot_confirm": "Do you really want to reboot the charging station '{{chargeBoxID}}'?",
     "reboot_success": "The charging station '{{chargeBoxID}}' has been rebooted successfully",

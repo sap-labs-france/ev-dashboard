@@ -15,7 +15,7 @@ import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell
 export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource extends EditableTableDataSource<Schedule> {
   public startDate!: Date;
   public endDate!: Date;
-  public charger!: ChargingStation;
+  public chargingStation!: ChargingStation;
   private chargerPowers!: ChargingStationPowers;
 
   constructor(
@@ -83,10 +83,10 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     return tableColumnDef;
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.charger = charger;
-    this.tableColumnDefs[3].additionalParameters = { charger };
-    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
+  public setChargingStation(chargingStation: ChargingStation) {
+    this.chargingStation = chargingStation;
+    this.tableColumnDefs[3].additionalParameters = { chargingStation };
+    this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, undefined, true);
   }
 
   public refreshChargingSchedules() {
@@ -102,7 +102,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
             chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         }
         // Update the limit in kW
-        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSchedules[i].limit) / 1000);
+        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.chargingStation, chargingSchedules[i].limit) / 1000);
         chargingSchedules[i].endDate =
           new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         // Add
@@ -115,7 +115,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       duration: 60,
-      limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
+      limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.chargingStation, this.chargerPowers.maxAmp) / 1000),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,

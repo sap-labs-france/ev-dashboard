@@ -7,7 +7,7 @@ import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { FilterParams } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import ChangeNotification from '../../types/ChangeNotification';

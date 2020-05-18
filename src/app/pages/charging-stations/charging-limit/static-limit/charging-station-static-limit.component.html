@@ -1,33 +1,33 @@
 <div class="main-content">
-  <div class="row" *ngIf="charger.inactive">
-    <div class="col-md-12 text-left charging-station-inactive mb-5">
+  <div class="row" *ngIf="chargingStation.inactive">
+    <div class="col-md-12 text-left charging-station-inactive mb-3">
       {{"chargers.smart_charging.charging_station_inactive" | translate }}
     </div>
   </div>
-  <div class="row" *ngIf="!charger.inactive && isSmartChargingComponentActive && charger.siteArea.smartCharging">
-    <div class="col-md-12 text-left smart-charging-active-warn mb-5">
+  <div class="row" *ngIf="!chargingStation.inactive && isSmartChargingComponentActive && chargingStation.siteArea.smartCharging">
+    <div class="col-md-12 text-left smart-charging-active-warn mb-3">
       {{"chargers.smart_charging.smart_charging_enabled_static_limitation" | translate }}
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group mt-4">
     <div class="card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
           <mat-icon>vertical_align_bottom</mat-icon>
         </div>
         <h3 class="card-title text-left">
-          {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: charger.id} }}
+          {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: chargingStation.id} }}
         </h3>
       </div>
       <div class="card-body">
         <div class="row col-md-12 pt-3">
-          <app-charging-station-power-slider class="col-md-12" [charger]="charger"
+          <app-charging-station-power-slider class="col-md-12" [chargingStation]="chargingStation"
             (silderChanged)="powerSliderChanged($event)">
           </app-charging-station-power-slider>
         </div>
         <div class="col-md-12 text-right">
           <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm()"
-            [disabled]="charger.inactive || this.ampInitialLimit === this.ampCurrentLimit || (isSmartChargingComponentActive && charger.siteArea.smartCharging)">
+            [disabled]="chargingStation.inactive || this.ampInitialLimit === this.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
             <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
           </button>
         </div>

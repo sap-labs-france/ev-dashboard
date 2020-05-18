@@ -157,6 +157,22 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
+  public saveAssetConnectionSettings(settings: AssetSettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: TenantComponents.ASSET,
+      sensitiveData: [],
+      content: JSON.parse(JSON.stringify(settings)),
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    // Save
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
   public saveSacSettings(settings: AnalyticsSettings): Observable<ActionResponse> {
     // build setting payload
     const settingsToSave = {

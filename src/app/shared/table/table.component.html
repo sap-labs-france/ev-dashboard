@@ -298,11 +298,11 @@
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                     [name]="tableColumnDef.id"
                     class="form-control text-line"
-                    [class.table-warning]="(dataSource.formArray?.dirty || dataSource.formArray?.touched) && row[tableColumnDef.id + 'FormControl']?.errors"
+                    [class.table-warning]="(row[tableColumnDef.id + 'FormControl']?.dirty || row[tableColumnDef.id + 'FormControl']?.touched) && row[tableColumnDef.id + 'FormControl']?.errors"
                     [placeholder]="tableColumnDef.name | translate"
                     [ngModel]="row[tableColumnDef.id]" [disabled]="row[tableColumnDef.id + 'FormControl']?.disabled"
                     (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)"
-                    (blur)="dataSource.formArray?.markAsDirty()"
+                    (blur)="row[tableColumnDef.id + 'FormControl']?.markAsDirty()"
                     type="text">
                   <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
                     [(ngModel)]="row[tableColumnDef.id]"
@@ -317,7 +317,7 @@
                   <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center"
                     [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                   </span>
-                  <ng-container *ngIf="!dataSource.tableDef.hasPristineFormAtLoad || dataSource.formArray?.dirty || dataSource.formArray?.touched">
+                  <ng-container *ngIf="!dataSource.tableDef.hasPristineFormAtLoad || row[tableColumnDef.id + 'FormControl']?.dirty || row[tableColumnDef.id + 'FormControl']?.touched">
                     <mat-error *ngIf="row[tableColumnDef.id + 'FormControl']?.errors as errors">
                       <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
                         <div class="table-mat-error text-left" *ngIf="errors ? errors[error.id] : false"

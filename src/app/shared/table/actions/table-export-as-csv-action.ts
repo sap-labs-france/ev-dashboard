@@ -5,7 +5,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import saveAs from 'file-saver';
+import * as FileSAver from 'file-saver';
 
 import { TableAction } from './table-action';
 

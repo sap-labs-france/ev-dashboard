@@ -7,8 +7,10 @@
           <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
-          <div class="card-body" *ngIf="chargingStation?.capabilities?.supportStaticLimitationForChargingStation || chargingStation?.capabilities?.supportStaticLimitationPerConnector; else notSupported">
-            <app-charging-station-static-limit [chargingStation]="chargingStation"></app-charging-station-static-limit>
+          <div class="card-body row" *ngIf="chargingStation?.capabilities?.supportStaticLimitationForChargingStation || chargingStation?.capabilities?.supportStaticLimitationPerConnector; else notSupported">
+            <div class="col-md-6">
+              <app-charging-station-static-limit [chargingStation]="chargingStation"></app-charging-station-static-limit>
+            </div>
           </div>
           <ng-template #notSupported>
             <div class="card-body feature-not-supported">

@@ -1,4 +1,3 @@
-// tslint:disable-next-line:max-line-length
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';

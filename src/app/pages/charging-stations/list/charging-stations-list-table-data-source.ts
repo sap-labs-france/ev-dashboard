@@ -30,7 +30,7 @@ import { ChargingStationsConnectorsCellComponent } from '../cell-components/char
 import { ChargingStationsFirmwareStatusCellComponent } from '../cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
-import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
+import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { TableChargingStationsClearCacheAction } from '../table-actions/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction } from '../table-actions/table-charging-stations-force-available-status-action';
@@ -352,7 +352,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(() => {
         this.refreshData().subscribe();
       });

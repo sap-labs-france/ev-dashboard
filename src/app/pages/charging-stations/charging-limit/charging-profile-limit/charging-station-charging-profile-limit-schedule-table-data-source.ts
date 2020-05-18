@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
-  public charger!: ChargingStation;
+  public chargingStation!: ChargingStation;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -75,7 +75,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         name: 'chargers.smart_charging.limit_title',
         headerClass: 'col-50p',
         class: 'col-45p',
-        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.charger, this.unitPipe, value, 'kW', true, 3)}
+        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.chargingStation, this.unitPipe, value, 'kW', true, 3)}
         ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: value} )}`
       },
     ];
@@ -102,7 +102,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     this.schedules = schedules;
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.charger = charger;
+  public setChargingStation(chargingStation: ChargingStation) {
+    this.chargingStation = chargingStation;
   }
 }

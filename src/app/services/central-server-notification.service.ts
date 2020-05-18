@@ -119,12 +119,12 @@ export class CentralServerNotificationService {
     return this.subjectOcpiEndpoints.asObservable();
   }
 
-  public getSubjectAnalyticsLinks(): Observable<ChangeNotification> {
-    return this.subjectAnalyticsLinks.asObservable();
-  }
-
   public getSubjectOcpiEndpoint(): Observable<SingleChangeNotification> {
     return this.subjectOcpiEndpoint.asObservable();
+  }
+
+  public getSubjectAnalyticsLinks(): Observable<ChangeNotification> {
+    return this.subjectAnalyticsLinks.asObservable();
   }
 
   public getSubjectAssets(): Observable<ChangeNotification> {
@@ -214,6 +214,18 @@ export class CentralServerNotificationService {
     this.socket.on(Entity.TENANT, (singleChangeNotification: SingleChangeNotification) => {
       // Notify
       this.subjectTenant.next(singleChangeNotification);
+    });
+
+    // Monitor OCPI Endpoints
+    this.socket.on(Entity.OCPI_ENDPOINTS, (changeNotification: ChangeNotification) => {
+      // Notify
+      this.subjectOcpiEndpoints.next(changeNotification);
+    });
+
+    // Monitor OCPI Endpoint
+    this.socket.on(Entity.OCPI_ENDPOINT, (singleChangeNotification: SingleChangeNotification) => {
+      // Notify
+      this.subjectOcpiEndpoint.next(singleChangeNotification);
     });
 
     // Monitor Sites

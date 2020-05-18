@@ -11,7 +11,7 @@ import { OcppParameter } from 'app/types/ChargingStation';
     <ng-container *ngIf="row.id === customOcppParameterRowID">
     <input id="key" name="key" class="form-control text-line"
       [class.table-warning]="key.invalid && (key.dirty || key.touched)"
-      required [placeholder]="'chargers.charger_param_key' | translate"
+      required maxlength="50" [placeholder]="'chargers.charger_param_key' | translate"
       [ngModel]="row['key']" #key="ngModel" (ngModelChange)= "valueChanged($event)"
       type="text">
     <mat-error *ngIf="key.invalid && (key.dirty || key.touched)"

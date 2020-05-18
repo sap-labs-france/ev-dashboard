@@ -2,10 +2,21 @@
   {{'transactions.graph.no_consumption' | translate}}
 </div>
 <div [hidden]="transaction?.values?.length === 0">
-  <div class="mt-2">
-    <mat-checkbox class="mx-auto" (change)="changeLoadAllConsumptions($event)" >
-      {{'transactions.graph.load_all_consumptions' | translate}}
-    </mat-checkbox>
+  <div class="row mt-2">
+    <div class="col-auto mr-auto">
+      <mat-checkbox class="mx-auto" (change)="changeLoadAllConsumptions($event)">
+        {{'transactions.graph.load_all_consumptions' | translate}}
+      </mat-checkbox>
+    </div>
+    <div class="col-auto">
+      <div class="btn-group mat-button-group mr-2">
+        <button mat-raised-button *ngFor="let unit of unitMap" (click)="unitChanged(unit.key)" [color]="'primary'"
+          appTooltip [class.selected-button]="activeUnitButtonGroup && (activeUnitButtonGroup.key === unit.key)"
+          [class.inactive-button]="unit.inactive" [title]="unit.description | translate">
+          <span>{{unit.description | translate}}</span>
+        </button>
+      </div>
+    </div>
   </div>
   <div class="chart-container mt-2">
     <div #primary class='chart-primary'></div>
@@ -16,4 +27,3 @@
     <canvas #chart></canvas>
   </div>
 </div>
-

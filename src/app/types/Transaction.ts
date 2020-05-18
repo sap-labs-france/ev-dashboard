@@ -51,11 +51,13 @@ export interface Transaction extends Data {
 export interface ConsumptionValue {
   date: Date;
   instantPower: number;
+  instantAmps: number;
   cumulatedConsumption: number;
   stateOfCharge: number;
   cumulatedAmount: number;
   currencyCode: string;
   limitWatts: number;
+  limitAmps: number;
 }
 
 export enum InactivityStatus {
@@ -73,4 +75,9 @@ export enum TransactionButtonAction {
   EXPORT_TRANSACTIONS = 'export_transactions',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
+}
+
+export enum ConsumptionUnit {
+  AMPERE = 'A',
+  KILOWATT = 'kW',
 }

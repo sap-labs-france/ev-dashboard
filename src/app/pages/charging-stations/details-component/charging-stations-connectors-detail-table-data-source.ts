@@ -37,7 +37,6 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   public noAction = new TableNoAction().getActionDef();
 
   private chargingStation!: ChargingStation;
-  private dialogRefSession!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
     public spinnerService: SpinnerService,

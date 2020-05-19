@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.55',
-        date: new Date('2020-05-18'),
+        version: '2.2.56',
+        date: new Date('2020-05-20'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed auto-refresh handling when user is already logged in`,
+              `Fixed Charging Station's token not always accepted`,
               `Fixed Charging Limitation pop-up not closing`,
               `Enhanced auto-refresh of lists when data is changing in database`,
               `Fixed CSS in save pop-up`,

@@ -1,9 +1,12 @@
+import { JsonPipe } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { ConsumptionChartDetailComponent } from 'app/shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { SiteAreaConsumption } from 'app/types/SiteArea';
+import { ConsumptionUnit } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
@@ -12,6 +15,12 @@ import { CentralServerService } from '../../../../../services/central-server.ser
 import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
+
+export interface UnitButtonGroup {
+  key: string;
+  description: string;
+  inactive: boolean;
+}
 
 @Component({
   selector: 'app-site-area-chart',
@@ -25,6 +34,13 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
+
+  public unitMap: UnitButtonGroup[] = [
+    { key: ConsumptionUnit.KILOWATT, description: 'transactions.graph.unit_kilowatts', inactive: false },
+    { key: ConsumptionUnit.AMPERE, description: 'transactions.graph.unit_amperage', inactive: false }
+  ];
+
+  public activeUnitButtonGroup: UnitButtonGroup = this.unitMap[0];
 
   public dateControl!: AbstractControl;
 
@@ -60,9 +76,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   public ngOnInit() {
     // Date control
     this.dateControl = new FormControl('dateControl',
-    Validators.compose([
-      Validators.required,
-    ]));
+      Validators.compose([
+        Validators.required,
+      ]));
     this.dateControl.setValue(this.startDate);
   }
 
@@ -91,11 +107,23 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       });
   }
 
+  public unitChanged(key: ConsumptionUnit) {
+    const index = this.unitMap.findIndex((element) => element.key === key);
+    if (index >= 0 &&
+      this.activeUnitButtonGroup.key !== key &&
+      this.unitMap[index].inactive === false) {
+      this.activeUnitButtonGroup = this.unitMap[index];
+    }
+    this.createGraphData();
+    this.refresh();
+    console.log(this.chart.options.scales.yAxes);
+  }
+
   public dateFilterChanged(value: Date) {
     if (value) {
-    this.startDate = moment(value).startOf('d').toDate();
-    this.endDate = moment(value).endOf('d').toDate();
-    this.refresh();
+      this.startDate = moment(value).startOf('d').toDate();
+      this.endDate = moment(value).endOf('d').toDate();
+      this.refresh();
     }
   }
 
@@ -124,32 +152,62 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
-      datasets.push({
-        name: 'instantPower',
-        type: 'line',
-        data: [],
-        yAxisID: 'power',
-        lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.instantPowerColor),
-        label: this.translateService.instant('organization.graph.power'),
-      });
-      this.options.scales.yAxes.push({
-        id: 'power',
-        ticks: {
-          callback: (value: number) => value / 1000.0,
-          min: 0,
-        },
-      });
-      datasets.push({
-        name: 'limitWatts',
-        type: 'line',
-        data: [],
-        hidden: true,
-        yAxisID: 'power',
-        lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.limitColor),
-        label: this.translateService.instant('organization.graph.limit_watts'),
-      });
+      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+        datasets.push({
+          name: 'instantAmps',
+          type: 'line',
+          data: [],
+          yAxisID: 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantPowerColor),
+          label: this.translateService.instant('transactions.graph.amps'),
+        });
+        this.options.scales.yAxes.push({
+          id: 'power',
+          ticks: {
+            callback: (value: number) => this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ? value : value / 1000,
+            min: 0,
+          },
+        });
+        datasets.push({
+          name: 'limitAmps',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.limitColor),
+          label: this.translateService.instant('transactions.graph.limit_amps'),
+        });
+
+      } else {
+        datasets.push({
+          name: 'instantPower',
+          type: 'line',
+          data: [],
+          yAxisID: 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantPowerColor),
+          label: this.translateService.instant('organization.graph.power'),
+        });
+        this.options.scales.yAxes.push({
+          id: 'power',
+          ticks: {
+            callback: (value: number) => this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ? value : value / 1000,
+            min: 0,
+          },
+        });
+        datasets.push({
+          name: 'limitWatts',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.limitColor),
+          label: this.translateService.instant('organization.graph.limit_watts'),
+        });
+      }
       // Assign
       this.data.labels = [];
       this.data.datasets = datasets;
@@ -174,16 +232,30 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.data.datasets[key].data = [];
       }
       const instantPowerDataSet = this.getDataSet('instantPower');
+      const instantAmpsDataSet = this.getDataSet('instantAmps');
       const limitWattsDataSet = this.getDataSet('limitWatts');
+      const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
       for (const consumption of this.siteAreaConsumption.values) {
         labels.push(new Date(consumption.date).getTime());
-        instantPowerDataSet.push(consumption.instantPower);
+        if (instantPowerDataSet) {
+          instantPowerDataSet.push(consumption.instantPower);
+        }
+        if (instantAmpsDataSet) {
+          instantAmpsDataSet.push(consumption.instantAmps);
+        }
         if (limitWattsDataSet) {
           if (consumption.limitWatts) {
             limitWattsDataSet.push(consumption.limitWatts);
           } else {
             limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
+          }
+        }
+        if (limitAmpsDataSet) {
+          if (consumption.limitAmps) {
+            limitAmpsDataSet.push(consumption.limitAmps);
+          } else {
+            limitAmpsDataSet.push(limitAmpsDataSet.length > 0 ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
           }
         }
       }
@@ -227,8 +299,12 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantPower':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
+                  case 'instantAmps':
+                    return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'A';
                   case 'limitWatts':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
+                  case 'limitAmps':
+                    return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'A';
                   default:
                     return value + '';
                 }
@@ -285,7 +361,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             ticks: {
               beginAtZero: true,
               callback: (value: number) => {
-                const result = this.decimalPipe.transform(value / 1000, '1.0-0');
+                const result = this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ?
+                this.decimalPipe.transform(value, '1.0-0') : this.decimalPipe.transform(value / 1000, '1.0-0');
                 return result ? parseFloat(result) : 0;
               },
               fontColor: this.defaultColor,

@@ -1,14 +1,25 @@
-<div class="w-25 mt-3 ml-2">
-  <mat-form-field>
-    <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-    </mat-datetimepicker>
-    <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
-    <input matInput placeholder="{{'site_areas.consumption_date' | translate}}" required
-      (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="picker"
-      [formControl]="dateControl" autocomplete="false">
-    <mat-error *ngIf="dateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
-    </mat-error>
-  </mat-form-field>
+<div class="row mt-2">
+  <div class="col-auto mr-auto">
+    <mat-form-field>
+      <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
+      </mat-datetimepicker>
+      <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
+      <input matInput placeholder="{{'site_areas.consumption_date' | translate}}" required
+        (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="picker"
+        [formControl]="dateControl" autocomplete="false">
+      <mat-error *ngIf="dateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-auto" [hidden]="siteAreaConsumption?.values?.length === 0">
+    <div class="btn-group mat-button-group mr-2">
+      <button mat-raised-button *ngFor="let unit of unitMap" (click)="unitChanged(unit.key)" [color]="'primary'"
+        appTooltip [class.selected-button]="activeUnitButtonGroup && (activeUnitButtonGroup.key === unit.key)"
+        [class.inactive-button]="unit.inactive" [title]="unit.description | translate">
+        <span>{{unit.description | translate}}</span>
+      </button>
+    </div>
+  </div>
 </div>
 <div *ngIf="siteAreaConsumption?.values?.length === 0" class="graph-no-consumption">
   {{'organization.graph.no_consumption' | translate}}

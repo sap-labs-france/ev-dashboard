@@ -5,15 +5,32 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 
+export interface UnitButtonGroup {
+  key: string;
+  description: string;
+  inactive: boolean;
+}
+
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
+    <div class="col-auto mt-2">
+      <div class="btn-group mat-button-group mr-2">
+        <button mat-raised-button *ngFor="let unit of unitMap" (click)="unitChanged(unit.key)" [color]="'primary'"
+          appTooltip [class.selected-button]="activeUnitButtonGroup && (activeUnitButtonGroup.key === unit.key)"
+          [class.inactive-button]="unit.inactive" [title]="unit.description | translate">
+          <span>{{unit.description | translate}}</span>
+        </button>
+      </div>
+    </div>
     <div class="chart-container" style="position: relative; height:27vh;">
       <div #primary class='chart-primary'></div>
       <div #danger class='chart-danger'></div>
@@ -31,6 +48,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
 
+  public unitMap: UnitButtonGroup[] = [
+    { key: ConsumptionUnit.KILOWATT, description: 'transactions.graph.unit_kilowatts', inactive: false },
+    { key: ConsumptionUnit.AMPERE, description: 'transactions.graph.unit_amperage', inactive: false }
+  ];
+  public activeUnitButtonGroup: UnitButtonGroup = this.unitMap[0];
 
   private graphCreated = false;
   private chart!: Chart;
@@ -63,6 +85,16 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private getStyleColor(element: Element): string {
     const style = getComputedStyle(element);
     return style && style.color ? style.color : '';
+  }
+
+  public unitChanged(key: ConsumptionUnit) {
+    const index = this.unitMap.findIndex((element) => element.key === key);
+    if (index >= 0 &&
+      this.activeUnitButtonGroup.key !== key &&
+      this.unitMap[index].inactive === false) {
+      this.activeUnitButtonGroup = this.unitMap[index];
+    }
+    this.prepareAndCreateGraphData();
   }
 
   private prepareOrUpdateGraph() {
@@ -130,6 +162,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           y: chargingSlot.limitInkW,
         } as number & ChartPoint);
       }
+      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+        chargingSlotDataSet.data.forEach((chartPoint) => chartPoint.y = ChargingStations.convertWattToAmp(
+          this.charger.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
+      }
       // Push in the graph
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
@@ -160,6 +196,10 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           x: (chargingSlotDataSet.data[chargingSlotDataSet.data.length - 1] as ChartPoint).x,
           y: chargingStationPowers.currentWatt / 1000,
         } as number & ChartPoint);
+      }
+      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+        limitDataSet.data.forEach((chartPoint) => chartPoint.y = ChargingStations.convertWattToAmp(
+          this.charger.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
       }
       // Push in the graph
       datasets.push(limitDataSet);
@@ -205,6 +245,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
                 const chartPoint = dataSet.data[tooltipItem.index] as ChartPoint;
                 if (chartPoint) {
                   const value = chartPoint.y as number;
+                  if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  }
                   return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';
                 }
               }

@@ -301,7 +301,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public toggleNotificationsActive() {
-    // reset notifications ?
+    // Reset notifications ?
   }
 
   public setCurrentUserId(currentUserID: string) {

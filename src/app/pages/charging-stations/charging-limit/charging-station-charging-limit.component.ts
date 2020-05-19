@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-
-import { ChargingStation } from 'app/types/ChargingStation';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ChargingStation } from 'app/types/ChargingStation';
 
 @Component({
   selector: 'app-charging-station-charging-limit',

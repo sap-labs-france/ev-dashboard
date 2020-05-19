@@ -1,14 +1,13 @@
-import { CarCatalog, ChargeStandardTable } from 'app/types/Car';
-import { TableColumnDef, TableDef } from 'app/types/Table';
-
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { DataResult } from 'app/types/DataResult';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SpinnerService } from 'app/services/spinner.service';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TranslateService } from '@ngx-translate/core';
+import { CarCatalog, ChargeStandardTable } from 'app/types/Car';
+import { DataResult } from 'app/types/DataResult';
+import { TableColumnDef, TableDef } from 'app/types/Table';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeStandardTable> {
@@ -35,7 +34,7 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeSt
 
   public setCar(carCatalog: CarCatalog) {
     this.carCatalog = carCatalog;
-    this.getManualDataChangeSubject().next();
+    this.refreshData(false).subscribe();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargeStandardTable>> {

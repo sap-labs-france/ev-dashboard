@@ -19,7 +19,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
@@ -60,7 +59,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       private appUserRolePipe: AppUserRolePipe,
-      private appUserNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
     super(spinnerService, translateService);

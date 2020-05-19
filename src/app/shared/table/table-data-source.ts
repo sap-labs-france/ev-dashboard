@@ -1,18 +1,18 @@
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { DataResult, Ordering, Paging } from 'app/types/DataResult';
-import { Observable, Subject, of } from 'rxjs';
-
-import ChangeNotification from '../../types/ChangeNotification';
-import { Constants } from '../../utils/Constants';
-import { FilterParams } from 'app/types/GlobalType';
 import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult, Ordering, Paging } from 'app/types/DataResult';
+import { FilterParams } from 'app/types/GlobalType';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
+import ChangeNotification from '../../types/ChangeNotification';
+import { Constants } from '../../utils/Constants';
+import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
@@ -41,7 +41,6 @@ export abstract class TableDataSource<T extends Data> {
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
   public multipleRowSelection!: boolean;
-  private manualRefreshSubject = new Subject<void>();
   private loadingNumberOfRecords = false;
   private searchValue = '';
   private staticFilters: object[] = [];
@@ -50,10 +49,6 @@ export abstract class TableDataSource<T extends Data> {
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     public additionalParameters?: any) {
-  }
-
-  public getManualDataChangeSubject(): Subject<void> {
-    return this.manualRefreshSubject;
   }
 
   public isRowSelectionEnabled(): boolean {

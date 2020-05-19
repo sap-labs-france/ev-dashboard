@@ -119,12 +119,12 @@ export class CentralServerNotificationService {
     return this.subjectOcpiEndpoints.asObservable();
   }
 
-  public getSubjectAnalyticsLinks(): Observable<ChangeNotification> {
-    return this.subjectAnalyticsLinks.asObservable();
-  }
-
   public getSubjectOcpiEndpoint(): Observable<SingleChangeNotification> {
     return this.subjectOcpiEndpoint.asObservable();
+  }
+
+  public getSubjectAnalyticsLinks(): Observable<ChangeNotification> {
+    return this.subjectAnalyticsLinks.asObservable();
   }
 
   public getSubjectAssets(): Observable<ChangeNotification> {
@@ -216,6 +216,18 @@ export class CentralServerNotificationService {
       this.subjectTenant.next(singleChangeNotification);
     });
 
+    // Monitor OCPI Endpoints
+    this.socket.on(Entity.OCPI_ENDPOINTS, (changeNotification: ChangeNotification) => {
+      // Notify
+      this.subjectOcpiEndpoints.next(changeNotification);
+    });
+
+    // Monitor OCPI Endpoint
+    this.socket.on(Entity.OCPI_ENDPOINT, (singleChangeNotification: SingleChangeNotification) => {
+      // Notify
+      this.subjectOcpiEndpoint.next(singleChangeNotification);
+    });
+
     // Monitor Sites
     this.socket.on(Entity.SITES, (changeNotification: ChangeNotification) => {
       // Notify
@@ -298,19 +310,49 @@ export class CentralServerNotificationService {
       this.subjectRegistrationTokens.next(changeNotification);
     });
 
-     // Monitor Registration Token
+    // Monitor Registration Token
     this.socket.on(Entity.REGISTRATION_TOKEN, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectRegistrationToken.next(singleChangeNotification);
     });
 
-     // Monitor Invoices
+    // Monitor Invoices
     this.socket.on(Entity.INVOICES, (changeNotification: ChangeNotification) => {
       this.subjectInvoices.next(changeNotification);
     });
 
-     // Monitor Invoice
+    // Monitor Invoice
     this.socket.on(Entity.INVOICE, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectInvoice.next(singleChangeNotification);
+    });
+
+    // Monitor Charging Profiles
+    this.socket.on(Entity.CHARGING_PROFILES, (changeNotification: ChangeNotification) => {
+      this.subjectChargingProfiles.next(changeNotification);
+    });
+
+    // Monitor Charging Profile
+    this.socket.on(Entity.CHARGING_PROFILE, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectChargingProfile.next(singleChangeNotification);
+    });
+
+    // Monitor Cars
+    this.socket.on(Entity.CARS, (changeNotification: ChangeNotification) => {
+      this.subjectCars.next(changeNotification);
+    });
+
+    // Monitor Car
+    this.socket.on(Entity.CAR, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectCar.next(singleChangeNotification);
+    });
+
+    // Monitor Car Catalogs
+    this.socket.on(Entity.CAR_CATALOGS, (changeNotification: ChangeNotification) => {
+      this.subjectCars.next(changeNotification);
+    });
+
+    // Monitor Car Catalog
+    this.socket.on(Entity.CAR_CATALOG, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectCar.next(singleChangeNotification);
     });
   }
 

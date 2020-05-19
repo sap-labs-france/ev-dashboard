@@ -182,11 +182,13 @@ export class CentralServerNotificationService {
       this.socket = io(this.centralRestServerServiceURL, {
         query: 'token=' + token,
       });
-    } else {
+    } else if (this.socket.disconnected) {
       // Connect Socket IO
       this.socket.connect();
     }
     // Temporary debug log
+    this.socket.on('connect_timeout', () => { console.log(`SocketIO client connection timeout`); });
+    this.socket.on('connect_error', (error) => { console.log(`SocketIO client connect error: ${error}`); });
     this.socket.on('reconnecting', (attempt) => { console.log(`SocketIO client #${attempt} try to reconnect`); });
     this.socket.on('reconnect_error', (error) => { console.log(`SocketIO client reconnect error: ${error}`); });
     this.monitorChangeNotification();

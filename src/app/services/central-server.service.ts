@@ -1588,8 +1588,6 @@ export class CentralServerService {
   }
 
   public getLoggedUser(): UserToken {
-    // Verify init
-    this.checkInit();
     this.getLoggedUserFromToken();
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;

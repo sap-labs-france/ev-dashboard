@@ -16,8 +16,8 @@
         <div class="form-group">
           <mat-form-field>
             <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-                class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!issuer" required/>
-            <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="!isAdmin || !issuer">
+              class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [disabled]="!issuer" required/>
+            <button mat-button matSuffix mat-icon-button aria-label="Add" [hidden]="!isAdmin || !issuer">
               <mat-icon>create</mat-icon>
             </button>
             <mat-error *ngIf="siteArea.errors?.required">

@@ -17,6 +17,7 @@ export class RegistrationTokenStatusComponent extends CellContentTemplateDirecti
   @Input() public row!: RegistrationToken;
 }
 
+// tslint:disable-next-line: max-classes-per-file
 @Pipe({name: 'appRegistrationTokenStatus'})
 export class AppRegistrationTokenStatusPipe implements PipeTransform {
   public transform(registrationToken: RegistrationToken, type: string): string {

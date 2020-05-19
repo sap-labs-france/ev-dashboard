@@ -1,12 +1,12 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AssetConnectionSetting, AssetConnectionType, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
 import { Component, Input, OnInit } from '@angular/core';
-
-import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
-import { Constants } from 'app/utils/Constants';
-import { KeyValue } from 'app/types/GlobalType';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { KeyValue } from 'app/types/GlobalType';
+import { AssetConnectionSetting, AssetConnectionType, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { Constants } from 'app/utils/Constants';
+
+import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
 @Component({
   selector: 'app-settings-asset-connection',
@@ -65,19 +65,6 @@ export class AssetConnectionComponent implements OnInit {
     this.url = this.formGroup.controls['url'];
     // Load current values if connection already exists
     this.loadAssetConnection();
-    // Listen to escape key
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // Check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.cancel();
-      }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
-        if (this.formGroup.valid && this.formGroup.dirty) {
-          // tslint:disable-next-line: no-unsafe-any
-          this.setConnectionAndClose(this.formGroup.value);
-        }
-      }
-    });
     // Get Create/Update button translation
     this.submitButtonTranslation = this.getSubmitButtonTranslation();
   }

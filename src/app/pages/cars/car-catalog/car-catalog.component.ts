@@ -35,16 +35,7 @@ export class CarCatalogComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // Load
     this.loadCar();
-  }
-
-  public closeDialog() {
-    this.dialogRef.close();
-  }
-
-  public onClose() {
-    this.closeDialog();
   }
 
   public loadCar() {

@@ -1,10 +1,15 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Data, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
-import { ChargingStation, ChargingStationCurrentType, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import { CarCatalog } from 'app/types/Car';
+import { ChargingStation, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
+import { ButtonType } from 'app/types/Table';
 import { User } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
@@ -19,6 +24,71 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static registerCloseKeyEvents(dialogRef: MatDialogRef<any>) {
+    // listen to keystroke
+    dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        dialogRef.close();
+      }
+    });
+  }
+
+  public static registerValidateCloseKeyEvents(dialogRef: MatDialogRef<any>,
+     validate: () => void, close: () => void) {
+    // listen to keystroke
+    dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        dialogRef.close();
+      }
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        validate();
+      }
+    });
+  }
+
+  public static registerSaveCloseKeyEvents(dialogRef: MatDialogRef<any>, formGroup: FormGroup,
+      save: (data: Data) => void, close: () => void) {
+    // listen to keystroke
+    dialogRef.keydownEvents().subscribe((keydownEvents) => {
+      if (keydownEvents && keydownEvents.code === 'Escape') {
+        close();
+      }
+      if (keydownEvents && keydownEvents.code === 'Enter') {
+        if (formGroup.valid && formGroup.dirty) {
+          // tslint:disable-next-line: no-unsafe-any
+          save(formGroup.getRawValue());
+        }
+      }
+    });
+  }
+
+  public static checkAndSaveAndCloseDialog(formGroup: FormGroup, dialogService: DialogService,
+      translateService: TranslateService, save: (data: Data) => void, closeDialog: (saved: boolean) => void) {
+    if (formGroup.invalid && formGroup.dirty) {
+      dialogService.createAndShowInvalidChangeCloseDialog(
+        translateService.instant('general.change_invalid_pending_title'),
+        translateService.instant('general.change_invalid_pending_text'),
+      ).subscribe((result) => {
+        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
+          closeDialog(false);
+        }
+      });
+    } else if (formGroup.dirty) {
+      dialogService.createAndShowDirtyChangeCloseDialog(
+        translateService.instant('general.change_pending_title'),
+        translateService.instant('general.change_pending_text'),
+      ).subscribe((result) => {
+        if (result === ButtonType.SAVE_AND_CLOSE) {
+          save(formGroup.getRawValue());
+        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
+          closeDialog(false);
+        }
+      });
+    } else {
+      closeDialog(false);
+    }
   }
 
   public static containsAddressGPSCoordinates(address: Address): boolean {
@@ -205,6 +275,21 @@ export class Utils {
       fullName = user.name;
     }
     return fullName;
+  }
+
+  public static buildCarName(carCatalog: CarCatalog) {
+    let carName: string;
+    if (!carCatalog) {
+      return '######';
+    }
+    carName = carCatalog.vehicleMake;
+    if (carCatalog.vehicleModel) {
+      carName += ` ${carCatalog.vehicleModel}`;
+    }
+    if (carCatalog.vehicleModelVersion) {
+      carName += ` ${carCatalog.vehicleModelVersion}`;
+    }
+    return carName;
   }
 
   public static getMobileVendor(): MobileType|null {

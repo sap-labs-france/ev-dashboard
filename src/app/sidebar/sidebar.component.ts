@@ -31,8 +31,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public isAdmin = false;
   public canEditProfile = false;
-  private toggleButton: any;
-  private sidebarVisible!: boolean;
+  private toggleButton: HTMLElement;
   private userSubscription!: Subscription;
 
   constructor(
@@ -84,8 +83,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    // Subscribe to user's change
-    this.userSubscription.unsubscribe();
+    if (this.userSubscription) {
+      // Unsubscribe to user's change
+      this.userSubscription.unsubscribe();
+    }
+    this.userSubscription = null;
   }
 
   public refreshUser() {

@@ -23,7 +23,6 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
-import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -58,7 +57,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
-    private appPercentPipe: AppPercentPipe,
     private appUnitPipe: AppUnitPipe,
     private appBatteryPercentagePipe: AppBatteryPercentagePipe,
     private appUserNamePipe: AppUserNamePipe,

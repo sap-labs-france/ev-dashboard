@@ -21,11 +21,11 @@
                       </a>
                     </li>
                     <span class="toolbar-spacer"></span>
-                    <button mat-button (click)="save(formGroup.value)"
+                    <button mat-button (click)="saveTenant(formGroup.value)"
                       [disabled]="!formGroup.valid || !formGroup.dirty">
                       <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
                     </button>
-                    <button mat-icon-button mat-dialog-close>
+                    <button mat-icon-button *ngIf="inDialog" (click)="close()">
                       <mat-icon>close</mat-icon>
                     </button>
                   </ul>

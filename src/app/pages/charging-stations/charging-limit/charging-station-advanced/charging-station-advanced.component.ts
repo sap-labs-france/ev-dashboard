@@ -1,4 +1,3 @@
-// tslint:disable-next-line:max-line-length
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,7 +15,7 @@ import { Utils } from 'app/utils/Utils';
 })
 @Injectable()
 export class ChargingStationAdvancedComponent implements OnInit {
-  @Input() public charger!: ChargingStation;
+  @Input() public chargingStation!: ChargingStation;
 
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;
@@ -35,7 +34,7 @@ export class ChargingStationAdvancedComponent implements OnInit {
 
   public ngOnInit() {
     // Set
-    for (const connector of this.charger.connectors) {
+    for (const connector of this.chargingStation.connectors) {
       this.connectorIds.push(connector.connectorId as unknown as string);
     }
     this.connectorIds.push(this.translateService.instant('chargers.smart_charging.connectors_all') as string);
@@ -57,7 +56,7 @@ export class ChargingStationAdvancedComponent implements OnInit {
   }
 
   public getChargingProfilesForConnector() {
-    if (!this.charger) {
+    if (!this.chargingStation) {
       return;
     }
     this.spinnerService.show();
@@ -69,8 +68,8 @@ export class ChargingStationAdvancedComponent implements OnInit {
     // Duration
     const durationSecs = this.durationControl.value as number * 60;
     this.centralServerService.getChargingStationCompositeSchedule(
-      this.charger.id, connectorID, durationSecs,
-      this.charger.powerLimitUnit).subscribe((chargingSchedule) => {
+      this.chargingStation.id, connectorID, durationSecs,
+      this.chargingStation.powerLimitUnit).subscribe((chargingSchedule) => {
         this.scheduleResult = chargingSchedule;
         this.spinnerService.hide();
         this.formGroup.markAsPristine();

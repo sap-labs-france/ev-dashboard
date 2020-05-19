@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 
 import ChangeNotification from '../types/ChangeNotification';
 import SingleChangeNotification from '../types/SingleChangeNotification';
-import SocketIOClient from './socket.io-client.service';
+import SocketIOClient from '../utils/SocketIOClient';
 
 @Injectable()
 export class CentralServerNotificationService {

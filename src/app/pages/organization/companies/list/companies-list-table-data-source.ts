@@ -130,9 +130,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         new TableCreateCompanyAction().getActionDef(),
         ...tableActionsDef,
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {

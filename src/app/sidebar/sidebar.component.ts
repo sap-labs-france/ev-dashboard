@@ -31,8 +31,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public isAdmin = false;
   public canEditProfile = false;
-  private toggleButton: any;
-  private sidebarVisible!: boolean;
+  private toggleButton: HTMLElement;
   private userSubscription!: Subscription;
 
   constructor(

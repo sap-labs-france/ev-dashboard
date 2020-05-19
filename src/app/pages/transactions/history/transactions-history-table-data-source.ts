@@ -288,9 +288,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         new TableExportTransactionsAction().getActionDef(),
         ...tableActionsDef,
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

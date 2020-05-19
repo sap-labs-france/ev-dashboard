@@ -44,7 +44,6 @@ import { TableViewTransactionAction } from '../table-actions/table-view-transact
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private isSiteAdmin = false;
-  private dialogRefSession: any;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
@@ -301,7 +300,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   protected deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success',
           { user: this.appUserNamePipe.transform(transaction.user) }));
       this.refreshData().subscribe();

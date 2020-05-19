@@ -1,14 +1,12 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-// tslint:disable-next-line:max-line-length
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
-import { MessageService } from 'app/services/message.service';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
 @Component({

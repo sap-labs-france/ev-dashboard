@@ -1499,8 +1499,6 @@ export class CentralServerService {
   }
 
   public loginSucceeded(token: string): void {
-    // Verify init
-    this.checkInit();
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
     // Init Socket IO after login
@@ -1581,7 +1579,6 @@ export class CentralServerService {
   }
 
   public logoutSucceeded(): void {
-    this.checkInit();
     this.dialog.closeAll();
     this.clearLoggedUserToken();
     this.centralServerNotificationService.resetSocketIO();

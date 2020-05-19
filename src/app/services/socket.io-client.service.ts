@@ -28,7 +28,6 @@ export default class SocketIOClient {
       // console.log('Missing serverURL and token arguments');
     }
     this.socket.on('connect', connectCallback);
-    this.socket.on('disconnect', () => { this.socket.removeAllListeners(); });
     // Temporary debug log
     this.socket.on('connect_timeout', () => { console.log(`SocketIO client connection timeout`); });
     this.socket.on('connect_error', (error) => { console.log(`SocketIO client connect error: ${error}`); });

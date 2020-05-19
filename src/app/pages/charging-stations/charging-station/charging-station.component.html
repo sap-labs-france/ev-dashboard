@@ -7,7 +7,7 @@
           <mat-icon>ev_station</mat-icon>
           <span>{{chargingStation?.id}}</span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body tab-dialog-min-content">
           <app-charging-station-parameters #chargingStationParameters [chargingStation]='chargingStation'
             [dialogRef]="dialogRef">
           </app-charging-station-parameters>
@@ -19,7 +19,7 @@
             <mat-icon>info</mat-icon>
             <span>{{'chargers.properties_title' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <app-charging-station-properties
               [chargingStation]='chargingStation'></app-charging-station-properties>
           </div>
@@ -31,7 +31,7 @@
             <mat-icon>build</mat-icon>
             <span>{{'chargers.ocpp_parameters_title' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <app-charging-station-ocpp-parameters #chargingStationOcppParameters
               [chargingStation]='chargingStation'></app-charging-station-ocpp-parameters>
           </div>
@@ -43,7 +43,7 @@
             <mat-icon>system_update_alt</mat-icon>
             <span>{{'chargers.firmware_update_title' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <app-charging-station-firmware-update
               [charger]='chargingStation'></app-charging-station-firmware-update>
           </div>

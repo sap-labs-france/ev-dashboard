@@ -9,7 +9,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStation, ChargingStationButtonAction, ConnStatus, Connector, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from 'app/types/ChargingStation';
 import { ActionResponse } from 'app/types/DataResult';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { User, UserToken } from 'app/types/User';
@@ -42,7 +42,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
         translateService.instant('chargers.action_error.transaction_start_chargingStation_inactive'));
       return;
     }
-    if (connector.status === ConnStatus.UNAVAILABLE) {
+    if (connector.status === ChargePointStatus.UNAVAILABLE) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
         translateService.instant('chargers.action_error.transaction_start_not_available'));

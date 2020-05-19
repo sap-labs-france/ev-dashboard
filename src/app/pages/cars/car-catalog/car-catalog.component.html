@@ -7,7 +7,7 @@
           <span style="display: inline-block;">{{carCatalog?.vehicleMake}} {{carCatalog?.vehicleModel}} {{carCatalog?.vehicleModelVersion}}
           </span>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body tab-dialog-car-min-content">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row app-car align-items-start">
@@ -80,7 +80,7 @@
         <ng-template mat-tab-label>
           <mat-icon>battery_charging_full</mat-icon><span>{{"cars.battery" | translate}}</span>
         </ng-template>
-        <div class="col-md-12 text-left p-4">
+        <div class="card-body tab-dialog-car-min-content">
           <div class="table-responsive-md d-flex justify-content-left">
             <table class="mat-table">
               <tbody role="rowgroup">
@@ -135,7 +135,7 @@
         <ng-template mat-tab-label>
           <mat-icon>battery_charging_full</mat-icon><span>{{"cars.charge_standard_tables" | translate}}</span>
         </ng-template>
-        <div class="col-md-12 text-left p-4">
+        <div class="card-body tab-dialog-car-min-content">
           <app-table [dataSource]="carCatalogConverterTableDataSource"></app-table>
         </div>
       </mat-tab>
@@ -144,7 +144,7 @@
           <mat-icon>photo_camera</mat-icon><span>Photos</span>
         </ng-template>
         <ng-template matTabContent>
-          <div class="card-body">
+          <div class="card-body tab-dialog-car-min-content">
             <app-carousel [carCatalogID]="carCatalog?.id"></app-carousel>
           </div>
         </ng-template>
@@ -153,7 +153,7 @@
         <ng-template mat-tab-label>
           <mat-icon>more_horiz</mat-icon><span>{{"cars.miscellaneous" | translate}}</span>
         </ng-template>
-        <div class="card-body" class="text-left m-4">
+        <div class="card-body tab-dialog-car-min-content" class="text-left m-4">
           <div class="table-responsive-md d-flex justify-content-left">
             <table class="mat-table">
               <tbody role="rowgroup">
@@ -188,7 +188,7 @@
         <ng-template mat-tab-label>
           <mat-icon>info</mat-icon><span>{{"cars.debug_car" | translate}}</span>
         </ng-template>
-        <div class="col-md-12 text-left p-3 pl-5 car-advanced">
+        <div class="card-body tab-dialog-car-min-content">
           <pre class="m-0"><small>{{ carCatalog | json }}</small></pre>
         </div>
       </mat-tab>

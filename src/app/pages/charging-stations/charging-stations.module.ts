@@ -31,6 +31,7 @@ import { ChargingStationOcppParametersInputFieldCellComponent } from './charging
 import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters-editable-table-data-source.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
+import { ChargingStationConnectorComponent } from './charging-station/parameters/connector/charging-station-connector.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
@@ -66,6 +67,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
     ChargingStationParametersComponent,
+    ChargingStationConnectorComponent,
     TransactionDialogComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
@@ -90,6 +92,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
     ChargingStationParametersComponent,
+    ChargingStationConnectorComponent,
     AppChargingStationsFormatPowerChargerPipe,
     AppChargingStationsFormatPowerConnectorPipe,
     AppChargingStationsFormatConnectorPipe,

@@ -26,7 +26,7 @@ export class TableCreateAction implements TableAction {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '80vw';
-    dialogConfig.minHeight = '80vh';
+    dialogConfig.minHeight = '60vh';
     dialogConfig.panelClass = 'transparent-dialog-container';
     // disable outside click close
     dialogConfig.disableClose = true;

@@ -5,38 +5,42 @@ import { InactivityStatus } from './Transaction';
 
 export interface ChargingStation extends Data {
   id: string;
+  templateHash?: string;
+  templateHashTechnical?: string;
   issuer: boolean;
   private: boolean;
-  chargePointVendor: string;
+  siteAreaID?: string;
+  chargePointSerialNumber: string;
   chargePointModel: string;
-  chargePointSerialnumber: string;
-  chargeBoxSerialnumber: string;
-  firmwareVersion: string;
-  firmwareUpdateStatus?: FirmwareStatus;
+  chargeBoxSerialNumber: string;
+  chargePointVendor: string;
   iccid: string;
   imsi: string;
-  lastReboot: Date;
   meterType: string;
-  meterSerialnumber: string;
+  firmwareVersion: string;
+  firmwareUpdateStatus?: FirmwareStatus;
+  meterSerialNumber: string;
   endpoint: string;
   ocppVersion: OCPPVersion;
   ocppProtocol: OCPPProtocol;
+  cfApplicationIDAndInstanceIndex: string;
   lastHeartBeat: Date;
+  deleted: boolean;
   inactive: boolean;
+  lastReboot: Date;
   chargingStationURL: string;
-  connectors: Connector[];
-  siteAreaID?: string;
-  siteArea: SiteArea;
-  cannotChargeInParallel: boolean;
   maximumPower: number;
+  excludeFromPowerLimitation?: boolean;
   powerLimitUnit: PowerLimitUnits;
   coordinates: number[];
-  currentIPAddress: string;
+  chargePoints: ChargingStationChargePoint[];
+  connectors: Connector[];
+  currentIPAddress?: string;
+  siteArea?: SiteArea;
   capabilities?: ChargingStationCapabilities;
   ocppAdvancedCommands?: OcppAdvancedCommands[];
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
-  currentType: ChargingStationCurrentType;
 }
 
 export enum OCPPProtocol {
@@ -110,32 +114,47 @@ export interface ConsumptionValue {
   limitWatts: number;
 }
 
+export interface ChargingStationChargePoint {
+  currentType: ChargingStationCurrentType;
+  voltage: number;
+  amperage: number;
+  numberOfConnectedPhase: number;
+  cannotChargeInParallel: boolean;
+  sharePowerToAllConnectors: boolean;
+  excludeFromPowerLimitation: boolean;
+  power: number;
+  efficiency: number;
+  connectorIDs: number[];
+}
+
 export interface Connector extends Data {
   connectorId: number;
   currentConsumption: number;
   currentStateOfCharge?: number;
   totalInactivitySecs?: number;
   totalConsumption?: number;
-  status: ConnStatus;
+  status: ChargePointStatus;
   errorCode?: string;
   info?: string;
   vendorErrorCode?: string;
   power: number;
   type: ConnectorType;
-  voltage: number;
-  amperage: number;
-  amperageLimit: number;
-  activeTransactionID: number;
-  activeTransactionDate: Date;
-  activeTagID: string;
+  voltage?: number;
+  amperage?: number;
+  amperageLimit?: number;
+  activeTransactionID?: number;
+  activeTransactionDate?: Date;
+  activeTagID?: string;
   statusLastChangedOn?: Date;
-  inactivityStatus: InactivityStatus;
+  inactivityStatus?: InactivityStatus;
+  numberOfConnectedPhase?: number;
+  currentType?: ConnectorCurrentType;
+  chargePointID?: number;
+
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
-  numberOfConnectedPhase?: number;
-  currentType?: ConnectorCurrentType;
 }
 
 export enum ConnectorType {
@@ -175,7 +194,7 @@ export enum ChargingStationButtonAction {
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
 }
 
-export enum ConnStatus {
+export enum ChargePointStatus {
   AVAILABLE = 'Available',
   OCCUPIED = 'Occupied',
   CHARGING = 'Charging',

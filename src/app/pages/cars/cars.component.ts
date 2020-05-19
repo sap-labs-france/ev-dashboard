@@ -17,7 +17,7 @@ export class CarsComponent extends AbstractTabComponent {
     windowService: WindowService,
     authorizationService: AuthorizationService
   ) {
-    super(activatedRoute, windowService, ['cars']);
+    super(activatedRoute, windowService, ['cars', 'carcatalogs']);
     this.isAdmin = authorizationService.isAdmin();
     this.isBasic = authorizationService.isBasic();
   }

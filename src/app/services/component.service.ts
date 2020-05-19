@@ -333,7 +333,7 @@ export class ComponentService {
       const assetSettings = {
         identifier: TenantComponents.ASSET,
       } as AssetSettings;
-      // Get the Pricing settings
+      // Get the Asset settings
       this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {

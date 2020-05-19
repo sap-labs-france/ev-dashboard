@@ -7,19 +7,16 @@ import { TableCreateAction } from 'app/shared/table/actions/table-create-action'
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
+import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting } from 'app/types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef, TableEditType } from 'app/types/Table';
 import { Observable } from 'rxjs';
-
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 
 @Injectable()
-export class SettingsAssetConnectionListTableDataSource extends TableDataSource<AssetConnectionSetting> {
-  public changed = new EventEmitter<boolean>();
-  private assetConnections!: AssetConnectionSetting[];
+export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
 
@@ -33,25 +30,17 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
     this.initDataSource();
   }
 
-  public setAssetConnections(assetConnections: AssetConnectionSetting[]) {
-    this.assetConnections = assetConnections ? assetConnections : [];
-  }
-
-  public getAssetConnections(): AssetConnectionSetting[] {
-    return this.assetConnections;
-  }
-
   public loadDataImpl(): Observable<DataResult<AssetConnectionSetting>> {
     return new Observable((observer) => {
       // Check
-      if (this.assetConnections) {
-        this.assetConnections.sort((a, b) => {
+      if (this.editableRows) {
+        this.editableRows.sort((a, b) => {
           return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
         });
         const assetConnections = [];
-        for (let index = 0; index < this.assetConnections.length; index++) {
-          const assetConnection = this.assetConnections[index];
-          assetConnection.id = index.toString();
+        for (let index = 0; index < this.editableRows.length; index++) {
+          const assetConnection = this.editableRows[index];
+          assetConnection.id = index;
           assetConnections.push(assetConnection);
         }
         observer.next({
@@ -70,16 +59,10 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
 
   public buildTableDef(): TableDef {
     return {
-      search: {
-        enabled: false,
-      },
-      design: {
-        flat: true,
-      },
-      footer: {
-        enabled: false,
-      },
-      rowFieldNameIdentifier: 'url',
+      id: 'SettingsAssetConnectionEditableTableDataSource',
+      isEditable: false,
+      rowFieldNameIdentifier: 'id',
+      hasDynamicRowAction: true,
     };
   }
 
@@ -90,6 +73,7 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
         name: 'Name',
         headerClass: 'col-30p',
         class: 'text-left col-30p',
+        editType: TableEditType.DISPLAY_ONLY,
         sorted: true,
         direction: 'asc',
         sortable: false,
@@ -99,6 +83,7 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
         name: 'Description',
         headerClass: 'col-40p',
         class: 'col-40p',
+        editType: TableEditType.DISPLAY_ONLY,
         sortable: false,
       },
       {
@@ -107,16 +92,9 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
         formatter: (type: string) => this.translateService.instant(`settings.asset.types.${type}`),
         headerClass: 'col-30p',
         class: 'col-30p',
+        editType: TableEditType.DISPLAY_ONLY,
         sortable: false,
       }
-    ];
-  }
-
-  public buildTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.buildTableActionsDef();
-    return [
-      new TableCreateAction().getActionDef(),
-      ...tableActionsDef,
     ];
   }
 
@@ -131,7 +109,7 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
     // Action
     switch (actionDef.id) {
       // Add
-      case ButtonAction.CREATE:
+      case ButtonAction.ADD:
         this.showAssetConnectionDialog();
         break;
       default:
@@ -139,7 +117,7 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting) {
+  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting, ) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
@@ -163,29 +141,43 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
     return [];
   }
 
+  public createRow(): AssetConnectionSetting {
+    return {
+      id: 0,
+      key: '',
+      name: '',
+      description: '',
+      type: '',
+      url: ''
+    };
+  }
+
   private showAssetConnectionDialog(assetConnection?: AssetConnectionSetting) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    if (assetConnection) {
-      dialogConfig.data = assetConnection;
-    }
+    dialogConfig.data = assetConnection;
     // Disable outside click close
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(AssetConnectionDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Find object
-        const index = this.assetConnections.findIndex((assetConnection) => assetConnection.id === result.id);
-        if (index >= 0) {
-          this.assetConnections.splice(index, 1, result);
+    dialogRef.afterClosed().subscribe((newAssetConnection: AssetConnectionSetting) => {
+      if (newAssetConnection) {
+        // Create
+        if (!newAssetConnection.id) {
+          newAssetConnection.id = this.editableRows.length;
+          this.editableRows.push(newAssetConnection);
+        // Update
         } else {
-          this.assetConnections.push(result);
+          // Find object
+          const index = this.editableRows.findIndex(
+            (editableRow) => editableRow.id === newAssetConnection.id);
+          this.editableRows.splice(index, 1, newAssetConnection);
         }
-        this.refreshData().subscribe();
-        this.changed.emit(true);
+        this.formArray.markAsDirty();
+        this.refreshData(false).subscribe();
+        this.tableChangedSubject.next(this.editableRows);
       }
     });
   }
@@ -196,12 +188,15 @@ export class SettingsAssetConnectionListTableDataSource extends TableDataSource<
       this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.assetConnections.findIndex((link) => link.id === assetConnection.id);
+        const index = this.editableRows.findIndex((elem) => elem.id === assetConnection.id);
         if (index > -1) {
-          this.assetConnections.splice(index, 1);
+          this.editableRows.splice(index, 1);
         }
-        this.refreshData().subscribe();
-        this.changed.emit(true);
+        if (this.formArray) {
+          this.formArray.markAsDirty();
+        }
+        this.refreshData(false).subscribe();
+        this.tableChangedSubject.next(this.editableRows);
       }
     });
   }

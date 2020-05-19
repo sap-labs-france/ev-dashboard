@@ -182,12 +182,12 @@ export enum AssetSettingsType {
 }
 
 export interface AssetConnectionSetting extends Data {
-  id: string;
+  id: number;
   name: string;
   description: string;
   type: string;
   url: string;
-  loginCredentials: LoginCredentialsAssetConnection;
+  loginCredentials?: LoginCredentialsAssetConnection;
 }
 
 export interface LoginCredentialsAssetConnection {

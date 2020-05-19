@@ -164,7 +164,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       }
       if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
         chargingSlotDataSet.data.forEach((chartPoint) => chartPoint.y = ChargingStations.convertWattToAmp(
-          this.charger.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
+          this.chargingStation.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
       }
       // Push in the graph
       datasets.push(chargingSlotDataSet);
@@ -199,7 +199,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       }
       if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
         limitDataSet.data.forEach((chartPoint) => chartPoint.y = ChargingStations.convertWattToAmp(
-          this.charger.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
+          this.chargingStation.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
       }
       // Push in the graph
       datasets.push(limitDataSet);

@@ -116,7 +116,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     }
     this.createGraphData();
     this.refresh();
-    console.log(this.chart.options.scales.yAxes);
   }
 
   public dateFilterChanged(value: Date) {

@@ -112,7 +112,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
     }
     this.createGraphData();
     this.refresh();
-    console.log(this.options.scales.yAxes);
   }
 
   private getStyleColor(element: Element): string {

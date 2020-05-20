@@ -1,33 +1,26 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting } from 'app/types/Setting';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef, TableEditType } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
-  private editAction = new TableEditAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
-
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialogService: DialogService,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
-    // Init
-    this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<AssetConnectionSetting>> {
@@ -40,7 +33,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         const assetConnections = [];
         for (let index = 0; index < this.editableRows.length; index++) {
           const assetConnection = this.editableRows[index];
-          assetConnection.id = index;
+          assetConnection.id = index.toString();
           assetConnections.push(assetConnection);
         }
         observer.next({
@@ -100,20 +93,17 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      this.editAction,
-      this.deleteAction,
+      new TableEditAction().getActionDef(),
+      ...super.buildTableRowActions()
     ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
-      // Add
       case ButtonAction.ADD:
         this.showAssetConnectionDialog();
         break;
-      default:
-        super.actionTriggered(actionDef);
     }
   }
 
@@ -121,9 +111,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
-        break;
-      case ButtonAction.DELETE:
-        this.deleteAssetConnection(assetConnection);
         break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);
@@ -143,7 +130,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public createRow(): AssetConnectionSetting {
     return {
-      id: 0,
+      id: this.editableRows.length.toString(),
       key: '',
       name: '',
       description: '',
@@ -166,7 +153,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       if (newAssetConnection) {
         // Create
         if (!newAssetConnection.id) {
-          newAssetConnection.id = this.editableRows.length;
+          newAssetConnection.id = this.editableRows.length.toString();
           this.editableRows.push(newAssetConnection);
         // Update
         } else {
@@ -175,27 +162,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
             (editableRow) => editableRow.id === newAssetConnection.id);
           this.editableRows.splice(index, 1, newAssetConnection);
         }
+        this.refreshData(false).subscribe();
         this.formArray.markAsDirty();
-        this.refreshData(false).subscribe();
-        this.tableChangedSubject.next(this.editableRows);
-      }
-    });
-  }
-
-  private deleteAssetConnection(assetConnection: AssetConnectionSetting) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('settings.asset.connection.delete_title'),
-      this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        const index = this.editableRows.findIndex((elem) => elem.id === assetConnection.id);
-        if (index > -1) {
-          this.editableRows.splice(index, 1);
-        }
-        if (this.formArray) {
-          this.formArray.markAsDirty();
-        }
-        this.refreshData(false).subscribe();
         this.tableChangedSubject.next(this.editableRows);
       }
     });

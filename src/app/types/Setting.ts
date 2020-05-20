@@ -182,7 +182,7 @@ export enum AssetSettingsType {
 }
 
 export interface AssetConnectionSetting extends Data {
-  id: number;
+  id: string;
   name: string;
   description: string;
   type: string;

@@ -356,7 +356,7 @@ export class CentralServerNotificationService {
       // Close
       this.socketIOClient.disconnect();
     } else {
-      console.log('Socket IO not initialized and user logged in');
+      console.log('SocketIO client not initialized and user logged in');
     }
     // Clear
     this.socketIOClient = null;

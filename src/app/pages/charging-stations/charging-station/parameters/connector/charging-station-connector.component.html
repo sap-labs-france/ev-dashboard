@@ -35,6 +35,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}"
+                  (selectionChange)="numberOfConnectedPhaseChanged()"
                   [formControl]="numberOfConnectedPhase" required>
                 <mat-option *ngFor="let connectedPhase of connectedPhaseMap" [value]="connectedPhase.key">
                   {{connectedPhase.description | translate}}

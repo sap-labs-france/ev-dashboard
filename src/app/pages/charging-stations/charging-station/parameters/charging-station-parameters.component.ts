@@ -1,9 +1,7 @@
 import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, ChargingStationCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
@@ -12,11 +10,8 @@ import { SiteArea } from 'app/types/SiteArea';
 import TenantComponents from 'app/types/TenantComponents';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
-import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
 import { Constants } from '../../../../utils/Constants';
 
 @Component({
@@ -55,15 +50,10 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   constructor(
     private authorizationService: AuthorizationService,
-    private centralServerService: CentralServerService,
     private componentService: ComponentService,
-    private messageService: MessageService,
-    private spinnerService: SpinnerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
-    private dialogService: DialogService,
-    private dialog: MatDialog,
-    private router: Router) {
+    private dialog: MatDialog) {
 
     // Get Locales
     this.userLocales = this.localeService.getLocales();

@@ -924,8 +924,8 @@
     "power_limit_unit": "Connector Power Unit",
     "watt": "Watt",
     "amper": "Ampere",
-    "voltage": "Voltage (V)",
-    "amperage": "Amperage (A)",
+    "voltage": "Voltage Phase/Neutral (V)",
+    "amperage": "Total Ampérage (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Charging Stations",

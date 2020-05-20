@@ -924,8 +924,8 @@
     "power_limit_unit": "Unité de Puissance du Connecteur",
     "watt": "Watt",
     "amper": "Ampere",
-    "voltage": "Voltage (V)",
-    "amperage": "Ampérage (A)",
+    "voltage": "Voltage Phase/Neutre (V)",
+    "amperage": "Ampérage Total (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",

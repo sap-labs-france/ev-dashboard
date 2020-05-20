@@ -220,7 +220,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public createAutoRefresh() {
+  private createAutoRefresh() {
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
       if (!this.autoRefreshSubscription) {
         const refreshObservable: Observable<ChangeNotification> = this.dataSource.getDataChangeSubject();
@@ -237,7 +237,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public destroyAutoRefresh() {
+  private destroyAutoRefresh() {
     if (this.autoRefreshSubscription) {
       this.autoRefreshSubscription.unsubscribe();
     }

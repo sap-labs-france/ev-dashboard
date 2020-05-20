@@ -42,7 +42,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
 
-  private refreshSubscription!: Subscription;
+  private transactionRefreshSubscription!: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -64,31 +64,31 @@ export class TransactionComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    // Destroy
-    this.destroyAutoRefresh();
+    // Destroy transaction refresh
+    this.destroyTransactionRefresh();
   }
 
-  private createAutoRefresh() {
+  private createTransactionRefresh() {
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.refreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
+      this.transactionRefreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           // Update user?
           if (singleChangeNotification && singleChangeNotification.data
             && singleChangeNotification.data.id === this.transactionID.toString()) {
-            this.refresh();
+            this.refreshTransaction();
           }
         });
     }
   }
 
-  private destroyAutoRefresh() {
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
+  private destroyTransactionRefresh() {
+    if (this.transactionRefreshSubscription) {
+      this.transactionRefreshSubscription.unsubscribe();
     }
-    this.refreshSubscription = null;
+    this.transactionRefreshSubscription = null;
   }
 
-  public refresh() {
+  private refreshTransaction() {
     this.loadData();
     this.chartComponent.refresh();
   }
@@ -119,8 +119,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.transaction = transaction;
       // Transaction in progress?
       if (!transaction.stop) {
-        // Auto refresh
-        this.createAutoRefresh();
+        // Transaction refresh
+        this.createTransactionRefresh();
       }
       // Set properties
       if (transaction.stop) {

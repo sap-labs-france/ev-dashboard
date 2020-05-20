@@ -351,10 +351,12 @@ export class CentralServerNotificationService {
   }
 
   public resetSocketIO() {
-    // Check: Socket IO not initialized and user logged
+    // Check: Socket IO not initialized and user logged in
     if (this.socketIOClient) {
       // Close
       this.socketIOClient.disconnect();
+    } else {
+      console.log('Socket IO not initialized and user logged in');
     }
     // Clear
     this.socketIOClient = null;

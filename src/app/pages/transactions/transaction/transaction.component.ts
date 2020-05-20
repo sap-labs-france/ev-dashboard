@@ -75,7 +75,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
           // Update user?
           if (singleChangeNotification && singleChangeNotification.data
             && singleChangeNotification.data.id === this.transactionID.toString()) {
-            this.refresh();
+            this.refreshTransaction();
           }
         });
     }
@@ -88,7 +88,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.transactionRefreshSubscription = null;
   }
 
-  public refresh() {
+  private refreshTransaction() {
     this.loadData();
     this.chartComponent.refresh();
   }

@@ -1,7 +1,7 @@
 <table [class]="forChargingProfile ? 'mb-2 col-md-12' : 'col-md-12'">
     <tr *ngIf="!notSupported" >
-        <td class="text-right col-5em">
-            {{displayedMinPowerKW}}
+        <td class="text-center col-5em">
+            {{displayedMinPowerKW}}<br/>({{this.minAmp}} A)
         </td>
         <td>
             <mat-slider
@@ -15,8 +15,8 @@
                 {{displayedCurrentPowerW}} ({{this.currentAmp}} A)
             </div>
         </td>
-        <td class="text-left col-5em">
-            {{displayedMaxPowerKW}}
+        <td class="text-center col-5em">
+            {{displayedMaxPowerKW}}<br/>({{this.maxAmp}} A)
         </td>
     </tr>
     <tr *ngIf="notSupported" >

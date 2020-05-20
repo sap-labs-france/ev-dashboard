@@ -1,8 +1,9 @@
+import { ChargingStation, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
 import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { ComponentService } from 'app/services/component.service';
+
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargingStation, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import { ComponentService } from 'app/services/component.service';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 
@@ -21,7 +22,9 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public minAmp = StaticLimitAmps.MIN_LIMIT;
   public maxAmp = StaticLimitAmps.MIN_LIMIT;
   public displayedMinPowerKW = '';
+  public displayedMinPowerAmp = '';
   public displayedMaxPowerKW = '';
+  public displayedMaxPowerAmp = '';
   public displayedCurrentPowerW = '';
   public notSupported = false;
   public isSmartChargingComponentActive = false;
@@ -52,9 +55,6 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     // Convert
     this.updateDisplayedPowerKW();
     this.ampSteps = Utils.computeAmpSteps(this.chargingStation);
-    console.log('====================================');
-    console.log(this.ampSteps);
-    console.log('====================================');
   }
 
   public formatSlideLabelPowerKW = (currentAmp: number): string|null => {

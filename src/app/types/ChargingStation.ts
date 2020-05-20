@@ -30,6 +30,7 @@ export interface ChargingStation extends Data {
   lastReboot: Date;
   chargingStationURL: string;
   maximumPower: number;
+  voltage: number;
   excludeFromPowerLimitation?: boolean;
   powerLimitUnit: PowerLimitUnits;
   coordinates: number[];
@@ -223,5 +224,5 @@ export enum OCPPAvailabilityType {
 }
 
 export enum StaticLimitAmps {
-  MIN_LIMIT = 2,
+  MIN_LIMIT = 6,
 }

@@ -16,7 +16,6 @@ import * as moment from 'moment';
 
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-import { ChargingStations } from './ChargingStations';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -245,18 +244,48 @@ export class Utils {
     return 0;
   }
 
-  public static convertAmpToPowerWatts(charger: ChargingStation, ampValue: number): number {
-    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase !== undefined) {
-      return ChargingStations.convertAmpToWatt(charger.connectors[0].numberOfConnectedPhase, ampValue);
+  public static computeAmpSteps(chargingStation: ChargingStation): number {
+    if (chargingStation) {
+      // Voltage at connector level?
+      if (chargingStation.connectors) {
+        for (const connector of chargingStation.connectors) {
+          if (connector.numberOfConnectedPhase > 0) {
+            return connector.numberOfConnectedPhase * chargingStation.connectors.length;
+          }
+        }
+      }
+    }
+    return StaticLimitAmps.MIN_LIMIT;
+  }
+
+  public static convertAmpToPowerWatts(chargingStation: ChargingStation, ampValue: number): number {
+    let voltage = 0;
+    if (chargingStation) {
+      // Voltage at charging station level?
+      if (chargingStation.voltage > 0) {
+        voltage = chargingStation.voltage;
+      }
+      // Voltage at connector level?
+      if (chargingStation.connectors) {
+        for (const connector of chargingStation.connectors) {
+          if (connector.voltage > 0) {
+            voltage = connector.voltage;
+            break;
+          }
+        }
+      }
+    }
+    if (voltage > 0) {
+      return voltage * ampValue;
     }
     return 0;
   }
 
-  public static convertAmpToPowerString(charger: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true, numberOfDecimals?: number): string {
+  public static convertAmpToPowerString(chargingStation: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true, numberOfDecimals?: number): string {
     // TBD use corresponding connector, instead of first connector
-    if (charger && charger.connectors && charger.connectors.length > 0 && charger.connectors[0].numberOfConnectedPhase !== undefined) {
+    if (chargingStation) {
       return appUnitFormatter.transform(
-        Utils.convertAmpToPowerWatts(charger, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
+        Utils.convertAmpToPowerWatts(chargingStation, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
     }
     return 'N/A';
   }

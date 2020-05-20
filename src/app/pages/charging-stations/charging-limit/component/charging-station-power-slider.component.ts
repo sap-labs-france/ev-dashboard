@@ -25,6 +25,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public displayedCurrentPowerW = '';
   public notSupported = false;
   public isSmartChargingComponentActive = false;
+  public ampSteps = StaticLimitAmps.MIN_LIMIT;
 
   constructor(
       private appUnitFormatter: AppUnitPipe,
@@ -35,7 +36,8 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
 
   public ngOnChanges() {
     // Update Power
-    this.displayedCurrentPowerW = Utils.convertAmpToPowerString(this.chargingStation, this.appUnitFormatter, this.currentAmp, 'W');
+    this.displayedCurrentPowerW = Utils.convertAmpToPowerString(
+      this.chargingStation, this.appUnitFormatter, this.currentAmp, 'W');
   }
 
   public ngOnInit() {
@@ -49,6 +51,10 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     this.notSupported = chargerPowers.notSupported;
     // Convert
     this.updateDisplayedPowerKW();
+    this.ampSteps = Utils.computeAmpSteps(this.chargingStation);
+    console.log('====================================');
+    console.log(this.ampSteps);
+    console.log('====================================');
   }
 
   public formatSlideLabelPowerKW = (currentAmp: number): string|null => {

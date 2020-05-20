@@ -6,11 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { ChargingStation, ChargingStationCurrentType, ConnectorCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
+import { ChargingStation, ChargingStationCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -20,7 +18,6 @@ import { LocaleService } from '../../../../services/locale.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Constants } from '../../../../utils/Constants';
-import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',
@@ -30,6 +27,8 @@ import { Utils } from '../../../../utils/Utils';
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public formGroup: FormGroup;
+
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
@@ -41,7 +40,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       description: 'chargers.direct_and_alternating_current',
     },
   ];
-  public formGroup: FormGroup;
   public chargingStationURL!: AbstractControl;
   public private!: AbstractControl;
   public issuer!: AbstractControl;
@@ -54,7 +52,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public connectors!: FormArray;
 
   public isOrganizationComponentActive: boolean;
-  private messages!: any;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -68,13 +65,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private router: Router) {
 
-    // Get translated messages
-    this.translateService.get('chargers', {}).subscribe((messages) => {
-      this.messages = messages;
-    });
     // Get Locales
     this.userLocales = this.localeService.getLocales();
-    this.formGroup = new FormGroup({});
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
@@ -84,45 +76,48 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ?
         this.chargingStation.siteArea.siteID : '');
     // Init the form
-    this.formGroup = new FormGroup({
-      id: new FormControl(''),
-      chargingStationURL: new FormControl('',
+    this.formGroup.addControl('id', new FormControl());
+    this.formGroup.addControl('chargingStationURL', new FormControl('',
+      Validators.compose([
+        Validators.required,
+        Validators.pattern(Constants.URL_PATTERN),
+      ]))
+    );
+    this.formGroup.addControl('private', new FormControl(false));
+    this.formGroup.addControl('issuer', new FormControl(false));
+    this.formGroup.addControl('maximumPower', new FormControl(0,
+      Validators.compose([
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern('^[+]?[0-9]*$'),
+      ]))
+    );
+    this.formGroup.addControl('siteArea', new FormControl('',
+      Validators.compose([
+        Validators.required,
+      ]))
+    );
+    this.formGroup.addControl('siteAreaID', new FormControl('',
+      Validators.compose([
+        Validators.required,
+      ]))
+    );
+    this.formGroup.addControl('connectors', new FormArray([]));
+    this.formGroup.addControl('coordinates', new FormArray([
+      new FormControl('',
         Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
+          Validators.max(180),
+          Validators.min(-180),
+          Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
         ])),
-      private: new FormControl(false),
-      issuer: new FormControl(false),
-      maximumPower: new FormControl(0,
+      new FormControl('',
         Validators.compose([
-          Validators.required,
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
+          Validators.max(90),
+          Validators.min(-90),
+          Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
         ])),
-      siteArea: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      siteAreaID: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      connectors: new FormArray([]),
-      coordinates: new FormArray([
-        new FormControl('',
-          Validators.compose([
-            Validators.max(180),
-            Validators.min(-180),
-            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-          ])),
-        new FormControl('',
-          Validators.compose([
-            Validators.max(90),
-            Validators.min(-90),
-            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-          ])),
-      ]),
-    });
+      ])
+    );
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.private = this.formGroup.controls['private'];
@@ -201,40 +196,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.maximumPower.setValue(totalPower);
   }
 
-  public saveChargingStation() {
-    this.spinnerService.show();
-    this.centralServerService.updateChargingStationParams(
-        this.formGroup.getRawValue() as ChargingStation).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(
-          this.translateService.instant('chargers.change_config_success',
-            { chargeBoxID: this.chargingStation.id }));
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.messages['change_config_error']);
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPAuthError.ERROR:
-          this.messageService.showErrorMessage(
-            this.translateService.instant('chargers.change_config_error'));
-          break;
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage(this.messages['change_config_error']);
-          break;
-        case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-            this.messageService.showErrorMessage(this.messages['chargers.change_config_phase_error']);
-            break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, this.messages['change_config_error']);
-      }
-    });
-  }
-
   public assignSiteArea() {
     if (!this.chargingStation.issuer) {
       return;
@@ -308,37 +269,5 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         }
       }
     });
-  }
-
-  public closeDialog(saved: boolean = false) {
-    if (this.dialogRef) {
-      this.dialogRef.close(saved);
-    }
-  }
-
-  public onClose() {
-    if (this.formGroup.invalid && this.formGroup.dirty) {
-      this.dialogService.createAndShowInvalidChangeCloseDialog(
-        this.translateService.instant('general.change_invalid_pending_title'),
-        this.translateService.instant('general.change_invalid_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else if (this.formGroup.dirty) {
-      this.dialogService.createAndShowDirtyChangeCloseDialog(
-        this.translateService.instant('general.change_pending_title'),
-        this.translateService.instant('general.change_pending_text'),
-      ).subscribe((result) => {
-        if (result === ButtonType.SAVE_AND_CLOSE) {
-          this.saveChargingStation();
-        } else if (result === ButtonType.DO_NOT_SAVE_AND_CLOSE) {
-          this.closeDialog();
-        }
-      });
-    } else {
-      this.closeDialog();
-    }
   }
 }

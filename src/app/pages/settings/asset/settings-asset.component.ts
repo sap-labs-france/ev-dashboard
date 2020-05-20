@@ -56,8 +56,7 @@ export class SettingsAssetComponent implements OnInit {
       // Keep
       this.assetSettings = settings;
       // Set
-      this.assetConnectionListTableDataSource.setContent([]);
-      this.assetConnectionListTableDataSource.loadData().subscribe();
+      this.assetConnectionListTableDataSource.setContent(this.assetSettings.content.asset);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -73,8 +72,8 @@ export class SettingsAssetComponent implements OnInit {
     });
   }
 
-  public save(content: AssetSettings) {
-    this.assetSettings = content;
+  public save() {
+    this.assetSettings.assets = this.assetConnectionListTableDataSource.getContent();
     this.spinnerService.show();
     this.componentService.saveAssetConnectionSettings(this.assetSettings).subscribe((response) => {
       this.spinnerService.hide();

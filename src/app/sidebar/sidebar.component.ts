@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public isAdmin = false;
   public canEditProfile = false;
   private toggleButton: HTMLElement;
-  private userSubscription!: Subscription;
+  private userRefreshSubscription!: Subscription;
 
   constructor(
     private configService: ConfigService,
@@ -75,7 +75,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private createUserRefresh() {
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
       // Subscribe to user's change
-      this.userSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
+      this.userRefreshSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           // Update user?
           if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
@@ -93,11 +93,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private destroyUserRefresh() {
-    if (this.userSubscription) {
+    if (this.userRefreshSubscription) {
       // Unsubscribe to user's change
-      this.userSubscription.unsubscribe();
+      this.userRefreshSubscription.unsubscribe();
     }
-    this.userSubscription = null;
+    this.userRefreshSubscription = null;
   }
 
   private refreshUser() {

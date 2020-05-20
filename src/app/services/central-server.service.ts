@@ -1501,8 +1501,8 @@ export class CentralServerService {
   public loginSucceeded(token: string): void {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
-    // Init Socket IO after login
-    if (this.getLoggedUser() && this.getLoggedUserToken() && this.configService.getCentralSystemServer().socketIOEnabled) {
+    // Init Socket IO at user login
+    if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
       this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
     }
   }
@@ -1581,7 +1581,9 @@ export class CentralServerService {
   public logoutSucceeded(): void {
     this.dialog.closeAll();
     this.clearLoggedUserToken();
-    this.centralServerNotificationService.resetSocketIO();
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.centralServerNotificationService.resetSocketIO();
+    }
   }
 
   public getLoggedUser(): UserToken {
@@ -2611,7 +2613,7 @@ export class CentralServerService {
       // Util URL
       this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
       // Init Socket IO if user already logged
-      if (this.getLoggedUser() && this.getLoggedUserToken() && this.configService.getCentralSystemServer().socketIOEnabled) {
+      if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
         this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
       }
       // Done

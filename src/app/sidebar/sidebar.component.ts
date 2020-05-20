@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public isAdmin = false;
   public canEditProfile = false;
   private toggleButton: HTMLElement;
-  private userSubscription!: Subscription;
+  private userRefreshSubscription!: Subscription;
 
   constructor(
     private configService: ConfigService,
@@ -64,33 +64,43 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // Subscribe to user's change
-    this.userSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      // Update user?
-      if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
-        // Deleted?
-        if (singleChangeNotification.action === Action.DELETE) {
-          // Log off user
-          this.logout();
-        } else {
-          // Same user: Update it
-          this.refreshUser();
-        }
-      }
-    });
+    this.createUserRefresh();
     this.toggleButton = document.getElementById('toggler');
   }
 
   public ngOnDestroy() {
-    if (this.userSubscription) {
-      // Unsubscribe to user's change
-      this.userSubscription.unsubscribe();
-    }
-    this.userSubscription = null;
+    this.destroyUserRefresh();
   }
 
-  public refreshUser() {
+  private createUserRefresh() {
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      // Subscribe to user's change
+      this.userRefreshSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+          // Update user?
+          if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
+            // Deleted?
+            if (singleChangeNotification.action === Action.DELETE) {
+              // Log off user
+              this.logout();
+            } else {
+              // Same user: Update it
+              this.refreshUser();
+            }
+          }
+        });
+    }
+  }
+
+  private destroyUserRefresh() {
+    if (this.userRefreshSubscription) {
+      // Unsubscribe to user's change
+      this.userRefreshSubscription.unsubscribe();
+    }
+    this.userRefreshSubscription = null;
+  }
+
+  private refreshUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
       this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {

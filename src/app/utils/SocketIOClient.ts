@@ -2,9 +2,16 @@ import * as io from 'socket.io-client';
 
 export default class SocketIOClient {
   private static instance: SocketIOClient;
-  public socket: SocketIOClient.Socket;
+  private socketIO: SocketIOClient.Socket;
 
   private constructor() {
+  }
+
+  public get socket() {
+    if (this.socketIO) {
+      return this.socketIO;
+    }
+    return null;
   }
 
   public static getInstance(): SocketIOClient {
@@ -16,29 +23,29 @@ export default class SocketIOClient {
 
   public connectAuthenticated(serverURL: string, token: string, connectCallback: () => void = () => { }) {
     // Check
-    if (!this.socket && serverURL && token) {
+    if (!this.socketIO && serverURL && token) {
       // Init and connect Socket IO
-      this.socket = io(serverURL, {
+      this.socketIO = io(serverURL, {
         query: 'token=' + token,
       });
-    } else if (this.socket && this.socket.disconnected) {
+    } else if (this.socketIO && this.socketIO.disconnected) {
       // Connect Socket IO
-      this.socket.connect();
+      this.socketIO.connect();
     } else {
       // console.log('Missing serverURL and token arguments');
     }
-    this.socket.on('connect', connectCallback);
+    this.socketIO.on('connect', connectCallback);
     // Temporary debug log
-    this.socket.on('connect_timeout', () => { console.log(`SocketIO client connection timeout`); });
-    this.socket.on('connect_error', (error) => { console.log(`SocketIO client connect error: ${error}`); });
-    this.socket.on('reconnecting', (attempt) => { console.log(`SocketIO client #${attempt} try to reconnect`); });
-    this.socket.on('reconnect_error', (error) => { console.log(`SocketIO client reconnect error: ${error}`); });
+    this.socketIO.on('connect_timeout', (timeout) => { console.log(`SocketIO client connection timeout: ${timeout}`); });
+    this.socketIO.on('connect_error', (error) => { console.log(`SocketIO client connect error: ${error}`); });
+    this.socketIO.on('reconnecting', (attempt) => { console.log(`SocketIO client #${attempt} try to reconnect`); });
+    this.socketIO.on('reconnect_error', (error) => { console.log(`SocketIO client reconnect error: ${error}`); });
   }
 
   public disconnect() {
-    if (this.socket) {
-      this.socket.disconnect();
+    if (this.socketIO) {
+      this.socketIO.disconnect();
     }
-    this.socket = null;
+    this.socketIO = null;
   }
 }

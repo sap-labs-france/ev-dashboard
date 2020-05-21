@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 
-import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
+import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
+import { Injectable } from '@angular/core';
+import { Schedule } from 'app/types/ChargingProfile';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
+import { Validators } from '@angular/forms';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource extends EditableTableDataSource<Schedule> {
@@ -102,7 +102,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
             chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         }
         // Update the limit in kW
-        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.chargingStation, chargingSchedules[i].limit) / 1000);
+        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, chargingSchedules[i].limit) / 1000);
         chargingSchedules[i].endDate =
           new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         // Add
@@ -115,7 +115,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       duration: 60,
-      limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.chargingStation, this.chargerPowers.maxAmp) / 1000),
+      limitInkW: Math.floor(Utils.convertAmpToWatt(this.chargingStation, this.chargerPowers.maxAmp) / 1000),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,

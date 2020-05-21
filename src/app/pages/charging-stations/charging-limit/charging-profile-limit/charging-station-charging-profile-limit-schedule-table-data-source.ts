@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { SpinnerService } from 'app/services/spinner.service';
+import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableDataSource } from 'app/shared/table/table-data-source';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import ChangeNotification from 'app/types/ChangeNotification';
-import { Schedule } from 'app/types/ChargingProfile';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Schedule } from 'app/types/ChargingProfile';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableDataSource } from 'app/shared/table/table-data-source';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
@@ -75,7 +76,7 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         name: 'chargers.smart_charging.limit_title',
         headerClass: 'col-50p',
         class: 'col-45p',
-        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.chargingStation, this.unitPipe, value, 'kW', true, 3)}
+        formatter: (value: number) => `${Utils.convertAmpToWattString(this.chargingStation, this.unitPipe, value, 'kW', true, 3)}
         ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: value} )}`
       },
     ];

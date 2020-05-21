@@ -281,7 +281,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           startDate: new Date (this.scheduleEditableTableDataSource.startDate),
           duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
           limit: chargingSchedule.limit,
-          limitInkW: Utils.convertAmpToPowerWatts(
+          limitInkW: Utils.convertAmpToWatt(
             this.chargingStation, chargingSchedule.limit) / 1000,
         };
         // Next Schedule?

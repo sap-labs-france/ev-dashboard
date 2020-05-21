@@ -59,22 +59,18 @@
         </mat-checkbox>
       </div>
     </div>
-    <ng-template *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">
-      <div class="row">
-        <div class="col-md-12" *ngFor="let chargePoint of chargingStation?.chargePoints">
-          <h1>Charge Point 1</h1>
-          <!-- <div class="col-md-6" *ngFor="let connectorID of chargePoint.connectorIDs">
-            <app-charging-station-connector [connector]="chargingStation?.connectors[connectorID]" [formConnectorsArray]="connectors"
-              [isAdmin]="isAdmin" (connectorPowerChanged)="connectorPowerChanged()"></app-charging-station-connector>
-          </div> -->
-        </div>
+    <div class="row" *ngIf="chargingStation.chargePoints; else chargingStationWithNoChargePoints">
+      <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
+        <app-charging-station-charge-point [chargePoint]="chargePoint" [chargingStation]="chargingStation"
+          [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors"
+          [isAdmin]="isAdmin" (chargePointChanged)="chargePointChanged()"></app-charging-station-charge-point>
       </div>
-    </ng-template>
+    </div>
     <ng-template #chargingStationWithNoChargePoints>
       <div class="row">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector [connector]="connector" [formConnectorsArray]="connectors"
-            [isAdmin]="isAdmin" (connectorPowerChanged)="connectorPowerChanged()"></app-charging-station-connector>
+            [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"></app-charging-station-connector>
         </div>
       </div>
     </ng-template>

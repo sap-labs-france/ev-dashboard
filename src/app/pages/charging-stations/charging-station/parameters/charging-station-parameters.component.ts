@@ -1,18 +1,18 @@
-import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, ChargingStationCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import TenantComponents from 'app/types/TenantComponents';
+import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { ComponentService } from '../../../../services/component.service';
-import { LocaleService } from '../../../../services/locale.service';
 import { Constants } from '../../../../utils/Constants';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { KeyValue } from 'app/types/GlobalType';
+import { LocaleService } from '../../../../services/locale.service';
+import { SiteArea } from 'app/types/SiteArea';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-charging-station-parameters',
@@ -45,6 +45,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public connectors!: FormArray;
+  public chargePoints!: FormArray;
 
   public isOrganizationComponentActive: boolean;
 
@@ -93,6 +94,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       ]))
     );
     this.formGroup.addControl('connectors', new FormArray([]));
+    this.formGroup.addControl('chargePoints', new FormArray([]));
     this.formGroup.addControl('coordinates', new FormArray([
       new FormControl('',
         Validators.compose([
@@ -117,6 +119,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.connectors =  this.formGroup.controls['connectors'] as FormArray;
+    this.chargePoints =  this.formGroup.controls['chargePoints'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
@@ -176,7 +179,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     }
   }
 
-  public connectorPowerChanged() {
+  public connectorChanged() {
     let totalPower = 0;
     for (const connectorControl of this.connectors.controls) {
       if (connectorControl.get('power').value as number > 0) {
@@ -184,6 +187,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
     }
     this.maximumPower.setValue(totalPower);
+  }
+
+  public chargePointChanged() {
   }
 
   public assignSiteArea() {

@@ -1,7 +1,7 @@
-import { KeyValue } from './GlobalType';
-import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+import { KeyValue } from './GlobalType';
+import { SiteArea } from './SiteArea';
 
 export interface ChargingStation extends Data {
   id: string;
@@ -34,7 +34,7 @@ export interface ChargingStation extends Data {
   excludeFromPowerLimitation?: boolean;
   powerLimitUnit: PowerLimitUnits;
   coordinates: number[];
-  chargePoints: ChargingStationChargePoint[];
+  chargePoints: ChargePoint[];
   connectors: Connector[];
   currentIPAddress?: string;
   siteArea?: SiteArea;
@@ -115,7 +115,7 @@ export interface ConsumptionValue {
   limitWatts: number;
 }
 
-export interface ChargingStationChargePoint {
+export interface ChargePoint {
   currentType: ChargingStationCurrentType;
   voltage: number;
   amperage: number;
@@ -151,11 +151,15 @@ export interface Connector extends Data {
   numberOfConnectedPhase?: number;
   currentType?: ConnectorCurrentType;
   chargePointID?: number;
-
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
+}
+
+export enum Voltage {
+  VOLTAGE_230 = 230,
+  VOLTAGE_110 = 110,
 }
 
 export enum ConnectorType {

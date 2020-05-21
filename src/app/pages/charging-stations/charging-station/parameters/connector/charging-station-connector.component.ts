@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Connector, ConnectorCurrentType, Voltage } from 'app/types/ChargingStation';
+
 import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
-import { Connector, ConnectorCurrentType } from 'app/types/ChargingStation';
 
 @Component({
   selector: 'app-charging-station-connector',
@@ -11,7 +12,7 @@ export class ChargingStationConnectorComponent implements OnInit {
   @Input() public connector!: Connector;
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
-  @Output() public connectorPowerChanged = new EventEmitter<any>();
+  @Output() public connectorChanged = new EventEmitter<any>();
 
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = [
@@ -46,7 +47,7 @@ export class ChargingStationConnectorComponent implements OnInit {
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      voltage: new FormControl(230,
+      voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.required,
           Validators.min(1),
@@ -106,8 +107,7 @@ export class ChargingStationConnectorComponent implements OnInit {
     } else {
       this.power.setValue(0);
     }
-    // Notify
-    this.connectorPowerChanged.emit();
+    this.connectorChanged.emit();
   }
 
   public numberOfConnectedPhaseChanged() {

@@ -255,6 +255,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   private loadProfile(chargingProfile: ChargingProfile) {
     const schedules: Schedule[] = [];
     this.currentChargingProfile = chargingProfile;
+    this.scheduleEditableTableDataSource.setChargingProfile(chargingProfile);
+    this.scheduleTableDataSource.setChargingProfile(chargingProfile);
     if (chargingProfile) {
       // Init values
       if (chargingProfile.profile.chargingProfileKind) {
@@ -282,7 +284,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
           limit: chargingSchedule.limit,
           limitInkW: Utils.convertAmpToWatt(
-            this.chargingStation, chargingSchedule.limit) / 1000,
+            this.chargingStation, chargingProfile.connectorID, chargingSchedule.limit) / 1000,
         };
         // Next Schedule?
         if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {

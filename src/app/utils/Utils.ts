@@ -185,9 +185,9 @@ export class Utils {
     const result: ChargingStationPowers = {
       notSupported: false,
       minAmp: StaticLimitAmps.MIN_LIMIT,
-      minWatt: Utils.convertAmpToWatt(chargingStation, StaticLimitAmps.MIN_LIMIT),
+      minWatt: Utils.convertAmpToWatt(chargingStation, connector.connectorId, StaticLimitAmps.MIN_LIMIT),
       maxAmp: StaticLimitAmps.MIN_LIMIT,
-      maxWatt: Utils.convertAmpToWatt(chargingStation, StaticLimitAmps.MIN_LIMIT),
+      maxWatt: Utils.convertAmpToWatt(chargingStation, connector.connectorId, StaticLimitAmps.MIN_LIMIT),
       currentAmp: 0,
       currentWatt: 0,
     };
@@ -197,7 +197,7 @@ export class Utils {
         Utils.isEmptyArray(chargingStation.connectors)) {
       result.notSupported = true;
       result.currentAmp = result.maxAmp;
-      result.currentWatt = Utils.convertAmpToWatt(chargingStation, result.currentAmp);
+      result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.currentAmp);
       return result;
     }
     // Connector Provided?
@@ -229,9 +229,9 @@ export class Utils {
     if (result.currentAmp === 0) {
       result.currentAmp = result.maxAmp;
     }
-    result.minWatt = Utils.convertAmpToWatt(chargingStation, result.minAmp);
-    result.maxWatt = Utils.convertAmpToWatt(chargingStation, result.maxAmp);
-    result.currentWatt = Utils.convertAmpToWatt(chargingStation, result.currentAmp);
+    result.minWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.minAmp);
+    result.maxWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.maxAmp);
+    result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.currentAmp);
     return result;
   }
 
@@ -259,16 +259,16 @@ export class Utils {
     return StaticLimitAmps.MIN_LIMIT;
   }
 
-  public static convertAmpToWatt(chargingStation: ChargingStation, ampValue: number): number {
-    const voltage = Utils.getChargingStationVoltage(chargingStation);
+  public static convertAmpToWatt(chargingStation: ChargingStation, connectorID = 0, ampValue: number): number {
+    const voltage = Utils.getChargingStationVoltage(chargingStation, connectorID);
     if (voltage > 0) {
       return voltage * ampValue;
     }
     return 0;
   }
 
-  public static convertWattToAmp(chargingStation: ChargingStation, wattValue: number): number {
-    const voltage = Utils.getChargingStationVoltage(chargingStation);
+  public static convertWattToAmp(chargingStation: ChargingStation, connectorID = 0, wattValue: number): number {
+    const voltage = Utils.getChargingStationVoltage(chargingStation, connectorID);
     if (voltage > 0) {
       return Math.floor(wattValue / voltage);
     }
@@ -339,11 +339,13 @@ export class Utils {
     return 0;
   }
 
-  public static convertAmpToWattString(chargingStation: ChargingStation, appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true, numberOfDecimals?: number): string {
+  public static convertAmpToWattString(chargingStation: ChargingStation, connectorId = 0,
+      appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true,
+      numberOfDecimals?: number): string {
     // TBD use corresponding connector, instead of first connector
     if (chargingStation) {
       return appUnitFormatter.transform(
-        Utils.convertAmpToWatt(chargingStation, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
+        Utils.convertAmpToWatt(chargingStation, connectorId, ampValue), 'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
     }
     return 'N/A';
   }

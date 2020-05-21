@@ -25,7 +25,7 @@ export class ChargingStationsChargingProfilePowerSliderCellComponent extends Cel
   public sliderChanged(value: number) {
     // Update the row
     this.row.limit = value;
-    this.row.limitInkW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, value) / 1000);
+    this.row.limitInkW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, 0, value) / 1000);
     // Notify
     this.componentChanged.emit(value);
   }

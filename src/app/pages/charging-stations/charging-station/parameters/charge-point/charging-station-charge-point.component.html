@@ -3,7 +3,7 @@
     <div class="card card-settings connector-card">
       <div class="card-header card-header-primary card-header-icon">
         <div class="card-icon">
-          <mat-icon>info</mat-icon>
+          <mat-icon>group_work</mat-icon>
         </div>
         <h4 class="card-title text-left">
           {{'chargers.charge_point' | translate}}
@@ -11,6 +11,14 @@
       </div>
       <div class="card-body">
         <div class="row text-left">
+          <div class="col-md-3" *ngIf="efficiency.value">
+            <mat-form-field>
+              <input matInput
+                placeholder="{{'chargers.efficiency' | translate}}"
+                [formControl]="efficiency" [readOnly]="!isAdmin"/>
+              <mat-error *ngIf="efficiency.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
+            </mat-form-field>
+          </div>
           <div class="col-md-3" *ngIf="cannotChargeInParallel.value">
             <mat-checkbox [formControl]="cannotChargeInParallel">
               {{'chargers.cant_charge_in_parallel' | translate}}

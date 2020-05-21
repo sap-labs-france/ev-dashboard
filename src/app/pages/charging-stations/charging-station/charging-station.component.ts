@@ -1,22 +1,22 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { SpinnerService } from 'app/services/spinner.service';
 import { Action, Entity } from 'app/types/Authorization';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
-import { Utils } from 'app/utils/Utils';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { LocaleService } from '../../../services/locale.service';
-import { MessageService } from '../../../services/message.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { ChargingStation } from 'app/types/ChargingStation';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
+import { DialogService } from 'app/services/dialog.service';
+import { FormGroup } from '@angular/forms';
+import { LocaleService } from '../../../services/locale.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MessageService } from '../../../services/message.service';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station',
@@ -94,8 +94,13 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   }
 
   public saveChargingStation(chargingStation: ChargingStation) {
+    // Clone
+    const chargingStationToSave = JSON.parse(JSON.stringify(chargingStation)) as ChargingStation;
+    // Do not save charge point
+    delete chargingStationToSave.chargePoints;
+    // Save
     this.spinnerService.show();
-    this.centralServerService.updateChargingStationParams(chargingStation).subscribe((response) => {
+    this.centralServerService.updateChargingStationParams(chargingStationToSave).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('chargers.change_config_success',

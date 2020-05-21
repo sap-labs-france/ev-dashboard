@@ -20,7 +20,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     { key: 0, description: 'chargers.direct_current' },
   ];
 
-  public formConnectorGroup: FormGroup;
+  public formChargePointGroup: FormGroup;
   public currentType!: AbstractControl;
   public voltage!: AbstractControl;
   public amperage!: AbstractControl;
@@ -33,9 +33,13 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   public connectorIDs!: AbstractControl;
 
   public ngOnInit() {
-    // Init connectors
-    this.formConnectorGroup = new FormGroup({
-      currentType: new FormControl(CurrentType.AC),
+    // Init charge point
+    this.formChargePointGroup = new FormGroup({
+      currentType: new FormControl(CurrentType.AC,
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
       voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.required,
@@ -77,10 +81,9 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      efficiency: new FormControl(100,
+      efficiency: new FormControl(0,
         Validators.compose([
           Validators.required,
-          Validators.min(1),
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
@@ -88,18 +91,18 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
       connectorIDs: new FormControl([]),
     });
     // Add to form array
-    this.formChargePointsArray.push(this.formConnectorGroup);
+    this.formChargePointsArray.push(this.formChargePointGroup);
     // Form
-    this.currentType = this.formConnectorGroup.controls['currentType'];
-    this.voltage = this.formConnectorGroup.controls['voltage'];
-    this.amperage = this.formConnectorGroup.controls['amperage'];
-    this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
-    this.cannotChargeInParallel = this.formConnectorGroup.controls['cannotChargeInParallel'];
-    this.sharePowerToAllConnectors = this.formConnectorGroup.controls['sharePowerToAllConnectors'];
-    this.excludeFromPowerLimitation = this.formConnectorGroup.controls['excludeFromPowerLimitation'];
-    this.power = this.formConnectorGroup.controls['power'];
-    this.efficiency = this.formConnectorGroup.controls['efficiency'];
-    this.connectorIDs = this.formConnectorGroup.controls['connectorIDs'];
+    this.currentType = this.formChargePointGroup.controls['currentType'];
+    this.voltage = this.formChargePointGroup.controls['voltage'];
+    this.amperage = this.formChargePointGroup.controls['amperage'];
+    this.numberOfConnectedPhase = this.formChargePointGroup.controls['numberOfConnectedPhase'];
+    this.cannotChargeInParallel = this.formChargePointGroup.controls['cannotChargeInParallel'];
+    this.sharePowerToAllConnectors = this.formChargePointGroup.controls['sharePowerToAllConnectors'];
+    this.excludeFromPowerLimitation = this.formChargePointGroup.controls['excludeFromPowerLimitation'];
+    this.power = this.formChargePointGroup.controls['power'];
+    this.efficiency = this.formChargePointGroup.controls['efficiency'];
+    this.connectorIDs = this.formChargePointGroup.controls['connectorIDs'];
     this.formChargePointsArray.disable();
     this.loadChargePoint();
   }

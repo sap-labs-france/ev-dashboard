@@ -32,7 +32,7 @@
       </div>
       <div class="col-md-3 form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'chargers.maximum_energy_amps' | translate}}" [formControl]="maximumPowerAmps" required [readOnly]="!isAdmin"/>
+          <input matInput placeholder="{{'chargers.maximum_energy_amps' | translate}}" [formControl]="maximumPowerAmps" [readOnly]="!isAdmin"/>
           <mat-error *ngIf="maximumPowerAmps.invalid">{{'chargers.invalid_amperage' | translate}}</mat-error>
         </mat-form-field>
       </div>
@@ -59,13 +59,13 @@
       </div>
     </div>
     <div class="row align-items-center">
-      <div class="col-md-6 col-xl-6 text-left form-group">
+      <div class="col-md-6 text-left">
         <mat-checkbox [formControl]="private">
           {{'chargers.private' | translate}}
         </mat-checkbox>
       </div>
     </div>
-    <div class="row" *ngIf="chargingStation.chargePoints; else chargingStationWithNoChargePoints">
+    <div class="row charging-station-connector-component" *ngIf="chargingStation.chargePoints; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
         <app-charging-station-charge-point
           [chargingStation]="chargingStation" [chargePoint]="chargePoint"
@@ -74,7 +74,7 @@
       </div>
     </div>
     <ng-template #chargingStationWithNoChargePoints>
-      <div class="row">
+      <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
           <app-charging-station-connector
             [chargingStation]="chargingStation" [connector]="connector" [formConnectorsArray]="connectors"

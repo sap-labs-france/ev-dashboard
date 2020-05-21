@@ -102,38 +102,46 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     if (this.connector) {
       // Update connector values
       this.type.setValue(this.connector.type);
-      this.power.setValue(this.connector.power);
+      this.power.setValue(
+        Utils.getChargingStationPower(this.chargingStation, this.connector.connectorId));
       this.voltage.setValue(
         Utils.getChargingStationVoltage(this.chargingStation, this.connector.connectorId));
-      this.amperage.setValue(this.connector.amperage);
+      this.amperage.setValue(
+        Utils.getChargingStationAmperage(this.chargingStation, this.connector.connectorId));
       this.currentType.setValue(
         Utils.getChargingStationCurrentType(this.chargingStation, this.connector.connectorId));
       this.numberOfConnectedPhase.setValue(
         Utils.getChargingStationNumberOfConnectedPhases(this.chargingStation, this.connector.connectorId));
       if (this.chargePoint) {
         this.formConnectorsArray.disable();
+      } else {
+        this.refreshPower();
+        this.refreshNumberOfPhases();
       }
-      this.refreshPower();
-      this.currentTypeChanged();
     }
   }
 
   public refreshPower() {
-    if (this.amperage.value > 0 && this.voltage.value > 0) {
-      this.power.setValue(Math.floor(this.amperage.value * this.voltage.value));
+    if ((this.amperage.value as number) > 0 && (this.voltage.value as number) > 0) {
+      this.power.setValue(
+        Math.floor((this.amperage.value as number) * (this.voltage.value as number)));
     } else {
       this.power.setValue(0);
     }
     this.connectorChanged.emit();
   }
 
-  public currentTypeChanged() {
+  public refreshNumberOfPhases() {
     if (this.currentType.value === CurrentType.DC) {
       this.numberOfConnectedPhase.setValue(3);
       this.numberOfConnectedPhase.disable();
     } else {
       this.numberOfConnectedPhase.enable();
     }
+  }
+
+  public currentTypeChanged() {
+    this.refreshNumberOfPhases();
   }
 
   public amperageChanged() {
@@ -151,7 +159,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   private amperagePhaseValidator(amperageControl: AbstractControl): ValidationErrors|null {
     // Check
     if (!amperageControl.value ||
-       ((amperageControl.value as number % this.numberOfConnectedPhase.value as number) === 0)) {
+       (((amperageControl.value as number) % (this.numberOfConnectedPhase.value as number)) === 0)) {
       // Ok
       return null;
     }

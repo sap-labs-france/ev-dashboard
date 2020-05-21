@@ -151,7 +151,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       if (this.chargingStation.maximumPower) {
         this.maximumPower.setValue(this.chargingStation.maximumPower);
-        this.maximumPowerAmps.setValue(Utils.convertWattToAmp(this.chargingStation, 0, this.chargingStation.maximumPower));
+        this.maximumPowerAmps.setValue(
+          Utils.computeChargingStationTotalAmps(this.chargingStation));
       }
       if (this.chargingStation.coordinates) {
         this.longitude.setValue(this.chargingStation.coordinates[0]);
@@ -189,16 +190,19 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     }
     this.maximumPower.setValue(totalPower);
     this.maximumPowerAmps.setValue(
-      Utils.convertWattToAmp(this.chargingStation, 0, totalPower));
+      Utils.convertWattToAmp(
+        this.formGroup.getRawValue() as ChargingStation, 0, totalPower));
   }
 
   public chargePointChanged() {
+    this.connectorChanged();
   }
 
   public maximumPowerChanged() {
     if (!this.maximumPower.errors) {
       this.maximumPowerAmps.setValue(
-        Utils.convertWattToAmp(this.chargingStation, 0, this.maximumPower.value as number));
+        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation,
+          0, this.maximumPower.value as number));
     }
   }
 

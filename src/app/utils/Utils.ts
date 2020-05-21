@@ -275,9 +275,57 @@ export class Utils {
     return 0;
   }
 
+  public static computeChargingStationTotalAmps(chargingStation: ChargingStation): number {
+    let totalAmps = 0;
+    if (chargingStation) {
+      // Check at charge point level
+      if (chargingStation.chargePoints) {
+        for (const chargePoint of chargingStation.chargePoints) {
+          totalAmps += chargePoint.amperage;
+        }
+      }
+      // Check at connector level
+      if (totalAmps === 0) {
+        if (chargingStation.connectors) {
+          for (const connector of chargingStation.connectors) {
+            totalAmps += connector.amperage;
+          }
+        }
+      }
+    }
+    if (totalAmps === 0 && chargingStation.maximumPower > 0) {
+      totalAmps = Utils.convertWattToAmp(chargingStation, 0, chargingStation.maximumPower);
+    }
+    return totalAmps;
+  }
+
+  public static getChargingStationPower(chargingStation: ChargingStation, connectorId = 0): number {
+    if (chargingStation) {
+      // Check at charging station level
+      if (connectorId === 0 && chargingStation.maximumPower > 0) {
+        return chargingStation.maximumPower;
+      }
+      // Check at charge point level
+      if (chargingStation.chargePoints) {
+        for (const chargePoint of chargingStation.chargePoints) {
+          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.power > 0 &&
+             (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors)) {
+            return chargePoint.power;
+          }
+        }
+      }
+      // Check at connector level
+      if (chargingStation.connectors && chargingStation.connectors[connectorId - 1] &&
+          chargingStation.connectors[connectorId - 1].power > 0) {
+        return chargingStation.connectors[connectorId - 1].power;
+      }
+    }
+    return 0;
+  }
+
   public static getChargingStationNumberOfConnectedPhases(chargingStation: ChargingStation, connectorId = 0): number {
     if (chargingStation) {
-      // Check phase at charge point level
+      // Check at charge point level
       if (chargingStation.chargePoints) {
         for (const chargePoint of chargingStation.chargePoints) {
           // Take the first
@@ -289,7 +337,7 @@ export class Utils {
           }
         }
       }
-      // Check phases at connector level
+      // Check at connector level
       if (chargingStation.connectors) {
         for (const connector of chargingStation.connectors) {
           // Take the first
@@ -307,11 +355,11 @@ export class Utils {
 
   public static getChargingStationVoltage(chargingStation: ChargingStation, connectorId = 0): number {
     if (chargingStation) {
-      // Check voltage at charging station level
+      // Check at charging station level
       if (chargingStation.voltage > 0) {
         return chargingStation.voltage;
       }
-      // Check voltage at charge point level
+      // Check at charge point level
       if (chargingStation.chargePoints) {
         for (const chargePoint of chargingStation.chargePoints) {
           // Take the first
@@ -323,7 +371,7 @@ export class Utils {
           }
         }
       }
-      // Check voltage at connector level
+      // Check at connector level
       if (chargingStation.connectors) {
         for (const connector of chargingStation.connectors) {
           // Take the first
@@ -341,7 +389,7 @@ export class Utils {
 
   public static getChargingStationCurrentType(chargingStation: ChargingStation, connectorId = 0): CurrentType {
     if (chargingStation) {
-      // Check voltage at charge point level
+      // Check at charge point level
       if (chargingStation.chargePoints) {
         for (const chargePoint of chargingStation.chargePoints) {
           // Take the first
@@ -353,7 +401,7 @@ export class Utils {
           }
         }
       }
-      // Check voltage at connector level
+      // Check at connector level
       if (chargingStation.connectors) {
         for (const connector of chargingStation.connectors) {
           // Take the first
@@ -362,6 +410,37 @@ export class Utils {
           }
           if (connector.connectorId === connectorId && connector.currentType) {
             return connector.currentType;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  public static getChargingStationAmperage(chargingStation: ChargingStation, connectorId = 0): number {
+    if (chargingStation) {
+      // Check at charge point level
+      if (chargingStation.chargePoints) {
+        for (const chargePoint of chargingStation.chargePoints) {
+          // Take the first
+          if (connectorId === 0 && chargePoint.amperage) {
+            return chargePoint.amperage;
+          }
+          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.amperage &&
+             (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors)) {
+            return chargePoint.amperage;
+          }
+        }
+      }
+      // Check at connector level
+      if (chargingStation.connectors) {
+        for (const connector of chargingStation.connectors) {
+          // Take the first
+          if (connectorId === 0 && connector.amperage) {
+            return connector.amperage;
+          }
+          if (connector.connectorId === connectorId && connector.amperage) {
+            return connector.amperage;
           }
         }
       }

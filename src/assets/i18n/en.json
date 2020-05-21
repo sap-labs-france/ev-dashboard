@@ -911,6 +911,7 @@
     "invalid_power_value": "Power value must be a positive number",
     "invalid_voltage": "Voltage value must be a positive number",
     "invalid_amperage": "Amperage value must be a positive number",
+    "invalid_amperage_phases": "Amperage must be divisible by the number of phases",
     "unsaved_title": "Unsaved changes",
     "unsaved_confirmed": "Do you want to save changes?",
     "changes_cancelled": "Changes have been cancelled",
@@ -927,7 +928,7 @@
     "power_limit_unit": "Connector Power Unit",
     "watt": "Watt",
     "amper": "Ampere",
-    "voltage": "Voltage Phase/Neutral (V)",
+    "voltage": "Phase/Neutral Voltage (V)",
     "amperage": "Total Ampérage (A)",
     "session_details": "Session",
     "tabs": {

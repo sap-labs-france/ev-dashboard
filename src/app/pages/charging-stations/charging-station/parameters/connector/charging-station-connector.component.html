@@ -40,8 +40,19 @@
           </div>
           <div class="col-md-6">
             <mat-form-field>
+              <mat-select placeholder="{{'chargers.current_type' | translate}}"
+                  (selectionChange)="currentTypeChanged()"
+                  [formControl]="currentType" required>
+                <mat-option *ngFor="let currentType of currentTypeMap" [value]="currentType.key">
+                  {{currentType.description | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
               <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}"
-                  (selectionChange)="numberOfConnectedPhaseChanged()"
+                  (selectionChange)="numberOfConnectedPhaseChanged()" 
                   [formControl]="numberOfConnectedPhase" required>
                 <mat-option *ngFor="let connectedPhase of connectedPhaseMap" [value]="connectedPhase.key">
                   {{connectedPhase.description | translate}}
@@ -54,7 +65,7 @@
           <div class="col-md-6">
             <mat-form-field>
               <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage" 
-                  (selectionChange)="refreshPower()" required>
+                  (selectionChange)="voltageChanged()" required>
                 <mat-option [value]="230">230</mat-option>
                 <mat-option [value]="110">110</mat-option>
               </mat-select>
@@ -65,7 +76,10 @@
               <input matInput placeholder="{{'chargers.amperage' | translate}}"
                 (input)="refreshPower()" type="number" required
                 [formControl]="amperage" [readOnly]="!isAdmin">
-              <mat-error *ngIf="amperage.invalid">{{'chargers.invalid_amperage' | translate}}</mat-error>
+              <mat-error *ngIf="amperage.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+              <mat-error *ngIf="amperage.errors?.min">{{'chargers.invalid_amperage' | translate}}</mat-error>
+              <mat-error *ngIf="amperage.errors?.pattern">{{'chargers.invalid_amperage' | translate}}</mat-error>
+              <mat-error *ngIf="amperage.errors?.amperagePhases">{{'chargers.invalid_amperage_phases' | translate}}</mat-error>
             </mat-form-field>
           </div>
         </div>

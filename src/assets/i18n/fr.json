@@ -911,6 +911,7 @@
     "invalid_power_value": "La puissance doit être un nombre positif",
     "invalid_voltage": "Le voltage doit être un nombre entier positif",
     "invalid_amperage": "L'ampérage doit être un nombre entier positif",
+    "invalid_amperage_phases": "L'ampérage doit être divisible par le nombre de phases",
     "unsaved_title": "Modifications en cours",
     "unsaved_confirmed": "Voulez-vous sauvegarder vos modifications?",
     "changes_cancelled": "Les modifications ont été annulées",

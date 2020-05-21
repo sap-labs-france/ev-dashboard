@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ChargePoint, ChargingStation, Connector, CurrentType, Voltage } from 'app/types/ChargingStation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
@@ -21,6 +21,10 @@ export class ChargingStationConnectorComponent implements OnInit {
   public connectedPhaseMap = [
     { key: 1, description: 'chargers.single_phase' },
     { key: 3, description: 'chargers.tri_phases' },
+  ];
+  public currentTypeMap = [
+    { key: CurrentType.AC, description: 'chargers.alternating_current' },
+    { key: CurrentType.DC, description: 'chargers.direct_current' },
   ];
 
   public formConnectorGroup: FormGroup;
@@ -61,6 +65,7 @@ export class ChargingStationConnectorComponent implements OnInit {
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
+          this.amperagePhaseValidator.bind(this),
         ])
       ),
       numberOfConnectedPhase: new FormControl(3,
@@ -97,8 +102,8 @@ export class ChargingStationConnectorComponent implements OnInit {
       this.formConnectorsArray.disable();
     }
     this.refreshPower();
-    this.refreshCurrentType();
-  }
+    this.currentTypeChanged();
+}
 
   public refreshPower() {
     if (this.amperage.value > 0 && this.voltage.value > 0) {
@@ -109,16 +114,30 @@ export class ChargingStationConnectorComponent implements OnInit {
     this.connectorChanged.emit();
   }
 
-  public numberOfConnectedPhaseChanged() {
-    this.refreshCurrentType();
+  public currentTypeChanged() {
+    if (this.currentType.value === CurrentType.DC) {
+      this.numberOfConnectedPhase.setValue(3);
+      this.numberOfConnectedPhase.disable();
+    } else {
+      this.numberOfConnectedPhase.enable();
+    }
   }
 
-  public refreshCurrentType() {
-    // Change the current type
-    if (this.numberOfConnectedPhase.value === 0) {
-      this.currentType.setValue(CurrentType.DC);
-    } else {
-      this.currentType.setValue(CurrentType.AC);
+  public voltageChanged() {
+    this.refreshPower();
+  }
+
+  public numberOfConnectedPhaseChanged() {
+    this.amperage.updateValueAndValidity();
+  }
+
+  private amperagePhaseValidator(amperageControl: AbstractControl): ValidationErrors|null {
+    // Check
+    if (!amperageControl.value ||
+       ((amperageControl.value as number % this.numberOfConnectedPhase.value as number) === 0)) {
+      // Ok
+      return null;
     }
+    return { amperagePhases: true };
   }
 }

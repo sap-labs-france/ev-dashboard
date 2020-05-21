@@ -185,9 +185,9 @@ export class Utils {
     const result: ChargingStationPowers = {
       notSupported: false,
       minAmp: StaticLimitAmps.MIN_LIMIT,
-      minWatt: Utils.convertAmpToWatt(chargingStation, connector.connectorId, StaticLimitAmps.MIN_LIMIT),
+      minWatt: Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, StaticLimitAmps.MIN_LIMIT),
       maxAmp: StaticLimitAmps.MIN_LIMIT,
-      maxWatt: Utils.convertAmpToWatt(chargingStation, connector.connectorId, StaticLimitAmps.MIN_LIMIT),
+      maxWatt: Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, StaticLimitAmps.MIN_LIMIT),
       currentAmp: 0,
       currentWatt: 0,
     };
@@ -197,7 +197,7 @@ export class Utils {
         Utils.isEmptyArray(chargingStation.connectors)) {
       result.notSupported = true;
       result.currentAmp = result.maxAmp;
-      result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.currentAmp);
+      result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.currentAmp);
       return result;
     }
     // Connector Provided?
@@ -229,9 +229,9 @@ export class Utils {
     if (result.currentAmp === 0) {
       result.currentAmp = result.maxAmp;
     }
-    result.minWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.minAmp);
-    result.maxWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.maxAmp);
-    result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector.connectorId, result.currentAmp);
+    result.minWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.minAmp);
+    result.maxWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.maxAmp);
+    result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.currentAmp);
     return result;
   }
 

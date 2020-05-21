@@ -13,6 +13,7 @@ import { SiteArea } from 'app/types/SiteArea';
 import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import TenantComponents from 'app/types/TenantComponents';
 import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',
@@ -31,6 +32,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public private!: AbstractControl;
   public issuer!: AbstractControl;
   public maximumPower!: AbstractControl;
+  public maximumPowerAmps!: AbstractControl;
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
@@ -75,6 +77,13 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         Validators.pattern('^[+]?[0-9]*$'),
       ]))
     );
+    this.formGroup.addControl('maximumPowerAmps', new FormControl(0,
+      Validators.compose([
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern('^[+]?[0-9]*$'),
+      ]))
+    );
     this.formGroup.addControl('siteArea', new FormControl('',
       Validators.compose([
         Validators.required,
@@ -107,6 +116,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.private = this.formGroup.controls['private'];
     this.issuer = this.formGroup.controls['issuer'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
+    this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
@@ -117,18 +127,12 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.formGroup.updateValueAndValidity();
     // Deactivate for non admin users
     if (!this.isAdmin) {
-      this.private.disable();
-      this.chargingStationURL.disable();
-      this.latitude.disable();
-      this.longitude.disable();
-      this.siteArea.disable();
-      this.siteAreaID.disable();
+      this.formGroup.disable();
     }
-    this.maximumPower.disable();
+    this.maximumPowerAmps.disable();
   }
 
   public ngOnChanges() {
-    // Load values
     this.loadChargingStation();
   }
 
@@ -137,26 +141,27 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       // Init form with values
       this.formGroup.controls.id.setValue(this.chargingStation.id);
       if (this.chargingStation.chargingStationURL) {
-        this.formGroup.controls.chargingStationURL.setValue(this.chargingStation.chargingStationURL);
+        this.chargingStationURL.setValue(this.chargingStation.chargingStationURL);
       }
       if (this.chargingStation.private) {
-        this.formGroup.controls.private.setValue(this.chargingStation.private);
+        this.private.setValue(this.chargingStation.private);
       }
       if (this.chargingStation.issuer) {
-        this.formGroup.controls.issuer.setValue(this.chargingStation.issuer);
+        this.issuer.setValue(this.chargingStation.issuer);
       }
       if (this.chargingStation.maximumPower) {
-        this.formGroup.controls.maximumPower.setValue(this.chargingStation.maximumPower);
+        this.maximumPower.setValue(this.chargingStation.maximumPower);
+        this.maximumPowerAmps.setValue(Utils.convertWattToAmp(this.chargingStation, 0, this.chargingStation.maximumPower));
       }
       if (this.chargingStation.coordinates) {
         this.longitude.setValue(this.chargingStation.coordinates[0]);
         this.latitude.setValue(this.chargingStation.coordinates[1]);
       }
       if (this.chargingStation.siteAreaID) {
-        this.formGroup.controls.siteAreaID.setValue(this.chargingStation.siteArea.id);
+        this.siteAreaID.setValue(this.chargingStation.siteArea.id);
       }
       if (this.chargingStation.siteArea) {
-        this.formGroup.controls.siteArea.setValue(this.chargingStation.siteArea.name);
+        this.siteArea.setValue(this.chargingStation.siteArea.name);
       }
       if (!this.chargingStation.issuer) {
         this.formGroup.disable();
@@ -165,6 +170,10 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.ocppProtocol === OCPPProtocol.JSON) {
         this.chargingStationURL.disable();
       }
+      if (this.chargingStation.chargePoints) {
+        this.maximumPower.disable();
+      }
+      // Force refresh the form
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
@@ -179,9 +188,18 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
     }
     this.maximumPower.setValue(totalPower);
+    this.maximumPowerAmps.setValue(
+      Utils.convertWattToAmp(this.chargingStation, 0, totalPower));
   }
 
   public chargePointChanged() {
+  }
+
+  public maximumPowerChanged() {
+    if (!this.maximumPower.errors) {
+      this.maximumPowerAmps.setValue(
+        Utils.convertWattToAmp(this.chargingStation, 0, this.maximumPower.value as number));
+    }
   }
 
   public assignSiteArea() {

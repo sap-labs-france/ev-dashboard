@@ -1,12 +1,12 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChargePoint, ChargingStation, CurrentType, Voltage } from 'app/types/ChargingStation';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-charging-station-charge-point',
   templateUrl: 'charging-station-charge-point.component.html',
 })
-export class ChargingStationChargePointComponent implements OnInit {
+export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargePoint!: ChargePoint;
   @Input() public formChargePointsArray: FormArray;
@@ -101,19 +101,30 @@ export class ChargingStationChargePointComponent implements OnInit {
     this.efficiency = this.formConnectorGroup.controls['efficiency'];
     this.connectorIDs = this.formConnectorGroup.controls['connectorIDs'];
     this.formChargePointsArray.disable();
-    // Set data
-    this.currentType.setValue(this.chargePoint.currentType);
-    this.voltage.setValue(this.chargePoint.voltage);
-    this.amperage.setValue(this.chargePoint.amperage);
-    this.numberOfConnectedPhase.setValue(this.chargePoint.numberOfConnectedPhase);
-    this.cannotChargeInParallel.setValue(this.chargePoint.cannotChargeInParallel);
-    this.sharePowerToAllConnectors.setValue(this.chargePoint.sharePowerToAllConnectors);
-    this.excludeFromPowerLimitation.setValue(this.chargePoint.excludeFromPowerLimitation);
-    this.power.setValue(this.chargePoint.power);
-    this.efficiency.setValue(this.chargePoint.efficiency);
-    this.connectorIDs.setValue(this.chargePoint.connectorIDs);
-    // Notify
-    this.chargePointChanged.emit();
+    this.loadChargePoint();
+  }
+
+  public ngOnChanges() {
+    this.loadChargePoint();
+  }
+
+
+  public loadChargePoint() {
+    if (this.chargePoint) {
+      // Set data
+      this.currentType.setValue(this.chargePoint.currentType);
+      this.voltage.setValue(this.chargePoint.voltage);
+      this.amperage.setValue(this.chargePoint.amperage);
+      this.numberOfConnectedPhase.setValue(this.chargePoint.numberOfConnectedPhase);
+      this.cannotChargeInParallel.setValue(this.chargePoint.cannotChargeInParallel);
+      this.sharePowerToAllConnectors.setValue(this.chargePoint.sharePowerToAllConnectors);
+      this.excludeFromPowerLimitation.setValue(this.chargePoint.excludeFromPowerLimitation);
+      this.power.setValue(this.chargePoint.power);
+      this.efficiency.setValue(this.chargePoint.efficiency);
+      this.connectorIDs.setValue(this.chargePoint.connectorIDs);
+      // Notify
+      this.chargePointChanged.emit();
+    }
   }
 
   public numberOfConnectedPhaseChanged() {

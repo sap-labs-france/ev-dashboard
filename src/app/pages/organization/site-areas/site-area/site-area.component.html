@@ -94,7 +94,7 @@
                             [formControl]="maximumPower" (change)="maximumPowerChanged()" required>
                           <mat-error *ngIf="maximumPower.errors?.min">
                             {{"general.error_min_value" | translate:{value: 1} }}</mat-error>
-                          <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power_value" | translate}}
+                          <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power" | translate}}
                           </mat-error>
                           <mat-error *ngIf="maximumPower.errors?.required">{{"general.mandatory_field" | translate}}
                           </mat-error>

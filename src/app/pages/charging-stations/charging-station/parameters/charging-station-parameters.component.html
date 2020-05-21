@@ -24,11 +24,17 @@
     <div class="row">
       <div class="col-md-3 form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" [formControl]="maximumPower" required [readOnly]="!isAdmin"/>
-          <mat-error *ngIf="maximumPower.invalid">{{'chargers.invalid_power_value' | translate}}</mat-error>
+          <input matInput placeholder="{{'chargers.maximum_energy' | translate}}"
+            (input)="maximumPowerChanged()"  [formControl]="maximumPower"
+            required [readOnly]="!isAdmin"/>
+          <mat-error *ngIf="maximumPower.invalid">{{'chargers.invalid_power' | translate}}</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-3 form-group">
+        <mat-form-field>
+          <input matInput placeholder="{{'chargers.maximum_energy_amps' | translate}}" [formControl]="maximumPowerAmps" required [readOnly]="!isAdmin"/>
+          <mat-error *ngIf="maximumPowerAmps.invalid">{{'chargers.invalid_amperage' | translate}}</mat-error>
+        </mat-form-field>
       </div>
       <div class="col-md-3 form-group">
         <mat-form-field>

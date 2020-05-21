@@ -1,4 +1,4 @@
-import { ChargingStation, ChargingStationCurrentType, PowerLimitUnits } from 'app/types/ChargingStation';
+import { ChargingStation } from 'app/types/ChargingStation';
 
 export class ChargingStations {
   public static provideLimit(charger: ChargingStation, value: number): number {

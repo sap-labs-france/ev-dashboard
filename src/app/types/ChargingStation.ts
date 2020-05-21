@@ -39,7 +39,6 @@ export interface ChargingStation extends Data {
   currentIPAddress?: string;
   siteArea?: SiteArea;
   capabilities?: ChargingStationCapabilities;
-  ocppAdvancedCommands?: OcppAdvancedCommands[];
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
 }
@@ -68,12 +67,6 @@ export enum OCPPGeneralResponse {
   REJECTED = 'Rejected',
 }
 
-export enum ChargingStationCurrentType {
-  AC = 'AC',
-  DC = 'DC',
-  AC_DC = 'AC/DC',
-}
-
 export interface ChargingStationPowers {
   notSupported: boolean;
   minAmp: number;
@@ -87,10 +80,6 @@ export interface ChargingStationPowers {
 export interface OcppCommand {
   command: string;
   parameters: string[];
-}
-
-export interface OcppAdvancedCommands {
-  command: string | OcppCommand;
 }
 
 export enum PowerLimitUnits {
@@ -116,7 +105,7 @@ export interface ConsumptionValue {
 }
 
 export interface ChargePoint {
-  currentType: ChargingStationCurrentType;
+  currentType: CurrentType;
   voltage: number;
   amperage: number;
   numberOfConnectedPhase: number;
@@ -149,7 +138,7 @@ export interface Connector extends Data {
   statusLastChangedOn?: Date;
   inactivityStatus?: InactivityStatus;
   numberOfConnectedPhase?: number;
-  currentType?: ConnectorCurrentType;
+  currentType?: CurrentType;
   chargePointID?: number;
   hasDetails: boolean;
   isStopAuthorized: boolean;
@@ -172,7 +161,7 @@ export enum ConnectorType {
   UNKNOWN = 'U',
 }
 
-export enum ConnectorCurrentType {
+export enum CurrentType {
   AC = 'AC',
   DC = 'DC',
 }

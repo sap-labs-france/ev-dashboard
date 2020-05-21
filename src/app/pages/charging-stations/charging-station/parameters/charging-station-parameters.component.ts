@@ -1,5 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ChargingStation, ChargingStationCurrentType, OCPPProtocol } from 'app/types/ChargingStation';
+import { ChargingStation, OCPPProtocol } from 'app/types/ChargingStation';
 import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
@@ -27,14 +27,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
 
-  public currentTypeMap = [
-    { key: ChargingStationCurrentType.AC, description: 'chargers.alternating_current' },
-    { key: ChargingStationCurrentType.DC, description: 'chargers.direct_current' },
-    {
-      key: ChargingStationCurrentType.AC_DC,
-      description: 'chargers.direct_and_alternating_current',
-    },
-  ];
   public chargingStationURL!: AbstractControl;
   public private!: AbstractControl;
   public issuer!: AbstractControl;

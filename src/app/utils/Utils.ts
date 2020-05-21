@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
-import { ChargingStation, ChargingStationPowers, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { Data, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -275,7 +275,7 @@ export class Utils {
     return 0;
   }
 
-  public static getNumberOfConnectedPhases(chargingStation: ChargingStation, connectorId = 0): number {
+  public static getChargingStationNumberOfConnectedPhases(chargingStation: ChargingStation, connectorId = 0): number {
     if (chargingStation) {
       // Check phase at charge point level
       if (chargingStation.chargePoints) {
@@ -308,7 +308,7 @@ export class Utils {
   public static getChargingStationVoltage(chargingStation: ChargingStation, connectorId = 0): number {
     if (chargingStation) {
       // Check voltage at charging station level
-      if (connectorId === 0 && chargingStation.voltage > 0) {
+      if (chargingStation.voltage > 0) {
         return chargingStation.voltage;
       }
       // Check voltage at charge point level
@@ -337,6 +337,36 @@ export class Utils {
       }
     }
     return 0;
+  }
+
+  public static getChargingStationCurrentType(chargingStation: ChargingStation, connectorId = 0): CurrentType {
+    if (chargingStation) {
+      // Check voltage at charge point level
+      if (chargingStation.chargePoints) {
+        for (const chargePoint of chargingStation.chargePoints) {
+          // Take the first
+          if (connectorId === 0 && chargePoint.currentType) {
+            return chargePoint.currentType;
+          }
+          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.currentType) {
+            return chargePoint.currentType;
+          }
+        }
+      }
+      // Check voltage at connector level
+      if (chargingStation.connectors) {
+        for (const connector of chargingStation.connectors) {
+          // Take the first
+          if (connectorId === 0 && connector.currentType) {
+            return connector.currentType;
+          }
+          if (connector.connectorId === connectorId && connector.currentType) {
+            return connector.currentType;
+          }
+        }
+      }
+    }
+    return null;
   }
 
   public static convertAmpToWattString(chargingStation: ChargingStation, connectorId = 0,

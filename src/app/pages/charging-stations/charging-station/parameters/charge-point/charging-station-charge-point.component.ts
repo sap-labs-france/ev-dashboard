@@ -1,5 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ChargePoint, ChargingStation, ConnectorCurrentType, Voltage } from 'app/types/ChargingStation';
+import { ChargePoint, ChargingStation, CurrentType, Voltage } from 'app/types/ChargingStation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -35,7 +35,7 @@ export class ChargingStationChargePointComponent implements OnInit {
   public ngOnInit() {
     // Init connectors
     this.formConnectorGroup = new FormGroup({
-      currentType: new FormControl(ConnectorCurrentType.AC),
+      currentType: new FormControl(CurrentType.AC),
       voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.required,

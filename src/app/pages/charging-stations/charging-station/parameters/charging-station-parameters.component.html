@@ -61,7 +61,8 @@
     </div>
     <div class="row" *ngIf="chargingStation.chargePoints; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
-        <app-charging-station-charge-point [chargePoint]="chargePoint" [chargingStation]="chargingStation"
+        <app-charging-station-charge-point
+          [chargingStation]="chargingStation" [chargePoint]="chargePoint"
           [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors"
           [isAdmin]="isAdmin" (chargePointChanged)="chargePointChanged()"></app-charging-station-charge-point>
       </div>
@@ -69,7 +70,8 @@
     <ng-template #chargingStationWithNoChargePoints>
       <div class="row">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
-          <app-charging-station-connector [connector]="connector" [formConnectorsArray]="connectors"
+          <app-charging-station-connector
+            [chargingStation]="chargingStation" [connector]="connector" [formConnectorsArray]="connectors"
             [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"></app-charging-station-connector>
         </div>
       </div>

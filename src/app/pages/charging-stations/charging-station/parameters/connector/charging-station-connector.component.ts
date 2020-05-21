@@ -1,15 +1,18 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChargePoint, ChargingStation, Connector, CurrentType, Voltage } from 'app/types/ChargingStation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Connector, ConnectorCurrentType, Voltage } from 'app/types/ChargingStation';
 
 import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-connector',
   templateUrl: 'charging-station-connector.component.html',
 })
 export class ChargingStationConnectorComponent implements OnInit {
+  @Input() public chargingStation!: ChargingStation;
   @Input() public connector!: Connector;
+  @Input() public chargePoint!: ChargePoint;
   @Input() public formConnectorsArray: FormArray;
   @Input() public isAdmin!: boolean;
   @Output() public connectorChanged = new EventEmitter<any>();
@@ -18,7 +21,6 @@ export class ChargingStationConnectorComponent implements OnInit {
   public connectedPhaseMap = [
     { key: 1, description: 'chargers.single_phase' },
     { key: 3, description: 'chargers.tri_phases' },
-    { key: 0, description: 'chargers.direct_current' },
   ];
 
   public formConnectorGroup: FormGroup;
@@ -66,7 +68,7 @@ export class ChargingStationConnectorComponent implements OnInit {
           Validators.required,
         ])
       ),
-      currentType: new FormControl(ConnectorCurrentType.AC),
+      currentType: new FormControl(CurrentType.AC),
     });
     // Add to form array
     this.formConnectorsArray.push(this.formConnectorGroup);
@@ -85,17 +87,14 @@ export class ChargingStationConnectorComponent implements OnInit {
     }
     this.power.disable();
     // Update connector values
-    this.type.setValue(this.connector.type ? this.connector.type : 'U');
+    this.type.setValue(this.connector.type);
     this.power.setValue(this.connector.power);
-    this.voltage.setValue(this.connector.voltage);
+    this.voltage.setValue(Utils.getChargingStationVoltage(this.chargingStation, this.connector.connectorId));
     this.amperage.setValue(this.connector.amperage);
-    this.currentType.setValue(this.connector.currentType);
-    this.numberOfConnectedPhase.setValue(this.connector.numberOfConnectedPhase);
-    // DC?
-    if (this.connector.numberOfConnectedPhase === 0) {
-      this.power.enable();
-    } else {
-      this.power.disable();
+    this.currentType.setValue(Utils.getChargingStationCurrentType(this.chargingStation, this.connector.connectorId));
+    this.numberOfConnectedPhase.setValue(Utils.getChargingStationNumberOfConnectedPhases(this.chargingStation, this.connector.connectorId));
+    if (this.chargePoint) {
+      this.formConnectorsArray.disable();
     }
     this.refreshPower();
     this.refreshCurrentType();
@@ -117,9 +116,9 @@ export class ChargingStationConnectorComponent implements OnInit {
   public refreshCurrentType() {
     // Change the current type
     if (this.numberOfConnectedPhase.value === 0) {
-      this.currentType.setValue(ConnectorCurrentType.DC);
+      this.currentType.setValue(CurrentType.DC);
     } else {
-      this.currentType.setValue(ConnectorCurrentType.AC);
+      this.currentType.setValue(CurrentType.AC);
     }
   }
 }

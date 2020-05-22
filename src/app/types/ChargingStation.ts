@@ -31,6 +31,7 @@ export interface ChargingStation extends Data {
   chargingStationURL: string;
   maximumPower: number;
   voltage: Voltage;
+  excludeFromSmartCharging?: boolean;
   excludeFromPowerLimitation?: boolean;
   powerLimitUnit: PowerLimitUnits;
   coordinates: number[];

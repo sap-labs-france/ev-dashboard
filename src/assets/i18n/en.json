@@ -624,6 +624,7 @@
     "share_power_to_all_connectors": "Share the power with all connectors",
     "exclude_from_power_limitation": "Cannot limit the power",
     "private": "This charging station is private",
+    "exclude_smart_charging": "Exclude from Smart Charging",
     "public_url": "Public URL",
     "current_ip": "Current IP Route",
     "select_chargers": "Select Charging Station",

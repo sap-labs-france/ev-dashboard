@@ -624,6 +624,7 @@
     "share_power_to_all_connectors": "Partage la puissance avec les connecteurs",
     "exclude_from_power_limitation": "Impossible de limiter la puissance",
     "private": "Cette borne est privée",
+    "exclude_smart_charging": "Exclure de la charge intelligente",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
     "select_chargers": "Selection Borne",

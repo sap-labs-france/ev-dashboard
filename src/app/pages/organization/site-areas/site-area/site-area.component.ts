@@ -26,7 +26,6 @@ import { SpinnerService } from 'app/services/spinner.service';
 import TenantComponents from 'app/types/TenantComponents';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
-import { Voltage } from 'app/types/ChargingStation';
 import { mergeMap } from 'rxjs/operators';
 
 @Component({
@@ -63,7 +62,6 @@ export class SiteAreaComponent implements OnInit {
   public address!: Address;
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
-  public isSmartChargingActive = false;
 
   public registrationToken!: RegistrationToken;
 
@@ -98,24 +96,25 @@ export class SiteAreaComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
       site: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
       siteID: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
       maximumPower: new FormControl(0,
-        Validators.compose(
-          this.isSmartChargingComponentActive ?
-            [
-              Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
-              Validators.min(1),
-              Validators.required,
-            ] : [],
-        )),
+        Validators.compose([
+          Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
+          Validators.min(1),
+          Validators.required,
+        ])
+      ),
       maximumPowerAmps: new FormControl(0),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
@@ -129,7 +128,8 @@ export class SiteAreaComponent implements OnInit {
       numberOfPhases: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -198,7 +198,7 @@ export class SiteAreaComponent implements OnInit {
       this.voltage.disable();
       this.numberOfPhases.disable();
     }
-    if (!event.checked && this.isSmartChargingActive) {
+    if (!event.checked) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
         this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_body'),
@@ -263,7 +263,6 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
-        this.isSmartChargingActive = siteArea.smartCharging;
         this.maximumPower.enable();
         this.numberOfPhases.enable();
         this.voltage.enable();

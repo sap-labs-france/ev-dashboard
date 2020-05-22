@@ -27,9 +27,11 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
+  public isSmartChargingComponentActive = false;
 
   public chargingStationURL!: AbstractControl;
   public private!: AbstractControl;
+  public excludeFromSmartCharging: AbstractControl;
   public issuer!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
@@ -53,6 +55,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   public ngOnInit(): void {
@@ -70,6 +73,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     );
     this.formGroup.addControl('private', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
+    this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.required,
@@ -115,6 +119,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.private = this.formGroup.controls['private'];
     this.issuer = this.formGroup.controls['issuer'];
+    this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.siteArea = this.formGroup.controls['siteArea'];
@@ -148,6 +153,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);
+      }
+      if (this.excludeFromSmartCharging) {
+        this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
       }
       if (this.chargingStation.maximumPower) {
         this.maximumPower.setValue(this.chargingStation.maximumPower);

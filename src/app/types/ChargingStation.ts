@@ -106,6 +106,7 @@ export interface ConsumptionValue {
 }
 
 export interface ChargePoint {
+  chargePointID: number;
   currentType: CurrentType;
   voltage: Voltage;
   amperage: number;
@@ -113,9 +114,11 @@ export interface ChargePoint {
   cannotChargeInParallel: boolean;
   sharePowerToAllConnectors: boolean;
   excludeFromPowerLimitation: boolean;
+  ocppParamForPowerLimitation: string;
   power: number;
   efficiency: number;
   connectorIDs: number[];
+  ampCurrentLimit?: number;
 }
 
 export interface Connector extends Data {

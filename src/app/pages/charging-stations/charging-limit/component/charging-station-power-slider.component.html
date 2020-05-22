@@ -19,7 +19,7 @@
             {{displayedMaxPowerKW}}<br/>({{this.maxAmp}} A)
         </td>
     </tr>
-    <tr *ngIf="notSupported" >
+    <tr *ngIf="notSupported">
         <td [class]="forChargingProfile ? 'col-md-12 text-center current-power-text-not-supported p-0' : 'col-md-12 text-center current-power-text-not-supported mb-4'">
             {{'chargers.smart_charging.slider_power_disabled' | translate }}
         </td>

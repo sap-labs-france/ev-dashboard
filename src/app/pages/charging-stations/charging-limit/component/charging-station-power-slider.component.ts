@@ -1,4 +1,4 @@
-import { ChargingStation, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
+import { ChargePoint, ChargingStation, Connector, StaticLimitAmps } from 'app/types/ChargingStation';
 import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
@@ -14,6 +14,7 @@ import { Utils } from 'app/utils/Utils';
 @Injectable()
 export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
+  @Input() public chargePoint!: ChargePoint;
   @Input() public connector!: Connector;
   @Input() public currentAmp!: number;
   @Input() public forChargingProfile = false;
@@ -46,7 +47,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public ngOnInit() {
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(
-      this.chargingStation, this.connector ? this.connector.connectorId : 0, this.forChargingProfile);
+      this.chargingStation, this.chargePoint, this.connector ? this.connector.connectorId : 0, this.forChargingProfile);
     if (!this.currentAmp) {
       this.currentAmp = chargerPowers.currentAmp;
     }

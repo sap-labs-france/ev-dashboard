@@ -107,7 +107,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.voltage.setValue(
         Utils.getChargingStationVoltage(this.chargingStation, this.connector.connectorId));
       this.amperage.setValue(
-        Utils.getChargingStationAmperage(this.chargingStation, this.connector.connectorId));
+        Utils.getChargingStationAmperage(this.chargingStation, null, this.connector.connectorId));
       this.currentType.setValue(
         Utils.getChargingStationCurrentType(this.chargingStation, this.connector.connectorId));
       this.numberOfConnectedPhase.setValue(

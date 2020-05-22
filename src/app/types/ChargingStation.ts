@@ -30,7 +30,7 @@ export interface ChargingStation extends Data {
   lastReboot: Date;
   chargingStationURL: string;
   maximumPower: number;
-  voltage: number;
+  voltage: Voltage;
   excludeFromPowerLimitation?: boolean;
   powerLimitUnit: PowerLimitUnits;
   coordinates: number[];
@@ -106,7 +106,7 @@ export interface ConsumptionValue {
 
 export interface ChargePoint {
   currentType: CurrentType;
-  voltage: number;
+  voltage: Voltage;
   amperage: number;
   numberOfConnectedPhase: number;
   cannotChargeInParallel: boolean;
@@ -129,7 +129,7 @@ export interface Connector extends Data {
   vendorErrorCode?: string;
   power: number;
   type: ConnectorType;
-  voltage?: number;
+  voltage?: Voltage;
   amperage?: number;
   amperageLimit?: number;
   activeTransactionID?: number;

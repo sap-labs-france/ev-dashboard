@@ -10,7 +10,6 @@ import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
-import { ChargingStations } from 'app/utils/ChargingStations';
 import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { HTTPError } from 'app/types/HTTPError';

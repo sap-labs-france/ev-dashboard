@@ -75,7 +75,16 @@
                       </mat-checkbox>
                     </div>
                     <div class="row" *ngIf="isSmartChargingComponentActive">
-                      <div class="col-md-12">
+                      <div class="col-md-6">
+                        <mat-form-field>
+                          <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage" 
+                              (selectionChange)="voltageChanged()" required>
+                            <mat-option [value]="230">230</mat-option>
+                            <mat-option [value]="110">110</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
                         <mat-form-field>
                           <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} *
                           </mat-label>
@@ -103,7 +112,7 @@
                       <div class="col-md-6">
                         <mat-form-field>
                           <input matInput placeholder="{{'site_areas.maximum_energy_amps' | translate}}" type="number"
-                            disabled="true" [formControl]="maximumPowerInAmps">
+                            disabled="true" [formControl]="maximumPowerAmps">
                         </mat-form-field>
                       </div>
                     </div>
@@ -153,7 +162,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button *ngIf="isAdmin" (click)="saveSiteArea(formGroup.value)"
+      <button mat-button *ngIf="isAdmin" (click)="saveSiteArea(formGroup.getRawValue())"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>

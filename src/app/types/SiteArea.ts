@@ -1,7 +1,7 @@
 import { Address } from './Address';
 import { ChargingStation } from './ChargingStation';
-import { Site } from './Site';
 import { Data } from './Table';
+import { Site } from './Site';
 
 export interface SiteArea extends Data {
   id: string;
@@ -10,6 +10,7 @@ export interface SiteArea extends Data {
   address: Address;
   maximumPower: number;
   numberOfPhases: number;
+  voltage: number;
   accessControl: boolean;
   smartCharging: boolean;
   siteID: string;

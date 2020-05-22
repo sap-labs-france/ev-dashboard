@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
-import { ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationPowers, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { Data, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -181,13 +181,13 @@ export class Utils {
     return value ? value.replace(/\n/g, '') : '';
   }
 
-  public static getChargingStationPowers(chargingStation: ChargingStation, connector?: Connector, forChargingProfile: boolean = false): ChargingStationPowers {
+  public static getChargingStationPowers(chargingStation: ChargingStation, connectorId = 0, forChargingProfile: boolean = false): ChargingStationPowers {
     const result: ChargingStationPowers = {
       notSupported: false,
       minAmp: StaticLimitAmps.MIN_LIMIT,
-      minWatt: Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, StaticLimitAmps.MIN_LIMIT),
+      minWatt: Utils.convertAmpToWatt(chargingStation, connectorId, StaticLimitAmps.MIN_LIMIT),
       maxAmp: StaticLimitAmps.MIN_LIMIT,
-      maxWatt: Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, StaticLimitAmps.MIN_LIMIT),
+      maxWatt: Utils.convertAmpToWatt(chargingStation, connectorId, StaticLimitAmps.MIN_LIMIT),
       currentAmp: 0,
       currentWatt: 0,
     };
@@ -197,41 +197,24 @@ export class Utils {
         Utils.isEmptyArray(chargingStation.connectors)) {
       result.notSupported = true;
       result.currentAmp = result.maxAmp;
-      result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.currentAmp);
+      result.currentWatt = Utils.convertAmpToWatt(
+        chargingStation, connectorId, result.currentAmp);
       return result;
     }
-    // Connector Provided?
-    if (connector) {
-      // Charging Profile?
-      if (forChargingProfile) {
-        result.maxAmp = connector.amperageLimit;
-      } else {
-        result.maxAmp = connector.amperage;
-        result.currentAmp = connector.amperageLimit;
-      }
+    // Use Limit Amps
+    if (forChargingProfile) {
+      result.maxAmp = Utils.getChargingStationLimitAmperage(chargingStation, connectorId);
     } else {
-      result.maxAmp = 0;
-      if (!forChargingProfile) {
-        result.currentAmp = 0;
-      }
-      // Add all connector's amps
-      for (const chargerConnector of chargingStation.connectors) {
-        // Charging Profile?
-        if (forChargingProfile) {
-          result.maxAmp += chargerConnector.amperageLimit;
-        } else {
-          result.maxAmp += chargerConnector.amperage;
-          result.currentAmp += chargerConnector.amperageLimit;
-        }
-      }
+      result.currentAmp = Utils.getChargingStationLimitAmperage(chargingStation, connectorId);
+      result.maxAmp = Utils.getChargingStationAmperage(chargingStation, connectorId);
     }
     // Default
     if (result.currentAmp === 0) {
       result.currentAmp = result.maxAmp;
     }
-    result.minWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.minAmp);
-    result.maxWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.maxAmp);
-    result.currentWatt = Utils.convertAmpToWatt(chargingStation, connector ? connector.connectorId : 0, result.currentAmp);
+    result.minWatt = Utils.convertAmpToWatt(chargingStation, connectorId, result.minAmp);
+    result.maxWatt = Utils.convertAmpToWatt(chargingStation,connectorId, result.maxAmp);
+    result.currentWatt = Utils.convertAmpToWatt(chargingStation, connectorId, result.currentAmp);
     return result;
   }
 
@@ -250,7 +233,7 @@ export class Utils {
       // Voltage at connector level?
       if (chargingStation.connectors) {
         for (const connector of chargingStation.connectors) {
-          if (connector.numberOfConnectedPhase > 0) {
+          if (connector.numberOfConnectedPhase) {
             return connector.numberOfConnectedPhase * chargingStation.connectors.length;
           }
         }
@@ -261,7 +244,7 @@ export class Utils {
 
   public static convertAmpToWatt(chargingStation: ChargingStation, connectorID = 0, ampValue: number): number {
     const voltage = Utils.getChargingStationVoltage(chargingStation, connectorID);
-    if (voltage > 0) {
+    if (voltage) {
       return voltage * ampValue;
     }
     return 0;
@@ -269,7 +252,7 @@ export class Utils {
 
   public static convertWattToAmp(chargingStation: ChargingStation, connectorID = 0, wattValue: number): number {
     const voltage = Utils.getChargingStationVoltage(chargingStation, connectorID);
-    if (voltage > 0) {
+    if (voltage) {
       return Math.floor(wattValue / voltage);
     }
     return 0;
@@ -285,15 +268,13 @@ export class Utils {
         }
       }
       // Check at connector level
-      if (totalAmps === 0) {
-        if (chargingStation.connectors) {
-          for (const connector of chargingStation.connectors) {
-            totalAmps += connector.amperage;
-          }
+      if (totalAmps === 0 && chargingStation.connectors) {
+        for (const connector of chargingStation.connectors) {
+          totalAmps += connector.amperage;
         }
       }
     }
-    if (totalAmps === 0 && chargingStation.maximumPower > 0) {
+    if (totalAmps === 0 && chargingStation.maximumPower) {
       totalAmps = Utils.convertWattToAmp(chargingStation, 0, chargingStation.maximumPower);
     }
     return totalAmps;
@@ -302,13 +283,13 @@ export class Utils {
   public static getChargingStationPower(chargingStation: ChargingStation, connectorId = 0): number {
     if (chargingStation) {
       // Check at charging station level
-      if (connectorId === 0 && chargingStation.maximumPower > 0) {
+      if (connectorId === 0 && chargingStation.maximumPower) {
         return chargingStation.maximumPower;
       }
       // Check at charge point level
       if (chargingStation.chargePoints) {
         for (const chargePoint of chargingStation.chargePoints) {
-          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.power > 0 &&
+          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.power &&
              (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors)) {
             return chargePoint.power;
           }
@@ -316,7 +297,7 @@ export class Utils {
       }
       // Check at connector level
       if (chargingStation.connectors && chargingStation.connectors[connectorId - 1] &&
-          chargingStation.connectors[connectorId - 1].power > 0) {
+          chargingStation.connectors[connectorId - 1].power) {
         return chargingStation.connectors[connectorId - 1].power;
       }
     }
@@ -356,17 +337,17 @@ export class Utils {
   public static getChargingStationVoltage(chargingStation: ChargingStation, connectorId = 0): number {
     if (chargingStation) {
       // Check at charging station level
-      if (chargingStation.voltage > 0) {
+      if (chargingStation.voltage) {
         return chargingStation.voltage;
       }
       // Check at charge point level
       if (chargingStation.chargePoints) {
         for (const chargePoint of chargingStation.chargePoints) {
           // Take the first
-          if (connectorId === 0 && chargePoint.voltage > 0) {
+          if (connectorId === 0 && chargePoint.voltage) {
             return chargePoint.voltage;
           }
-          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.voltage > 0) {
+          if (chargePoint.connectorIDs.includes(connectorId) && chargePoint.voltage) {
             return chargePoint.voltage;
           }
         }
@@ -375,10 +356,10 @@ export class Utils {
       if (chargingStation.connectors) {
         for (const connector of chargingStation.connectors) {
           // Take the first
-          if (connectorId === 0 && connector.voltage > 0) {
+          if (connectorId === 0 && connector.voltage) {
             return connector.voltage;
           }
-          if (connector.connectorId === connectorId && connector.voltage > 0) {
+          if (connector.connectorId === connectorId && connector.voltage) {
             return connector.voltage;
           }
         }
@@ -446,6 +427,50 @@ export class Utils {
       }
     }
     return null;
+  }
+
+  public static getChargingStationLimitAmperage(chargingStation: ChargingStation, connectorId = 0): number {
+    let amperageLimit = 0;
+    if (chargingStation) {
+      if (connectorId > 0) {
+        return chargingStation.connectors[connectorId - 1].amperageLimit;
+      }
+      // Check at charge point level
+      if (chargingStation.chargePoints) {
+        for (const chargePoint of chargingStation.chargePoints) {
+          if (chargePoint.excludeFromPowerLimitation) {
+            continue;
+          }
+          if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
+            return chargingStation.connectors[chargePoint.connectorIDs[0] - 1].amperageLimit;
+          }
+          for (const connectorID of chargePoint.connectorIDs) {
+            amperageLimit += chargingStation.connectors[connectorID - 1].amperageLimit;
+          }
+        }
+      // Check at connector level
+      } else if (chargingStation.connectors) {
+        for (const connector of chargingStation.connectors) {
+          amperageLimit += connector.amperageLimit;
+        }
+      }
+    }
+    return amperageLimit;
+  }
+
+  public static getLimitAmpsPerConnector(chargingStation: ChargingStation, limitAmp: number): number {
+    // Check at charge point level
+    if (chargingStation.chargePoints) {
+      for (const chargePoint of chargingStation.chargePoints) {
+        if (chargePoint.excludeFromPowerLimitation) {
+          continue;
+        }
+        if (chargePoint.cannotChargeInParallel || chargePoint.sharePowerToAllConnectors) {
+          return limitAmp;
+        }
+      }
+    }
+    return limitAmp / chargingStation.connectors.length;
   }
 
   public static convertAmpToWattString(chargingStation: ChargingStation, connectorId = 0,

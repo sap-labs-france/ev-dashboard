@@ -88,7 +88,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
   public setChargingStation(chargingStation: ChargingStation) {
     this.chargingStation = chargingStation;
     this.tableColumnDefs[3].additionalParameters = { chargingStation };
-    this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, undefined, true);
+    this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, 0, true);
   }
 
   public setChargingProfile(chargingProfile: ChargingProfile) {

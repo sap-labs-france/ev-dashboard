@@ -18,6 +18,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
@@ -25,7 +26,6 @@ import { TableCreateCompanyAction } from '../table-actions/table-create-company-
 import { TableDeleteCompanyAction } from '../table-actions/table-delete-company-action';
 import { TableEditCompanyAction } from '../table-actions/table-edit-company-action';
 import { TableViewCompanyAction } from '../table-actions/table-view-company-action';
-
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -130,9 +130,8 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         new TableCreateCompanyAction().getActionDef(),
         ...tableActionsDef,
       ];
-    } else {
-      return tableActionsDef;
     }
+    return tableActionsDef;
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {

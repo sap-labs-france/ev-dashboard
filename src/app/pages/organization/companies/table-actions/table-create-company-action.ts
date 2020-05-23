@@ -5,7 +5,6 @@ import { CompanyButtonAction } from 'app/types/Company';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
-
 export class TableCreateCompanyAction extends TableCreateAction {
   public getActionDef(): TableActionDef {
     return {

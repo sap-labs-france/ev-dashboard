@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   template: `<app-transaction
-    [transactionID]="transactionID" [connectorID]="connectorID" [chargingStationID]="chargingStationID" 
+    [transactionID]="transactionID" [connectorID]="connectorID" [chargingStationID]="chargingStationID"
     [inDialog]="true" [dialogRef]="dialogRef"></app-transaction>`,
 })
 export class TransactionDialogComponent {
@@ -23,12 +24,6 @@ export class TransactionDialogComponent {
         this.transactionID = data;
       }
     }
-    // listen to keystroke
-    this.dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      // check if escape
-      if (keydownEvents && keydownEvents.code === 'Escape') {
-        this.dialogRef.close();
-      }
-    });
+    Utils.registerCloseKeyEvents(this.dialogRef);
   }
 }

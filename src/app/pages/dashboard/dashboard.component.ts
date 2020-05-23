@@ -98,11 +98,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {name: 'month', title: 'dashboard.statistics.button.month'},
     {name: 'year', title: 'dashboard.statistics.button.year'},
   ];
+  public chartStatisticsFooter;
   @ViewChild('statisticsChart') public statisticsChartComponent: CardChartComponent;
   public buttonsRealtimeChart = [
     {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
     {name: 'utilization', title: 'dashboard.realtime.button.utilization'},
   ];
+  public chartRealtimeFooter;
   @ViewChild('realtimeChart') public realtimeChartComponent: CardChartComponent;
 
   public dynamicFadeInOutClass = FADE_IN_CLASS;
@@ -191,7 +193,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    */
   public slideChangeAnimationDone(event: AnimationEvent) {
     if (this.afterChange) {
-      // retsart rotation on chart components
+      // Restart rotation on chart components
       this.realtimeChartComponent.startRotation();
       this.statisticsChartComponent.startRotation();
       this.afterChange = false;
@@ -510,5 +512,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public rgba(colour: number[], alpha: number): string {
     return 'rgba(' + colour.concat(alpha).join(',') + ')';
   }
-
 }

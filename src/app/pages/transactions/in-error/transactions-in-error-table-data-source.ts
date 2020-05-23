@@ -17,6 +17,7 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -39,12 +40,10 @@ import { TableDeleteTransactionAction } from '../table-actions/table-delete-tran
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
-
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
   private isAdmin = false;
   private isSiteAdmin = false;
-  private dialogRefSession: any;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
@@ -301,7 +300,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   protected deleteTransaction(transaction: Transaction) {
     this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
       this.messageService.showSuccessMessage(
-        // tslint:disable-next-line:max-line-length
         this.translateService.instant('transactions.notification.delete.success',
           { user: this.appUserNamePipe.transform(transaction.user) }));
       this.refreshData().subscribe();

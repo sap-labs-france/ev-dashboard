@@ -14,13 +14,14 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector, ConnStatus } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, ConnStatus, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { ComponentService } from '../../../services/component.service';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -29,7 +30,7 @@ import { ChargingStationsConnectorsCellComponent } from '../cell-components/char
 import { ChargingStationsFirmwareStatusCellComponent } from '../cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
-import { ChargingStationSmartChargingDialogComponent } from '../charging-limit/charging-station-charging-limit-dialog.component';
+import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { TableChargingStationsClearCacheAction } from '../table-actions/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction } from '../table-actions/table-charging-stations-force-available-status-action';
@@ -40,7 +41,6 @@ import { TableChargingStationsSmartChargingAction } from '../table-actions/table
 import { TableDeleteChargingStationAction } from '../table-actions/table-delete-charging-station-action';
 import { TableEditChargingStationAction } from '../table-actions/table-edit-charging-station-action';
 import { TableExportChargingStationsAction } from '../table-actions/table-export-charging-stations-action';
-
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -291,7 +291,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
-        //      new ChargerTableFilter().getFilterDef(),
+        // new ChargerTableFilter().getFilterDef(),
         new IssuerFilter().getFilterDef(),
         new SiteTableFilter().getFilterDef(),
         new SiteAreaTableFilter().getFilterDef(),
@@ -352,7 +352,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      const dialogRef = this.dialog.open(ChargingStationSmartChargingDialogComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(() => {
         this.refreshData().subscribe();
       });

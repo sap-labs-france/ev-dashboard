@@ -1499,13 +1499,11 @@ export class CentralServerService {
   }
 
   public loginSucceeded(token: string): void {
-    // Verify init
-    this.checkInit();
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
-    // Init Socket IO
-    if (this.currentUser && this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.centralServerNotificationService.initSocketIO(token);
+    // Init Socket IO at user login
+    if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
+      this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
     }
   }
 
@@ -1530,7 +1528,7 @@ export class CentralServerService {
     // Get the token
     if (!this.currentUser) {
       // Decode the token
-      this.localStorageService.getItem('token').subscribe((token) => {
+      this.localStorageService.getItem('token').subscribe((token: string) => {
         // Keep it local (iFrame use case)
         this.setLoggedUserToken(token);
       });
@@ -1542,7 +1540,7 @@ export class CentralServerService {
     // Get the token
     if (!this.currentUserToken) {
       // Decode the token
-      this.localStorageService.getItem('token').subscribe((token) => {
+      this.localStorageService.getItem('token').subscribe((token: string) => {
         // Keep it local (iFrame use case)
         this.setLoggedUserToken(token);
       });
@@ -1581,20 +1579,15 @@ export class CentralServerService {
   }
 
   public logoutSucceeded(): void {
-    this.checkInit();
     this.dialog.closeAll();
     this.clearLoggedUserToken();
-    this.centralServerNotificationService.resetSocketIO();
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.centralServerNotificationService.resetSocketIO();
+    }
   }
 
   public getLoggedUser(): UserToken {
-    // Verify init
-    this.checkInit();
     this.getLoggedUserFromToken();
-    // Init Socket IO
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
-      this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
-    }
     // Return the user (should have already been initialized as the token is retrieved async)
     return this.currentUser;
   }
@@ -1685,7 +1678,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CompanyDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -1711,7 +1703,7 @@ export class CentralServerService {
   public updateAsset(asset: any): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
-    // Execute
+    // Execute the REST service
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetUpdate`, asset,
       {
         headers: this.buildHttpHeaders(),
@@ -1725,7 +1717,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -1765,7 +1756,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -1805,7 +1795,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/SiteAreaDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -2038,7 +2027,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -2052,7 +2040,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointUnregister?ID=${id}`,
       `{ "id": "${id}" }`,
       {
@@ -2067,7 +2054,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/OcpiEndpointRegister?ID=${id}`,
       `{ "id": "${id}" }`,
       {
@@ -2082,7 +2068,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UserDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -2251,7 +2236,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
@@ -2623,7 +2607,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.post<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
@@ -2642,7 +2625,6 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    // Execute
     return this.httpClient.post<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/ChargingStationRequestOcppParameters`,
       {
@@ -2708,6 +2690,10 @@ export class CentralServerService {
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util URL
       this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
+      // Init Socket IO if user already logged
+      if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
+        this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
+      }
       // Done
       this.initialized = true;
     }

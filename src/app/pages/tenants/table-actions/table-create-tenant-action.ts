@@ -5,7 +5,8 @@ import { TableActionDef } from 'app/types/Table';
 import { TenantButtonAction } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
 
-export class TableCreateTenantAction extends TableCreateAction {  public getActionDef(): TableActionDef {
+export class TableCreateTenantAction extends TableCreateAction {
+  public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
       id: TenantButtonAction.CREATE_TENANT,

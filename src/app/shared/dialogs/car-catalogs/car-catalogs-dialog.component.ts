@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CarCatalog } from 'app/types/Car';
 import { KeyValue } from 'app/types/GlobalType';
-import { User } from 'app/types/User';
 
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs-dialog-table-data-source';

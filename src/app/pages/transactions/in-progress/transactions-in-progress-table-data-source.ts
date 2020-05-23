@@ -12,6 +12,7 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -22,7 +23,6 @@ import { ConsumptionChartDetailComponent } from '../../../shared/component/consu
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
-import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
@@ -37,7 +37,6 @@ import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
-
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -58,7 +57,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private componentService: ComponentService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
-    private appPercentPipe: AppPercentPipe,
     private appUnitPipe: AppUnitPipe,
     private appBatteryPercentagePipe: AppBatteryPercentagePipe,
     private appUserNamePipe: AppUserNamePipe,

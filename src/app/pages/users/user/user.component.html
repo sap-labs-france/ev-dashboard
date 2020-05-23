@@ -2,7 +2,7 @@
   <div class="card card-profile card-testimonial card-min-height">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-                     animationDuration="0ms" disableRipple="true" class="mat-tab-info">
+          animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>portrait</mat-icon>
@@ -28,8 +28,7 @@
                             <mat-icon (click)="file.click()">mode_edit</mat-icon>
                             <div style="display:none">
                               <input type="file" accept=".jpg, .jpeg, .png, .gif"
-                                     [maxLength]="maxSize" name="..."
-                                     (change)="imageChanged($event)" #file>
+                                [maxLength]="maxSize" name="..." (change)="imageChanged($event)" #file>
                             </div>
                           </button>
                           <button mat-flat-button color="warn">
@@ -45,8 +44,8 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="name" appAutofocus matInput
-                           placeholder="{{'users.name' | translate}}" required
-                          (input)="toUpperCase(name)" type="text">
+                      placeholder="{{'users.name' | translate}}" required
+                      (input)="toUpperCase(name)" type="text">
                     <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -55,8 +54,8 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="firstName" matInput
-                           placeholder="{{'users.first_name' | translate}}" required
-                           (input)="firstLetterToUpperCase(firstName)" type="text">
+                      placeholder="{{'users.first_name' | translate}}" required
+                      (input)="firstLetterToUpperCase(firstName)" type="text">
                     <mat-error *ngIf="firstName.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -67,8 +66,8 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="email" matInput
-                           placeholder="{{'users.email' | translate}}" required
-                           type="text">
+                      placeholder="{{'users.email' | translate}}" required
+                      type="text">
                     <mat-error *ngIf="email.errors?.email">
                       {{"authentication.invalid_email" | translate}}
                     </mat-error>
@@ -93,7 +92,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="phone" matInput
-                           placeholder="{{'users.phone' | translate}}" type="text">
+                      placeholder="{{'users.phone' | translate}}" type="text">
                     <mat-error *ngIf="phone.errors?.invalidPhone">
                       {{"users.invalid_phone_number" | translate}}
                       {{phone.errors?.pattern | json}}
@@ -105,7 +104,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="mobile" matInput
-                           placeholder="{{'users.mobile' | translate}}" type="text">
+                      placeholder="{{'users.mobile' | translate}}" type="text">
                     <mat-error *ngIf="mobile.errors?.invalidPhone">
                       {{"users.invalid_phone_number" | translate}}
                     </mat-error>
@@ -138,7 +137,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="plateID" matInput
-                           placeholder="{{'users.plate_id' | translate}}" type="text">
+                      placeholder="{{'users.plate_id' | translate}}" type="text">
                     <mat-error *ngIf="plateID.errors?.pattern">
                       {{"users.invalid_plate_id" | translate}}
                     </mat-error>
@@ -167,7 +166,7 @@
               <div class="col-sm-12">
                 <div class="form-group mb-0">
                   <mat-checkbox (click)="toggleNotificationsActive()"
-                                [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
+                    [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
                 </div>
               </div>
             </div>
@@ -192,7 +191,7 @@
               <div class="col-sm-12">
                 <div class="form-group mb-0">
                   <mat-checkbox (click)="toggleNotificationsActive()"
-                                [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
+                    [formControl]="notificationsActive">{{"users.notifications_active" | translate}}</mat-checkbox>
                 </div>
               </div>
             </div>
@@ -200,19 +199,19 @@
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendSessionStarted">{{"notifications.session_started" | translate}}</mat-checkbox>
+                    [formControl]="sendSessionStarted">{{"notifications.session_started" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendOptimalChargeReached">{{"notifications.optimal_charge_reached" | translate}}</mat-checkbox>
+                    [formControl]="sendOptimalChargeReached">{{"notifications.optimal_charge_reached" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendEndOfCharge">{{"notifications.end_of_charge" | translate}}</mat-checkbox>
+                    [formControl]="sendEndOfCharge">{{"notifications.end_of_charge" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
@@ -224,25 +223,25 @@
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendUserAccountStatusChanged">{{"notifications.user_account_status_changed" | translate}}</mat-checkbox>
+                    [formControl]="sendUserAccountStatusChanged">{{"notifications.user_account_status_changed" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendSessionNotStarted">{{"notifications.session_not_started" | translate}}</mat-checkbox>
+                    [formControl]="sendSessionNotStarted">{{"notifications.session_not_started" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-checkbox>
+                    [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-checkbox [disabled]="!notificationsActive.value"
-                                [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
+                    [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
                 </div>
               </div>
               <div *ngIf="role && role.value === 'A'" class="row">
@@ -251,43 +250,43 @@
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-checkbox>
+                        [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-checkbox>
+                        [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-checkbox>
+                        [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
+                        [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-checkbox>
+                        [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
+                        [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
                     </div>
                   </div>
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
-                                    [formControl]="sendBillingUserSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
+                        [formControl]="sendBillingUserSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
                 </div>
@@ -315,10 +314,9 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="password" [type]="hidePassword ? 'password' : 'text'"
-                           matInput
-                           placeholder="{{'authentication.password' | translate}}" type="password">
+                      matInput placeholder="{{'authentication.password' | translate}}" type="password">
                     <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable"
-                              matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
+                      matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
                     <mat-error *ngIf="password.errors?.noSpace">
                       {{"authentication.no_space_in_password" | translate}}
@@ -333,12 +331,11 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [errorStateMatcher]="parentErrorStateMatcher"
-                           [formControl]="repeatPassword"
-                           [type]="hideRepeatPassword ? 'password' : 'text'" matInput
-                           placeholder="{{'authentication.repeat_password' | translate}}"
-                           type="password">
+                      [formControl]="repeatPassword" [type]="hideRepeatPassword ? 'password' : 'text'" matInput
+                      placeholder="{{'authentication.repeat_password' | translate}}"
+                      type="password">
                     <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword"
-                              class="icon-clickable" matSuffix>
+                      class="icon-clickable" matSuffix>
                       {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
                     </mat-icon>
                     <mat-error *ngIf="passwords.errors?.notEqual">
@@ -363,7 +360,7 @@
                     <a [attr.href]="getRefundUrl()" target="_blank">
                       <div class="d-flex flex-row align-items-center">
                         <img src="/assets/img/integrations/concur-logo.png"
-                             class="card-logo img-thumbnail mr-3"/>
+                          class="card-logo img-thumbnail mr-3"/>
                         <h2 class="card-title">Concur</h2>
                       </div>
                     </a>
@@ -381,7 +378,7 @@
                       </button>
                     </div>
                     <div *ngIf="!isRefundConnectionValid"
-                         class="d-flex flex-row align-items-center justify-content-between">
+                        class="d-flex flex-row align-items-center justify-content-between">
                       <span>{{'users.connectors.not_connected' | translate}} </span>
                       <button mat-raised-button color="primary" (click)="linkRefundAccount()">
                         <mat-icon>launch</mat-icon>
@@ -392,8 +389,7 @@
                 </div>
               </div>
               <div *ngIf="!refundSetting" class="mx-auto my-3">
-                <p
-                  class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
+                <p class="table-no-record-found">{{'general.no_connector_available' | translate}}</p>
               </div>
             </div>
           </div>
@@ -409,7 +405,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="iNumber" matInput
-                           placeholder="{{'users.inumber' | translate}}" type="text">
+                      placeholder="{{'users.inumber' | translate}}" type="text">
                   </mat-form-field>
                 </div>
               </div>
@@ -417,8 +413,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="costCenter" matInput
-                           placeholder="{{'users.cost_center' | translate}}"
-                           type="text">
+                      placeholder="{{'users.cost_center' | translate}}" type="text">
                     <mat-error *ngIf="costCenter.errors?.pattern">
                       {{"general.invalid_value" | translate}}
                     </mat-error>
@@ -426,29 +421,18 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="row" *ngIf="canSeeInvoice">
-              <div class="col-md-1">
-                <button mat-raised-button color="primary" (click)="getInvoice()">
-                  <mat-icon>receipt</mat-icon>
-                  <span>View invoice</span>
-                </button>
-              </div>
-            </div> -->
           </div>
         </mat-tab>
-        <mat-tab disabled>
-          <ng-template mat-tab-label>
-            <button mat-button (click)="saveUser(formGroup.getRawValue())"
-                    [disabled]="!formGroup.valid || !formGroup.dirty">
-              <mat-icon>save</mat-icon>
-              <span>{{'general.save' | translate}}</span>
-            </button>
-            <button mat-icon-button *ngIf="inDialog" mat-dialog-close>
-              <mat-icon>close</mat-icon>
-            </button>
-          </ng-template>
-        </mat-tab>
       </mat-tab-group>
+      <div class="tabs-actions">
+        <button mat-button (click)="saveUser(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
+          <mat-icon>save</mat-icon>
+          <span>{{'general.save' | translate}}</span>
+        </button>
+        <button mat-icon-button *ngIf="inDialog" (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </form>
   </div>
 </div>

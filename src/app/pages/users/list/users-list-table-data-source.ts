@@ -10,6 +10,7 @@ import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -18,7 +19,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
@@ -37,7 +37,6 @@ import { TableDeleteUserAction } from '../table-actions/table-delete-user-action
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
-
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -60,7 +59,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       private appUserRolePipe: AppUserRolePipe,
-      private appUserNamePipe: AppUserNamePipe,
       private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
     super(spinnerService, translateService);

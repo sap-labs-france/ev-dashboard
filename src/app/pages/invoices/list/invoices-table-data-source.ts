@@ -9,6 +9,7 @@ import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,7 +29,6 @@ import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 import { TableSyncBillingInvoicesAction } from '../table-actions/table-sync-billing-invoices-action';
-
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
@@ -53,7 +53,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectUsers();
+    return this.centralServerNotificationService.getSubjectInvoices();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingInvoice>> {

@@ -7,14 +7,15 @@ import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
+import ChangeNotification from 'app/types/ChangeNotification';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
-import { fromEvent, interval, Subscription } from 'rxjs';
+import { Observable, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
+
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
-
 
 @Component({
   selector: 'app-table',
@@ -24,6 +25,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public dataSource!: TableDataSource<Data>;
   @ViewChild('searchInput') public searchInput!: ElementRef;
   public searchPlaceholder = '';
+  private ongoingRefresh = false;
   public ongoingAutoRefresh = false;
   public sort: MatSort = new MatSort();
   public maxRecords = Constants.INFINITE_RECORDS;
@@ -32,14 +34,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
-  private ongoingRefresh = false;
 
-  private autoRefreshSubscription!: Subscription|null;
-  private manualRefreshSubscription!: Subscription|null;
-  private autoRefreshPollEnabled!: boolean;
-  private autoRefreshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
+  private autoRefreshSubscription!: Subscription;
   private alive!: boolean;
-  private readonly Constants = Constants;
 
   constructor(
     private configService: ConfigService,
@@ -53,9 +50,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // Handle Poll (config service available only in component not possible in data-source)
-    this.autoRefreshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
-    this.autoRefreshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     if (this.dataSource) {
       // Init Sort
       if (this.dataSource.tableColumnDefs) {
@@ -73,7 +67,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           (this.dataSource.hasRowActions ? 1 : 0);
       }
     }
-    this.createRefresh();
   }
 
   public ngAfterViewInit() {
@@ -112,7 +105,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnDestroy() {
     this.alive = false;
     this.destroyAutoRefresh();
-    this.destroyRefresh();
   }
 
   public displayMoreRecords() {
@@ -191,7 +183,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     if ((filterDef.type === FilterType.DIALOG_TABLE ||
-         filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
+      filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
       filterDef.currentValue = [];
       filterDef.cleared = true;
     } else {
@@ -228,56 +220,28 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public createAutoRefresh() {
-    // Create timer only if socketIO is not active
-    if (!this.autoRefreshSubscription) {
-      let refreshObservable;
-      if (this.autoRefreshPollEnabled) {
-        // Create timer
-        refreshObservable = interval(this.autoRefreshPollingIntervalMillis);
-      } else {
-        refreshObservable = this.dataSource.getDataChangeSubject();
-      }
-      if (refreshObservable) {
-        this.autoRefreshSubscription = refreshObservable.pipe(
-          takeWhile(() => this.alive),
-        ).subscribe(() => {
-          if (!this.ongoingRefresh) {
-            this.refresh(true);
-          }
-        });
+  private createAutoRefresh() {
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      if (!this.autoRefreshSubscription) {
+        const refreshObservable: Observable<ChangeNotification> = this.dataSource.getDataChangeSubject();
+        if (refreshObservable) {
+          this.autoRefreshSubscription = refreshObservable.pipe(
+            takeWhile(() => this.alive),
+          ).subscribe(() => {
+            if (!this.ongoingRefresh) {
+              this.refresh(true);
+            }
+          });
+        }
       }
     }
   }
 
-  public destroyAutoRefresh() {
+  private destroyAutoRefresh() {
     if (this.autoRefreshSubscription) {
       this.autoRefreshSubscription.unsubscribe();
     }
     this.autoRefreshSubscription = null;
-  }
-
-  public createRefresh() {
-    // Create timer only if socketIO is not active
-    if (!this.manualRefreshSubscription) {
-      const refreshObservable = this.dataSource.getManualDataChangeSubject();
-      if (refreshObservable) {
-        this.manualRefreshSubscription = refreshObservable.pipe(
-          takeWhile(() => this.alive),
-        ).subscribe(() => {
-          if (!this.ongoingRefresh) {
-            this.refresh(true);
-          }
-        });
-      }
-    }
-  }
-
-  public destroyRefresh() {
-    if (this.manualRefreshSubscription) {
-      this.manualRefreshSubscription.unsubscribe();
-    }
-    this.manualRefreshSubscription = null;
   }
 
   public toggleAutoRefresh({ checked }) {
@@ -357,9 +321,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!row.isExpanded) {
       // Already Loaded
       if (this.dataSource && this.dataSource.tableDef && this.dataSource.tableDef.rowDetails
-          && this.dataSource.tableDef.rowDetails.enabled
-          && this.dataSource.tableDef.rowDetails.detailsField
-          && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+        && this.dataSource.tableDef.rowDetails.enabled
+        && this.dataSource.tableDef.rowDetails.detailsField
+        && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
         // No: Load details from data source
         this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
           // Set details

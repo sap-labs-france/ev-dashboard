@@ -7,10 +7,10 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { ButtonAction, FilterParams } from 'app/types/GlobalType';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import saveAs from 'file-saver';
+import * as FileSaver from 'file-saver';
 import { Observable } from 'rxjs';
-import { TableAction } from './table-action';
 
+import { TableAction } from './table-action';
 
 export class TableExportAction implements TableAction {
   private action: TableActionDef = {
@@ -40,7 +40,7 @@ export class TableExportAction implements TableAction {
         spinnerService.show();
         exportData(filters).subscribe((result) => {
             spinnerService.hide();
-            saveAs(result, exportedFilename);
+            FileSaver.saveAs(result, exportedFilename);
         }, (error) => {
           spinnerService.hide();
           Utils.handleHttpError(error, router, messageService,

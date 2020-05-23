@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { WindowService } from 'app/services/window.service';
+
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { UsersInErrorTableDataSource } from './users-in-error-table-data-source';
-
 
 @Component({
   selector: 'app-users-in-error',

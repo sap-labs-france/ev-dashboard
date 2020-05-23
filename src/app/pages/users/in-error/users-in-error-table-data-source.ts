@@ -10,6 +10,7 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -33,7 +34,6 @@ import { TableDeleteUserAction } from '../table-actions/table-delete-user-action
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUserAction } from '../table-actions/table-sync-billing-user-action';
-
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {

@@ -4,12 +4,12 @@ import { TableAction } from 'app/shared/table/actions/table-action';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { BillingButtonAction } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
-
 
 export class TableSyncBillingInvoicesAction implements TableAction {
   private action: TableActionDef = {

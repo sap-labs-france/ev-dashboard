@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableViewTransactionAction } from 'app/pages/transactions/table-actions/table-view-transaction-action';
-import { TransactionDialogComponent } from 'app/pages/transactions/transaction/transaction.dialog.component';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -13,6 +12,7 @@ import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
 import { Observable } from 'rxjs';
+
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -28,17 +28,14 @@ import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '.
 import { TableChargingStationsStartTransactionAction } from '../table-actions/table-charging-stations-start-transaction-action';
 import { TableChargingStationsStopTransactionAction } from '../table-actions/table-charging-stations-stop-transaction-action';
 
-
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
-  // tslint:disable-next-line: no-unsafe-any
   public stopTransactionAction = new TableChargingStationsStopTransactionAction().getActionDef();
   public startTransactionAction = new TableChargingStationsStartTransactionAction().getActionDef();
   public viewTransactionAction = new TableViewTransactionAction().getActionDef();
   public noAction = new TableNoAction().getActionDef();
 
   private chargingStation!: ChargingStation;
-  private dialogRefSession!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
     public spinnerService: SpinnerService,

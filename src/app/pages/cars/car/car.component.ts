@@ -8,15 +8,15 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalog-dialog.component';
+import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
 import { Car, CarCatalog, CarImage, CarType } from 'app/types/Car';
 import { ActionResponse, ActionsResponse } from 'app/types/DataResult';
-import { RestResponse } from 'app/types/GlobalType';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
 import { UsersCarTableDataSource } from './users-car-table-data-source';
-import { HTTPError } from 'app/types/HTTPError';
 
 @Component({
   selector: 'app-car',
@@ -31,9 +31,10 @@ export class CarComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public isBasic: boolean;
+  public currentCarCatalog: CarCatalog;
   public isAdmin: boolean;
   public formGroup!: FormGroup;
-  public currentCarCatalog: CarCatalog;
+  public selectedCarCatalog: CarCatalog;
   public id!: AbstractControl;
   public vin!: AbstractControl;
   public licensePlate!: AbstractControl;
@@ -44,7 +45,13 @@ export class CarComponent implements OnInit {
   public type!: AbstractControl;
   public users!: AbstractControl;
   public userIDs!: AbstractControl;
-  public NoImage = CarImage.NO_IMAGE;
+  public noImage = CarImage.NO_IMAGE;
+  public carTypes: KeyValue[] = [
+    { key: CarType.COMPANY, value: 'cars.company_car' },
+    { key: CarType.PRIVATE, value: 'cars.private_car' }
+  ];
+  public isPool = false;
+
   constructor(
     public usersCarTableDataSource: UsersCarTableDataSource,
     private centralServerService: CentralServerService,
@@ -57,6 +64,9 @@ export class CarComponent implements OnInit {
     private authorizationService: AuthorizationService) {
     this.isBasic = this.authorizationService.isBasic();
     this.isAdmin = this.authorizationService.isAdmin();
+    if (this.isAdmin) {
+      this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
+    }
   }
 
   public ngOnInit() {
@@ -80,10 +90,10 @@ export class CarComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      isDefault: new FormControl('',
+      isDefault: new FormControl(false,
         Validators.compose([
         ])),
-      type: new FormControl('',
+      type: new FormControl(CarType.COMPANY,
         Validators.compose([
           Validators.required,
         ]))
@@ -94,9 +104,11 @@ export class CarComponent implements OnInit {
     this.licensePlate = this.formGroup.controls['licensePlate'];
     this.carCatalogID = this.formGroup.controls['carCatalogID'];
     this.carCatalog = this.formGroup.controls['carCatalog'];
-    this.carCatalog = this.formGroup.controls['carCatalog'];
     this.isDefault = this.formGroup.controls['isDefault'];
     this.type = this.formGroup.controls['type'];
+    this.type.valueChanges.subscribe(value => {
+    this.isPool = value === CarType.POOL_CAR;
+   })
     if (!this.isBasic) {
       // this.isPrivate.disable();
       this.isDefault.disable();
@@ -107,6 +119,9 @@ export class CarComponent implements OnInit {
     }
   }
 
+  public onClose() {
+    this.closeDialog();
+  }
 
   public loadCar() {
     if (!this.currentCarID) {
@@ -125,7 +140,7 @@ export class CarComponent implements OnInit {
         this.formGroup.controls.licensePlate.setValue(car.licensePlate);
       }
       if (car.carCatalog) {
-        this.currentCarCatalog = car.carCatalog;
+        this.selectedCarCatalog = car.carCatalog;
         this.formGroup.controls.carCatalog.setValue(car.carCatalog.vehicleMake + ' ' + car.carCatalog.vehicleModel);
       }
       if (car.carCatalogID) {
@@ -153,11 +168,14 @@ export class CarComponent implements OnInit {
   }
 
   public closeDialog(saved: boolean = false) {
-    this.dialogRef.close(saved);
+    if (this.inDialog) {
+      this.dialogRef.close(saved);
+    }
   }
 
-  public onClose() {
-    this.closeDialog();
+  public close() {
+    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
+      this.translateService, this.saveCar.bind(this), this.closeDialog.bind(this));
   }
 
   public saveCar(car: Car) {
@@ -209,7 +227,7 @@ export class CarComponent implements OnInit {
       // Check status
       switch (error.status) {
         // Email already exists
-        case 591:
+        case HTTPError.CAR_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('cars.car_exist');
           break;
         // No longer exists!
@@ -224,9 +242,10 @@ export class CarComponent implements OnInit {
     this.centralServerService.createCar(car).subscribe((response: ActionResponse) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('cars.create_success', { vin: car.vin });
+        this.messageService.showSuccessMessage('cars.create_success', { carName: Utils.buildCarName(this.selectedCarCatalog) });
+
         if (this.isAdmin && (this.usersCarTableDataSource.getUsers() && this.usersCarTableDataSource.getUsers().length > 0)
-          && car.type !== CarType.POOL) {
+          && car.type !== CarType.POOL_CAR) {
           this.centralServerService.assignUsersCar(
             this.usersCarTableDataSource.getUsers(), response.id).subscribe((response: ActionsResponse) => {
               if (response.inError) {
@@ -261,7 +280,7 @@ export class CarComponent implements OnInit {
       // Check status
       switch (error.status) {
         // Email already exists
-        case 592:
+        case HTTPError.CAR_ALREADY_EXIST_ERROR_DIFFERENT_USER:
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('settings.car.assign_user_to_car_dialog_title'),
             this.translateService.instant('settings.car.assign_user_to_car_dialog_confirm'),
@@ -273,15 +292,11 @@ export class CarComponent implements OnInit {
           });
           break;
         // Car already created by this user
-        case 591:
+        case HTTPError.CAR_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('cars.car_exist');
           break;
-        // Vin already exist
-        case 593:
-          this.messageService.showErrorMessage('cars.car_exist_different_car_catalog');
-          break;
         // User already assigned
-        case 594:
+        case HTTPError.USER_ALREADY_ASSIGNED_TO_CAR:
           this.messageService.showErrorMessage('cars.user_already_assigned');
           break;
         // No longer exists!
@@ -305,8 +320,8 @@ export class CarComponent implements OnInit {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
         const carCatalog: CarCatalog = (result[0].objectRef) as CarCatalog;
         this.carCatalogID.setValue(result[0].key);
-        this.carCatalog.setValue(result[0].value);
-        this.currentCarCatalog = carCatalog;
+        this.carCatalog.setValue(Utils.buildCarName(carCatalog));
+        this.selectedCarCatalog = carCatalog;
         this.formGroup.markAsDirty();
       }
     });

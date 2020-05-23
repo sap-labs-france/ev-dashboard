@@ -3,16 +3,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Car, CarButtonAction } from 'app/types/Car';
+import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
 
@@ -26,6 +29,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
+    private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
     private authorizationService: AuthorizationService,
@@ -34,6 +38,10 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     // Init
     this.initDataSource();
+  }
+
+  public getDataChangeSubject(): Observable<ChangeNotification> {
+    return this.centralServerNotificationService.getSubjectCars();
   }
 
   public getPageSize(): number {

@@ -70,7 +70,6 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.formArray = formArray;
   }
 
-  // tslint:disable-next-line:no-empty
   public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
     let actionDone = actionAlreadyProcessed;
     if (!actionAlreadyProcessed) {

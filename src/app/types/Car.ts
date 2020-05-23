@@ -1,4 +1,6 @@
 import { Data } from './Table';
+import { User } from './User';
+import { ChartType } from 'chart.js';
 
 export interface CarCatalog extends Data {
   id: number;
@@ -34,9 +36,10 @@ export interface CarCatalog extends Data {
 }
 
 export interface UserCar extends Data {
-  vin: string;
-  licensePlate: string;
-  carCatalog: CarCatalog;
+  user: User;
+  carID: string;
+  default: boolean;
+  type?: CarType;
 }
 
 export interface Car extends Data {
@@ -48,7 +51,13 @@ export interface Car extends Data {
   userIDs?: string;
   forced?: boolean;
   isDefault?: boolean;
-  isPrivate?: boolean;
+  type?: CarType;
+}
+
+export enum CarType {
+  PRIVATE = 'private',
+  COMPANY = 'company',
+  POOL = 'pool',
 }
 
 export interface ChargeStandardTable extends Data {
@@ -81,4 +90,5 @@ export enum CarButtonAction {
   VIEW_CAR_CATALOG = 'view_car_catalog',
   SYNCHRONIZE = 'synchronize',
   CREATE_CAR = 'create_car',
+  EDIT_CAR = 'edit_car',
 }

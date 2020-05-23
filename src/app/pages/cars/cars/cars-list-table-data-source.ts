@@ -14,11 +14,13 @@ import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
+import { TableEditCarAction } from '../table-actions/table-edit-car-action';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
   public isSuperAdmin: boolean;
   private createAction = new TableCreateCarAction().getActionDef();
+  private editAction = new TableEditCarAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -133,6 +135,17 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
+      this.editAction
     ];
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, car: Car) {
+    switch (actionDef.id) {
+      case CarButtonAction.EDIT_CAR:
+        if (actionDef.action) {
+          actionDef.action(car, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+    }
   }
 }

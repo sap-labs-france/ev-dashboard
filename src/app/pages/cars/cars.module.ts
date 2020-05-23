@@ -19,6 +19,7 @@ import { CarsComponent } from './cars.component';
 import { CarsRoutes } from './cars.routing';
 import { CarsListComponent } from './cars/cars-list.component';
 import { CarCatalogImageFormatterCellComponent } from './cell-components/car-catalog-image-formatter-cell.component';
+import { UsersCarDefaultCheckboxComponent } from './car/users-car-default-checkbox.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { CarCatalogImageFormatterCellComponent } from './cell-components/car-cat
     CarsListComponent,
     CarDialogComponent,
     CarComponent,
+    UsersCarDefaultCheckboxComponent
   ],
   entryComponents: [
     CarCatalogComponent,
@@ -53,6 +55,7 @@ import { CarCatalogImageFormatterCellComponent } from './cell-components/car-cat
     CarsListComponent,
     CarDialogComponent,
     CarComponent,
+    UsersCarDefaultCheckboxComponent
   ],
   providers: [
   ],

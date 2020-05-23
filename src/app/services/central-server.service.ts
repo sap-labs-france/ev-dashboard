@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car, CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
+import { Car, CarCatalog, CarMakersTable, ImageObject, UserCar, CarType } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -2315,6 +2315,39 @@ export class CentralServerService {
       );
   }
 
+  public getCar(carID: string): Observable<Car> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Car>(
+      `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getUsersCar(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/UsersCar`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getCarCatalog(carCatalogID: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
@@ -2380,6 +2413,51 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, car,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateCar(car: any): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarUpdate`, car,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public assignUsersCar(usersCar: UserCar[], carID: string): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/AssignUsersCar`, {
+      usersCar,
+      carID
+    },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateUsersCar(usersCar: UserCar[], carID: string): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/UserCarUpdate`, {
+      usersCar,
+      carID
+    },
       {
         headers: this.buildHttpHeaders(),
       })

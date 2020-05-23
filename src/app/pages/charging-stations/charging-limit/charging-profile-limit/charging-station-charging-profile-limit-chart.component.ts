@@ -136,7 +136,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       // Build Max Limit dataset
       let chargingStationPowers: ChargingStationPowers;
       if (this.connectorId > 0) {
-        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, this.connectorId);
+        const connector = Utils.getChargingStationConnectorFromID(this.chargingStation, this.connectorId);
+        const chargePoint = Utils.getChargingStationChargePointFromID(this.chargingStation, connector.chargePointID);
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, this.connectorId);
       } else {
         chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
       }

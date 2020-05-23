@@ -1,5 +1,5 @@
+import { ChargePoint, ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
@@ -16,6 +16,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
   public startDate!: Date;
   public endDate!: Date;
   public chargingStation!: ChargingStation;
+  public chargePoint!: ChargePoint;
   public chargingProfile!: ChargingProfile;
   private connectorID = 0;
   private chargerPowers!: ChargingStationPowers;
@@ -85,10 +86,11 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     return tableColumnDef;
   }
 
-  public setChargingStation(chargingStation: ChargingStation) {
+  public setChargingStation(chargingStation: ChargingStation, chargePoint: ChargePoint) {
     this.chargingStation = chargingStation;
-    this.tableColumnDefs[3].additionalParameters = { chargingStation };
-    this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, 0, true);
+    this.chargePoint = chargePoint;
+    this.tableColumnDefs[3].additionalParameters = { chargingStation, chargePoint };
+    this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, 0, true);
   }
 
   public setChargingProfile(chargingProfile: ChargingProfile) {

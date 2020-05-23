@@ -638,7 +638,7 @@
     "unassigned_chargers": "Bornes",
     "maximum_energy": "Energie Maximum (Watts)",
     "maximum_energy_amps": "Energie Maximum (Amps)",
-    "efficiency": "Rendement",
+    "efficiency": "Rendement (%)",
     "invalid_efficiency": "Le rendement doit être un nombre positif inférieur a 100",
     "connector": "Connecteur",
     "charge_point": "Point de Charge",

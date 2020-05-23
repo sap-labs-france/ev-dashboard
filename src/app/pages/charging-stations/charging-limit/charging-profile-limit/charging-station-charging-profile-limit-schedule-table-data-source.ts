@@ -1,3 +1,4 @@
+import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
 import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 
@@ -6,7 +7,6 @@ import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import ChangeNotification from 'app/types/ChangeNotification';
-import { ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -19,6 +19,7 @@ import { Utils } from 'app/utils/Utils';
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
   public chargingStation!: ChargingStation;
+  public chargePoint!: ChargePoint;
   public chargingProfile!: ChargingProfile;
 
   constructor(
@@ -109,7 +110,8 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     this.chargingProfile = chargingProfile;
   }
 
-  public setChargingStation(chargingStation: ChargingStation) {
+  public setChargingStation(chargingStation: ChargingStation, chargePoint: ChargePoint) {
     this.chargingStation = chargingStation;
+    this.chargePoint = chargePoint;
   }
 }

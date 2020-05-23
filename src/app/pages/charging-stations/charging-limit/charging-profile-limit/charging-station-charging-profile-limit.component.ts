@@ -40,6 +40,7 @@ interface ProfileType {
 })
 export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
   @Input() public chargingStation!: ChargingStation;
+
   public profileTypeMap: ProfileType[] = [
     { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
       chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3 },
@@ -106,9 +107,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.profileTypeControl.setValue(this.profileTypeMap[0]);
     // Assign for to editable data source
     this.scheduleEditableTableDataSource.setFormArray(this.chargingSchedules);
-    // Initial values
-    this.scheduleEditableTableDataSource.setChargingStation(this.chargingStation);
-    this.scheduleTableDataSource.setChargingStation(this.chargingStation);
     // Change the Profile
     this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
       // Load Profile
@@ -206,54 +204,59 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   }
 
   public loadChargingProfiles() {
-    if (!this.chargingStation) {
-      return;
-    }
-    this.spinnerService.show();
-    this.centralServerService.getChargingStation(this.chargingStation.id).subscribe((chargingStation) => {
-      // Update chargingStation
-      this.chargingStation = chargingStation;
-      this.scheduleEditableTableDataSource.setChargingStation(this.chargingStation);
-      this.scheduleTableDataSource.setChargingStation(this.chargingStation);
-      this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
-        this.spinnerService.hide();
-        this.formGroup.markAsPristine();
-        // Set Profile
-        this.chargingProfiles = chargingProfiles.result;
-        // Default
-        this.scheduleEditableTableDataSource.setContent([]);
-        this.currentChargingSchedules = [];
-        // Init
-        if (chargingProfiles.count > 0) {
-          if (this.chargingProfilesControl.value) {
-            // Find the same ID
-            const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
-              chargingProfile.id === this.chargingProfilesControl.value.id);
-            if (selectedChargingProfile) {
-              // Found: Reset the current one
-              this.chargingProfilesControl.setValue(selectedChargingProfile);
+    if (this.chargingStation) {
+      this.spinnerService.show();
+      this.centralServerService.getChargingStation(this.chargingStation.id).subscribe((chargingStation) => {
+        this.chargingStation = chargingStation;
+        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
+          this.spinnerService.hide();
+          this.formGroup.markAsPristine();
+          // Set Profile
+          this.chargingProfiles = chargingProfiles.result;
+          // Default
+          this.scheduleEditableTableDataSource.setContent([]);
+          this.currentChargingSchedules = [];
+          // Init
+          if (chargingProfiles.count > 0) {
+            if (this.chargingProfilesControl.value) {
+              // Find the same ID
+              const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+                chargingProfile.id === this.chargingProfilesControl.value.id);
+              if (selectedChargingProfile) {
+                // Found: Reset the current one
+                this.chargingProfilesControl.setValue(selectedChargingProfile);
+              } else {
+                // Not Found: Set the first one
+                this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+              }
             } else {
-              // Not Found: Set the first one
+              // Set the first one
               this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
             }
           } else {
-            // Set the first one
-            this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+            this.scheduleEditableTableDataSource.setChargingStation(
+              this.chargingStation, this.chargingStation.chargePoints[0]);
+            this.scheduleTableDataSource.setChargingStation(
+              this.chargingStation, this.chargingStation.chargePoints[0]);
           }
-        }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+        });
       }, (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       });
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    });
+    }
   }
 
   private loadProfile(chargingProfile: ChargingProfile) {
     const schedules: Schedule[] = [];
     this.currentChargingProfile = chargingProfile;
+    const chargePoint = Utils.getChargingStationChargePointFromID(this.chargingStation, chargingProfile.chargePointID);
+    // Set Data Sources
+    this.scheduleEditableTableDataSource.setChargingStation(this.chargingStation, chargePoint);
+    this.scheduleTableDataSource.setChargingStation(this.chargingStation, chargePoint);
     this.scheduleEditableTableDataSource.setChargingProfile(chargingProfile);
     this.scheduleTableDataSource.setChargingProfile(chargingProfile);
     if (chargingProfile) {
@@ -399,6 +402,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     // Instantiate new charging profile
     const chargingProfile = {} as ChargingProfile;
     chargingProfile.chargingStationID = this.chargingStation.id;
+    chargingProfile.chargePointID = 1;
     // Set charging station ID and ConnectorID 0 for whole station
     if (this.chargingProfilesControl.value) {
       // Use selected

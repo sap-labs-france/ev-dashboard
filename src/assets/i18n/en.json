@@ -638,7 +638,7 @@
     "unassigned_chargers": "Chargers",
     "maximum_energy": "Maximum Power (Watts)",
     "maximum_energy_amps": "Maximum Power (Amps)",
-    "efficiency": "Efficiency",
+    "efficiency": "Efficiency (%)",
     "invalid_efficiency": "Efficiency must be a positive number not greater 100",
     "connector": "Connector",
     "charge_point": "Charge Point",

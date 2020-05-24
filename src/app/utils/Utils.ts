@@ -1,22 +1,21 @@
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Data, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { Address } from 'app/types/Address';
+import { CarCatalog } from 'app/types/Car';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { MobileType } from 'app/types/Mobile';
+import { ButtonType } from 'app/types/Table';
+import { User } from 'app/types/User';
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
-import { Data, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
-
-import { Address } from 'app/types/Address';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ButtonType } from 'app/types/Table';
-import { CarCatalog } from 'app/types/Car';
 import { CentralServerService } from '../services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { KeyValue } from 'app/types/GlobalType';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from '../services/message.service';
-import { MobileType } from 'app/types/Mobile';
-import { TranslateService } from '@ngx-translate/core';
-import { User } from 'app/types/User';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -214,7 +213,7 @@ export class Utils {
       result.currentAmp = result.maxAmp;
     }
     result.minWatt = Utils.convertAmpToWatt(chargingStation, connectorId, result.minAmp);
-    result.maxWatt = Utils.convertAmpToWatt(chargingStation,connectorId, result.maxAmp);
+    result.maxWatt = Utils.convertAmpToWatt(chargingStation, connectorId, result.maxAmp);
     result.currentWatt = Utils.convertAmpToWatt(chargingStation, connectorId, result.currentAmp);
     return result;
   }

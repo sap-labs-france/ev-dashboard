@@ -1,6 +1,6 @@
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChargePoint, ChargingStation, CurrentType, Voltage } from 'app/types/ChargingStation';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-charging-station-charge-point',

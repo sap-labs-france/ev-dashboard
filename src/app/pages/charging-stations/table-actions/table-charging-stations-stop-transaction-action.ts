@@ -1,18 +1,17 @@
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
-import { ChargePointStatus, ChargingStationButtonAction, OCPPGeneralResponse } from 'app/types/ChargingStation';
-
-import { ActionResponse } from 'app/types/DataResult';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
+import { ChargePointStatus, ChargingStationButtonAction, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ActionResponse } from 'app/types/DataResult';
+import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Transaction } from 'app/types/Transaction';
-import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 export class TableChargingStationsStopTransactionAction implements TableAction {
   private action: TableActionDef = {

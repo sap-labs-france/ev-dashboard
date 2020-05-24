@@ -1,21 +1,21 @@
-import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
-import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
-import { KeyValue } from 'app/types/GlobalType';
 import { LocaleService } from 'app/services/locale.service';
-import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
+import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+
+import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
 
 @Component({
   selector: 'app-charging-station-static-limit',

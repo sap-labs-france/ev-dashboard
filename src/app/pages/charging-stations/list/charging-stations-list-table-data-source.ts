@@ -14,7 +14,7 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, ConnStatus, Connector } from 'app/types/ChargingStation';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -307,7 +307,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Check if both connectors are unavailable
     let isUnavailable = true;
     for (const connector of charger.connectors) {
-      if (connector.status !== ConnStatus.UNAVAILABLE) {
+      if (connector.status !== ChargePointStatus.UNAVAILABLE) {
         isUnavailable = false;
         break;
       }

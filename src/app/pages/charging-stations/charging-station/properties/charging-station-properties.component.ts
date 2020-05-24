@@ -1,9 +1,9 @@
+import { ChargingStation, ChargingStationCapabilities } from 'app/types/ChargingStation';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { ChargingStation, ChargingStationCapabilities, OcppAdvancedCommands } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { Utils } from 'app/utils/Utils';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { KeyValue } from 'app/types/GlobalType';
+import { Utils } from 'app/utils/Utils';
 
 export interface PropertyDisplay {
   key: string;
@@ -71,22 +71,6 @@ export class ChargingStationPropertiesComponent implements OnInit {
           const formatterValues: string[] = [];
           for (const ocppVendorParameter of ocppVendorParameters) {
             formatterValues.push(`${ocppVendorParameter.key}: ${ocppVendorParameter.value}`);
-          }
-          return formatterValues.join(', ');
-        }
-        return '';
-      },
-    },
-    {
-      key: 'ocppAdvancedCommands', title: 'chargers.ocpp_advanced_command', formatter: (ocppAdvancedCommands: OcppAdvancedCommands[]) => {
-        if (ocppAdvancedCommands) {
-          const formatterValues: string[] = [];
-          for (const ocppAdvancedCommand of ocppAdvancedCommands) {
-            if (typeof ocppAdvancedCommand === 'object') {
-              formatterValues.push(JSON.stringify(ocppAdvancedCommand));
-            } else {
-              formatterValues.push(ocppAdvancedCommand);
-            }
           }
           return formatterValues.join(', ');
         }

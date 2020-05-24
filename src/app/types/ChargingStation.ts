@@ -1,42 +1,47 @@
-import { KeyValue } from './GlobalType';
-import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+import { KeyValue } from './GlobalType';
+import { SiteArea } from './SiteArea';
 
 export interface ChargingStation extends Data {
   id: string;
+  templateHash?: string;
+  templateHashTechnical?: string;
   issuer: boolean;
   private: boolean;
-  chargePointVendor: string;
+  siteAreaID?: string;
+  chargePointSerialNumber: string;
   chargePointModel: string;
-  chargePointSerialnumber: string;
-  chargeBoxSerialnumber: string;
-  firmwareVersion: string;
-  firmwareUpdateStatus?: FirmwareStatus;
+  chargeBoxSerialNumber: string;
+  chargePointVendor: string;
   iccid: string;
   imsi: string;
-  lastReboot: Date;
   meterType: string;
-  meterSerialnumber: string;
+  firmwareVersion: string;
+  firmwareUpdateStatus?: FirmwareStatus;
+  meterSerialNumber: string;
   endpoint: string;
   ocppVersion: OCPPVersion;
   ocppProtocol: OCPPProtocol;
+  cfApplicationIDAndInstanceIndex: string;
   lastHeartBeat: Date;
+  deleted: boolean;
   inactive: boolean;
+  lastReboot: Date;
   chargingStationURL: string;
-  connectors: Connector[];
-  siteAreaID?: string;
-  siteArea: SiteArea;
-  cannotChargeInParallel: boolean;
   maximumPower: number;
+  voltage: Voltage;
+  excludeFromSmartCharging?: boolean;
+  excludeFromPowerLimitation?: boolean;
   powerLimitUnit: PowerLimitUnits;
   coordinates: number[];
-  currentIPAddress: string;
+  chargePoints: ChargePoint[];
+  connectors: Connector[];
+  currentIPAddress?: string;
+  siteArea?: SiteArea;
   capabilities?: ChargingStationCapabilities;
-  ocppAdvancedCommands?: OcppAdvancedCommands[];
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
-  currentType: ChargingStationCurrentType;
 }
 
 export enum OCPPProtocol {
@@ -63,12 +68,6 @@ export enum OCPPGeneralResponse {
   REJECTED = 'Rejected',
 }
 
-export enum ChargingStationCurrentType {
-  AC = 'AC',
-  DC = 'DC',
-  AC_DC = 'AC/DC',
-}
-
 export interface ChargingStationPowers {
   notSupported: boolean;
   minAmp: number;
@@ -82,10 +81,6 @@ export interface ChargingStationPowers {
 export interface OcppCommand {
   command: string;
   parameters: string[];
-}
-
-export interface OcppAdvancedCommands {
-  command: string | OcppCommand;
 }
 
 export enum PowerLimitUnits {
@@ -110,32 +105,54 @@ export interface ConsumptionValue {
   limitWatts: number;
 }
 
+export interface ChargePoint {
+  chargePointID: number;
+  currentType: CurrentType;
+  voltage: Voltage;
+  amperage: number;
+  numberOfConnectedPhase: number;
+  cannotChargeInParallel: boolean;
+  sharePowerToAllConnectors: boolean;
+  excludeFromPowerLimitation: boolean;
+  ocppParamForPowerLimitation: string;
+  power: number;
+  efficiency: number;
+  connectorIDs: number[];
+  ampCurrentLimit?: number;
+}
+
 export interface Connector extends Data {
   connectorId: number;
   currentConsumption: number;
   currentStateOfCharge?: number;
   totalInactivitySecs?: number;
   totalConsumption?: number;
-  status: ConnStatus;
+  status: ChargePointStatus;
   errorCode?: string;
   info?: string;
   vendorErrorCode?: string;
   power: number;
   type: ConnectorType;
-  voltage: number;
-  amperage: number;
-  amperageLimit: number;
-  activeTransactionID: number;
-  activeTransactionDate: Date;
-  activeTagID: string;
+  voltage?: Voltage;
+  amperage?: number;
+  amperageLimit?: number;
+  activeTransactionID?: number;
+  activeTransactionDate?: Date;
+  activeTagID?: string;
   statusLastChangedOn?: Date;
-  inactivityStatus: InactivityStatus;
+  inactivityStatus?: InactivityStatus;
+  numberOfConnectedPhase?: number;
+  currentType?: CurrentType;
+  chargePointID?: number;
   hasDetails: boolean;
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
-  numberOfConnectedPhase?: number;
-  currentType?: ConnectorCurrentType;
+}
+
+export enum Voltage {
+  VOLTAGE_230 = 230,
+  VOLTAGE_110 = 110,
 }
 
 export enum ConnectorType {
@@ -148,7 +165,7 @@ export enum ConnectorType {
   UNKNOWN = 'U',
 }
 
-export enum ConnectorCurrentType {
+export enum CurrentType {
   AC = 'AC',
   DC = 'DC',
 }
@@ -175,7 +192,7 @@ export enum ChargingStationButtonAction {
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
 }
 
-export enum ConnStatus {
+export enum ChargePointStatus {
   AVAILABLE = 'Available',
   OCCUPIED = 'Occupied',
   CHARGING = 'Charging',
@@ -204,5 +221,5 @@ export enum OCPPAvailabilityType {
 }
 
 export enum StaticLimitAmps {
-  MIN_LIMIT = 2,
+  MIN_LIMIT = 6,
 }

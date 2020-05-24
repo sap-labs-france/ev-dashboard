@@ -1,32 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
+
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Action, Entity } from 'app/types/Authorization';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
+
+import { Address } from 'app/types/Address';
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
-import { Address } from 'app/types/Address';
-import { Action, Entity } from 'app/types/Authorization';
-import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MessageService } from 'app/services/message.service';
 import { RegistrationToken } from 'app/types/RegistrationToken';
-import { Site } from 'app/types/Site';
-import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
-import * as moment from 'moment';
-import { mergeMap } from 'rxjs/operators';
-
-import { ChargingStations } from '../../../../utils/ChargingStations';
 import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
+import { RestResponse } from 'app/types/GlobalType';
+import { Site } from 'app/types/Site';
+import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-site-area',
@@ -48,7 +48,8 @@ export class SiteAreaComponent implements OnInit {
   public site!: AbstractControl;
   public siteID!: AbstractControl;
   public maximumPower!: AbstractControl;
-  public maximumPowerInAmps!: AbstractControl;
+  public maximumPowerAmps!: AbstractControl;
+  public voltage!: AbstractControl;
   public accessControl!: AbstractControl;
   public smartCharging!: AbstractControl;
   public numberOfPhases!: AbstractControl;
@@ -61,7 +62,6 @@ export class SiteAreaComponent implements OnInit {
   public address!: Address;
   public isAdmin!: boolean;
   public isSmartChargingComponentActive = false;
-  public isSmartChargingActive = false;
 
   public registrationToken!: RegistrationToken;
 
@@ -96,31 +96,40 @@ export class SiteAreaComponent implements OnInit {
       name: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
       site: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
       siteID: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
-      maximumPower: new FormControl('',
-        Validators.compose(
-          this.isSmartChargingComponentActive ?
-            [
-              Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
-              Validators.min(1),
-              Validators.required,
-            ] : [],
-        )),
-      maximumPowerInAmps: new FormControl(''),
+        ])
+      ),
+      maximumPower: new FormControl(0,
+        Validators.compose([
+          Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
+          Validators.min(1),
+          Validators.required,
+        ])
+      ),
+      maximumPowerAmps: new FormControl(0),
       accessControl: new FormControl(true),
       smartCharging: new FormControl(false),
+      voltage: new FormControl(0,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      ),
       numberOfPhases: new FormControl('',
         Validators.compose([
           Validators.required,
-        ])),
+        ])
+      ),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -128,12 +137,14 @@ export class SiteAreaComponent implements OnInit {
     this.site = this.formGroup.controls['site'];
     this.siteID = this.formGroup.controls['siteID'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
-    this.maximumPowerInAmps = this.formGroup.controls['maximumPowerInAmps'];
+    this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.accessControl = this.formGroup.controls['accessControl'];
+    this.voltage = this.formGroup.controls['voltage'];
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
+    this.voltage.disable();
     this.maximumPower.disable();
-    this.maximumPowerInAmps.disable();
+    this.maximumPowerAmps.disable();
     this.numberOfPhases.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
@@ -169,6 +180,7 @@ export class SiteAreaComponent implements OnInit {
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
       this.maximumPower.enable();
+      this.voltage.enable();
       this.numberOfPhases.enable();
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
@@ -177,14 +189,16 @@ export class SiteAreaComponent implements OnInit {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(false);
           this.maximumPower.disable();
+          this.voltage.disable();
           this.numberOfPhases.disable();
         }
       });
     } else {
       this.maximumPower.disable();
+      this.voltage.disable();
       this.numberOfPhases.disable();
     }
-    if (!event.checked && this.isSmartChargingActive) {
+    if (!event.checked) {
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
         this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_body'),
@@ -192,6 +206,7 @@ export class SiteAreaComponent implements OnInit {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
           this.maximumPower.enable();
+          this.voltage.enable();
           this.numberOfPhases.enable();
         }
       });
@@ -200,6 +215,9 @@ export class SiteAreaComponent implements OnInit {
 
   public setCurrentSiteAreaId(currentSiteAreaId: string) {
     this.currentSiteAreaID = currentSiteAreaId;
+  }
+
+  public voltageChanged() {
   }
 
   public refresh() {
@@ -235,21 +253,24 @@ export class SiteAreaComponent implements OnInit {
         this.site.setValue(siteArea.site.name);
       }
       if (siteArea.maximumPower) {
-        this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower / 1000);
-        this.maximumPowerChanged();
+        this.formGroup.controls.maximumPower.setValue(siteArea.maximumPower);
       }
       if (siteArea.numberOfPhases) {
         this.formGroup.controls.numberOfPhases.setValue(siteArea.numberOfPhases);
       }
+      if (siteArea.voltage) {
+        this.formGroup.controls.voltage.setValue(siteArea.voltage);
+      }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
-        this.isSmartChargingActive = siteArea.smartCharging;
         this.maximumPower.enable();
         this.numberOfPhases.enable();
+        this.voltage.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
         this.maximumPower.disable();
         this.numberOfPhases.disable();
+        this.voltage.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);
@@ -259,6 +280,7 @@ export class SiteAreaComponent implements OnInit {
       if (siteArea.address) {
         this.address = siteArea.address;
       }
+      this.refreshMaximumAmps();
       // Force
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -300,7 +322,6 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public saveSiteArea(siteArea: SiteArea) {
-    siteArea.maximumPower = siteArea.maximumPower * 1000;
     if (this.currentSiteAreaID) {
       this.updateSiteArea(siteArea);
     } else {
@@ -379,9 +400,16 @@ export class SiteAreaComponent implements OnInit {
       this.translateService, this.saveSiteArea.bind(this), this.closeDialog.bind(this));
   }
 
+  public refreshMaximumAmps() {
+    this.maximumPowerChanged();
+  }
+
   public maximumPowerChanged() {
-    if (!this.maximumPower.errors) {
-      this.maximumPowerInAmps.setValue(ChargingStations.convertWattToAmp(1, this.maximumPower.value as number * 1000));
+    if (!this.maximumPower.errors && this.voltage.value) {
+      this.maximumPowerAmps.setValue(
+        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number)));
+    } else {
+      this.maximumPowerAmps.setValue(0);
     }
   }
 

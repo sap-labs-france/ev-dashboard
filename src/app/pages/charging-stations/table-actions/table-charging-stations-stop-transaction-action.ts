@@ -1,17 +1,18 @@
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ChargePointStatus, ChargingStationButtonAction, OCPPGeneralResponse } from 'app/types/ChargingStation';
+
+import { ActionResponse } from 'app/types/DataResult';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStationButtonAction, ConnStatus, OCPPGeneralResponse } from 'app/types/ChargingStation';
-import { ActionResponse } from 'app/types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Transaction } from 'app/types/Transaction';
+import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
-import { Observable } from 'rxjs';
 
 export class TableChargingStationsStopTransactionAction implements TableAction {
   private action: TableActionDef = {
@@ -34,7 +35,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
       refresh?: () => Observable<void>) {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
-      const connector = chargingStation.connectors[transaction.connectorId - 1];
+      const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
       const isStopAuthorized = !!connector.activeTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.activeTagID);
       if (!isStopAuthorized) {
         dialogService.createAndShowOkDialog(
@@ -47,7 +48,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
           translateService.instant('chargers.action_error.transaction_stop_charger_inactive'));
         return;
       }
-      if (connector.status === ConnStatus.UNAVAILABLE) {
+      if (connector.status === ChargePointStatus.UNAVAILABLE) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),
           translateService.instant('chargers.action_error.transaction_stop_not_available'));
@@ -64,7 +65,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
         translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
       ).subscribe((response) => {
         if (response === ButtonType.YES) {
-          if (connector.status !== ConnStatus.AVAILABLE) {
+          if (connector.status !== ChargePointStatus.AVAILABLE) {
             // Remote Stop
             spinnerService.show();
             centralServerService.chargingStationStopTransaction(chargingStation.id, connector.activeTransactionID)

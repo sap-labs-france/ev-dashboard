@@ -1,5 +1,5 @@
 <div class="main-content">
-  <div class="card card-profile card-testimonial card-min-height">
+  <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
       <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
           animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
@@ -8,7 +8,7 @@
             <mat-icon>portrait</mat-icon>
             <span>{{name.value}} {{firstName.value}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <div class="row">
               <div class="col-md-2 my-auto">
                 <div class="rotating-card-container img-fluid"
@@ -152,7 +152,7 @@
             <mat-icon>nfc</mat-icon>
             <span>{{'users.tags' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <app-table [dataSource]="userTagsEditableTableDataSource"></app-table>
           </div>
         </mat-tab>
@@ -161,7 +161,7 @@
             <mat-icon>email</mat-icon>
             <span>{{'general.notifications' | translate}}</span>
           </ng-template>
-          <div class="card-body" class="text-left m-4">
+          <div class="card-body tab-dialog-min-content text-left">
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group mb-0">
@@ -186,7 +186,7 @@
             <mat-icon>email</mat-icon>
             <span>{{'general.notifications' | translate}}</span>
           </ng-template>
-          <div class="card-body" class="text-left m-4">
+          <div class="card-body tab-dialog-min-content text-left">
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group mb-0">
@@ -299,7 +299,7 @@
             <mat-icon>location_on</mat-icon>
             <span>{{'general.address' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <app-address [address]="address" [formGroup]="formGroup" [hideGeoLocation]="true"></app-address>
           </div>
         </mat-tab>
@@ -308,7 +308,7 @@
             <mat-icon>lock</mat-icon>
             <span>{{'authentication.password' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -352,7 +352,7 @@
             <mat-icon>link</mat-icon>
             <span>{{'general.connectors' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <div class="row">
               <div *ngIf="refundSetting" class="col-md-6 col-xl-4">
                 <div class="card">
@@ -399,7 +399,7 @@
             <mat-icon>more_horiz</mat-icon>
             <span>{{'users.miscs' | translate}}</span>
           </ng-template>
-          <div class="card-body">
+          <div class="card-body tab-dialog-min-content">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">

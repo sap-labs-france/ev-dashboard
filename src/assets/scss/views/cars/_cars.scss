@@ -25,3 +25,8 @@
   @include shadow-2dp();
   border-radius: $border-radius-large;
 }
+
+.tab-dialog-car-min-content {
+  min-height: 40vh;
+  min-width: 80vh;
+}

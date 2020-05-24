@@ -1,39 +1,39 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { TranslateService } from '@ngx-translate/core';
-import { Asset } from 'app/types/Asset';
+import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Car, CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
+import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
-import { ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
-import { Company } from 'app/types/Company';
-import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
-import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
-import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { IntegrationConnection, UserConnection } from 'app/types/Connection';
+import { Site, SiteUser, UserSite } from 'app/types/Site';
+import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
+import { User, UserToken } from 'app/types/User';
+
+import { Asset } from 'app/types/Asset';
+import { CentralServerNotificationService } from './central-server-notification.service';
+import { Company } from 'app/types/Company';
+import { ConfigService } from './config.service';
+import { Constants } from '../utils/Constants';
+import { EndUserLicenseAgreement } from 'app/types/Eula';
+import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { LocalStorageService } from './local-storage.service';
 import { Log } from 'app/types/Log';
+import { MatDialog } from '@angular/material/dialog';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
 import { Setting } from 'app/types/Setting';
-import { Site, SiteUser, UserSite } from 'app/types/Site';
-import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
-import { User, UserToken } from 'app/types/User';
-import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
-import { Constants } from '../utils/Constants';
-import { CentralServerNotificationService } from './central-server-notification.service';
-import { ConfigService } from './config.service';
-import { LocalStorageService } from './local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
 import { WindowService } from './window.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class CentralServerService {
@@ -2418,12 +2418,13 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
+  public chargingStationLimitPower(charger: ChargingStation, chargePoint: ChargePoint, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
       chargeBoxID: charger.id,
+      chargePointID: chargePoint.chargePointID,
       connectorId,
       ampLimitValue,
       forceUpdateChargingPlan,

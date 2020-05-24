@@ -1,10 +1,10 @@
-import { PowerLimitUnits } from 'app/types/ChargingStation';
-
 import { Data } from './Table';
+import { PowerLimitUnits } from 'app/types/ChargingStation';
 
 export interface ChargingProfile extends Data {
   id: string;
   chargingStationID: string;
+  chargePointID: number;
   connectorID?: number;
   profile: Profile;
 }

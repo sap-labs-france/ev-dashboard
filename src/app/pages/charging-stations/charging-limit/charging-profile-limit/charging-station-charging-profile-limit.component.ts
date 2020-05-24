@@ -253,7 +253,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   private loadProfile(chargingProfile: ChargingProfile) {
     const schedules: Schedule[] = [];
     this.currentChargingProfile = chargingProfile;
-    const chargePoint = Utils.getChargingStationChargePointFromID(this.chargingStation, chargingProfile.chargePointID);
+    const chargePoint = Utils.getChargePointFromID(this.chargingStation, chargingProfile.chargePointID);
     // Set Data Sources
     this.scheduleEditableTableDataSource.setChargingStation(this.chargingStation, chargePoint);
     this.scheduleTableDataSource.setChargingStation(this.chargingStation, chargePoint);

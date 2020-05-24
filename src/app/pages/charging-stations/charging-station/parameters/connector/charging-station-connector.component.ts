@@ -100,7 +100,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public loadConnector() {
     if (this.connector) {
-      const chargePoint = Utils.getChargingStationChargePointFromID(
+      const chargePoint = Utils.getChargePointFromID(
         this.chargingStation, this.connector.chargePointID);
       // Update connector values
       this.type.setValue(this.connector.type);

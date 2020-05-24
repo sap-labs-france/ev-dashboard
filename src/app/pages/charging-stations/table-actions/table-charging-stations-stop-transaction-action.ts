@@ -35,7 +35,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
       refresh?: () => Observable<void>) {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
-      const connector = Utils.getChargingStationConnectorFromID(chargingStation, transaction.connectorId);
+      const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
       const isStopAuthorized = !!connector.activeTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.activeTagID);
       if (!isStopAuthorized) {
         dialogService.createAndShowOkDialog(

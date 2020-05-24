@@ -2601,10 +2601,10 @@ export class CentralServerService {
       // No: Process the init
       // Get the server config
       this.centralSystemServerConfig = this.configService.getCentralSystemServer();
-      // Central Service URL
+      // Build Central Service URL
       this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
-      // Set Web Socket URL
+      // Set REST base URL
       this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';

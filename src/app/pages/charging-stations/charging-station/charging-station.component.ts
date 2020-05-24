@@ -1,22 +1,22 @@
-import { Action, Entity } from 'app/types/Authorization';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Action, Entity } from 'app/types/Authorization';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
+import { Utils } from 'app/utils/Utils';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
-import { DialogService } from 'app/services/dialog.service';
-import { FormGroup } from '@angular/forms';
 import { LocaleService } from '../../../services/locale.service';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MessageService } from '../../../services/message.service';
-import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
+import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
 @Component({
   selector: 'app-charging-station',
@@ -27,7 +27,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
   @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
-  
+
   public formGroup: FormGroup;
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];

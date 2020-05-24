@@ -1,7 +1,7 @@
 import { Address } from './Address';
 import { ChargingStation } from './ChargingStation';
-import { Data } from './Table';
 import { Site } from './Site';
+import { Data } from './Table';
 
 export interface SiteArea extends Data {
   id: string;

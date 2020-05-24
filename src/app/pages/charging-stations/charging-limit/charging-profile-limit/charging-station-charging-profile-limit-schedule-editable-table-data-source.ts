@@ -1,15 +1,15 @@
-import { ChargePoint, ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
-import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
-import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { Injectable } from '@angular/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 import { Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
+
+import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
+import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource extends EditableTableDataSource<Schedule> {

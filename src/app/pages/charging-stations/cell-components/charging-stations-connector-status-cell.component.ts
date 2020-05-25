@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ConnStatus, Connector } from 'app/types/ChargingStation';
+import { ChargePointStatus, Connector } from 'app/types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
 const TYPE_SUCCESS = 'chip-success';
@@ -36,40 +36,40 @@ export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransfo
   public buildConnectorStatusClasses(status: string): string {
     let classNames = 'chip-width-10em ';
     switch (status) {
-      case ConnStatus.AVAILABLE: {
+      case ChargePointStatus.AVAILABLE: {
         classNames += TYPE_SUCCESS;
         break;
       }
-      case ConnStatus.PREPARING: {
+      case ChargePointStatus.PREPARING: {
         classNames += TYPE_WARNING;
         break;
       }
-      case ConnStatus.SUSPENDED_EVSE: {
+      case ChargePointStatus.SUSPENDED_EVSE: {
         classNames += TYPE_INFO;
         break;
       }
-      case ConnStatus.SUSPENDED_EV: {
+      case ChargePointStatus.SUSPENDED_EV: {
         classNames += TYPE_INFO;
         break;
       }
-      case ConnStatus.FINISHING: {
+      case ChargePointStatus.FINISHING: {
         classNames += TYPE_WARNING;
         break;
       }
-      case ConnStatus.RESERVED: {
+      case ChargePointStatus.RESERVED: {
         classNames += TYPE_INFO;
         break;
       }
-      case ConnStatus.CHARGING:
-      case ConnStatus.OCCUPIED: {
+      case ChargePointStatus.CHARGING:
+      case ChargePointStatus.OCCUPIED: {
         classNames += TYPE_INFO;
         break;
       }
-      case ConnStatus.UNAVAILABLE: {
+      case ChargePointStatus.UNAVAILABLE: {
         classNames += TYPE_GREY;
         break;
       }
-      case ConnStatus.FAULTED: {
+      case ChargePointStatus.FAULTED: {
         classNames += TYPE_DANGER;
         break;
       }

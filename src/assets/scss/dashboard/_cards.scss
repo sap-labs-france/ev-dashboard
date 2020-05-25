@@ -7,10 +7,6 @@
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14);
 
-  &.card-min-height {
-    min-height: 600px
-  }
-
   .table tr:first-child td {
     border-top: none;
   }
@@ -74,10 +70,9 @@
         line-height: 33px;
       }
       .card-title {
-        margin-top: 5px;
         color: $brand-text;
         font-weight: 400;
-        font-size: $font-size-h3;
+        font-size: 1.5rem;
       }
       h4 {
         font-weight: 300;
@@ -99,7 +94,6 @@
         margin: 0;
       }
       .nav-tabs-navigation {
-        margin-top: 5px;
         .btn-link {
           color: white !important;
         }

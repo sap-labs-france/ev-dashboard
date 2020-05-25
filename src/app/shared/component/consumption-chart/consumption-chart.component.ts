@@ -111,7 +111,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       this.activeUnitButtonGroup = this.unitMap[index];
     }
     this.createGraphData();
-    this.refresh();
+    this.prepareOrUpdateGraph();
   }
 
   private getStyleColor(element: Element): string {

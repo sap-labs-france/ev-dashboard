@@ -115,7 +115,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       this.activeUnitButtonGroup = this.unitMap[index];
     }
     this.createGraphData();
-    this.refresh();
+    this.prepareOrUpdateGraph();
   }
 
   public dateFilterChanged(value: Date) {

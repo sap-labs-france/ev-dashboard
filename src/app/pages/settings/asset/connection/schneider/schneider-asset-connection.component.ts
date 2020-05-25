@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { AssetSchneiderConnectionType } from 'app/types/Setting';
 
 @Component({
   selector: 'app-settings-schneider-connection',
@@ -8,7 +8,7 @@ import { LoginCredentialsAssetConnection } from 'app/types/Setting';
 })
 export class SchneiderAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;
-  @Input() public schneiderLogin!: LoginCredentialsAssetConnection;
+  @Input() public schneiderLogin!: AssetSchneiderConnectionType;
 
   public schneiderLoginForm!: FormGroup;
   public user!: AbstractControl;

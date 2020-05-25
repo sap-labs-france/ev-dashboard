@@ -2,8 +2,8 @@ import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AssetConnectionSetting } from 'app/types/Setting';
 import { Utils } from 'app/utils/Utils';
-
 import { AssetConnectionComponent } from './asset-connection.component';
+
 
 @Component({
   template: '<app-settings-asset-connection #appRef [currentAssetConnection]="currentConnection" [inDialog]="true" [dialogRef]="dialogRef"></app-settings-asset-connection>',

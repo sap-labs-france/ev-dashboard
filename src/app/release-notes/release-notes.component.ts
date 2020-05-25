@@ -24,12 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.55',
-        date: new Date('2020-05-18'),
+        version: '2.2.57',
+        date: new Date('2020-05-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Provide Charging Plan in Watts for Cahors DC Charging Station`,
+              `Migrated Charging Stations with Charge Point level`,
+              `Amps is stored for all phases in consumptions`,
+              `Provide new templates with Charge Point level`,
+              `Add Voltage in Site Area`,
+              `Fixed auto-refresh handling when user is already logged in`,
+              `Fixed Charging Station's token not always accepted`,
               `Fixed Charging Limitation pop-up not closing`,
               `Enhanced auto-refresh of lists when data is changing in database`,
               `Fixed CSS in save pop-up`,

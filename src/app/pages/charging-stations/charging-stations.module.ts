@@ -30,7 +30,9 @@ import { ChargingStationFirmwareUpdateComponent } from './charging-station/firmw
 import { ChargingStationOcppParametersInputFieldCellComponent } from './charging-station/ocpp-parameters/cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 import { ChargingStationOcppParametersEditableTableDataSource } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters-editable-table-data-source.component';
 import { ChargingStationOcppParametersComponent } from './charging-station/ocpp-parameters/charging-station-ocpp-parameters.component';
+import { ChargingStationChargePointComponent } from './charging-station/parameters/charge-point/charging-station-charge-point.component';
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
+import { ChargingStationConnectorComponent } from './charging-station/parameters/connector/charging-station-connector.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
@@ -66,6 +68,8 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
     ChargingStationParametersComponent,
+    ChargingStationConnectorComponent,
+    ChargingStationChargePointComponent,
     TransactionDialogComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
@@ -90,6 +94,8 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationPropertiesComponent,
     ChargingStationOcppParametersComponent,
     ChargingStationParametersComponent,
+    ChargingStationConnectorComponent,
+    ChargingStationChargePointComponent,
     AppChargingStationsFormatPowerChargerPipe,
     AppChargingStationsFormatPowerConnectorPipe,
     AppChargingStationsFormatConnectorPipe,

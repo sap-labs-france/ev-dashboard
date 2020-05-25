@@ -20,7 +20,7 @@ export class ChargingStationDialogComponent implements AfterViewInit {
   public ngAfterViewInit() {
     // Register key event
     Utils.registerSaveCloseKeyEvents(this.dialogRef,
-      this.appRef.chargingStationParametersComponent.formGroup,
-      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+      this.appRef.formGroup,
+      this.appRef.saveChargingStation.bind(this.appRef), this.appRef.close.bind(this.appRef));
   }
 }

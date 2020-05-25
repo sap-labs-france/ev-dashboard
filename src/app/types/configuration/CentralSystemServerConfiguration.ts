@@ -4,5 +4,5 @@ export default interface CentralSystemServerConfiguration {
   port: number;
   pollEnabled?: boolean;
   pollIntervalSecs?: number;
-  socketIOEnabled: boolean;
+  socketIOEnabled?: boolean;
 }

@@ -163,8 +163,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         } as number & ChartPoint);
       }
       if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
-        chargingSlotDataSet.data.forEach((chartPoint) => chartPoint.y = ChargingStations.convertWattToAmp(
-          this.chargingStation.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
+        chargingSlotDataSet.data.forEach((chartPoint) => chartPoint.y = chartPoint.y * 1000 / 230 ); // Utils convert method was updated. Needs to be handled by Serge.
       }
       // Push in the graph
       datasets.push(chargingSlotDataSet);
@@ -200,8 +199,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         } as number & ChartPoint);
       }
       if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
-        limitDataSet.data.forEach((chartPoint) => chartPoint.y = ChargingStations.convertWattToAmp(
-          this.chargingStation.connectors[this.connectorId === 0 ? 0 : this.connectorId - 1].numberOfConnectedPhase, chartPoint.y * 1000));
+        limitDataSet.data.forEach((chartPoint) => chartPoint.y = chartPoint.y * 1000 / 230 ); // Utils convert method was updated. Needs to be handled by Serge.
       }
       // Push in the graph
       datasets.push(limitDataSet);

@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.57',
-        date: new Date('2020-05-24'),
+        version: '2.2.58',
+        date: new Date('2020-05-25'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Provide Charging Plan in Watts for Cahors DC Charging Station`,
+              `Keep the power of the site area always enabled`,
               `Migrated Charging Stations with Charge Point level`,
               `Amps is stored for all phases in consumptions`,
               `Provide new templates with Charge Point level`,

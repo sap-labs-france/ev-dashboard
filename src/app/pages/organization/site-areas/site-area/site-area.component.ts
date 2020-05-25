@@ -1,31 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
+
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Action, Entity } from 'app/types/Authorization';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
+
+import { Address } from 'app/types/Address';
 import { AuthorizationService } from 'app/services/authorization.service';
+import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
-import { Address } from 'app/types/Address';
-import { Action, Entity } from 'app/types/Authorization';
-import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MessageService } from 'app/services/message.service';
 import { RegistrationToken } from 'app/types/RegistrationToken';
-import { Site } from 'app/types/Site';
-import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
-import * as moment from 'moment';
-import { mergeMap } from 'rxjs/operators';
-
 import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
+import { RestResponse } from 'app/types/GlobalType';
+import { Site } from 'app/types/Site';
+import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
+import { SpinnerService } from 'app/services/spinner.service';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-site-area',
@@ -141,10 +142,7 @@ export class SiteAreaComponent implements OnInit {
     this.accessControl = this.formGroup.controls['accessControl'];
     this.voltage = this.formGroup.controls['voltage'];
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
-    this.voltage.disable();
-    this.maximumPower.disable();
     this.maximumPowerAmps.disable();
-    this.numberOfPhases.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -178,24 +176,14 @@ export class SiteAreaComponent implements OnInit {
 
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
-      this.maximumPower.enable();
-      this.voltage.enable();
-      this.numberOfPhases.enable();
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(false);
-          this.maximumPower.disable();
-          this.voltage.disable();
-          this.numberOfPhases.disable();
         }
       });
-    } else {
-      this.maximumPower.disable();
-      this.voltage.disable();
-      this.numberOfPhases.disable();
     }
     if (!event.checked) {
       this.dialogService.createAndShowYesNoDialog(
@@ -204,9 +192,6 @@ export class SiteAreaComponent implements OnInit {
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
-          this.maximumPower.enable();
-          this.voltage.enable();
-          this.numberOfPhases.enable();
         }
       });
     }
@@ -262,14 +247,8 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
-        this.maximumPower.enable();
-        this.numberOfPhases.enable();
-        this.voltage.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
-        this.maximumPower.disable();
-        this.numberOfPhases.disable();
-        this.voltage.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);

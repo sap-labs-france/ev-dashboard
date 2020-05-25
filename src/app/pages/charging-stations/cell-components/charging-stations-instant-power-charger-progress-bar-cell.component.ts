@@ -22,6 +22,7 @@ export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends
   @Input() public row!: ChargingStation;
 }
 
+// tslint:disable-next-line: max-classes-per-file
 @Pipe({name: 'appChargingStationsFormatPowerCharger'})
 export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform {
   constructor(private decimalPipe: AppDecimalPipe) {
@@ -66,16 +67,8 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         // Not set: calculate it from connectors
         } else {
           for (const connector of connectors) {
-            // Charging in parallel?
-            if (charger.cannotChargeInParallel) {
-              // No: Take only one connector
-              if (maxPowerKW === 0) {
-                maxPowerKW += connector.power;
-              }
-            } else {
-              // Yes: Add up connector power
-              maxPowerKW += connector.power;
-            }
+            // Yes: Add up connector power
+            maxPowerKW += connector.power;
           }
         }
         // Watt -> kWatts

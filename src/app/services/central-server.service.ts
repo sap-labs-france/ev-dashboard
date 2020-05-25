@@ -7,7 +7,7 @@ import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Car, CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
-import { ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
+import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
@@ -1501,8 +1501,8 @@ export class CentralServerService {
   public loginSucceeded(token: string): void {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
-    // Init Socket IO after login
-    if (this.getLoggedUser() && this.getLoggedUserToken() && this.configService.getCentralSystemServer().socketIOEnabled) {
+    // Init Socket IO at user login
+    if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
       this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
     }
   }
@@ -1581,7 +1581,9 @@ export class CentralServerService {
   public logoutSucceeded(): void {
     this.dialog.closeAll();
     this.clearLoggedUserToken();
-    this.centralServerNotificationService.resetSocketIO();
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.centralServerNotificationService.resetSocketIO();
+    }
   }
 
   public getLoggedUser(): UserToken {
@@ -2416,12 +2418,13 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationLimitPower(charger: ChargingStation, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
+  public chargingStationLimitPower(charger: ChargingStation, chargePoint: ChargePoint, connectorId?: number, ampLimitValue: number = 0, forceUpdateChargingPlan: boolean = false): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationLimitPower`, {
       chargeBoxID: charger.id,
+      chargePointID: chargePoint.chargePointID,
       connectorId,
       ampLimitValue,
       forceUpdateChargingPlan,
@@ -2599,10 +2602,10 @@ export class CentralServerService {
       // No: Process the init
       // Get the server config
       this.centralSystemServerConfig = this.configService.getCentralSystemServer();
-      // Central Service URL
+      // Build Central Service URL
       this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
         this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
-      // Set Web Socket URL
+      // Set REST base URL
       this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
@@ -2611,7 +2614,7 @@ export class CentralServerService {
       // Util URL
       this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
       // Init Socket IO if user already logged
-      if (this.getLoggedUser() && this.getLoggedUserToken() && this.configService.getCentralSystemServer().socketIOEnabled) {
+      if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
         this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
       }
       // Done

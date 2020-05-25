@@ -7,8 +7,8 @@ import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import ChangeNotification from 'app/types/ChangeNotification';
-import { Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation } from 'app/types/ChargingStation';
+import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
@@ -18,6 +18,8 @@ import { Observable } from 'rxjs';
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
   public chargingStation!: ChargingStation;
+  public chargePoint!: ChargePoint;
+  public chargingProfile!: ChargingProfile;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -75,8 +77,8 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
         name: 'chargers.smart_charging.limit_title',
         headerClass: 'col-50p',
         class: 'col-45p',
-        formatter: (value: number) => `${Utils.convertAmpToPowerString(this.chargingStation, this.unitPipe, value, 'kW', true, 3)}
-        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: value} )}`
+        formatter: (limit: number) => `${Utils.convertAmpToWattString(this.chargingStation, this.chargingProfile.connectorID, this.unitPipe, limit, 'kW', true, 3)}
+        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: limit} )}`
       },
     ];
     return tableColumnDef;
@@ -103,7 +105,12 @@ export class ChargingStationChargingProfileLimitScheduleTableDataSource extends 
     this.refreshData(false).subscribe();
   }
 
-  public setChargingStation(chargingStation: ChargingStation) {
+  public setChargingProfile(chargingProfile: ChargingProfile) {
+    this.chargingProfile = chargingProfile;
+  }
+
+  public setChargingStation(chargingStation: ChargingStation, chargePoint: ChargePoint) {
     this.chargingStation = chargingStation;
+    this.chargePoint = chargePoint;
   }
 }

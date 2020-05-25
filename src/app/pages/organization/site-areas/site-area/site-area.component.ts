@@ -202,6 +202,7 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public voltageChanged() {
+    this.maximumPowerChanged();
   }
 
   public refresh() {

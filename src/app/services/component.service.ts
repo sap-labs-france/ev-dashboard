@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
-import { AnalyticsSettings, AssetSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSetting, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { CentralServerService } from './central-server.service';
+
 
 @Injectable()
 export class ComponentService {
@@ -157,14 +157,19 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-  public saveAssetConnectionSettings(settings: AssetSettings): Observable<ActionResponse> {
+  public saveAssetConnectionSettings(settings: AssetSetting): Observable<ActionResponse> {
     // build setting payload
     const settingsToSave = {
       id: settings.id,
       identifier: TenantComponents.ASSET,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: JSON.parse(JSON.stringify(settings)) as AssetSetting,
     };
+    settingsToSave.content.connections.forEach((settingConnection) => {
+      if (settingConnection.type === AssetConnectionType.SCHNEIDER) {
+        settingsToSave.sensitiveData.push('content.connection.password');
+      }
+    });
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
@@ -328,11 +333,11 @@ export class ComponentService {
     });
   }
 
-  public getAssetSettings(): Observable<AssetSettings> {
+  public getAssetSettings(): Observable<AssetSetting> {
     return new Observable((observer) => {
       const assetSettings = {
         identifier: TenantComponents.ASSET,
-      } as AssetSettings;
+      } as AssetSetting;
       // Get the Asset settings
       this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((settings) => {
         // Get the currency
@@ -342,6 +347,8 @@ export class ComponentService {
           assetSettings.id = settings.result[0].id;
           // Sensitive data
           assetSettings.sensitiveData = settings.result[0].sensitiveData;
+          // Set
+          assetSettings.connections = config.connections;
         }
         observer.next(assetSettings);
         observer.complete();

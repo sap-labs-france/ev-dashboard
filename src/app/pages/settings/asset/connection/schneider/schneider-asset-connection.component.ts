@@ -27,7 +27,7 @@ export class SchneiderAssetConnectionComponent implements OnInit {
         ])),
     });
     if (!this.formGroup.disabled) {
-      this.formGroup.addControl('loginCredentials', this.schneiderLoginForm);
+      this.formGroup.addControl('connection', this.schneiderLoginForm);
     } else {
       this.schneiderLoginForm.disable();
     }

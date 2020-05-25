@@ -8,7 +8,7 @@ import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-actio
 import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
-import { AssetConnectionSetting } from 'app/types/Setting';
+import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
@@ -134,7 +134,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       key: '',
       name: '',
       description: '',
-      type: '',
+      type: AssetConnectionType.NONE,
       url: ''
     };
   }

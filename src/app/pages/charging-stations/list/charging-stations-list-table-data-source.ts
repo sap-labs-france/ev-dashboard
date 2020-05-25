@@ -133,6 +133,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         class: 'col-30p',
         sorted: true,
         direction: 'asc',
+        formatter: (id: string, chargingStation: ChargingStation) => chargingStation.ocpiData
+          && chargingStation.ocpiData.evse && chargingStation.ocpiData.evse.evse_id ?
+          chargingStation.ocpiData.evse.evse_id : id,
       },
       {
         id: 'inactive',

@@ -42,6 +42,12 @@ export interface ChargingStation extends Data {
   capabilities?: ChargingStationCapabilities;
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
+  ocpiData?: {
+    evse?: {
+      uid: string;
+      evse_id: string;
+    };
+  };
 }
 
 export enum OCPPProtocol {

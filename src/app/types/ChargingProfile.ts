@@ -5,6 +5,7 @@ import { Data } from './Table';
 export interface ChargingProfile extends Data {
   id: string;
   chargingStationID: string;
+  chargePointID: number;
   connectorID?: number;
   profile: Profile;
 }

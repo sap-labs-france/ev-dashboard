@@ -25,8 +25,18 @@
 .charger-dialog-component {
 }
 
-.connector-type-select-fix .mat-form-field-infix {
+.connector-type-select .mat-form-field-infix {
     height: 45px;
+}
+
+.charging-station-debug-component {
+    height: 50vh;
+    overflow: auto;
+}
+
+.charging-station-connector-component {
+    height: 50vh;
+    overflow: auto;
 }
 
 .charger-dialog-container {

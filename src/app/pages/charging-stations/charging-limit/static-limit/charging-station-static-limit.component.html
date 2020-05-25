@@ -9,27 +9,30 @@
       {{"chargers.smart_charging.smart_charging_enabled_static_limitation" | translate }}
     </div>
   </div>
-  <div class="form-group mt-4">
-    <div class="card">
-      <div class="card-header card-header-primary card-header-icon">
-        <div class="card-icon">
-          <mat-icon>vertical_align_bottom</mat-icon>
+  <div class="row">
+    <div class="col-md-6" *ngFor="let chargePoint of chargingStation?.chargePoints">
+      <div class="card" *ngIf="!chargePoint?.excludeFromPowerLimitation">
+        <div class="card-header card-header-primary card-header-icon">
+          <div class="card-icon">
+            <mat-icon>vertical_align_bottom</mat-icon>
+          </div>
+          <h3 class="card-title text-left">
+            {{chargingStation.id}} - {{'chargers.charge_point' | translate}} {{chargePoint.chargePointID}}
+          </h3>
         </div>
-        <h3 class="card-title text-left">
-          {{'chargers.smart_charging.maximum_energy_limit' | translate: {chargeBoxID: chargingStation.id} }}
-        </h3>
-      </div>
-      <div class="card-body">
-        <div class="row col-md-12 pt-3">
-          <app-charging-station-power-slider class="col-md-12" [chargingStation]="chargingStation"
-            (silderChanged)="powerSliderChanged($event)">
-          </app-charging-station-power-slider>
-        </div>
-        <div class="col-md-12 text-right">
-          <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm()"
-            [disabled]="chargingStation.inactive || this.ampInitialLimit === this.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
-            <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
-          </button>
+        <div class="card-body">
+          <div class="row pt-3">
+            <app-charging-station-power-slider class="col-md-12"
+              [chargingStation]="chargingStation" [chargePoint]="chargePoint"
+              (silderChanged)="powerSliderChanged(chargePoint, $event)">
+            </app-charging-station-power-slider>
+          </div>
+          <div class="col-md-12 text-right">
+            <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)"
+              [disabled]="chargingStation.inactive || !chargePoint.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
+              <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

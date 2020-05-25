@@ -24,11 +24,10 @@
   padding-bottom: 15px;
 }
 
-mat-dialog-container {
+.mat-dialog-container {
   .main-content {
     height: 100%;
     .card {
-      height: 100%;
       .mat-tab-group {
         height: 100%;
         .card-body{
@@ -37,4 +36,9 @@ mat-dialog-container {
       }
     }
   }
+}
+
+.tab-dialog-min-content {
+  min-height: 60vh;
+  min-width: 80vh;
 }

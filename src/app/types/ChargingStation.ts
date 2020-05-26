@@ -33,7 +33,7 @@ export interface ChargingStation extends Data {
   voltage: Voltage;
   excludeFromSmartCharging?: boolean;
   excludeFromPowerLimitation?: boolean;
-  powerLimitUnit: PowerLimitUnits;
+  powerLimitUnit: ChargingRateUnitType;
   coordinates: number[];
   chargePoints: ChargePoint[];
   connectors: Connector[];
@@ -83,7 +83,7 @@ export interface OcppCommand {
   parameters: string[];
 }
 
-export enum PowerLimitUnits {
+export enum ChargingRateUnitType {
   WATT = 'W',
   AMPERE = 'A',
 }

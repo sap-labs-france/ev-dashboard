@@ -318,7 +318,7 @@ export class Utils {
     return 0;
   }
 
-  public static getChargingStationNumberOfConnectedPhases(chargingStation: ChargingStation,
+  public static getNumberOfConnectedPhases(chargingStation: ChargingStation,
     chargePoint?: ChargePoint, connectorId = 0): number {
     if (chargingStation) {
       // Check at charge point level

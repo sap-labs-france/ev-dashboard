@@ -18,7 +18,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    private dialogService: DialogService,
     private dialog: MatDialog) {
     super(spinnerService, translateService);
   }

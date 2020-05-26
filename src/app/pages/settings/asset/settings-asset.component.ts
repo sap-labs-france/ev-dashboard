@@ -7,7 +7,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
-import { AssetSetting } from 'app/types/Setting';
+import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset-connections-list-table-data-source';
@@ -21,7 +21,7 @@ export class SettingsAssetComponent implements OnInit {
   public isActive = false;
 
   public formGroup!: FormGroup;
-  public assetSetting!: AssetSetting;
+  public assetSettings!: AssetSettings;
   public assetConnections!: FormArray;
 
   constructor(
@@ -54,9 +54,9 @@ export class SettingsAssetComponent implements OnInit {
     this.componentService.getAssetSettings().subscribe((settings) => {
       this.spinnerService.hide();
       // Keep
-      this.assetSetting = settings;
+      this.assetSettings = settings;
       // Set
-      this.assetConnectionListTableDataSource.setContent(this.assetSetting.content.connections);
+      this.assetConnectionListTableDataSource.setContent(this.assetSettings.asset.connections);
       // Init form
       this.formGroup.markAsPristine();
     }, (error) => {
@@ -73,17 +73,17 @@ export class SettingsAssetComponent implements OnInit {
   }
 
   public save() {
-    this.assetSetting.connections = this.assetConnectionListTableDataSource.getContent();
+    this.assetSettings.asset.connections = this.assetConnectionListTableDataSource.getContent();
     this.spinnerService.show();
-    this.componentService.saveAssetConnectionSettings(this.assetSetting).subscribe((response) => {
+    this.componentService.saveAssetConnectionSettings(this.assetSettings).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage(
-          (!this.assetSetting.id ? 'settings.asset.create_success' : 'settings.asset.update_success'));
+          (!this.assetSettings.id ? 'settings.asset.create_success' : 'settings.asset.update_success'));
         this.refresh();
       } else {
         Utils.handleError(JSON.stringify(response),
-          this.messageService, (!this.assetSetting.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+          this.messageService, (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
       }
     }, (error) => {
       this.spinnerService.hide();
@@ -93,7 +93,7 @@ export class SettingsAssetComponent implements OnInit {
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            (!this.assetSetting.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+            (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
       }
     });
   }

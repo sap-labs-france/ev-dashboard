@@ -19,7 +19,7 @@ export interface SettingContent {
   links?: SettingLink[];
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
-  connections?: AssetConnectionSetting[];
+  asset?: AssetSetting;
 }
 
 export interface SettingLink extends Data {
@@ -174,9 +174,13 @@ export enum AssetSettingsType {
   ASSET = 'asset',
 }
 
-export interface AssetSetting extends Setting {
+export interface AssetSettings extends Setting {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
+  asset?: AssetSetting;
+}
+
+export interface AssetSetting {
   connections: AssetConnectionSetting[];
 }
 

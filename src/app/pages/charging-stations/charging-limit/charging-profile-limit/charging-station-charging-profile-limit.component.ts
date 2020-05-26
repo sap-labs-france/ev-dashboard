@@ -9,7 +9,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
+import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
@@ -425,7 +425,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       chargingProfile.profile.recurrencyKind = profileType.recurrencyKindType;
     }
     // Set power unit
-    chargingProfile.profile.chargingSchedule.chargingRateUnit = PowerLimitUnits.AMPERE;
+    chargingProfile.profile.chargingSchedule.chargingRateUnit = ChargingRateUnitType.AMPERE;
     // Build schedule
     if (this.scheduleEditableTableDataSource.data.length > 0) {
       // Set start date

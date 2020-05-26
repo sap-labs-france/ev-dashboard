@@ -141,10 +141,7 @@ export class SiteAreaComponent implements OnInit {
     this.accessControl = this.formGroup.controls['accessControl'];
     this.voltage = this.formGroup.controls['voltage'];
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
-    this.voltage.disable();
-    this.maximumPower.disable();
     this.maximumPowerAmps.disable();
-    this.numberOfPhases.disable();
     if (this.currentSiteAreaID) {
       this.loadSiteArea();
       this.loadRegistrationToken();
@@ -178,24 +175,14 @@ export class SiteAreaComponent implements OnInit {
 
   public smartChargingChanged(event: MatCheckboxChange) {
     if (event.checked) {
-      this.maximumPower.enable();
-      this.voltage.enable();
-      this.numberOfPhases.enable();
       this.dialogService.createAndShowYesNoDialog(
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
         this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(false);
-          this.maximumPower.disable();
-          this.voltage.disable();
-          this.numberOfPhases.disable();
         }
       });
-    } else {
-      this.maximumPower.disable();
-      this.voltage.disable();
-      this.numberOfPhases.disable();
     }
     if (!event.checked) {
       this.dialogService.createAndShowYesNoDialog(
@@ -204,9 +191,6 @@ export class SiteAreaComponent implements OnInit {
       ).subscribe((result) => {
         if (result === ButtonType.NO) {
           this.smartCharging.setValue(true);
-          this.maximumPower.enable();
-          this.voltage.enable();
-          this.numberOfPhases.enable();
         }
       });
     }
@@ -217,6 +201,7 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public voltageChanged() {
+    this.maximumPowerChanged();
   }
 
   public refresh() {
@@ -262,14 +247,8 @@ export class SiteAreaComponent implements OnInit {
       }
       if (siteArea.smartCharging) {
         this.formGroup.controls.smartCharging.setValue(siteArea.smartCharging);
-        this.maximumPower.enable();
-        this.numberOfPhases.enable();
-        this.voltage.enable();
       } else {
         this.formGroup.controls.smartCharging.setValue(false);
-        this.maximumPower.disable();
-        this.numberOfPhases.disable();
-        this.voltage.disable();
       }
       if (siteArea.accessControl) {
         this.formGroup.controls.accessControl.setValue(siteArea.accessControl);

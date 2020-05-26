@@ -74,7 +74,7 @@
                         {{'site_areas.enable_smart_charging' | translate}}
                       </mat-checkbox>
                     </div>
-                    <div class="row" *ngIf="isSmartChargingComponentActive">
+                    <div class="row">
                       <div class="col-md-6">
                         <mat-form-field>
                           <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage" 
@@ -100,7 +100,7 @@
                       <div class="col-md-6">
                         <mat-form-field>
                           <input matInput placeholder="{{'site_areas.maximum_energy_watts' | translate}}" type="number"
-                            [formControl]="maximumPower" (change)="maximumPowerChanged()" required>
+                            [formControl]="maximumPower" (input)="maximumPowerChanged()" required>
                           <mat-error *ngIf="maximumPower.errors?.min">
                             {{"general.error_min_value" | translate:{value: 1} }}</mat-error>
                           <mat-error *ngIf="maximumPower.errors?.pattern">{{"chargers.invalid_power" | translate}}

@@ -39,16 +39,21 @@ export enum Entity {
   ASSETS = 'Assets',
   CAR_CATALOG = 'CarCatalog',
   CAR_CATALOGS = 'CarCatalogs',
+  CAR = 'Car',
+  CARS = 'Cars',
   INVOICE = 'Invoice',
   INVOICES = 'Invoices',
   TAXES = 'Taxes',
   REGISTRATION_TOKEN = 'RegistrationToken',
-  REGISTRATION_TOKENS = 'RegistrationTokens'
+  REGISTRATION_TOKENS = 'RegistrationTokens',
+  CHARGING_PROFILE = 'ChargingProfile',
+  CHARGING_PROFILES = 'ChargingProfiles'
 }
 export enum Action {
   READ = 'Read',
   CREATE = 'Create',
   UPDATE = 'Update',
+  REPLACE = 'Replace',
   DELETE = 'Delete',
   LOGOUT = 'Logout',
   LOGIN = 'Login',

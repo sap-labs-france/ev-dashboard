@@ -19,7 +19,7 @@ export class ConfigService {
   private config!: Configuration;
 
   constructor(private http: HttpClient) {
-    void this.load();
+    this.load().catch(() => {});
   }
 
   public async load() {
@@ -27,6 +27,9 @@ export class ConfigService {
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {
+    if (typeof this.config.CentralSystemServer.socketIOEnabled === 'undefined') {
+      this.config.CentralSystemServer.socketIOEnabled = true;
+    }
     return this.config.CentralSystemServer;
   }
 

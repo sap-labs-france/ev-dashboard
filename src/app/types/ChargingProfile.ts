@@ -1,10 +1,11 @@
-import { PowerLimitUnits } from 'app/types/ChargingStation';
+import { ChargingRateUnitType } from 'app/types/ChargingStation';
 
 import { Data } from './Table';
 
 export interface ChargingProfile extends Data {
   id: string;
   chargingStationID: string;
+  chargePointID: number;
   connectorID?: number;
   profile: Profile;
 }
@@ -24,7 +25,7 @@ export interface Profile extends Data  {
 export interface ChargingSchedule {
   duration?: number;
   startSchedule?: Date;
-  chargingRateUnit: PowerLimitUnits;
+  chargingRateUnit: ChargingRateUnitType;
   chargingSchedulePeriod: ChargingSchedulePeriod[];
   minChargeRate?: number;
 }

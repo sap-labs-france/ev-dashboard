@@ -9,7 +9,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { LocaleService } from 'app/services/locale.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
+import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -22,12 +22,10 @@ import { TableChargingStationsRebootAction } from '../../table-actions/table-cha
   templateUrl: './charging-station-static-limit.component.html',
 })
 @Injectable()
-export class ChargingStationStaticLimitComponent implements OnInit {
-  @Input() public charger!: ChargingStation;
+export class ChargingStationStaticLimitComponent {
+  @Input() public chargingStation!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
-  public ampInitialLimit = 0;
-  public ampCurrentLimit = 0;
   public isSmartChargingComponentActive = false;
 
   constructor(
@@ -54,23 +52,15 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
-  public ngOnInit() {
-    // Set
-    for (const connector of this.charger.connectors) {
-      this.ampCurrentLimit += connector.amperageLimit;
-    }
-    this.ampInitialLimit = this.ampCurrentLimit;
-  }
-
-  public applyStaticLimitConfirm() {
+  public applyStaticLimitConfirm(chargePoint: ChargePoint) {
     // Confirm dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.charger.id }),
+      this.translateService.instant('chargers.smart_charging.power_limit_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
+        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfilesResult) => {
           this.spinnerService.hide();
           let foundLimitIsExeeded = false;
           if (chargingProfilesResult.count > 0) {
@@ -80,7 +70,7 @@ export class ChargingStationStaticLimitComponent implements OnInit {
                   chargingProfile.profile.chargingSchedule.chargingSchedulePeriod) {
                 for (const chargingSchedulePeriod of chargingProfile.profile.chargingSchedule.chargingSchedulePeriod) {
                   // Check the limit max is beyond the new values
-                  if (chargingSchedulePeriod.limit > this.ampCurrentLimit) {
+                  if (chargingSchedulePeriod.limit > chargePoint.ampCurrentLimit) {
                     foundLimitIsExeeded = true;
                     break;
                   }
@@ -100,12 +90,12 @@ export class ChargingStationStaticLimitComponent implements OnInit {
             ).subscribe((subresult) => {
               if (subresult === ButtonType.YES) {
                 // No: Apply it right away
-                this.applyStaticLimit(true);
+                this.applyStaticLimit(chargePoint, true);
               }
             });
           } else {
             // No: Apply it right away
-            this.applyStaticLimit();
+            this.applyStaticLimit(chargePoint);
           }
         }, (error: any) => {
           this.spinnerService.hide();
@@ -116,29 +106,29 @@ export class ChargingStationStaticLimitComponent implements OnInit {
     });
   }
 
-  public powerSliderChanged(ampValue: number) {
-    this.ampCurrentLimit = ampValue;
+  public powerSliderChanged(chargePoint: ChargePoint, ampValue: number) {
+    chargePoint.ampCurrentLimit = ampValue;
   }
 
-  private applyStaticLimit(forceUpdateChargingPlan?: boolean) {
-    // Apply to charger
+  private applyStaticLimit(chargePoint: ChargePoint, forceUpdateChargingPlan?: boolean) {
+    // Apply to chargingStation
     this.spinnerService.show();
     // tslint:disable-next-line: max-line-length
-    this.centralServerService.chargingStationLimitPower(this.charger, 0, this.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
+    this.centralServerService.chargingStationLimitPower(
+        this.chargingStation, chargePoint, 0, chargePoint.ampCurrentLimit, forceUpdateChargingPlan).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === OCPPConfigurationStatus.ACCEPTED ||
           response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
         // Success
-        this.ampInitialLimit = this.ampCurrentLimit;
         this.messageService.showSuccessMessage(
           // tslint:disable-next-line: max-line-length
-          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.charger.id, forceUpdateChargingPlan }),
+          this.translateService.instant('chargers.smart_charging.power_limit_success', { chargeBoxID: this.chargingStation.id, forceUpdateChargingPlan }),
         );
         // Reboot Required?
         if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
           const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
           if (chargingStationsRebootAction.action) {
-            chargingStationsRebootAction.action(this.charger, this.dialogService, this.translateService,
+            chargingStationsRebootAction.action(this.chargingStation, this.dialogService, this.translateService,
               this.messageService, this.centralServerService, this.spinnerService, this.router);
           }
         }

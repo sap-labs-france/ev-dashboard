@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
@@ -50,7 +49,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private componentService: ComponentService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init

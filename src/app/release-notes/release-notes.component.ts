@@ -24,6 +24,30 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.60',
+        date: new Date('2020-05-26'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Charge Point level in Smart Charging`,
+              `Enhanced performance of displaying Site Area's consumption chart`,
+              `Provide Charging Plan in Watts for Cahors DC Charging Station`,
+              `Keep the power of the site area always enabled`,
+              `Migrated Charging Stations with Charge Point level`,
+              `Amps is stored for all phases in consumptions`,
+              `Provide new templates with Charge Point level`,
+              `Add Voltage in Site Area`,
+              `Fixed auto-refresh handling when user is already logged in`,
+              `Fixed Charging Station's token not always accepted`,
+              `Fixed Charging Limitation pop-up not closing`,
+              `Enhanced auto-refresh of lists when data is changing in database`,
+              `Fixed CSS in save pop-up`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.54',
         date: new Date('2020-05-17'),
         componentChanges: [

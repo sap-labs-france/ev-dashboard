@@ -9,12 +9,11 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
+import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { ChargingStations } from 'app/utils/ChargingStations';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 
@@ -39,7 +38,8 @@ interface ProfileType {
   ],
 })
 export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
-  @Input() public charger!: ChargingStation;
+  @Input() public chargingStation!: ChargingStation;
+
   public profileTypeMap: ProfileType[] = [
     { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
       chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3 },
@@ -106,16 +106,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.profileTypeControl.setValue(this.profileTypeMap[0]);
     // Assign for to editable data source
     this.scheduleEditableTableDataSource.setFormArray(this.chargingSchedules);
-    // Initial values
-    this.scheduleEditableTableDataSource.setCharger(this.charger);
-    this.scheduleTableDataSource.setCharger(this.charger);
     // Change the Profile
     this.chargingProfilesControl.valueChanges.subscribe((chargingProfile: ChargingProfile) => {
       // Load Profile
       this.loadProfile(chargingProfile);
     });
     // Check if smart charging is active
-    if (this.charger.inactive || (this.isSmartChargingComponentActive && this.charger.siteArea.smartCharging)) {
+    if (this.chargingStation.inactive || (this.isSmartChargingComponentActive && this.chargingStation.siteArea.smartCharging)) {
       this.startDateControl.disable();
     }
     // Change the Profile Type
@@ -181,7 +178,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.triggerSmartCharging(this.charger.siteArea.id).subscribe((response) => {
+        this.centralServerService.triggerSmartCharging(this.chargingStation.siteArea.id).subscribe((response) => {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
@@ -206,54 +203,61 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   }
 
   public loadChargingProfiles() {
-    if (!this.charger) {
-      return;
-    }
-    this.spinnerService.show();
-    this.centralServerService.getChargingStation(this.charger.id).subscribe((charger) => {
-      // Update charger
-      this.charger = charger;
-      this.scheduleEditableTableDataSource.setCharger(this.charger);
-      this.scheduleTableDataSource.setCharger(this.charger);
-      this.centralServerService.getChargingProfiles(this.charger.id).subscribe((chargingProfilesResult) => {
-        this.spinnerService.hide();
-        this.formGroup.markAsPristine();
-        // Set Profile
-        this.chargingProfiles = chargingProfilesResult.result;
-        // Default
-        this.scheduleEditableTableDataSource.setContent([]);
-        this.currentChargingSchedules = [];
-        // Init
-        if (chargingProfilesResult.count > 0) {
-          if (this.chargingProfilesControl.value) {
-            // Find the same ID
-            const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
-              chargingProfile.id === this.chargingProfilesControl.value.id);
-            if (selectedChargingProfile) {
-              // Found: Reset the current one
-              this.chargingProfilesControl.setValue(selectedChargingProfile);
+    if (this.chargingStation) {
+      this.spinnerService.show();
+      this.centralServerService.getChargingStation(this.chargingStation.id).subscribe((chargingStation) => {
+        this.chargingStation = chargingStation;
+        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
+          this.spinnerService.hide();
+          this.formGroup.markAsPristine();
+          // Set Profile
+          this.chargingProfiles = chargingProfiles.result;
+          // Default
+          this.scheduleEditableTableDataSource.setContent([]);
+          this.currentChargingSchedules = [];
+          // Init
+          if (chargingProfiles.count > 0) {
+            if (this.chargingProfilesControl.value) {
+              // Find the same ID
+              const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+                chargingProfile.id === this.chargingProfilesControl.value.id);
+              if (selectedChargingProfile) {
+                // Found: Reset the current one
+                this.chargingProfilesControl.setValue(selectedChargingProfile);
+              } else {
+                // Not Found: Set the first one
+                this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+              }
             } else {
-              // Not Found: Set the first one
+              // Set the first one
               this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
             }
           } else {
-            // Set the first one
-            this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
+            this.scheduleEditableTableDataSource.setChargingStation(
+              this.chargingStation, this.chargingStation.chargePoints[0]);
+            this.scheduleTableDataSource.setChargingStation(
+              this.chargingStation, this.chargingStation.chargePoints[0]);
           }
-        }
+        }, (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+        });
       }, (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       });
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-    });
+    }
   }
 
   private loadProfile(chargingProfile: ChargingProfile) {
     const schedules: Schedule[] = [];
     this.currentChargingProfile = chargingProfile;
+    const chargePoint = Utils.getChargePointFromID(this.chargingStation, chargingProfile.chargePointID);
+    // Set Data Sources
+    this.scheduleEditableTableDataSource.setChargingStation(this.chargingStation, chargePoint);
+    this.scheduleTableDataSource.setChargingStation(this.chargingStation, chargePoint);
+    this.scheduleEditableTableDataSource.setChargingProfile(chargingProfile);
+    this.scheduleTableDataSource.setChargingProfile(chargingProfile);
     if (chargingProfile) {
       // Init values
       if (chargingProfile.profile.chargingProfileKind) {
@@ -280,9 +284,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           startDate: new Date (this.scheduleEditableTableDataSource.startDate),
           duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
           limit: chargingSchedule.limit,
-          limitInkW: ChargingStations.convertAmpToWatt(
-            this.charger.connectors[0].numberOfConnectedPhase ? this.charger.connectors[0].numberOfConnectedPhase : 0,
-            chargingSchedule.limit) / 1000,
+          limitInkW: Utils.convertAmpToWatt(
+            this.chargingStation, chargingProfile.connectorID, chargingSchedule.limit) / 1000,
         };
         // Next Schedule?
         if (chargingProfile.profile.chargingSchedule.chargingSchedulePeriod[i + 1]) {
@@ -295,8 +298,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         schedule.endDate = new Date(schedule.startDate.getTime() + schedule.duration * 60 * 1000);
         // Add
         schedules.push(schedule);
-        // Set Schedule
-        this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
       }
       // Set last schedule
       if (chargingProfile.profile.chargingSchedule.duration) {
@@ -311,6 +312,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.endDateControl.setValue(new Date(this.scheduleEditableTableDataSource.startDate.getTime() +
           chargingProfile.profile.chargingSchedule.duration * 1000));
       }
+      // Set Schedule
+      this.scheduleTableDataSource.setChargingProfileSchedule(schedules);
       // Set Schedule Table content
       this.scheduleEditableTableDataSource.setContent(schedules);
       // Set Chart
@@ -322,7 +325,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     // Show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.clear_profile_title'),
-      this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.charger.id }),
+      this.translateService.instant('chargers.smart_charging.clear_profile_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         // Build charging profile
@@ -333,7 +336,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           if (response.status === RestResponse.SUCCESS) {
             // Success + Reload
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
-              { chargeBoxID: this.charger.id }));
+              { chargeBoxID: this.chargingStation.id }));
             this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -345,7 +348,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.clear_profile_not_accepted',
-                { chargeBoxID: this.charger.id }));
+                { chargeBoxID: this.chargingStation.id }));
           } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService, 'chargers.smart_charging.clear_profile_error');
@@ -359,7 +362,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     // show yes/no dialog
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.smart_charging.power_limit_plan_title'),
-      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.charger.id }),
+      this.translateService.instant('chargers.smart_charging.power_limit_plan_confirm', { chargeBoxID: this.chargingStation.id }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         // Build charging profile
@@ -371,7 +374,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             // Success + Reload
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
-                { chargeBoxID: this.charger.id }));
+                { chargeBoxID: this.chargingStation.id }));
             this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
@@ -383,7 +386,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
               this.translateService.instant('chargers.smart_charging.power_limit_plan_not_accepted',
-                { chargeBoxID: this.charger.id }));
+                { chargeBoxID: this.chargingStation.id }));
           } else {
             Utils.handleHttpError(
               error, this.router, this.messageService, this.centralServerService,
@@ -397,7 +400,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   private buildChargingProfile(): ChargingProfile {
     // Instantiate new charging profile
     const chargingProfile = {} as ChargingProfile;
-    chargingProfile.chargingStationID = this.charger.id;
+    chargingProfile.chargingStationID = this.chargingStation.id;
+    chargingProfile.chargePointID = 1;
     // Set charging station ID and ConnectorID 0 for whole station
     if (this.chargingProfilesControl.value) {
       // Use selected
@@ -421,7 +425,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       chargingProfile.profile.recurrencyKind = profileType.recurrencyKindType;
     }
     // Set power unit
-    chargingProfile.profile.chargingSchedule.chargingRateUnit = PowerLimitUnits.AMPERE;
+    chargingProfile.profile.chargingSchedule.chargingRateUnit = ChargingRateUnitType.AMPERE;
     // Build schedule
     if (this.scheduleEditableTableDataSource.data.length > 0) {
       // Set start date

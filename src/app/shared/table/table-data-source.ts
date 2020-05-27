@@ -7,7 +7,7 @@ import { DataResult, Ordering, Paging } from 'app/types/DataResult';
 import { FilterParams } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import ChangeNotification from '../../types/ChangeNotification';
@@ -41,7 +41,6 @@ export abstract class TableDataSource<T extends Data> {
   public totalNumberOfRecords = Constants.INFINITE_RECORDS;
   public tableFooterStats = '';
   public multipleRowSelection!: boolean;
-  // private manualRefreshSubject = new Subject<void>();
   private loadingNumberOfRecords = false;
   private searchValue = '';
   private staticFilters: object[] = [];
@@ -51,10 +50,6 @@ export abstract class TableDataSource<T extends Data> {
     public translateService: TranslateService,
     public additionalParameters?: any) {
   }
-
-  // public getManualDataChangeSubject(): Subject<void> {
-  //   return this.manualRefreshSubject;
-  // }
 
   public isRowSelectionEnabled(): boolean {
     return !!this.tableDef && !!this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;

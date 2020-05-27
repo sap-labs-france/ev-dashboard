@@ -3,8 +3,8 @@ import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { Schedule } from 'app/types/ChargingProfile';
-import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
+import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
@@ -15,7 +15,10 @@ import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell
 export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource extends EditableTableDataSource<Schedule> {
   public startDate!: Date;
   public endDate!: Date;
-  public charger!: ChargingStation;
+  public chargingStation!: ChargingStation;
+  public chargePoint!: ChargePoint;
+  public chargingProfile!: ChargingProfile;
+  private connectorID = 0;
   private chargerPowers!: ChargingStationPowers;
 
   constructor(
@@ -83,10 +86,15 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     return tableColumnDef;
   }
 
-  public setCharger(charger: ChargingStation) {
-    this.charger = charger;
-    this.tableColumnDefs[3].additionalParameters = { charger };
-    this.chargerPowers = Utils.getChargingStationPowers(this.charger, undefined, true);
+  public setChargingStation(chargingStation: ChargingStation, chargePoint: ChargePoint) {
+    this.chargingStation = chargingStation;
+    this.chargePoint = chargePoint;
+    this.tableColumnDefs[3].additionalParameters = { chargingStation, chargePoint };
+    this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, 0, true);
+  }
+
+  public setChargingProfile(chargingProfile: ChargingProfile) {
+    this.chargingProfile = chargingProfile;
   }
 
   public refreshChargingSchedules() {
@@ -102,7 +110,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
             chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         }
         // Update the limit in kW
-        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToPowerWatts(this.charger, chargingSchedules[i].limit) / 1000);
+        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToWatt(
+          this.chargingStation, this.connectorID, chargingSchedules[i].limit) / 1000);
         chargingSchedules[i].endDate =
           new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         // Add
@@ -115,7 +124,8 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       duration: 60,
-      limitInkW: Math.floor(Utils.convertAmpToPowerWatts(this.charger, this.chargerPowers.maxAmp) / 1000),
+      limitInkW: Math.floor(Utils.convertAmpToWatt(
+        this.chargingStation, this.connectorID, this.chargerPowers.maxAmp) / 1000),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,

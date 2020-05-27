@@ -42,10 +42,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
 
-  private autoRefeshTimer!: number;
-  private autoRefeshPollEnabled!: boolean;
-  private autoRefeshPollingIntervalMillis = Constants.DEFAULT_POLLING_MILLIS;
-  private refreshSubscription!: Subscription;
+  private transactionRefreshSubscription!: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,
@@ -62,52 +59,36 @@ export class TransactionComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    // Handle Poll (config service available only in component not possible in data-source)
-    this.autoRefeshPollEnabled = this.configService.getCentralSystemServer().pollEnabled;
-    this.autoRefeshPollingIntervalMillis = this.configService.getCentralSystemServer().pollIntervalSecs * 1000;
     // Load
     this.loadData();
   }
 
   public ngOnDestroy(): void {
-    // Destroy
-    this.destroyAutoRefreshTimer();
+    // Destroy transaction refresh
+    this.destroyTransactionRefresh();
   }
 
-  public createAutoRefreshTimer() {
-    // Create timer only if socketIO is not active
-    if (this.autoRefeshPollEnabled && !this.autoRefeshTimer) {
-      if (this.autoRefeshPollEnabled) {
-        // Create timer
-        this.autoRefeshTimer = window.setInterval(() => {
-          // Reload
-          this.refresh();
-        }, this.autoRefeshPollingIntervalMillis);
-      } else {
-        this.refreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
-          this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+  private createTransactionRefresh() {
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.transactionRefreshSubscription = this.centralServerNotificationService.getSubjectTransaction().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
           // Update user?
           if (singleChangeNotification && singleChangeNotification.data
             && singleChangeNotification.data.id === this.transactionID.toString()) {
-            this.refresh();
+            this.refreshTransaction();
           }
         });
-      }
     }
   }
 
-  public destroyAutoRefreshTimer() {
-    // Clean up
-    if (this.autoRefeshTimer) {
-      clearInterval(this.autoRefeshTimer);
+  private destroyTransactionRefresh() {
+    if (this.transactionRefreshSubscription) {
+      this.transactionRefreshSubscription.unsubscribe();
     }
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
-    }
-    this.refreshSubscription = null;
+    this.transactionRefreshSubscription = null;
   }
 
-  public refresh() {
+  private refreshTransaction() {
     this.loadData();
     this.chartComponent.refresh();
   }
@@ -125,7 +106,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
             this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
             this.dialogRef.close();
           }
-      });
+        });
     } else {
       this.loadConsumption(this.transactionID);
     }
@@ -138,8 +119,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.transaction = transaction;
       // Transaction in progress?
       if (!transaction.stop) {
-        // Auto refresh
-        this.createAutoRefreshTimer();
+        // Transaction refresh
+        this.createTransactionRefresh();
       }
       // Set properties
       if (transaction.stop) {

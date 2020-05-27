@@ -1,13 +1,13 @@
 <table [class]="forChargingProfile ? 'mb-2 col-md-12' : 'col-md-12'">
     <tr *ngIf="!notSupported" >
-        <td class="text-right col-5em">
-            {{displayedMinPowerKW}}
+        <td class="text-center col-5em">
+            {{displayedMinPowerKW}}<br/>({{this.minAmp}} A)
         </td>
         <td>
             <mat-slider
-                [disabled]="charger?.inactive || (isSmartChargingComponentActive && charger.siteArea.smartCharging)"
+                [disabled]="chargingStation?.inactive || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)"
                 thumbLabel class="col-md-12"
-                [min]="minAmp" [max]="maxAmp" [step]="connector ? 1 : charger?.connectors.length" [value]="currentAmp"
+                [min]="minAmp" [max]="maxAmp" [step]="ampSteps" [value]="currentAmp"
                 [displayWith]="formatSlideLabelPowerKW"
                 (change)="sliderChanged($event.value)">
             </mat-slider>
@@ -15,11 +15,11 @@
                 {{displayedCurrentPowerW}} ({{this.currentAmp}} A)
             </div>
         </td>
-        <td class="text-left col-5em">
-            {{displayedMaxPowerKW}}
+        <td class="text-center col-5em">
+            {{displayedMaxPowerKW}}<br/>({{this.maxAmp}} A)
         </td>
     </tr>
-    <tr *ngIf="notSupported" >
+    <tr *ngIf="notSupported">
         <td [class]="forChargingProfile ? 'col-md-12 text-center current-power-text-not-supported p-0' : 'col-md-12 text-center current-power-text-not-supported mb-4'">
             {{'chargers.smart_charging.slider_power_disabled' | translate }}
         </td>

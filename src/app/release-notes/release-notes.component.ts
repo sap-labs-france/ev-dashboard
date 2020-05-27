@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added Charge Point level in Smart Charging`,
               `Enhanced performance of displaying Site Area's consumption chart`,
               `Provide Charging Plan in Watts for Cahors DC Charging Station`,
               `Keep the power of the site area always enabled`,

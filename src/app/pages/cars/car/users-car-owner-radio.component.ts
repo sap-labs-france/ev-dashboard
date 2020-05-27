@@ -1,0 +1,41 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
+import { UserCar } from 'app/types/Car';
+import { UserToken } from 'app/types/User';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+
+@Component({
+  template: `
+      <div class="d-flex justify-content-center">
+          <mat-radio-button #rbid class="mx-auto"
+                            [checked]="(row.owner ? true : false)"
+                            (change) = "changeRadioButton($event)"
+                            ></mat-radio-button>
+      </div>`,
+})
+export class UsersCarOwnerRadioComponent extends CellContentTemplateDirective implements OnInit {
+  @Input() public row!: UserCar;
+  @Input() public usersCar!: UserCar[];
+  @ViewChild('rbid') public radioButtonRef!: MatRadioButton;
+  public loggedUser: UserToken;
+
+  constructor(
+  ) {
+    super();
+  }
+
+  public ngOnInit() {
+    this.usersCar = this.columnDef.additionalParameters.usersCar as UserCar[];
+  }
+
+
+  public changeRadioButton(matRadioChange: MatRadioChange) {
+    matRadioChange.source.checked = !matRadioChange.source.checked;
+    this.radioButtonRef.checked = !this.radioButtonRef.checked;
+    this.usersCar.forEach(userCar => {
+      userCar.owner = false;
+    });
+    this.row.owner = true;
+  }
+}

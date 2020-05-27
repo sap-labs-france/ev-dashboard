@@ -16,7 +16,9 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { UsersCarDefaultCheckboxComponent } from './users-car-default-checkbox.component';
+import { UsersCarOwnerRadioComponent } from './users-car-owner-radio.component';
 
 @Injectable()
 export class UsersCarTableDataSource extends TableDataSource<UserCar> {
@@ -24,9 +26,6 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
   private users: UserCar[] = [];
-  private usersInitial: UserCar[] = [];
-  private usersToRemove: UserCar[] = [];
-  private usersToAdd: UserCar[] = [];
   private serverCalled = false;
   constructor(
     public spinnerService: SpinnerService,
@@ -49,7 +48,7 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
           { ...this.buildFilterValues(), carID: this.carID },
           this.getPaging(), this.getSorting()).subscribe((usersCar) => {
             this.users = usersCar.result;
-            this.usersInitial = usersCar.result;
+            this.tableColumnDefs[4].additionalParameters = { usersCar: this.users };
             this.removeAction.disabled = (this.users.length === 0);
             this.serverCalled = true;
             observer.next(usersCar);
@@ -61,6 +60,7 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
             observer.error(error);
           });
       } else {
+        this.tableColumnDefs[4].additionalParameters = { usersCar: this.users };
         observer.next({
           count: this.users.length,
           result: this.users,
@@ -139,6 +139,13 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
         name: 'cars.default_car',
         class: 'col-10p',
       },
+      {
+        id: 'owner',
+        isAngularComponent: true,
+        angularComponent: UsersCarOwnerRadioComponent,
+        name: 'cars.car_owner',
+        class: 'col-10p',
+        },
     ];
     return columns;
   }
@@ -147,12 +154,14 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
     return this.users;
   }
 
-
   private removeUsers(users: UserCar[]) {
     users.forEach(userToRemove => {
       this.users.forEach((element, index) => {
         if (userToRemove.user.id === element.user.id) {
           this.users.splice(index, 1);
+          if (userToRemove.owner && this.users.length > 0) {
+            this.users[0].owner = true;
+          }
         }
       });
     });
@@ -165,7 +174,8 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
         this.users.push({
           id: user.id,
           user: user.objectRef,
-          default: false
+          default: false,
+          owner: this.users.length === 0 ? true : false
         } as UserCar);
         this.refreshData().subscribe();
       }

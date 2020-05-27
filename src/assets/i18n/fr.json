@@ -1650,6 +1650,7 @@
     "assign_users":"Assigner des utilisateurs",
     "type": "Type",
     "default_car": "Véhicule par défaut",
+    "car_owner": "Propriétaire du Véhicule",
     "private_car": "Véhicules privé",
     "pool_car": "Véhicules de covoiturage",
     "remove_users_title": "Retirer Utilisateur(s)",

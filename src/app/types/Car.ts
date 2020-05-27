@@ -1,6 +1,5 @@
 import { Data } from './Table';
 import { User } from './User';
-import { ChartType } from 'chart.js';
 
 export interface CarCatalog extends Data {
   id: number;
@@ -40,6 +39,7 @@ export interface UserCar extends Data {
   carID: string;
   default: boolean;
   type?: CarType;
+  owner?: boolean;
 }
 
 export interface Car extends Data {

@@ -55,6 +55,7 @@ export class CarComponent implements OnInit {
     { key: CarType.PRIVATE, value: 'cars.private_car' }
   ];
   public isPool = false;
+  public CarType = CarType;
 
   constructor(
     public usersCarTableDataSource: UsersCarTableDataSource,
@@ -102,7 +103,7 @@ export class CarComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      isDefault: new FormControl(false,
+      isDefault: new FormControl('',
         Validators.compose([
         ])),
       type: new FormControl(CarType.COMPANY,
@@ -174,6 +175,9 @@ export class CarComponent implements OnInit {
       if (car.type) {
         this.formGroup.controls.type.setValue(car.type);
       }
+      if (this.isBasic) {
+        this.formGroup.controls.isDefault.setValue(car.isDefault);
+      }
       this.spinnerService.hide();
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -217,7 +221,7 @@ export class CarComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('cars.update_success');
-        if (this.isAdmin && (this.usersCarTableDataSource.getUsers() && this.usersCarTableDataSource.getUsers().length > 0)) {
+        if (this.isAdmin && (this.usersCarTableDataSource.getUsers() && this.usersCarTableDataSource.getUsers().length > 0 && this.usersCarTableDataSource.changedList())) {
           this.centralServerService.updateUsersCar(
             this.usersCarTableDataSource.getUsers(), car.id).subscribe((response: ActionsResponse) => {
               if (response.inError) {
@@ -245,14 +249,14 @@ export class CarComponent implements OnInit {
         this.closeDialog(true);
 
       } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'cars.create_error');
+        Utils.handleError(JSON.stringify(response), this.messageService, 'cars.update_error');
       }
     }, (error) => {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
         // Email already exists
-        case HTTPError.CAR_ALREADY_EXIST_ERROR:
+        case HTTPError.CAR_ALREADY_EXISTS_ERROR:
           this.messageService.showErrorMessage('cars.car_exist');
           break;
         // No longer exists!
@@ -305,7 +309,7 @@ export class CarComponent implements OnInit {
       // Check status
       switch (error.status) {
         // Email already exists
-        case HTTPError.CAR_ALREADY_EXIST_ERROR_DIFFERENT_USER:
+        case HTTPError.CAR_ALREADY_EXISTS_ERROR_DIFFERENT_USER:
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('settings.car.assign_user_to_car_dialog_title'),
             this.translateService.instant('settings.car.assign_user_to_car_dialog_confirm'),
@@ -317,7 +321,7 @@ export class CarComponent implements OnInit {
           });
           break;
         // Car already created by this user
-        case HTTPError.CAR_ALREADY_EXIST_ERROR:
+        case HTTPError.CAR_ALREADY_EXISTS_ERROR:
           this.messageService.showErrorMessage('cars.car_exist');
           break;
         // User already assigned
@@ -365,7 +369,6 @@ export class CarComponent implements OnInit {
     // Open
     this.dialog.open(CarConverterDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
       if (result && result.length > 0 && result[0] && result[0].objectRef) {
-        debugger;
         this.converter.setValue(result[0].value);
         this.converterType.setValue(result[0].key);
         this.formGroup.markAsDirty();

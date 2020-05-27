@@ -75,7 +75,7 @@
                 <div style="text-align: left">
                   <mat-radio-group [formControl]="type">
                     <div *ngFor="let type of carTypes">
-                      <mat-radio-button value="{{type.key}}">{{ type.value | translate }}</mat-radio-button>
+                      <mat-radio-button [disabled]='!usersCarTableDataSource.emptyList() && type.key === CarType.POOL_CAR' value="{{type.key}}">{{ type.value | translate }}</mat-radio-button>
                     </div>
                   </mat-radio-group>
                 </div>
@@ -99,7 +99,7 @@
     </mat-tab-group>
     <div class="tabs-actions">
       <button mat-button (click)="saveCar(formGroup.value)"
-        [disabled]="((!formGroup.valid || !formGroup.dirty) && !usersCarTableDataSource.changedList()) || (usersCarTableDataSource.emptyList() && !isPool )">
+        [disabled]="((!formGroup.valid || !formGroup.dirty) && !usersCarTableDataSource.changedList()) || (usersCarTableDataSource.emptyList() && !isPool && !isBasic)">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

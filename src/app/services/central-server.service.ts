@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car, CarCatalog, CarMakersTable, ImageObject, UserCar, CarType } from 'app/types/Car';
+import { Car, CarCatalog, CarMakersTable, ImageObject, UserCar } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -2302,11 +2302,14 @@ export class CentralServerService {
   public getCar(carID: string): Observable<Car> {
     // Verify init
     this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['CarID'] = carID;
     // Execute the REST service
     return this.httpClient.get<Car>(
-      `${this.centralRestServerServiceSecuredURL}/Car?CarID=${carID}`,
+      `${this.centralRestServerServiceSecuredURL}/Car`,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2335,11 +2338,14 @@ export class CentralServerService {
   public getCarCatalog(carCatalogID: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
+    const params: { [param: number]: string } = {};
+    params['CarCatalogID'] = carCatalogID;
     // Execute the REST service
     return this.httpClient.get<CarCatalog>(
-      `${this.centralRestServerServiceSecuredURL}/CarCatalog?CarCatalogID=${carCatalogID}`,
+      `${this.centralRestServerServiceSecuredURL}/CarCatalog`,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2438,7 +2444,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/UserCarUpdate`, {
+    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/UsersCarUpdate`, {
       usersCar,
       carID
     },

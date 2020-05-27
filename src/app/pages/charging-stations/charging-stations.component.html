@@ -11,6 +11,14 @@
     </mat-tab>
     <mat-tab *ngIf="isAdmin">
       <ng-template mat-tab-label>
+        <mat-icon>show_chart</mat-icon><span>{{'chargers.tabs.charging_plans' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-charging-plans-list></app-charging-plans-list>
+      </ng-template>
+    </mat-tab>
+    <mat-tab *ngIf="isAdmin">
+      <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon><span>{{'chargers.tabs.in_error' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>

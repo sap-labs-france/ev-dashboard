@@ -797,7 +797,15 @@
       "trigger_smart_charging": "Exécuter Charge Intelligente",
       "trigger_smart_charging_success": "L'algorithme de la charge intelligente a été éxécuté avec succès",
       "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs",
-      "minutes": "min(s)"
+      "minutes": "min(s)",
+      "charging_plans": {
+        "charging_plan_name": "Name",
+        "charging_station_id": "Charging Station",
+        "connector_id": "Connector ID",
+        "current_limit": "Current limit",
+        "site_area":"Site Area",
+        "site_area_limit":"Site Area Limit"
+      }
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",
@@ -937,6 +945,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",
+      "charging_plans": "Charging Plans",
       "in_error": "En Erreur"
     },
     "errors": {

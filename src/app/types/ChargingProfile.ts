@@ -1,12 +1,15 @@
-import { PowerLimitUnits } from 'app/types/ChargingStation';
+import { ChargingStation, PowerLimitUnits } from 'app/types/ChargingStation';
+import { SiteArea } from 'app/types/SiteArea';
 
 import { Data } from './Table';
 
 export interface ChargingProfile extends Data {
   id: string;
   chargingStationID: string;
+  chargingStation?: ChargingStation;
   chargePointID: number;
   connectorID?: number;
+  siteArea?: SiteArea;
   profile: Profile;
 }
 

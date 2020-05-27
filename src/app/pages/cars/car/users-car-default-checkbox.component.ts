@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { UserCar } from 'app/types/Car';
+import { ChangeEvent, UserCar } from 'app/types/Car';
 import { UserToken } from 'app/types/User';
-import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template: `
@@ -12,8 +12,9 @@ import { CellContentTemplateDirective } from '../../../shared/table/cell-content
         [checked]="row.default" (change)="setDefault($event)"></mat-checkbox>
     </div>`,
 })
-export class UsersCarDefaultCheckboxComponent extends CellContentTemplateDirective {
+export class UsersCarDefaultCheckboxComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: UserCar;
+  @Input() public changed!: ChangeEvent;
   public loggedUser: UserToken;
 
   constructor(
@@ -21,7 +22,14 @@ export class UsersCarDefaultCheckboxComponent extends CellContentTemplateDirecti
     super();
   }
 
+
+  public ngOnInit() {
+    this.changed = this.columnDef.additionalParameters.changed as ChangeEvent;
+  }
+
+
   public setDefault(matCheckboxChange: MatCheckboxChange) {
+    this.changed.changed = true;
     if (matCheckboxChange) {
       this.row.default = matCheckboxChange.checked;
     }

@@ -10,7 +10,7 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { UserCar } from 'app/types/Car';
+import { ChangeEvent, UserCar } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
@@ -23,6 +23,7 @@ import { UsersCarOwnerRadioComponent } from './users-car-owner-radio.component';
 @Injectable()
 export class UsersCarTableDataSource extends TableDataSource<UserCar> {
   private carID: string;
+  private changed: ChangeEvent = { changed: false };
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
   private users: UserCar[] = [];
@@ -48,7 +49,9 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
           { ...this.buildFilterValues(), carID: this.carID },
           this.getPaging(), this.getSorting()).subscribe((usersCar) => {
             this.users = usersCar.result;
-            this.tableColumnDefs[4].additionalParameters = { usersCar: this.users };
+            // this.changed = false;
+            this.tableColumnDefs[4].additionalParameters = { usersCar: this.users, changed: this.changed };
+            this.tableColumnDefs[3].additionalParameters = { changed: this.changed };
             this.removeAction.disabled = (this.users.length === 0);
             this.serverCalled = true;
             observer.next(usersCar);
@@ -60,7 +63,9 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
             observer.error(error);
           });
       } else {
-        this.tableColumnDefs[4].additionalParameters = { usersCar: this.users };
+        this.changed.changed = true;
+        this.tableColumnDefs[4].additionalParameters = { usersCar: this.users, changed: this.changed };
+        this.tableColumnDefs[3].additionalParameters = { changed: this.changed };
         observer.next({
           count: this.users.length,
           result: this.users,
@@ -145,13 +150,21 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
         angularComponent: UsersCarOwnerRadioComponent,
         name: 'cars.car_owner',
         class: 'col-10p',
-        },
+      },
     ];
     return columns;
   }
 
   public getUsers() {
     return this.users;
+  }
+
+  public emptyList(): boolean {
+    return this.users.length < 1;
+  }
+
+  public changedList(): boolean {
+    return this.changed.changed;
   }
 
   private removeUsers(users: UserCar[]) {

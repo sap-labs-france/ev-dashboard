@@ -85,7 +85,7 @@
 
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveCar(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button (click)="saveCar(formGroup.value)" [disabled]="((!formGroup.valid || !formGroup.dirty) && !usersCarTableDataSource.changedList()) || usersCarTableDataSource.emptyList()">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

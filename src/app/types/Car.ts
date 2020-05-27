@@ -77,6 +77,10 @@ export interface CarMakersTable extends Data {
   carMaker: string;
 }
 
+export interface ChangeEvent {
+  changed: boolean;
+}
+
 export interface ImageObject extends Data {
   image: string;
 }

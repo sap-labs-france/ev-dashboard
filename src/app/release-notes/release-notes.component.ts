@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.60',
-        date: new Date('2020-05-26'),
+        version: '2.2.61',
+        date: new Date('2020-05-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Removed Charging Station's power recalculation`,
+              `Added Charge Point in OCPI`,
               `Added Charge Point level in Smart Charging`,
               `Enhanced performance of displaying Site Area's consumption chart`,
               `Provide Charging Plan in Watts for Cahors DC Charging Station`,

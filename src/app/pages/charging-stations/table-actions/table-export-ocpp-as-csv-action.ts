@@ -1,31 +1,23 @@
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
-import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { TableExportAction } from 'app/shared/table/actions/table-export-action';
+import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 import * as FileSAver from 'file-saver';
 
-import { TableAction } from './table-action';
-
-export class TableExportAsCSVAction implements TableAction {
-  private action: TableActionDef = {
-    id: ButtonAction.EXPORT_AS_CSV,
-    type: 'button',
-    icon: 'cloud_download',
-    name: 'general.export',
-    color: ButtonColor.PRIMARY,
-    tooltip: 'general.tooltips.export',
-    action: this.exportParameters,
-  };
-
-  // Return an action
+export class TableExportOCPPAsCSVAction extends TableExportAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: ChargingStationButtonAction.EXPORT_OCPP_AS_CSV,
+      name: 'general.export',
+      action: this.exportOCPPAsCSV,
+    };
   }
 
-  public exportParameters(charger: ChargingStation, params: OcppParameter[], dialogService: DialogService, translateService: TranslateService) {
+  public exportOCPPAsCSV(charger: ChargingStation, params: OcppParameter[], dialogService: DialogService, translateService: TranslateService) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.dialog.exportConfig.title'),
       translateService.instant('chargers.dialog.exportConfig.confirm'),

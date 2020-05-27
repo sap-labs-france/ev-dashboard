@@ -188,8 +188,10 @@ export enum ChargingStationButtonAction {
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_CHARGING_STATIONS = 'export_charging_stations',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
+  EXPORT_OCPP_AS_CSV = 'export-ocpp-as-csv',
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
+  INLINE_SAVE_OCPP_PARAMETER = 'inline-save',
 }
 
 export enum ChargePointStatus {

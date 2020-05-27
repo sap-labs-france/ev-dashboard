@@ -44,10 +44,10 @@ export enum ButtonAction {
   DELETE = 'delete',
   DELETE_MANY = 'delete_many',
   INLINE_DELETE = 'inline-delete',
+  INLINE_SAVE = 'inline-save',
   REFRESH = 'refresh',
   AUTO_REFRESH = 'auto-refresh',
   EXPORT = 'export',
-  EXPORT_AS_CSV = 'export-as-csv',
   ADD = 'add',
   CREATE = 'create',
   COPY = 'copy',
@@ -66,7 +66,6 @@ export enum ButtonAction {
   STOP = 'stop',
   UNREGISTER = 'unregister',
   VIEW = 'view',
-  INLINE_SAVE = 'inline-save',
   DOWNLOAD = 'download',
 }
 

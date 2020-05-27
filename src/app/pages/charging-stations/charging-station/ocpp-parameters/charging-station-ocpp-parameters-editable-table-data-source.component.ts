@@ -5,21 +5,20 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
-import { TableExportAsCSVAction } from 'app/shared/table/actions/table-export-as-csv-action';
-import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OcppParameter } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { ButtonAction } from '../../../../types/GlobalType';
+import { TableExportOCPPAsCSVAction } from '../../table-actions/table-export-ocpp-as-csv-action';
+import { TableInlineSaveOCPPParameterAction } from '../../table-actions/table-inline-save-ocpp-parameter-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
   private charger!: ChargingStation;
-  private inlineSaveAction = new TableInlineSaveAction().getActionDef();
+  private inlineSaveAction = new TableInlineSaveOCPPParameterAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -47,7 +46,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [new TableExportAsCSVAction().getActionDef()];
+    return [new TableExportOCPPAsCSVAction().getActionDef()];
   }
 
   public buildTableRowActions(): TableActionDef[] {
@@ -64,7 +63,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ButtonAction.EXPORT_AS_CSV:
+      case ChargingStationButtonAction.EXPORT_OCPP_AS_CSV:
         if (actionDef.action) {
           actionDef.action(this.charger, this.getContent(), this.dialogService, this.translateService);
         }
@@ -79,7 +78,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     switch (actionDef.id) {
-      case ButtonAction.INLINE_SAVE:
+      case ChargingStationButtonAction.INLINE_SAVE_OCPP_PARAMETER:
         if (actionDef.action) {
           actionDef.action(this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));

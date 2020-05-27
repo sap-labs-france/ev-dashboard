@@ -17,6 +17,8 @@ import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-s
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
+import { CarConverterDialogTableDataSource } from './car-converter/car-converter-dialog-table-data-source';
+import { CarConverterDialogComponent } from './car-converter/car-converter-dialog.component';
 import { CarMakersTableDataSource } from './car/car-makers-dialog-table-data-source';
 import { CarMakersDialogComponent } from './car/car-makers-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
@@ -64,6 +66,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
+    CarConverterDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -80,6 +83,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
+    CarConverterDialogComponent
   ],
   exports: [
     CarMakersDialogComponent,
@@ -95,6 +99,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
+    CarConverterDialogComponent
   ],
   providers: [
     AppConnectorIdPipe,
@@ -112,6 +117,7 @@ export class FooterModule {
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
+    CarConverterDialogTableDataSource
   ],
 })
 export class DialogsModule {

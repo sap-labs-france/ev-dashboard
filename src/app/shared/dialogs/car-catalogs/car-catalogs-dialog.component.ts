@@ -17,7 +17,7 @@ export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCata
     super(data, dialogRef, carCatalogsDialogTableDataSource);
     // Default title
     if (this.title === '') {
-      this.title = 'users.select_users';
+      this.title = 'cars.assign_car_catalog';
     }
     this.carCatalogsDialogTableDataSource.destroyDatasource();
   }

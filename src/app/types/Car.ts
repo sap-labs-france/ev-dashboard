@@ -52,6 +52,7 @@ export interface Car extends Data {
   forced?: boolean;
   isDefault?: boolean;
   type?: CarType;
+  converterType?: string;
 }
 
 export enum CarType {

@@ -1659,6 +1659,8 @@
     "update_users_car_success": "{{assigned}} user(s) have been updated successfully",
     "update_users_car_error": "Error occurred while updating the users",
     "car_not_found": "Car has not been found",
+    "assign_converter": "Assign Converter",
+    "converter":"Converter",
     "users": "Users",
     "unit": {
       "meters": "m",

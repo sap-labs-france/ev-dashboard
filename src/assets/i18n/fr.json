@@ -1659,7 +1659,9 @@
     "assign_users_car_success": "{{assigned}} utilisateur(s) ont été assigné avec succès",
     "assign_users_car_error": "Une erreur est survenue pendant l'assignation des utilisateurs",
     "car_not_found": "Le véhicules n'a pas été trouvé",
+    "assign_converter": "Assigner Convertisseurs",
     "users": "Utilisateurs",
+    "converter":"Convertisseur",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",
@@ -1679,8 +1681,7 @@
     "description": "Gestion des voitures",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",
-      "cars": "Voitures"
-    }
+      "cars": "Voitures"    }
   },
   "analytics": {
     "title": "Analytique",

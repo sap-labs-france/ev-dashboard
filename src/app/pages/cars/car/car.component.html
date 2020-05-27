@@ -4,7 +4,8 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{selectedCarCatalog?.vehicleMake}} {{selectedCarCatalog?.vehicleModel}} {{selectedCarCatalog?.vehicleModelVersion}}</span>
+          <span>{{selectedCarCatalog?.vehicleMake}} {{selectedCarCatalog?.vehicleModel}}
+            {{selectedCarCatalog?.vehicleModelVersion}}</span>
         </ng-template>
         <div class="card-body">
           <div class="row app-car align-items-start">
@@ -21,17 +22,29 @@
             </div>
             <div class="col-md-7">
               <div class="form-group">
-              <mat-form-field>
-                <input matInput type="text" readonly=true placeholder="{{'car.tabs.car_catalogs' | translate}}"
-                  class="form-field-popup" (click)="addCar()" [formControl]="carCatalog" required/>
-                <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="addCar()">
-                  <mat-icon>create</mat-icon>
-                </button>
-                <mat-error *ngIf="carCatalog.errors?.required">
-                  {{"general.mandatory_field" | translate}}
-                </mat-error>
-              </mat-form-field>
-            </div>
+                <mat-form-field>
+                  <input matInput type="text" readonly=true placeholder="{{'car.tabs.car_catalogs' | translate}}"
+                    class="form-field-popup" (click)="addCar()" [formControl]="carCatalog" required />
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="addCar()">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="carCatalog.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" readonly=true placeholder="{{'cars.converter' | translate}}"
+                    class="form-field-popup" (click)="addConverter()" [formControl]="converter" required />
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="addConverter()">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="carCatalog.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
               <div class="form-group">
                 <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'cars.vin' | translate}}" class="app-organization-name"
@@ -85,7 +98,8 @@
 
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="saveCar(formGroup.value)" [disabled]="((!formGroup.valid || !formGroup.dirty) && !usersCarTableDataSource.changedList()) || usersCarTableDataSource.emptyList()">
+      <button mat-button (click)="saveCar(formGroup.value)"
+        [disabled]="((!formGroup.valid || !formGroup.dirty) && !usersCarTableDataSource.changedList()) || (usersCarTableDataSource.emptyList() && !isPool )">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

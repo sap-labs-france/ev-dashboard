@@ -98,7 +98,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   }
 
   public loadConnector() {
-    if (this.connector) {
+    if (this.connector && this.formConnectorGroup) {
       const chargePoint = Utils.getChargePointFromID(
         this.chargingStation, this.connector.chargePointID);
       // Update connector values
@@ -112,7 +112,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.currentType.setValue(
         Utils.getChargingStationCurrentType(this.chargingStation, this.connector.connectorId));
       this.numberOfConnectedPhase.setValue(
-        Utils.getChargingStationNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
+        Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
       if (this.chargePoint) {
         this.formConnectorsArray.disable();
       } else {

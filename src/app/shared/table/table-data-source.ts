@@ -21,6 +21,7 @@ export abstract class TableDataSource<T extends Data> {
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
+  public firstLoad = false;
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -429,6 +430,8 @@ export abstract class TableDataSource<T extends Data> {
         if (showSpinner) {
           this.spinnerService.hide();
         }
+        // Ok
+        this.firstLoad = true;
         // Notify
         observer.next();
         observer.complete();

@@ -8,6 +8,7 @@ import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action'
 import { RefundStatus } from 'app/types/Refund';
 import { TableActionDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
+import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 export class TableDeleteTransactionAction extends TableDeleteAction {
@@ -29,8 +30,10 @@ export class TableDeleteTransactionAction extends TableDeleteAction {
         translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
     } else {
       super.delete(
-        transaction, 'transactions.dialog.delete.title', 'transactions.dialog.delete.confirm',
-        'transactions.notification.delete.success', 'transactions.notification.delete.error',
+        transaction, 'transactions.dialog.delete.title',
+        translateService.instant('transactions.dialog.delete.confirm', { user: Utils.buildUserFullName(transaction.user) }),
+        translateService.instant('transactions.notification.delete.success', { user: Utils.buildUserFullName(transaction.user) }),
+        'transactions.notification.delete.error',
         centralServerService.deleteTransaction.bind(centralServerService),
         dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
     }

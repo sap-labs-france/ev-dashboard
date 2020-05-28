@@ -72,7 +72,7 @@ export class LocalStorageService {
       // Send request
       this.sendRequest(data);
     } else {
-      // Not in iFrame: use it rightaway
+      // Not in iFrame: use it right away
       localStorage.removeItem(key);
     }
   }
@@ -89,7 +89,7 @@ export class LocalStorageService {
       // Send request
       this.sendRequest(data);
     } else {
-      // Not in iFrame: use it rightaway
+      // Not in iFrame: use it right away
       localStorage.clear();
     }
   }

@@ -11,35 +11,35 @@
       </div>
       <div class="card-body">
         <div class="row text-left">
-          <div class="col-md-3" *ngIf="efficiency.value">
+          <div class="col-md-3" *ngIf="efficiency?.value">
             <mat-form-field>
               <input matInput
                 placeholder="{{'chargers.efficiency' | translate}}"
                 [formControl]="efficiency" [readOnly]="!isAdmin"/>
-              <mat-error *ngIf="efficiency.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
+              <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
             </mat-form-field>
           </div>
-          <div class="col-md-3" *ngIf="cannotChargeInParallel.value">
+          <div class="col-md-3" *ngIf="cannotChargeInParallel?.value">
             <mat-checkbox [formControl]="cannotChargeInParallel">
               {{'chargers.cant_charge_in_parallel' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-3" *ngIf="sharePowerToAllConnectors.value">
+          <div class="col-md-3" *ngIf="sharePowerToAllConnectors?.value">
             <mat-checkbox [formControl]="sharePowerToAllConnectors">
               {{'chargers.share_power_to_all_connectors' | translate}}
             </mat-checkbox>
           </div>
-          <div class="col-md-3" *ngIf="excludeFromPowerLimitation.value">
+          <div class="col-md-3" *ngIf="excludeFromPowerLimitation?.value">
             <mat-checkbox [formControl]="excludeFromPowerLimitation">
               {{'chargers.exclude_from_power_limitation' | translate}}
             </mat-checkbox>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6" *ngFor="let connectorID of chargePoint.connectorIDs">
+          <div class="col-md-6" *ngFor="let connectorID of chargePoint?.connectorIDs">
             <app-charging-station-connector
               [chargingStation]="chargingStation" [chargePoint]="chargePoint"
-              [connector]="chargingStation?.connectors[connectorID-1]" [formConnectorsArray]="formConnectorsArray"
+              [connector]="chargingStation?.connectors[connectorID - 1]" [formConnectorsArray]="formConnectorsArray"
               [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"></app-charging-station-connector>
           </div>
         </div>

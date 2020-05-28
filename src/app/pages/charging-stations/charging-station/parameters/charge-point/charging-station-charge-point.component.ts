@@ -113,7 +113,7 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
 
 
   public loadChargePoint() {
-    if (this.chargePoint) {
+    if (this.chargePoint && this.formChargePointGroup) {
       // Set data
       this.currentType.setValue(this.chargePoint.currentType);
       this.voltage.setValue(this.chargePoint.voltage);

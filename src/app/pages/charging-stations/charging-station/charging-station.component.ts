@@ -1,28 +1,28 @@
-import { Action, Entity } from 'app/types/Authorization';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { SpinnerService } from 'app/services/spinner.service';
+import { Action, Entity } from 'app/types/Authorization';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { KeyValue, RestResponse } from 'app/types/GlobalType';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
+import { Utils } from 'app/utils/Utils';
 
 import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
-import { DialogService } from 'app/services/dialog.service';
-import { FormGroup } from '@angular/forms';
 import { LocaleService } from '../../../services/locale.service';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MessageService } from '../../../services/message.service';
-import { Router } from '@angular/router';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
+import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
 @Component({
   selector: 'app-charging-station',
   templateUrl: 'charging-station.component.html',
 })
-export class ChargingStationComponent implements OnInit, AfterViewInit {
+export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
@@ -64,15 +64,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
         this.translateService.instant('chargers.action_error.not_authorize'));
       this.dialog.closeAll();
     }
-  }
-
-  public ngAfterViewInit(): void {
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
-    console.log('====================================');
-    console.log(this.isAdmin);
-    console.log('====================================');
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public loadChargingStation() {
@@ -83,6 +75,10 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
       this.spinnerService.hide();
       this.chargingStation = chargingStation;
+      if (chargingStation) {
+        this.isAdmin = this.authorizationService.isAdmin() ||
+          this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

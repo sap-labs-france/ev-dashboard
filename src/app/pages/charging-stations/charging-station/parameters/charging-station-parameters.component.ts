@@ -1,19 +1,19 @@
-import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, OCPPProtocol } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
+import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { ComponentService } from '../../../../services/component.service';
-import { LocaleService } from '../../../../services/locale.service';
 import { Constants } from '../../../../utils/Constants';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { KeyValue } from 'app/types/GlobalType';
+import { LocaleService } from '../../../../services/locale.service';
+import { SiteArea } from 'app/types/SiteArea';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',
@@ -56,13 +56,10 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit(): void {
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ?
-        this.chargingStation.siteArea.siteID : '');
     // Init the form
     this.formGroup.addControl('id', new FormControl());
     this.formGroup.addControl('chargingStationURL', new FormControl('',
@@ -130,10 +127,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
-    // Deactivate for non admin users
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
     this.maximumPowerAmps.disable();
   }
 
@@ -143,6 +136,14 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public loadChargingStation() {
     if (this.chargingStation) {
+      // Admin?
+      this.isAdmin = this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ?
+          this.chargingStation.siteArea.siteID : '');
+      // Deactivate for non admin users
+      if (!this.isAdmin) {
+        this.formGroup.disable();
+      }
       // Init form with values
       this.formGroup.controls.id.setValue(this.chargingStation.id);
       if (this.chargingStation.chargingStationURL) {

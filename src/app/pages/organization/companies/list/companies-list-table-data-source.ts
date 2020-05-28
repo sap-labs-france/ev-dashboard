@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -191,6 +192,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
+      new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

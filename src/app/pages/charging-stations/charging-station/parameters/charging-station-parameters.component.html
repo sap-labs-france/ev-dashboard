@@ -68,7 +68,7 @@
         </mat-checkbox>
       </div>
     </div>
-    <div class="row charging-station-connector-component" *ngIf="chargingStation.chargePoints; else chargingStationWithNoChargePoints">
+    <div class="row charging-station-connector-component" *ngIf="chargingStation?.chargePoints; else chargingStationWithNoChargePoints">
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
         <app-charging-station-charge-point
           [chargingStation]="chargingStation" [chargePoint]="chargePoint"

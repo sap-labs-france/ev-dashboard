@@ -22,7 +22,7 @@ import { ChargingStationParametersComponent } from './parameters/charging-statio
   selector: 'app-charging-station',
   templateUrl: 'charging-station.component.html',
 })
-export class ChargingStationComponent implements OnInit, AfterViewInit {
+export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
@@ -64,12 +64,7 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
         this.translateService.instant('chargers.action_error.not_authorize'));
       this.dialog.closeAll();
     }
-  }
-
-  public ngAfterViewInit(): void {
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public loadChargingStation() {
@@ -80,6 +75,10 @@ export class ChargingStationComponent implements OnInit, AfterViewInit {
     this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
       this.spinnerService.hide();
       this.chargingStation = chargingStation;
+      if (chargingStation) {
+        this.isAdmin = this.authorizationService.isAdmin() ||
+          this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
+      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {

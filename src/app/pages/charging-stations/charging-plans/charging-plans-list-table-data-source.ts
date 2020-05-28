@@ -27,6 +27,7 @@ import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingPlansCurrentLimitCellComponent } from '../cell-components/charging-plans-current-limit-cell.component';
+import { ChargingStationChargingProfileLimitComponent } from '../charging-limit/charging-profile-limit/charging-station-charging-profile-limit.component';
 import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
@@ -88,8 +89,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         multiple: false,
       },
       rowDetails: {
-        enabled: true,
-        angularComponent: ChargingStationsConnectorsDetailComponent,
+        enabled: false,
       },
       hasDynamicRowAction: true,
     };
@@ -167,19 +167,8 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     return tableActionsDef;
   }
 
-  public actionTriggered(actionDef: TableActionDef) {
-    switch (actionDef.id) {
-      case ChargingStationButtonAction.EXPORT_CHARGING_STATIONS:
-        if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.dialogService,
-            this.translateService, this.messageService, this.centralServerService, this.router,
-            this.spinnerService);
-        }
-        break;
-    }
-  }
 
-  public rowActionTriggered(actionDef: TableActionDef, chargingProfile: ChargingProfile, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(actionDef: TableActionDef, chargingProfile: ChargingProfile) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.SMART_CHARGING:
         this.dialogSmartCharging(chargingProfile);

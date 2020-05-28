@@ -13,22 +13,12 @@ import * as moment from 'moment';
 
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
 
-export interface UnitButtonGroup {
-  key: string;
-  description: string;
-  inactive: boolean;
-}
-
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
     <div class="col-auto mt-2">
       <div class="btn-group mat-button-group mr-2">
-        <button mat-raised-button *ngFor="let unit of unitMap" (click)="unitChanged(unit.key)" [color]="'primary'"
-          appTooltip [class.selected-button]="activeUnitButtonGroup && (activeUnitButtonGroup.key === unit.key)"
-          [class.inactive-button]="unit.inactive" [title]="unit.description | translate">
-          <span>{{unit.description | translate}}</span>
-        </button>
+        <app-chart-unit-selector (unitButtonOfScopeGroup)="unitChanged($event)"></app-chart-unit-selector>
       </div>
     </div>
     <div class="chart-container" style="position: relative; height:27vh;">
@@ -48,11 +38,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
 
-  public unitMap: UnitButtonGroup[] = [
-    { key: ConsumptionUnit.KILOWATT, description: 'transactions.graph.unit_kilowatts', inactive: false },
-    { key: ConsumptionUnit.AMPERE, description: 'transactions.graph.unit_amperage', inactive: false }
-  ];
-  public activeUnitButtonGroup: UnitButtonGroup = this.unitMap[0];
+
+  public selectedUnit = ConsumptionUnit.KILOWATT;
 
   private graphCreated = false;
   private chart!: Chart;
@@ -88,12 +75,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   }
 
   public unitChanged(key: ConsumptionUnit) {
-    const index = this.unitMap.findIndex((element) => element.key === key);
-    if (index >= 0 &&
-      this.activeUnitButtonGroup.key !== key &&
-      this.unitMap[index].inactive === false) {
-      this.activeUnitButtonGroup = this.unitMap[index];
-    }
+    this.selectedUnit = key;
     this.prepareAndCreateGraphData();
   }
 
@@ -162,7 +144,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           y: chargingSlot.limitInkW,
         } as number & ChartPoint);
       }
-      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
         chargingSlotDataSet.data.forEach((chartPoint) => chartPoint.y = chartPoint.y * 1000 / 230 ); // Utils convert method was updated. Needs to be handled by Serge.
       }
       // Push in the graph
@@ -198,7 +180,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           y: chargingStationPowers.currentWatt / 1000,
         } as number & ChartPoint);
       }
-      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
         limitDataSet.data.forEach((chartPoint) => chartPoint.y = chartPoint.y * 1000 / 230 ); // Utils convert method was updated. Needs to be handled by Serge.
       }
       // Push in the graph
@@ -245,7 +227,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
                 const chartPoint = dataSet.data[tooltipItem.index] as ChartPoint;
                 if (chartPoint) {
                   const value = chartPoint.y as number;
-                  if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+                  if (this.selectedUnit === ConsumptionUnit.AMPERE) {
                     return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   }
                   return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';

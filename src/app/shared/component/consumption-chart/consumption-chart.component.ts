@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { ConsumptionUnit, Transaction } from 'app/types/Transaction';
@@ -12,12 +13,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
-
-export interface UnitButtonGroup {
-  key: string;
-  description: string;
-  inactive: boolean;
-}
 
 @Component({
   selector: 'app-transaction-chart',
@@ -36,12 +31,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
   @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
 
-  public unitMap: UnitButtonGroup[] = [
-    { key: ConsumptionUnit.KILOWATT, description: 'transactions.graph.unit_kilowatts', inactive: false },
-    { key: ConsumptionUnit.AMPERE, description: 'transactions.graph.unit_amperage', inactive: false }
-  ];
   public loadAllConsumptions = false;
-  public activeUnitButtonGroup: UnitButtonGroup = this.unitMap[0];
+  public selectedUnit = ConsumptionUnit.KILOWATT;
 
   private graphCreated = false;
   private lineTension = 0;
@@ -63,6 +54,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
     private localeService: LocaleService,
+    private spinnerService: SpinnerService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
@@ -104,14 +96,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public unitChanged(key: ConsumptionUnit) {
-    const index = this.unitMap.findIndex((element) => element.key === key);
-    if (index >= 0 &&
-      this.activeUnitButtonGroup.key !== key &&
-      this.unitMap[index].inactive === false) {
-      this.activeUnitButtonGroup = this.unitMap[index];
-    }
+    this.spinnerService.show();
+    this.selectedUnit = key;
     this.createGraphData();
     this.prepareOrUpdateGraph();
+    this.spinnerService.hide();
   }
 
   private getStyleColor(element: Element): string {
@@ -140,7 +129,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
-      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
         datasets.push({
           name: 'instantAmps',
           type: 'line',
@@ -153,7 +142,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         // this.options.scales.yAxes.push({
         //   id: 'power',
         //   ticks: {
-        //     callback: (value: number) => this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ? value : value / 1000,
+        //     callback: (value: number) => this.selectedUnit === ConsumptionUnit.AMPERE ? value : value / 1000,
         //     min: 0,
         //   },
         // });
@@ -182,7 +171,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         // this.options.scales.yAxes.push({
         //   id: 'power',
         //   ticks: {
-        //     callback: (value: number) => this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ? value : value / 1000,
+        //     callback: (value: number) => this.selectedUnit === ConsumptionUnit.AMPERE ? value : value / 1000,
         //     min: 0,
         //   },
         // });
@@ -437,7 +426,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
               beginAtZero: true,
               callback: (value: number) => {
                 let result: string;
-                if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+                if (this.selectedUnit === ConsumptionUnit.AMPERE) {
                   result = this.decimalPipe.transform(value, '1.0-0');
                   return result ? parseFloat(result) : 0;
                 }

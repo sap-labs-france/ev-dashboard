@@ -16,12 +16,6 @@ import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
 
-export interface UnitButtonGroup {
-  key: string;
-  description: string;
-  inactive: boolean;
-}
-
 @Component({
   selector: 'app-site-area-chart',
   templateUrl: 'site-area-consumption-chart.component.html',
@@ -35,12 +29,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
-  public unitMap: UnitButtonGroup[] = [
-    { key: ConsumptionUnit.KILOWATT, description: 'transactions.graph.unit_kilowatts', inactive: false },
-    { key: ConsumptionUnit.AMPERE, description: 'transactions.graph.unit_amperage', inactive: false }
-  ];
 
-  public activeUnitButtonGroup: UnitButtonGroup = this.unitMap[0];
+  public selectedUnit = ConsumptionUnit.KILOWATT;
 
   public dateControl!: AbstractControl;
 
@@ -108,14 +98,11 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   public unitChanged(key: ConsumptionUnit) {
-    const index = this.unitMap.findIndex((element) => element.key === key);
-    if (index >= 0 &&
-      this.activeUnitButtonGroup.key !== key &&
-      this.unitMap[index].inactive === false) {
-      this.activeUnitButtonGroup = this.unitMap[index];
-    }
+    this.spinnerService.show();
+    this.selectedUnit = key;
     this.createGraphData();
     this.prepareOrUpdateGraph();
+    this.spinnerService.hide();
   }
 
   public dateFilterChanged(value: Date) {
@@ -151,7 +138,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
-      if (this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE) {
+      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
         datasets.push({
           name: 'instantAmps',
           type: 'line',
@@ -164,7 +151,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.options.scales.yAxes.push({
           id: 'power',
           ticks: {
-            callback: (value: number) => this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ? value : value / 1000,
+            callback: (value: number) => this.selectedUnit === ConsumptionUnit.AMPERE ? value : value / 1000,
             min: 0,
           },
         });
@@ -192,7 +179,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         this.options.scales.yAxes.push({
           id: 'power',
           ticks: {
-            callback: (value: number) => this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ? value : value / 1000,
+            callback: (value: number) => this.selectedUnit === ConsumptionUnit.AMPERE ? value : value / 1000,
             min: 0,
           },
         });
@@ -360,7 +347,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             ticks: {
               beginAtZero: true,
               callback: (value: number) => {
-                const result = this.activeUnitButtonGroup.key === ConsumptionUnit.AMPERE ?
+                const result = this.selectedUnit === ConsumptionUnit.AMPERE ?
                 this.decimalPipe.transform(value, '1.0-0') : this.decimalPipe.transform(value / 1000, '1.0-0');
                 return result ? parseFloat(result) : 0;
               },

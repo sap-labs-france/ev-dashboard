@@ -38,6 +38,12 @@ export const CONNECTOR_TYPE_MAP =
       svgIconName: 'D',
       svgIconFile: 'assets/img/connectors/domestic-ue.svg',
     },
+    {
+      key: 'U',
+      description: 'chargers.connector_type_unknown',
+      svgIconName: 'U',
+      svgIconFile: 'assets/img/connectors/no-connector.svg',
+    },
   ];
 
 @Pipe({name: 'appConnectorType'})

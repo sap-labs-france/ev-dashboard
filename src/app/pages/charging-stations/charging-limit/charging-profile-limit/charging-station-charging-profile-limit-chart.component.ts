@@ -122,7 +122,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
-        label: this.translateService.instant('transactions.graph.limit_plan_watts'),
+        label: this.translateService.instant('transactions.graph.limit_plan'),
       };
       // Build Schedules
       for (const chargingSlot of this.chargingSchedules) {
@@ -165,7 +165,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
-        label: this.translateService.instant('transactions.graph.limit_watts'),
+        label: this.translateService.instant('transactions.graph.limit'),
       };
       // Add points
       if (limitDataSet.data && chargingSlotDataSet.data && chargingSlotDataSet.data.length > 0) {

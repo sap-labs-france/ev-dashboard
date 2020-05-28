@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.63',
+        version: '2.2.64',
         date: new Date('2020-05-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Simplified Smart Charging logs`,
               `Fixed Site Admin users can see all user's sessions belonging to his Sites`,
               `Fixed Site Admin users can now edit the Charging Station and charge their Site Areas`,
               `Removed Charging Station's power recalculation`,

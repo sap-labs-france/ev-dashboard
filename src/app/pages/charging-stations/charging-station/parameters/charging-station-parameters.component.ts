@@ -200,7 +200,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.maximumPower.setValue(totalPower);
     this.maximumPowerAmps.setValue(
       Utils.convertWattToAmp(
-        this.formGroup.getRawValue() as ChargingStation, 0, totalPower));
+        this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
   }
 
   public chargePointChanged() {
@@ -211,7 +211,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     if (!this.maximumPower.errors) {
       this.maximumPowerAmps.setValue(
         Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation,
-          0, this.maximumPower.value as number));
+          null, 0, this.maximumPower.value as number));
     }
   }
 

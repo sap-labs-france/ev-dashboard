@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Site Admins can now edit the Charging Station and charge their Site Areas`,
               `Removed Charging Station's power recalculation`,
               `Added Charge Point in OCPI`,
               `Added Charge Point level in Smart Charging`,

@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
 import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
 
@@ -38,7 +38,7 @@ interface ProfileType {
     ChargingStationChargingProfileLimitScheduleTableDataSource,
   ],
 })
-export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit {
+export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
 
   public profileTypeMap: ProfileType[] = [
@@ -148,6 +148,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.refresh();
   }
 
+  public ngOnChanges() {
+    this.refresh();
+  }
+
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors|null {
     // Check
     if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
@@ -206,43 +210,37 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public loadChargingProfiles() {
     if (this.chargingStation) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStation(this.chargingStation.id).subscribe((chargingStation) => {
-        this.chargingStation = chargingStation;
-        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
-          this.spinnerService.hide();
-          this.formGroup.markAsPristine();
-          // Set Profile
-          this.chargingProfiles = chargingProfiles.result;
-          // Default
-          this.scheduleEditableTableDataSource.setContent([]);
-          this.currentChargingSchedules = [];
-          // Init
-          if (chargingProfiles.count > 0) {
-            if (this.chargingProfilesControl.value) {
-              // Find the same ID
-              const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
-                chargingProfile.id === this.chargingProfilesControl.value.id);
-              if (selectedChargingProfile) {
-                // Found: Reset the current one
-                this.chargingProfilesControl.setValue(selectedChargingProfile);
-              } else {
-                // Not Found: Set the first one
-                this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
-              }
+      this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
+        this.spinnerService.hide();
+        this.formGroup.markAsPristine();
+        // Set Profile
+        this.chargingProfiles = chargingProfiles.result;
+        // Default
+        this.scheduleEditableTableDataSource.setContent([]);
+        this.currentChargingSchedules = [];
+        // Init
+        if (chargingProfiles.count > 0) {
+          if (this.chargingProfilesControl.value) {
+            // Find the same ID
+            const selectedChargingProfile = this.chargingProfiles.find((chargingProfile: ChargingProfile) =>
+              chargingProfile.id === this.chargingProfilesControl.value.id);
+            if (selectedChargingProfile) {
+              // Found: Reset the current one
+              this.chargingProfilesControl.setValue(selectedChargingProfile);
             } else {
-              // Set the first one
+              // Not Found: Set the first one
               this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
             }
           } else {
-            this.scheduleEditableTableDataSource.setChargingStation(
-              this.chargingStation, this.chargingStation.chargePoints[0]);
-            this.scheduleTableDataSource.setChargingStation(
-              this.chargingStation, this.chargingStation.chargePoints[0]);
+            // Set the first one
+            this.chargingProfilesControl.setValue(this.chargingProfiles[0]);
           }
-        }, (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
-        });
+        } else {
+          this.scheduleEditableTableDataSource.setChargingStation(
+            this.chargingStation, this.chargingStation.chargePoints[0]);
+          this.scheduleTableDataSource.setChargingStation(
+            this.chargingStation, this.chargingStation.chargePoints[0]);
+        }
       }, (error) => {
         this.spinnerService.hide();
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');

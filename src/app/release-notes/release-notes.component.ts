@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.66',
+        date: new Date('2020-05-31'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Static Limitation cursor not modifiable when Smart Charging has been disabled`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.65',
         date: new Date('2020-05-30'),
         componentChanges: [

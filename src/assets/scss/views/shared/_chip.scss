@@ -2,7 +2,7 @@
 @mixin chip($color) {
   color: $color !important;
   opacity: 1 !important;
-  border: 2px solid $color;
+  border: 2px solid $color !important;
   background-color: transparent !important;
   font-size: 0.9rem;
   font-weight: bold;

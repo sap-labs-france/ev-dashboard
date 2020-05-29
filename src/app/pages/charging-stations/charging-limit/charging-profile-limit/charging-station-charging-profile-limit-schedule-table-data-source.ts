@@ -1,19 +1,18 @@
-import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
-import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
-import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
+import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import ChangeNotification from 'app/types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SpinnerService } from 'app/services/spinner.service';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { TranslateService } from '@ngx-translate/core';
+import ChangeNotification from 'app/types/ChangeNotification';
+import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
+import { DataResult } from 'app/types/DataResult';
+import { TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {

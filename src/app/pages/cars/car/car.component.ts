@@ -233,10 +233,12 @@ export class CarComponent implements OnInit {
                     },
                   ));
               } else {
-                this.messageService.showSuccessMessage(
-                  this.translateService.instant('cars.update_users_car_success',
-                    { assigned: response.inSuccess },
-                  ));
+                if (response.inSuccess > 0) {
+                  this.messageService.showSuccessMessage(
+                    this.translateService.instant('cars.update_users_car_success',
+                      { assigned: response.inSuccess },
+                    ));
+                }
               }
               this.dialogRef.close();
             }, (error) => {

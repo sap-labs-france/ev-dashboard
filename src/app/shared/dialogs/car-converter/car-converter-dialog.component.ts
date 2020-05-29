@@ -28,6 +28,7 @@ export class CarConverterDialogComponent extends DialogTableDataComponent<Charge
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
+        row.id = row.type;
         items.push({
           key: row.type,
           value: Utils.buildConverterName(row),

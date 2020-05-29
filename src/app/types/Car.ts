@@ -53,6 +53,7 @@ export interface Car extends Data {
   isDefault?: boolean;
   type?: CarType;
   converterType?: string;
+  owner?: boolean;
 }
 
 export enum CarType {

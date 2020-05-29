@@ -22,6 +22,7 @@ import { TableEditCarAction } from '../table-actions/table-edit-car-action';
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
   public isSuperAdmin: boolean;
+  public isBasic: boolean;
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
   constructor(
@@ -36,6 +37,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   ) {
     super(spinnerService, translateService);
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
+    this.isBasic = this.authorizationService.isBasic();
     // Init
     this.initDataSource();
   }
@@ -145,6 +147,15 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     return [
       this.editAction
     ];
+  }
+
+  public canDisplayRowAction(actionDef: TableActionDef, car: Car) {
+    switch (actionDef.id) {
+      case CarButtonAction.EDIT_CAR:
+        return this.isBasic ? car.owner : true;
+      default:
+        return true;
+    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {

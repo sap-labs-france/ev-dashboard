@@ -7,10 +7,12 @@ import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation
 
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { ButtonType } from 'app/types/Table';
+import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
 import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
 import { ComponentService } from 'app/services/component.service';
+import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
 import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
@@ -20,6 +22,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import TenantComponents from 'app/types/TenantComponents';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+import { debounceTime } from 'rxjs/operators';
 
 interface ProfileType {
   key: string;
@@ -62,6 +65,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   constructor(
     public scheduleTableDataSource: ChargingStationChargingProfileLimitScheduleTableDataSource,
     public scheduleEditableTableDataSource: ChargingStationChargingProfileLimitScheduleEditableTableDataSource,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private configService: ConfigService,
     private translateService: TranslateService,
     private router: Router,
     private datePipe: AppDatePipe,
@@ -72,6 +77,18 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     private spinnerService: SpinnerService,
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    // Update Charging Station?
+    this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
+      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+      if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
+        const chargingProfile = this.chargingProfiles.find(
+          (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id)
+        // Reload?
+        if (chargingProfile) {
+          this.refresh();
+        }
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -187,7 +204,6 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
-            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response), this.messageService,
               this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));
@@ -333,10 +349,10 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.centralServerService.deleteChargingProfile(chargingProfile.id).subscribe((response) => {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
-            // Success + Reload
+            // Remove from array
+            this.chargingProfiles = this.chargingProfiles.filter((exitingChargingProfile) => exitingChargingProfile.id !== chargingProfile.id);
             this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.clear_profile_success',
               { chargeBoxID: this.chargingStation.id }));
-            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.clear_profile_error'));
@@ -370,11 +386,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.centralServerService.updateChargingProfile(chargingProfile).subscribe((response) => {
           this.spinnerService.hide();
           if (response.status === RestResponse.SUCCESS) {
-            // Success + Reload
+            // Push new profile in array
+            const foundChargingProfile = this.chargingProfiles.find((exitingChargingProfile) => exitingChargingProfile.id === chargingProfile.id);
+            if (!foundChargingProfile) {
+              chargingProfile.id = response.id;
+              this.chargingProfiles.push(chargingProfile);
+            }
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_plan_success',
                 { chargeBoxID: this.chargingStation.id }));
-            this.refresh();
           } else {
             Utils.handleError(JSON.stringify(response),
               this.messageService, this.translateService.instant('chargers.smart_charging.power_limit_plan_error'));

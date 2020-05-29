@@ -30,6 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Charging Plans auto refresh when changed by the Smart Charging`,
+              `Charging Plans and Static Limitation are enabled/disabled when Smart Charging is disabled/enabled`,
               `Static Limitation cursor not modifiable when Smart Charging has been disabled`,
             ],
           },

@@ -392,21 +392,8 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(chargeBoxID?: string, connectorID?: number, withChargingStation = false, withSiteArea = false): Observable<DataResult<ChargingProfile>> {
+  public getChargingProfiles(params: FilterParams): Observable<DataResult<ChargingProfile>> {
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    if (chargeBoxID) {
-    params['ChargeBoxID'] = chargeBoxID;
-    }
-    if (connectorID) {
-      params['ConnectorID'] = connectorID + '';
-    }
-    if (withChargingStation) {
-      params['WithChargingStation'] = withChargingStation.toString();
-    }
-    if (withSiteArea) {
-      params['WithSiteArea'] = withSiteArea.toString();
-    }
     return this.httpClient.get<DataResult<ChargingProfile>>(
       `${this.centralRestServerServiceSecuredURL}/ChargingProfiles`,
       {

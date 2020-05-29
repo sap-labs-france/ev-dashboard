@@ -207,7 +207,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       this.spinnerService.show();
       this.centralServerService.getChargingStation(this.chargingStation.id).subscribe((chargingStation) => {
         this.chargingStation = chargingStation;
-        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
+        this.centralServerService.getChargingProfiles({ChargeBoxID: this.chargingStation.id}).subscribe((chargingProfiles) => {
           this.spinnerService.hide();
           this.formGroup.markAsPristine();
           // Set Profile

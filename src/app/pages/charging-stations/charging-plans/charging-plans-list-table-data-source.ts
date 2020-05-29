@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
@@ -49,6 +50,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private unitPipe: AppUnitPipe,
   ) {
     super(spinnerService, translateService);
     // Init
@@ -66,7 +68,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getChargingProfiles(null, null, true, true).subscribe((chargingProfiles) => {
+      this.centralServerService.getChargingProfiles(Object.assign(this.buildFilterValues(), {WithChargingStation: 'true', WithSiteArea: 'true'})).subscribe((chargingProfiles) => {
           // Ok
           observer.next(chargingProfiles);
           observer.complete();
@@ -81,9 +83,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public buildTableDef(): TableDef {
     return {
-      search: {
-        enabled: true,
-      },
       rowSelection: {
         enabled: false,
         multiple: false,
@@ -99,35 +98,21 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
     let tableColumns: TableColumnDef[] = [
-      {
-        id: 'id',
-        name: 'chargers.smart_charging.charging_plans.charging_plan_name',
-        sortable: true,
-        headerClass: 'col-30p',
-        class: 'col-30p',
-        sorted: true,
-        direction: 'asc',
-      },
+
       {
         id: 'chargingStationID',
         name: 'chargers.smart_charging.charging_plans.charging_station_id',
-        headerClass: 'text-center col-30p',
-        class: 'text-center col-30p',
         sortable: false,
       },
       {
         id: 'connectorID',
         name: 'chargers.smart_charging.charging_plans.connector_id',
-        headerClass: 'text-center',
-        class: 'text-center table-cell-angular-big-component',
         sortable: false,
       },
       {
         id: 'profile.chargingSchedule.chargingSchedulePeriod',
         name: 'chargers.smart_charging.charging_plans.current_limit',
         sortable: false,
-        headerClass: 'text-center col-15em',
-        class: 'text-center col-15em',
         isAngularComponent: true,
         angularComponent: ChargingPlansCurrentLimitCellComponent,
       },
@@ -135,15 +120,12 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         id: 'siteArea.name',
         name: 'chargers.smart_charging.charging_plans.site_area',
         sortable: true,
-        class: 'd-none d-xl-table-cell col-20p',
-        headerClass: 'd-none d-xl-table-cell col-20p',
       },
       {
         id: 'siteArea.maximumPower',
         name: 'chargers.smart_charging.charging_plans.site_area_limit',
         sortable: false,
-        headerClass: 'text-center col-15em',
-        class: 'text-center col-15em',
+        formatter: (limit: number) => this.unitPipe.transform(limit, 'W', 'kW', true, 1, 0)
       },
     ];
     return tableColumns;

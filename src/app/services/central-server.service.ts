@@ -1485,18 +1485,18 @@ export class CentralServerService {
       );
   }
 
-  public refreshToken(): Observable<LoginResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute
-    return this.httpClient.get<LoginResponse>(`${this.centralRestServerServiceSecuredURL}/UserRefreshToken`,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
+  // public refreshToken(): Observable<LoginResponse> {
+  //   // Verify init
+  //   this.checkInit();
+  //   // Execute
+  //   return this.httpClient.get<LoginResponse>(`${this.centralRestServerServiceSecuredURL}/UserRefreshToken`,
+  //     {
+  //       headers: this.buildHttpHeaders(),
+  //     })
+  //     .pipe(
+  //       catchError(this.handleHttpError),
+  //     );
+  // }
 
   public loginSucceeded(token: string): void {
     // Keep it local (iFrame use case)
@@ -1507,7 +1507,29 @@ export class CentralServerService {
     }
   }
 
-  public setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
+  public getLoggedUser(): UserToken {
+    this.getLoggedUserFromToken();
+    // Return the user (should have already been initialized as the token is retrieved async)
+    return this.currentUser;
+  }
+
+  public getLoggedUserFromToken(): UserToken {
+    // Get the token
+    if (!this.currentUser) {
+      // Decode the token
+      this.localStorageService.getItem('token').subscribe((token: string) => {
+        // Keep it local (iFrame use case)
+        this.setLoggedUserToken(token);
+      });
+    }
+    return this.currentUser;
+  }
+
+  public isAuthenticated(): boolean {
+    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
+  }
+
+  private setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
     // Keep token
     this.currentUserToken = token;
     this.currentUser = null;
@@ -1524,19 +1546,7 @@ export class CentralServerService {
     }
   }
 
-  public getLoggedUserFromToken(): UserToken {
-    // Get the token
-    if (!this.currentUser) {
-      // Decode the token
-      this.localStorageService.getItem('token').subscribe((token: string) => {
-        // Keep it local (iFrame use case)
-        this.setLoggedUserToken(token);
-      });
-    }
-    return this.currentUser;
-  }
-
-  public getLoggedUserToken(): string {
+  private getLoggedUserToken(): string {
     // Get the token
     if (!this.currentUserToken) {
       // Decode the token
@@ -1552,17 +1562,13 @@ export class CentralServerService {
     return this.currentUserSubject;
   }
 
-  public clearLoggedUserToken(): void {
+  private clearLoggedUserToken(): void {
     // Clear
     this.currentUserToken = null;
     this.currentUser = null;
     this.currentUserSubject.next(this.currentUser);
     // Remove from local storage
     this.localStorageService.removeItem('token');
-  }
-
-  public isAuthenticated(): boolean {
-    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
   public logout(): Observable<ActionResponse> {
@@ -1584,12 +1590,6 @@ export class CentralServerService {
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
       this.centralServerNotificationService.resetSocketIO();
     }
-  }
-
-  public getLoggedUser(): UserToken {
-    this.getLoggedUserFromToken();
-    // Return the user (should have already been initialized as the token is retrieved async)
-    return this.currentUser;
   }
 
   public resetUserPassword(data: any): Observable<ActionResponse> {

@@ -1,8 +1,9 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ChargingStation, Connector } from 'app/types/ChargingStation';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   template: `
@@ -28,7 +29,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
   constructor(private decimalPipe: AppDecimalPipe) {
   }
 
-  public transform(connectors: Connector[], type: string, charger: ChargingStation): string {
+  public transform(connectors: Connector[], type: string, chargingStation: ChargingStation): string {
     let value = 0;
     // Check
     switch (type) {
@@ -51,7 +52,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
           if (instantPowerKW === 0) {
             value = 0;
           }
-          value = Math.round((instantPowerKW * 1000 / charger.maximumPower) * 100);
+          value = Math.round((instantPowerKW * 1000 / chargingStation.maximumPower) * 100);
         } else {
           value = instantPowerKW;
         }
@@ -61,14 +62,21 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
       case 'maxPowerKW':
         let maxPowerKW = 0;
         // Max power already filled?
-        if (charger.maximumPower > 0) {
-          // Max power is already assigned on charger level so take it
-          maxPowerKW = charger.maximumPower;
+        if (chargingStation.maximumPower > 0) {
+          // Max power is already assigned on charging station level so take it
+          maxPowerKW = chargingStation.maximumPower;
         // Not set: calculate it from connectors
         } else {
-          for (const connector of connectors) {
-            // Yes: Add up connector power
-            maxPowerKW += connector.power;
+          if (chargingStation.chargePoints) {
+            // Add charge point power
+            for (const chargePoint of chargingStation.chargePoints) {
+              maxPowerKW += Utils.getChargingStationPower(chargingStation, chargePoint);
+            }
+          } else {
+            // Add connector power
+            for (const connector of connectors) {
+              maxPowerKW += connector.power;
+            }
           }
         }
         // Watt -> kWatts

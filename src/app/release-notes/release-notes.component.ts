@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.64',
-        date: new Date('2020-05-28'),
+        version: '2.2.65',
+        date: new Date('2020-05-30'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Increased Safe Car power limitation in Smart Charging to not limit them on DC charging stations`,
               `Simplified Smart Charging logs`,
               `Fixed Site Admin users can see all user's sessions belonging to his Sites`,
               `Fixed Site Admin users can now edit the Charging Station and charge their Site Areas`,

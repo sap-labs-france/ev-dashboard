@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, Voltage } from 'app/types/ChargingStation';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+
+import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -99,18 +100,17 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public loadConnector() {
     if (this.connector && this.formConnectorGroup) {
-      const chargePoint = Utils.getChargePointFromID(
-        this.chargingStation, this.connector.chargePointID);
+      const chargePoint = Utils.getChargePointFromID(this.chargingStation, this.connector.chargePointID);
       // Update connector values
       this.type.setValue(this.connector.type);
       this.power.setValue(
-        Utils.getChargingStationPower(this.chargingStation, this.connector.connectorId));
+        Utils.getChargingStationPower(this.chargingStation, this.chargePoint, this.connector.connectorId));
       this.voltage.setValue(
-        Utils.getChargingStationVoltage(this.chargingStation, this.connector.connectorId));
+        Utils.getChargingStationVoltage(this.chargingStation, this.chargePoint, this.connector.connectorId));
       this.amperage.setValue(
-        Utils.getChargingStationAmperage(this.chargingStation, null, this.connector.connectorId));
+        Utils.getChargingStationAmperage(this.chargingStation, this.chargePoint, this.connector.connectorId));
       this.currentType.setValue(
-        Utils.getChargingStationCurrentType(this.chargingStation, this.connector.connectorId));
+        Utils.getChargingStationCurrentType(this.chargingStation, this.chargePoint, this.connector.connectorId));
       this.numberOfConnectedPhase.setValue(
         Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
       if (this.chargePoint) {

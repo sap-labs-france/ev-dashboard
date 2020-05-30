@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -68,28 +68,27 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public loadChargingStation() {
-    if (!this.chargingStationID) {
-      return;
+    if (this.chargingStationID) {
+      this.spinnerService.show();
+      this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
+        this.spinnerService.hide();
+        this.chargingStation = chargingStation;
+        if (chargingStation) {
+          this.isAdmin = this.authorizationService.isAdmin() ||
+            this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
+        }
+      }, (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.messageService.showErrorMessage('chargers.charger_not_found');
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'chargers.charger_not_found');
+        }
+      });
     }
-    this.spinnerService.show();
-    this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
-      this.spinnerService.hide();
-      this.chargingStation = chargingStation;
-      if (chargingStation) {
-        this.isAdmin = this.authorizationService.isAdmin() ||
-          this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-          this.messageService.showErrorMessage('chargers.charger_not_found');
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'chargers.charger_not_found');
-      }
-    });
   }
 
   public saveChargingStation(chargingStation: ChargingStation) {

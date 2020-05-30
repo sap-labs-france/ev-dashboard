@@ -80,7 +80,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         isAngularComponent: true,
         angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
         headerClass: 'col-40p',
-        class: 'col-40p',
+        class: 'col-40p p-1',
       },
     ];
     return tableColumnDef;

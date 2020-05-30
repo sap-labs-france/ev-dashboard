@@ -1,5 +1,5 @@
 import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { Schedule } from 'app/types/ChargingProfile';
@@ -7,7 +7,7 @@ import { Utils } from 'app/utils/Utils';
 
 @Component({
   template: `
-    <div class="row">
+    <div class="row m-0">
       <app-charging-station-power-slider class="col-md-12"
         [chargingStation]="chargingStation" [chargePoint]="chargePoint"
         [forChargingProfile]="true" [currentAmp]='row?.limit' (silderChanged)="sliderChanged($event)">
@@ -15,12 +15,17 @@ import { Utils } from 'app/utils/Utils';
     </div>
   `,
 })
-export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateDirective implements OnInit {
+export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
   @Input() public row!: Schedule;
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargePoint!: ChargePoint;
 
   public ngOnInit() {
+    this.chargingStation = this.columnDef.additionalParameters.chargingStation as ChargingStation;
+    this.chargePoint = this.columnDef.additionalParameters.chargePoint as ChargePoint;
+  }
+
+  public ngOnChanges() {
     this.chargingStation = this.columnDef.additionalParameters.chargingStation as ChargingStation;
     this.chargePoint = this.columnDef.additionalParameters.chargePoint as ChargePoint;
   }

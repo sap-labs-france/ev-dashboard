@@ -29,24 +29,26 @@ export class ChargingStationChargingLimitComponent implements OnInit {
     private configService: ConfigService,
     private messageService: MessageService,
     private router: Router) {
-    // Update Charging Station?
-    this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
-          singleChangeNotification.data.id === this.chargingStation.id) {
-        // Reload
-        this.loadChargingStation();
-      }
-    });
-    // Update Charging Station?
-    this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
-          singleChangeNotification.data.id === this.chargingStation.siteAreaID) {
-        // Reload
-        this.loadChargingStation();
-      }
-    });
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      // Update Charging Station?
+      this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
+            singleChangeNotification.data.id === this.chargingStation.id) {
+          // Reload
+          this.loadChargingStation();
+        }
+      });
+      // Update Charging Station?
+      this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
+            singleChangeNotification.data.id === this.chargingStation.siteAreaID) {
+          // Reload
+          this.loadChargingStation();
+        }
+      });
+    }
   }
 
   public ngOnInit() {

@@ -77,18 +77,20 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     private spinnerService: SpinnerService,
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    // Update Charging Station?
-    this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
-      this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-      if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
-        const chargingProfile = this.chargingProfiles.find(
-          (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id)
-        // Reload?
-        if (chargingProfile) {
-          this.refresh();
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      // Update Charging Station?
+      this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+        if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
+          const chargingProfile = this.chargingProfiles.find(
+            (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id)
+          // Reload?
+          if (chargingProfile) {
+            this.refresh();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   public ngOnInit(): void {

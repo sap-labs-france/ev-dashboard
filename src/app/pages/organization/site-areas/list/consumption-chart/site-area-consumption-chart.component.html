@@ -1,5 +1,5 @@
-<div class="row mt-2">
-  <div class="col-auto mr-auto">
+<div class="row mt-2 ml-2 mr-2">
+  <div class="d-flex align-items-center mr-auto">
     <mat-form-field>
       <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
       </mat-datetimepicker>
@@ -11,7 +11,7 @@
       </mat-error>
     </mat-form-field>
   </div>
-  <div class="col-auto" [hidden]="siteAreaConsumption?.values?.length === 0">
+  <div class="d-flex align-items-center" [hidden]="siteAreaConsumption?.values?.length === 0">
     <app-chart-unit-selector (unitButtonOfScopeGroup)="unitChanged($event)"></app-chart-unit-selector>
   </div>
 </div>

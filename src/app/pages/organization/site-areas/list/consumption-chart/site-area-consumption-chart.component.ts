@@ -1,20 +1,19 @@
-import { JsonPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ConsumptionChartDetailComponent } from 'app/shared/component/consumption-chart/consumption-chart-detail.component';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { SiteAreaConsumption } from 'app/types/SiteArea';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
-import { CentralServerService } from '../../../../../services/central-server.service';
-import { LocaleService } from '../../../../../services/locale.service';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
+
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { LocaleService } from '../../../../../services/locale.service';
+import { SiteAreaConsumption } from 'app/types/SiteArea';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-site-area-chart',
@@ -29,11 +28,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
-
   public selectedUnit = ConsumptionUnit.KILOWATT;
-
   public dateControl!: AbstractControl;
-
   public startDate = moment().startOf('d').toDate();
   public endDate = moment().endOf('d').toDate();
 
@@ -138,62 +134,36 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
-      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
-        datasets.push({
-          name: 'instantAmps',
-          type: 'line',
-          data: [],
-          yAxisID: 'power',
-          lineTension: this.lineTension,
-          ...Utils.formatLineColor(this.instantPowerColor),
-          label: this.translateService.instant('transactions.graph.amps'),
-        });
-        this.options.scales.yAxes.push({
-          id: 'power',
-          ticks: {
-            callback: (value: number) => this.selectedUnit === ConsumptionUnit.AMPERE ? value : value / 1000,
-            min: 0,
-          },
-        });
-        datasets.push({
-          name: 'limitAmps',
-          type: 'line',
-          data: [],
-          hidden: true,
-          yAxisID: 'power',
-          lineTension: this.lineTension,
-          ...Utils.formatLineColor(this.limitColor),
-          label: this.translateService.instant('transactions.graph.limit_amps'),
-        });
-
-      } else {
-        datasets.push({
-          name: 'instantPower',
-          type: 'line',
-          data: [],
-          yAxisID: 'power',
-          lineTension: this.lineTension,
-          ...Utils.formatLineColor(this.instantPowerColor),
-          label: this.translateService.instant('organization.graph.power'),
-        });
-        this.options.scales.yAxes.push({
-          id: 'power',
-          ticks: {
-            callback: (value: number) => this.selectedUnit === ConsumptionUnit.AMPERE ? value : value / 1000,
-            min: 0,
-          },
-        });
-        datasets.push({
-          name: 'limitWatts',
-          type: 'line',
-          data: [],
-          hidden: true,
-          yAxisID: 'power',
-          lineTension: this.lineTension,
-          ...Utils.formatLineColor(this.limitColor),
-          label: this.translateService.instant('organization.graph.limit_watts'),
-        });
-      }
+      // Instant Amps/Power
+      datasets.push({
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantPower',
+        type: 'line',
+        data: [],
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.instantPowerColor),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'transactions.graph.amps' : 'organization.graph.power'),
+      });
+      // Limit Amps/Power
+      datasets.push({
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
+        type: 'line',
+        data: [],
+        hidden: true,
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.limitColor),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'transactions.graph.limit_amps' : 'organization.graph.limit_watts'),
+      });
+      this.options.scales.yAxes = [{
+        id: 'power',
+        ticks: {
+          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value : value / 1000,
+          min: 0,
+        },
+      }];
       // Assign
       this.data.labels = [];
       this.data.datasets = datasets;
@@ -284,13 +254,13 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantPower':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
+                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'instantAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'A';
+                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   case 'limitWatts':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.2-2') + 'kW';
+                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'limitAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'A';
+                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   default:
                     return value + '';
                 }
@@ -346,11 +316,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => {
-                const result = this.selectedUnit === ConsumptionUnit.AMPERE ?
-                this.decimalPipe.transform(value, '1.0-0') : this.decimalPipe.transform(value / 1000, '1.0-0');
-                return result ? parseFloat(result) : 0;
-              },
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
               fontColor: this.defaultColor,
             },
             gridLines: {

@@ -347,14 +347,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       dialogConfig.maxHeight = '90vh';
       dialogConfig.panelClass = 'transparent-dialog-container';
       if (chargingStation) {
-        dialogConfig.data = chargingStation;
+        dialogConfig.data = chargingStation.id;
       }
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(() => {
-        this.refreshData().subscribe();
+      dialogRef.afterClosed().subscribe((saved) => {
+        if (saved) {
+          this.refreshData().subscribe();
+        }
       });
     }
   }

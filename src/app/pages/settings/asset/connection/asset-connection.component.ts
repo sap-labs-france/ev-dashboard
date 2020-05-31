@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyValue } from 'app/types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType, AssetSetting } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
@@ -24,7 +24,7 @@ export class AssetConnectionComponent implements OnInit {
   public type!: AbstractControl;
   public url!: AbstractControl;
 
-  public loginCredentials!: LoginCredentialsAssetConnection;
+  public connection!: AssetSchneiderConnectionType;
   public assetConnectionTypes: KeyValue[] = [
     { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' }
   ];
@@ -97,7 +97,7 @@ export class AssetConnectionComponent implements OnInit {
   public loadConnectionType(): void {
     switch (this.currentAssetConnection.type) {
       case AssetConnectionType.SCHNEIDER:
-        this.loginCredentials = this.currentAssetConnection.loginCredentials;
+        this.connection = this.currentAssetConnection.connection;
         break;
     }
   }
@@ -115,7 +115,7 @@ export class AssetConnectionComponent implements OnInit {
     }
   }
 
-  public setConnectionAndClose(assetSettings: AssetSettings): void {
+  public setConnectionAndClose(assetSettings: AssetSetting): void {
     if (this.inDialog) {
       this.dialogRef.close(assetSettings);
     }

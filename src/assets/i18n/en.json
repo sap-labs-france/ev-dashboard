@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.64",
+    "last_update": "Version 2.2.67",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -1408,7 +1408,11 @@
       },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
-      "setting_not_found": "Asset settings have not been found"
+      "setting_not_found": "Asset settings have not been found",
+      "create_success": "Asset settings have been created successfully",
+      "create_error": "Error occurred while creating the Asset settings",
+      "update_success": "Asset settings have been updated successfully",
+      "update_error": "Error occurred while updating the Asset settings"
     },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",

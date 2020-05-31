@@ -70,7 +70,7 @@
                       </mat-checkbox>
                     </div>
                     <div style="text-align: left" *ngIf="isSmartChargingComponentActive">
-                      <mat-checkbox [formControl]="smartCharging" (change)="smartChargingChanged($event)">
+                      <mat-checkbox [formControl]="smartCharging">
                         {{'site_areas.enable_smart_charging' | translate}}
                       </mat-checkbox>
                     </div>

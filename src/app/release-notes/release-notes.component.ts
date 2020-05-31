@@ -24,12 +24,30 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.64',
-        date: new Date('2020-05-28'),
+        version: '2.2.67',
+        date: new Date('2020-05-31'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Delta charging station model 10962 (150 kW, 3 connectors) in template`,
+              `Added connection to Schneider Build Management system in Assets' settings`,
+              `Added missing auto-refresh button in Assets, Cars and Car Catalog`,
+              `Fixed Charging Plans auto refresh when changed by the Smart Charging`,
+              `Charging Plans and Static Limitation are enabled/disabled when Smart Charging is disabled/enabled`,
+              `Static Limitation cursor not modifiable when Smart Charging has been disabled`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.65',
+        date: new Date('2020-05-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Safe Car power limitation in Smart Charging to not limit them on DC charging stations`,
               `Simplified Smart Charging logs`,
               `Fixed Site Admin users can see all user's sessions belonging to his Sites`,
               `Fixed Site Admin users can now edit the Charging Station and charge their Site Areas`,

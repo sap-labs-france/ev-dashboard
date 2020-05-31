@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
-import { AnalyticsSettings, AssetSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSetting, AssetSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, AssetSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { CentralServerService } from './central-server.service';
+
 
 @Injectable()
 export class ComponentService {
@@ -149,6 +149,31 @@ export class ComponentService {
       sensitiveData: [],
       content: JSON.parse(JSON.stringify(settings)),
     };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    // Save
+    return this.centralServerService.updateSetting(settingsToSave);
+  }
+
+  public saveAssetConnectionSettings(settings: AssetSettings): Observable<ActionResponse> {
+    // Check the type
+    if (!settings.type) {
+      settings.type = AssetSettingsType.ASSET;
+    }
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: TenantComponents.ASSET,
+      sensitiveData: [],
+      content: JSON.parse(JSON.stringify(settings)) as AssetSettings,
+    };
+    settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
+      if (settingConnection.type === AssetConnectionType.SCHNEIDER) {
+        settingsToSave.sensitiveData.push(`content.asset.connections[${index}].password`);
+      }
+    });
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;
@@ -317,7 +342,7 @@ export class ComponentService {
       const assetSettings = {
         identifier: TenantComponents.ASSET,
       } as AssetSettings;
-      // Get the Pricing settings
+      // Get the Asset settings
       this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
@@ -326,6 +351,8 @@ export class ComponentService {
           assetSettings.id = settings.result[0].id;
           // Sensitive data
           assetSettings.sensitiveData = settings.result[0].sensitiveData;
+          // Set
+          assetSettings.asset = config.asset;
         }
         observer.next(assetSettings);
         observer.complete();

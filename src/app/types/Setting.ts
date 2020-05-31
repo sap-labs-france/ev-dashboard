@@ -1,4 +1,3 @@
-import { KeyValue } from './GlobalType';
 import { Data } from './Table';
 import TenantComponents from './TenantComponents';
 
@@ -20,7 +19,7 @@ export interface SettingContent {
   links?: SettingLink[];
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
-  asset?: AssetConnectionSetting[];
+  asset?: AssetSetting;
 }
 
 export interface SettingLink extends Data {
@@ -171,30 +170,39 @@ export interface StripeBillingSetting extends BillingSetting {
   taxID: string;
 }
 
+export enum AssetSettingsType {
+  ASSET = 'asset',
+}
+
 export interface AssetSettings extends Setting {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
-  assets: AssetConnectionSetting[];
+  asset?: AssetSetting;
 }
 
-export enum AssetSettingsType {
-  ASSET = 'asset'
+export interface AssetSetting {
+  connections: AssetConnectionSetting[];
 }
 
 export interface AssetConnectionSetting extends Data {
   id: string;
   name: string;
   description: string;
-  type: string;
   url: string;
-  loginCredentials: LoginCredentialsAssetConnection;
+  type: AssetConnectionType;
+  connection?: AssetSchneiderConnectionType;
 }
 
-export interface LoginCredentialsAssetConnection {
+export enum AssetConnectionType {
+  NONE = '',
+  SCHNEIDER = 'schneider',
+}
+
+export interface AssetUserPasswordConnectionType {
   user: string;
   password: string;
 }
 
-export enum AssetConnectionType {
-  SCHNEIDER = 'schneider',
+// tslint:disable-next-line: no-empty-interface
+export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
 }

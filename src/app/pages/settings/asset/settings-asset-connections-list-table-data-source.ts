@@ -121,7 +121,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public createRow(): AssetConnectionSetting {
     return {
-      id: new Date().getUTCMilliseconds().toString(),
+      id: new Date().getTime().toString(),
       key: '',
       name: '',
       description: '',
@@ -135,22 +135,28 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = assetConnection;
+    if (assetConnection) {
+      // Update
+      dialogConfig.data = assetConnection;
+    } else {
+      // Create
+      dialogConfig.data = this.createRow();
+    }
     // Disable outside click close
     dialogConfig.disableClose = true;
     // Open
     const dialogRef = this.dialog.open(AssetConnectionDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((newAssetConnection: AssetConnectionSetting) => {
-      if (newAssetConnection) {
-        // Create
-        if (!newAssetConnection.id) {
-          this.editableRows.push(newAssetConnection);
-        // Update
+    dialogRef.afterClosed().subscribe((assetConnection: AssetConnectionSetting) => {
+      if (assetConnection) {
+        // Find object
+        const index = this.editableRows.findIndex(
+          (editableRow) => editableRow.id === assetConnection.id);
+        if (index >= 0) {
+          // Update
+          this.editableRows.splice(index, 1, assetConnection);
         } else {
-          // Find object
-          const index = this.editableRows.findIndex(
-            (editableRow) => editableRow.id === newAssetConnection.id);
-          this.editableRows.splice(index, 1, newAssetConnection);
+          // Create
+          this.editableRows.push(assetConnection);
         }
         this.refreshData(false).subscribe();
         this.formArray.markAsDirty();

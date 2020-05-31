@@ -1813,6 +1813,7 @@
       "power": "Instant Power (kW)",
       "amps": "Instant Amps (A)",
       "energy": "Energy Delivered (kW.h)",
+      "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",

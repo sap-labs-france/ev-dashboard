@@ -3,8 +3,8 @@
 </div>
 <div [hidden]="transaction?.values?.length === 0">
   <div class="row mt-2">
-    <div class="col-auto mr-auto">
-      <mat-checkbox class="mx-auto" (change)="changeLoadAllConsumptions($event)">
+    <div class="col-auto mt-2 mr-auto">
+      <mat-checkbox class="mx-auto" (change)="loadAllConsumptionsChanged($event)">
         {{'transactions.graph.load_all_consumptions' | translate}}
       </mat-checkbox>
     </div>

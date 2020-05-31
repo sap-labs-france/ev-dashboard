@@ -1816,6 +1816,7 @@
       "power": "Puissance Instantanée (kW)",
       "amps": "Instant Amps (A)",
       "energy": "Energie Délivrée (kW.h)",
+      "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",

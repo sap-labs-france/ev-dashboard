@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -11,6 +10,7 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 
 @Injectable()
@@ -23,21 +23,13 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   }
 
   public loadDataImpl(): Observable<DataResult<AssetConnectionSetting>> {
+    // Not really editable datasource
     return new Observable((observer) => {
       // Check
       if (this.editableRows) {
-        this.editableRows.sort((a, b) => {
-          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
-        });
-        const assetConnections = [];
-        for (let index = 0; index < this.editableRows.length; index++) {
-          const assetConnection = this.editableRows[index];
-          assetConnection.id = index.toString();
-          assetConnections.push(assetConnection);
-        }
         observer.next({
-          count: assetConnections.length,
-          result: assetConnections,
+          count: this.editableRows.length,
+          result: this.editableRows,
         });
       } else {
         observer.next({
@@ -129,7 +121,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public createRow(): AssetConnectionSetting {
     return {
-      id: this.editableRows.length.toString(),
+      id: new Date().getUTCMilliseconds().toString(),
       key: '',
       name: '',
       description: '',
@@ -152,7 +144,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       if (newAssetConnection) {
         // Create
         if (!newAssetConnection.id) {
-          newAssetConnection.id = this.editableRows.length.toString();
           this.editableRows.push(newAssetConnection);
         // Update
         } else {

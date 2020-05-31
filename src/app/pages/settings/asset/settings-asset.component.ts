@@ -10,8 +10,8 @@ import { HTTPError } from 'app/types/HTTPError';
 import { AssetSettings } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
-import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset-connections-list-table-data-source';
 
+import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset-connections-list-table-data-source';
 
 @Component({
   selector: 'app-settings-asset',
@@ -21,8 +21,9 @@ export class SettingsAssetComponent implements OnInit {
   public isActive = false;
 
   public formGroup!: FormGroup;
-  public assetSettings!: AssetSettings;
   public assetConnections!: FormArray;
+
+  public assetSettings!: AssetSettings;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -73,7 +74,9 @@ export class SettingsAssetComponent implements OnInit {
   }
 
   public save() {
+    // Assign connections
     this.assetSettings.asset.connections = this.assetConnectionListTableDataSource.getContent();
+    // Save
     this.spinnerService.show();
     this.componentService.saveAssetConnectionSettings(this.assetSettings).subscribe((response) => {
       this.spinnerService.hide();

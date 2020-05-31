@@ -1,14 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStation } from 'app/types/ChargingStation';
 import { ConfigService } from 'app/services/config.service';
-import { HTTPError } from 'app/types/HTTPError';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { ChargingStation } from 'app/types/ChargingStation';
+import { HTTPError } from 'app/types/HTTPError';
 import { Utils } from 'app/utils/Utils';
 import { debounceTime } from 'rxjs/operators';
 

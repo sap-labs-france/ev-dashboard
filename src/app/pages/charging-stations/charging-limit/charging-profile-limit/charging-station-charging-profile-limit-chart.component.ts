@@ -34,9 +34,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   @Input() public connectorId!: number;
   @Input() public chargingSchedules: Schedule[];
 
-  @ViewChild('primary', {static: true}) public primaryElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
-  @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
 
   public selectedUnit = ConsumptionUnit.KILOWATT;
@@ -55,11 +55,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private lineTension = 0;
 
   constructor(
-      private translateService: TranslateService,
-      private durationPipe: AppDurationPipe,
-      private localeService: LocaleService,
-      private datePipe: AppDatePipe,
-      private decimalPipe: AppDecimalPipe) {
+    private translateService: TranslateService,
+    private durationPipe: AppDurationPipe,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -135,6 +135,16 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
           } as number & ChartPoint);
         }
       }
+      let connector: Connector;
+      let chargePoint: ChargePoint;
+      let chargingStationPowers: ChargingStationPowers;
+      if (this.connectorId > 0) {
+        connector = Utils.getConnectorFromID(this.chargingStation, this.connectorId);
+        chargePoint = Utils.getChargePointFromID(this.chargingStation, connector.chargePointID);
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, this.connectorId);
+      } else {
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
+      }
       // Create the last point with the duration
       if (chargingSlotDataSet.data && this.chargingSchedules.length > 0) {
         const chargingSlot = this.chargingSchedules[this.chargingSchedules.length - 1];
@@ -152,14 +162,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       // Push in the graph
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
-      let chargingStationPowers: ChargingStationPowers;
-      if (this.connectorId > 0) {
-        const connector = Utils.getConnectorFromID(this.chargingStation, this.connectorId);
-        const chargePoint = Utils.getChargePointFromID(this.chargingStation, connector.chargePointID);
-        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, this.connectorId);
-      } else {
-        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
-      }
       const limitDataSet: ChartDataSets = {
         name: 'limitWatts',
         type: 'line',

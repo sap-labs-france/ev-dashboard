@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSetting, AssetSettings, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, AssetSettingsType } from 'app/types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSetting, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-import { CentralServerService } from './central-server.service';
 
+import { CentralServerService } from './central-server.service';
 
 @Injectable()
 export class ComponentService {

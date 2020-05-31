@@ -1,6 +1,5 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
-
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AssetSchneiderConnectionType } from 'app/types/Setting';
 
 @Component({

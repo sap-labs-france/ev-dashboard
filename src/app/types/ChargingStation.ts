@@ -142,6 +142,7 @@ export interface Connector extends Data {
   statusLastChangedOn?: Date;
   inactivityStatus?: InactivityStatus;
   numberOfConnectedPhase?: number;
+  excludeFromPowerLimitation?: boolean;
   currentType?: CurrentType;
   chargePointID?: number;
   hasDetails: boolean;

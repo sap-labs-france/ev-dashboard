@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-
 import { ConsumptionUnit } from 'app/types/Transaction';
 
 export interface UnitButtonGroup {

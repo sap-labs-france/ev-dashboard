@@ -1,17 +1,16 @@
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { Utils } from 'app/utils/Utils';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
-import { ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
-import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
-
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { LocaleService } from 'app/services/locale.service';
-import { Schedule } from 'app/types/ChargingProfile';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -156,7 +155,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       }
       if (this.selectedUnit === ConsumptionUnit.AMPERE) {
         for (const chartPoint of chargingSlotDataSet.data as ChartPoint[]) {
-          chartPoint.y = Utils.convertWattToAmp(this.chargingStation, null, this.connectorId, (chartPoint.y as number) * 1000);
+          if (chargePoint) {
+            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, chargePoint, this.connectorId, (chartPoint.y as number) * 1000);
+          } else {
+            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, null, this.connectorId, (chartPoint.y as number) * 1000);
+          }
         }
       }
       // Push in the graph
@@ -186,7 +189,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       }
       if (this.selectedUnit === ConsumptionUnit.AMPERE) {
         for (const chartPoint of limitDataSet.data as ChartPoint[]) {
-          chartPoint.y = Utils.convertWattToAmp(this.chargingStation, null, this.connectorId, (chartPoint.y as number) * 1000);
+          if (chargePoint) {
+            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, chargePoint, this.connectorId, (chartPoint.y as number) * 1000);
+          } else {
+            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, null, this.connectorId, (chartPoint.y as number) * 1000);
+          }
         }
       }
       // Push in the graph

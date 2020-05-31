@@ -1814,7 +1814,7 @@
     "graph": {
       "battery": "Niveau de Batterie (%)",
       "power": "Puissance Instantanée (kW)",
-      "amps": "Instant Amps (A)",
+      "amps": "Amperage Instantané (A)",
       "energy": "Energie Délivrée (kW.h)",
       "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",

@@ -96,7 +96,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   public unitChanged(key: ConsumptionUnit) {
     this.selectedUnit = key;
-    this.createGraphData();
     this.prepareOrUpdateGraph();
   }
 

@@ -1,16 +1,17 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { Schedule } from 'app/types/ChargingProfile';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
+
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { LocaleService } from 'app/services/locale.service';
+import { Schedule } from 'app/types/ChargingProfile';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -109,6 +110,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     }
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   private createGraphData() {
     // Clear
     if (this.data && this.data.datasets && this.data.labels) {
@@ -121,7 +123,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
-        label: this.translateService.instant('transactions.graph.limit_plan'),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan'),
       };
       // Build Schedules
       for (const chargingSlot of this.chargingSchedules) {
@@ -172,7 +175,8 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
-        label: this.translateService.instant('transactions.graph.limit'),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
       };
       // Add points
       if (limitDataSet.data && chargingSlotDataSet.data && chargingSlotDataSet.data.length > 0) {

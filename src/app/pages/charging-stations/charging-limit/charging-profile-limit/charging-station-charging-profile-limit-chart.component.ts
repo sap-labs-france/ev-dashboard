@@ -33,9 +33,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   @Input() public connectorId!: number;
   @Input() public chargingSchedules: Schedule[];
 
-  @ViewChild('primary', {static: true}) public primaryElement!: ElementRef;
+  @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
-  @ViewChild('chart', {static: true}) public chartElement!: ElementRef;
+  @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
 
   public selectedUnit = ConsumptionUnit.KILOWATT;
@@ -54,11 +54,11 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
   private lineTension = 0;
 
   constructor(
-      private translateService: TranslateService,
-      private durationPipe: AppDurationPipe,
-      private localeService: LocaleService,
-      private datePipe: AppDatePipe,
-      private decimalPipe: AppDecimalPipe) {
+    private translateService: TranslateService,
+    private durationPipe: AppDurationPipe,
+    private localeService: LocaleService,
+    private datePipe: AppDatePipe,
+    private decimalPipe: AppDecimalPipe) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });

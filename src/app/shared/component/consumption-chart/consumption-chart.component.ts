@@ -111,15 +111,15 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private prepareOrUpdateGraph() {
     if (this.canDisplayGraph()) {
       if (!this.graphCreated) {
-      this.graphCreated = true;
-      this.options = this.createOptions();
-      this.createGraphData();
-      this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
-        type: 'bar',
-        data: this.data,
-        options: this.options,
-      });
-    }
+        this.graphCreated = true;
+        this.options = this.createOptions();
+        this.createGraphData();
+        this.chart = new Chart(this.chartElement.nativeElement.getContext('2d'), {
+          type: 'bar',
+          data: this.data,
+          options: this.options,
+        });
+      }
       this.createGraphData();
       this.refreshDataSets();
       this.chart.update();
@@ -175,7 +175,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
         //     min: 0,
         //   },
         // });
-
         datasets.push({
           name: 'cumulatedConsumption',
           type: 'line',
@@ -241,21 +240,21 @@ export class ConsumptionChartComponent implements AfterViewInit {
             label: this.translateService.instant('transactions.graph.battery'),
           });
           if (!this.options.scales.yAxes.find(y => y.id === 'percentage')) {
-          this.options.scales.yAxes.push(
-            {
-              id: 'percentage',
-              type: 'linear',
-              position: 'right',
-              display: 'auto',
-              gridLines: {
-                display: true,
-                color: 'rgba(0,0,0,0.2)',
-              },
-              ticks: {
-                callback: (value) => `${value}%`,
-                fontColor: this.defaultColor,
-              },
-            });
+            this.options.scales.yAxes.push(
+              {
+                id: 'percentage',
+                type: 'linear',
+                position: 'right',
+                display: 'auto',
+                gridLines: {
+                  display: true,
+                  color: 'rgba(0,0,0,0.2)',
+                },
+                ticks: {
+                  callback: (value) => `${value}%`,
+                  fontColor: this.defaultColor,
+                },
+              });
           }
         }
       }

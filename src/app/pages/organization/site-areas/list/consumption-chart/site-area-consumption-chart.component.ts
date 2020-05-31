@@ -348,7 +348,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
               beginAtZero: true,
               callback: (value: number) => {
                 const result = this.selectedUnit === ConsumptionUnit.AMPERE ?
-                this.decimalPipe.transform(value, '1.0-0') : this.decimalPipe.transform(value / 1000, '1.0-0');
+                  this.decimalPipe.transform(value, '1.0-0') : this.decimalPipe.transform(value / 1000, '1.0-0');
                 return result ? parseFloat(result) : 0;
               },
               fontColor: this.defaultColor,

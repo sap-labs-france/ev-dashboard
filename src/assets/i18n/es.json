@@ -723,7 +723,7 @@
       "smart_charging_enabled_charging_profiles": "The charging plans are now managed by the smart charging",
       "static_limit": "Static Limitation",
       "charging_profile_limit": "Charging Plan",
-      "debug_charging_station":"Advanced",
+      "debug_charging_station": "Advanced",
       "debug_charging_station_title": "Retrieve the Charging Plan from estación de carga '{{chargeBoxID}}'",
       "reset_button": "Reset",
       "maximum_energy_limit": "Power Limit of '{{chargeBoxID}}'",
@@ -829,7 +829,7 @@
     "get_configuration_confirm": "Do you really want to retrieve the configuration from the estación de carga '{{chargeBoxID}}'?",
     "reboot_required_title": "Reboot Required",
     "reboot_required_confirm": "Do you want to reboot the estación de carga '{{chargeBoxID}}'?",
-    "ocpp_params_list_error":"No OCPP parameter to display",
+    "ocpp_params_list_error": "No OCPP parameter to display",
     "ocpp_params_update_from_template_title": "Update OCPP Params",
     "ocpp_params_update_from_template_confirm": "Do you really want to update the OCPP parameters of the estación de carga '{{chargeBoxID}}' with the latest template?",
     "ocpp_params_update_from_template_success": "The OCPP parameters of the estación de carga '{{chargeBoxID}}' have been updated successfully?",
@@ -1145,7 +1145,7 @@
     },
     "tooltips": {
       "download": "Download invoice",
-      "pay":  "Pay invoice"
+      "pay": "Pay invoice"
     },
     "status": {
       "paid": "Paid",
@@ -1336,7 +1336,6 @@
         "synchronize_invoices_failure": "Synchronization failed with {{number}} errors. Check your billing system's logs.",
         "synchronize_invoices_error": "Error occurred while synchronizing invoices for billing"
       },
-
       "stripe": {
         "description": "E-Mobility allows to send invoices to the estación de carga users with Stripe ...",
         "title": "Stripe",
@@ -1393,7 +1392,7 @@
         "user": "User",
         "password": "Password",
         "delete_title": "Delete Asset connection",
-        "delete_confirm":"Do you really want to delete the connection '{{assetConnectionName}}'?"
+        "delete_confirm": "Do you really want to delete the connection '{{assetConnectionName}}'?"
       },
       "types": {
         "schneider": "Schneider Building Management"
@@ -1577,7 +1576,7 @@
   },
   "cars": {
     "vin": "VIN",
-    "license_plate":"License Plate",
+    "license_plate": "License Plate",
     "vehicle_model": "Model",
     "vehicle_make": "Maker",
     "vehicle_model_version": "Version",
@@ -1625,7 +1624,7 @@
     "synchronize_car_catalogs_error": "Error occurred while synchronizing the cars",
     "synchronize_car_catalogs_up_to_date": "Cars already up to date",
     "select_car_maker": "Select Car Maker",
-    "car_makers":"Car Makers",
+    "car_makers": "Car Makers",
     "create_success": "The car '{{carName}}' has been created with success",
     "assign_car_catalog": "Assign car catalog",
     "create_error": "Error occurred while creating the car",
@@ -1635,7 +1634,7 @@
     "company_car": "Company Car",
     "invalid_vin": "Invalid VIN",
     "type": "Type",
-    "assign_users":"Assign Users",
+    "assign_users": "Assign Users",
     "default_car": "Default car",
     "private_car": "Private car",
     "unit": {

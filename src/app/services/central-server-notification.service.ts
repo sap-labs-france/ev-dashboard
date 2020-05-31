@@ -39,6 +39,8 @@ export class CentralServerNotificationService {
   private subjectChargingProfile = new Subject<SingleChangeNotification>();
   private subjectCars = new Subject<ChangeNotification>();
   private subjectCar = new Subject<SingleChangeNotification>();
+  private subjectUsersCars = new Subject<ChangeNotification>();
+  private subjectUserCar = new Subject<SingleChangeNotification>();
   private subjectCarCatalogs = new Subject<ChangeNotification>();
   private subjectCarCatalog = new Subject<SingleChangeNotification>();
   private socketIOClient: SocketIOClient;
@@ -165,6 +167,14 @@ export class CentralServerNotificationService {
 
   public getSubjectCar(): Observable<SingleChangeNotification> {
     return this.subjectCar.asObservable();
+  }
+
+  public getSubjectUsersCars(): Observable<ChangeNotification> {
+    return this.subjectUsersCars.asObservable();
+  }
+
+  public getSubjectUserCar(): Observable<SingleChangeNotification> {
+    return this.subjectUserCar.asObservable();
   }
 
   public getSubjectCarCatalogs(): Observable<ChangeNotification> {
@@ -337,6 +347,16 @@ export class CentralServerNotificationService {
     // Monitor Car
     this.socketIOClient.socket.on(Entity.CAR, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectCar.next(singleChangeNotification);
+    });
+
+    // Monitor UsersCars
+    this.socketIOClient.socket.on(Entity.USERS_CARS, (changeNotification: ChangeNotification) => {
+      this.subjectUsersCars.next(changeNotification);
+    });
+
+    // Monitor UserCar
+    this.socketIOClient.socket.on(Entity.USER_CAR, (singleChangeNotification: SingleChangeNotification) => {
+      this.subjectUserCar.next(singleChangeNotification);
     });
 
     // Monitor Car Catalogs

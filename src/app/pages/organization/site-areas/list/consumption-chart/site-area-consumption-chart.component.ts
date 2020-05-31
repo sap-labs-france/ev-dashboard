@@ -1,19 +1,18 @@
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { SiteAreaConsumption } from 'app/types/SiteArea';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { Utils } from 'app/utils/Utils';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
-
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { LocaleService } from '../../../../../services/locale.service';
 import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../../shared/formatters/app-decimal-pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { CentralServerService } from '../../../../../services/central-server.service';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { LocaleService } from '../../../../../services/locale.service';
-import { SiteAreaConsumption } from 'app/types/SiteArea';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-site-area-chart',

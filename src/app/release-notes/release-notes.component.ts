@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added Delta charging station model 10962 (150 kW, 3 connectors) in template`,
               `Added connection to Schneider Build Management system in Assets' settings`,
               `Added missing auto-refresh button in Assets, Cars and Car Catalog`,
               `Fixed Charging Plans auto refresh when changed by the Smart Charging`,

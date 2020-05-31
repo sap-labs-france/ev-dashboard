@@ -1,28 +1,27 @@
-import * as moment from 'moment';
-
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
-import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
-import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
-
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { ButtonType } from 'app/types/Table';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
-import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
 import { ComponentService } from 'app/services/component.service';
 import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from 'app/services/message.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
+import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
-import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'app/utils/Utils';
+import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
+
+import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
+import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
 
 interface ProfileType {
   key: string;
@@ -83,7 +82,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
         if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
           const chargingProfile = this.chargingProfiles.find(
-            (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id)
+            (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id);
           // Reload?
           if (chargingProfile) {
             this.refresh();

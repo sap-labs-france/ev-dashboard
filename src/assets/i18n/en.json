@@ -1811,13 +1811,20 @@
     "graph": {
       "battery": "Battery Level (%)",
       "power": "Instant Power (kW)",
+      "amps": "Instant Amps (A)",
       "energy": "Energy Delivered (kW.h)",
+      "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
-      "limit_plan_watts": "Plan Limit (kW)",
+      "limit_plan": "Plan Limit (kW)",
+      "limit_plan_amps": "Plan Limit (A)",
+      "limit": "Max Limit",
       "limit_watts": "Max Limit (kW)",
-      "load_all_consumptions": "Load all consumption values (without optimization)"
+      "limit_amps": "Max Limit (A)",
+      "load_all_consumptions": "Load all consumption values (without optimization)",
+      "unit_kilowatts": "kW",
+      "unit_amperage":  "Amp"
     },
     "dialog": {
       "delete": {

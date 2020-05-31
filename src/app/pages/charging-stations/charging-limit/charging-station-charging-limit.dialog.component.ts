@@ -1,8 +1,8 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Utils } from 'app/utils/Utils';
-import { ChargingStationChargingLimitComponent } from './charging-station-charging-limit.component';
 
+import { ChargingStationChargingLimitComponent } from './charging-station-charging-limit.component';
 
 @Component({
   template: '<app-charging-station-charging-limit #appRef [chargingStationID]="chargingStationID" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-station-charging-limit>',

@@ -1,7 +1,7 @@
-import { KeyValue } from './GlobalType';
-import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+import { KeyValue } from './GlobalType';
+import { SiteArea } from './SiteArea';
 
 export interface ChargingStation extends Data {
   id: string;
@@ -98,6 +98,7 @@ export interface ConsumptionValue {
   date: Date;
   instantPower: number;
   cumulatedConsumption: number;
+  cumulatedConsumptionAmps: number;
   amount: number;
   stateOfCharge: number;
   cumulatedAmount: number;

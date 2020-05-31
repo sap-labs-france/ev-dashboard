@@ -4,12 +4,12 @@ import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
+
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
 import { TableDeleteAction } from './actions/table-delete-action';
 import { TableDataSource } from './table-data-source';
-
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   protected editableRows: T[] = [];

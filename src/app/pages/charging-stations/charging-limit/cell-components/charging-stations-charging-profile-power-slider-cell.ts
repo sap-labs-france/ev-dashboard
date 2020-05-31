@@ -1,8 +1,7 @@
-import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
 @Component({

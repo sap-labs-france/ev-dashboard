@@ -1827,13 +1827,20 @@
     "graph": {
       "battery": "Niveau de Batterie (%)",
       "power": "Puissance Instantanée (kW)",
+      "amps": "Amperage Instantané (A)",
       "energy": "Energie Délivrée (kW.h)",
+      "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
-      "limit_plan_watts": "Limitation du Plan (kW)",
+      "limit_plan": "Limitation du Plan (kW)",
+      "limit_plan_amps": "Limitation du Plan (A)",
+      "limit": "Limitation Max",
       "limit_watts": "Limitation Max (kW)",
-      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)"
+      "limit_amps": "Limitation Max (A)",
+      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
+      "unit_kilowatts": "kW",
+      "unit_amperage":  "Amp"
     },
     "dialog": {
       "delete": {

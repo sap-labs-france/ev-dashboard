@@ -98,6 +98,7 @@ export interface ConsumptionValue {
   date: Date;
   instantPower: number;
   cumulatedConsumption: number;
+  cumulatedConsumptionAmps: number;
   amount: number;
   stateOfCharge: number;
   cumulatedAmount: number;

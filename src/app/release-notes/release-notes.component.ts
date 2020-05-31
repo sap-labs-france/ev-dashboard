@@ -24,12 +24,34 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.60',
-        date: new Date('2020-05-26'),
+        version: '2.2.66',
+        date: new Date('2020-05-30'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added missing auto-refresh button in Assets, Cars and Car Catalog`,
+              `Fixed Charging Plans auto refresh when changed by the Smart Charging`,
+              `Charging Plans and Static Limitation are enabled/disabled when Smart Charging is disabled/enabled`,
+              `Static Limitation cursor not modifiable when Smart Charging has been disabled`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.65',
+        date: new Date('2020-05-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Safe Car power limitation in Smart Charging to not limit them on DC charging stations`,
+              `Simplified Smart Charging logs`,
+              `Fixed Site Admin users can see all user's sessions belonging to his Sites`,
+              `Fixed Site Admin users can now edit the Charging Station and charge their Site Areas`,
+              `Removed Charging Station's power recalculation`,
+              `Added Charge Point in OCPI`,
+              `Added Charge Point level in Smart Charging`,
               `Enhanced performance of displaying Site Area's consumption chart`,
               `Provide Charging Plan in Watts for Cahors DC Charging Station`,
               `Keep the power of the site area always enabled`,

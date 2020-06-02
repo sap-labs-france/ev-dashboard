@@ -80,7 +80,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         isAngularComponent: true,
         angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
         headerClass: 'col-40p',
-        class: 'col-40p',
+        class: 'col-40p p-1',
       },
     ];
     return tableColumnDef;
@@ -111,7 +111,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         }
         // Update the limit in kW
         chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToWatt(
-          this.chargingStation, this.connectorID, chargingSchedules[i].limit) / 1000);
+          this.chargingStation, this.chargePoint, this.connectorID, chargingSchedules[i].limit) / 1000);
         chargingSchedules[i].endDate =
           new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         // Add
@@ -125,7 +125,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
       startDate: this.startDate,
       duration: 60,
       limitInkW: Math.floor(Utils.convertAmpToWatt(
-        this.chargingStation, this.connectorID, this.chargerPowers.maxAmp) / 1000),
+        this.chargingStation, this.chargePoint, this.connectorID, this.chargerPowers.maxAmp) / 1000),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,

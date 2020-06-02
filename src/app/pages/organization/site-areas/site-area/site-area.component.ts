@@ -173,29 +173,6 @@ export class SiteAreaComponent implements OnInit {
     });
   }
 
-  public smartChargingChanged(event: MatCheckboxChange) {
-    if (event.checked) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
-        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
-      ).subscribe((result) => {
-        if (result === ButtonType.NO) {
-          this.smartCharging.setValue(false);
-        }
-      });
-    }
-    if (!event.checked) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
-        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_body'),
-      ).subscribe((result) => {
-        if (result === ButtonType.NO) {
-          this.smartCharging.setValue(true);
-        }
-      });
-    }
-  }
-
   public setCurrentSiteAreaId(currentSiteAreaId: string) {
     this.currentSiteAreaID = currentSiteAreaId;
   }

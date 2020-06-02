@@ -1,5 +1,4 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Injectable, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -36,10 +35,8 @@ export class ChargingStationStaticLimitComponent {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private componentService: ComponentService,
-    private dialog: MatDialog,
     private router: Router,
     private dialogService: DialogService) {
-
     // Check Auth
     if (!authorizationService.canUpdateChargingStation()) {
       // Not authorized

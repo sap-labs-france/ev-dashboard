@@ -66,7 +66,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getChargingProfiles(this.buildFilterValues()).subscribe((chargingProfiles) => {
+      this.centralServerService.getChargingProfiles(this.buildFilterValues(),this.getPaging(), this.getSorting()).subscribe((chargingProfiles) => {
           // Ok
           observer.next(chargingProfiles);
           observer.complete();
@@ -100,7 +100,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       {
         id: 'chargingStationID',
         name: 'chargers.smart_charging.charging_plans.charging_station_id',
-        sortable: false,
+        sortable: true,
       },
       {
         id: 'connectorID',
@@ -120,7 +120,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         {
           id: 'siteArea.name',
           name: 'chargers.smart_charging.charging_plans.site_area',
-          sortable: true,
+          sortable: false,
         },
         {
           id: 'siteArea.maximumPower',

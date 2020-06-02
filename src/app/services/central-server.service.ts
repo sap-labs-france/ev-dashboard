@@ -392,8 +392,12 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(params: FilterParams): Observable<DataResult<ChargingProfile>> {
+  public getChargingProfiles(params: FilterParams, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingProfile>> {
     this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
     return this.httpClient.get<DataResult<ChargingProfile>>(
       `${this.centralRestServerServiceSecuredURL}/ChargingProfiles`,
       {

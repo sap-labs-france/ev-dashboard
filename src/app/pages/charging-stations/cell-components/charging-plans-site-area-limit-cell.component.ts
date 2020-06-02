@@ -22,6 +22,7 @@ export class ChargingPlansSiteAreaLimitCellComponent extends CellContentTemplate
 
   public siteAreaLimit: string;
 
+
   constructor(
     private unitPipe: AppUnitPipe,
     public translateService: TranslateService,
@@ -29,9 +30,10 @@ export class ChargingPlansSiteAreaLimitCellComponent extends CellContentTemplate
   }
 
   public ngOnInit() {
+    const siteAreaLimitInAmps = Math.floor(this.row.siteArea.maximumPower / this.row.siteArea.voltage);
 
-    this.siteAreaLimit = this.translateService.instant('chargers.smart_charging.limit_in_watts', { limitInWatts: this.row.chargingStation.siteArea.maximumPower} ); + ' '
-    this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInWatts: this.unitPipe.transform(Utils.convertWattToAmp(this.row.chargingStation, this.row.chargingStation.chargePoints[this.row.chargePointID] ? this.row.chargingStation.chargePoints[this.row.chargePointID] : null, this.row.connectorID, this.row.siteArea.maximumPower))} );
+    this.siteAreaLimit = this.translateService.instant('chargers.smart_charging.limit_in_watts', { limitInWatts: this.row.siteArea.maximumPower / 1000}) + ' ' +
+    this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: siteAreaLimitInAmps});
 
   }
 }

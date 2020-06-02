@@ -12,25 +12,21 @@ import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { ComponentService } from '../../../services/component.service';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingPlansCurrentLimitCellComponent } from '../cell-components/charging-plans-current-limit-cell.component';
-import { ChargingStationChargingProfileLimitComponent } from '../charging-limit/charging-profile-limit/charging-station-charging-profile-limit.component';
+import { ChargingPlansSiteAreaLimitCellComponent } from '../cell-components/charging-plans-site-area-limit-cell.component';
 import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
-import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
 import { TableExportChargingStationsAction } from '../table-actions/table-export-charging-stations-action';
 
@@ -56,19 +52,21 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{ WithSite: true }]);
+      this.setStaticFilters([{WithChargingStation: 'true'}, {WithSiteArea: 'true'}]);
+    } else {
+      this.setStaticFilters([{WithChargingStation: 'true'}]);
     }
     this.initDataSource();
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
-    return this.centralServerNotificationService.getSubjectChargingStations();
+    return this.centralServerNotificationService.getSubjectChargingProfiles();
   }
 
   public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getChargingProfiles(Object.assign(this.buildFilterValues(), {WithChargingStation: 'true', WithSiteArea: 'true'})).subscribe((chargingProfiles) => {
+      this.centralServerService.getChargingProfiles(this.buildFilterValues()).subscribe((chargingProfiles) => {
           // Ok
           observer.next(chargingProfiles);
           observer.complete();
@@ -116,18 +114,23 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         isAngularComponent: true,
         angularComponent: ChargingPlansCurrentLimitCellComponent,
       },
-      {
-        id: 'siteArea.name',
-        name: 'chargers.smart_charging.charging_plans.site_area',
-        sortable: true,
-      },
-      {
-        id: 'siteArea.maximumPower',
-        name: 'chargers.smart_charging.charging_plans.site_area_limit',
-        sortable: false,
-        formatter: (limit: number) => this.unitPipe.transform(limit, 'W', 'kW', true, 1, 0)
-      },
     ];
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'siteArea.name',
+          name: 'chargers.smart_charging.charging_plans.site_area',
+          sortable: true,
+        },
+        {
+          id: 'siteArea.maximumPower',
+          name: 'chargers.smart_charging.charging_plans.site_area_limit',
+          sortable: false,
+          isAngularComponent: true,
+          angularComponent: ChargingPlansSiteAreaLimitCellComponent,
+        },
+      );
+    }
     return tableColumns;
   }
 
@@ -162,7 +165,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     if (this.isOrganizationComponentActive) {
       return [
         new ChargerTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef(),
       ];
     }
     return [];
@@ -193,7 +195,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       dialogConfig.maxHeight = '90vh';
       dialogConfig.panelClass = 'transparent-dialog-container';
       if (chargingProfile.chargingStation) {
-        dialogConfig.data = chargingProfile.chargingStation;
+        dialogConfig.data = chargingProfile.chargingStation.id;
       }
       // disable outside click close
       dialogConfig.disableClose = true;

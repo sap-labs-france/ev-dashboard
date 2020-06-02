@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingProfile } from 'app/types/ChargingProfile';
-import { Connector } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
@@ -46,7 +45,8 @@ export class ChargingPlansCurrentLimitCellComponent extends CellContentTemplateD
       this.currentLimit = this.row.chargingStation.connectors[this.row.connectorID - 1].amperageLimit;
     }
 
-    this.formattedLimit = Utils.convertAmpToWattString(this.row.chargingStation, this.row.connectorID, this.unitPipe, this.currentLimit, 'kW', true) + ' ' +
+    this.formattedLimit = Utils.convertAmpToWattString(this.row.chargingStation, this.row.chargingStation.chargePoints ? this.row.chargingStation.chargePoints[this.row.chargePointID] : null,
+      this.row.connectorID, this.unitPipe, this.currentLimit, 'kW', true) + ' ' +
     this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: this.currentLimit} );
 
   }

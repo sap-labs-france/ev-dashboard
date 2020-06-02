@@ -758,6 +758,7 @@
       "current_limit_title": "Limite actuelle",
       "limit_title": "Limite",
       "limit_in_amps": "({{limitInAmps}}A)",
+      "limit_in_watts": "({{limitInWatts}}W)",
       "no_current_limit": "Aucun planning de charge trouvé",
       "planning_energy_limit": "Plans de Charge",
       "from_date": "De",

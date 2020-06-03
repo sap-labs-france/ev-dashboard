@@ -24,12 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.67',
-        date: new Date('2020-05-31'),
+        version: '2.2.70',
+        date: new Date('2020-06-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Display User in Charging Station's connectors list`,
+              `Call delete of TxProfile after comsumption calculation in Stop Transaction`,
+              `Retrieve the Charging Plans in database if it fails on Charging Station (workaround Cahors)`,
+              `Added Schneider 22 kW Charging Station in template (2 x Type 2 of 11 kW)`,
+              `Limited Legrand Charging Station's total power to 44 kW`,
               `Switch to Amps in Site Area, Session and Charging Profile's charts`,
               `Added Delta charging station model 10962 (150 kW, 3 connectors) in template`,
               `Added connection to Schneider Build Management system in Assets' settings`,

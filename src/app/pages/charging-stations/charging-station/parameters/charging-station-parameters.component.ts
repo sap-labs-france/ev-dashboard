@@ -1,19 +1,19 @@
-import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
 import { ChargingStation, OCPPProtocol } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
+import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { ComponentService } from '../../../../services/component.service';
-import { LocaleService } from '../../../../services/locale.service';
 import { Constants } from '../../../../utils/Constants';
+import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
+import { KeyValue } from 'app/types/GlobalType';
+import { LocaleService } from '../../../../services/locale.service';
+import { SiteArea } from 'app/types/SiteArea';
+import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
+import TenantComponents from 'app/types/TenantComponents';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',
@@ -191,20 +191,21 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public connectorChanged() {
-    let totalPower = 0;
-    for (const connectorControl of this.connectors.controls) {
-      if (connectorControl.get('power').value as number > 0) {
-        totalPower += connectorControl.get('power').value as number;
+    if (!this.chargingStation.chargePoints) {
+      let totalPower = 0;
+      for (const connectorControl of this.connectors.controls) {
+        if (connectorControl.get('power').value as number > 0) {
+          totalPower += connectorControl.get('power').value as number;
+        }
       }
+      this.maximumPower.setValue(totalPower);
+      this.maximumPowerAmps.setValue(
+        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
     }
-    this.maximumPower.setValue(totalPower);
-    this.maximumPowerAmps.setValue(
-      Utils.convertWattToAmp(
-        this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
   }
 
   public chargePointChanged() {
-    this.connectorChanged();
+    // Charge Point cannot be changed: do nothing
   }
 
   public maximumPowerChanged() {

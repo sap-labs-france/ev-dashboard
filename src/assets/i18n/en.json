@@ -601,6 +601,7 @@
   },
   "chargers": {
     "chargers": "Charging Stations",
+    "user": "User",
     "charger_not_found": "The charging station has not been found",
     "vendor": "Vendor",
     "model": "Model",

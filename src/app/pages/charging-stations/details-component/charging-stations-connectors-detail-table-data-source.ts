@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableViewTransactionAction } from 'app/pages/transactions/table-actions/table-view-transaction-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -11,6 +12,7 @@ import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/typ
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
+import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
 
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
@@ -43,6 +45,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
     private centralServerService: CentralServerService,
     private appUnitPipe: AppUnitPipe,
     private dialog: MatDialog,
+    private appUserNamePipe: AppUserNamePipe,
     private authorizationService: AuthorizationService,
     private messageService: MessageService,
     private router: Router,
@@ -110,8 +113,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         id: 'connectorId',
         name: 'chargers.connector',
         sortable: false,
-        headerClass: 'text-center col-30p',
-        class: 'text-center table-cell-angular-big-component col-30p',
+        headerClass: 'text-center col-20p',
+        class: 'text-center table-cell-angular-big-component col-20p',
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorCellComponent,
       },
@@ -127,8 +130,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       {
         id: 'currentConsumption',
         name: 'chargers.consumption_title',
-        headerClass: 'text-center col-30p',
-        class: 'text-center col-30p',
+        headerClass: 'text-center col-20p',
+        class: 'text-center col-20p',
         isAngularComponent: true,
         angularComponent: ChargingStationsInstantPowerConnectorProgressBarCellComponent,
         sortable: false,
@@ -151,6 +154,13 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         angularComponent: ChargingStationsConnectorInactivityCellComponent,
       },
       {
+        id: 'user',
+        name: 'chargers.user',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
         id: 'errorCode',
         name: 'chargers.connector_error_title',
         headerClass: 'col-15em',
@@ -162,10 +172,10 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
   }
 
   public formatError(errorCode: string, info: string | undefined, vendorErrorCode: string | undefined) {
-    const _errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
-    const _info = info && info !== '' ? ` > ${info}` : '';
-    const _vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' ? ` (${vendorErrorCode})` : '';
-    return `${_errorCode}${_info}${_vendorErrorCode}`;
+    errorCode = new AppConnectorErrorCodePipe(this.translateService).transform(errorCode);
+    info = info && info !== '' ? ` > ${info}` : '';
+    vendorErrorCode = vendorErrorCode && vendorErrorCode !== '' && vendorErrorCode !== '0' ? ` (${vendorErrorCode})` : '';
+    return `${errorCode}${info}${vendorErrorCode}`;
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

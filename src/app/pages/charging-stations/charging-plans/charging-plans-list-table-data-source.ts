@@ -8,10 +8,9 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
+import { ChargePlanTableFilter } from 'app/shared/table/filters/charge-plan-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -22,7 +21,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { ComponentService } from '../../../services/component.service';
-import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingPlansCurrentLimitCellComponent } from '../cell-components/charging-plans-current-limit-cell.component';
 import { ChargingPlansSiteAreaLimitCellComponent } from '../cell-components/charging-plans-site-area-limit-cell.component';
@@ -46,7 +44,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private unitPipe: AppUnitPipe,
   ) {
     super(spinnerService, translateService);
     // Init
@@ -84,6 +81,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       rowSelection: {
         enabled: false,
         multiple: false,
+      },
+      search: {
+        enabled: true,
       },
       rowDetails: {
         enabled: false,
@@ -145,7 +145,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     const tableActionsDef = super.buildTableActionsDef();
     if (this.authorizationService.isAdmin()) {
       return [
-        new TableExportChargingStationsAction().getActionDef(),
         ...tableActionsDef,
       ];
     }
@@ -164,7 +163,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
-        new ChargerTableFilter().getFilterDef(),
+        new ChargePlanTableFilter().getFilterDef(),
       ];
     }
     return [];
@@ -180,6 +179,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         this.smartChargingAction,
       ];
     }
+    return [];
   }
 
   private dialogSmartCharging(chargingProfile: ChargingProfile) {

@@ -601,6 +601,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "user": "Utilisateur",
     "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
     "model": "Modèle",

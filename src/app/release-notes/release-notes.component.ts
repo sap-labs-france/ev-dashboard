@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.2.70',
-        date: new Date('2020-06-03'),
+        date: new Date('2020-06-04'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Asset integration for Schneider Building Management system access in the backend`,
               `Display Site Area max limitation and if smart charging enabled in the list`,
               `Add User in Connector details in Charging Station's list`,
               `Demo User cannot see the Sessions History`,
@@ -230,7 +231,7 @@ export class ReleaseNotesComponent {
               `When Smart Charging is unset in Site Area, all Charging Plans are deleted`,
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
-              `Added Site Area column in Building list`,
+              `Added Site Area column in Asset list`,
               `Reworked the OCPP Parameter list`,
               `Added Car Maker filter`,
               `Disable coordinates button in address if not provided`,

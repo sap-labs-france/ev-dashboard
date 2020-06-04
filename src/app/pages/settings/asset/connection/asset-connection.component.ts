@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
-import { KeyValue } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType, AssetSetting } from 'app/types/Setting';
-import { Constants } from 'app/utils/Constants';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
+import { Constants } from 'app/utils/Constants';
+import { KeyValue } from 'app/types/GlobalType';
+import { MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings-asset-connection',
@@ -70,28 +70,24 @@ export class AssetConnectionComponent implements OnInit {
   }
 
   public loadAssetConnection(): void {
-    if (!this.currentAssetConnection) {
-      return;
+    if (this.currentAssetConnection) {
+      if (this.currentAssetConnection.id) {
+        this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
+      }
+      if (this.currentAssetConnection.name) {
+        this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
+      }
+      if (this.currentAssetConnection.description) {
+        this.formGroup.controls.description.setValue(this.currentAssetConnection.description);
+      }
+      if (this.currentAssetConnection.type) {
+        this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
+        this.loadConnectionType();
+      }
+      if (this.currentAssetConnection.url) {
+        this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
+      }
     }
-    if (this.currentAssetConnection.id) {
-      this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
-    }
-    if (this.currentAssetConnection.name) {
-      this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
-    }
-    if (this.currentAssetConnection.description) {
-      this.formGroup.controls.description.setValue(this.currentAssetConnection.description);
-    }
-    if (this.currentAssetConnection.type) {
-      this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
-      this.loadConnectionType();
-    }
-    if (this.currentAssetConnection.url) {
-      this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
-    }
-    this.formGroup.updateValueAndValidity();
-    this.formGroup.markAsPristine();
-    this.formGroup.markAllAsTouched();
   }
 
   public loadConnectionType(): void {

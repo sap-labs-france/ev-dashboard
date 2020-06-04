@@ -153,7 +153,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_amps' : 'organization.graph.limit_watts'),
+          'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
       });
       // Cumulated Amps/Power
       datasets.push({

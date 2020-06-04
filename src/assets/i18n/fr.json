@@ -385,6 +385,7 @@
   },
   "site_areas": {
     "assign_site": "Assigner un Site",
+    "smart_charging": "Smart Charging",
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "edit_assets": "Editer les assets",
     "display_assets": "Afficher les assets",
@@ -409,6 +410,7 @@
     "titles": "Zones",
     "site_invalid": "Zone invalide",
     "site_area_do_not_exist": "Site Area n'existe plus",
+    "max_limit_kw": "Limite Max",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",
@@ -1421,11 +1423,7 @@
       "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
       "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
       "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
-      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?",
-      "vin_already_exist_dialog_title": "VIN existe",
-      "vin_already_exist_dialog_confirm": "Ce vin existe déjà, voulez-vous vraiment créé ce véhicules?",
-      "license_plate_already_exist_dialog_title": "Plaque d'immatriculation existe",
-      "license_plate_already_exist_dialog_confirm": "Cette plaque d'immatriculation existe déjà, voulez-vous vraiment créé ce véhicules?"
+      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?"
     }
   },
   "ocpiendpoints": {
@@ -1814,8 +1812,8 @@
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Instantanée (kW)",
-      "amps": "Amperage Instantané (A)",
+      "power": "Puissance Réseau Instantanée (kW)",
+      "amps": "Amperage Réseau Instantané (A)",
       "energy": "Energie Délivrée (kW.h)",
       "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
@@ -1824,8 +1822,8 @@
       "limit_plan": "Limitation du Plan (kW)",
       "limit_plan_amps": "Limitation du Plan (A)",
       "limit": "Limitation Max",
-      "limit_watts": "Limitation Max (kW)",
-      "limit_amps": "Limitation Max (A)",
+      "limit_watts": "Limitation Réseau Max (kW)",
+      "limit_amps": "Limitation Réseau Max (A)",
       "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
       "unit_kilowatts": "kW",
       "unit_amperage":  "Amp"

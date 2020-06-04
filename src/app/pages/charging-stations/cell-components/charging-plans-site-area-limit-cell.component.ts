@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingProfile } from 'app/types/ChargingProfile';
-import { Utils } from 'app/utils/Utils';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 
@@ -24,7 +22,6 @@ export class ChargingPlansSiteAreaLimitCellComponent extends CellContentTemplate
 
 
   constructor(
-    private unitPipe: AppUnitPipe,
     public translateService: TranslateService,
   ) {super();
   }

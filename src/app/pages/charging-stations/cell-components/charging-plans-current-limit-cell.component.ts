@@ -22,7 +22,6 @@ export class ChargingPlansCurrentLimitCellComponent extends CellContentTemplateD
   @Input() public row!: ChargingProfile;
 
   public currentLimit: number;
-  public currentTime = new Date();
   public formattedLimit: string;
 
   constructor(
@@ -42,10 +41,7 @@ export class ChargingPlansCurrentLimitCellComponent extends CellContentTemplateD
       currentTimeOnStart.set('second', new Date().getSeconds());
       // Difference in seconds
       let currentDuration = currentTimeOnStart.diff(mmtStart, 'seconds');
-      console.log(mmtStart);
-      console.log(currentTimeOnStart);
-      console.log(currentDuration);
-      if (currentDuration > 0) {
+      if (currentDuration > 0 && currentDuration < this.row.profile.chargingSchedule.duration) {
         const currentPeriod = this.row.profile.chargingSchedule.chargingSchedulePeriod.findIndex(p => p.startPeriod > currentDuration);
         if (this.row.profile.chargingSchedule.chargingSchedulePeriod[currentPeriod - 1]) {
           this.currentLimit = this.row.profile.chargingSchedule.chargingSchedulePeriod[currentPeriod - 1].limit;
@@ -53,9 +49,8 @@ export class ChargingPlansCurrentLimitCellComponent extends CellContentTemplateD
           this.currentLimit = this.row.profile.chargingSchedule.chargingSchedulePeriod
           [this.row.profile.chargingSchedule.chargingSchedulePeriod.length - 1].limit;
         }
-      } else if (this.row.profile.chargingSchedule.chargingSchedulePeriod.length > 1) {
+      } else if (currentDuration < 0 && currentDuration + 86400 < this.row.profile.chargingSchedule.duration) {
         currentDuration = 86400 + currentDuration;
-        console.log(currentDuration);
         const currentPeriod = this.row.profile.chargingSchedule.chargingSchedulePeriod.findIndex(p => p.startPeriod > currentDuration);
         if (this.row.profile.chargingSchedule.chargingSchedulePeriod[currentPeriod - 1]) {
           this.currentLimit = this.row.profile.chargingSchedule.chargingSchedulePeriod[currentPeriod - 1].limit;

@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Add User in Connector details in Charging Station's list`,
               `Demo User cannot see the Sessions History`,
+              `Fixed total number of records not refreshed avec delete action in all list`,
               `Renamed Session chart legends to include the grid consumption`,
               `Display User in Charging Station's connectors list`,
               `Call delete of TxProfile after comsumption calculation in Stop Transaction`,

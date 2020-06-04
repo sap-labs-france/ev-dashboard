@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Add User in Connector details in Charging Station's list`,
               `Display User in Charging Station's connectors list`,
               `Call delete of TxProfile after comsumption calculation in Stop Transaction`,
               `Retrieve the Charging Plans in database if it fails on Charging Station (workaround Cahors)`,

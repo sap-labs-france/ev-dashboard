@@ -7,6 +7,7 @@ import { MaterialModule } from 'app/app.module';
 
 import { CommonDirectivesModule } from '../directives/directives.module';
 import { FormattersModule } from '../formatters/formatters.module';
+import { ChartUnitSelectorComponent } from './consumption-chart/chart-unit-selector.component';
 import { ConsumptionChartDetailComponent } from './consumption-chart/consumption-chart-detail.component';
 import { ConsumptionChartComponent } from './consumption-chart/consumption-chart.component';
 import { GaugesModule } from './gauge/gauge.module';
@@ -25,9 +26,11 @@ import { GaugesModule } from './gauge/gauge.module';
   declarations: [
     ConsumptionChartDetailComponent,
     ConsumptionChartComponent,
+    ChartUnitSelectorComponent
   ],
   exports: [
     ConsumptionChartComponent,
+    ChartUnitSelectorComponent
   ],
   entryComponents: [
     ConsumptionChartDetailComponent,

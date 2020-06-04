@@ -50,7 +50,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       actions.push(this.activateAction);
     }
     if (!tag.sessionCount) {
-      actions.push(this.inlineRemoveAction);
+      actions.push(this.deleteAction);
     }
     return actions;
   }

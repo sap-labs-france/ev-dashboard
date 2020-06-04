@@ -1,9 +1,9 @@
-<table [class]="forChargingProfile ? 'mb-2 col-md-12' : 'col-md-12'">
+<table [class]="forChargingProfile ? 'col-md-12' : 'mb-4 col-md-12'">
     <tr *ngIf="!notSupported" >
-        <td class="text-center col-5em">
+        <td class="text-center col-5em p-1">
             {{displayedMinPowerKW}}<br/>({{this.minAmp}} A)
         </td>
-        <td>
+        <td class="p-3">
             <mat-slider
                 [disabled]="chargingStation?.inactive || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)"
                 thumbLabel class="col-md-12"
@@ -15,7 +15,7 @@
                 {{displayedCurrentPowerW}} ({{this.currentAmp}} A)
             </div>
         </td>
-        <td class="text-center col-5em">
+        <td class="text-center col-5em p-2">
             {{displayedMaxPowerKW}}<br/>({{this.maxAmp}} A)
         </td>
     </tr>

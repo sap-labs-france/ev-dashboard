@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.58",
+    "last_update": "Version 2.2.70",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -385,6 +385,7 @@
   },
   "site_areas": {
     "assign_site": "Assign Site",
+    "smart_charging": "Smart Charging",
     "export_all_ocpp_params": "Export All OCPP Params",
     "edit_assets": "Edit assets",
     "display_assets": "Display assets",
@@ -409,6 +410,7 @@
     "titles": "Site Areas",
     "site_invalid": "Site Area invalid",
     "site_area_do_not_exist": "Site Area does not exist anymore",
+    "max_limit_kw": "Limite Max",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",
@@ -601,6 +603,7 @@
   },
   "chargers": {
     "chargers": "Charging Stations",
+    "user": "User",
     "charger_not_found": "The charging station has not been found",
     "vendor": "Vendor",
     "model": "Model",
@@ -1344,7 +1347,6 @@
         "synchronize_invoices_failure": "Synchronization failed with {{number}} errors. Check your billing system's logs.",
         "synchronize_invoices_error": "Error occurred while synchronizing invoices for billing"
       },
-
       "stripe": {
         "description": "E-Mobility allows to send invoices to the charging station users with Stripe ...",
         "title": "Stripe",
@@ -1408,7 +1410,11 @@
       },
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
-      "setting_not_found": "Asset settings have not been found"
+      "setting_not_found": "Asset settings have not been found",
+      "create_success": "Asset settings have been created successfully",
+      "create_error": "Error occurred while creating the Asset settings",
+      "update_success": "Asset settings have been updated successfully",
+      "update_error": "Error occurred while updating the Asset settings"
     },
     "information": "Information",
     "activation_contact_msg": "To enable this feature, please contact your E-Mobility representative.",
@@ -1417,7 +1423,7 @@
       "synchronize_car_catalogs_dialog_title": "Synchronize Cars",
       "synchronize_car_catalogs_dialog_confirm": "Do you really want to launch the synchronization of all the electric vehicles?",
       "assign_user_to_car_dialog_title": "Assign user to car",
-      "assign_user_to_car_dialog_confirm": "This car already exist, do you really want to use it?"
+      "assign_user_to_car_dialog_confirm": "This car already exists, do you really want to reuse it?"
     }
   },
   "ocpiendpoints": {
@@ -1806,14 +1812,21 @@
     },
     "graph": {
       "battery": "Battery Level (%)",
-      "power": "Instant Power (kW)",
+      "power": "Instant Grid Power (kW)",
+      "amps": "Instant Grid Amps (A)",
       "energy": "Energy Delivered (kW.h)",
+      "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
-      "limit_plan_watts": "Plan Limit (kW)",
-      "limit_watts": "Max Limit (kW)",
-      "load_all_consumptions": "Load all consumption values (without optimization)"
+      "limit_plan": "Plan Limit (kW)",
+      "limit_plan_amps": "Plan Limit (A)",
+      "limit": "Max Limit",
+      "limit_watts": "Max Grid Limit (kW)",
+      "limit_amps": "Max Grid Limit (A)",
+      "load_all_consumptions": "Load all consumption values (without optimization)",
+      "unit_kilowatts": "kW",
+      "unit_amperage":  "Amp"
     },
     "dialog": {
       "delete": {
@@ -1823,7 +1836,8 @@
       },
       "export": {
         "title": "Export Sessions",
-        "confirm": "Do you really want to export all the sessions matching the filters ?"
+        "confirm": "Do you really want to export all the sessions matching the filters ?",
+        "error": "An error occurred during the export of the sessions"
       },
       "soft_stop": {
         "title": "Stop Session",

@@ -385,6 +385,7 @@
   },
   "site_areas": {
     "assign_site": "Assign Site",
+    "smart_charging": "Smart Charging",
     "export_all_ocpp_params": "Export All OCPP Params",
     "edit_assets": "Edit assets",
     "display_assets": "Display assets",
@@ -409,6 +410,7 @@
     "titles": "Site Areas",
     "site_invalid": "Site Area invalid",
     "site_area_do_not_exist": "Site Area does not exist anymore",
+    "max_limit_kw": "Limite Max",
     "created_on": "Created On",
     "created_by": "Created By",
     "changed_on": "Changed On",

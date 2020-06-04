@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingProfile } from 'app/types/ChargingProfile';
@@ -17,7 +17,7 @@ import { CellContentTemplateDirective } from '../../../shared/table/cell-content
     </span>
   `,
 })
-export class ChargingPlansSiteAreaLimitCellComponent extends CellContentTemplateDirective {
+export class ChargingPlansSiteAreaLimitCellComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: ChargingProfile;
 
   public siteAreaLimit: string;
@@ -32,7 +32,8 @@ export class ChargingPlansSiteAreaLimitCellComponent extends CellContentTemplate
   public ngOnInit() {
     const siteAreaLimitInAmps = Math.floor(this.row.siteArea.maximumPower / this.row.siteArea.voltage);
 
-    this.siteAreaLimit = this.translateService.instant('chargers.smart_charging.limit_in_watts', { limitInWatts: this.row.siteArea.maximumPower / 1000}) + ' ' +
+    this.siteAreaLimit = this.translateService.instant('chargers.smart_charging.limit_in_watts',
+    { limitInWatts: this.row.siteArea.maximumPower / 1000}) + ' ' +
     this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: siteAreaLimitInAmps});
 
   }

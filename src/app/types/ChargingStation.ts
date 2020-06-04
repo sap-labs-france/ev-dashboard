@@ -2,6 +2,7 @@ import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
+import { User } from './User';
 
 export interface ChargingStation extends Data {
   id: string;
@@ -143,6 +144,8 @@ export interface Connector extends Data {
   statusLastChangedOn?: Date;
   inactivityStatus?: InactivityStatus;
   numberOfConnectedPhase?: number;
+  userID?: string;
+  user?: User;
   currentType?: CurrentType;
   chargePointID?: number;
   hasDetails: boolean;

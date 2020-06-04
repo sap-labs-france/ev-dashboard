@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Display Site Area max limitation and if smart charging enabled in the list`,
               `Add User in Connector details in Charging Station's list`,
               `Demo User cannot see the Sessions History`,
+              `Use unique ID to build the tree fuse for the SAP Smart Charging service`,
               `Fixed total number of records not refreshed avec delete action in all list`,
               `Renamed Session chart legends to include the grid consumption`,
               `Display User in Charging Station's connectors list`,

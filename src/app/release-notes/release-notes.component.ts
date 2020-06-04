@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Display Site Area max limitation and if smart charging enabled in the list`,
               `Add User in Connector details in Charging Station's list`,
               `Demo User cannot see the Sessions History`,
               `Fixed total number of records not refreshed avec delete action in all list`,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
@@ -9,7 +10,8 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { LogButtonAction } from 'app/types/Log';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
@@ -51,6 +53,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
+  private checkLogAction = new TableCheckLogsAction().getActionDef();
+
 
   constructor(
     public spinnerService: SpinnerService,
@@ -77,7 +81,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     // Init
     this.initDataSource();
     // Add statistics to query
-    this.setStaticFilters([{Statistics: 'history'}]);
+    this.setStaticFilters([{ Statistics: 'history' }]);
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -86,17 +90,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
-        this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
-          .subscribe((transactions) => {
-            // Ok
-            observer.next(transactions);
-            observer.complete();
-          }, (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
-          });
-      },
+      this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe((transactions) => {
+          // Ok
+          observer.next(transactions);
+          observer.complete();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    },
     );
   }
 
@@ -123,14 +127,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       });
     }
     columns.push({
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        class: 'text-left',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value: Date) => this.datePipe.transform(value),
-      },
+      id: 'timestamp',
+      name: 'transactions.started_at',
+      class: 'text-left',
+      sorted: true,
+      sortable: true,
+      direction: 'desc',
+      formatter: (value: Date) => this.datePipe.transform(value),
+    },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
@@ -217,7 +221,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         return stats;
       }
     }
-    return  '';
+    return '';
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -243,6 +247,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     const rowActions = [this.viewAction];
     if (this.isAdmin) {
       rowActions.push(this.deleteAction);
+      rowActions.push(this.checkLogAction);
     }
     return rowActions;
   }
@@ -270,6 +275,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         if (actionDef.action) {
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
         }
+        break;
+      case LogButtonAction.CHECk_LOGS:
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant('logs.dialog.redirect.title'),
+          this.translateService.instant('logs.dialog.redirect.confirm'),
+        ).subscribe((response) => {
+          if (response === ButtonType.YES) {
+            this.router.navigate(['/logs'], { queryParams: { id: transaction.id } });
+          }
+        });
         break;
     }
   }

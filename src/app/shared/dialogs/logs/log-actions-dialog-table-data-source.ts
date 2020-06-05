@@ -28,18 +28,16 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
   public loadDataImpl(): Observable<DataResult<LogActions>> {
     return new Observable((observer) => {
       let actions: LogActions[] = [];
-      const x = this.getSearchValue();
-      debugger;
-      // actions = Object.keys(ServerAction).map(key => ServerAction[key]);
-      // tslint:disable-next-line: forin
+      const searchValue = this.getSearchValue().length > 0 ? this.getSearchValue() : '';
       for (const item in ServerAction) {
-        actions.push({
-          action: ServerAction[item],
-          key: ServerAction[item],
-          id: ServerAction[item]
-        });
+        if ((ServerAction[item]).toLowerCase().includes(searchValue.toLowerCase())) {
+          actions.push({
+            action: ServerAction[item],
+            key: ServerAction[item],
+            id: ServerAction[item]
+          });
+        }
       }
-
       observer.next({
         count: actions.length,
         result: actions

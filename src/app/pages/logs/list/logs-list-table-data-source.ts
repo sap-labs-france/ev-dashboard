@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
@@ -40,11 +40,15 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private authorizationService: AuthorizationService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
+    private activatedRoute: ActivatedRoute,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.setSearchValue(params['id'] ? params['id'] : '');
+    });
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

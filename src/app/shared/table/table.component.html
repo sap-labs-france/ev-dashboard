@@ -362,7 +362,7 @@
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
     <!-- Message for no data in table -->
-    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
+    <div *ngIf="dataSource.data.length === 0 && dataSource.firstLoad"
          class="m-auto text-center table-no-record-found">
       <mat-error *ngIf="dataSource.formArray?.errors as errors; else noRecordFound">
         <div *ngIf="dataSource.tableDef.errorMessage; else defaultError">

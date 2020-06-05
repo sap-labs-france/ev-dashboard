@@ -24,13 +24,52 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.57',
-        date: new Date('2020-05-24'),
+        version: '2.2.70',
+        date: new Date('2020-06-04'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Asset integration for Schneider Building Management system access in the backend`,
+              `Display Site Area max limitation and if smart charging enabled in the list`,
+              `Add User in Connector details in Charging Station's list`,
+              `Demo User cannot see the Sessions History`,
+              `Use unique ID to build the tree fuse for the SAP Smart Charging service`,
+              `Fixed total number of records not refreshed avec delete action in all list`,
+              `Renamed Session chart legends to include the grid consumption`,
+              `Display User in Charging Station's connectors list`,
+              `Call delete of TxProfile after comsumption calculation in Stop Transaction`,
+              `Retrieve the Charging Plans in database if it fails on Charging Station (workaround Cahors)`,
+              `Added Schneider 22 kW Charging Station in template (2 x Type 2 of 11 kW)`,
+              `Limited Legrand Charging Station's total power to 44 kW`,
+              `Switch to Amps in Site Area, Session and Charging Profile's charts`,
+              `Added Delta charging station model 10962 (150 kW, 3 connectors) in template`,
+              `Added connection to Schneider Build Management system in Assets' settings`,
+              `Added missing auto-refresh button in Assets, Cars and Car Catalog`,
+              `Fixed Charging Plans auto refresh when changed by the Smart Charging`,
+              `Charging Plans and Static Limitation are enabled/disabled when Smart Charging is disabled/enabled`,
+              `Static Limitation cursor not modifiable when Smart Charging has been disabled`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.65',
+        date: new Date('2020-05-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Safe Car power limitation in Smart Charging to not limit them on DC charging stations`,
+              `Simplified Smart Charging logs`,
+              `Fixed Site Admin users can see all user's sessions belonging to his Sites`,
+              `Fixed Site Admin users can now edit the Charging Station and charge their Site Areas`,
+              `Removed Charging Station's power recalculation`,
+              `Added Charge Point in OCPI`,
+              `Added Charge Point level in Smart Charging`,
+              `Enhanced performance of displaying Site Area's consumption chart`,
               `Provide Charging Plan in Watts for Cahors DC Charging Station`,
+              `Keep the power of the site area always enabled`,
               `Migrated Charging Stations with Charge Point level`,
               `Amps is stored for all phases in consumptions`,
               `Provide new templates with Charge Point level`,
@@ -192,7 +231,7 @@ export class ReleaseNotesComponent {
               `When Smart Charging is unset in Site Area, all Charging Plans are deleted`,
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
-              `Added Site Area column in Building list`,
+              `Added Site Area column in Asset list`,
               `Reworked the OCPP Parameter list`,
               `Added Car Maker filter`,
               `Disable coordinates button in address if not provided`,

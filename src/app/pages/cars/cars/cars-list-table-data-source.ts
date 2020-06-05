@@ -7,6 +7,7 @@ import { CentralServerNotificationService } from 'app/services/central-server-no
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Car, CarButtonAction } from 'app/types/Car';
@@ -135,6 +136,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
+      new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

@@ -8,14 +8,14 @@ import { Observable, Subject, of } from 'rxjs';
 
 import { SpinnerService } from '../../services/spinner.service';
 import { TableAddAction } from './actions/table-add-action';
-import { TableInlineDeleteAction } from './actions/table-inline-delete-action';
+import { TableDeleteAction } from './actions/table-delete-action';
 import { TableDataSource } from './table-data-source';
 
 export abstract class EditableTableDataSource<T extends Data> extends TableDataSource<T> {
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
 
-  protected inlineRemoveAction = new TableInlineDeleteAction().getActionDef();
+  protected deleteAction = new TableDeleteAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -40,7 +40,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case 'add':
+      case ButtonAction.ADD:
         this.addRow();
         break;
     }
@@ -74,7 +74,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     let actionDone = actionAlreadyProcessed;
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
-        case ButtonAction.INLINE_DELETE:
+        case ButtonAction.DELETE:
           const index = this.editableRows.indexOf(editableRow);
           this.editableRows.splice(index, 1);
           actionDone = true;
@@ -143,7 +143,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return [this.inlineRemoveAction];
+    return [this.deleteAction];
   }
 
   protected abstract createRow(): T;

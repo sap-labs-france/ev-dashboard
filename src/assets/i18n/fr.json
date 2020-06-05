@@ -23,7 +23,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.56",
+    "last_update": "Version 2.2.70",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -385,6 +385,7 @@
   },
   "site_areas": {
     "assign_site": "Assigner un Site",
+    "smart_charging": "Smart Charging",
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "edit_assets": "Editer les assets",
     "display_assets": "Afficher les assets",
@@ -409,6 +410,7 @@
     "titles": "Zones",
     "site_invalid": "Zone invalide",
     "site_area_do_not_exist": "Site Area n'existe plus",
+    "max_limit_kw": "Limite Max",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",
@@ -601,6 +603,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "user": "Utilisateur",
     "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
     "model": "Modèle",
@@ -1412,7 +1415,11 @@
       },
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
-      "setting_not_found": "La configuration des ressources n'a pas été trouvée"
+      "setting_not_found": "La configuration des ressources n'a pas été trouvée",
+      "create_success": "La configuration des ressources a été créée avec succès",
+      "create_error": "Une erreur est survenue pendant la creation de la configuration des ressources",
+      "update_success": "La configuration des ressources a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue durant la mise à jour de la configuration des ressources"
     },
     "information": "Information",
     "activation_contact_msg": "Pour activer cette fonctionnalité, veuillez contacter votre administrateur E-Mobility.",
@@ -1421,11 +1428,7 @@
       "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
       "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
       "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
-      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?",
-      "vin_already_exist_dialog_title": "VIN existe",
-      "vin_already_exist_dialog_confirm": "Ce vin existe déjà, voulez-vous vraiment créé ce véhicules?",
-      "license_plate_already_exist_dialog_title": "Plaque d'immatriculation existe",
-      "license_plate_already_exist_dialog_confirm": "Cette plaque d'immatriculation existe déjà, voulez-vous vraiment créé ce véhicules?"
+      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?"
     }
   },
   "ocpiendpoints": {
@@ -1814,14 +1817,21 @@
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Instantanée (kW)",
+      "power": "Puissance Réseau Instantanée (kW)",
+      "amps": "Amperage Réseau Instantané (A)",
       "energy": "Energie Délivrée (kW.h)",
+      "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
-      "limit_plan_watts": "Limitation du Plan (kW)",
-      "limit_watts": "Limitation Max (kW)",
-      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)"
+      "limit_plan": "Limitation du Plan (kW)",
+      "limit_plan_amps": "Limitation du Plan (A)",
+      "limit": "Limitation Max",
+      "limit_watts": "Limitation Réseau Max (kW)",
+      "limit_amps": "Limitation Réseau Max (A)",
+      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
+      "unit_kilowatts": "kW",
+      "unit_amperage":  "Amp"
     },
     "dialog": {
       "delete": {

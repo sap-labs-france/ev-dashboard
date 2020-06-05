@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentModule } from 'app/shared/component/component.module';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
@@ -45,6 +46,7 @@ import { SiteComponent } from './sites/site/site.component';
     TableModule,
     DialogsModule,
     RouterModule.forChild(OrganizationRoutes),
+    ComponentModule,
   ],
   declarations: [
     OrganizationComponent,

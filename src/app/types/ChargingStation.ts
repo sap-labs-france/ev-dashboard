@@ -1,7 +1,8 @@
-import { KeyValue } from './GlobalType';
-import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+import { KeyValue } from './GlobalType';
+import { SiteArea } from './SiteArea';
+import { User } from './User';
 
 export interface ChargingStation extends Data {
   id: string;
@@ -33,7 +34,7 @@ export interface ChargingStation extends Data {
   voltage: Voltage;
   excludeFromSmartCharging?: boolean;
   excludeFromPowerLimitation?: boolean;
-  powerLimitUnit: PowerLimitUnits;
+  powerLimitUnit: ChargingRateUnitType;
   coordinates: number[];
   chargePoints: ChargePoint[];
   connectors: Connector[];
@@ -83,7 +84,7 @@ export interface OcppCommand {
   parameters: string[];
 }
 
-export enum PowerLimitUnits {
+export enum ChargingRateUnitType {
   WATT = 'W',
   AMPERE = 'A',
 }
@@ -98,6 +99,7 @@ export interface ConsumptionValue {
   date: Date;
   instantPower: number;
   cumulatedConsumption: number;
+  cumulatedConsumptionAmps: number;
   amount: number;
   stateOfCharge: number;
   cumulatedAmount: number;
@@ -142,6 +144,8 @@ export interface Connector extends Data {
   statusLastChangedOn?: Date;
   inactivityStatus?: InactivityStatus;
   numberOfConnectedPhase?: number;
+  userID?: string;
+  user?: User;
   currentType?: CurrentType;
   chargePointID?: number;
   hasDetails: boolean;

@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { AssetSchneiderConnectionType } from 'app/types/Setting';
 
 @Component({
   selector: 'app-settings-schneider-connection',
@@ -8,7 +8,7 @@ import { LoginCredentialsAssetConnection } from 'app/types/Setting';
 })
 export class SchneiderAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: FormGroup;
-  @Input() public schneiderLogin!: LoginCredentialsAssetConnection;
+  @Input() public connection!: AssetSchneiderConnectionType;
 
   public schneiderLoginForm!: FormGroup;
   public user!: AbstractControl;
@@ -27,7 +27,7 @@ export class SchneiderAssetConnectionComponent implements OnInit {
         ])),
     });
     if (!this.formGroup.disabled) {
-      this.formGroup.addControl('loginCredentials', this.schneiderLoginForm);
+      this.formGroup.addControl('connection', this.schneiderLoginForm);
     } else {
       this.schneiderLoginForm.disable();
     }
@@ -38,14 +38,13 @@ export class SchneiderAssetConnectionComponent implements OnInit {
   }
 
   public loadCredentials(): void {
-    if (!this.schneiderLogin) {
-      return;
-    }
-    if (this.schneiderLogin.user) {
-      this.schneiderLoginForm.controls.user.setValue(this.schneiderLogin.user);
-    }
-    if (this.schneiderLogin.password) {
-      this.schneiderLoginForm.controls.password.setValue(this.schneiderLogin.password);
+    if (this.connection) {
+      if (this.connection.user) {
+        this.schneiderLoginForm.controls.user.setValue(this.connection.user);
+      }
+      if (this.connection.password) {
+        this.schneiderLoginForm.controls.password.setValue(this.connection.password);
+      }
     }
   }
 }

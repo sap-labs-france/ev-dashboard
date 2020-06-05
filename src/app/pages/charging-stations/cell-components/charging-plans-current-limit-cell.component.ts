@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { ChargingProfile, RecurrencyKindType } from 'app/types/ChargingProfile';
+import { SecondsPerTime } from 'app/types/GlobalType';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 
@@ -49,8 +50,8 @@ export class ChargingPlansCurrentLimitCellComponent extends CellContentTemplateD
           this.currentLimit = this.row.profile.chargingSchedule.chargingSchedulePeriod
           [this.row.profile.chargingSchedule.chargingSchedulePeriod.length - 1].limit;
         }
-      } else if (currentDuration < 0 && currentDuration + 86400 < this.row.profile.chargingSchedule.duration) {
-        currentDuration = 86400 + currentDuration;
+      } else if (currentDuration < 0 && currentDuration + SecondsPerTime.DAY < this.row.profile.chargingSchedule.duration) {
+        currentDuration = SecondsPerTime.DAY + currentDuration;
         const currentPeriod = this.row.profile.chargingSchedule.chargingSchedulePeriod.findIndex(p => p.startPeriod > currentDuration);
         if (this.row.profile.chargingSchedule.chargingSchedulePeriod[currentPeriod - 1]) {
           this.currentLimit = this.row.profile.chargingSchedule.chargingSchedulePeriod[currentPeriod - 1].limit;
@@ -60,7 +61,7 @@ export class ChargingPlansCurrentLimitCellComponent extends CellContentTemplateD
         }
       } else {
         if (this.row.connectorID === 0) {
-          this.currentLimit = Math.round(this.row.chargingStation.maximumPower / 230);
+          this.currentLimit = Math.round(this.row.chargingStation.maximumPower / this.row.chargingStation.voltage);
         } else {
           this.currentLimit = this.row.chargingStation.connectors[this.row.connectorID - 1].amperageLimit;
         }

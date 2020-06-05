@@ -88,3 +88,8 @@ export enum LevelText {
 export enum RestResponse {
   SUCCESS = 'Success',
 }
+
+export enum SecondsPerTime {
+  DAY= 86400,
+  HOUR = 3600,
+}

@@ -556,10 +556,10 @@ export class Utils {
   public static buildUserFullName(user: User) {
     let fullName: string;
     if (!user || !user.name) {
-      return '######';
+      return '-';
     }
     if (user.name.length === 0 && user.firstName.length === 0) {
-      return '######';
+      return '-';
     }
     if (user.firstName) {
       fullName = `${user.name}, ${user.firstName}`;
@@ -572,7 +572,7 @@ export class Utils {
   public static buildCarName(carCatalog: CarCatalog) {
     let carName: string;
     if (!carCatalog) {
-      return '######';
+      return '-';
     }
     carName = carCatalog.vehicleMake;
     if (carCatalog.vehicleModel) {

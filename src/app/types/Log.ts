@@ -1,3 +1,4 @@
+import { ServerAction } from './Server';
 import { Data } from './Table';
 
 export interface Log extends Data {
@@ -15,6 +16,10 @@ export interface Log extends Data {
   user: string;
   actionOnUser: string;
   detailedMessages: string[];
+}
+
+export interface LogActions extends Data {
+action: ServerAction;
 }
 
 export enum LogButtonAction {

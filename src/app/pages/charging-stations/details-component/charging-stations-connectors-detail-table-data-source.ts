@@ -66,12 +66,12 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       if (this.chargingStation) {
         this.chargingStation.connectors.forEach((connector) => {
           // tslint:disable-next-line:max-line-length
-          connector.isStopAuthorized = !!connector.activeTransactionID && this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.activeTagID);
+          connector.isStopAuthorized = !!connector.currentTransactionID && this.authorizationService.canStopTransaction(this.chargingStation.siteArea, connector.currentTagID);
           // tslint:disable-next-line:max-line-length
-          connector.isStartAuthorized = !connector.activeTransactionID && this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
+          connector.isStartAuthorized = !connector.currentTransactionID && this.authorizationService.canStartTransaction(this.chargingStation.siteArea);
           // tslint:disable-next-line:max-line-length
-          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.activeTagID);
-          connector.hasDetails = !!connector.activeTransactionID && connector.isTransactionDisplayAuthorized;
+          connector.isTransactionDisplayAuthorized = this.authorizationService.canReadTransaction(this.chargingStation.siteArea, connector.currentTagID);
+          connector.hasDetails = !!connector.currentTransactionID && connector.isTransactionDisplayAuthorized;
         });
 
         observer.next({
@@ -128,7 +128,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         sortable: false,
       },
       {
-        id: 'currentConsumption',
+        id: 'currentInstantWatts',
         name: 'chargers.consumption_title',
         headerClass: 'text-center col-20p',
         class: 'text-center col-20p',
@@ -137,7 +137,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         sortable: false,
       },
       {
-        id: 'totalConsumption',
+        id: 'currentTotalConsumptionWh',
         name: 'chargers.total_consumption_title',
         headerClass: 'col-15p',
         class: 'col-15p',
@@ -145,7 +145,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         sortable: false,
       },
       {
-        id: 'totalInactivitySecs',
+        id: 'currentTotalInactivitySecs',
         name: 'chargers.inactivity',
         headerClass: 'col-15p',
         class: 'col-15p',
@@ -219,14 +219,14 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         break;
       // Stop Transaction
       case ChargingStationButtonAction.STOP_TRANSACTION:
-        this.centralServerService.getTransaction(connector.activeTransactionID).subscribe((transaction) => {
+        this.centralServerService.getTransaction(connector.currentTransactionID).subscribe((transaction) => {
           if (actionDef.action) {
             actionDef.action(transaction, this.authorizationService, this.dialogService,
               this.translateService, this.messageService, this.centralServerService, this.spinnerService,
               this.router, this.refreshData.bind(this));
           }
         }, (error) => {
-          this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: connector.activeTransactionID});
+          this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: connector.currentTransactionID});
         });
         break;
       // View Transaction
@@ -239,7 +239,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
         }
         if (actionDef.action) {
           actionDef.action({
-            transactionID: connector.activeTransactionID,
+            transactionID: connector.currentTransactionID,
             chargingStationID: this.chargingStation.id,
             connectorID: connector.connectorId,
           }, this.dialog, this.refreshData.bind(this));

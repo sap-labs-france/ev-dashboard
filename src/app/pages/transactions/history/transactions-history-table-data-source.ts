@@ -152,9 +152,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
       },
       {
-        id: 'stop.totalConsumption',
+        id: 'stop.totalConsumptionWh',
         name: 'transactions.consumption',
-        formatter: (totalConsumption: number) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'stateOfCharge',

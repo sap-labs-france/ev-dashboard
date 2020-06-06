@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.70',
-        date: new Date('2020-06-04'),
+        version: '2.2.71',
+        date: new Date('2020-06-06'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Ebee Charging Station in template`,
+              `Enable Amperage and Voltage per phase in Meter Values`,
               `Added Asset integration for Schneider Building Management system access in the backend`,
               `Display Site Area max limitation and if smart charging enabled in the list`,
               `Add User in Connector details in Charging Station's list`,

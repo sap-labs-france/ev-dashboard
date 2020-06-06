@@ -11,7 +11,7 @@ export interface CurrentMetrics {
   id: string;
   companyID: string;
   company: Company;
-  currentConsumption: number;
+  currentInstantWatts: number;
   totalConsumption: number;
   currentTotalInactivitySecs: number;
   maximumPower: number;

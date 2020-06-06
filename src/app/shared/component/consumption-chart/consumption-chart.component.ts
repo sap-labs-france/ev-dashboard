@@ -1,18 +1,17 @@
-import * as moment from 'moment';
-
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
-import { ConsumptionUnit, Transaction } from 'app/types/Transaction';
-
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { AppDatePipe } from '../../formatters/app-date.pipe';
-import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { CentralServerService } from '../../../services/central-server.service';
-import { LocaleService } from '../../../services/locale.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
+import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { ConsumptionUnit, Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
+import * as moment from 'moment';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { LocaleService } from '../../../services/locale.service';
+import { AppDatePipe } from '../../formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -135,7 +134,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }];
       // Instant Amps/Power
       datasets.push({
-        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantPower',
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
         data: [],
         yAxisID: 'power',
@@ -158,7 +157,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       });
       // Cumulated Amps/Power
       datasets.push({
-        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'cumulatedConsumptionAmps' : 'cumulatedConsumption',
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'cumulatedConsumptionAmps' : 'cumulatedConsumptionWh',
         type: 'line',
         data: [],
         hidden: true,
@@ -253,9 +252,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
       for (const key of Object.keys(this.data.datasets)) {
         this.data.datasets[key].data = [];
       }
-      const instantPowerDataSet = this.getDataSet('instantPower');
+      const instantPowerDataSet = this.getDataSet('instantWatts');
       const instantAmpsDataSet = this.getDataSet('instantAmps');
-      const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumption');
+      const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumptionWh');
       const cumulatedConsumptionAmpsDataSet = this.getDataSet('cumulatedConsumptionAmps');
       const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
@@ -265,13 +264,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
       for (const consumption of this.transaction.values) {
         labels.push(new Date(consumption.date).getTime());
         if (instantPowerDataSet) {
-          instantPowerDataSet.push(consumption.instantPower);
+          instantPowerDataSet.push(consumption.instantWatts);
         }
         if (instantAmpsDataSet) {
           instantAmpsDataSet.push(consumption.instantAmps);
         }
         if (cumulatedConsumptionDataSet) {
-          cumulatedConsumptionDataSet.push(consumption.cumulatedConsumption);
+          cumulatedConsumptionDataSet.push(consumption.cumulatedConsumptionWh);
         }
         if (cumulatedConsumptionAmpsDataSet) {
           cumulatedConsumptionAmpsDataSet.push(consumption.cumulatedConsumptionAmps);
@@ -328,11 +327,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
               if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
-                  case 'instantPower':
+                  case 'instantWatts':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.0-2') + 'kW';
                   case 'instantAmps':
                     return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
-                  case 'cumulatedConsumption':
+                  case 'cumulatedConsumptionWh':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.0-2') + 'kW.h';
                   case 'cumulatedConsumptionAmps':
                     return ' ' + this.decimalPipe.transform(value, '2.0-2') + 'A.h';

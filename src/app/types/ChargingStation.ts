@@ -175,8 +175,7 @@ export enum CurrentType {
 }
 
 export interface ChargingStationCapabilities {
-  supportStaticLimitationForChargingStation?: boolean;
-  supportStaticLimitationPerConnector?: boolean;
+  supportStaticLimitation?: boolean;
   supportChargingProfiles?: boolean;
   supportTxDefaultProfile?: boolean;
 }

@@ -154,7 +154,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
         formatter: (smartCharging: boolean) => smartCharging ?
           this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
-      })
+      });
     }
     return tableColumnDef;
   }

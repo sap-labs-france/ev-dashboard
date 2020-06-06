@@ -30,6 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added Ebee Charging Station in template`,
+              `Enable Amperage and Voltage per phase in Meter Values`,
               `Added Asset integration for Schneider Building Management system access in the backend`,
               `Display Site Area max limitation and if smart charging enabled in the list`,
               `Add User in Connector details in Charging Station's list`,

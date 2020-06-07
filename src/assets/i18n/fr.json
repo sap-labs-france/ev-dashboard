@@ -619,6 +619,7 @@
     "firmware_status": "Statut Firware",
     "connector_status": "Status",
     "ocpp_version": "Version OCPP",
+    "ocpp_protocol": "Protocole OCPP",
     "ocpp_version_title": "OCPP",
     "private_url": "URL Privée",
     "nb_connected_phase": "Nombre de Phase Connectée",

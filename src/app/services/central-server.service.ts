@@ -10,7 +10,7 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/Ch
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, AssetTestConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -19,7 +19,7 @@ import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
-import { Setting } from 'app/types/Setting';
+import { AssetConnectionSetting, Setting } from 'app/types/Setting';
 import { Site, SiteUser, UserSite } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
@@ -28,12 +28,12 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
+
 
 @Injectable()
 export class CentralServerService {
@@ -1718,6 +1718,20 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetDelete?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public testAssetConnection(assetConnection: AssetConnectionSetting) {
+    // Verify init
+    this.checkInit();
+    // Execute REST service
+    return this.httpClient.post<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/TestAssetConnection`,
+      assetConnection,
       {
         headers: this.buildHttpHeaders(),
       })

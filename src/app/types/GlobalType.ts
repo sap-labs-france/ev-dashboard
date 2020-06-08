@@ -67,6 +67,7 @@ export enum ButtonAction {
   VIEW = 'view',
   INLINE_SAVE = 'inline-save',
   DOWNLOAD = 'download',
+  TEST_CONNECTION = 'test-connection'
 }
 
 export enum ChipType {

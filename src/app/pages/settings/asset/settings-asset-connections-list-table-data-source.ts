@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { TableTestConnectionAction } from 'app/shared/table/actions/table-test-connection-action';
 import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
+import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
+import { NOT_FOUND, PRECONDITION_FAILED, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
-
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
+
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private centralServerService: CentralServerService,
+    private router: Router,
+    private messageService: MessageService) {
     super(spinnerService, translateService);
   }
 
@@ -85,6 +94,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   public buildTableRowActions(): TableActionDef[] {
     return [
       new TableEditAction().getActionDef(),
+      new TableTestConnectionAction().getActionDef(),
       ...super.buildTableRowActions()
     ];
   }
@@ -102,6 +112,9 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
+        break;
+      case ButtonAction.TEST_CONNECTION:
+        this.testConnectionAction(assetConnection);
         break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);
@@ -162,6 +175,36 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         this.formArray.markAsDirty();
         this.tableChangedSubject.next(this.editableRows);
       }
+    });
+  }
+
+  public testConnectionAction(assetConnection: AssetConnectionSetting) {
+    this.spinnerService.show();
+    this.centralServerService.testAssetConnection(assetConnection).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        this.messageService.showSuccessMessage('settings.asset.connection_success');
+      } else {
+        let statusMessage = 'settings.asset.connection_failed';
+        switch (response.statusCode) {
+          case UNAUTHORIZED:
+            statusMessage = 'settings.asset.unauthorized';
+            break;
+          case NOT_FOUND:
+            statusMessage = 'settings.asset.not_found';
+            break;
+          case PRECONDITION_FAILED:
+            statusMessage = 'settings.asset.invalid_response';
+            break;
+          default:
+            statusMessage = 'settings.asset.connection_failed';
+            break;
+        }
+        Utils.handleError(JSON.stringify(response), this.messageService, statusMessage);
+      }
+    }, (error) => {
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+        'settings.asset.connection_failed');
     });
   }
 }

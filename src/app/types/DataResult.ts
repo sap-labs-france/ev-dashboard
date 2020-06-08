@@ -58,6 +58,12 @@ export interface DataResult<T extends Data> {
   result: T[];
 }
 
+export interface AssetTestConnectionResponse extends ActionResponse {
+  statusCode: number;
+  statusText: string;
+  message: string;
+}
+
 export interface TransactionDataResult {
   count: number;
   result: Transaction[];

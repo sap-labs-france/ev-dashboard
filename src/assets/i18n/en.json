@@ -72,6 +72,7 @@
     "synchronize": "Synchronize",
     "force_synchronize": "Force synchronization",
     "download": "Download",
+    "test_connection": "Test Connection",
     "upload": "Upload",
     "change": "Changer",
     "reload": "Reload",
@@ -204,6 +205,7 @@
       "clear": "Clear",
       "save": "Save",
       "download": "Download",
+      "test_connection": "Test Connection",
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable"
     }
@@ -1406,6 +1408,11 @@
       "types": {
         "schneider": "Schneider Building Management"
       },
+      "unauthorized": "Unauthorized",
+      "not_found": "Not Found",
+      "invalid_response": "Invalid Response",
+      "connection_failed": "Connection failed",
+      "connection_success": "Connection success",
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Asset settings have not been found",

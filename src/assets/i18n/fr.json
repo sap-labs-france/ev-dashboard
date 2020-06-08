@@ -72,6 +72,7 @@
     "synchronize": "Synchroniser",
     "force_synchronize": "Forcer la synchronization",
     "download": "Télécharger",
+    "test_connection": "Tester la connection",
     "upload": "Envoyer",
     "change": "Changer",
     "reload": "Recharger",
@@ -204,6 +205,7 @@
       "clear": "Effacer",
       "save": "Save",
       "download": "Télécharger",
+      "test_connection": "Tester la connection",
       "force_available_status": "Forcer le Statut en Disponible",
       "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
@@ -1405,6 +1407,11 @@
       "types": {
         "schneider": "Gestion Bâtiment Schneider"
       },
+      "unauthorized": "Accès non autorisé",
+      "not_found": "Ressource non trouvée",
+      "invalid_response": "Reponse invalide",
+      "connection_failed": "Erreur de connexion",
+      "connection_success": "Connexion effectuée",
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration des ressources n'a pas été trouvée",

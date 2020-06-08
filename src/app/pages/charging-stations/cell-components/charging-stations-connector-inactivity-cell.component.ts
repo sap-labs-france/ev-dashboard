@@ -7,8 +7,8 @@ import { CellContentTemplateDirective } from '../../../shared/table/cell-content
   template: `
     <span>
       <ng-container>
-        <span class="ml-1" [ngClass]="row.inactivityStatus | appColorByStatus">
-          {{row.totalInactivitySecs | appInactivity}}
+        <span class="ml-1" [ngClass]="row.currentInactivityStatus | appColorByStatus">
+          {{row.currentTotalInactivitySecs | appInactivity}}
         </span>
       </ng-container>
     </span>

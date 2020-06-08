@@ -81,7 +81,7 @@
                     <div class="card-nooverflow">
                       <div class="d-flex pb-0 justify-content-center align-items-center card-body gauge-card-body"
                         [class.fade-out]="beforeChange" [class.fade-in]="!beforeChange">
-                        <app-charging-station-consumption-gauge #consumptionGauge [consumption]="currentMetrics.currentConsumption"
+                        <app-charging-station-consumption-gauge #consumptionGauge [consumption]="currentMetrics.currentInstantWatts"
                           [maxConsumption]="currentMetrics.maximumPower"></app-charging-station-consumption-gauge>
                       </div>
                     </div>

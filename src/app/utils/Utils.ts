@@ -495,13 +495,6 @@ export class Utils {
         }
       }
     }
-    if (!totalAmps) {
-      const power = Utils.getChargingStationPower(chargingStation, chargePoint, connectorId);
-      const voltage = Utils.getChargingStationVoltage(chargingStation, chargePoint, connectorId);
-      if (voltage && power) {
-        return power / voltage;
-      }
-    }
     return totalAmps;
   }
 

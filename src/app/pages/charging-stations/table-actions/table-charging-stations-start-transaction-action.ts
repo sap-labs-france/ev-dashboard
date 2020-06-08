@@ -48,7 +48,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
         translateService.instant('chargers.action_error.transaction_start_not_available'));
       return;
     }
-    if (connector.activeTransactionID) {
+    if (connector.currentTransactionID) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
         translateService.instant('chargers.action_error.transaction_in_progress'));

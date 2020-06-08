@@ -36,6 +36,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     return new Observable((observer) => {
       // Check
       if (this.editableRows) {
+        // Asset sort alpha by replacing indexes
         this.editableRows.sort((a, b) => {
           return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
         });

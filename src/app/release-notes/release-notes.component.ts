@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.2.72',
+        date: new Date('2020-06-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Increased Web Socket timeout for Webasto in templates`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.2.71',
         date: new Date('2020-06-06'),
         componentChanges: [
@@ -31,15 +43,14 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Ebee Charging Station in template`,
-              `Enable Amperage and Voltage per phase in Meter Values`,
+              `Enable Amperage and Voltage per phase in Meter Values in templates`,
               `Added Asset integration for Schneider Building Management system access in the backend`,
               `Display Site Area max limitation and if smart charging enabled in the list`,
               `Add User in Connector details in Charging Station's list`,
               `Demo User cannot see the Sessions History`,
               `Use unique ID to build the tree fuse for the SAP Smart Charging service`,
-              `Fixed total number of records not refreshed avec delete action in all list`,
-              `Renamed Session chart legends to include the grid consumption`,
-              `Display User in Charging Station's connectors list`,
+              `Fixed total number of records not refreshed after delete action in all list`,
+              `Renamed Session chart legends with grid`,
               `Call delete of TxProfile after comsumption calculation in Stop Transaction`,
               `Retrieve the Charging Plans in database if it fails on Charging Station (workaround Cahors)`,
               `Added Schneider 22 kW Charging Station in template (2 x Type 2 of 11 kW)`,

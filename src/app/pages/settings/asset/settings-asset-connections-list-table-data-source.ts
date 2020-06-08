@@ -190,7 +190,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public testConnectionAction(assetConnection: AssetConnectionSetting) {
     this.spinnerService.show();
-    this.centralServerService.testAssetConnection(assetConnection).subscribe((response) => {
+    this.centralServerService.assetTestConnection(assetConnection).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('settings.asset.connection_success');
@@ -213,6 +213,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         Utils.handleError(JSON.stringify(response), this.messageService, statusMessage);
       }
     }, (error) => {
+      this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
         'settings.asset.connection_failed');
     });

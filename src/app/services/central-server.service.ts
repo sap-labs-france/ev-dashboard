@@ -1726,11 +1726,11 @@ export class CentralServerService {
       );
   }
 
-  public testAssetConnection(assetConnection: AssetConnectionSetting) {
+  public assetTestConnection(assetConnection: AssetConnectionSetting) {
     // Verify init
     this.checkInit();
     // Execute REST service
-    return this.httpClient.post<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/TestAssetConnection`,
+    return this.httpClient.post<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetTestConnection`,
       assetConnection,
       {
         headers: this.buildHttpHeaders(),

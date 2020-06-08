@@ -36,6 +36,15 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     return new Observable((observer) => {
       // Check
       if (this.editableRows) {
+        this.editableRows.sort((a, b) => {
+          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
+        });
+        const assetConnections = [];
+        for (let index = 0; index < this.editableRows.length; index++) {
+          const assetConnection = this.editableRows[index];
+          assetConnection.id = index.toString();
+          assetConnections.push(assetConnection);
+        }
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,
@@ -134,7 +143,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public createRow(): AssetConnectionSetting {
     return {
-      id: new Date().getTime().toString(),
+      id: '',
       key: '',
       name: '',
       description: '',

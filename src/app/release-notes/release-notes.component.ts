@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              ``,
+              `Increased Web Socket timeout for Webasto in templates`,
             ],
           },
         ],

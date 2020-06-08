@@ -822,6 +822,7 @@
       "transaction_stop_title": "Detener error de sesión",
       "transaction_stop_not_authorized": "No tiene autorización para detener esta sesión",
       "transaction_stop_not_available": "El conector no está disponible, no se puede detener la sesión",
+      "transaction_stop_charger_inactive": "El cargador no está disponible, no se puede detener la sesión",
       "delete_title": "Eliminar el error de la estación de carga",
       "delete_active_transaction": "La eliminación de la estación de carga no está permitida cuando una sesión está en curso",
       "command_title": "Error de comando de estación de carga",

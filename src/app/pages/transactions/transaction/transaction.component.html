@@ -33,7 +33,7 @@
             <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
               data-toogle="tooltip" title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
               <mat-icon>flash_on</mat-icon>
-              <div class="first-text">{{transaction.currentConsumption | appUnit:'W':'kW'}}</div>
+              <div class="first-text">{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
@@ -46,7 +46,7 @@
             <div class="d-flex flex-column mb-3 align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
               <mat-icon>ev_station</mat-icon>
-              <div class="first-text">{{totalConsumption | appUnit:'Wh':'kWh'}}</div>
+              <div class="first-text">{{totalConsumptionWh | appUnit:'Wh':'kWh'}}</div>
             </div>
             <div class="d-flex flex-column align-items-center" appTooltip data-toogle="tooltip"
               title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">

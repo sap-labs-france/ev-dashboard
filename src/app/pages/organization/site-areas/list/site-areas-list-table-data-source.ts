@@ -10,6 +10,7 @@ import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
@@ -57,6 +58,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private appUnitPipe: AppUnitPipe,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
@@ -106,7 +108,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     const tableColumnDef: TableColumnDef[] = [
       {
         id: 'name',
-        name: 'site_areas.title',
+        name: 'site_areas.name',
         headerClass: 'col-30p',
         class: 'text-left col-30p',
         sorted: true,
@@ -114,9 +116,17 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
       },
       {
+        id: 'maximumPower',
+        name: 'site_areas.max_limit_kw',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0),
+      },
+      {
         id: 'site.name',
         name: 'sites.site',
-        headerClass: 'col-30p',
+        headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
       },
@@ -135,6 +145,17 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sortable: true,
       },
     ];
+    if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
+      tableColumnDef.splice(2, 0, {
+        id: 'smartCharging',
+        name: 'site_areas.smart_charging',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        sortable: true,
+        formatter: (smartCharging: boolean) => smartCharging ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+      });
+    }
     return tableColumnDef;
   }
 

@@ -1,9 +1,9 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { ChargingStation, ChargingStationCapabilities } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { Utils } from 'app/utils/Utils';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { KeyValue } from 'app/types/GlobalType';
+import { Utils } from 'app/utils/Utils';
 
 export interface PropertyDisplay {
   key: string;
@@ -29,6 +29,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
     {key: 'chargingStationURL', title: 'chargers.public_url'},
     {key: 'currentIPAddress', title: 'chargers.current_ip'},
     {key: 'ocppVersion', title: 'chargers.ocpp_version'},
+    {key: 'ocppProtocol', title: 'chargers.ocpp_protocol'},
     {
       key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => {
         return this.datePipe.transform(lastReboot);

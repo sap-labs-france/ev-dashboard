@@ -191,20 +191,21 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public connectorChanged() {
-    let totalPower = 0;
-    for (const connectorControl of this.connectors.controls) {
-      if (connectorControl.get('power').value as number > 0) {
-        totalPower += connectorControl.get('power').value as number;
+    if (!this.chargingStation.chargePoints) {
+      let totalPower = 0;
+      for (const connectorControl of this.connectors.controls) {
+        if (connectorControl.get('power').value as number > 0) {
+          totalPower += connectorControl.get('power').value as number;
+        }
       }
+      this.maximumPower.setValue(totalPower);
+      this.maximumPowerAmps.setValue(
+        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
     }
-    this.maximumPower.setValue(totalPower);
-    this.maximumPowerAmps.setValue(
-      Utils.convertWattToAmp(
-        this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
   }
 
   public chargePointChanged() {
-    this.connectorChanged();
+    // Charge Point cannot be changed: do nothing
   }
 
   public maximumPowerChanged() {

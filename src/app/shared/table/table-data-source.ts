@@ -400,6 +400,8 @@ export abstract class TableDataSource<T extends Data> {
       skip: 0,
       limit: currentPaging.limit + currentPaging.skip,
     });
+    // Init
+    this.resetTotalNumberOfRecords();
     // Load data
     return this.loadData(showSpinner);
   }

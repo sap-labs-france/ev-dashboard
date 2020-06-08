@@ -186,9 +186,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
       }, {
-      id: 'stop.totalConsumption',
+      id: 'stop.totalConsumptionWh',
       name: 'transactions.total_consumption',
-      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+      formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
     }, {
       id: 'stop.price',
       name: 'transactions.price',

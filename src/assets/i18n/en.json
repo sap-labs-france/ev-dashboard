@@ -1414,7 +1414,7 @@
       },
       "unauthorized": "Unauthorized",
       "not_found": "Not Found",
-      "invalid_response": "Invalid Response",
+      "bad_request": "Bad request",
       "connection_failed": "Connection failed",
       "connection_success": "Connection success",
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",

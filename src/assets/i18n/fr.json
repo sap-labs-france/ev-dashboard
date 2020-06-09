@@ -1414,7 +1414,7 @@
       },
       "unauthorized": "Accès non autorisé",
       "not_found": "Ressource non trouvée",
-      "invalid_response": "Reponse invalide",
+      "bad_request": "Mauvaise requête",
       "connection_failed": "Erreur de connexion",
       "connection_success": "Connexion effectuée",
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",

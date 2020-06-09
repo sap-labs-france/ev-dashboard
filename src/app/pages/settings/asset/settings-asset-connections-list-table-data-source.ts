@@ -14,7 +14,7 @@ import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { NOT_FOUND, PRECONDITION_FAILED, UNAUTHORIZED } from 'http-status-codes';
+import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 
@@ -192,19 +192,19 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     this.spinnerService.show();
     this.centralServerService.assetTestConnection(assetConnection).subscribe((response) => {
       this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
+      if (response.status && response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('settings.asset.connection_success');
       } else {
         let statusMessage = 'settings.asset.connection_failed';
-        switch (response.statusCode) {
+        switch (response.statusErrorCode) {
           case UNAUTHORIZED:
             statusMessage = 'settings.asset.unauthorized';
             break;
           case NOT_FOUND:
             statusMessage = 'settings.asset.not_found';
             break;
-          case PRECONDITION_FAILED:
-            statusMessage = 'settings.asset.invalid_response';
+          case BAD_REQUEST:
+            statusMessage = 'settings.asset.bad_request';
             break;
           default:
             statusMessage = 'settings.asset.connection_failed';

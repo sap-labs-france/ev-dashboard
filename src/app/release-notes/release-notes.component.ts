@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.72',
-        date: new Date('2020-06-08'),
+        version: '2.2.73',
+        date: new Date('2020-06-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Increased Web Socket timeout for Webasto in templates`,
+              `Fixed minor bugs`
             ],
           },
         ],

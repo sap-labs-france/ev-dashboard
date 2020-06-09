@@ -2,6 +2,7 @@ import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+import { User } from './User';
 
 export interface ChargingStation extends Data {
   id: string;
@@ -96,8 +97,8 @@ export interface OcppParameter extends Data {
 
 export interface ConsumptionValue {
   date: Date;
-  instantPower: number;
-  cumulatedConsumption: number;
+  instantWatts: number;
+  cumulatedConsumptionWh: number;
   cumulatedConsumptionAmps: number;
   amount: number;
   stateOfCharge: number;
@@ -124,10 +125,14 @@ export interface ChargePoint {
 
 export interface Connector extends Data {
   connectorId: number;
-  currentConsumption: number;
+  currentInstantWatts: number;
   currentStateOfCharge?: number;
-  totalInactivitySecs?: number;
-  totalConsumption?: number;
+  currentTotalConsumptionWh?: number;
+  currentTotalInactivitySecs?: number;
+  currentInactivityStatus?: InactivityStatus;
+  currentTransactionID?: number;
+  currentTransactionDate?: Date;
+  currentTagID?: string;
   status: ChargePointStatus;
   errorCode?: string;
   info?: string;
@@ -137,13 +142,10 @@ export interface Connector extends Data {
   voltage?: Voltage;
   amperage?: number;
   amperageLimit?: number;
-  activeTransactionID?: number;
-  activeTransactionDate?: Date;
-  activeTagID?: string;
   statusLastChangedOn?: Date;
-  inactivityStatus?: InactivityStatus;
   numberOfConnectedPhase?: number;
-  excludeFromPowerLimitation?: boolean;
+  userID?: string;
+  user?: User;
   currentType?: CurrentType;
   chargePointID?: number;
   hasDetails: boolean;
@@ -173,8 +175,7 @@ export enum CurrentType {
 }
 
 export interface ChargingStationCapabilities {
-  supportStaticLimitationForChargingStation?: boolean;
-  supportStaticLimitationPerConnector?: boolean;
+  supportStaticLimitation?: boolean;
   supportChargingProfiles?: boolean;
   supportTxDefaultProfile?: boolean;
 }

@@ -125,16 +125,16 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
       this.power.setValue(this.chargePoint.power);
       this.efficiency.setValue(this.chargePoint.efficiency);
       this.connectorIDs.setValue(this.chargePoint.connectorIDs);
-      // Notify
-      this.chargePointChanged.emit();
     }
   }
 
   public numberOfConnectedPhaseChanged() {
+    // Should not happen: Charge Point is read-only
     this.chargePointChanged.emit();
   }
 
   public connectorChanged() {
+    // Should not happen: Charge Point is read-only
     this.chargePointChanged.emit();
   }
 }

@@ -135,7 +135,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       const datasets: ChartDataSets[] = [];
       // Instant Amps/Power
       datasets.push({
-        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantPower',
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
         data: [],
         yAxisID: 'power',
@@ -186,7 +186,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       for (const key of Object.keys(this.data.datasets)) {
         this.data.datasets[key].data = [];
       }
-      const instantPowerDataSet = this.getDataSet('instantPower');
+      const instantPowerDataSet = this.getDataSet('instantWatts');
       const instantAmpsDataSet = this.getDataSet('instantAmps');
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
@@ -194,7 +194,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       for (const consumption of this.siteAreaConsumption.values) {
         labels.push(new Date(consumption.date).getTime());
         if (instantPowerDataSet) {
-          instantPowerDataSet.push(consumption.instantPower);
+          instantPowerDataSet.push(consumption.instantWatts);
         }
         if (instantAmpsDataSet) {
           instantAmpsDataSet.push(consumption.instantAmps);
@@ -252,7 +252,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
               if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
-                  case 'instantPower':
+                  case 'instantWatts':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'instantAmps':
                     return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';

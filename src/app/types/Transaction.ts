@@ -11,8 +11,8 @@ export interface Transaction extends Data {
   siteAreaID: string;
   connectorId: number;
   meterStart: number;
-  currentConsumption: number;
-  currentTotalConsumption: number;
+  currentInstantWatts: number;
+  currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;
   currentTotalDurationSecs: number;
@@ -36,7 +36,7 @@ export interface Transaction extends Data {
     tagID: string;
     timestamp: Date;
     meterStop: number;
-    totalConsumption: number;
+    totalConsumptionWh: number;
     stateOfCharge: number;
     totalInactivitySecs: number;
     totalDurationSecs: number;
@@ -50,9 +50,9 @@ export interface Transaction extends Data {
 
 export interface ConsumptionValue {
   date: Date;
-  instantPower: number;
+  instantWatts: number;
   instantAmps: number;
-  cumulatedConsumption: number;
+  cumulatedConsumptionWh: number;
   cumulatedConsumptionAmps: number;
   stateOfCharge: number;
   cumulatedAmount: number;

@@ -24,12 +24,37 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.67',
-        date: new Date('2020-05-31'),
+        version: '2.2.72',
+        date: new Date('2020-06-08'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Increased Web Socket timeout for Webasto in templates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.71',
+        date: new Date('2020-06-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Ebee Charging Station in template`,
+              `Enable Amperage and Voltage per phase in Meter Values in templates`,
+              `Added Asset integration for Schneider Building Management system access in the backend`,
+              `Display Site Area max limitation and if smart charging enabled in the list`,
+              `Add User in Connector details in Charging Station's list`,
+              `Demo User cannot see the Sessions History`,
+              `Use unique ID to build the tree fuse for the SAP Smart Charging service`,
+              `Fixed total number of records not refreshed after delete action in all list`,
+              `Renamed Session chart legends with grid`,
+              `Call delete of TxProfile after comsumption calculation in Stop Transaction`,
+              `Retrieve the Charging Plans in database if it fails on Charging Station (workaround Cahors)`,
+              `Added Schneider 22 kW Charging Station in template (2 x Type 2 of 11 kW)`,
+              `Limited Legrand Charging Station's total power to 44 kW`,
               `Switch to Amps in Site Area, Session and Charging Profile's charts`,
               `Added Delta charging station model 10962 (150 kW, 3 connectors) in template`,
               `Added connection to Schneider Build Management system in Assets' settings`,
@@ -219,7 +244,7 @@ export class ReleaseNotesComponent {
               `When Smart Charging is unset in Site Area, all Charging Plans are deleted`,
               `Optimized Session's chart consumptions and limitations using Charging Plans`,
               `Trigger the Smart Charging when the User starts a new Session`,
-              `Added Site Area column in Building list`,
+              `Added Site Area column in Asset list`,
               `Reworked the OCPP Parameter list`,
               `Added Car Maker filter`,
               `Disable coordinates button in address if not provided`,

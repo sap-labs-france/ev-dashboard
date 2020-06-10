@@ -129,7 +129,7 @@
     "change_invalid_pending_text": "Some changes with invalid value(s) are pending.",
     "save_and_close": "Save & Close",
     "do_not_save_and_close": "Do Not Save & Close",
-    "set_coordinates": "Set Coordinates",
+    "set_coordinates": "Set",
     "reset_filters": "Reset Filters",
     "browser_not_supported": "This browser is not supported! Use Chrome or Firefox.",
     "status": "Status",

@@ -1,19 +1,20 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { WindowService } from 'app/services/window.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { User } from 'app/types/User';
-import { ReCaptchaV3Service } from 'ngx-captcha';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
+import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from '../../services/message.service';
-import { SpinnerService } from '../../services/spinner.service';
 import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
+import { ReCaptchaV3Service } from 'ngx-captcha';
+import { RestResponse } from 'app/types/GlobalType';
+import { Router } from '@angular/router';
+import { SpinnerService } from '../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from 'app/types/User';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-authentication-register',
@@ -161,11 +162,11 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
           // Check status
           switch (error.status) {
             // Email already exists
-            case 510:
+            case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
               this.messageService.showErrorMessage(this.messages['email_already_exists']);
               break;
             // User Agreement not checked
-            case 520:
+            case HTTPError.USER_EULA_ERROR:
               this.messageService.showErrorMessage(this.messages['must_accept_eula']);
               break;
             // Unexpected error`

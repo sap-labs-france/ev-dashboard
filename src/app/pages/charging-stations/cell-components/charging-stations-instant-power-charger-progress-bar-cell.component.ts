@@ -38,7 +38,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
       case 'instantPowerKW':
         let instantPowerKW = 0;
         for (const connector of connectors) {
-          instantPowerKW += connector.currentConsumption;
+          instantPowerKW += connector.currentInstantWatts;
         }
         // Watt -> kWatts
         instantPowerKW /= 1000;

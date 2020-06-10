@@ -34,7 +34,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public stopUserImage = Constants.USER_NO_PICTURE;
   public isStoppedByAnotherUser = false;
-  public totalConsumption!: number;
+  public totalConsumptionWh!: number;
   public totalInactivitySecs!: number;
   public totalDurationSecs!: number;
   public percentOfInactivity!: string;
@@ -124,14 +124,14 @@ export class TransactionComponent implements OnInit, OnDestroy {
       }
       // Set properties
       if (transaction.stop) {
-        this.totalConsumption = transaction.stop.totalConsumption;
+        this.totalConsumptionWh = transaction.stop.totalConsumptionWh;
         this.stateOfCharge = transaction.stateOfCharge;
         this.endStateOfCharge = transaction.stop.stateOfCharge;
         this.totalDurationSecs = transaction.stop.totalDurationSecs;
         this.totalInactivitySecs = transaction.stop.totalInactivitySecs;
         this.isStoppedByAnotherUser = (transaction.user && transaction.user.id !== transaction.stop.user.id);
       } else {
-        this.totalConsumption = transaction.currentTotalConsumption;
+        this.totalConsumptionWh = transaction.currentTotalConsumptionWh;
         this.stateOfCharge = transaction.stateOfCharge;
         this.endStateOfCharge = transaction.currentStateOfCharge;
         this.totalDurationSecs = transaction.currentTotalDurationSecs;

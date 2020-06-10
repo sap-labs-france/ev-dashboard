@@ -23,7 +23,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.68",
+    "last_update": "Version 2.2.72",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -385,6 +385,7 @@
   },
   "site_areas": {
     "assign_site": "Assigner un Site",
+    "smart_charging": "Smart Charging",
     "export_all_ocpp_params": "Exporter tous les Params OCPP",
     "edit_assets": "Editer les assets",
     "display_assets": "Afficher les assets",
@@ -409,6 +410,7 @@
     "titles": "Zones",
     "site_invalid": "Zone invalide",
     "site_area_do_not_exist": "Site Area n'existe plus",
+    "max_limit_kw": "Limite Max",
     "created_on": "Créée le",
     "created_by": "Créée par",
     "changed_on": "Modifiée le",
@@ -601,6 +603,7 @@
   },
   "chargers": {
     "chargers": "Bornes",
+    "user": "Utilisateur",
     "charger_not_found": "La borne n'a pas été trouvée",
     "vendor": "Vendeur",
     "model": "Modèle",
@@ -616,6 +619,7 @@
     "firmware_status": "Statut Firware",
     "connector_status": "Status",
     "ocpp_version": "Version OCPP",
+    "ocpp_protocol": "Protocole OCPP",
     "ocpp_version_title": "OCPP",
     "private_url": "URL Privée",
     "nb_connected_phase": "Nombre de Phase Connectée",
@@ -818,6 +822,7 @@
       "transaction_stop_title": "Erreur d'arrêt de session",
       "transaction_stop_not_authorized": "Vous n'êtes pas autorisé à arrêter cette session",
       "transaction_stop_not_available": "Le connecteur n'est pas disponible, impossible de stopper une session",
+      "transaction_stop_charger_inactive": "La borne n'est pas disponible, impossible de stopper la session",
       "delete_title": "Suppression d'une borne impossible",
       "delete_active_transaction": "La suppression d'une borne n'est pas autorisée quand une session est en cours",
       "command_title": "Erreur d'envoi de commande ",
@@ -1420,11 +1425,7 @@
       "synchronize_car_catalogs_dialog_title": "Synchroniser les Véhicules",
       "synchronize_car_catalogs_dialog_confirm": "Voulez-vous vraiment lancer la synchronisation des véhicules électriques ?",
       "assign_user_to_car_dialog_title": "Ajouter un utilisateur à la voiture",
-      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?",
-      "vin_already_exist_dialog_title": "VIN existe",
-      "vin_already_exist_dialog_confirm": "Ce vin existe déjà, voulez-vous vraiment créé ce véhicules?",
-      "license_plate_already_exist_dialog_title": "Plaque d'immatriculation existe",
-      "license_plate_already_exist_dialog_confirm": "Cette plaque d'immatriculation existe déjà, voulez-vous vraiment créé ce véhicules?"
+      "assign_user_to_car_dialog_confirm": "Cette voiture exite déjà, voulez-vous la réutiliser ?"
     }
   },
   "ocpiendpoints": {
@@ -1826,8 +1827,8 @@
     },
     "graph": {
       "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Instantanée (kW)",
-      "amps": "Amperage Instantané (A)",
+      "power": "Puissance Réseau Instantanée (kW)",
+      "amps": "Amperage Réseau Instantané (A)",
       "energy": "Energie Délivrée (kW.h)",
       "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
@@ -1836,8 +1837,8 @@
       "limit_plan": "Limitation du Plan (kW)",
       "limit_plan_amps": "Limitation du Plan (A)",
       "limit": "Limitation Max",
-      "limit_watts": "Limitation Max (kW)",
-      "limit_amps": "Limitation Max (A)",
+      "limit_watts": "Limitation Réseau Max (kW)",
+      "limit_amps": "Limitation Réseau Max (A)",
       "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
       "unit_kilowatts": "kW",
       "unit_amperage":  "Amp"

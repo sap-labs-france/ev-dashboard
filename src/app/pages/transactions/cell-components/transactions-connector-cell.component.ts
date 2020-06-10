@@ -67,7 +67,7 @@ export class AppTransactionsFormatConnector implements PipeTransform {
       case ChargePointStatus.CHARGING:
       case ChargePointStatus.OCCUPIED: {
         // Check if charging
-        if (transaction.currentConsumption > 0) {
+        if (transaction.currentInstantWatts > 0) {
           classNames += 'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
         } else {
           classNames += 'charger-connector-charging';

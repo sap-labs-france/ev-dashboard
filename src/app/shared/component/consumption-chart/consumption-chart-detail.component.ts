@@ -18,9 +18,9 @@ export class ConsumptionChartDetailComponent extends CellContentTemplateDirectiv
 
   public ngOnInit(): void {
     // Set the transaction id
-    if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
+    if (Utils.objectHasProperty(this.row, 'currentTransactionID')) {
       // Connector
-      this.transactionId = (this.row as Connector).activeTransactionID;
+      this.transactionId = (this.row as Connector).currentTransactionID;
     } else {
       // Transaction
       this.transactionId = this.row.id as number;
@@ -29,9 +29,9 @@ export class ConsumptionChartDetailComponent extends CellContentTemplateDirectiv
 
   public ngOnChanges(changes: SimpleChanges): void {
     // Set the transaction id
-    if (Utils.objectHasProperty(this.row, 'activeTransactionID')) {
+    if (Utils.objectHasProperty(this.row, 'currentTransactionID')) {
       // Connector
-      this.transactionId = (this.row as Connector).activeTransactionID;
+      this.transactionId = (this.row as Connector).currentTransactionID;
     } else {
       // Transaction
       this.transactionId = this.row.id as number;

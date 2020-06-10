@@ -25,7 +25,7 @@ export interface SiteAreaConsumption {
 
 export interface SiteAreaConsumptionValues {
   date: Date;
-  instantPower: number;
+  instantWatts: number;
   instantAmps: number;
   limitWatts: number;
   limitAmps: number;

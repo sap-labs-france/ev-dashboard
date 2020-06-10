@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.73',
-        date: new Date('2020-06-09'),
+        version: '2.2.74',
+        date: new Date('2020-06-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
               `Fixed minor bugs`
             ],

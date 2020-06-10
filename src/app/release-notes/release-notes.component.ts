@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
+              `Unlock User when password has been reset`,
               `Fixed minor bugs`
             ],
           },

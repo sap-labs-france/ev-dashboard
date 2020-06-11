@@ -24,15 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.74',
+        version: '2.2.75',
         date: new Date('2020-06-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Save Voltages`,
               `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
               `Unlock User when password has been reset`,
+              `Updated Shelly wallbox`,
               `Charging Station's Geo Map dialog takes too much space in 720p`,
               `Fixed minor bugs`
             ],

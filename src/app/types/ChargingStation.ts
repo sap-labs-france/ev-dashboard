@@ -1,7 +1,7 @@
-import { KeyValue } from './GlobalType';
-import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { InactivityStatus } from './Transaction';
+import { KeyValue } from './GlobalType';
+import { SiteArea } from './SiteArea';
 import { User } from './User';
 
 export interface ChargingStation extends Data {
@@ -93,18 +93,6 @@ export interface OcppParameter extends Data {
   key: string;
   value: string;
   readonly: boolean;
-}
-
-export interface ConsumptionValue {
-  date: Date;
-  instantWatts: number;
-  cumulatedConsumptionWh: number;
-  cumulatedConsumptionAmps: number;
-  amount: number;
-  stateOfCharge: number;
-  cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
 }
 
 export interface ChargePoint {

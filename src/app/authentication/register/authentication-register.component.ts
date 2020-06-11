@@ -1,20 +1,20 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'app/services/window.service';
+import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
+import { User } from 'app/types/User';
+import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
-import { HTTPError } from 'app/types/HTTPError';
 import { MessageService } from '../../services/message.service';
-import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
-import { ReCaptchaV3Service } from 'ngx-captcha';
-import { RestResponse } from 'app/types/GlobalType';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { User } from 'app/types/User';
+import { ParentErrorStateMatcher } from '../../utils/ParentStateMatcher';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
-import { WindowService } from 'app/services/window.service';
 
 @Component({
   selector: 'app-authentication-register',

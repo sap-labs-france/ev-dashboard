@@ -1,19 +1,19 @@
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { WindowService } from 'app/services/window.service';
+import { HTTPError } from 'app/types/HTTPError';
+import { ButtonType } from 'app/types/Table';
 
 import { AuthorizationService } from '../../services/authorization.service';
-import { ButtonType } from 'app/types/Table';
 import { CentralServerService } from '../../services/central-server.service';
 import { DialogService } from '../../services/dialog.service';
-import { HTTPError } from 'app/types/HTTPError';
-import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Users } from '../../utils/Users';
 import { Utils } from '../../utils/Utils';
-import { WindowService } from 'app/services/window.service';
 
 declare var $: any;
 

@@ -56,10 +56,10 @@ export interface Transaction extends Data {
     inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
-  values: ConsumptionValue[];
+  values: TransactionConsumption[];
 }
 
-export interface ConsumptionValue {
+export interface TransactionConsumption {
   date: Date;
   instantWatts: number;
   instantAmps: number;

@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
               `Unlock User when password has been reset`,
+              `Charging Station's Geo Map dialog takes too much space in 720p`,
               `Fixed minor bugs`
             ],
           },

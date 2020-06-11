@@ -1,5 +1,6 @@
-import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
+
+import { ChargingStation } from './ChargingStation';
 import { Data } from './Table';
 import { User } from './User';
 
@@ -17,6 +18,11 @@ export interface Transaction extends Data {
   currentVoltageL2?: number;
   currentVoltageL3?: number;
   currentVoltageDC?: number;
+  currentAmperage?: number;
+  currentAmperageL1?: number;
+  currentAmperageL2?: number;
+  currentAmperageL3?: number;
+  currentAmperageDC?: number;
   currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;
@@ -68,6 +74,11 @@ export interface ConsumptionValue {
   voltageL2: number;
   voltageL3: number;
   voltageDC: number;
+  amperage: number;
+  amperageL1: number;
+  amperageL2: number;
+  amperageL3: number;
+  amperageDC: number;
 }
 
 export enum InactivityStatus {

@@ -12,6 +12,11 @@ export interface Transaction extends Data {
   connectorId: number;
   meterStart: number;
   currentInstantWatts: number;
+  currentVoltage?: number;
+  currentVoltageL1?: number;
+  currentVoltageL2?: number;
+  currentVoltageL3?: number;
+  currentVoltageDC?: number;
   currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;
@@ -52,13 +57,17 @@ export interface ConsumptionValue {
   date: Date;
   instantWatts: number;
   instantAmps: number;
+  limitWatts: number;
+  limitAmps: number;
   cumulatedConsumptionWh: number;
   cumulatedConsumptionAmps: number;
   stateOfCharge: number;
   cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
-  limitAmps: number;
+  voltage: number;
+  voltageL1: number;
+  voltageL2: number;
+  voltageL3: number;
+  voltageDC: number;
 }
 
 export enum InactivityStatus {

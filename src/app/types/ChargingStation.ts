@@ -1,7 +1,7 @@
-import { Data } from './Table';
-import { InactivityStatus } from './Transaction';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
+import { Data } from './Table';
+import { InactivityStatus } from './Transaction';
 import { User } from './User';
 
 export interface ChargingStation extends Data {

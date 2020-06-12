@@ -59,7 +59,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     const index = this.editableRows.indexOf(tag);
     let actionDone = false;
     switch (actionDef.id) {
-      case ButtonAction.INLINE_DELETE:
+      case ButtonAction.DELETE:
         this.editableRows.splice(index, 1);
         actionDone = true;
         break;

@@ -207,10 +207,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr']);
+    translateService.addLangs(['en', 'fr', 'es']);
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es/) ? language : 'en');
   }
 }

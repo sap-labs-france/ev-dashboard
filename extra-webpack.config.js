@@ -4,7 +4,7 @@ const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 module.exports = {
   plugins: [
     new MomentLocalesPlugin({
-      localesToKeep: ['fr', 'en', 'de']
+      localesToKeep: ['fr', 'en', 'de', 'es']
     }),
     new MomentTimezoneDataPlugin({
       startYear: new Date().getFullYear() - 2,

@@ -1040,6 +1040,7 @@
     "locale_invalid": "Invalid locale",
     "locale_desc_english": "English",
     "locale_desc_french": "French",
+    "locale_desc_spanish": "Spanish",
     "role_unknown": "Unknown",
     "locale_unknown": "Unknown",
     "status": "Status",

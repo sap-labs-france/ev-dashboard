@@ -30,12 +30,13 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed amperage is not displayed for Legrand charging Station`,
+              `Fixed update of Charging Station parameters does not work when not belonging to a template`,
               `Added Legrand Charging Station model 059004 in the template`,
               `Push all the non zero limit Charging Plan schedules provided by the SAP Smart Charging`,
               `Handling of new Meter Values in the backend: Power, Voltage, Voltage per phase, Amperage, Amperage per phase`,
               `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
-              `Fixed amperage is not displayed for Legrand charging Station`,
               `Unlock User when password has been reset`,
               `Updated Shelly wallbox`,
               `Charging Station's Geo Map dialog takes too much space in 720p`,

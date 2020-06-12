@@ -149,7 +149,6 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
         data: [],
-        hidden: true,
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),

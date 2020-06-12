@@ -176,8 +176,10 @@ export class UsersCarEditableTableDataSource extends EditableTableDataSource<Use
     const staticFilters: { NotAssignedToCarID?: string; ExcludeUserIDs?: string } = {};
     if (this.carID) {
       staticFilters.NotAssignedToCarID = this.carID;
-    } else {
-      staticFilters.ExcludeUserIDs = this.users.map((userID) => userID.user.id).join('|');
+    }
+    staticFilters.ExcludeUserIDs = this.users.map((userID) => userID.user.id).join('|');
+    if (this.carID) {
+      staticFilters.NotAssignedToCarID = this.carID;
     }
     dialogConfig.data = {
       staticFilter: staticFilters,

@@ -24,13 +24,21 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.72',
-        date: new Date('2020-06-08'),
+        version: '2.2.75',
+        date: new Date('2020-06-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Legrand Charging Station model 059004 in the template`,
+              `Push all the non zero limit Charging Plan schedules provided by the SAP Smart Charging`,
+              `Handling of new Meter Values in the backend: Power, Voltage, Voltage per phase, Amperage, Amperage per phase`,
+              `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
+              `Unlock User when password has been reset`,
+              `Updated Shelly wallbox`,
+              `Charging Station's Geo Map dialog takes too much space in 720p`,
+              `Fixed minor bugs`
             ],
           },
         ],

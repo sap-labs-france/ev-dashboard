@@ -33,6 +33,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public hasActions!: boolean;
   public hasFilters!: boolean;
+  public filterSet = false;
   public isSearchEnabled = false;
   public isFooterEnabled = false;
   public hasRowActions = false;
@@ -147,6 +148,7 @@ export abstract class TableDataSource<T extends Data> {
       limit: this.getPageSize(),
     });
     this.searchValue = searchValue;
+    this.filterSet = true;
   }
 
   public getSearchValue(): string {
@@ -261,6 +263,7 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
+    this.filterSet = true;
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
@@ -300,6 +303,7 @@ export abstract class TableDataSource<T extends Data> {
       });
       // Init
       this.resetTotalNumberOfRecords();
+      this.filterSet = false;
     }
   }
 

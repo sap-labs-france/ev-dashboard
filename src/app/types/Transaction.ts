@@ -1,5 +1,6 @@
-import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
+
+import { ChargingStation } from './ChargingStation';
 import { Data } from './Table';
 import { User } from './User';
 
@@ -12,6 +13,16 @@ export interface Transaction extends Data {
   connectorId: number;
   meterStart: number;
   currentInstantWatts: number;
+  currentVoltage?: number;
+  currentVoltageL1?: number;
+  currentVoltageL2?: number;
+  currentVoltageL3?: number;
+  currentVoltageDC?: number;
+  currentAmperage?: number;
+  currentAmperageL1?: number;
+  currentAmperageL2?: number;
+  currentAmperageL3?: number;
+  currentAmperageDC?: number;
   currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;
@@ -45,20 +56,29 @@ export interface Transaction extends Data {
     inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
-  values: ConsumptionValue[];
+  values: TransactionConsumption[];
 }
 
-export interface ConsumptionValue {
+export interface TransactionConsumption {
   date: Date;
   instantWatts: number;
   instantAmps: number;
+  limitWatts: number;
+  limitAmps: number;
   cumulatedConsumptionWh: number;
   cumulatedConsumptionAmps: number;
   stateOfCharge: number;
   cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
-  limitAmps: number;
+  voltage: number;
+  voltageL1: number;
+  voltageL2: number;
+  voltageL3: number;
+  voltageDC: number;
+  amperage: number;
+  amperageL1: number;
+  amperageL2: number;
+  amperageL3: number;
+  amperageDC: number;
 }
 
 export enum InactivityStatus {

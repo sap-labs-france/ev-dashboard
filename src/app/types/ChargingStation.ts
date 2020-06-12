@@ -95,18 +95,6 @@ export interface OcppParameter extends Data {
   readonly: boolean;
 }
 
-export interface ConsumptionValue {
-  date: Date;
-  instantWatts: number;
-  cumulatedConsumptionWh: number;
-  cumulatedConsumptionAmps: number;
-  amount: number;
-  stateOfCharge: number;
-  cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
-}
-
 export interface ChargePoint {
   chargePointID: number;
   currentType: CurrentType;

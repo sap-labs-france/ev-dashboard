@@ -186,6 +186,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           headerClass: 'd-none d-xl-table-cell text-center col-10p',
           class: 'd-none d-xl-table-cell text-center col-10p',
           sortable: false,
+          formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
         },
       ]);
     }

@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Handling of new Meter Values in the backend: Power, Voltage, Voltage per phase, Amperage, Amperage per phase`,
               `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
+              `Fixed amperage is not displayed for Legrand charging Station`,
               `Unlock User when password has been reset`,
               `Updated Shelly wallbox`,
               `Charging Station's Geo Map dialog takes too much space in 720p`,

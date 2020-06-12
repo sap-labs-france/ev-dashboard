@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, Voltage } from 'app/types/ChargingStation';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+
+import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -135,6 +136,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     if (this.currentType.value === CurrentType.DC) {
       this.numberOfConnectedPhase.setValue(3);
       this.numberOfConnectedPhase.disable();
+      this.amperage.updateValueAndValidity();
     } else {
       this.numberOfConnectedPhase.enable();
     }

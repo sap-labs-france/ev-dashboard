@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed cannot delete unused User's badge in profile`,
               `Fixed amperage is not displayed for Legrand charging Station`,
               `Fixed update of Charging Station parameters does not work when not belonging to a template`,
               `Added Legrand Charging Station model 059004 in the template`,

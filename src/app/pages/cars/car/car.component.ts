@@ -18,13 +18,13 @@ import { ButtonType } from 'app/types/Table';
 import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
 
-import { UsersCarTableDataSource } from './users-car-table-data-source';
+import { UsersCarEditableTableDataSource } from './users-car-editable-table-data-source';
 
 @Component({
   selector: 'app-car',
   templateUrl: 'car.component.html',
   providers: [
-    UsersCarTableDataSource,
+    UsersCarEditableTableDataSource,
   ],
 })
 export class CarComponent implements OnInit {
@@ -58,7 +58,7 @@ export class CarComponent implements OnInit {
   public CarType = CarType;
 
   constructor(
-    public usersCarTableDataSource: UsersCarTableDataSource,
+    public usersCarEditableTableDataSource: UsersCarEditableTableDataSource,
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
@@ -133,7 +133,7 @@ export class CarComponent implements OnInit {
       this.isDefault.disable();
     }
     if (this.currentCarID) {
-      this.usersCarTableDataSource.setCarID(this.currentCarID);
+      this.usersCarEditableTableDataSource.setCarID(this.currentCarID);
       this.loadCar();
     }
   }
@@ -221,9 +221,107 @@ export class CarComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('cars.update_success');
-        if (this.isAdmin && (this.usersCarTableDataSource.getUsers() && this.usersCarTableDataSource.getUsers().length > 0 && this.usersCarTableDataSource.changedList())) {
+        if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToAdd() &&
+          this.usersCarEditableTableDataSource.getUsersToAdd().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
+          this.centralServerService.assignUsersCar(
+            this.usersCarEditableTableDataSource.getUsersToAdd(), car.id).subscribe((response: ActionsResponse) => {
+              if (response.inError) {
+                this.messageService.showErrorMessage(
+                  this.translateService.instant('cars.assign_users_car_partial',
+                    {
+                      assigned: response.inSuccess,
+                      inError: response.inError,
+                    },
+                  ));
+              } else {
+                if (response.inSuccess > 0) {
+                  this.messageService.showSuccessMessage(
+                    this.translateService.instant('cars.assign_users_car_success',
+                      { assigned: response.inSuccess },
+                    ));
+                }
+              }
+
+              if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToUpdate() &&
+                this.usersCarEditableTableDataSource.getUsersToUpdate().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
+                this.centralServerService.updateUsersCar(
+                  this.usersCarEditableTableDataSource.getUsersToUpdate(), car.id).subscribe((response: ActionsResponse) => {
+                    if (response.inError) {
+                      this.messageService.showErrorMessage(
+                        this.translateService.instant('cars.update_users_car_partial',
+                          {
+                            assigned: response.inSuccess,
+                            inError: response.inError,
+                          },
+                        ));
+                    } else {
+                      if (response.inSuccess > 0) {
+                        this.messageService.showSuccessMessage(
+                          this.translateService.instant('cars.update_users_car_success',
+                            { assigned: response.inSuccess },
+                          ));
+                      }
+                    }
+
+                    if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
+                      this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
+                      this.centralServerService.deleteUsersCar(
+                        this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string))
+                        .subscribe((response: ActionsResponse) => {
+                          if (response.inError) {
+                            this.messageService.showErrorMessage(
+                              this.translateService.instant('cars.remove_users_car_partial',
+                                {
+                                  assigned: response.inSuccess,
+                                  inError: response.inError,
+                                },
+                              ));
+                          } else {
+                            if (response.inSuccess > 0) {
+                              this.messageService.showSuccessMessage(
+                                this.translateService.instant('cars.remove_users_car_success',
+                                  { assigned: response.inSuccess },
+                                ));
+                            }
+                          }
+                        }, (error) => {
+                          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.remove_users_car_error');
+                        });
+                    }
+                  }, (error) => {
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.update_users_car_error');
+                  });
+              } else if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
+                this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
+                this.centralServerService.deleteUsersCar(
+                  this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string)).subscribe((response: ActionsResponse) => {
+                    if (response.inError) {
+                      this.messageService.showErrorMessage(
+                        this.translateService.instant('cars.remove_users_car_partial',
+                          {
+                            assigned: response.inSuccess,
+                            inError: response.inError,
+                          },
+                        ));
+                    } else {
+                      if (response.inSuccess > 0) {
+                        this.messageService.showSuccessMessage(
+                          this.translateService.instant('cars.remove_users_car_success',
+                            { assigned: response.inSuccess },
+                          ));
+                      }
+                    }
+                  }, (error) => {
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.remove_users_car_error');
+                  });
+              }
+            }, (error) => {
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.assign_users_car_error');
+            });
+        } else if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToUpdate() &&
+          this.usersCarEditableTableDataSource.getUsersToUpdate().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
           this.centralServerService.updateUsersCar(
-            this.usersCarTableDataSource.getUsers(), car.id).subscribe((response: ActionsResponse) => {
+            this.usersCarEditableTableDataSource.getUsersToUpdate(), car.id).subscribe((response: ActionsResponse) => {
               if (response.inError) {
                 this.messageService.showErrorMessage(
                   this.translateService.instant('cars.update_users_car_partial',
@@ -240,9 +338,55 @@ export class CarComponent implements OnInit {
                     ));
                 }
               }
-              this.dialogRef.close();
+              if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
+                this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
+                this.centralServerService.deleteUsersCar(
+                  this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string)).subscribe((response: ActionsResponse) => {
+                    if (response.inError) {
+                      this.messageService.showErrorMessage(
+                        this.translateService.instant('cars.remove_users_car_partial',
+                          {
+                            assigned: response.inSuccess,
+                            inError: response.inError,
+                          },
+                        ));
+                    } else {
+                      if (response.inSuccess > 0) {
+                        this.messageService.showSuccessMessage(
+                          this.translateService.instant('cars.remove_users_car_success',
+                            { assigned: response.inSuccess },
+                          ));
+                      }
+                    }
+                  }, (error) => {
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.remove_users_car_error');
+                  });
+              }
             }, (error) => {
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.update_users_car_error');
+            });
+        } else if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
+          this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
+          this.centralServerService.deleteUsersCar(
+            this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string)).subscribe((response: ActionsResponse) => {
+              if (response.inError) {
+                this.messageService.showErrorMessage(
+                  this.translateService.instant('cars.remove_users_car_partial',
+                    {
+                      assigned: response.inSuccess,
+                      inError: response.inError,
+                    },
+                  ));
+              } else {
+                if (response.inSuccess > 0) {
+                  this.messageService.showSuccessMessage(
+                    this.translateService.instant('cars.remove_users_car_success',
+                      { assigned: response.inSuccess },
+                    ));
+                }
+              }
+            }, (error) => {
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.remove_users_car_error');
             });
         }
 
@@ -275,10 +419,10 @@ export class CarComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('cars.create_success', { carName: Utils.buildCarName(this.selectedCarCatalog) });
 
-        if (this.isAdmin && (this.usersCarTableDataSource.getUsers() && this.usersCarTableDataSource.getUsers().length > 0)
+        if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsers() && this.usersCarEditableTableDataSource.getUsers().length > 0)
           && car.type !== CarType.POOL_CAR) {
           this.centralServerService.assignUsersCar(
-            this.usersCarTableDataSource.getUsers(), response.id).subscribe((response: ActionsResponse) => {
+            this.usersCarEditableTableDataSource.getUsers(), response.id).subscribe((response: ActionsResponse) => {
               if (response.inError) {
                 this.messageService.showErrorMessage(
                   this.translateService.instant('cars.assign_users_car_partial',
@@ -293,7 +437,6 @@ export class CarComponent implements OnInit {
                     { assigned: response.inSuccess },
                   ));
               }
-              this.dialogRef.close();
             }, (error) => {
               Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.assign_users_car_error');
             });

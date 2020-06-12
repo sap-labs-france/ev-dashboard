@@ -2456,6 +2456,20 @@ export class CentralServerService {
       );
   }
 
+  public deleteUsersCar(usersCarIDs: string[]): Observable<ActionsResponse> {
+    // Verify init
+    this.checkInit();
+    const options = {
+      headers: this.buildHttpHeaders(),
+      body: { usersCarIDs },
+    };
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UsersCarDelete`, options)
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

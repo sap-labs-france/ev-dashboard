@@ -9,24 +9,23 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
+import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
 import { ChangeEvent, UserCar } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-import { UsersCarDefaultCheckboxComponent } from './users-car-default-checkbox.component';
-import { UsersCarOwnerRadioComponent } from './users-car-owner-radio.component';
-
 @Injectable()
-export class UsersCarTableDataSource extends TableDataSource<UserCar> {
+export class UsersCarEditableTableDataSource extends EditableTableDataSource<UserCar> {
   private carID: string;
   private changed: ChangeEvent = { changed: false };
-  private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
   private users: UserCar[] = [];
+  private usersToUpdate: UserCar[] = [];
+  private usersToAdd: UserCar[] = [];
+  private usersToRemove: UserCar[] = [];
   private serverCalled = false;
   constructor(
     public spinnerService: SpinnerService,
@@ -49,9 +48,6 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
           { ...this.buildFilterValues(), carID: this.carID },
           this.getPaging(), this.getSorting()).subscribe((usersCar) => {
             this.users = usersCar.result;
-            // this.changed = false;
-            this.tableColumnDefs[4].additionalParameters = { usersCar: this.users, changed: this.changed };
-            this.tableColumnDefs[3].additionalParameters = { changed: this.changed };
             this.removeAction.disabled = (this.users.length === 0);
             this.serverCalled = true;
             observer.next(usersCar);
@@ -64,8 +60,6 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
           });
       } else {
         this.changed.changed = true;
-        this.tableColumnDefs[4].additionalParameters = { usersCar: this.users, changed: this.changed };
-        this.tableColumnDefs[3].additionalParameters = { changed: this.changed };
         observer.next({
           count: this.users.length,
           result: this.users,
@@ -75,8 +69,83 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
     });
   }
 
+  public createRow() {
+    return null;
+  }
+
+  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
+    switch (columnDef.id) {
+      case 'owner':
+        if (cellValue === true) {
+          this.changed.changed = true;
+          this.users.forEach(userCar => {
+            userCar.owner = false;
+          });
+          this.users[rowIndex].owner = true;
+          let toAdd = false;
+          this.usersToAdd.forEach(userCar => {
+            if (userCar.user.id === this.users[rowIndex].user.id) {
+              toAdd = true;
+              userCar.owner = true;
+            } else {
+              userCar.owner = false;
+            }
+          });
+          if (!toAdd) {
+            const index = this.usersToUpdate.indexOf(this.users[rowIndex]);
+            if (index > 0) {
+              this.usersToUpdate.splice(index, 1);
+            }
+            this.usersToAdd.forEach(userCar => {
+              userCar.owner = false;
+            });
+            this.users[rowIndex].owner = true;
+            this.usersToUpdate.push(this.users[rowIndex]);
+          } else {
+            this.usersToAdd.forEach(userCar => {
+              userCar.owner = false;
+            });
+          }
+        } else {
+          this.users[rowIndex].owner = true;
+        }
+        break;
+      case 'default':
+        let toAdd = false;
+        this.usersToAdd.forEach(userCar => {
+          if (userCar.user.id === this.users[rowIndex].user.id) {
+            toAdd = true;
+            userCar.default = cellValue;
+          }
+        });
+        if (!toAdd) {
+          this.changed.changed = true;
+          const index = this.usersToUpdate.indexOf(this.users[rowIndex]);
+          if (index > 0) {
+            this.usersToUpdate.splice(index, 1);
+          }
+          this.users[rowIndex].default = cellValue;
+          this.usersToUpdate.push(this.users[rowIndex]);
+        }
+        this.users[rowIndex].default = cellValue;
+        break;
+    }
+  }
+
+  public rowActionTriggered(actionDef: TableActionDef, userCar: UserCar) {
+    const index = this.editableRows.indexOf(userCar);
+    let actionDone = false;
+    switch (actionDef.id) {
+      case ButtonAction.INLINE_DELETE:
+        this.editableRows.splice(index, 1);
+        actionDone = true;
+        break;
+    }
+  }
+
   public buildTableDef(): TableDef {
     return {
+      isEditable: true,
       class: 'table-dialog-list',
       rowFieldNameIdentifier: 'user.email',
       rowSelection: {
@@ -94,11 +163,9 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    const tableActionsDef = super.buildTableActionsDef();
     return [
-      this.addAction,
-      this.removeAction,
-      ...tableActionsDef,
+      new TableAddAction().getActionDef(),
+      new TableRemoveAction().getActionDef()
     ];
   }
 
@@ -106,10 +173,14 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Set data
+    const staticFilters: { NotAssignedToCarID?: string; ExcludeUserIDs?: string } = {};
+    if (this.carID) {
+      staticFilters.NotAssignedToCarID = this.carID;
+    } else {
+      staticFilters.ExcludeUserIDs = this.users.map((userID) => userID.user.id).join('|');
+    }
     dialogConfig.data = {
-      staticFilter: {
-        ExcludeUserIDs: this.users.map((userID) => userID.user.id).join('|'),
-      },
+      staticFilter: staticFilters,
     };
     // Show
     const dialogRef = this.dialog.open(UsersDialogComponent, dialogConfig);
@@ -126,28 +197,31 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
         sorted: true,
         direction: 'asc',
         sortable: true,
+        editType: TableEditType.DISPLAY_ONLY,
       },
       {
         id: 'user.firstName',
         name: 'users.first_name',
         class: 'text-left col-25p',
+        editType: TableEditType.DISPLAY_ONLY,
       },
       {
         id: 'user.email',
         name: 'users.email',
         class: 'text-left col-40p',
+        editType: TableEditType.DISPLAY_ONLY,
       },
       {
-        id: 'isDefault',
-        isAngularComponent: true,
-        angularComponent: UsersCarDefaultCheckboxComponent,
+        id: 'default',
+        editType: TableEditType.CHECK_BOX,
         name: 'cars.default_car',
         class: 'col-10p',
       },
       {
         id: 'owner',
-        isAngularComponent: true,
-        angularComponent: UsersCarOwnerRadioComponent,
+        // isAngularComponent: true,
+        editType: TableEditType.RADIO_BUTTON,
+        headerClass: 'col-15p',
         name: 'cars.car_owner',
         class: 'col-10p',
       },
@@ -155,8 +229,24 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
     return columns;
   }
 
+  public buildTableRowActions(): TableActionDef[] {
+    return [];
+  }
+
   public getUsers() {
     return this.users;
+  }
+
+  public getUsersToAdd() {
+    return this.usersToAdd;
+  }
+
+  public getUsersToRemove() {
+    return this.usersToRemove;
+  }
+
+  public getUsersToUpdate() {
+    return this.usersToUpdate;
   }
 
   public emptyList(): boolean {
@@ -169,14 +259,30 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
 
   private removeUsers(users: UserCar[]) {
     users.forEach(userToRemove => {
+      let toRemove = true;
       this.users.forEach((element, index) => {
         if (userToRemove.user.id === element.user.id) {
           this.users.splice(index, 1);
           if (userToRemove.owner && this.users.length > 0) {
             this.users[0].owner = true;
+            this.rowCellUpdated(true, 0, { id: 'owner', name: '' });
           }
         }
       });
+      this.usersToAdd.forEach((element, index) => {
+        if (userToRemove.user.id === element.user.id) {
+          toRemove = false;
+          this.usersToAdd.splice(index, 1);
+        }
+      });
+      this.usersToUpdate.forEach((element, index) => {
+        if (userToRemove.user.id === element.user.id) {
+          this.usersToUpdate.splice(index, 1);
+        }
+      });
+      if (toRemove) {
+        this.usersToRemove.push(userToRemove);
+      }
     });
     this.refreshData().subscribe();
   }
@@ -184,6 +290,21 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
   private addUsers(users: any[]) {
     if (users && users.length > 0) {
       for (const user of users) {
+        let toAdd = true;
+        this.usersToRemove.forEach((element, index) => {
+          if (user.id === element.user.id) {
+            toAdd = false;
+            this.usersToRemove.splice(index, 1);
+          }
+        });
+        if (toAdd) {
+          this.usersToAdd.push({
+            id: user.id,
+            user: user.objectRef,
+            default: false,
+            owner: this.users.length === 0 ? true : false
+          } as UserCar);
+        }
         this.users.push({
           id: user.id,
           user: user.objectRef,
@@ -202,7 +323,6 @@ export class UsersCarTableDataSource extends TableDataSource<UserCar> {
       case ButtonAction.ADD:
         this.showAddUsersDialog();
         break;
-
       // Remove
       case ButtonAction.REMOVE:
         // Empty?

@@ -67,7 +67,8 @@ export enum ServerAction {
   CARS = 'Cars',
   CAR = 'Car',
   USERS_CAR = 'UsersCar',
-  ASSIGN_USERS_CAR = 'AssignUsersCar',
+  ADD_USERS_TO_CAR = 'AddUsersToCar',
+  REMOVE_USERS_FROM_CAR = 'RemoveUsersFromCar',
 
   GET_CONNECTOR_CURRENT_LIMIT = 'GetConnectorCurrentLimit',
   REGISTER_USER = 'RegisterUser',

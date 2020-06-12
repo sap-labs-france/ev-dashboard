@@ -2424,11 +2424,11 @@ export class CentralServerService {
       );
   }
 
-  public assignUsersCar(usersCar: UserCar[], carID: string): Observable<ActionsResponse> {
+  public addUsersToCar(usersCar: UserCar[], carID: string): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/AssignUsersCar`, {
+    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToCar`, {
       usersCar,
       carID
     },
@@ -2456,7 +2456,7 @@ export class CentralServerService {
       );
   }
 
-  public deleteUsersCar(usersCarIDs: string[]): Observable<ActionsResponse> {
+  public removeUsersFromCar(usersCarIDs: string[]): Observable<ActionsResponse> {
     // Verify init
     this.checkInit();
     const options = {
@@ -2464,7 +2464,7 @@ export class CentralServerService {
       body: { usersCarIDs },
     };
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/UsersCarDelete`, options)
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromCar`, options)
       .pipe(
         catchError(this.handleHttpError),
       );

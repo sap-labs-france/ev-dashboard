@@ -223,7 +223,7 @@ export class CarComponent implements OnInit {
         this.messageService.showSuccessMessage('cars.update_success');
         if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToAdd() &&
           this.usersCarEditableTableDataSource.getUsersToAdd().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
-          this.centralServerService.assignUsersCar(
+          this.centralServerService.addUsersToCar(
             this.usersCarEditableTableDataSource.getUsersToAdd(), car.id).subscribe((response: ActionsResponse) => {
               if (response.inError) {
                 this.messageService.showErrorMessage(
@@ -265,7 +265,7 @@ export class CarComponent implements OnInit {
 
                     if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
                       this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
-                      this.centralServerService.deleteUsersCar(
+                      this.centralServerService.removeUsersFromCar(
                         this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string))
                         .subscribe((response: ActionsResponse) => {
                           if (response.inError) {
@@ -293,7 +293,7 @@ export class CarComponent implements OnInit {
                   });
               } else if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
                 this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
-                this.centralServerService.deleteUsersCar(
+                this.centralServerService.removeUsersFromCar(
                   this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string)).subscribe((response: ActionsResponse) => {
                     if (response.inError) {
                       this.messageService.showErrorMessage(
@@ -340,7 +340,7 @@ export class CarComponent implements OnInit {
               }
               if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
                 this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
-                this.centralServerService.deleteUsersCar(
+                this.centralServerService.removeUsersFromCar(
                   this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string)).subscribe((response: ActionsResponse) => {
                     if (response.inError) {
                       this.messageService.showErrorMessage(
@@ -367,7 +367,7 @@ export class CarComponent implements OnInit {
             });
         } else if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsersToRemove() &&
           this.usersCarEditableTableDataSource.getUsersToRemove().length > 0 && this.usersCarEditableTableDataSource.changedList())) {
-          this.centralServerService.deleteUsersCar(
+          this.centralServerService.removeUsersFromCar(
             this.usersCarEditableTableDataSource.getUsersToRemove().map(userCar => userCar.id as string)).subscribe((response: ActionsResponse) => {
               if (response.inError) {
                 this.messageService.showErrorMessage(
@@ -421,7 +421,7 @@ export class CarComponent implements OnInit {
 
         if (this.isAdmin && (this.usersCarEditableTableDataSource.getUsers() && this.usersCarEditableTableDataSource.getUsers().length > 0)
           && car.type !== CarType.POOL_CAR) {
-          this.centralServerService.assignUsersCar(
+          this.centralServerService.addUsersToCar(
             this.usersCarEditableTableDataSource.getUsers(), response.id).subscribe((response: ActionsResponse) => {
               if (response.inError) {
                 this.messageService.showErrorMessage(

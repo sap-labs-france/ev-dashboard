@@ -1830,7 +1830,7 @@
       "limit": "Limitation Max",
       "limit_watts": "Limitation Réseau Max (kW)",
       "limit_amps": "Limitation Réseau Max (A)",
-      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
+      "load_all_consumptions": "Afficher la résolution maximale de la courbe (1 point toutes les 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage":  "Amp"
     },

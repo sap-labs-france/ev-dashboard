@@ -1830,7 +1830,7 @@
       "limit": "Max Limit",
       "limit_watts": "Max Grid Limit (kW)",
       "limit_amps": "Max Grid Limit (A)",
-      "load_all_consumptions": "Load all consumption values (without optimization)",
+      "load_all_consumptions": "Show full chart resolution (one point every 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage":  "Amp"
     },

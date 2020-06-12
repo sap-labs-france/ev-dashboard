@@ -1502,13 +1502,13 @@ export class CentralServerService {
 
   public getLoggedUserFromToken(): UserToken {
     // Get the token
-    // if (!this.currentUser) {
+    if (!this.currentUser) {
       // Decode the token
       this.localStorageService.getItem('token').subscribe((token: string) => {
         // Keep it local (iFrame use case)
         this.setLoggedUserToken(token);
       });
-    // }
+    }
     return this.currentUser;
   }
 

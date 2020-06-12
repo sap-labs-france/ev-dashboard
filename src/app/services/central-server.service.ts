@@ -1485,19 +1485,6 @@ export class CentralServerService {
       );
   }
 
-  // public refreshToken(): Observable<LoginResponse> {
-  //   // Verify init
-  //   this.checkInit();
-  //   // Execute
-  //   return this.httpClient.get<LoginResponse>(`${this.centralRestServerServiceSecuredURL}/UserRefreshToken`,
-  //     {
-  //       headers: this.buildHttpHeaders(),
-  //     })
-  //     .pipe(
-  //       catchError(this.handleHttpError),
-  //     );
-  // }
-
   public loginSucceeded(token: string): void {
     // Keep it local (iFrame use case)
     this.setLoggedUserToken(token, true);
@@ -1515,13 +1502,13 @@ export class CentralServerService {
 
   public getLoggedUserFromToken(): UserToken {
     // Get the token
-    if (!this.currentUser) {
+    // if (!this.currentUser) {
       // Decode the token
       this.localStorageService.getItem('token').subscribe((token: string) => {
         // Keep it local (iFrame use case)
         this.setLoggedUserToken(token);
       });
-    }
+    // }
     return this.currentUser;
   }
 

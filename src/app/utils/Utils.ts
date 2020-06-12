@@ -307,14 +307,17 @@ export class Utils {
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
             // Connector
-            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power &&
-                (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors)) {
-              // Check Connector ID
-              const connector = Utils.getConnectorFromID(chargingStation, connectorId);
-              if (connector.power) {
-                return connector.power;
+            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
+              if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
+                // Check Connector ID
+                const connector = Utils.getConnectorFromID(chargingStation, connectorId);
+                if (connector.power) {
+                  return connector.power;
+                }
+                return chargePointOfCS.power;
               }
-              return chargePointOfCS.power;
+              // Power is shared evenly on connectors
+              return chargePointOfCS.power / chargePointOfCS.connectorIDs.length;
             }
           }
         }
@@ -469,15 +472,18 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.amperage) {
               totalAmps += chargePointOfCS.amperage;
-            // Connector
-            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.amperage &&
-              (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors)) {
-              // Check Connector ID
-              const connector = Utils.getConnectorFromID(chargingStation, connectorId);
-              if (connector.amperage) {
-                return connector.amperage;
+            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.amperage) {
+              if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
+                // Same power for all connectors
+                // Check Connector ID first
+                const connector = Utils.getConnectorFromID(chargingStation, connectorId);
+                if (connector.amperage) {
+                  return connector.amperage;
+                }
+                return chargePointOfCS.amperage;
               }
-              return chargePointOfCS.amperage;
+              // Power is split evenly per connector
+              return chargePointOfCS.amperage / chargePointOfCS.connectorIDs.length;
             }
           }
         }

@@ -183,6 +183,9 @@ export class CentralServerNotificationService {
     }
     // Connect Socket IO
     this.socketIOClient.connectAuthenticated(this.centralRestServerServiceURL, token);
+    console.log('initSocketIO ====================================');
+    console.log(token);
+    console.log('====================================');
     this.monitorChangeNotification();
   }
 

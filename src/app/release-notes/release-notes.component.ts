@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Fixed cannot delete unused User's badge in profile`,
               `Fixed amperage is not displayed for Legrand charging Station`,
               `Fixed update of Charging Station parameters does not work when not belonging to a template`,
+              `Sort Users In Error by Created By property in descending order by default`,
               `Added Legrand Charging Station model 059004 in the template`,
               `Push all the non zero limit Charging Plan schedules provided by the SAP Smart Charging`,
               `Handling of new Meter Values in the backend: Power, Voltage, Voltage per phase, Amperage, Amperage per phase`,

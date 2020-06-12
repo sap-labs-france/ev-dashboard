@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.75',
-        date: new Date('2020-06-10'),
+        version: '2.2.76',
+        date: new Date('2020-06-13'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -38,7 +38,7 @@ export class ReleaseNotesComponent {
               `Unlock User when password has been reset`,
               `Updated Shelly wallbox`,
               `Charging Station's Geo Map dialog takes too much space in 720p`,
-              `Fixed minor bugs`
+              `Fixed Charging Plan list height in 720p`
             ],
           },
         ],

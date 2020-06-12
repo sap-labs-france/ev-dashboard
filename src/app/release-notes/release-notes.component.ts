@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Provided Spanish an German translations`,
               `Fixed cannot save Site Area with single phase`,
               `Fixed User name is not hidden for Demo in charging station's connector details`,
               `Fixed cannot delete unused User's badge in profile`,

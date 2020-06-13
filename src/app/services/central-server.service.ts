@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { TranslateService } from '@ngx-translate/core';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Car, CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
@@ -40,7 +39,6 @@ export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceAuthURL!: string;
-  private centralRestServerServiceUtilURL!: string;
   private centralSystemServerConfig: any;
   private initialized = false;
   private currentUserToken!: string;
@@ -49,7 +47,6 @@ export class CentralServerService {
 
   constructor(
     private httpClient: HttpClient,
-    private translateService: TranslateService,
     private localStorageService: LocalStorageService,
     private centralServerNotificationService: CentralServerNotificationService,
     private configService: ConfigService,
@@ -1486,76 +1483,62 @@ export class CentralServerService {
   }
 
   public loginSucceeded(token: string): void {
-    // Keep it local (iFrame use case)
-    this.setLoggedUserToken(token, true);
+    // Keep the token in local storage
+    this.currentUserToken = token;
+    this.currentUser = new JwtHelperService().decodeToken(token);
+    this.localStorageService.setItem('token', token);
+    // Notify
+    this.currentUserSubject.next(this.currentUser);
     // Init Socket IO at user login
-    if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
-      this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
+    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+      this.centralServerNotificationService.initSocketIO(token);
     }
   }
 
   public getLoggedUser(): UserToken {
-    this.getLoggedUserFromToken();
-    // Return the user (should have already been initialized as the token is retrieved async)
+    // Get the token
+    if (!this.currentUser) {
+      this.readAndDecodeTokenFromLocalStorage();
+    }
     return this.currentUser;
   }
 
-  public getLoggedUserFromToken(): UserToken {
+  private getLoggedUserToken(): string {
     // Get the token
-    if (!this.currentUser) {
+    // if (!this.currentUserToken) {
+      this.readAndDecodeTokenFromLocalStorage();
+    // }
+    return this.currentUserToken;
+  }
+
+  private readAndDecodeTokenFromLocalStorage() {
+    // Read the token
+    this.localStorageService.getItem('token').subscribe((token: string) => {
+      this.currentUserToken = token;
+      this.currentUser = null;
       // Decode the token
-      this.localStorageService.getItem('token').subscribe((token: string) => {
-        // Keep it local (iFrame use case)
-        this.setLoggedUserToken(token);
-      });
-    }
-    return this.currentUser;
+      if (token) {
+        this.currentUser = new JwtHelperService().decodeToken(token);
+      }
+      // Notify
+      this.currentUserSubject.next(this.currentUser);
+    });
   }
 
   public isAuthenticated(): boolean {
     return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
   }
 
-  private setLoggedUserToken(token: string, writeInLocalStorage?: boolean): void {
-    // Keep token
-    this.currentUserToken = token;
-    this.currentUser = null;
-    // Not null?
-    if (token) {
-      // Decode the token
-      this.currentUser = new JwtHelperService().decodeToken(token);
-    }
-    this.currentUserSubject.next(this.currentUser);
-    // Write?
-    if (writeInLocalStorage) {
-      // Set the token
-      this.localStorageService.setItem('token', token);
-    }
-  }
-
-  private getLoggedUserToken(): string {
-    // Get the token
-    if (!this.currentUserToken) {
-      // Decode the token
-      this.localStorageService.getItem('token').subscribe((token: string) => {
-        // Keep it local (iFrame use case)
-        this.setLoggedUserToken(token);
-      });
-    }
-    return this.currentUserToken;
-  }
-
   public getCurrentUserSubject(): BehaviorSubject<UserToken> {
     return this.currentUserSubject;
   }
 
-  private clearLoggedUserToken(): void {
+  private clearLoggedUser(): void {
     // Clear
     this.currentUserToken = null;
     this.currentUser = null;
-    this.currentUserSubject.next(this.currentUser);
-    // Remove from local storage
     this.localStorageService.removeItem('token');
+    this.currentUserSubject.next(this.currentUser);
   }
 
   public logout(): Observable<ActionResponse> {
@@ -1573,7 +1556,7 @@ export class CentralServerService {
 
   public logoutSucceeded(): void {
     this.dialog.closeAll();
-    this.clearLoggedUserToken();
+    this.clearLoggedUser();
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
       this.centralServerNotificationService.resetSocketIO();
     }
@@ -2598,8 +2581,6 @@ export class CentralServerService {
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
-      // Util URL
-      this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
       // Init Socket IO if user already logged
       if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
         this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());

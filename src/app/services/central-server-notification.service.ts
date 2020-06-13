@@ -175,18 +175,8 @@ export class CentralServerNotificationService {
     return this.subjectCarCatalog.asObservable();
   }
 
-  public initSocketIO(token: string) {
-    // Check
-    if (!this.socketIOClient) {
-      // Init Socket IO singleton
-      this.socketIOClient = SocketIOClient.getInstance();
-    }
-    // Connect Socket IO
-    this.socketIOClient.connectAuthenticated(this.centralRestServerServiceURL, token);
-    this.monitorChangeNotification();
-  }
-
   private monitorChangeNotification() {
+    console.log('Socket IO - monitorChangeNotification() is called');
     // Monitor Companies
     this.socketIOClient.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
       // Notify
@@ -348,6 +338,17 @@ export class CentralServerNotificationService {
     this.socketIOClient.socket.on(Entity.CAR_CATALOG, (singleChangeNotification: SingleChangeNotification) => {
       this.subjectCar.next(singleChangeNotification);
     });
+  }
+
+  public initSocketIO(token: string) {
+    // Check
+    if (!this.socketIOClient) {
+      // Init Socket IO singleton
+      this.socketIOClient = SocketIOClient.getInstance();
+    }
+    // Connect Socket IO
+    this.socketIOClient.connectAuthenticated(this.centralRestServerServiceURL, token);
+    this.monitorChangeNotification();
   }
 
   public resetSocketIO() {

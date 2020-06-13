@@ -1505,9 +1505,9 @@ export class CentralServerService {
 
   private getLoggedUserToken(): string {
     // Get the token
-    // if (!this.currentUserToken) {
+    if (!this.currentUserToken) {
       this.readAndDecodeTokenFromLocalStorage();
-    // }
+    }
     return this.currentUserToken;
   }
 
@@ -2582,7 +2582,7 @@ export class CentralServerService {
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Init Socket IO if user already logged
-      if (this.configService.getCentralSystemServer().socketIOEnabled && this.getLoggedUser() && this.isAuthenticated()) {
+      if (this.configService.getCentralSystemServer().socketIOEnabled && this.isAuthenticated()) {
         this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());
       }
       // Done

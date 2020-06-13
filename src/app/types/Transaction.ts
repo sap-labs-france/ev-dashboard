@@ -1,6 +1,5 @@
-import { RefundStatus, RefundType } from './Refund';
-
 import { ChargingStation } from './ChargingStation';
+import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
 

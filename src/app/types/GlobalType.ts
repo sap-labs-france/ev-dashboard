@@ -43,7 +43,6 @@ export enum ButtonAction {
   MORE = 'more',
   DELETE = 'delete',
   DELETE_MANY = 'delete_many',
-  INLINE_DELETE = 'inline-delete',
   REFRESH = 'refresh',
   AUTO_REFRESH = 'auto-refresh',
   EXPORT = 'export',

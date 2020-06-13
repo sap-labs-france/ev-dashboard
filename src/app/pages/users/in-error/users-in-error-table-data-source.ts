@@ -120,8 +120,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       name: 'users.name',
       headerClass: 'col-15p',
       class: 'text-left col-15p',
-      sorted: true,
-      direction: 'asc',
       sortable: true,
     },
     {
@@ -161,7 +159,9 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       headerClass: 'col-15p',
       class: 'col-15p',
       sortable: true,
-    });
+      sorted: true,
+      direction: 'desc',
+  });
     return columns as TableColumnDef[];
   }
 

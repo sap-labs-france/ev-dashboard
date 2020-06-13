@@ -412,8 +412,7 @@ tr.element-row:not(.expanded-row):active {
   > tbody > tr > td,
   > tfoot > tr > td {
     font-size: $font-size-sm;
-    padding: 10px 8px 0px 8px;
-    vertical-align: top;
+    vertical-align: middle;
   }
 
   > thead > tr > th,

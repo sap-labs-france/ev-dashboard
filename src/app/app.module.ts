@@ -134,7 +134,7 @@ export function localeFactory(
   // Default
   let language = translateService.getBrowserLang();
   // Get current user
-  const loggedUser = centralServerService.getLoggedUserFromToken();
+  const loggedUser = centralServerService.getLoggedUser();
   if (loggedUser && loggedUser.language) {
     language = loggedUser.language;
   }
@@ -205,7 +205,7 @@ export class AppModule {
     // Default
     let language = this.translateService.getBrowserLang();
     // Get current user
-    const loggedUser = this.centralServerService.getLoggedUserFromToken();
+    const loggedUser = this.centralServerService.getLoggedUser();
     if (loggedUser && loggedUser.language) {
       language = loggedUser.language;
     }

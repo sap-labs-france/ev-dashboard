@@ -10,7 +10,7 @@ import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, Current
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
-import { User } from 'app/types/User';
+import { User, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
@@ -551,7 +551,7 @@ export class Utils {
     return 'N/A';
   }
 
-  public static buildUserFullName(user: User) {
+  public static buildUserFullName(user: User|UserToken) {
     let fullName: string;
     if (!user || !user.name) {
       return '-';
@@ -609,28 +609,25 @@ export class Utils {
       // Server connection error`
       case 0:
         messageService.showErrorMessageConnectionLost();
-        if (centralServerService.isAuthenticated()) {
-          // Log Off (remove token)
-          centralServerService.logoutSucceeded();
-        }
-        // Login
-        router.navigate(['/auth/login']);
         break;
 
       // Unauthorized!
       case UNAUTHORIZED:
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
         break;
+
       // Conflict in User Session
       case FORBIDDEN:
         messageService.showWarningMessageUserOrTenantUpdated();
-        if (centralServerService.isAuthenticated()) {
-          // Log Off (remove token)
-          centralServerService.logoutSucceeded();
-        }
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
+        // Navigate to Login
         router.navigate(['/auth/login']);
         break;
+
       case BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
         break;

@@ -29,7 +29,7 @@
           </div>
           <div class="col-md-12 text-right">
             <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)"
-              [disabled]="chargingStation.inactive || !chargePoint.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
+              [disabled]="chargingStation.inactive || !chargePoint.ocppParamForPowerLimitation || !chargePoint.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
           </div>

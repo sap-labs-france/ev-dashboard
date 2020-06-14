@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <div class="col-md-6" *ngFor="let chargePoint of chargingStation?.chargePoints">
-      <div class="card" *ngIf="!chargePoint?.excludeFromPowerLimitation">
+      <div class="card" *ngIf="chargePoint && (!chargePoint?.excludeFromPowerLimitation || !chargePoint?.ocppParamForPowerLimitation)">
         <div class="card-header card-header-primary card-header-icon">
           <div class="card-icon">
             <mat-icon>vertical_align_bottom</mat-icon>
@@ -29,7 +29,7 @@
           </div>
           <div class="col-md-12 text-right">
             <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)"
-              [disabled]="chargingStation.inactive || !chargePoint.ocppParamForPowerLimitation || !chargePoint.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
+              [disabled]="chargingStation.inactive || !chargePoint.ampCurrentLimit || (isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)">
               <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
             </button>
           </div>

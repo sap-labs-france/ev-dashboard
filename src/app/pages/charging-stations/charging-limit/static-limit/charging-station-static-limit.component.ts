@@ -107,6 +107,13 @@ export class ChargingStationStaticLimitComponent {
     chargePoint.ampCurrentLimit = ampValue;
   }
 
+  public hasChargePointStaticLimitationSupport(chargePoint: ChargePoint): boolean {
+    if (chargePoint && !chargePoint.excludeFromPowerLimitation && chargePoint.ocppParamForPowerLimitation) {
+      return true;
+    }
+    return false;
+  }
+
   private applyStaticLimit(chargePoint: ChargePoint, forceUpdateChargingPlan?: boolean) {
     // Apply to chargingStation
     this.spinnerService.show();

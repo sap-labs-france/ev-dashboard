@@ -609,10 +609,6 @@ export class Utils {
       // Server connection error`
       case 0:
         messageService.showErrorMessageConnectionLost();
-        // Log Off (remove token)
-        centralServerService.logoutSucceeded();
-        // Navigate to Login
-        router.navigate(['/auth/login']);
         break;
 
       // Unauthorized!

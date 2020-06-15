@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { SiteAreaConsumption } from 'app/types/SiteArea';
@@ -44,6 +45,10 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private limitColor!: string;
   private defaultColor!: string;
   private language!: string;
+  private activeLegend = [
+    {key: 'instantPower', hidden: false},
+    {key: 'limit', hidden: this.authorizationService.isAdmin() ? false : true}
+  ];
 
   constructor(
     private spinnerService: SpinnerService,
@@ -52,7 +57,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: AppDecimalPipe) {
+    private decimalPipe: AppDecimalPipe,
+    private authorizationService: AuthorizationService ) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -137,6 +143,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
+        hidden: this.activeLegend[0].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -148,6 +155,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
+        hidden: this.activeLegend[1].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -228,6 +236,14 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
         labels: {
           fontColor: this.defaultColor,
         },
+        onClick: (e, legendItem) => {
+          const index = legendItem.datasetIndex;
+          const ci = this.chart;
+          const meta = ci.getDatasetMeta(index);
+          meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+          this.activeLegend[index].hidden = meta.hidden;
+          ci.update();
+        }
       },
       responsive: true,
       maintainAspectRatio: false,

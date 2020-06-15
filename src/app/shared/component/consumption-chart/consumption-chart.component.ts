@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { ConsumptionUnit, Transaction } from 'app/types/Transaction';
@@ -48,6 +49,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private stateOfChargeColor!: string;
   private defaultColor!: string;
   private language!: string;
+  private activeLegend = [
+    {key: 'instantPower', hidden: false},
+    {key: 'limit', hidden: this.authorizationService.isAdmin() ? false : true},
+    {key: 'cumulatedConsumption', hidden: true},
+    {key: 'cumulatedAmount', hidden: true},
+    {key: 'stateOfCharge', hidden: false} ];
 
   constructor(
     private centralServerService: CentralServerService,
@@ -56,7 +63,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe,
+    private authorizationService: AuthorizationService ) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -136,6 +144,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
+        hidden: this.activeLegend[0].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -147,6 +156,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
+        hidden: this.activeLegend[1].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -158,8 +168,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'cumulatedConsumptionAmps' : 'cumulatedConsumptionWh',
         type: 'line',
+        hidden: this.activeLegend[2].hidden,
         data: [],
-        hidden: true,
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.consumptionColor),
@@ -171,8 +181,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
         datasets.push({
           name: 'cumulatedAmount',
           type: 'line',
+          hidden: this.activeLegend[3].hidden,
           data: [],
-          hidden: true,
           yAxisID: 'amount',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.amountColor),
@@ -204,6 +214,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         datasets.push({
           name: 'stateOfCharge',
           type: 'line',
+          hidden: this.activeLegend[4].hidden,
           data: [],
           yAxisID: 'percentage',
           lineTension: this.lineTension,
@@ -302,6 +313,14 @@ export class ConsumptionChartComponent implements AfterViewInit {
         labels: {
           fontColor: this.defaultColor,
         },
+        onClick: (e, legendItem) => {
+          const index = legendItem.datasetIndex;
+          const ci = this.chart;
+          const meta = ci.getDatasetMeta(index);
+          meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+          this.activeLegend[index].hidden = meta.hidden;
+          ci.update();
+        }
       },
       responsive: true,
       maintainAspectRatio: false,

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
@@ -8,18 +7,13 @@ import { ServerAction } from 'app/types/Server';
 import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogActions> {
   constructor(
     public spinnerService: SpinnerService,
-    public translateService: TranslateService,
-    private messageService: MessageService,
-    private router: Router,
-    private centralServerService: CentralServerService) {
+    public translateService: TranslateService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -38,6 +32,16 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
           });
         }
       }
+      actions = actions.sort((n1, n2) => {
+        if (n1.action > n2.action) {
+          return this.getSort().direction === 'asc' ? 1 : -1;
+        }
+
+        if (n1.action < n2.action) {
+          return this.getSort().direction === 'asc' ? -1 : 1;
+        }
+        return 0;
+      });
       observer.next({
         count: actions.length,
         result: actions
@@ -54,7 +58,7 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
         class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
-        sortable: true,
+        sortable: true
       }
     ];
   }

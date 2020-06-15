@@ -6,7 +6,7 @@ export class TableCheckLogsAction extends TableOpenAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: LogButtonAction.CHECk_LOGS,
+      id: LogButtonAction.CHECK_LOGS,
       tooltip: 'logs.redirect'
     };
   }

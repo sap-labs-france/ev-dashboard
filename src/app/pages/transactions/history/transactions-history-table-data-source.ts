@@ -276,7 +276,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECk_LOGS:
+      case LogButtonAction.CHECK_LOGS:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('logs.dialog.redirect.title'),
           this.translateService.instant('logs.dialog.redirect.confirm'),

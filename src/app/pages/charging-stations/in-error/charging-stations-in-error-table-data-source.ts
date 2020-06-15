@@ -79,13 +79,14 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       // Get data
       this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        this.formatErrorMessages(chargers.result);
-        // Update details status
-        chargers.result.forEach((charger: ChargingStationInError) => {
-          // At first filter out the connectors that are null
-          charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
-          charger.connectors.forEach((connector) => {
-            connector.hasDetails = connector.currentTransactionID > 0;
+          this.formatErrorMessages(chargers.result);
+          // Update details status
+          chargers.result.forEach((charger: ChargingStationInError) => {
+            // At first filter out the connectors that are null
+            charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
+            charger.connectors.forEach((connector) => {
+              connector.hasDetails = connector.currentTransactionID > 0;
+            });
           });
           // Ok
           observer.next(chargers);
@@ -212,7 +213,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           actionDef.action(chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECk_LOGS:
+      case LogButtonAction.CHECK_LOGS:
         this.dialogService.createAndShowYesNoDialog(
           this.translateService.instant('logs.dialog.redirect.title'),
           this.translateService.instant('logs.dialog.redirect.confirm'),

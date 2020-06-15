@@ -12,7 +12,7 @@ export class LogActionTableFilter extends TableFilter {
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
-      name: 'logs.action',
+      name: 'logs.actions',
       class: 'col-md-6 col-lg-4 col-xl-2',
       dialogComponent: LogActionsDialogComponent,
       multiple: true,

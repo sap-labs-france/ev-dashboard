@@ -29,6 +29,7 @@ export class ChargingStationPropertiesComponent implements OnInit {
     {key: 'chargingStationURL', title: 'chargers.public_url'},
     {key: 'currentIPAddress', title: 'chargers.current_ip'},
     {key: 'ocppVersion', title: 'chargers.ocpp_version'},
+    {key: 'ocppProtocol', title: 'chargers.ocpp_protocol'},
     {
       key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => {
         return this.datePipe.transform(lastReboot);

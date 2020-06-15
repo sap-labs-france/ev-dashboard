@@ -22,7 +22,8 @@
               *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
               (click)="resetFilters()"
               [color]="(actionDef.color ? actionDef.color : '')" appTooltip
-              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)"
+              [disabled]="!dataSource.filterSet">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>

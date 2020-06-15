@@ -149,14 +149,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         angularComponent: TransactionsConnectorCellComponent,
       },
       {
-        id: 'currentConsumption',
+        id: 'currentInstantWatts',
         name: 'transactions.current_consumption',
-        formatter: (currentConsumption: number) => this.appUnitPipe.transform(currentConsumption, 'W', 'kW'),
+        formatter: (currentInstantWatts: number) => this.appUnitPipe.transform(currentInstantWatts, 'W', 'kW'),
       },
       {
-        id: 'currentTotalConsumption',
+        id: 'currentTotalConsumptionWh',
         name: 'transactions.total_consumption',
-        formatter: (currentTotalConsumption: number) => this.appUnitPipe.transform(currentTotalConsumption, 'Wh', 'kWh'),
+        formatter: (currentTotalConsumptionWh: number) => this.appUnitPipe.transform(currentTotalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'currentStateOfCharge',

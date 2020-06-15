@@ -103,6 +103,7 @@ export class LocaleService {
     switch (language) {
       case 'fr':
       case 'en':
+      case 'es':
         return language;
       default:
         return 'en';
@@ -113,7 +114,8 @@ export class LocaleService {
     switch (language) {
       case 'fr':
         return 'fr_FR';
-      case 'en':
+      case 'es':
+        return 'es_MX';
       default:
         return 'en_US';
     }
@@ -123,6 +125,8 @@ export class LocaleService {
     switch (language) {
       case 'fr':
         return 'fr-FR';
+      case 'es':
+        return 'es-MX';
       case 'en':
       default:
         return 'en-US';
@@ -135,6 +139,8 @@ export class LocaleService {
         return this.translateService.instant('users.locale_desc_english');
       case 'fr_FR':
         return this.translateService.instant('users.locale_desc_french');
+      case 'es_MX':
+        return this.translateService.instant('users.locale_desc_spanish');
     }
     return '';
   }

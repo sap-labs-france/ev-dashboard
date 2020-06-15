@@ -12,8 +12,18 @@ export interface Transaction extends Data {
   siteAreaID: string;
   connectorId: number;
   meterStart: number;
-  currentConsumption: number;
-  currentTotalConsumption: number;
+  currentInstantWatts: number;
+  currentVoltage?: number;
+  currentVoltageL1?: number;
+  currentVoltageL2?: number;
+  currentVoltageL3?: number;
+  currentVoltageDC?: number;
+  currentAmperage?: number;
+  currentAmperageL1?: number;
+  currentAmperageL2?: number;
+  currentAmperageL3?: number;
+  currentAmperageDC?: number;
+  currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;
   currentTotalDurationSecs: number;
@@ -37,7 +47,7 @@ export interface Transaction extends Data {
     tagID: string;
     timestamp: Date;
     meterStop: number;
-    totalConsumption: number;
+    totalConsumptionWh: number;
     stateOfCharge: number;
     totalInactivitySecs: number;
     totalDurationSecs: number;
@@ -46,20 +56,32 @@ export interface Transaction extends Data {
     inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
-  values: ConsumptionValue[];
+  values: TransactionConsumption[];
 }
 
-export interface ConsumptionValue {
+export interface TransactionConsumption {
   date: Date;
-  instantPower: number;
+  instantWatts: number;
+  instantWattsL1: number;
+  instantWattsL2: number;
+  instantWattsL3: number;
+  instantWattsDC: number;
   instantAmps: number;
-  cumulatedConsumption: number;
+  instantAmpsL1: number;
+  instantAmpsL2: number;
+  instantAmpsL3: number;
+  instantAmpsDC: number;
+  instantVolts: number;
+  instantVoltsL1: number;
+  instantVoltsL2: number;
+  instantVoltsL3: number;
+  instantVoltsDC: number;
+  limitWatts: number;
+  limitAmps: number;
+  cumulatedConsumptionWh: number;
   cumulatedConsumptionAmps: number;
   stateOfCharge: number;
   cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
-  limitAmps: number;
 }
 
 export enum InactivityStatus {

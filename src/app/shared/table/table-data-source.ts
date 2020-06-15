@@ -1,18 +1,18 @@
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { DataResult, Ordering, Paging } from 'app/types/DataResult';
-import { Observable, of } from 'rxjs';
-
-import ChangeNotification from '../../types/ChangeNotification';
-import { Constants } from '../../utils/Constants';
-import { FilterParams } from 'app/types/GlobalType';
 import { FormArray } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
+import { DataResult, Ordering, Paging } from 'app/types/DataResult';
+import { FilterParams } from 'app/types/GlobalType';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
+import ChangeNotification from '../../types/ChangeNotification';
+import { Constants } from '../../utils/Constants';
+import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
@@ -33,6 +33,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public hasActions!: boolean;
   public hasFilters!: boolean;
+  public filterSet = false;
   public isSearchEnabled = false;
   public isFooterEnabled = false;
   public hasRowActions = false;
@@ -147,6 +148,7 @@ export abstract class TableDataSource<T extends Data> {
       limit: this.getPageSize(),
     });
     this.searchValue = searchValue;
+    this.filterSet = true;
   }
 
   public getSearchValue(): string {
@@ -261,6 +263,7 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
+    this.filterSet = true;
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
@@ -300,6 +303,7 @@ export abstract class TableDataSource<T extends Data> {
       });
       // Init
       this.resetTotalNumberOfRecords();
+      this.filterSet = false;
     }
   }
 

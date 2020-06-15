@@ -8,7 +8,7 @@ import { CellContentTemplateDirective } from '../../../shared/table/cell-content
 
 @Component({
   template: `
-    <button *ngIf="row.activeTransactionID > 0 && displaySessionAuthorized"
+    <button *ngIf="row.currentTransactionID > 0 && displaySessionAuthorized"
       mat-icon-button color="primary"
       (click)="showSessionDialog()"><mat-icon>open_in_new</mat-icon></button>
   `,
@@ -43,7 +43,7 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
     dialogConfig.panelClass = 'transparent-dialog-container';
     if (this.row) {
       dialogConfig.data = {
-        transactionId: this.row.activeTransactionID,
+        transactionId: this.row.currentTransactionID,
         siteArea: '',
         connector: this.row,
       };

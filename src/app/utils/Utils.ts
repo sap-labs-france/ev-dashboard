@@ -1,22 +1,21 @@
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Data, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { DialogService } from 'app/services/dialog.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { Address } from 'app/types/Address';
+import { CarCatalog } from 'app/types/Car';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { MobileType } from 'app/types/Mobile';
+import { ButtonType } from 'app/types/Table';
+import { User, UserToken } from 'app/types/User';
+import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
-import { Data, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
-
-import { Address } from 'app/types/Address';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ButtonType } from 'app/types/Table';
-import { CarCatalog } from 'app/types/Car';
 import { CentralServerService } from '../services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { KeyValue } from 'app/types/GlobalType';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from '../services/message.service';
-import { MobileType } from 'app/types/Mobile';
-import { TranslateService } from '@ngx-translate/core';
-import { User } from 'app/types/User';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -308,14 +307,17 @@ export class Utils {
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
             // Connector
-            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power &&
-                (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors)) {
-              // Check Connector ID
-              const connector = Utils.getConnectorFromID(chargingStation, connectorId);
-              if (connector.power) {
-                return connector.power;
+            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
+              if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
+                // Check Connector ID
+                const connector = Utils.getConnectorFromID(chargingStation, connectorId);
+                if (connector.power) {
+                  return connector.power;
+                }
+                return chargePointOfCS.power;
               }
-              return chargePointOfCS.power;
+              // Power is shared evenly on connectors
+              return chargePointOfCS.power / chargePointOfCS.connectorIDs.length;
             }
           }
         }
@@ -470,15 +472,18 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.amperage) {
               totalAmps += chargePointOfCS.amperage;
-            // Connector
-            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.amperage &&
-              (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors)) {
-              // Check Connector ID
-              const connector = Utils.getConnectorFromID(chargingStation, connectorId);
-              if (connector.amperage) {
-                return connector.amperage;
+            } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.amperage) {
+              if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
+                // Same power for all connectors
+                // Check Connector ID first
+                const connector = Utils.getConnectorFromID(chargingStation, connectorId);
+                if (connector.amperage) {
+                  return connector.amperage;
+                }
+                return chargePointOfCS.amperage;
               }
-              return chargePointOfCS.amperage;
+              // Power is split evenly per connector
+              return chargePointOfCS.amperage / chargePointOfCS.connectorIDs.length;
             }
           }
         }
@@ -493,13 +498,6 @@ export class Utils {
             return connector.amperage;
           }
         }
-      }
-    }
-    if (!totalAmps) {
-      const power = Utils.getChargingStationPower(chargingStation, chargePoint, connectorId);
-      const voltage = Utils.getChargingStationVoltage(chargingStation, chargePoint, connectorId);
-      if (voltage && power) {
-        return power / voltage;
       }
     }
     return totalAmps;
@@ -553,7 +551,7 @@ export class Utils {
     return 'N/A';
   }
 
-  public static buildUserFullName(user: User) {
+  public static buildUserFullName(user: User|UserToken) {
     let fullName: string;
     if (!user || !user.name) {
       return '-';
@@ -611,28 +609,25 @@ export class Utils {
       // Server connection error`
       case 0:
         messageService.showErrorMessageConnectionLost();
-        if (centralServerService.isAuthenticated()) {
-          // Log Off (remove token)
-          centralServerService.logoutSucceeded();
-        }
-        // Login
-        router.navigate(['/auth/login']);
         break;
 
       // Unauthorized!
       case UNAUTHORIZED:
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
         break;
+
       // Conflict in User Session
       case FORBIDDEN:
         messageService.showWarningMessageUserOrTenantUpdated();
-        if (centralServerService.isAuthenticated()) {
-          // Log Off (remove token)
-          centralServerService.logoutSucceeded();
-        }
+        // Log Off (remove token)
+        centralServerService.logoutSucceeded();
+        // Navigate to Login
         router.navigate(['/auth/login']);
         break;
+
       case BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
         break;

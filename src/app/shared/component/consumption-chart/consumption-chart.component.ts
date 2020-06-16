@@ -124,15 +124,15 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
-      // Power
+      // Y Axe: Power
       this.options.scales.yAxes = [{
         id: 'power',
         ticks: {
-          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value : value / 1000,
+          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? value / 1000 : value,
           min: 0,
         },
       }];
-      // Instant Amps/Power
+      // Dataset Instant Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
@@ -143,7 +143,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.amps' : 'transactions.graph.power'),
       });
-      // Limit Amps/Power
+      // Dataset Limit Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
@@ -155,7 +155,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
       });
-      // Cumulated Amps/Power
+      // Dataset Cumulated Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'cumulatedConsumptionAmps' : 'cumulatedConsumptionWh',
         type: 'line',
@@ -169,6 +169,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       });
       // Amount
       if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'cumulatedAmount')) !== undefined) {
+        // Dataset Amount
         datasets.push({
           name: 'cumulatedAmount',
           type: 'line',
@@ -179,6 +180,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           ...Utils.formatLineColor(this.amountColor),
           label: this.translateService.instant('transactions.graph.cumulated_amount'),
         });
+        // Y Axe: Amount
         if (!this.options.scales.yAxes.find(y => y.id === 'amount')) {
           this.options.scales.yAxes.push({
             id: 'amount',
@@ -202,6 +204,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }
       // SoC
       if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
+        // Dataset SoC
         datasets.push({
           name: 'stateOfCharge',
           type: 'line',
@@ -211,6 +214,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           ...Utils.formatLineColor(this.stateOfChargeColor),
           label: this.translateService.instant('transactions.graph.battery'),
         });
+        // Y Axe: SoC
         if (!this.options.scales.yAxes.find(y => y.id === 'percentage')) {
           this.options.scales.yAxes.push(
             {

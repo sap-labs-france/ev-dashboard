@@ -92,6 +92,18 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     }
   }
 
+  public redirectToLog() {
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('logs.dialog.redirect.title'),
+      this.translateService.instant('logs.dialog.redirect.confirm'),
+    ).subscribe((response) => {
+      if (response === ButtonType.YES) {
+        this.dialogService.closeAll();
+        this.router.navigate(['/logs'], { queryParams: { id: this.chargingStation.id , fromChargingProfile: true} });
+      }
+    });
+  }
+
   public ngOnInit(): void {
     // Init the form
     this.formGroup = new FormGroup({

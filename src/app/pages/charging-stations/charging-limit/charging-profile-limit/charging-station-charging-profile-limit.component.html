@@ -25,6 +25,9 @@
       <button mat-raised-button *ngIf="(isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)" color="primary" (click)="triggerSmartCharging()">
         <mat-icon>signal_cellular_alt</mat-icon><span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
       </button>
+      <button mat-raised-button color="primary" (click)="redirectToLog()">
+        <mat-icon>open_in_new</mat-icon><span>{{'logs.redirect' | translate}}</span>
+      </button>
     </div>
     <div class="row">
       <div class="form-group col-md-4">

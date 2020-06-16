@@ -48,6 +48,9 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     this.initDataSource();
     this.activatedRoute.queryParams.subscribe(params => {
       this.setSearchValue(params['id'] ? params['id'] : '');
+      if (params['fromChargingProfile']) {
+        this.setStaticFilters([{ Action: 'ChargingProfiles|ChargingProfileDelete|ChargingProfileUpdate' }]);
+      }
     });
   }
 

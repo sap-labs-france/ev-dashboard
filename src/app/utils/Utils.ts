@@ -606,7 +606,7 @@ export class Utils {
     centralServerService: CentralServerService, errorMessage: string, params?: object) {
     // Check error
     switch (error.status) {
-      // Server connection error`
+      // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
         break;

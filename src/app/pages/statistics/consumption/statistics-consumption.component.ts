@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DateRangeFilter } from 'app/shared/table/filters/date-range-filter';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { FilterParams } from 'app/types/GlobalType';
@@ -56,6 +57,9 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
+
+    filterDef = new DateRangeFilter().getFilterDef();
+    this.allFiltersDef.push(filterDef);
 
     filterDef = new StartDateFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);

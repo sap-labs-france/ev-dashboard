@@ -47,6 +47,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -110,7 +111,7 @@ registerLocaleData(localeEs, 'es');
     MatToolbarModule,
   ],
   providers: [
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
 })
 export class MaterialModule {
@@ -157,7 +158,8 @@ export function localeFactory(
     HttpClientModule,
     ChartModule,
     BrowserNotSupportedModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ'}),
+    NgxDaterangepickerMd.forRoot(),
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ' }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -191,9 +193,9 @@ export function localeFactory(
     TranslateService,
     WindowService,
     DashboardService,
-    {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
-    {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
+    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
+    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
   bootstrap: [AppComponent],
 })

@@ -136,6 +136,10 @@
                         (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
                         [value]="filterDef.currentValue" autocomplete="false">
             </mat-form-field>
+
+            <mat-form-field *ngIf="filterDef.type === 'date-range'">
+              <daterange></daterange>
+          </mat-form-field>
         </div>
     </div>
 </div>

@@ -22,11 +22,11 @@ export interface Transaction extends Data {
   currentInstantVoltageL2?: number;
   currentInstantVoltageL3?: number;
   currentInstantVoltageDC?: number;
-  currentInstantAmperage?: number;
-  currentInstantAmperageL1?: number;
-  currentInstantAmperageL2?: number;
-  currentInstantAmperageL3?: number;
-  currentInstantAmperageDC?: number;
+  currentInstantAmps?: number;
+  currentInstantAmpsL1?: number;
+  currentInstantAmpsL2?: number;
+  currentInstantAmpsL3?: number;
+  currentInstantAmpsDC?: number;
   currentTotalConsumptionWh: number;
   currentTotalInactivitySecs: number;
   currentInactivityStatus: InactivityStatus;

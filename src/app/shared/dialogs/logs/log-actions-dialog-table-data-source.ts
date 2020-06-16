@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { logActions } from 'app/pages/logs/model/logs.model';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
 import { LogActions } from 'app/types/Log';
@@ -11,6 +12,7 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogActions> {
+  private reversed = false;
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService) {
@@ -21,27 +23,26 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
 
   public loadDataImpl(): Observable<DataResult<LogActions>> {
     return new Observable((observer) => {
-      let actions: LogActions[] = [];
+      const actions: LogActions[] = [];
       const searchValue = this.getSearchValue().length > 0 ? this.getSearchValue() : '';
-      for (const item in ServerAction) {
-        if ((ServerAction[item]).toLowerCase().includes(searchValue.toLowerCase())) {
+      // let reversed = false;
+      if (this.getSort().direction === 'desc' && !this.reversed) {
+        logActions.reverse();
+        this.reversed = true;
+      } else if (this.getSort().direction === 'asc' && this.reversed) {
+        logActions.reverse();
+        this.reversed = false;
+      }
+      // const sortedActions = this.getSort().direction === 'desc' && !reversed ? logActions.reverse() : logActions;
+      for (let [key, value] of Object.entries(logActions)) {
+        if (value.value.toLowerCase().includes(searchValue.toLowerCase())) {
           actions.push({
-            action: ServerAction[item],
-            key: ServerAction[item],
-            id: ServerAction[item]
+            action: value.value as ServerAction,
+            key: value.key,
+            id: value.key
           });
         }
       }
-      actions = actions.sort((n1, n2) => {
-        if (n1.action > n2.action) {
-          return this.getSort().direction === 'asc' ? 1 : -1;
-        }
-
-        if (n1.action < n2.action) {
-          return this.getSort().direction === 'asc' ? -1 : 1;
-        }
-        return 0;
-      });
       observer.next({
         count: actions.length,
         result: actions

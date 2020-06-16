@@ -35,12 +35,14 @@
     "supported": [
       "en",
       "fr",
-      "es"
+      "es",
+      "de"
     ],
     "fullSupported": [
       "en_US",
       "fr_FR",
-      "es_MX"
+      "es_MX",
+      "de_DE"
     ]
   },
   "Advanced": {

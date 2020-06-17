@@ -27,14 +27,15 @@ export class StatisticsConsumptionComponent implements OnInit {
   public selectedChart!: string;
   public selectedCategory!: string;
   public selectedDateFrom!: Date;
+  public selectedDateRange!: any;
   public selectedDateTo!: Date;
   public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('consumptionBarChart', {static: true}) public ctxBarChart!: ElementRef;
-  @ViewChild('consumptionPieChart', {static: true}) public ctxPieChart!: ElementRef;
+  @ViewChild('consumptionBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('consumptionPieChart', { static: true }) public ctxPieChart!: ElementRef;
 
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
@@ -61,12 +62,6 @@ export class StatisticsConsumptionComponent implements OnInit {
     filterDef = new DateRangeFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
-    filterDef = new StartDateFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new EndDateFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
     filterDef = new SiteTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
@@ -91,7 +86,12 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   public dateFromChange(date: Date) {
+    debugger;
     this.selectedDateFrom = date;
+  }
+
+  public dateRangeChange(date: any) {
+    this.selectedDateRange = date;
   }
 
   public dateToChange(date: Date) {
@@ -125,33 +125,33 @@ export class StatisticsConsumptionComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+          { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+          { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_timeFrame_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_total_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_timeFrame_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_total_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         }
       }
     }
@@ -199,7 +199,6 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   public buildCharts(): void {
     this.spinnerService.show();
-
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {

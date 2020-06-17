@@ -137,9 +137,9 @@
                         [value]="filterDef.currentValue" autocomplete="false">
             </mat-form-field>
 
-            <mat-form-field *ngIf="filterDef.type === 'date-range'">
-              <daterange></daterange>
-          </mat-form-field>
+            <div *ngIf="filterDef.type === 'date-range'">
+                <example-simple></example-simple>
+            </div>
         </div>
     </div>
 </div>

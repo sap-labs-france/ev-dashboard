@@ -24,13 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.77',
+        version: '2.3.0',
         date: new Date('2020-06-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Handle Power Meter Values per phase on Ebee Charging Station`
+              `Handle Power Meter Values per phase on Ebee Charging Station`,
+              `Add latest stable Ebee firmware version in templates`,
+              `Renamed Charging Station 'private' property to 'public'`,
+              `100% Completed the OCPI eMSP and CPO Gireve certification`,
+              `Integrated German and Spanish translation`
             ],
           },
         ],

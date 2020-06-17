@@ -9,7 +9,7 @@ export interface ChargingStation extends Data {
   templateHash?: string;
   templateHashTechnical?: string;
   issuer: boolean;
-  private: boolean;
+  public: boolean;
   siteAreaID?: string;
   chargePointSerialNumber: string;
   chargePointModel: string;

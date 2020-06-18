@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.75",
+    "last_update": "Version 2.3.1",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -629,7 +629,7 @@
     "cant_charge_in_parallel": "Cannot charge in parallel",
     "share_power_to_all_connectors": "Share the power with all connectors",
     "exclude_from_power_limitation": "Cannot limit the power",
-    "private": "This charging station is private",
+    "public": "This charging station is public",
     "exclude_smart_charging": "Exclude from Smart Charging",
     "public_url": "Public URL",
     "current_ip": "Current IP Route",
@@ -1044,6 +1044,8 @@
     "locale_invalid": "Invalid locale",
     "locale_desc_english": "English",
     "locale_desc_french": "French",
+    "locale_desc_spanish": "Spanish",
+    "locale_desc_german": "German",
     "role_unknown": "Unknown",
     "locale_unknown": "Unknown",
     "status": "Status",
@@ -1849,9 +1851,9 @@
       "limit": "Max Limit",
       "limit_watts": "Max Grid Limit (kW)",
       "limit_amps": "Max Grid Limit (A)",
-      "load_all_consumptions": "Load all consumption values (without optimization)",
+      "load_all_consumptions": "Show full chart resolution (one point every 60s)",
       "unit_kilowatts": "kW",
-      "unit_amperage":  "Amp"
+      "unit_amperage": "Amp"
     },
     "dialog": {
       "delete": {

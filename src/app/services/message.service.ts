@@ -5,6 +5,7 @@ declare var $: any;
 
 @Injectable()
 export class MessageService {
+  private lastLostConnectionDate: Date = new Date();
   // Message Template
   private messageTemplate = `
       <div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">
@@ -28,7 +29,11 @@ export class MessageService {
   }
 
   public showErrorMessageConnectionLost() {
-    this.showErrorMessage('general.backend_not_running');
+    // Avoid multiple same messages when connection is lost during 5 secs
+    if ((new Date().getTime() - this.lastLostConnectionDate.getTime()) > 5000) {
+      this.showErrorMessage('general.backend_not_running');
+      this.lastLostConnectionDate = new Date();
+    }
   }
 
   public showWarningMessageUserOrTenantUpdated() {

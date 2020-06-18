@@ -23,7 +23,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.2.75",
+    "last_update": "Version 2.3.1",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -629,7 +629,7 @@
     "cant_charge_in_parallel": "Ne peut pas charger en parallèle",
     "share_power_to_all_connectors": "Partage la puissance avec les connecteurs",
     "exclude_from_power_limitation": "Impossible de limiter la puissance",
-    "private": "Cette borne est privée",
+    "public": "Cette borne est publique",
     "exclude_smart_charging": "Exclure de la charge intelligente",
     "public_url": "URL Publique",
     "current_ip": "Route IP Actuelle",
@@ -1044,6 +1044,8 @@
     "locale_invalid": "Locale invalide",
     "locale_desc_english": "Anglais",
     "locale_desc_french": "Français",
+    "locale_desc_spanish": "Espagnol",
+    "locale_desc_german": "Allemand",
     "role_unknown": "Inconnu",
     "locale_unknown": "Inconnu",
     "status": "Statut",
@@ -1846,9 +1848,9 @@
       "limit": "Limitation Max",
       "limit_watts": "Limitation Réseau Max (kW)",
       "limit_amps": "Limitation Réseau Max (A)",
-      "load_all_consumptions": "Charger toutes les valeurs de consommation (pas d'optimisation)",
+      "load_all_consumptions": "Afficher la résolution maximale de la courbe (1 point toutes les 60s)",
       "unit_kilowatts": "kW",
-      "unit_amperage":  "Amp"
+      "unit_amperage": "Amp"
     },
     "dialog": {
       "delete": {

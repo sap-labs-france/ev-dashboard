@@ -1825,6 +1825,7 @@
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
+      "voltage": "Voltage (V)",
       "plan_watts": "Plan (kW)",
       "plan_amps": "Plan (A)",
       "limit_plan_watts": "Plan Limit (kW)",

@@ -29,6 +29,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @ViewChild('success', { static: true }) public successElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
   @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
+  @ViewChild('purple', { static: true }) public purpleElement!: ElementRef;
 
   public loadAllConsumptions = false;
   public selectedUnit = ConsumptionUnit.KILOWATT;
@@ -46,6 +47,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private amountColor!: string;
   private limitColor!: string;
   private stateOfChargeColor!: string;
+  private instantVoltsColor!: string;
   private defaultColor!: string;
   private language!: string;
 
@@ -68,6 +70,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.amountColor = this.getStyleColor(this.warningElement.nativeElement);
     this.stateOfChargeColor = this.getStyleColor(this.successElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
+    this.instantVoltsColor = this.getStyleColor(this.purpleElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
@@ -124,14 +127,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
-      // Y Axe: Power
-      this.options.scales.yAxes = [{
-        id: 'power',
-        ticks: {
-          callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? value / 1000 : value,
-          min: 0,
-        },
-      }];
       // Dataset Instant Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
@@ -168,7 +163,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           'transactions.graph.energy_amps' : 'transactions.graph.energy'),
       });
       // Amount
-      if (this.transaction.values.find((c) => Utils.objectHasProperty(c, 'cumulatedAmount')) !== undefined) {
+      if (this.transaction.values.find((consumption) => consumption.cumulatedAmount > 0)) {
         // Dataset Amount
         datasets.push({
           name: 'cumulatedAmount',
@@ -202,8 +197,40 @@ export class ConsumptionChartComponent implements AfterViewInit {
           });
         }
       }
+      // Voltage
+      if (this.transaction.values.find((consumption) => consumption.instantVolts > 0)) {
+        // Dataset Amount
+        datasets.push({
+          name: 'instantVolts',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'voltage',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantVoltsColor),
+          label: this.translateService.instant('transactions.graph.voltage'),
+        });
+        // Y Axe: Amount
+        if (!this.options.scales.yAxes.find(y => y.id === 'voltage')) {
+          this.options.scales.yAxes.push({
+            id: 'voltage',
+            type: 'linear',
+            position: 'right',
+            display: 'auto',
+            gridLines: {
+              display: true,
+              color: 'rgba(0,0,0,0.2)',
+            },
+            ticks: {
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+              min: 0,
+              fontColor: this.defaultColor,
+            },
+          });
+        }
+      }
       // SoC
-      if (this.transaction.stateOfCharge || (this.transaction.stop && this.transaction.stop.stateOfCharge)) {
+      if (this.transaction.stateOfCharge > 0 || (this.transaction.stop && this.transaction.stop.stateOfCharge > 0)) {
         // Dataset SoC
         datasets.push({
           name: 'stateOfCharge',
@@ -262,6 +289,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const cumulatedConsumptionAmpsDataSet = this.getDataSet('cumulatedConsumptionAmps');
       const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
+      const instantVoltsDataSet = this.getDataSet('instantVolts');
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
@@ -284,6 +312,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
         }
         if (stateOfChargeDataSet) {
           stateOfChargeDataSet.push(consumption.stateOfCharge);
+        }
+        if (instantVoltsDataSet) {
+          instantVoltsDataSet.push(consumption.instantVolts);
         }
         if (limitWattsDataSet) {
           limitWattsDataSet.push(consumption.limitWatts);
@@ -332,19 +363,21 @@ export class ConsumptionChartComponent implements AfterViewInit {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantWatts':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-2') + 'kW';
+                    return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
                   case 'instantAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
                   case 'cumulatedConsumptionWh':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-2') + 'kW.h';
+                    return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW.h';
                   case 'cumulatedConsumptionAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.0-2') + 'A.h';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' A.h';
                   case 'limitWatts':
-                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-2') + 'kW';
+                    return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
                   case 'limitAmps':
-                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
                   case 'stateOfCharge':
-                    return ` ${value}%`;
+                    return ` ${value} %`;
+                  case 'instantVolts':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' V';
                   case 'amount':
                     return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   case 'cumulatedAmount':
@@ -404,8 +437,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? value / 1000 : value,
               fontColor: this.defaultColor,
+              min: 0,
             },
             gridLines: {
               display: true,

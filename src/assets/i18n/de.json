@@ -1825,6 +1825,7 @@
       "reset_zoom": "Reset",
       "no_consumption": "Keine Verbrauchsdaten verfügbar",
       "cumulated_amount": "Betrag",
+      "voltage": "Voltage (V)",
       "limit_plan_watts": "Geplantes Limit (kW)",
       "limit_plan_amps": "Plan Limit (A)",
       "limit": "Max Limit",

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added AC Voltage in Session's consumption chart`,
               `Added new firmware versions in Charging Station's Templates`,
               `First Session tab is now Session In Progress`,
               `Fixed translation errors`,

@@ -182,14 +182,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
+    let filterIsChanged = false;
     if ((filterDef.type === FilterType.DIALOG_TABLE ||
       filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
-      filterDef.currentValue = [];
+      if (filterDef.currentValue.length > 0) {
+        filterDef.currentValue = [];
+        filterIsChanged = true;
+      }
       filterDef.cleared = true;
     } else {
-      filterDef.currentValue = null;
+      if (filterDef.currentValue) {
+        filterDef.currentValue = null;
+        filterIsChanged = true;
+      }
     }
-    this.filterChanged(filterDef);
+    if (filterIsChanged) {
+      this.filterChanged(filterDef);
+    }
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {

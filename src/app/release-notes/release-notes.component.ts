@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.0',
+        version: '2.3.1',
         date: new Date('2020-06-17'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed User got notified with Session Not Started when he stopped his Session with his badge`,
               `Handle Power Meter Values per phase on Ebee Charging Station`,
               `Add latest stable Ebee firmware version in templates`,
               `Removed timezone in templates for Schneider Charging Station`,

@@ -30,6 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added new firmware versions in Charging Station's Templates`,
+              `First Session tab is now Session In Progress`,
+              `Fixed translation errors`,
               `Fixed User got notified with Session Not Started when he stopped his Session with his badge`,
               `Handle Power Meter Values per phase on Ebee Charging Station`,
               `Add latest stable Ebee firmware version in templates`,

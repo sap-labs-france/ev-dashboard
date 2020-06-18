@@ -35,10 +35,12 @@ export interface CarCatalog extends Data {
 }
 
 export interface UserCar extends Data {
-  user: User;
+  id: string;
+  userID: string;
   carID: string;
-  default: boolean;
-  type?: CarType;
+  user?: User;
+  car?: Car;
+  default?: boolean;
   owner?: boolean;
 }
 
@@ -46,14 +48,16 @@ export interface Car extends Data {
   id: string;
   vin: string;
   licensePlate: string;
-  carCatalog: CarCatalog;
-  carCatalogID?: number;
+  carCatalogID: number;
+  carCatalog?: CarCatalog;
   userIDs?: string;
-  forced?: boolean;
-  isDefault?: boolean;
+  users?: User[];
   type?: CarType;
   converterType?: string;
+  isDefault?: boolean;
   owner?: boolean;
+  usersCar?: UserCar[];
+  forced: boolean;
 }
 
 export enum CarType {

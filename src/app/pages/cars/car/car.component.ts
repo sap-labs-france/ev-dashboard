@@ -458,7 +458,7 @@ export class CarComponent implements OnInit {
       // Check status
       switch (error.status) {
         // Email already exists
-        case HTTPError.CAR_ALREADY_EXISTS_ERROR_DIFFERENT_USER:
+        case HTTPError.CAR_ALREADY_EXIST_ERROR_DIFFERENT_USER:
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('settings.car.assign_user_to_car_dialog_title'),
             this.translateService.instant('settings.car.assign_user_to_car_dialog_confirm'),
@@ -470,7 +470,7 @@ export class CarComponent implements OnInit {
           });
           break;
         // Car already created by this user
-        case HTTPError.CAR_ALREADY_EXISTS_ERROR:
+        case HTTPError.CAR_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('cars.car_exist');
           break;
         // User already assigned

@@ -136,7 +136,7 @@ export class UsersCarEditableTableDataSource extends EditableTableDataSource<Use
     const index = this.editableRows.indexOf(userCar);
     let actionDone = false;
     switch (actionDef.id) {
-      case ButtonAction.INLINE_DELETE:
+      case ButtonAction.DELETE:
         this.editableRows.splice(index, 1);
         actionDone = true;
         break;

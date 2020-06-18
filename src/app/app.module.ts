@@ -113,7 +113,7 @@ registerLocaleData(localeEs, 'es');
     MatToolbarModule,
   ],
   providers: [
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
 })
 export class MaterialModule {
@@ -160,7 +160,7 @@ export function localeFactory(
     HttpClientModule,
     ChartModule,
     BrowserNotSupportedModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ'}),
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ' }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -194,9 +194,9 @@ export function localeFactory(
     TranslateService,
     WindowService,
     DashboardService,
-    {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
-    {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
+    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
+    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
   bootstrap: [AppComponent],
 })

@@ -12,7 +12,7 @@ export class DateRangeFilter extends TableFilter {
       httpId: 'DateRange',
       type: FilterType.DATE_RANGE,
       name: 'general.search_date',
-      class: 'col-sm-6 col-md-4 col-lg-3 col-xl-2',
+      class: 'col-sm-6 col-md-4 col-lg-3 col-md-3',
       timePicker24Hour: true,
       timePicker: true,
       timePickerSeconds: true,

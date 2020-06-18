@@ -137,15 +137,6 @@
                         [value]="filterDef.currentValue" autocomplete="false">
             </mat-form-field>
 
-            <!-- <div *ngIf="filterDef.type === 'date-range'">
-                <date-range-picker [timePicker]="filterDef.timePicker"
-                [timePickerSeconds]="filterDef.timePickerSeconds"
-                [timePicker24Hour]="filterDef.timePicker24Hour"
-                [currentValue]="filterDef.currentValue"
-                (dateRangeChange)="dateRangeFilterChanged(filterDef, $event)"
-                ></date-range-picker>
-            </div> -->
-
             <mat-form-field *ngIf="filterDef.type === 'date-range'">
               <input
                   matInput

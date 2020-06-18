@@ -86,7 +86,6 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   public dateFromChange(date: Date) {
-    debugger;
     this.selectedDateFrom = date;
   }
 

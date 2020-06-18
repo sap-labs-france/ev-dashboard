@@ -412,13 +412,13 @@ export class StatisticsFiltersComponent implements OnInit {
       if (filterDef.type === FilterType.DATE_RANGE) {
         if (this.selectedYear === 0) {
           filterDef.currentValue = {
-            startDate: moment(new Date(this.selectedYear, 0, 1)),
-            endDate: moment(new Date(this.selectedYear + 1, 0, 1))
+            startDate: moment(),
+            endDate: moment().add(1, 'years'),
           };
         } else {
           filterDef.currentValue = {
-            startDate: moment(),
-            endDate: moment().add(1, 'years'),
+            startDate: moment(new Date(this.selectedYear, 0, 1)),
+            endDate: moment(new Date(this.selectedYear + 1, 0, 1))
           };
         }
       }

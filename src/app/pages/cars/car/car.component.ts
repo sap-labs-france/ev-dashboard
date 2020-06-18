@@ -401,11 +401,15 @@ export class CarComponent implements OnInit {
       this.spinnerService.hide();
       // Check status
       switch (error.status) {
-        // Email already exists
-        case HTTPError.CAR_ALREADY_EXISTS_ERROR:
+        case HTTPError.CAR_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('cars.car_exist');
           break;
-        // No longer exists!
+        case HTTPError.USER_NOT_OWNER_OF_THE_CAR:
+          this.messageService.showErrorMessage('cars.user_not_owner');
+          break;
+        case HTTPError.NO_CAR_FOR_USER:
+          this.messageService.showErrorMessage('cars.car_not_found');
+          break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.update_error');
       }

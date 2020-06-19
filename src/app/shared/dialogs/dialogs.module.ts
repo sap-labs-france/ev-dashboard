@@ -19,8 +19,8 @@ import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-di
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
 import { CarConverterDialogTableDataSource } from './car-converter/car-converter-dialog-table-data-source';
 import { CarConverterDialogComponent } from './car-converter/car-converter-dialog.component';
-import { CarMakersTableDataSource } from './car/car-makers-dialog-table-data-source';
-import { CarMakersDialogComponent } from './car/car-makers-dialog.component';
+import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
+import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
 import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';

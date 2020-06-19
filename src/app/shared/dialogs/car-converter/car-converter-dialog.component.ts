@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { ChargeStandardTable } from 'app/types/Car';
 import { KeyValue } from 'app/types/GlobalType';
 import { Utils } from 'app/utils/Utils';
-
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CarConverterDialogTableDataSource } from './car-converter-dialog-table-data-source';
-import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',

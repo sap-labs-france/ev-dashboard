@@ -15,6 +15,20 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 // Other
 $app-success: mat-palette($mat-green, 700);
 $app-warning: mat-palette($mat-orange, 700);
+$app-yellow: mat-palette($mat-yellow, 700);
+$app-purple: mat-palette($mat-deep-purple, 700);
+$app-grey: mat-palette($mat-grey, 700);
+$app-brown: mat-palette($mat-brown, 700);
+$app-blue-grey: mat-palette($mat-blue-grey, 700);
+$app-deep-orange: mat-palette($mat-deep-orange, 700);
+$app-lime: mat-palette($mat-lime, 700);
+$app-light-green: mat-palette($mat-light-green, 700);
+$app-teal: mat-palette($mat-teal, 700);
+$app-cyan: mat-palette($mat-cyan, 700);
+$app-indigo: mat-palette($mat-indigo, 700);
+$app-pink: mat-palette($mat-pink, 700);
+$app-red: mat-palette($mat-red, 700);
+
 // Bg/Fg
 $app-foreground: map-get($app-theme, foreground);
 $app-background: map-get($app-theme, background);

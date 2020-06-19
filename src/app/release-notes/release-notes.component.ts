@@ -24,12 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.1',
-        date: new Date('2020-06-18'),
+        version: '2.3.2',
+        date: new Date('2020-06-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added auto-refresh toggle button in Charging Plans`,
+              `Added AC/DC Voltage and Voltage per phase when available in Session's consumption chart`,
+              `Added new firmware versions in Charging Station's Templates`,
+              `First Session tab is now Session In Progress`,
+              `Fixed translation errors`,
               `Fixed User got notified with Session Not Started when he stopped his Session with his badge`,
               `Handle Power Meter Values per phase on Ebee Charging Station`,
               `Add latest stable Ebee firmware version in templates`,

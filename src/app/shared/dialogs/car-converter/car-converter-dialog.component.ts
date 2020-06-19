@@ -6,6 +6,7 @@ import { Utils } from 'app/utils/Utils';
 
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { CarConverterDialogTableDataSource } from './car-converter-dialog-table-data-source';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
@@ -13,6 +14,7 @@ import { CarConverterDialogTableDataSource } from './car-converter-dialog-table-
 export class CarConverterDialogComponent extends DialogTableDataComponent<ChargeStandardTable> {
   constructor(
     protected dialogRef: MatDialogRef<CarConverterDialogComponent>,
+    private translateService: TranslateService,
     private carConverterDialogTableDataSource: CarConverterDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {
     super(data, dialogRef, carConverterDialogTableDataSource);
@@ -31,7 +33,7 @@ export class CarConverterDialogComponent extends DialogTableDataComponent<Charge
         row.id = row.type;
         items.push({
           key: row.type,
-          value: Utils.buildConverterName(row),
+          value: Utils.buildConverterName(row, this.translateService),
           objectRef: row
         });
       });

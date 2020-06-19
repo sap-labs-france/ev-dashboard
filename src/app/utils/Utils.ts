@@ -582,17 +582,20 @@ export class Utils {
     return carName;
   }
 
-  public static buildConverterName(chargeStandardTable: ChargeStandardTable) {
+  public static buildConverterName(chargeStandardTable: ChargeStandardTable, translateService: TranslateService) {
     let converterName: string;
     if (!chargeStandardTable) {
-      return '######';
+      return '-';
     }
     converterName = chargeStandardTable.type;
     if (chargeStandardTable.evsePhaseAmp) {
-      converterName += ` ${chargeStandardTable.evsePhaseAmp}A`;
+      converterName += ` - ${chargeStandardTable.evsePhaseAmp} A`;
     }
     if (chargeStandardTable.evsePhase) {
-      converterName += ` ${chargeStandardTable.evsePhase} Phases`;
+      converterName += ` - ${chargeStandardTable.evsePhase} ${translateService.instant('cars.evse_phase')}`;
+    }
+    if (chargeStandardTable.chargePower) {
+      converterName += ` - ${chargeStandardTable.chargePower} kW`;
     }
     return converterName;
   }

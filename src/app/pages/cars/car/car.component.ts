@@ -167,7 +167,8 @@ export class CarComponent implements OnInit {
         const actualConverter = car.carCatalog.chargeStandardTables.find(function (element) {
           return element.type === car.converterType;
         });
-        this.formGroup.controls.converter.setValue(Utils.buildConverterName(actualConverter));
+        this.formGroup.controls.converter.setValue(
+          Utils.buildConverterName(actualConverter, this.translateService));
       }
       if (car.carCatalogID) {
         this.formGroup.controls.carCatalogID.setValue(car.carCatalogID);

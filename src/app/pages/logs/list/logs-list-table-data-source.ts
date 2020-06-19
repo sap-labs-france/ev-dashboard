@@ -6,6 +6,7 @@ import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { Log, LogButtonAction } from 'app/types/Log';
+import { ServerAction } from 'app/types/Server';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,6 +33,7 @@ import { TableExportLogsAction } from '../table-actions/table-export-logs-action
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
+  private logActionTableFilter = new LogActionTableFilter().getFilterDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -49,7 +51,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     this.activatedRoute.queryParams.subscribe(params => {
       this.setSearchValue(params['id'] ? params['id'] : '');
       if (params['fromChargingProfile']) {
-        this.setStaticFilters([{ Action: 'ChargingProfiles|ChargingProfileDelete|ChargingProfileUpdate' }]);
+        this.logActionTableFilter.currentValue = [{ key: ServerAction.CHARGING_PROFILES, value: ServerAction.CHARGING_PROFILES },
+        { key: ServerAction.CHARGING_PROFILE_DELETE, value: ServerAction.CHARGING_PROFILE_DELETE },
+        { key: ServerAction.CHARGING_PROFILE_UPDATE, value: ServerAction.CHARGING_PROFILE_UPDATE }];
+        this.filterChanged(this.logActionTableFilter);
       }
     });
   }
@@ -211,7 +216,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new StartDateFilter().getFilterDef(),
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
-        new LogActionTableFilter().getFilterDef(),
+        // new LogActionTableFilter().getFilterDef(),
+        this.logActionTableFilter,
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
       ];
@@ -221,7 +227,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new StartDateFilter().getFilterDef(),
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
-        new LogActionTableFilter().getFilterDef(),
+        this.logActionTableFilter,
+        // new LogActionTableFilter().getFilterDef(),
         new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
@@ -231,7 +238,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new StartDateFilter().getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
-      new LogActionTableFilter().getFilterDef(),
+      // new LogActionTableFilter().getFilterDef(),
+      this.logActionTableFilter,
       new LogHostTableFilter().getFilterDef(),
       new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
       new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];

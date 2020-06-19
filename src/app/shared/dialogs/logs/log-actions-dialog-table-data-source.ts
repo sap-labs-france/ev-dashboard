@@ -56,7 +56,7 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
       {
         id: 'action',
         name: 'logs.actions',
-        class: 'text-left col-30p',
+        class: 'text-left col-80p',
         sorted: true,
         direction: 'asc',
         sortable: true

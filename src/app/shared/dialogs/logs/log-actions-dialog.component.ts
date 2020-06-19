@@ -17,7 +17,7 @@ export class LogActionsDialogComponent extends DialogTableDataComponent<LogActio
     super(data, dialogRef, logActionsDialogTableDataSource);
     // Default title
     if (this.title === '') {
-      this.title = 'users.select_users';
+      this.title = 'logs.select_actions';
     }
     this.logActionsDialogTableDataSource.destroyDatasource();
   }

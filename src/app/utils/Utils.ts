@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
-import { CarCatalog, ChargeStandardTable } from 'app/types/Car';
+import { CarCatalog, ChargeStandardTable, CarType, UserCar } from 'app/types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
@@ -551,6 +551,44 @@ export class Utils {
     return 'N/A';
   }
 
+  public static buildCarUsersFullName(users: User[], usersCar: UserCar[]) {
+    let usersName: string;
+    if (Utils.isEmptyArray(users)) {
+      return '-';
+    }
+    // Find the owner
+    const userCarOwner = usersCar.find((userCar) => userCar.owner);
+    if (userCarOwner) {
+      const userOwner = users.find((user) => user.id === userCarOwner.userID);
+      if (userOwner) {
+        // Build user name
+        usersName = Utils.buildUserFullName(userOwner);
+      }
+    }
+    // Build with first user name
+    if (!usersName) {
+      usersName = Utils.buildUserFullName(users[0]);
+    }
+    // Add number of remaining users
+    if (users.length > 1) {
+      usersName += ` (+${users.length - 1})`;
+    }
+    return usersName;
+  }
+
+  public static buildUsersFullName(users: User[]) {
+    if (Utils.isEmptyArray(users)) {
+      return '-';
+    }
+    // Build first user name
+    let usersName = Utils.buildUserFullName(users[0]);
+    // Add number of remaing users
+    if (users.length > 1) {
+      usersName += ` (+${users.length - 1})`;
+    }
+    return usersName;
+  }
+
   public static buildUserFullName(user: User|UserToken) {
     let fullName: string;
     if (!user || !user.name) {
@@ -582,7 +620,18 @@ export class Utils {
     return carName;
   }
 
-  public static buildConverterName(chargeStandardTable: ChargeStandardTable, translateService: TranslateService) {
+  public static getCarType(carType: CarType, translateService: TranslateService): string {
+    switch (carType) {
+      case CarType.COMPANY:
+        return translateService.instant('cars.company_car');
+      case CarType.PRIVATE:
+        return translateService.instant('cars.private_car');
+      case CarType.POOL_CAR:
+        return translateService.instant('cars.pool_car');
+    }
+  }
+
+  public static buildConverterName(chargeStandardTable: ChargeStandardTable, translateService: TranslateService): string {
     let converterName: string;
     if (!chargeStandardTable) {
       return '-';

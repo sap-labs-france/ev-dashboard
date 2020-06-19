@@ -10,7 +10,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarButtonAction } from 'app/types/Car';
+import { Car, CarButtonAction, CarType } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
+import { User } from 'app/types/User';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -88,8 +89,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        headerClass: 'col-10p',
+        class: 'text-left col-15p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -97,18 +98,26 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       {
         id: 'carCatalog.vehicleModel',
         name: 'cars.vehicle_model',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        headerClass: 'col-10p',
+        class: 'text-left col-15p',
         sortable: true,
         formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
       },
       {
         id: 'carCatalog.vehicleModelVersion',
         name: 'cars.vehicle_model_version',
-        headerClass: 'col-20p',
-        class: 'text-left col-20p',
+        headerClass: 'col-10p',
+        class: 'text-left col-15p',
         sortable: true,
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
+      },
+      {
+        id: 'users',
+        name: 'cars.users',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (users: User[], car: Car) => Utils.buildCarUsersFullName(users, car.usersCar),
       },
       {
         id: 'vin',
@@ -129,6 +138,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
+        formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
       },
     ];
     return tableColumnDef;

@@ -216,16 +216,16 @@ export class UsersCarEditableTableDataSource extends EditableTableDataSource<Use
       {
         id: 'default',
         editType: TableEditType.CHECK_BOX,
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
         name: 'cars.default_car',
-        class: 'col-10p',
       },
       {
         id: 'owner',
-        // isAngularComponent: true,
         editType: TableEditType.RADIO_BUTTON,
-        headerClass: 'col-15p',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
         name: 'cars.car_owner',
-        class: 'col-10p',
       },
     ];
     return columns;

@@ -1003,6 +1003,7 @@
     "search_last_week": "Last Week",
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
+    "select_actions":"Select Actions",
     "redirect": "Check logs",
     "no_logs": "No logs matching the filters",
     "dialog": {

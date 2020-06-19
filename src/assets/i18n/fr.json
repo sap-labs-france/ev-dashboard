@@ -1003,6 +1003,7 @@
     "search_last_week": "Semaine Dernière",
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
+    "select_actions":"Selection Actions",
     "redirect": "Checker les logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {

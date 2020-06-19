@@ -30,6 +30,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
   @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
   @ViewChild('purple', { static: true }) public purpleElement!: ElementRef;
+  @ViewChild('purple1', { static: true }) public purple1Element!: ElementRef;
+  @ViewChild('purple2', { static: true }) public purple2Element!: ElementRef;
+  @ViewChild('purple3', { static: true }) public purple3Element!: ElementRef;
 
   public loadAllConsumptions = false;
   public selectedUnit = ConsumptionUnit.KILOWATT;
@@ -48,6 +51,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private limitColor!: string;
   private stateOfChargeColor!: string;
   private instantVoltsColor!: string;
+  private instantVoltsL1Color!: string;
+  private instantVoltsL2Color!: string;
+  private instantVoltsL3Color!: string;
   private defaultColor!: string;
   private language!: string;
 
@@ -71,6 +77,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.stateOfChargeColor = this.getStyleColor(this.successElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.instantVoltsColor = this.getStyleColor(this.purpleElement.nativeElement);
+    this.instantVoltsL1Color = this.getStyleColor(this.purple1Element.nativeElement);
+    this.instantVoltsL2Color = this.getStyleColor(this.purple2Element.nativeElement);
+    this.instantVoltsL3Color = this.getStyleColor(this.purple3Element.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
@@ -124,6 +133,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     }
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   private createGraphData() {
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
@@ -199,7 +209,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }
       // Voltage
       if (this.transaction.values.find((consumption) => consumption.instantVolts > 0)) {
-        // Dataset Amount
+        // Dataset
         datasets.push({
           name: 'instantVolts',
           type: 'line',
@@ -210,7 +220,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           ...Utils.formatLineColor(this.instantVoltsColor),
           label: this.translateService.instant('transactions.graph.voltage'),
         });
-        // Y Axe: Amount
+        // Y Axe: Voltage
         if (!this.options.scales.yAxes.find(y => y.id === 'voltage')) {
           this.options.scales.yAxes.push({
             id: 'voltage',
@@ -228,6 +238,44 @@ export class ConsumptionChartComponent implements AfterViewInit {
             },
           });
         }
+      }
+      // Voltage L1/L2/L3
+      if (this.transaction.values.find((consumption) => consumption.instantVoltsL1 > 0) ||
+        this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
+        this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
+        // Dataset
+        datasets.push({
+          name: 'instantVoltsL1',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'voltage',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantVoltsL1Color),
+          label: this.translateService.instant('transactions.graph.voltage_l1'),
+        });
+        // Dataset
+        datasets.push({
+          name: 'instantVoltsL2',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'voltage',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantVoltsL2Color),
+          label: this.translateService.instant('transactions.graph.voltage_l2'),
+        });
+        // Dataset
+        datasets.push({
+          name: 'instantVoltsL3',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'voltage',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantVoltsL3Color),
+          label: this.translateService.instant('transactions.graph.voltage_l3'),
+        });
       }
       // SoC
       if (this.transaction.stateOfCharge > 0 || (this.transaction.stop && this.transaction.stop.stateOfCharge > 0)) {
@@ -290,6 +338,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
       const instantVoltsDataSet = this.getDataSet('instantVolts');
+      const instantVoltsL1DataSet = this.getDataSet('instantVoltsL1');
+      const instantVoltsL2DataSet = this.getDataSet('instantVoltsL2');
+      const instantVoltsL3DataSet = this.getDataSet('instantVoltsL3');
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
@@ -315,6 +366,15 @@ export class ConsumptionChartComponent implements AfterViewInit {
         }
         if (instantVoltsDataSet) {
           instantVoltsDataSet.push(consumption.instantVolts);
+        }
+        if (instantVoltsL1DataSet) {
+          instantVoltsL1DataSet.push(consumption.instantVoltsL1);
+        }
+        if (instantVoltsL2DataSet) {
+          instantVoltsL2DataSet.push(consumption.instantVoltsL2);
+        }
+        if (instantVoltsL3DataSet) {
+          instantVoltsL3DataSet.push(consumption.instantVoltsL3);
         }
         if (limitWattsDataSet) {
           limitWattsDataSet.push(consumption.limitWatts);
@@ -377,7 +437,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
                   case 'stateOfCharge':
                     return ` ${value} %`;
                   case 'instantVolts':
-                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' V';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V';
+                  case 'instantVoltsL1':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' L1 V';
+                  case 'instantVoltsL2':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' L2 V';
+                  case 'instantVoltsL3':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' L3 V';
                   case 'amount':
                     return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   case 'cumulatedAmount':

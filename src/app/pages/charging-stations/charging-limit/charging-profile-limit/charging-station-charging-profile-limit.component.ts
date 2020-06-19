@@ -60,7 +60,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public currentChargingProfile: ChargingProfile;
   public currentChargingSchedules: Schedule[] = [];
   public isSmartChargingComponentActive = false;
-  private autoRefreshEnabled = true;
+  public autoRefreshEnabled = true;
 
   constructor(
     public scheduleTableDataSource: ChargingStationChargingProfileLimitScheduleTableDataSource,

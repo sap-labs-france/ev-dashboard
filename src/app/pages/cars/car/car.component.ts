@@ -121,11 +121,13 @@ export class CarComponent implements OnInit {
     this.converter = this.formGroup.controls['converter'];
     this.converterType = this.formGroup.controls['converterType'];
     this.type = this.formGroup.controls['type'];
-    this.type.valueChanges.subscribe(value => {
+    this.converter.disable();
+    this.type.valueChanges.subscribe((value) => {
       this.isPool = value === CarType.POOL_CAR;
     });
-    this.carCatalog.valueChanges.subscribe(value => {
+    this.carCatalog.valueChanges.subscribe((value) => {
       this.converter.setValue('');
+      this.converter.enable();
       this.converterType.setValue('');
     });
     if (!this.isBasic) {
@@ -150,34 +152,36 @@ export class CarComponent implements OnInit {
     this.centralServerService.getCar(this.currentCarID).subscribe((car: Car) => {
       // Init form
       if (car.id) {
-        this.formGroup.controls.id.setValue(car.id);
+        this.id.setValue(car.id);
       }
       if (car.vin) {
-        this.formGroup.controls.vin.setValue(car.vin);
+        this.vin.setValue(car.vin);
       }
       if (car.licensePlate) {
-        this.formGroup.controls.licensePlate.setValue(car.licensePlate);
+        this.licensePlate.setValue(car.licensePlate);
       }
       if (car.carCatalog) {
         this.selectedCarCatalog = car.carCatalog;
-        this.formGroup.controls.carCatalog.setValue(car.carCatalog.vehicleMake + ' ' + car.carCatalog.vehicleModel);
+        this.carCatalog.setValue(car.carCatalog.vehicleMake + ' ' + car.carCatalog.vehicleModel);
+      } else {
+        this.converter.disable();
       }
       if (car.converterType) {
-        this.formGroup.controls.converterType.setValue(car.converterType);
+        this.converterType.setValue(car.converterType);
         const actualConverter = car.carCatalog.chargeStandardTables.find(function (element) {
           return element.type === car.converterType;
         });
-        this.formGroup.controls.converter.setValue(
+        this.converter.setValue(
           Utils.buildConverterName(actualConverter, this.translateService));
       }
       if (car.carCatalogID) {
-        this.formGroup.controls.carCatalogID.setValue(car.carCatalogID);
+        this.carCatalogID.setValue(car.carCatalogID);
       }
       if (car.type) {
-        this.formGroup.controls.type.setValue(car.type);
+        this.type.setValue(car.type);
       }
       if (this.isBasic) {
-        this.formGroup.controls.isDefault.setValue(car.isDefault);
+        this.isDefault.setValue(car.isDefault);
       }
       this.spinnerService.hide();
       this.formGroup.updateValueAndValidity();

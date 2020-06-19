@@ -84,7 +84,7 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeSt
         name: 'cars.charge_power',
         headerClass: 'text-center col-20p',
         class: 'text-center col-20p',
-        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0) : '-',
+        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0, 0) : '-',
       },
       {
         id: 'chargeTime',

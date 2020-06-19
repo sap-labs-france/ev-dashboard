@@ -1,5 +1,6 @@
 import 'bootstrap';
 import 'chartjs-plugin-zoom';
+import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'popper.js';
@@ -7,6 +8,7 @@ import 'popper.js';
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import localeDe from '@angular/common/locales/de';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
@@ -73,6 +75,7 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 
 registerLocaleData(localeFr, 'fr');
+registerLocaleData(localeDe, 'de');
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -110,7 +113,7 @@ registerLocaleData(localeEs, 'es');
     MatToolbarModule,
   ],
   providers: [
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
 })
 export class MaterialModule {
@@ -157,7 +160,7 @@ export function localeFactory(
     HttpClientModule,
     ChartModule,
     BrowserNotSupportedModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ'}),
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ' }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -191,9 +194,9 @@ export function localeFactory(
     TranslateService,
     WindowService,
     DashboardService,
-    {provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true},
-    {provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true},
-    {provide: DatetimeAdapter, useClass: MomentDatetimeAdapter},
+    { provide: APP_INITIALIZER, useFactory: configFactory, deps: [ConfigService], multi: true },
+    { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
+    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
   bootstrap: [AppComponent],
 })
@@ -210,10 +213,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr', 'es']);
+    translateService.addLangs(['en', 'fr', 'es', 'de']);
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es|de/) ? language : 'en');
   }
 }

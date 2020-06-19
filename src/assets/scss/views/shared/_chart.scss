@@ -34,6 +34,26 @@
   @include chart-color($brand-disabled);
 }
 
+.chart-yellow {
+  @include chart-color($brand-yellow);
+}
+
+.chart-purple {
+  @include chart-color($brand-purple);
+}
+
+.chart-purple-1 {
+  @include chart-color(mat-color($app-indigo, 500));
+}
+
+.chart-purple-2 {
+  @include chart-color(mat-color($app-indigo, 400));
+}
+
+.chart-purple-3 {
+  @include chart-color(mat-color($app-indigo, 300));
+}
+
 .chart-container {
   position: relative;
   width: 100%;

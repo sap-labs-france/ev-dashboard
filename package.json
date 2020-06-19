@@ -105,7 +105,7 @@
     "rxjs": "^6.5.5",
     "socket.io-client": "^2.3.0",
     "sweetalert2": "^9.10.13",
-    "tslib": "^1.11.2",
+    "tslib": "^1.13.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {

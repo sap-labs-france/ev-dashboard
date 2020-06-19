@@ -176,7 +176,6 @@ export class CentralServerNotificationService {
   }
 
   private monitorChangeNotification() {
-    console.log('Socket IO - monitorChangeNotification() is called');
     // Monitor Companies
     this.socketIOClient.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
       this.subjectCompanies.next(changeNotification);

@@ -1,5 +1,6 @@
 import 'bootstrap';
 import 'chartjs-plugin-zoom';
+import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'popper.js';
@@ -7,6 +8,7 @@ import 'popper.js';
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import localeDe from '@angular/common/locales/de';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
@@ -74,6 +76,7 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 
 registerLocaleData(localeFr, 'fr');
+registerLocaleData(localeDe, 'de');
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -212,10 +215,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr', 'es']);
+    translateService.addLangs(['en', 'fr', 'es', 'de']);
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es|de/) ? language : 'en');
   }
 }

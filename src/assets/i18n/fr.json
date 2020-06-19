@@ -1826,6 +1826,7 @@
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
       "voltage": "Voltage (V)",
+      "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
       "voltage_l2": "Voltage L2 (V)",
       "voltage_l3": "Voltage L3 (V)",

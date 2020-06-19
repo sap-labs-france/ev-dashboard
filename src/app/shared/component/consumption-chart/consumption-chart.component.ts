@@ -135,6 +135,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private createGraphData() {
+    let voltageYAxisToCreate = false;
     if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
       const datasets: ChartDataSets[] = [];
       // Dataset Instant Amps/Power
@@ -209,6 +210,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }
       // Voltage
       if (this.transaction.values.find((consumption) => consumption.instantVolts > 0)) {
+        voltageYAxisToCreate = true;
         // Dataset
         datasets.push({
           name: 'instantVolts',
@@ -220,29 +222,27 @@ export class ConsumptionChartComponent implements AfterViewInit {
           ...Utils.formatLineColor(this.instantVoltsColor),
           label: this.translateService.instant('transactions.graph.voltage'),
         });
-        // Y Axe: Voltage
-        if (!this.options.scales.yAxes.find(y => y.id === 'voltage')) {
-          this.options.scales.yAxes.push({
-            id: 'voltage',
-            type: 'linear',
-            position: 'right',
-            display: 'auto',
-            gridLines: {
-              display: true,
-              color: 'rgba(0,0,0,0.2)',
-            },
-            ticks: {
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
-              min: 0,
-              fontColor: this.defaultColor,
-            },
-          });
-        }
+      }
+      // DC Voltage
+      if (this.transaction.values.find((consumption) => consumption.instantVoltsDC > 0)) {
+        voltageYAxisToCreate = true;
+        // Dataset
+        datasets.push({
+          name: 'instantVoltsDC',
+          type: 'line',
+          data: [],
+          hidden: true,
+          yAxisID: 'voltage',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantVoltsColor),
+          label: this.translateService.instant('transactions.graph.voltage_dc'),
+        });
       }
       // Voltage L1/L2/L3
       if (this.transaction.values.find((consumption) => consumption.instantVoltsL1 > 0) ||
         this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
         this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
+        voltageYAxisToCreate = true;
         // Dataset
         datasets.push({
           name: 'instantVoltsL1',
@@ -308,6 +308,24 @@ export class ConsumptionChartComponent implements AfterViewInit {
             });
         }
       }
+      // Y Axe: Voltage
+      if (voltageYAxisToCreate) {
+        this.options.scales.yAxes.push({
+          id: 'voltage',
+          type: 'linear',
+          position: 'right',
+          display: 'auto',
+          gridLines: {
+            display: true,
+            color: 'rgba(0,0,0,0.2)',
+          },
+          ticks: {
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+            min: 0,
+            fontColor: this.defaultColor,
+          },
+        });
+      }
       // Assign
       this.data.labels = [];
       this.data.datasets = datasets;
@@ -338,6 +356,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const cumulatedAmountDataSet = this.getDataSet('cumulatedAmount');
       const stateOfChargeDataSet = this.getDataSet('stateOfCharge');
       const instantVoltsDataSet = this.getDataSet('instantVolts');
+      const instantVoltsDCDataSet = this.getDataSet('instantVoltsDC');
       const instantVoltsL1DataSet = this.getDataSet('instantVoltsL1');
       const instantVoltsL2DataSet = this.getDataSet('instantVoltsL2');
       const instantVoltsL3DataSet = this.getDataSet('instantVoltsL3');
@@ -366,6 +385,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
         }
         if (instantVoltsDataSet) {
           instantVoltsDataSet.push(consumption.instantVolts);
+        }
+        if (instantVoltsDCDataSet) {
+          instantVoltsDCDataSet.push(consumption.instantVoltsDC);
         }
         if (instantVoltsL1DataSet) {
           instantVoltsL1DataSet.push(consumption.instantVoltsL1);
@@ -416,6 +438,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
                 this.data.datasets[tooltipItem.datasetIndex].borderColor as ChartColor : '',
             };
           },
+          // tslint:disable-next-line: cyclomatic-complexity
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
             if (this.data.datasets && data.datasets && tooltipItem.datasetIndex !== undefined) {
               const dataSet = data.datasets[tooltipItem.datasetIndex];
@@ -438,12 +461,14 @@ export class ConsumptionChartComponent implements AfterViewInit {
                     return ` ${value} %`;
                   case 'instantVolts':
                     return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V';
+                  case 'instantVoltsDC':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V DC';
                   case 'instantVoltsL1':
-                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' L1 V';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L1';
                   case 'instantVoltsL2':
-                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' L2 V';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L2';
                   case 'instantVoltsL3':
-                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' L3 V';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L3';
                   case 'amount':
                     return this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   case 'cumulatedAmount':

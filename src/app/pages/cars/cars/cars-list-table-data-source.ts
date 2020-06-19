@@ -7,6 +7,7 @@ import { CentralServerNotificationService } from 'app/services/central-server-no
 import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -14,12 +15,12 @@ import { Car, CarButtonAction, CarType } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
-import { User } from 'app/types/User';
+
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -35,6 +36,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private dialog: MatDialog,
+    private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService,
   ) {
     super(spinnerService, translateService);
@@ -112,14 +114,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
-        id: 'users',
-        name: 'cars.users',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        sortable: true,
-        formatter: (users: User[], car: Car) => Utils.buildCarUsersFullName(users, car.usersCar),
-      },
-      {
         id: 'vin',
         name: 'cars.vin',
         headerClass: 'text-center col-15p',
@@ -141,6 +135,39 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
       },
     ];
+    if (this.authorizationService.isAdmin()) {
+      tableColumnDef.splice(3, 0, {
+        id: 'users',
+        name: 'cars.users',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+        formatter: (users: User[], car: Car) => Utils.buildCarUsersFullName(users, car.usersCar),
+      });
+      tableColumnDef.push({
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      });
+    }
     return tableColumnDef;
   }
 

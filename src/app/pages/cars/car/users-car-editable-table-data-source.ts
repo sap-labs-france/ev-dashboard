@@ -191,7 +191,7 @@ export class UsersCarEditableTableDataSource extends EditableTableDataSource<Use
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns: TableColumnDef[] = [
+    const tableColumnDef: TableColumnDef[] = [
       {
         id: 'user.name',
         name: 'users.name',
@@ -228,7 +228,7 @@ export class UsersCarEditableTableDataSource extends EditableTableDataSource<Use
         name: 'cars.car_owner',
       },
     ];
-    return columns;
+    return tableColumnDef;
   }
 
   public buildTableRowActions(): TableActionDef[] {

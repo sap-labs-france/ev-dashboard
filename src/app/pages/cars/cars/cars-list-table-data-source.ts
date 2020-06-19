@@ -123,6 +123,13 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         class: 'text-center col-15p',
         sortable: true,
       },
+      {
+        id: 'type',
+        name: 'cars.type',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+      },
     ];
     return tableColumnDef;
   }

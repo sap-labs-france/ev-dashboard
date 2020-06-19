@@ -75,7 +75,7 @@
                 <div style="text-align: left">
                   <mat-radio-group [formControl]="type">
                     <div *ngFor="let type of carTypes">
-                      <mat-radio-button [disabled]='!usersCarEditableTableDataSource.emptyList() && type.key === CarType.POOL_CAR' value="{{type.key}}">{{ type.value | translate }}</mat-radio-button>
+                      <mat-radio-button value="{{type.key}}">{{ type.value | translate }}</mat-radio-button>
                     </div>
                   </mat-radio-group>
                 </div>

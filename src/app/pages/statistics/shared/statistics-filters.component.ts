@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
 import { FilterParams } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
@@ -58,13 +59,21 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedCategory = 'C';
   public activeButtonOfScopeGroup!: StatisticsButtonGroup;
   private filterParams = {};
+  private language!: string;
+
 
   constructor(
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private dialog: MatDialog) { }
+    private localeService: LocaleService,
+    private dialog: MatDialog) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+      moment.locale(this.language);
+    });
+  }
 
 
   public ngOnInit(): void {
@@ -405,15 +414,21 @@ export class StatisticsFiltersComponent implements OnInit {
 
   // set Date Filter to corresponding year
   private setDateRangeFilterYear(init = false): void {
-    if (init) {
-      this.initDateRange = true;
-    }
     this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
       if (filterDef.type === FilterType.DATE_RANGE) {
+        if (init) {
+          this.initDateRange = true;
+          filterDef.timePicker24Hour = !(this.language === 'en');
+          filterDef.locale = {
+            daysOfWeek: moment.weekdaysMin(),
+            monthNames: moment.monthsShort(),
+            firstDay: moment.localeData().firstDayOfWeek()
+          };
+        }
         if (this.selectedYear === 0) {
           filterDef.currentValue = {
-            startDate: moment(),
-            endDate: moment().add(1, 'years'),
+            startDate: moment(new Date(this.transactionYears[0], 0, 1)),
+            endDate: moment(),
           };
         } else {
           filterDef.currentValue = {

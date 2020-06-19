@@ -15,7 +15,7 @@ export class DateRangeFilter extends TableFilter {
       class: 'col-sm-6 col-md-4 col-lg-3 col-md-3',
       timePicker24Hour: true,
       timePicker: true,
-      timePickerSeconds: true,
+      timePickerSeconds: false,
       currentValue: {
         startDate: moment(),
         endDate: moment().add(1, 'years')

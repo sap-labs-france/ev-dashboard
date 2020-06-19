@@ -146,6 +146,7 @@
                   [timePickerSeconds]="filterDef.timePickerSeconds"
                   [timePicker24Hour]="filterDef.timePicker24Hour"
                   [(ngModel)]="filterDef.currentValue"
+                  [locale]="filterDef.locale"
                   (ngModelChange)="dateRangeChange(filterDef,$event)"
               />
           </mat-form-field>

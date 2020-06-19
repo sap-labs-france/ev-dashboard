@@ -60,6 +60,7 @@ export class StatisticsConsumptionComponent implements OnInit {
     let filterDef: TableFilterDef;
 
     filterDef = new DateRangeFilter().getFilterDef();
+    filterDef.timePicker24Hour = this.language !== 'en';
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();

@@ -49,8 +49,14 @@ export interface TableFilterDef {
   timePickerSeconds?: boolean;
   startDate?: moment.Moment;
   endDate?: moment.Moment;
+  locale?: Locale;
 }
 
+export interface Locale {
+  daysOfWeek: string[];
+  monthNames: string[];
+  firstDay: number;
+}
 export interface DropdownItem {
   id: string;
   name: string;

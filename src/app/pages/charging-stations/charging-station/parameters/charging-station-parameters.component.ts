@@ -30,7 +30,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public isSmartChargingComponentActive = false;
 
   public chargingStationURL!: AbstractControl;
-  public private!: AbstractControl;
+  public public!: AbstractControl;
   public excludeFromSmartCharging: AbstractControl;
   public issuer!: AbstractControl;
   public maximumPower!: AbstractControl;
@@ -68,7 +68,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         Validators.pattern(Constants.URL_PATTERN),
       ]))
     );
-    this.formGroup.addControl('private', new FormControl(false));
+    this.formGroup.addControl('public', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
     this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
@@ -114,7 +114,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     );
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
-    this.private = this.formGroup.controls['private'];
+    this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
     this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
@@ -149,8 +149,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       if (this.chargingStation.chargingStationURL) {
         this.chargingStationURL.setValue(this.chargingStation.chargingStationURL);
       }
-      if (this.chargingStation.private) {
-        this.private.setValue(this.chargingStation.private);
+      if (this.chargingStation.public) {
+        this.public.setValue(this.chargingStation.public);
       }
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);

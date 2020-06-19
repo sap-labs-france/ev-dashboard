@@ -60,6 +60,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public currentChargingProfile: ChargingProfile;
   public currentChargingSchedules: Schedule[] = [];
   public isSmartChargingComponentActive = false;
+  private autoRefreshEnabled = true;
 
   constructor(
     public scheduleTableDataSource: ChargingStationChargingProfileLimitScheduleTableDataSource,
@@ -76,7 +77,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     private spinnerService: SpinnerService,
   ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    if (this.configService.getCentralSystemServer().socketIOEnabled) {
+    if (this.autoRefreshEnabled && this.configService.getCentralSystemServer().socketIOEnabled) {
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
@@ -179,7 +180,13 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   }
 
   public ngOnChanges() {
-    this.refresh();
+    if (this.autoRefreshEnabled) {
+      this.refresh();
+    }
+  }
+
+  public toggleAutoRefesh(value: boolean) {
+    this.autoRefreshEnabled = value;
   }
 
   public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors|null {

@@ -21,7 +21,7 @@ export class TransactionsComponent extends AbstractTabComponent {
     private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
-    super(activatedRoute, windowService, ['history', 'inprogress', 'inerror', 'refund']);
+    super(activatedRoute, windowService, ['inprogress', 'history', 'inerror', 'refund']);
     this.showTransactionRefundTab = this.componentService.isActive(TenantComponents.REFUND) &&
       (this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION)
         || this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights());

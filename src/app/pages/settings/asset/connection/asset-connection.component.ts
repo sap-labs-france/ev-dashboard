@@ -99,7 +99,6 @@ export class AssetConnectionComponent implements OnInit {
   }
 
   public getSubmitButtonTranslation(): string {
-    console.log(this.currentAssetConnection);
     if (this.currentAssetConnection && this.currentAssetConnection.id) {
       return this.translateService.instant('general.update');
     }

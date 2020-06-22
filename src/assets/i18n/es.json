@@ -1414,6 +1414,10 @@
       "types": {
         "schneider": "Gestión de edificios Schneider"
       },
+      "connection_success": "Conexión exitosa",
+      "unknown_connection_error": "Error de conexión desconocido",
+      "invalid_grant": "Usuario o Contraseña incorrectos",
+      "connection_failed": "La conexión falló",
       "description": "E-Mobility puede gestionar el consumo de activos y utilizar esta información con el algoritmo de carga inteligente para equilibrar el consumo de las estaciones de carga en un área determinada.",
       "setting_do_not_exist": "La configuración no existe",
       "setting_not_found": "No se encontró la configuración de activos",

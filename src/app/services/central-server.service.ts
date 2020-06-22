@@ -18,7 +18,7 @@ import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
-import { AssetConnectionSetting, Setting } from 'app/types/Setting';
+import { Setting } from 'app/types/Setting';
 import { Site, SiteUser, UserSite } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
@@ -1696,14 +1696,16 @@ export class CentralServerService {
       );
   }
 
-  public assetTestConnection(assetConnection: AssetConnectionSetting) {
+  public assetTestConnection(assetConnectionId: string) {
+    const params: { [param: string]: string } = {};
+    params['ID'] = assetConnectionId;
     // Verify init
     this.checkInit();
     // Execute REST service
-    return this.httpClient.post<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetTestConnection`,
-      assetConnection,
+    return this.httpClient.get<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetTestConnection`,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),

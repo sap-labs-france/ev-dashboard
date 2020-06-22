@@ -1416,11 +1416,10 @@
       "types": {
         "schneider": "Gestion Bâtiment Schneider"
       },
-      "unauthorized": "Accès non autorisé",
-      "not_found": "Ressource non trouvée",
-      "bad_request": "Mauvaise requête",
-      "connection_failed": "Erreur de connexion",
       "connection_success": "Connexion effectuée",
+      "unknown_connection_error": "Erreur de connexion inconnue",
+      "invalid_grant": "Utilisateur ou Mot de passe incorrect",
+      "connection_failed": "Échec de la connexion",
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration des ressources n'a pas été trouvée",

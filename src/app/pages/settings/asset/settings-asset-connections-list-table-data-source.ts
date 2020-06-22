@@ -14,7 +14,6 @@ import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
-import { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED } from 'http-status-codes';
 import { Observable } from 'rxjs';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 
@@ -36,7 +35,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     return new Observable((observer) => {
       // Check
       if (this.editableRows) {
-        // Asset sort alpha by replacing indexes
+        // Asset sort by name
         this.editableRows.sort((a, b) => {
           return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
         });
@@ -190,25 +189,14 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public testConnectionAction(assetConnection: AssetConnectionSetting) {
     this.spinnerService.show();
-    this.centralServerService.assetTestConnection(assetConnection).subscribe((response) => {
+    this.centralServerService.assetTestConnection(assetConnection.id).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status && response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('settings.asset.connection_success');
       } else {
-        let statusMessage = 'settings.asset.connection_failed';
-        switch (response.statusErrorCode) {
-          case UNAUTHORIZED:
-            statusMessage = 'settings.asset.unauthorized';
-            break;
-          case NOT_FOUND:
-            statusMessage = 'settings.asset.not_found';
-            break;
-          case BAD_REQUEST:
-            statusMessage = 'settings.asset.bad_request';
-            break;
-          default:
-            statusMessage = 'settings.asset.connection_failed';
-            break;
+        let statusMessage = `settings.asset.unknown_connection_error`;
+        if (response.error) {
+          statusMessage = `settings.asset.${response.error}`;
         }
         Utils.handleError(JSON.stringify(response), this.messageService, statusMessage);
       }

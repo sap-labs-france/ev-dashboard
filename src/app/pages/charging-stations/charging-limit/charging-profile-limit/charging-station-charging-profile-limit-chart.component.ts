@@ -123,7 +123,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan'),
+          'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
       };
       // Build Schedules
       for (const chargingSlot of this.chargingSchedules) {
@@ -175,7 +175,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
+          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
       };
       // Add points
       if (limitDataSet.data && chargingSlotDataSet.data && chargingSlotDataSet.data.length > 0) {

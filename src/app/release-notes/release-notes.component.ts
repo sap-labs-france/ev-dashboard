@@ -24,14 +24,51 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.73',
-        date: new Date('2020-06-09'),
+        version: '2.3.2',
+        date: new Date('2020-06-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added auto-refresh toggle button in Charging Plans`,
+              `Added AC/DC Voltage and Voltage per phase when available in Session's consumption chart`,
+              `Added new firmware versions in Charging Station's Templates`,
+              `First Session tab is now Session In Progress`,
+              `Fixed translation errors`,
+              `Fixed User got notified with Session Not Started when he stopped his Session with his badge`,
+              `Handle Power Meter Values per phase on Ebee Charging Station`,
+              `Add latest stable Ebee firmware version in templates`,
+              `Removed timezone in templates for Schneider Charging Station`,
+              `Renamed Charging Station 'private' property to 'public'`,
+              `100% Completed the OCPI eMSP and CPO Gireve certification`,
+              `Integrated German and Spanish translation`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.2.76',
+        date: new Date('2020-06-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Provided Spanish an German translations`,
+              `Fixed cannot save Site Area with single phase`,
+              `Fixed User name is not hidden for role Demo in Charging Station's connector details`,
+              `Fixed cannot delete unused User's badge in User's profile`,
+              `Fixed amperage per connector is not displayed for Legrand Charging Stations`,
+              `Fixed save of Charging Station parameters does not work when not belonging to a template`,
+              `Sort Users In Error list by Created By column in descending order by default`,
+              `Added Legrand Charging Station model 059004 in templates`,
+              `Send all the Charging Plan schedules provided by the SAP Smart Charging to the Charging Station (remove limit of 3 Schedules max)`,
+              `Handling of new Meter Values in the backend: Power, Voltage, Voltage per phase, Amperage, Amperage per phase`,
+              `Enabled Charging Plan for Legrand Charging Station validation`,
               `Increased Web Socket timeout for Webasto in templates`,
-              `Fixed minor bugs`
+              `Unlock User when password has been reset successfully`,
+              `Updated Shelly wallbox in templates`,
+              `Charging Station's Geo Map dialog takes too much space in 720p`,
+              `Fixed Charging Plan list height in 720p`
             ],
           },
         ],

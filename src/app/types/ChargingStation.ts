@@ -9,7 +9,7 @@ export interface ChargingStation extends Data {
   templateHash?: string;
   templateHashTechnical?: string;
   issuer: boolean;
-  private: boolean;
+  public: boolean;
   siteAreaID?: string;
   chargePointSerialNumber: string;
   chargePointModel: string;
@@ -93,18 +93,6 @@ export interface OcppParameter extends Data {
   key: string;
   value: string;
   readonly: boolean;
-}
-
-export interface ConsumptionValue {
-  date: Date;
-  instantWatts: number;
-  cumulatedConsumptionWh: number;
-  cumulatedConsumptionAmps: number;
-  amount: number;
-  stateOfCharge: number;
-  cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
 }
 
 export interface ChargePoint {

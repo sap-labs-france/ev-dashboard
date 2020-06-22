@@ -175,6 +175,125 @@ export class CentralServerNotificationService {
     return this.subjectCarCatalog.asObservable();
   }
 
+  private monitorChangeNotification() {
+    // Monitor Companies
+    this.socketIOClient.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
+      this.subjectCompanies.next(changeNotification);
+    });
+    // Monitor Company
+    this.socketIOClient.socket.on(Entity.COMPANY, (changeNotification: SingleChangeNotification) => {
+      this.subjectCompany.next(changeNotification);
+    });
+    // Monitor Tenants
+    this.socketIOClient.socket.on(Entity.TENANTS, (changeNotification: ChangeNotification) => {
+      this.subjectTenants.next(changeNotification);
+    });
+    // Monitor Tenant
+    this.socketIOClient.socket.on(Entity.TENANT, (changeNotification: SingleChangeNotification) => {
+      this.subjectTenant.next(changeNotification);
+    });
+    // Monitor OCPI Endpoints
+    this.socketIOClient.socket.on(Entity.OCPI_ENDPOINTS, (changeNotification: ChangeNotification) => {
+      this.subjectOcpiEndpoints.next(changeNotification);
+    });
+    // Monitor OCPI Endpoint
+    this.socketIOClient.socket.on(Entity.OCPI_ENDPOINT, (changeNotification: SingleChangeNotification) => {
+      this.subjectOcpiEndpoint.next(changeNotification);
+    });
+    // Monitor Sites
+    this.socketIOClient.socket.on(Entity.SITES, (changeNotification: ChangeNotification) => {
+      this.subjectSites.next(changeNotification);
+    });
+    // Monitor Site
+    this.socketIOClient.socket.on(Entity.SITE, (changeNotification: SingleChangeNotification) => {
+      this.subjectSite.next(changeNotification);
+    });
+    // Monitor Site Areas
+    this.socketIOClient.socket.on(Entity.SITE_AREAS, (changeNotification: ChangeNotification) => {
+      this.subjectSiteAreas.next(changeNotification);
+    });
+    // Monitor Site Area
+    this.socketIOClient.socket.on(Entity.SITE_AREA, (changeNotification: SingleChangeNotification) => {
+      this.subjectSiteArea.next(changeNotification);
+    });
+    // Monitor Users
+    this.socketIOClient.socket.on(Entity.USERS, (changeNotification: ChangeNotification) => {
+      this.subjectUsers.next(changeNotification);
+    });
+    // Monitor User
+    this.socketIOClient.socket.on(Entity.USER, (changeNotification: SingleChangeNotification) => {
+      this.subjectUser.next(changeNotification);
+    });
+    // Monitor Transactions
+    this.socketIOClient.socket.on(Entity.TRANSACTIONS, (changeNotification: ChangeNotification) => {
+      this.subjectTransactions.next(changeNotification);
+    });
+    // Monitor Transaction
+    this.socketIOClient.socket.on(Entity.TRANSACTION, (changeNotification: SingleChangeNotification) => {
+      this.subjectTransaction.next(changeNotification);
+    });
+    // Monitor Charging Stations
+    this.socketIOClient.socket.on(Entity.CHARGING_STATIONS, (changeNotification: ChangeNotification) => {
+      this.subjectChargingStations.next(changeNotification);
+    });
+    // Monitor Charging Station
+    this.socketIOClient.socket.on(Entity.CHARGING_STATION, (changeNotification: SingleChangeNotification) => {
+      this.subjectChargingStation.next(changeNotification);
+    });
+    // Monitor Logging
+    this.socketIOClient.socket.on(Entity.LOGGINGS, (changeNotification: ChangeNotification) => {
+      this.subjectLoggings.next(changeNotification);
+    });
+    // Monitor Assets
+    this.socketIOClient.socket.on(Entity.ASSETS, (changeNotification: ChangeNotification) => {
+      this.subjectAssets.next(changeNotification);
+    });
+    // Monitor Asset
+    this.socketIOClient.socket.on(Entity.ASSET, (changeNotification: SingleChangeNotification) => {
+      this.subjectAsset.next(changeNotification);
+    });
+    // Monitor Registration Tokens
+    this.socketIOClient.socket.on(Entity.REGISTRATION_TOKENS, (changeNotification: ChangeNotification) => {
+      this.subjectRegistrationTokens.next(changeNotification);
+    });
+    // Monitor Registration Token
+    this.socketIOClient.socket.on(Entity.REGISTRATION_TOKEN, (changeNotification: SingleChangeNotification) => {
+      this.subjectRegistrationToken.next(changeNotification);
+    });
+    // Monitor Invoices
+    this.socketIOClient.socket.on(Entity.INVOICES, (changeNotification: ChangeNotification) => {
+      this.subjectInvoices.next(changeNotification);
+    });
+    // Monitor Invoice
+    this.socketIOClient.socket.on(Entity.INVOICE, (changeNotification: SingleChangeNotification) => {
+      this.subjectInvoice.next(changeNotification);
+    });
+    // Monitor Charging Profiles
+    this.socketIOClient.socket.on(Entity.CHARGING_PROFILES, (changeNotification: ChangeNotification) => {
+      this.subjectChargingProfiles.next(changeNotification);
+    });
+    // Monitor Charging Profile
+    this.socketIOClient.socket.on(Entity.CHARGING_PROFILE, (changeNotification: SingleChangeNotification) => {
+      this.subjectChargingProfile.next(changeNotification);
+    });
+    // Monitor Cars
+    this.socketIOClient.socket.on(Entity.CARS, (changeNotification: ChangeNotification) => {
+      this.subjectCars.next(changeNotification);
+    });
+    // Monitor Car
+    this.socketIOClient.socket.on(Entity.CAR, (changeNotification: SingleChangeNotification) => {
+      this.subjectCar.next(changeNotification);
+    });
+    // Monitor Car Catalogs
+    this.socketIOClient.socket.on(Entity.CAR_CATALOGS, (changeNotification: ChangeNotification) => {
+      this.subjectCars.next(changeNotification);
+    });
+    // Monitor Car Catalog
+    this.socketIOClient.socket.on(Entity.CAR_CATALOG, (changeNotification: SingleChangeNotification) => {
+      this.subjectCar.next(changeNotification);
+    });
+  }
+
   public initSocketIO(token: string) {
     // Check
     if (!this.socketIOClient) {
@@ -184,170 +303,6 @@ export class CentralServerNotificationService {
     // Connect Socket IO
     this.socketIOClient.connectAuthenticated(this.centralRestServerServiceURL, token);
     this.monitorChangeNotification();
-  }
-
-  private monitorChangeNotification() {
-    // Monitor Companies
-    this.socketIOClient.socket.on(Entity.COMPANIES, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectCompanies.next(changeNotification);
-    });
-
-    // Monitor Company
-    this.socketIOClient.socket.on(Entity.COMPANY, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectCompany.next(singleChangeNotification);
-    });
-
-    // Monitor Tenants
-    this.socketIOClient.socket.on(Entity.TENANTS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectTenants.next(changeNotification);
-    });
-
-    // Monitor Tenant
-    this.socketIOClient.socket.on(Entity.TENANT, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectTenant.next(singleChangeNotification);
-    });
-
-    // Monitor OCPI Endpoints
-    this.socketIOClient.socket.on(Entity.OCPI_ENDPOINTS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectOcpiEndpoints.next(changeNotification);
-    });
-
-    // Monitor OCPI Endpoint
-    this.socketIOClient.socket.on(Entity.OCPI_ENDPOINT, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectOcpiEndpoint.next(singleChangeNotification);
-    });
-
-    // Monitor Sites
-    this.socketIOClient.socket.on(Entity.SITES, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectSites.next(changeNotification);
-    });
-
-    // Monitor Site
-    this.socketIOClient.socket.on(Entity.SITE, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectSite.next(singleChangeNotification);
-    });
-
-    // Monitor Site Areas
-    this.socketIOClient.socket.on(Entity.SITE_AREAS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectSiteAreas.next(changeNotification);
-    });
-
-    // Monitor Site Area
-    this.socketIOClient.socket.on(Entity.SITE_AREA, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectSiteArea.next(singleChangeNotification);
-    });
-
-    // Monitor Users
-    this.socketIOClient.socket.on(Entity.USERS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectUsers.next(changeNotification);
-    });
-
-    // Monitor User
-    this.socketIOClient.socket.on(Entity.USER, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectUser.next(singleChangeNotification);
-    });
-
-    // Monitor Transactions
-    this.socketIOClient.socket.on(Entity.TRANSACTIONS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectTransactions.next(changeNotification);
-    });
-
-    // Monitor Transaction
-    this.socketIOClient.socket.on(Entity.TRANSACTION, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectTransaction.next(singleChangeNotification);
-    });
-
-    // Monitor Charging Stations
-    this.socketIOClient.socket.on(Entity.CHARGING_STATIONS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectChargingStations.next(changeNotification);
-    });
-
-    // Monitor Charging Station
-    this.socketIOClient.socket.on(Entity.CHARGING_STATION, (singleChangeNotification: SingleChangeNotification) => {
-      // Notify
-      this.subjectChargingStation.next(singleChangeNotification);
-    });
-
-    // Monitor Logging
-    this.socketIOClient.socket.on(Entity.LOGGINGS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectLoggings.next(changeNotification);
-    });
-
-    // Monitor Assets
-    this.socketIOClient.socket.on(Entity.ASSETS, (changeNotification: ChangeNotification) => {
-      // Notify
-      this.subjectAssets.next(changeNotification);
-    });
-
-    // Monitor Asset
-    this.socketIOClient.socket.on(Entity.ASSET, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectAsset.next(singleChangeNotification);
-    });
-
-    // Monitor Registration Tokens
-    this.socketIOClient.socket.on(Entity.REGISTRATION_TOKENS, (changeNotification: ChangeNotification) => {
-      this.subjectRegistrationTokens.next(changeNotification);
-    });
-
-    // Monitor Registration Token
-    this.socketIOClient.socket.on(Entity.REGISTRATION_TOKEN, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectRegistrationToken.next(singleChangeNotification);
-    });
-
-    // Monitor Invoices
-    this.socketIOClient.socket.on(Entity.INVOICES, (changeNotification: ChangeNotification) => {
-      this.subjectInvoices.next(changeNotification);
-    });
-
-    // Monitor Invoice
-    this.socketIOClient.socket.on(Entity.INVOICE, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectInvoice.next(singleChangeNotification);
-    });
-
-    // Monitor Charging Profiles
-    this.socketIOClient.socket.on(Entity.CHARGING_PROFILES, (changeNotification: ChangeNotification) => {
-      this.subjectChargingProfiles.next(changeNotification);
-    });
-
-    // Monitor Charging Profile
-    this.socketIOClient.socket.on(Entity.CHARGING_PROFILE, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectChargingProfile.next(singleChangeNotification);
-    });
-
-    // Monitor Cars
-    this.socketIOClient.socket.on(Entity.CARS, (changeNotification: ChangeNotification) => {
-      this.subjectCars.next(changeNotification);
-    });
-
-    // Monitor Car
-    this.socketIOClient.socket.on(Entity.CAR, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectCar.next(singleChangeNotification);
-    });
-
-    // Monitor Car Catalogs
-    this.socketIOClient.socket.on(Entity.CAR_CATALOGS, (changeNotification: ChangeNotification) => {
-      this.subjectCars.next(changeNotification);
-    });
-
-    // Monitor Car Catalog
-    this.socketIOClient.socket.on(Entity.CAR_CATALOG, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectCar.next(singleChangeNotification);
-    });
   }
 
   public resetSocketIO() {

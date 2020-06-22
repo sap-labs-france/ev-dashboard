@@ -58,8 +58,8 @@
         </mat-form-field>
       </div>
       <div class="col-md-3 text-left form-group">
-        <mat-checkbox [formControl]="private">
-          {{'chargers.private' | translate}}
+        <mat-checkbox [formControl]="public">
+          {{'chargers.public' | translate}}
         </mat-checkbox>
       </div>
       <div *ngIf="isSmartChargingComponentActive && chargingStation?.siteArea?.smartCharging" class="col-md-3 text-left form-group">

@@ -40,11 +40,15 @@
     "default": "en",
     "supported": [
       "en",
-      "fr"
+      "fr",
+      "es",
+      "de"
     ],
     "fullSupported": [
       "en_US",
-      "fr_FR"
+      "fr_FR",
+      "es_MX",
+      "de_DE"
     ]
   },
   "Advanced": {

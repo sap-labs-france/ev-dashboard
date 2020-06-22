@@ -153,15 +153,19 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
           this.messageService.showErrorMessage(this.messages['wrong_email_or_password']);
           break;
         // Account is locked
-        case 570:
+        case HTTPError.USER_ACCOUNT_LOCKED_ERROR:
           this.messageService.showErrorMessage(this.messages['account_locked']);
           break;
+        // Account is inactive
+        case HTTPError.USER_ACCOUNT_INACTIVE_ERROR:
+          this.messageService.showErrorMessage(this.messages['account_inactive']);
+          break;
         // Account Suspended
-        case 580:
+        case HTTPError.USER_ACCOUNT_BLOCKED_ERROR:
           this.messageService.showErrorMessage(this.messages['account_suspended']);
           break;
         // Account Pending
-        case 590:
+        case HTTPError.USER_ACCOUNT_PENDING_ERROR:
           // Pending Users from the Super Tenant should not be able to request an activation email
           if (this.subDomain !== '') {
             // Usual Users

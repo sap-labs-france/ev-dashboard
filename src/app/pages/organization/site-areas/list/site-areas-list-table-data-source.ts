@@ -121,7 +121,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0),
+        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
       },
       {
         id: 'site.name',

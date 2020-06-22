@@ -70,8 +70,8 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     });
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    super.toggleRowSelection(row, event);
+  public toggleRowSelection(row: SiteUser, checked: boolean) {
+    super.toggleRowSelection(row, checked);
     this.removeAction.disabled = !this.hasSelectedRows();
   }
 

@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.1',
-        date: new Date('2020-06-18'),
+        version: '2.3.2',
+        date: new Date('2020-06-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added AC Voltage in Session's consumption chart`,
+              `Added auto-refresh toggle button in Charging Plans`,
+              `Added AC/DC Voltage and Voltage per phase when available in Session's consumption chart`,
               `Added new firmware versions in Charging Station's Templates`,
               `First Session tab is now Session In Progress`,
               `Fixed translation errors`,

@@ -1,32 +1,32 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { ChargeStandardTable } from 'app/types/Car';
+import { CarConverter } from 'app/types/Car';
 import { KeyValue } from 'app/types/GlobalType';
 import { Utils } from 'app/utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { CarConverterDialogTableDataSource } from './car-converter-dialog-table-data-source';
+import { CarConvertersDialogTableDataSource } from './car-converters-dialog-table-data-source';
 
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
 })
-export class CarConverterDialogComponent extends DialogTableDataComponent<ChargeStandardTable> {
+export class CarConvertersDialogComponent extends DialogTableDataComponent<CarConverter> {
   constructor(
-    protected dialogRef: MatDialogRef<CarConverterDialogComponent>,
+    protected dialogRef: MatDialogRef<CarConvertersDialogComponent>,
     private translateService: TranslateService,
-    private carConverterDialogTableDataSource: CarConverterDialogTableDataSource,
+    private carConvertersDialogTableDataSource: CarConvertersDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {
-    super(data, dialogRef, carConverterDialogTableDataSource);
+    super(data, dialogRef, carConvertersDialogTableDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'cars.assign_converter';
     }
-    this.carConverterDialogTableDataSource.setCar(data.carCatalog);
-    this.carConverterDialogTableDataSource.destroyDatasource();
+    this.carConvertersDialogTableDataSource.setCarCatalog(data.carCatalog);
+    this.carConvertersDialogTableDataSource.destroyDatasource();
   }
 
-  public getSelectedItems(selectedRows: ChargeStandardTable[]): KeyValue[] {
+  public getSelectedItems(selectedRows: CarConverter[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

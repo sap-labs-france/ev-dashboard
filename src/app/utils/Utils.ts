@@ -5,12 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
-import { CarCatalog, ChargeStandardTable, CarType, UserCar } from 'app/types/Car';
+import { CarCatalog, CarConverter, CarType, Car } from 'app/types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
-import { User, UserToken } from 'app/types/User';
+import { User, UserToken, UserCar } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
@@ -551,27 +551,24 @@ export class Utils {
     return 'N/A';
   }
 
-  public static buildCarUsersFullName(users: User[], usersCar: UserCar[]) {
+  public static buildCarUsersFullName(carUsers: UserCar[]) {
     let usersName: string;
-    if (Utils.isEmptyArray(users)) {
+    if (Utils.isEmptyArray(carUsers)) {
       return '-';
     }
     // Find the owner
-    const userCarOwner = usersCar.find((userCar) => userCar.owner);
+    const userCarOwner = carUsers.find((userCar) => userCar.owner);
     if (userCarOwner) {
-      const userOwner = users.find((user) => user.id === userCarOwner.userID);
-      if (userOwner) {
-        // Build user name
-        usersName = Utils.buildUserFullName(userOwner);
-      }
+      // Build user name
+      usersName = Utils.buildUserFullName(userCarOwner.user);
     }
     // Build with first user name
     if (!usersName) {
-      usersName = Utils.buildUserFullName(users[0]);
+      usersName = Utils.buildUserFullName(carUsers[0].user);
     }
     // Add number of remaining users
-    if (users.length > 1) {
-      usersName += ` (+${users.length - 1})`;
+    if (carUsers.length > 1) {
+      usersName += ` (+${carUsers.length - 1})`;
     }
     return usersName;
   }
@@ -589,33 +586,56 @@ export class Utils {
     return usersName;
   }
 
-  public static buildUserFullName(user: User|UserToken) {
+  public static buildUserFullName(user: User|UserToken, withID = false): string {
     let fullName: string;
     if (!user || !user.name) {
       return '-';
     }
-    if (user.name.length === 0 && user.firstName.length === 0) {
-      return '-';
-    }
+    // eslint-disable-next-line no-lonely-if
     if (user.firstName) {
-      fullName = `${user.name}, ${user.firstName}`;
+      fullName = `${user.firstName} ${user.name}`;
     } else {
       fullName = user.name;
+    }
+    if (withID && user.id) {
+      fullName += ` (${user.id})`;
     }
     return fullName;
   }
 
-  public static buildCarName(carCatalog: CarCatalog) {
-    let carName: string;
+  public static buildCarCatalogName(carCatalog: CarCatalog, withID = false): string {
+    let carCatalogName: string;
     if (!carCatalog) {
       return '-';
     }
-    carName = carCatalog.vehicleMake;
+    carCatalogName = carCatalog.vehicleMake;
     if (carCatalog.vehicleModel) {
-      carName += ` ${carCatalog.vehicleModel}`;
+      carCatalogName += ` ${carCatalog.vehicleModel}`;
     }
     if (carCatalog.vehicleModelVersion) {
-      carName += ` ${carCatalog.vehicleModelVersion}`;
+      carCatalogName += ` ${carCatalog.vehicleModelVersion}`;
+    }
+    if (withID && carCatalog.id) {
+      carCatalogName += ` (${carCatalog.id})`;
+    }
+    return carCatalogName;
+  }
+
+  public static buildCarName(car: Car, withID = false): string {
+    let carName: string;
+    if (!car) {
+      return '-';
+    }
+    if (car.carCatalog) {
+      carName = Utils.buildCarCatalogName(car.carCatalog, withID);
+    }
+    if (!carName) {
+      carName = `VIN '${car.vin}', License Plate '${car.licensePlate}'`;
+    } else {
+      carName += ` with VIN '${car.vin}' and License Plate '${car.licensePlate}'`;
+    }
+    if (withID && car.id) {
+      carName += ` (${car.id})`;
     }
     return carName;
   }
@@ -631,7 +651,7 @@ export class Utils {
     }
   }
 
-  public static buildConverterName(chargeStandardTable: ChargeStandardTable, translateService: TranslateService): string {
+  public static buildConverterName(chargeStandardTable: CarConverter, translateService: TranslateService): string {
     let converterName: string;
     if (!chargeStandardTable) {
       return '-';

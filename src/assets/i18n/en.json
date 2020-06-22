@@ -1652,7 +1652,7 @@
     "create_error": "Error occurred while creating the car",
     "update_error": "Error occurred while updating the car",
     "car_exist": "Car already exists",
-    "user_not_owner": "Only the owner can update this car",
+    "user_not_owner": "Only the owner can update this (default can be changed)",
     "car_exist_different_car_catalog": "Car already exists with a different car model",
     "user_already_assigned": "You are already assigned this car to a user",
     "company_car": "Company Car",

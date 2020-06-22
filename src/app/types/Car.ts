@@ -1,5 +1,6 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
-import { User } from './User';
+import { User, UserCar } from './User';
 
 export interface CarCatalog extends Data {
   id: number;
@@ -31,20 +32,10 @@ export interface CarCatalog extends Data {
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
-  chargeStandardTables: ChargeStandardTable[];
+  chargeStandardTables: CarConverter[];
 }
 
-export interface UserCar extends Data {
-  id: string;
-  userID: string;
-  carID: string;
-  user?: User;
-  car?: Car;
-  default?: boolean;
-  owner?: boolean;
-}
-
-export interface Car extends Data {
+export interface Car extends Data, CreatedUpdatedProps {
   id: string;
   vin: string;
   licensePlate: string;
@@ -52,12 +43,17 @@ export interface Car extends Data {
   carCatalog?: CarCatalog;
   userIDs?: string;
   users?: User[];
+  carUsers?: UserCar[];
   type?: CarType;
   converterType?: string;
-  isDefault?: boolean;
+}
+
+export interface CarUser extends Data, CreatedUpdatedProps {
+  id: string;
+  car: Car;
+  userID: string;
+  default?: boolean;
   owner?: boolean;
-  usersCar?: UserCar[];
-  forced: boolean;
 }
 
 export enum CarType {
@@ -66,7 +62,7 @@ export enum CarType {
   POOL_CAR = 'PC',
 }
 
-export interface ChargeStandardTable extends Data {
+export interface CarConverter extends Data {
   type: string;
   evsePhaseVolt: number;
   evsePhaseVoltCalculated: number;
@@ -79,7 +75,7 @@ export interface ChargeStandardTable extends Data {
   chargeTime: number;
   chargeSpeed: number;
 }
-export interface CarMakersTable extends Data {
+export interface CarMaker extends Data {
   carMaker: string;
 }
 

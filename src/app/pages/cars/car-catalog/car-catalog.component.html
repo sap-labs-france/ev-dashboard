@@ -4,16 +4,16 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>directions_car</mat-icon>
-          <span style="display: inline-block;">{{carCatalog?.vehicleMake}} {{carCatalog?.vehicleModel}} {{carCatalog?.vehicleModelVersion}}
+          <span class="d-block">{{carCatalog?.vehicleMake}} {{carCatalog?.vehicleModel}} {{carCatalog?.vehicleModelVersion}}
           </span>
         </ng-template>
         <div class="card-body tab-dialog-car-min-content">
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row app-car align-items-start">
-                <div class="col-md-5" style="display: block; margin-top: auto">
+                <div class="col-md-5 d-block mt-0 m-auto">
                   <div class="rotating-card-container app-car-image-border" [ngStyle]="{ 'pointer-events': 'none'}">
-                    <div class="card card-rotate card-background" style="margin-top: 0px;">
+                    <div class="card card-rotate card-background mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': (carCatalog ? 'url(' + carCatalog.image + ')' : ''), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                         <div class="card-body">

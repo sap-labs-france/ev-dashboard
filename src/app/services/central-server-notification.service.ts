@@ -295,16 +295,6 @@ export class CentralServerNotificationService {
       this.subjectCar.next(changeNotification);
     });
 
-    // Monitor UsersCars
-    this.socketIOClient.socket.on(Entity.USERS_CARS, (changeNotification: ChangeNotification) => {
-      this.subjectUsersCars.next(changeNotification);
-    });
-
-    // Monitor UserCar
-    this.socketIOClient.socket.on(Entity.USER_CAR, (singleChangeNotification: SingleChangeNotification) => {
-      this.subjectUserCar.next(singleChangeNotification);
-    });
-
     // Monitor Car Catalogs
     this.socketIOClient.socket.on(Entity.CAR_CATALOGS, (changeNotification: ChangeNotification) => {
       this.subjectCars.next(changeNotification);

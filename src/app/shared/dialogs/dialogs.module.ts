@@ -17,8 +17,8 @@ import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-s
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
-import { CarConverterDialogTableDataSource } from './car-converter/car-converter-dialog-table-data-source';
-import { CarConverterDialogComponent } from './car-converter/car-converter-dialog.component';
+import { CarConvertersDialogTableDataSource } from './car-converters/car-converters-dialog-table-data-source';
+import { CarConvertersDialogComponent } from './car-converters/car-converters-dialog.component';
 import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
 import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
@@ -66,7 +66,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    CarConverterDialogComponent,
+    CarConvertersDialogComponent,
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -83,7 +83,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    CarConverterDialogComponent
+    CarConvertersDialogComponent
   ],
   exports: [
     CarMakersDialogComponent,
@@ -99,7 +99,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    CarConverterDialogComponent
+    CarConvertersDialogComponent
   ],
   providers: [
     AppConnectorIdPipe,
@@ -117,7 +117,7 @@ export class FooterModule {
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
-    CarConverterDialogTableDataSource
+    CarConvertersDialogTableDataSource
   ],
 })
 export class DialogsModule {

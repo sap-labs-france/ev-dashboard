@@ -66,8 +66,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     });
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    super.toggleRowSelection(row, event);
+  public toggleRowSelection(row: ChargingStation, checked: boolean) {
+    super.toggleRowSelection(row, checked);
     this.removeAction.disabled = !this.hasSelectedRows();
   }
 

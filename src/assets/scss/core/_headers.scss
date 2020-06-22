@@ -8,6 +8,9 @@
   border: 0;
   display: flex;
   align-items: center;
+  background-image: url('../img/bg-auth-layout.jpg');
+  background-size: cover;
+  background-position: top center;
 
   > .container {
     color: $brand-text;

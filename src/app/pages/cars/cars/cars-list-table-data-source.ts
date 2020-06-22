@@ -15,7 +15,7 @@ import { Car, CarButtonAction, CarType } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { User } from 'app/types/User';
+import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
@@ -42,6 +42,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     super(spinnerService, translateService);
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isBasic = this.authorizationService.isBasic();
+    // With users (shouldn't be that many users per car)
+    this.setStaticFilters([{ WithUsers: true }]);
     // Init
     this.initDataSource();
   }
@@ -93,8 +95,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         name: 'cars.vehicle_make',
         headerClass: 'col-10p',
         class: 'text-left col-15p',
-        sorted: true,
-        direction: 'asc',
         sortable: true,
       },
       {
@@ -114,10 +114,11 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
-        id: 'vin',
-        name: 'cars.vin',
+        id: 'converterType',
+        name: 'cars.converter',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
+        sortable: true,
       },
       {
         id: 'licensePlate',
@@ -127,22 +128,49 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
       },
       {
+        id: 'vin',
+        name: 'cars.vin',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+      },
+      {
         id: 'type',
         name: 'cars.type',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
-        sortable: true,
         formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
       },
     ];
+    if (this.authorizationService.isBasic()) {
+      tableColumnDef.push({
+        id: 'default',
+        name: 'cars.default_car',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (defaultCar: boolean, car: Car) => {
+          return car.carUsers.find((userCar) => userCar.default) ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+        }
+      });
+      tableColumnDef.push({
+        id: 'owner',
+        name: 'cars.car_owner',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (carOwner: boolean, car: Car) => {
+          return car.carUsers.find((userCar) => userCar.owner) ?
+            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+        }
+      });
+    }
     if (this.authorizationService.isAdmin()) {
       tableColumnDef.splice(3, 0, {
-        id: 'users',
+        id: 'carUsers',
         name: 'cars.users',
         headerClass: 'col-20p',
         class: 'col-20p',
-        sortable: true,
-        formatter: (users: User[], car: Car) => Utils.buildCarUsersFullName(users, car.usersCar),
+        formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
       });
       tableColumnDef.push({
         id: 'createdOn',
@@ -165,7 +193,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         name: 'users.changed_by',
         headerClass: 'col-15p',
         class: 'col-15p',
-        sortable: true,
       });
     }
     return tableColumnDef;
@@ -193,15 +220,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     return [
       this.editAction
     ];
-  }
-
-  public canDisplayRowAction(actionDef: TableActionDef, car: Car) {
-    switch (actionDef.id) {
-      case CarButtonAction.EDIT_CAR:
-        return this.isBasic ? car.owner : true;
-      default:
-        return true;
-    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {

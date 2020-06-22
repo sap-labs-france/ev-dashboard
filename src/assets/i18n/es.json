@@ -1652,7 +1652,7 @@
     "create_error": "Se produjo un error al crear el vehículo",
     "update_error": "Error occurred while updating the car",
     "car_exist": "Ya ha creado este vehículo",
-    "user_not_owner": "Only the owner can update this car",
+    "user_not_owner": "Only the owner can update this (default can be changed)",
     "car_exist_different_car_catalog": "Ya ha creado este vehículo con un catálogo diferente",
     "user_already_assigned": "Ya está asignado a este vehículo",
     "company_car": "Vehículos de la empresa",

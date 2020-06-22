@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car, CarCatalog, CarMakersTable, ImageObject, UserCar } from 'app/types/Car';
+import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
@@ -19,20 +19,20 @@ import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
 import { Setting } from 'app/types/Setting';
-import { Site, SiteUser, UserSite } from 'app/types/Site';
+import { Site, SiteUser } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
-import { User, UserToken } from 'app/types/User';
+import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
+
 
 @Injectable()
 export class CentralServerService {
@@ -2286,7 +2286,7 @@ export class CentralServerService {
       );
   }
 
-  public getUsersCar(params: FilterParams,
+  public getCarUsers(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
     // Verify init
     this.checkInit();
@@ -2295,7 +2295,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/UsersCar`,
+    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/CarUsers`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2340,11 +2340,11 @@ export class CentralServerService {
       );
   }
 
-  public getCarMakers(params: FilterParams): Observable<DataResult<CarMakersTable>> {
+  public getCarMakers(params: FilterParams): Observable<DataResult<CarMaker>> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<CarMakersTable>>(
+    return this.httpClient.get<DataResult<CarMaker>>(
       `${this.centralRestServerServiceSecuredURL}/CarMakers`,
       {
         headers: this.buildHttpHeaders(),
@@ -2368,11 +2368,11 @@ export class CentralServerService {
       );
   }
 
-  public createCar(car: any): Observable<ActionResponse> {
+  public createCar(car: Car, forced: boolean): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, car,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, { ...car, forced },
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2381,7 +2381,7 @@ export class CentralServerService {
       );
   }
 
-  public updateCar(car: any): Observable<ActionResponse> {
+  public updateCar(car: Car): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
@@ -2389,52 +2389,6 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
       })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public addUsersToCar(usersCar: UserCar[], carID: string): Observable<ActionsResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/AddUsersToCar`, {
-      usersCar,
-      carID
-    },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public updateUsersCar(usersCar: UserCar[], carID: string): Observable<ActionsResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute
-    return this.httpClient.put<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/UsersCarUpdate`, {
-      usersCar,
-      carID
-    },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public removeUsersFromCar(usersCarIDs: string[]): Observable<ActionsResponse> {
-    // Verify init
-    this.checkInit();
-    const options = {
-      headers: this.buildHttpHeaders(),
-      body: { usersCarIDs },
-    };
-    // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/RemoveUsersFromCar`, options)
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -2518,7 +2472,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_SET_CHARGING_PROFILE}`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2708,12 +2662,16 @@ export class CentralServerService {
     if (ordering && ordering.length) {
       const sortFields: string[] = [];
       const sortDirs: string[] = [];
-      ordering.forEach((order) => {
-        sortFields.push(order.field);
-        sortDirs.push(order.direction);
-      });
-      queryParams['SortFields'] = sortFields;
-      queryParams['SortDirs'] = sortDirs;
+      for (const order of ordering) {
+        if (order.field) {
+          sortFields.push(order.field);
+          sortDirs.push(order.direction);
+        }
+      }
+      if (sortFields.length > 0) {
+        queryParams['SortFields'] = sortFields;
+        queryParams['SortDirs'] = sortDirs;
+      }
     }
   }
 

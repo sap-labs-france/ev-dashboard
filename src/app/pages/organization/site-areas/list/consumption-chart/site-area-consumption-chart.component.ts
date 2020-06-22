@@ -46,8 +46,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private defaultColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: 'instantPower', hidden: false},
-    {key: 'limit', hidden: this.authorizationService.isAdmin() ? false : true}
+    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false},
+    {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true},
   ];
 
   constructor(
@@ -143,7 +143,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
-        hidden: this.activeLegend[0].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -155,7 +155,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
-        hidden: this.activeLegend[1].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.limit_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -241,7 +241,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
           const ci = this.chart;
           const meta = ci.getDatasetMeta(index);
           meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
-          this.activeLegend[index].hidden = meta.hidden;
+          this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(legendItem.text)))].hidden = meta.hidden;
           ci.update();
         }
       },

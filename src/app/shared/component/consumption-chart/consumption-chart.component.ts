@@ -58,7 +58,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private defaultColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.watts'), hidden: false},
+    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.power'), hidden: false},
     {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('transactions.graph.limit_watts'), hidden: false},
     {key: this.translateService.instant('transactions.graph.energy_amps') + this.translateService.instant('transactions.graph.energy'), hidden: true},
     {key: this.translateService.instant('transactions.graph.cumulated_amount'), hidden: true},
@@ -441,6 +441,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
           const ci = this.chart;
           const meta = ci.getDatasetMeta(index);
           meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+          console.log(this.activeLegend);
+          console.log(legendItem.text);
           this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(legendItem.text)))].hidden = meta.hidden;
           ci.update();
         }

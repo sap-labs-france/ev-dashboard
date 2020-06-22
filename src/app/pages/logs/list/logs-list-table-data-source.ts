@@ -34,6 +34,7 @@ import { TableExportLogsAction } from '../table-actions/table-export-logs-action
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
   private logActionTableFilter = new LogActionTableFilter().getFilterDef();
+  private logSourceTableFilter = new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -49,12 +50,15 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     // Init
     this.initDataSource();
     this.activatedRoute.queryParams.subscribe(params => {
-      this.setSearchValue(params['id'] ? params['id'] : '');
       if (params['fromChargingProfile']) {
         this.logActionTableFilter.currentValue = [{ key: ServerAction.CHARGING_PROFILES, value: ServerAction.CHARGING_PROFILES },
         { key: ServerAction.CHARGING_PROFILE_DELETE, value: ServerAction.CHARGING_PROFILE_DELETE },
         { key: ServerAction.CHARGING_PROFILE_UPDATE, value: ServerAction.CHARGING_PROFILE_UPDATE }];
         this.filterChanged(this.logActionTableFilter);
+        this.logSourceTableFilter.currentValue = [{ key: params['id'], value: params['id'] }];
+        this.filterChanged(this.logSourceTableFilter);
+      } else {
+        this.setSearchValue(params['id'] ? params['id'] : '');
       }
     });
   }
@@ -227,7 +231,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         this.logActionTableFilter,
-        new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+        this.logSourceTableFilter,
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
       ];
@@ -238,7 +242,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new LogLevelTableFilter().getFilterDef(),
       this.logActionTableFilter,
       new LogHostTableFilter().getFilterDef(),
-      new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
+      this.logSourceTableFilter,
       new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];
   }
 }

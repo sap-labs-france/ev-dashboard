@@ -24,8 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.3',
+        date: new Date('2020-06-22'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Admin and Basic users can create Cars`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.2',
-        date: new Date('2020-06-19'),
+        date: new Date('2020-06-21'),
         componentChanges: [
           {
             name: 'Dashboard',

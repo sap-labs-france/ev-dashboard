@@ -300,6 +300,10 @@
     "asset_type": "Tipo de activos",
     "produce": "Producto energético",
     "consume": "Consumo de energía",
+    "dynamic_asset": "Activo Dinámico",
+    "asset_connection": "Conexión de Activos",
+    "meter_id": "ID del Medidor",
+    "assign_asset_connection": "Asignar la conexión de activos",
     "asset": "Activos",
     "title": "Activo",
     "titles": "Activos",
@@ -320,6 +324,9 @@
     "create_error": "Se produjo un error al crear el activo",
     "logo_size_error": "Se excedió el límite de tamaño de la imágen, el límite está por debajo de {{maxPictureKb}} Kb",
     "select_assets": "Seleccionar activo",
+    "dialog_tabs": {
+      "connection": "Conexión"
+    },
     "errors": {
       "missing_site_area": {
         "title": "No está asignado a una zona",

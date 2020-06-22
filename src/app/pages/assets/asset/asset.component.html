@@ -50,7 +50,7 @@
                 </mat-form-field>
               </div>
               <div class="form-group">
-                <mat-form-field *ngIf="formGroup.enabled" >
+                <mat-form-field *ngIf="formGroup.enabled">
                   <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
                   class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required/>
                   <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()">
@@ -98,6 +98,42 @@
                     </mat-form-field>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>link</mat-icon>
+          <span>{{'assets.dialog_tabs.connection' | translate}}</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="row text-left">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-checkbox [formControl]="dynamicAsset">
+                  {{'assets.dynamic_asset' | translate}}
+                </mat-checkbox>
+              </div>
+              <div class="form-group">
+                <mat-form-field *ngIf="formGroup.enabled">
+                  <input matInput type="text" readonly=true placeholder="{{'assets.asset_connection' | translate}}"
+                  class="form-field-popup" (click)="assignAssetConnection()" [formControl]="assetConnection" required/>
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignAssetConnection()">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="assetConnection.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="{{'assets.meter_id' | translate}}"
+                    [formControl]="meterID" required/>
+                </mat-form-field>
               </div>
             </div>
           </div>

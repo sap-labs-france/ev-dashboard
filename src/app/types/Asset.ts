@@ -10,6 +10,9 @@ export interface Asset extends Data {
   assetType: string;
   coordinates: number[];
   image: string;
+  dynamicAsset: boolean;
+  connectionID: string;
+  meterID: string;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;

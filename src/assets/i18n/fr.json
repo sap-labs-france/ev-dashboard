@@ -300,6 +300,10 @@
     "asset_type": "Type de ressource",
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
+    "dynamic_asset": "Ressource Dynamique",
+    "asset_connection": "Connexion à la Ressource",
+    "meter_id": "ID du Compteur",
+    "assign_asset_connection": "Assigner la ressource à une connexion",
     "asset": "Ressource",
     "title": "Ressource",
     "titles": "Ressources",
@@ -320,6 +324,9 @@
     "create_error": "Une erreur est survenue pendant la création de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "select_assets": "Selection Ressource",
+    "dialog_tabs": {
+      "connection": "Connexion"
+    },
     "errors": {
       "missing_site_area": {
         "title": "Non Assignée à une Zone",

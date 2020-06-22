@@ -45,6 +45,9 @@ export class AssetComponent implements OnInit {
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
   public assetTypes!: KeyValue[];
+  public dynamicAsset!: AbstractControl;
+  public connectionID!: AbstractControl;
+  public meterID!: AbstractControl;
   public asset!: Asset;
 
   constructor(
@@ -103,6 +106,18 @@ export class AssetComponent implements OnInit {
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
       ]),
+      dynamicAsset: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      connectionID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      meterID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ]))
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -113,6 +128,9 @@ export class AssetComponent implements OnInit {
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
+    this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
+    this.connectionID = this.formGroup.controls['assetConnection'];
+    this.meterID = this.formGroup.controls['meterID'];
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
@@ -159,6 +177,9 @@ export class AssetComponent implements OnInit {
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
         this.latitude.setValue(this.asset.coordinates[1]);
+      }
+      if (this.asset.dynamicAsset) {
+        this.dynamicAsset.setValue(this.asset.dynamicAsset);
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -249,6 +270,28 @@ export class AssetComponent implements OnInit {
     dialogConfig.panelClass = 'transparent-dialog-container';
     dialogConfig.data = {
       title: 'chargers.assign_site_area',
+      validateButtonTitle: 'general.select',
+      sitesAdminOnly: true,
+      rowMultipleSelection: false,
+    };
+    this.dialog.open(SiteAreasDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+        if (result && result.length > 0 && result[0].objectRef) {
+          const siteArea = ((result[0].objectRef) as SiteArea);
+          this.formGroup.markAsDirty();
+          this.formGroup.controls.siteArea.setValue(siteArea.name);
+          this.formGroup.controls.siteAreaID.setValue(siteArea.id);
+          this.selectedSiteArea = siteArea;
+        }
+    });
+  }
+
+  public assignAssetConnection() {
+    // Create dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    dialogConfig.data = {
+      title: 'assets.assign_asset_connection',
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,

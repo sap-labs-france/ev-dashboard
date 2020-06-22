@@ -1173,7 +1173,8 @@
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
-    "pay": "Payer"
+    "pay": "Payer",
+    "user": "Utilisateur"
   },
   "tags": {
     "id": "ID",
@@ -1348,7 +1349,7 @@
         "synchronize_invoices_dialog_title": "Synchroniser les Factures",
         "synchronize_invoices_dialog_confirm": "Voulez-vous vraiment synchroniser les factures du système de facturation ?",
         "synchronize_invoices_started": "La synchronisation des factures a été démarrée",
-        "synchronize_invoices_success": "{{number}} factures(s) synchronisé(s) avec succès",
+        "synchronize_invoices_success": "{{number}} facture(s) synchronisée(s) avec succès",
         "synchronize_invoices_success_all": "Toutes les factures sont déjà synchronisées",
         "synchronize_invoices_failure": "Synchronisation échouée avec {{number}} erreurs. Consultez les logs du système de facturation.",
         "synchronize_invoices_error": "Une erreur est survenue durant la synchronisation des factures"

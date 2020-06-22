@@ -34,6 +34,7 @@ export class TableSyncBillingUsersAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         messageService.showInfoMessage('settings.billing.user.synchronize_users_started');
+        // Synchronize users
         centralServerService.synchronizeUsersForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
@@ -48,6 +49,27 @@ export class TableSyncBillingUsersAction implements TableAction {
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.user.synchronize_users_error');
+          }
+        }, (error) => {
+          Utils.handleHttpError(error, router, messageService, centralServerService,
+            'settings.billing.user.synchronize_users_error');
+        });
+
+        // Synchronize invoices
+        centralServerService.synchronizeInvoices().subscribe((synchronizeResponse) => {
+          if (synchronizeResponse.status === RestResponse.SUCCESS) {
+            if (synchronizeResponse.inSuccess) {
+              messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
+                {number: synchronizeResponse.inSuccess}));
+            } else if (!synchronizeResponse.inError) {
+              messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
+            }
+            if (synchronizeResponse.inError) {
+              messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
+                {number: synchronizeResponse.inError}));
+            }
+          } else {
+            Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.invoice.synchronize_invoices_error');
           }
         }, (error) => {
           Utils.handleHttpError(error, router, messageService, centralServerService,

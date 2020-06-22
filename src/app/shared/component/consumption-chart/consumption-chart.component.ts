@@ -58,11 +58,17 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private defaultColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: 'instantPower', hidden: false},
-    {key: 'limit', hidden: this.authorizationService.isAdmin() ? false : true},
-    {key: 'cumulatedConsumption', hidden: true},
-    {key: 'cumulatedAmount', hidden: true},
-    {key: 'stateOfCharge', hidden: false} ];
+    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.watts'), hidden: false},
+    {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('transactions.graph.limit_watts'), hidden: false},
+    {key: this.translateService.instant('transactions.graph.energy_amps') + this.translateService.instant('transactions.graph.energy'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.cumulated_amount'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_dc'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_l1'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_l2'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_l3'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.battery'), hidden: false}
+  ];
 
   constructor(
     private centralServerService: CentralServerService,
@@ -150,7 +156,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
-        hidden: this.activeLegend[0].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -162,7 +168,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
-        hidden: this.activeLegend[1].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.limit_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -174,7 +180,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'cumulatedConsumptionAmps' : 'cumulatedConsumptionWh',
         type: 'line',
-        hidden: this.activeLegend[2].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.energy_amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -188,7 +194,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         datasets.push({
           name: 'cumulatedAmount',
           type: 'line',
-          hidden: this.activeLegend[3].hidden,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.cumulated_amount'))))].hidden,
           data: [],
           yAxisID: 'amount',
           lineTension: this.lineTension,
@@ -225,7 +231,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVolts',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsColor),
@@ -240,7 +246,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsDC',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_dc'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsColor),
@@ -257,7 +263,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsL1',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_l1'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsL1Color),
@@ -268,7 +274,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsL2',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_l2'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsL2Color),
@@ -279,7 +285,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsL3',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_l3'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsL3Color),
@@ -292,7 +298,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         datasets.push({
           name: 'stateOfCharge',
           type: 'line',
-          hidden: this.activeLegend[4].hidden,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.battery'))))].hidden,
           data: [],
           yAxisID: 'percentage',
           lineTension: this.lineTension,
@@ -435,7 +441,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           const ci = this.chart;
           const meta = ci.getDatasetMeta(index);
           meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
-          this.activeLegend[index].hidden = meta.hidden;
+          this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(legendItem.text)))].hidden = meta.hidden;
           ci.update();
         }
       },

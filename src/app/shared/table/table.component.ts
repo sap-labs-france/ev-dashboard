@@ -290,7 +290,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    this.dataSource.toggleRowSelection(row, event);
+    this.dataSource.toggleRowSelection(row, event.checked);
   }
 
   public toggleMasterSelect() {

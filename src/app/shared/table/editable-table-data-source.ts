@@ -129,14 +129,8 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     // Use the method to take into account the filtering
     const contentRows = this.getContent();
     if (contentRows) {
-      if (this.formArray) {
-        this.formArray.clear();
-        for (const contentRow of contentRows) {
-          this.formArray.push(this.createFormGroupDefinition(contentRow));
-        }
-        // Link row properties to form controls
-        this.addFormControlsToContent();
-      }
+      // Create form controls
+      this.createFormControls();
       return of({ count: contentRows.length, result: contentRows });
     }
     return of({ count: 0, result: [] });
@@ -146,24 +140,39 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return [this.deleteAction];
   }
 
+  protected createFormControls() {
+    if (this.formArray) {
+      for (let rowIndex = 0; rowIndex < this.editableRows.length; rowIndex++) {
+        const editableRow = this.editableRows[rowIndex];
+        if (!editableRow['hasFormControl']) {
+          // Add controls in form array
+          const formGroup = this.createFormGroup(editableRow);
+          this.formArray.push(formGroup);
+          // Link row properties to form controls
+          this.addFormControlsToRow(rowIndex);
+        }
+      }
+    }
+  }
+
   protected abstract createRow(): T;
 
   protected isCellDisabled(columnDef: TableColumnDef, editableRow: T): boolean {
     return false;
   }
 
-  private addFormControlsToContent() {
+  private addFormControlsToRow(rowIndex: number) {
     if (this.formArray && this.editableRows) {
-      for (let i = 0; i < this.editableRows.length; i++) {
-        const editableRow = this.editableRows[i];
-        // There is one form group per line containing the form controls (one per props in table column def)
-        const formGroup = this.formArray.controls[i] as FormGroup;
-        if (formGroup) {
-          for (const tableColumnDef of this.tableColumnDefs) {
-            // Assign the form control to the data
-            editableRow[`${tableColumnDef.id}FormControl`] = formGroup.get(tableColumnDef.id);
-          }
+      const editableRow = this.editableRows[rowIndex];
+      // There is one form group per line containing the form controls (one per props in table column def)
+      const formGroup = this.formArray.controls[rowIndex] as FormGroup;
+      if (formGroup) {
+        for (const tableColumnDef of this.tableColumnDefs) {
+          // Assign the form control to the data
+          editableRow[`${tableColumnDef.id}FormControl`] = formGroup.get(tableColumnDef.id);
         }
+        // Flag
+        editableRow['hasFormControl'] = true;
       }
     }
   }
@@ -200,11 +209,13 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  private createFormGroupDefinition(editableRow: T): FormGroup {
+  protected createFormGroup(editableRow: T): FormGroup {
     const controls = {};
     for (const tableColumnDef of this.tableColumnDefs) {
       let value;
       switch (tableColumnDef.editType) {
+        case TableEditType.DISPLAY_ONLY:
+          continue;
         case TableEditType.CHECK_BOX:
         case TableEditType.RADIO_BUTTON:
           value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : false;

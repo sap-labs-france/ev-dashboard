@@ -18,9 +18,9 @@ import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
-
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {

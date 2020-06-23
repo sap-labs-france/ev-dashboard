@@ -3,36 +3,27 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableDataSource } from 'app/shared/table/table-data-source';
 import { CarCatalog, CarConverter } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
-import { TableColumnDef, TableDef } from 'app/types/Table';
+import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+import { DialogTableDataSource } from '../dialog-table-data-source';
+
 @Injectable()
-export class CarCatalogConverterTableDataSource extends TableDataSource<CarConverter> {
+export class CarConvertersDialogTableDataSource extends DialogTableDataSource<CarConverter> {
   public carCatalog!: CarCatalog;
   constructor(
-    public spinnerService: SpinnerService,
-    private appDurationPipe: AppDurationPipe,
-    private appUnitPipe: AppUnitPipe,
-    public translateService: TranslateService,
-  ) {
+      public spinnerService: SpinnerService,
+      public translateService: TranslateService,
+      private appDurationPipe: AppDurationPipe,
+      private appUnitPipe: AppUnitPipe) {
     super(spinnerService, translateService);
+    // Init
     this.initDataSource();
   }
 
-  public buildTableDef(): TableDef {
-    return {
-      search: {
-        enabled: false,
-      },
-      isSimpleTable: true,
-      hasDynamicRowAction: false,
-    };
-  }
-
-  public setCar(carCatalog: CarCatalog) {
+  public setCarCatalog(carCatalog: CarCatalog) {
     this.carCatalog = carCatalog;
     this.refreshData(false).subscribe();
   }
@@ -84,7 +75,7 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<CarConve
         name: 'cars.charge_power',
         headerClass: 'text-center col-20p',
         class: 'text-center col-20p',
-        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0, 0) : '-',
+        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0, 1) : '-',
       },
       {
         id: 'chargeTime',

@@ -10,19 +10,19 @@ export class AppUnitPipe implements PipeTransform {
   }
 
   public transform(value: number, srcMeasure: string = '', destMeasure: string = '', withUnit: boolean = true, numberOfInteger: number = 1,
-            numberOfDecimal: number = 2): string {
+            numberOfDecimalMin: number = 2, numberOfDecimalMax: number = 2): string {
     if (value === 0) {
-      numberOfDecimal = 0;
+      numberOfDecimalMin = 0;
     }
     if (srcMeasure === destMeasure) {
       return this.decimalPipe.transform(value,
-        `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + destMeasure : ''}`;
+        `${numberOfInteger}.${numberOfDecimalMin}-${numberOfDecimalMax}`) + `${withUnit ? ' ' + destMeasure : ''}`;
     }
     const src = this.parseMeasure(srcMeasure);
     const dest = this.parseMeasure(destMeasure);
     const localDestMeasure = destMeasure.replace('Wh', 'W.h');
     return this.decimalPipe.transform(value / (src.size * dest.size),
-      `${numberOfInteger}.${numberOfDecimal}-${numberOfDecimal}`) + `${withUnit ? ' ' + localDestMeasure : ''}`;
+      `${numberOfInteger}.${numberOfDecimalMin}-${numberOfDecimalMax}`) + `${withUnit ? ' ' + localDestMeasure : ''}`;
   }
 
   private parseMeasure(measureAsString: string): Measure {

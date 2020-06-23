@@ -1,6 +1,10 @@
 .mat-checkbox-checked .mat-checkbox-background .mat-checkbox-indeterminate {
   background: $brand-primary !important;
 }
+.mat-checkbox-layout {
+  margin-bottom: 3px;
+}
+
 .mat-checkbox-layout .mat-checkbox-label {
   padding-top: 2px;
 }

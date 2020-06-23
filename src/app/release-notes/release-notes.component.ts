@@ -24,13 +24,36 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.2.77',
-        date: new Date('2020-06-16'),
+        version: '2.3.3',
+        date: new Date('2020-06-22'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Handle Power Meter Values per phase on Ebee Charging Station`
+              `Admin and Basic users can create Cars`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.2',
+        date: new Date('2020-06-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added auto-refresh toggle button in Charging Plans`,
+              `Added AC/DC Voltage and Voltage per phase when available in Session's consumption chart`,
+              `Added new firmware versions in Charging Station's Templates`,
+              `First Session tab is now Session In Progress`,
+              `Fixed translation errors`,
+              `Fixed User got notified with Session Not Started when he stopped his Session with his badge`,
+              `Handle Power Meter Values per phase on Ebee Charging Station`,
+              `Add latest stable Ebee firmware version in templates`,
+              `Removed timezone in templates for Schneider Charging Station`,
+              `Renamed Charging Station 'private' property to 'public'`,
+              `100% Completed the OCPI eMSP and CPO Gireve certification`,
+              `Integrated German and Spanish translation`
             ],
           },
         ],

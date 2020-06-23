@@ -1,6 +1,6 @@
 <div [@SlideChangeStart]="beforeChange" (@SlideChangeStart.done)="slideChangeAnimationReloadEnd($event)"
-     [@SlideChangeDone]="afterChange" (@SlideChangeDone.done)="slideChangeAnimationDone($event)" style="height:100%">
-  <div class="row position-sticky fixed-top mx-0 px-0" style="z-index:999">
+     [@SlideChangeDone]="afterChange" (@SlideChangeDone.done)="slideChangeAnimationDone($event)">
+  <div class="row position-sticky fixed-top mx-0 px-0">
     <div class="topbar pr-1 w-100 " data-background-color="blue" data-color="white">
       <div class="d-flex w-100 justify-content-center align-items-center slide-card-up ">
         <span class="mx-0 p-0" *ngIf="currentMetrics && currentMetrics.name !== 'ALL'">{{currentMetrics.name}}</span>
@@ -28,7 +28,7 @@
           <div class="w-100">
             <div class="d-flex flex-column w-100 justify-content-center">
               <!-- First for with 2 gauges and central card for site -->
-              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3" style="min-height:320px">
+              <div *ngIf="currentMetrics" class="d-flex d-flex-row align-items-stretch w-100 justify-content-around mb-3">
                 <div class="d-flex col-md-4 mx-1">
                   <div class="card card-stats gauge-card">
                     <div class="card-header fade-out-text card-header-primary card-header-icon">

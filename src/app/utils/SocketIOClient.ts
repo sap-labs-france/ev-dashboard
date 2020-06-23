@@ -27,6 +27,7 @@ export default class SocketIOClient {
       // Init and connect Socket IO
       this.socketIO = io(serverURL, {
         query: 'token=' + token,
+        transports: ['websocket'],
       });
     } else if (this.socketIO && this.socketIO.disconnected) {
       // Connect Socket IO
@@ -37,6 +38,10 @@ export default class SocketIOClient {
     this.socketIO.on('connect', () => {
       console.log(`SocketIO client is connected`);
       connectCallback();
+    });
+    // On reconnection, reset the transports option
+    this.socketIO.on('reconnect_attempt', () => {
+      this.socketIO.io.opts.transports = ['polling', 'websocket'];
     });
     // Temporary debug log
     this.socketIO.on('connect_timeout', (timeout) => { console.log(`SocketIO client connection timeout: ${timeout}`); });

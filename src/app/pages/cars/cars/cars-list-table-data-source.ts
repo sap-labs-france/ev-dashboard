@@ -10,17 +10,18 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Car, CarButtonAction, CarType } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
-
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -180,20 +181,20 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         class: 'col-15p',
         sortable: true,
       },
-      {
-        id: 'lastChangedOn',
-        name: 'users.changed_on',
-        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      },
-      {
-        id: 'lastChangedBy',
-        name: 'users.changed_by',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-      });
+        {
+          id: 'lastChangedOn',
+          name: 'users.changed_on',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        },
+        {
+          id: 'lastChangedBy',
+          name: 'users.changed_by',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        });
     }
     return tableColumnDef;
   }
@@ -207,6 +208,15 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         }
         break;
     }
+  }
+
+  public buildTableFiltersDef(): TableFilterDef[] {
+    if (this.authorizationService.isAdmin()) {
+      return [
+        new UserTableFilter().getFilterDef(),
+      ];
+    }
+    return [];
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

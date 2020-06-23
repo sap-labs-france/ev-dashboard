@@ -113,15 +113,16 @@
           <div class="row text-left">
             <div class="col-md-12">
               <div class="form-group">
-                <mat-checkbox [formControl]="dynamicAsset">
+                <mat-checkbox [formControl]="dynamicAsset" (change)="connectionFormDisabled()">
                   {{'assets.dynamic_asset' | translate}}
                 </mat-checkbox>
               </div>
               <div class="form-group">
-                <mat-form-field *ngIf="formGroup.enabled">
-                  <input matInput type="text" readonly=true placeholder="{{'assets.asset_connection' | translate}}"
-                  class="form-field-popup" (click)="assignAssetConnection()" [formControl]="assetConnection" required/>
-                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignAssetConnection()">
+                <mat-form-field>
+                  <input matInput readonly=true type="text" placeholder="{{'assets.asset_connection' | translate}}"
+                    class="form-field-popup" (click)="assignAssetConnection()"
+                    [formControl]="assetConnection" required />
+                  <button [hidden]="!dynamicAsset.value" mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignAssetConnection()">
                     <mat-icon>create</mat-icon>
                   </button>
                   <mat-error *ngIf="assetConnection.errors?.required">
@@ -133,6 +134,9 @@
                 <mat-form-field>
                   <input matInput type="text" placeholder="{{'assets.meter_id' | translate}}"
                     [formControl]="meterID" required/>
+                  <mat-error *ngIf="meterID.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>

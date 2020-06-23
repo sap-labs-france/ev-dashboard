@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.3.3',
-        date: new Date('2020-06-22'),
+        date: new Date('2020-06-3'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,7 +33,7 @@ export class ReleaseNotesComponent {
               `Admin and Basic users can create Cars`,
               `Set Static Limitation OCPP parameter for Legrand Charging Station`,
               `Translated EULA in Spanish and German`,
-              `Add support for Ebee firmware version 5.10.x`
+              `Add support for Ebee firmware version 5.10.x`,
             ],
           },
         ],

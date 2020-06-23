@@ -20,7 +20,7 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
         <app-chart-unit-selector (unitChanged)="unitChanged($event)"></app-chart-unit-selector>
       </div>
     </div>
-    <div class="chart-container" style="position: relative; height:27vh;">
+    <div class="chart-container chart-container-profiles">
       <div #primary class='chart-primary'></div>
       <div #danger class='chart-danger'></div>
       <canvas #chart></canvas>

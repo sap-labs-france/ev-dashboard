@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { CarMakersTable } from 'app/types/Car';
+import { CarMaker } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTable> {
+export class CarMakersTableDataSource extends DialogTableDataSource<CarMaker> {
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -25,7 +25,7 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMakersTab
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<CarMakersTable>> {
+  public loadDataImpl(): Observable<DataResult<CarMaker>> {
     return new Observable((observer) => {
       // Get data
       this.centralServerService.getCarMakers(this.buildFilterValues()).subscribe((carMakers) => {

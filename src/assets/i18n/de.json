@@ -1649,6 +1649,8 @@
     "create_success": "The car '{{carName}}' has been created with success",
     "update_success": "Car updated successfully",
     "assign_car_catalog": "Assign car catalog",
+    "delete_success": "Car delete successfully",
+    "delete_error": "Error occurred while deleting the car",
     "create_error": "Error occurred while creating the car",
     "update_error": "Error occurred while updating the car",
     "car_exist": "You already created this car",
@@ -1675,8 +1677,16 @@
     "remove_users_car_success": "{{assigned}} user(s) have been removed successfully",
     "remove_users_car_error": "Error occurred while removing the users",
     "car_not_found": "Car has not been found",
+    "car_error": "Error occurred while retrieving the car",
+    "car_user_error": "Error occurred while retrieving the users of the car",
     "assign_converter": "Assign Converter",
     "converter": "Converter",
+    "dialog": {
+      "delete": {
+        "title": "Delete Car",
+        "confirm": "Do you really want to delete this car?"
+      }
+    },
     "users": "Users",
     "unit": {
       "meters": "m",

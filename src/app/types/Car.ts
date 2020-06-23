@@ -97,4 +97,5 @@ export enum CarButtonAction {
   SYNCHRONIZE = 'synchronize',
   CREATE_CAR = 'create_car',
   EDIT_CAR = 'edit_car',
+  DELETE_CAR = 'delete_car'
 }

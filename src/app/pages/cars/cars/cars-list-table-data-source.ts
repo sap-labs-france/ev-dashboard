@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
@@ -21,6 +22,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
+import { TableDeleteCarAction } from '../table-actions/table-delete-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
 
 @Injectable()
@@ -29,6 +31,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   public isBasic: boolean;
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
+  private deleteAction = new TableDeleteCarAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -39,6 +42,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService,
+    private dialogService: DialogService,
   ) {
     super(spinnerService, translateService);
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -228,8 +232,19 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      this.editAction
+      this.editAction,
+      this.deleteAction,
     ];
+  }
+
+  public canDisplayRowAction(actionDef: TableActionDef, car: Car) {
+    const foundCarUser = car.carUsers.find((carUser) => carUser.user.id === this.centralServerService.getLoggedUser().id);
+    switch (actionDef.id) {
+      case CarButtonAction.DELETE_CAR:
+        return this.isBasic ? foundCarUser.owner : true;
+      default:
+        return true;
+    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {
@@ -237,6 +252,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
           actionDef.action(car, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case CarButtonAction.DELETE_CAR:
+        if (actionDef.action) {
+          actionDef.action(car, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
     }

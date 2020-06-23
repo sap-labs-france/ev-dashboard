@@ -1648,6 +1648,8 @@
     "car_makers": "Constructeurs de Véhicules",
     "create_success": "Le véhicule '{{carName}}' a été créé avec succès",
     "update_success": "Véhicule modifié avec succès",
+    "delete_success": "Véhicule supprimé avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression du véhicules",
     "assign_car_catalog": "Assigner véhicule",
     "create_error": "Une erreur est survenue pendant la création du véhicules",
     "update_error": "Une erreur est survenue pendant la modification du véhicules",
@@ -1680,6 +1682,12 @@
     "assign_converter": "Assigner Convertisseurs",
     "users": "Utilisateurs",
     "converter": "Convertisseur",
+    "dialog": {
+      "delete": {
+        "title": "Supprimer véhicule",
+        "confirm": "Voulez-vous vraiment supprimer ce véhicule?"
+      }
+    },
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

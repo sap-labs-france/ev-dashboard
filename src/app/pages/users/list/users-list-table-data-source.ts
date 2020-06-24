@@ -197,7 +197,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         name: 'users.changed_by',
         headerClass: 'col-15p',
         class: 'col-15p',
-        sortable: true,
       },
     );
     if (this.componentService.isActive(TenantComponents.BILLING)) {

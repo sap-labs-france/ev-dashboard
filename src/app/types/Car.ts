@@ -1,4 +1,6 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
+import { User, UserCar } from './User';
 
 export interface CarCatalog extends Data {
   id: number;
@@ -30,25 +32,28 @@ export interface CarCatalog extends Data {
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
-  chargeStandardTables: ChargeStandardTable[];
+  chargeStandardTables: CarConverter[];
 }
 
-export interface UserCar extends Data {
-  vin: string;
-  licensePlate: string;
-  carCatalog: CarCatalog;
-}
-
-export interface Car extends Data {
+export interface Car extends Data, CreatedUpdatedProps {
   id: string;
   vin: string;
   licensePlate: string;
-  carCatalog: CarCatalog;
-  carCatalogID?: number;
+  carCatalogID: number;
+  carCatalog?: CarCatalog;
   userIDs?: string;
-  forced?: boolean;
-  isDefault?: boolean;
+  users?: User[];
+  carUsers?: UserCar[];
   type?: CarType;
+  converterType?: string;
+}
+
+export interface CarUser extends Data, CreatedUpdatedProps {
+  id: string;
+  car: Car;
+  userID: string;
+  default?: boolean;
+  owner?: boolean;
 }
 
 export enum CarType {
@@ -57,7 +62,7 @@ export enum CarType {
   POOL_CAR = 'PC',
 }
 
-export interface ChargeStandardTable extends Data {
+export interface CarConverter extends Data {
   type: string;
   evsePhaseVolt: number;
   evsePhaseVoltCalculated: number;
@@ -70,8 +75,12 @@ export interface ChargeStandardTable extends Data {
   chargeTime: number;
   chargeSpeed: number;
 }
-export interface CarMakersTable extends Data {
+export interface CarMaker extends Data {
   carMaker: string;
+}
+
+export interface ChangeEvent {
+  changed: boolean;
 }
 
 export interface ImageObject extends Data {
@@ -87,4 +96,5 @@ export enum CarButtonAction {
   VIEW_CAR_CATALOG = 'view_car_catalog',
   SYNCHRONIZE = 'synchronize',
   CREATE_CAR = 'create_car',
+  EDIT_CAR = 'edit_car',
 }

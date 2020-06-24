@@ -1,3 +1,11 @@
+import { Asset } from './Asset';
+import { Car, CarCatalog, CarConverter, CarMaker } from './Car';
+import { ChargingStation } from './ChargingStation';
+import { Company } from './Company';
+import { RefundReport } from './Refund';
+import { Site } from './Site';
+import { SiteArea } from './SiteArea';
+import { User } from './User';
 
 export interface Image {
   id: string;
@@ -25,7 +33,7 @@ export interface SubjectInfo {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: any;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|CarConverter;
   readonly?: boolean;
   icon?: string;
   tooltip?: string;
@@ -66,6 +74,7 @@ export enum ButtonAction {
   VIEW = 'view',
   INLINE_SAVE = 'inline-save',
   DOWNLOAD = 'download',
+  TEST_CONNECTION = 'test-connection'
 }
 
 export enum ChipType {

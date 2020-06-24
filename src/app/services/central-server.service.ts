@@ -4,12 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
-import { Car, CarCatalog, CarMakersTable, ImageObject } from 'app/types/Car';
+import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, AssetTestConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -19,20 +19,20 @@ import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
 import { Setting } from 'app/types/Setting';
-import { Site, SiteUser, UserSite } from 'app/types/Site';
+import { Site, SiteUser } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
-import { User, UserToken } from 'app/types/User';
+import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
+
 
 @Injectable()
 export class CentralServerService {
@@ -1696,6 +1696,22 @@ export class CentralServerService {
       );
   }
 
+  public checkAssetConnection(assetConnectionId: string) {
+    const params: { [param: string]: string } = {};
+    params['ID'] = assetConnectionId;
+    // Verify init
+    this.checkInit();
+    // Execute REST service
+    return this.httpClient.get<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHECK_ASSET_CONNECTION}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public createSite(site: Site): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -2269,14 +2285,53 @@ export class CentralServerService {
       );
   }
 
+  public getCar(carID: string): Observable<Car> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['CarID'] = carID;
+    // Execute the REST service
+    return this.httpClient.get<Car>(
+      `${this.centralRestServerServiceSecuredURL}/Car`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getCarUsers(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<UserCar>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<UserCar>>(`${this.centralRestServerServiceSecuredURL}/CarUsers`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getCarCatalog(carCatalogID: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
+    const params: { [param: number]: string } = {};
+    params['CarCatalogID'] = carCatalogID;
     // Execute the REST service
     return this.httpClient.get<CarCatalog>(
-      `${this.centralRestServerServiceSecuredURL}/CarCatalog?CarCatalogID=${carCatalogID}`,
+      `${this.centralRestServerServiceSecuredURL}/CarCatalog`,
       {
         headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2301,11 +2356,11 @@ export class CentralServerService {
       );
   }
 
-  public getCarMakers(params: FilterParams): Observable<DataResult<CarMakersTable>> {
+  public getCarMakers(params: FilterParams): Observable<DataResult<CarMaker>> {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<DataResult<CarMakersTable>>(
+    return this.httpClient.get<DataResult<CarMaker>>(
       `${this.centralRestServerServiceSecuredURL}/CarMakers`,
       {
         headers: this.buildHttpHeaders(),
@@ -2329,11 +2384,24 @@ export class CentralServerService {
       );
   }
 
-  public createCar(car: any): Observable<ActionResponse> {
+  public createCar(car: Car, forced: boolean): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, car,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarCreate`, { ...car, forced },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateCar(car: Car): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarUpdate`, car,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2420,7 +2488,7 @@ export class CentralServerService {
       }
     }`;
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/ChargingStationSetChargingProfile`, body,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_SET_CHARGING_PROFILE}`, body,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2610,12 +2678,16 @@ export class CentralServerService {
     if (ordering && ordering.length) {
       const sortFields: string[] = [];
       const sortDirs: string[] = [];
-      ordering.forEach((order) => {
-        sortFields.push(order.field);
-        sortDirs.push(order.direction);
-      });
-      queryParams['SortFields'] = sortFields;
-      queryParams['SortDirs'] = sortDirs;
+      for (const order of ordering) {
+        if (order.field) {
+          sortFields.push(order.field);
+          sortDirs.push(order.direction);
+        }
+      }
+      if (sortFields.length > 0) {
+        queryParams['SortFields'] = sortFields;
+        queryParams['SortDirs'] = sortDirs;
+      }
     }
   }
 

@@ -58,6 +58,10 @@ export interface DataResult<T extends Data> {
   result: T[];
 }
 
+export interface AssetTestConnectionResponse extends ActionResponse {
+  connectionIsValid: boolean;
+}
+
 export interface TransactionDataResult {
   count: number;
   result: Transaction[];

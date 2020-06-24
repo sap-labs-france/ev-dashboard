@@ -24,15 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.3',
-        date: new Date('2020-06-23'),
+        version: '2.3.4',
+        date: new Date('2020-06-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Admin and Basic users can create Cars`,
+              `Added test of Schneider BMS' connection in Asset Settings`,
+              `Keep selected legends in consumption charts when the unit is changed (kW/A)`,
+              `Fixed sorting on Charging Station list`,
               `Set Static Limitation OCPP parameter for Legrand Charging Station`,
               `Translated EULA in Spanish and German`,
+              `Fixed Site Area filter was hanging`,
+              `Do not push backend notifications to the front-end if the app is not connected anymore`,
               `Add support for Ebee firmware version 5.10.x`,
             ],
           },

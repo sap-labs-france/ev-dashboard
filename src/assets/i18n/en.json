@@ -1681,9 +1681,11 @@
     "remove_users_car_success": "{{assigned}} user(s) have been removed successfully",
     "remove_users_car_error": "Error occurred while removing the users",
     "car_not_found": "Car has not been found",
+    "car_error": "Error occurred while retrieving the car",
+    "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
-    "users": "Utilisateurs",
     "converter": "Converter",
+    "users": "Users",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

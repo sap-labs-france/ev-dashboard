@@ -72,6 +72,7 @@
     "synchronize": "Sincronizar",
     "force_synchronize": "Forzar sincronización",
     "download": "Descargar",
+    "test_connection": "Test Connection",
     "upload": "Subir",
     "change": "Cambiar",
     "reload": "Volver a cargar",
@@ -204,6 +205,7 @@
       "clear": "Borrar",
       "save": "Guardar",
       "download": "Descargar",
+      "test_connection": "Test Connection",
       "force_available_status": "Forzar estatus a disponible",
       "force_unavailable_status": "Forzar estatus a no disponible"
     }
@@ -1679,6 +1681,8 @@
     "remove_users_car_success": "{{assigned}} user(s) have been removed successfully",
     "remove_users_car_error": "Error occurred while removing the users",
     "car_not_found": "Car has not been found",
+    "car_error": "Error occurred while retrieving the car",
+    "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
     "converter": "Converter",
     "users": "Users",

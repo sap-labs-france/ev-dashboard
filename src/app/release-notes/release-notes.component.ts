@@ -35,6 +35,7 @@ export class ReleaseNotesComponent {
               `Set Static Limitation OCPP parameter for Legrand Charging Station`,
               `Translated EULA in Spanish and German`,
               `Fixed Site Area filter was hanging`,
+              `Do not push backend notifications to the front-end if the app is not connected anymore`,
               `Add support for Ebee firmware version 5.10.x`,
             ],
           },

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { ConsumptionUnit, Transaction } from 'app/types/Transaction';
@@ -56,6 +57,18 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private instantVoltsL3Color!: string;
   private defaultColor!: string;
   private language!: string;
+  private activeLegend = [
+    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.power'), hidden: false},
+    {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('transactions.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true},
+    {key: this.translateService.instant('transactions.graph.energy_amps') + this.translateService.instant('transactions.graph.energy'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.cumulated_amount'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_dc'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_l1'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_l2'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.voltage_l3'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.battery'), hidden: false}
+  ];
 
   constructor(
     private centralServerService: CentralServerService,
@@ -64,7 +77,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe,
+    private authorizationService: AuthorizationService ) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -142,6 +156,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
@@ -153,8 +168,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
         type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.limit_amps'))))].hidden,
         data: [],
-        hidden: true,
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
@@ -165,8 +180,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'cumulatedConsumptionAmps' : 'cumulatedConsumptionWh',
         type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.energy_amps'))))].hidden,
         data: [],
-        hidden: true,
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.consumptionColor),
@@ -179,8 +194,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
         datasets.push({
           name: 'cumulatedAmount',
           type: 'line',
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.cumulated_amount'))))].hidden,
           data: [],
-          hidden: true,
           yAxisID: 'amount',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.amountColor),
@@ -216,7 +231,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVolts',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsColor),
@@ -231,7 +246,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsDC',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_dc'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsColor),
@@ -248,7 +263,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsL1',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_l1'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsL1Color),
@@ -259,7 +274,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsL2',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_l2'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsL2Color),
@@ -270,7 +285,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           name: 'instantVoltsL3',
           type: 'line',
           data: [],
-          hidden: true,
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.voltage_l3'))))].hidden,
           yAxisID: 'voltage',
           lineTension: this.lineTension,
           ...Utils.formatLineColor(this.instantVoltsL3Color),
@@ -283,6 +298,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         datasets.push({
           name: 'stateOfCharge',
           type: 'line',
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.battery'))))].hidden,
           data: [],
           yAxisID: 'percentage',
           lineTension: this.lineTension,
@@ -320,7 +336,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'V',
             min: 0,
             fontColor: this.defaultColor,
           },
@@ -420,6 +436,14 @@ export class ConsumptionChartComponent implements AfterViewInit {
         labels: {
           fontColor: this.defaultColor,
         },
+        onClick: (e, legendItem) => {
+          const index = legendItem.datasetIndex;
+          const ci = this.chart;
+          const meta = ci.getDatasetMeta(index);
+          meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+          this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(legendItem.text)))].hidden = meta.hidden;
+          ci.update();
+        }
       },
       responsive: true,
       maintainAspectRatio: false,
@@ -528,7 +552,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? value / 1000 : value,
+              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? (value / 1000) + 'kW' : value  + 'A',
               fontColor: this.defaultColor,
               min: 0,
             },

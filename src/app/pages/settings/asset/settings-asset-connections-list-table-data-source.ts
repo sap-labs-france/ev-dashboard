@@ -39,12 +39,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         this.editableRows.sort((a, b) => {
           return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
         });
-        const assetConnections = [];
-        for (let index = 0; index < this.editableRows.length; index++) {
-          const assetConnection = this.editableRows[index];
-          assetConnection.id = index.toString();
-          assetConnections.push(assetConnection);
-        }
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,
@@ -117,7 +111,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting, ) {
+  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting  ) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
@@ -143,8 +137,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public createRow(): AssetConnectionSetting {
     return {
-      id: '',
-      key: '',
+      id: null,
+      key: null,
       name: '',
       description: '',
       type: AssetConnectionType.NONE,
@@ -157,11 +151,11 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
+    // Update
     if (assetConnection) {
-      // Update
       dialogConfig.data = assetConnection;
+    // Create
     } else {
-      // Create
       dialogConfig.data = this.createRow();
     }
     // Disable outside click close

@@ -59,8 +59,7 @@ export interface DataResult<T extends Data> {
 }
 
 export interface AssetTestConnectionResponse extends ActionResponse {
-  isConnectionValid: boolean;
-  statusErrorCode?: number;
+  connectionIsValid: boolean;
 }
 
 export interface TransactionDataResult {

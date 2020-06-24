@@ -1696,13 +1696,13 @@ export class CentralServerService {
       );
   }
 
-  public assetTestConnection(assetConnectionId: string) {
+  public checkAssetConnection(assetConnectionId: string) {
     const params: { [param: string]: string } = {};
     params['ID'] = assetConnectionId;
     // Verify init
     this.checkInit();
     // Execute REST service
-    return this.httpClient.get<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetTestConnection`,
+    return this.httpClient.get<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHECK_ASSET_CONNECTION}`,
       {
         headers: this.buildHttpHeaders(),
         params

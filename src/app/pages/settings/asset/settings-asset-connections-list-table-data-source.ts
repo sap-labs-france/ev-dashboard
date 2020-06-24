@@ -7,15 +7,15 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableTestConnectionAction } from 'app/shared/table/actions/table-test-connection-action';
 import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
+import { AssetButtonAction } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
+import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
+import { TableTestAssetConnectionAction } from './table-actions/table-test-asset-connection-action';
 
 
 @Injectable()
@@ -97,7 +97,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   public buildTableRowActions(): TableActionDef[] {
     return [
       new TableEditAction().getActionDef(),
-      new TableTestConnectionAction().getActionDef(),
+      new TableTestAssetConnectionAction().getActionDef(),
       ...super.buildTableRowActions()
     ];
   }
@@ -111,13 +111,16 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting  ) {
+  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
         break;
-      case ButtonAction.TEST_CONNECTION:
-        this.testConnectionAction(assetConnection);
+      case AssetButtonAction.TEST_ASSET_CONNECTION:
+        if (actionDef.action) {
+          actionDef.action(assetConnection, this.spinnerService, this.centralServerService,
+            this.messageService, this.router);
+        }
         break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);
@@ -178,26 +181,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         this.formArray.markAsDirty();
         this.tableChangedSubject.next(this.editableRows);
       }
-    });
-  }
-
-  public testConnectionAction(assetConnection: AssetConnectionSetting) {
-    this.spinnerService.show();
-    this.centralServerService.assetTestConnection(assetConnection.id).subscribe((response) => {
-      this.spinnerService.hide();
-      if (response.status && response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('settings.asset.connection_success');
-      } else {
-        let statusMessage = `settings.asset.unknown_connection_error`;
-        if (response.error) {
-          statusMessage = `settings.asset.${response.error}`;
-        }
-        Utils.handleError(JSON.stringify(response), this.messageService, statusMessage);
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'settings.asset.connection_failed');
     });
   }
 }

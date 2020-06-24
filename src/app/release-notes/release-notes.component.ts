@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Admin and Basic users can create Cars`,
               `Added test of Schneider BMS' connection in Asset Settings`,
+              `Keep selected legends in consumption charts when the unit is changed (kW/A)`,
               `Set Static Limitation OCPP parameter for Legrand Charging Station`,
               `Translated EULA in Spanish and German`,
               `Fixed Site Area filter was hanging`,

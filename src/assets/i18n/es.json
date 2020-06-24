@@ -72,6 +72,7 @@
     "synchronize": "Sincronizar",
     "force_synchronize": "Forzar sincronización",
     "download": "Descargar",
+    "test_connection": "Test Connection",
     "upload": "Subir",
     "change": "Cambiar",
     "reload": "Volver a cargar",
@@ -204,6 +205,7 @@
       "clear": "Borrar",
       "save": "Guardar",
       "download": "Descargar",
+      "test_connection": "Test Connection",
       "force_available_status": "Forzar estatus a disponible",
       "force_unavailable_status": "Forzar estatus a no disponible"
     }
@@ -1414,6 +1416,10 @@
       "types": {
         "schneider": "Gestión de edificios Schneider"
       },
+      "connection_success": "Connection to the system was tested successfully",
+      "unknown_connection_error": "Error de conexión desconocido",
+      "invalid_grant": "Usuario o Contraseña incorrectos",
+      "connection_failed": "La conexión falló",
       "description": "E-Mobility puede gestionar el consumo de activos y utilizar esta información con el algoritmo de carga inteligente para equilibrar el consumo de las estaciones de carga en un área determinada.",
       "setting_do_not_exist": "La configuración no existe",
       "setting_not_found": "No se encontró la configuración de activos",
@@ -1675,6 +1681,8 @@
     "remove_users_car_success": "{{assigned}} user(s) have been removed successfully",
     "remove_users_car_error": "Error occurred while removing the users",
     "car_not_found": "Car has not been found",
+    "car_error": "Error occurred while retrieving the car",
+    "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
     "converter": "Converter",
     "users": "Users",

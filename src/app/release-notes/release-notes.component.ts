@@ -31,8 +31,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Admin and Basic users can create Cars`,
+              `Added test of Schneider BMS' connection in Asset Settings`,
               `Set Static Limitation OCPP parameter for Legrand Charging Station`,
               `Translated EULA in Spanish and German`,
+              `Fixed Site Area filter was hanging`,
               `Add support for Ebee firmware version 5.10.x`,
             ],
           },

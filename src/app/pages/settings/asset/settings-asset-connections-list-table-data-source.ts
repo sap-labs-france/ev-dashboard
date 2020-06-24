@@ -1,24 +1,32 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
+import { AssetButtonAction } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
-
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
+import { TableTestAssetConnectionAction } from './table-actions/table-test-asset-connection-action';
+
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private centralServerService: CentralServerService,
+    private router: Router,
+    private messageService: MessageService) {
     super(spinnerService, translateService);
   }
 
@@ -27,6 +35,10 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     return new Observable((observer) => {
       // Check
       if (this.editableRows) {
+        // Asset sort by name
+        this.editableRows.sort((a, b) => {
+          return (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0;
+        });
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,
@@ -85,6 +97,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   public buildTableRowActions(): TableActionDef[] {
     return [
       new TableEditAction().getActionDef(),
+      new TableTestAssetConnectionAction().getActionDef(),
       ...super.buildTableRowActions()
     ];
   }
@@ -98,10 +111,16 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting, ) {
+  public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
+        break;
+      case AssetButtonAction.TEST_ASSET_CONNECTION:
+        if (actionDef.action) {
+          actionDef.action(assetConnection, this.spinnerService, this.centralServerService,
+            this.messageService, this.router);
+        }
         break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);
@@ -121,8 +140,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
 
   public createRow(): AssetConnectionSetting {
     return {
-      id: new Date().getTime().toString(),
-      key: '',
+      id: null,
+      key: null,
       name: '',
       description: '',
       type: AssetConnectionType.NONE,
@@ -135,11 +154,11 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
+    // Update
     if (assetConnection) {
-      // Update
       dialogConfig.data = assetConnection;
+    // Create
     } else {
-      // Create
       dialogConfig.data = this.createRow();
     }
     // Disable outside click close

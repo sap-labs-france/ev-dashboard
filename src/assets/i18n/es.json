@@ -1416,7 +1416,7 @@
       "types": {
         "schneider": "Gestión de edificios Schneider"
       },
-      "connection_success": "Conexión exitosa",
+      "connection_success": "Connection to the system was tested successfully",
       "unknown_connection_error": "Error de conexión desconocido",
       "invalid_grant": "Usuario o Contraseña incorrectos",
       "connection_failed": "La conexión falló",

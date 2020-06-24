@@ -104,7 +104,7 @@
           <div class="clearfix"></div>
         </div>
       </mat-tab>
-      <mat-tab>
+      <mat-tab *ngIf="isAdmin">
         <ng-template mat-tab-label>
           <mat-icon>link</mat-icon>
           <span>{{'assets.dialog_tabs.connection' | translate}}</span>

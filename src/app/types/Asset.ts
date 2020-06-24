@@ -1,8 +1,9 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 
-export interface Asset extends Data {
+export interface Asset extends Data, CreatedUpdatedProps {
   id: string;
   name: string;
   siteAreaID: string;
@@ -10,10 +11,6 @@ export interface Asset extends Data {
   assetType: string;
   coordinates: number[];
   image: string;
-  createdBy: string;
-  createdOn: Date;
-  lastChangedBy: string;
-  lastChangedOn: Date;
 }
 
 export const AssetTypes: KeyValue[] = [

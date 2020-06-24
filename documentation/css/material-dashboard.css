@@ -8581,6 +8581,9 @@ fieldset[disabled] .form-group.is-focused .radio label {
 .progress .progress-bar {
   box-shadow: none;
 }
+.progress-bar-custom {
+  width: 0%;
+}
 .progress .progress-bar, .progress .progress-bar.progress-bar-default {
   background-color: #FFFFFF;
 }

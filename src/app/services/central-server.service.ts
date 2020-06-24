@@ -9,7 +9,7 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/Ch
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, AssetTestConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, ValidateBillingConnectionResponse } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -1690,6 +1690,22 @@ export class CentralServerService {
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/AssetDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkAssetConnection(assetConnectionId: string) {
+    const params: { [param: string]: string } = {};
+    params['ID'] = assetConnectionId;
+    // Verify init
+    this.checkInit();
+    // Execute REST service
+    return this.httpClient.get<AssetTestConnectionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHECK_ASSET_CONNECTION}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),

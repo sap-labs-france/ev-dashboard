@@ -30,6 +30,7 @@ export enum AssetButtonAction {
   EDIT_ASSET = 'edit_asset',
   CREATE_ASSET = 'create_asset',
   DELETE_ASSET = 'delete_asset',
+  TEST_ASSET_CONNECTION = 'test_connection_asset',
 }
 
 export enum AssetImage {

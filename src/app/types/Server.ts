@@ -30,7 +30,6 @@ export enum ServerAction {
   CHARGING_STATION_UPDATE_PARAMS = 'ChargingStationUpdateParams',
   CHARGING_STATION_LIMIT_POWER = 'ChargingStationLimitPower',
   CHARGING_STATION_DELETE = 'ChargingStationDelete',
-  CHARGING_STATION_PROFILE_DELETE = 'ChargingProfileDelete',
 
   START_TRANSACTION = 'StartTransaction',
   STOP_TRANSACTION = 'StopTransaction',
@@ -60,6 +59,11 @@ export enum ServerAction {
   CAR_CATALOG = 'CarCatalog',
   CAR_CATALOG_IMAGES = 'CarCatalogImages',
   CAR_MAKERS = 'CarMakers',
+  CAR_CREATE = 'CarCreate',
+  CAR_UPDATE = 'CarUpdate',
+  CARS = 'Cars',
+  CAR = 'Car',
+  CAR_USERS = 'CarUsers',
   SYNCHRONIZE_CAR_CATALOGS = 'SynchronizeCarCatalogs',
 
   GET_CONNECTOR_CURRENT_LIMIT = 'GetConnectorCurrentLimit',
@@ -95,6 +99,9 @@ export enum ServerAction {
   OCPI_ENPOINT_CREATE = 'OcpiEndpointCreate',
   OCPI_ENPOINT_PING = 'OcpiEndpointPing',
   OCPI_ENPOINT_TRIGGER_JOBS = 'OcpiEndpointTriggerJobs',
+  OCPI_ENPOINT_CHECK_CDRS = 'OcpiEndpointCheckCdrs',
+  OCPI_ENPOINT_CHECK_LOCATIONS = 'OcpiEndpointCheckLocations',
+  OCPI_ENPOINT_CHECK_SESSIONS = 'OcpiEndpointCheckSessions',
   OCPI_ENPOINT_PULL_CDRS = 'OcpiEndpointPullCdrs',
   OCPI_ENPOINT_PULL_LOCATIONS = 'OcpiEndpointPullLocations',
   OCPI_ENPOINT_PULL_SESSIONS = 'OcpiEndpointPullSessions',
@@ -108,6 +115,10 @@ export enum ServerAction {
   OCPI_AUTHORIZE_TOKEN = 'OcpiAuthorizeToken',
   OCPI_PATCH_LOCATIONS = 'OcpiPatchLocations',
   OCPI_PATCH_STATUS = 'OcpiPatchStatus',
+  OCPI_CHECK_CDRS = 'OcpiCheckCdrs',
+  OCPI_CHECK_SESSIONS = 'OcpiCheckSessions',
+  OCPI_CHECK_LOCATIONS = 'OcpiCheckLocations',
+  OCPI_CHECK_TOKENS = 'OcpiCheckTokens',
   OCPI_PUSH_TOKENS = 'OcpiPushTokens',
   OCPI_PUSH_SESSIONS = 'OcpiPushSessions',
   OCPI_PUSH_CDRS = 'OcpiPushCdrs',
@@ -155,6 +166,7 @@ export enum ServerAction {
   EXTRA_INACTIVITY = 'ExtraInactivity',
 
   CONSUMPTION = 'Consumption',
+  REBUILD_CONSUMPTION = 'RebuildConsumption',
 
   WS_ERROR = 'WSError',
   WS_CLIENT_ERROR = 'WSClientError',
@@ -199,7 +211,6 @@ export enum ServerAction {
 
   CAR_CATALOG_SYNCHRONIZATION_FAILED = 'CarCatalogSynchronizationFailed',
   CAR_CATALOG_SYNCHRONIZATION = 'CarCatalogSynchronization',
-
   SESSION_NOT_STARTED_AFTER_AUTHORIZE = 'SessionNotStartedAfterAuthorize',
 
   UPDATE_CHARGING_STATION_WITH_TEMPLATE = 'UpdateChargingStationWithTemplate',
@@ -240,8 +251,8 @@ export enum ServerAction {
 
   FIRMWARE_STATUS_NOTIFICATION = 'FirmwareStatusNotification',
 
-  ADD_CHARGING_STATION_TO_SITE_AREA = 'AddChargingStationsToSiteArea',
-  REMOVE_CHARGING_STATION_TO_SITE_AREA = 'RemoveChargingStationsFromSiteArea',
+  ADD_CHARGING_STATIONS_TO_SITE_AREA = 'AddChargingStationsToSiteArea',
+  REMOVE_CHARGING_STATIONS_FROM_SITE_AREA = 'RemoveChargingStationsFromSiteArea',
 
   ADD_ASSET_TO_SITE_AREA = 'AddAssetsToSiteArea',
   REMOVE_ASSET_TO_SITE_AREA = 'RemoveAssetsFromSiteArea',
@@ -249,6 +260,7 @@ export enum ServerAction {
   ASSETS = 'Assets',
   ASSET = 'Asset',
   ASSET_IMAGE = 'AssetImage',
+  ASSET_IN_ERROR = 'AssetsInError',
   ASSET_UPDATE = 'AssetUpdate',
   ASSET_DELETE = 'AssetDelete',
 

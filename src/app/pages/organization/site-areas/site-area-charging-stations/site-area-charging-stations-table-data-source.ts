@@ -66,13 +66,14 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     });
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    super.toggleRowSelection(row, event);
+  public toggleRowSelection(row: ChargingStation, checked: boolean) {
+    super.toggleRowSelection(row, checked);
     this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {
-    if (this.siteArea && this.authorizationService.isAdmin()) {
+    if (this.siteArea && this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -131,7 +132,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.siteArea && this.authorizationService.isAdmin()) {
+    if (this.siteArea && (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
       return [
         this.addAction,
         this.removeAction,

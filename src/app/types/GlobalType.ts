@@ -1,3 +1,11 @@
+import { Asset } from './Asset';
+import { Car, CarCatalog, CarConverter, CarMaker } from './Car';
+import { ChargingStation } from './ChargingStation';
+import { Company } from './Company';
+import { RefundReport } from './Refund';
+import { Site } from './Site';
+import { SiteArea } from './SiteArea';
+import { User } from './User';
 
 export interface Image {
   id: string;
@@ -25,7 +33,7 @@ export interface SubjectInfo {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: any;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|CarConverter;
   readonly?: boolean;
   icon?: string;
   tooltip?: string;
@@ -43,8 +51,6 @@ export enum ButtonAction {
   MORE = 'more',
   DELETE = 'delete',
   DELETE_MANY = 'delete_many',
-  INLINE_DELETE = 'inline-delete',
-  INLINE_SAVE = 'inline-save',
   REFRESH = 'refresh',
   AUTO_REFRESH = 'auto-refresh',
   EXPORT = 'export',

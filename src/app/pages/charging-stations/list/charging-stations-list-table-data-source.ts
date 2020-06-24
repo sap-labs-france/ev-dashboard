@@ -89,7 +89,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           // At first filter out the connectors that are null
           charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNull(connector));
           charger.connectors.forEach((connector) => {
-            connector.hasDetails = connector.activeTransactionID > 0;
+            connector.hasDetails = connector.currentTransactionID > 0;
           });
         });
         // Ok
@@ -186,6 +186,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           headerClass: 'd-none d-xl-table-cell text-center col-10p',
           class: 'd-none d-xl-table-cell text-center col-10p',
           sortable: false,
+          formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
         },
       ]);
     }
@@ -347,14 +348,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       dialogConfig.maxHeight = '90vh';
       dialogConfig.panelClass = 'transparent-dialog-container';
       if (chargingStation) {
-        dialogConfig.data = chargingStation;
+        dialogConfig.data = chargingStation.id;
       }
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
       const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(() => {
-        this.refreshData().subscribe();
+      dialogRef.afterClosed().subscribe((saved) => {
+        if (saved) {
+          this.refreshData().subscribe();
+        }
       });
     }
   }

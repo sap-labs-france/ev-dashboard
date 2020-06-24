@@ -35,7 +35,7 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
       case 'instantPowerKWPercent':
       case 'instantPowerKW':
         // Watt -> kWatts
-        let instantPowerKW = connector.currentConsumption / 1000;
+        let instantPowerKW = connector.currentInstantWatts / 1000;
         // Handle decimals
         if (instantPowerKW < 10) {
           instantPowerKW = parseFloat((instantPowerKW).toFixed(1));

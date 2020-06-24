@@ -124,7 +124,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       if (data.stats) {
         // Total Consumption
         // tslint:disable-next-line:max-line-length
-        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Refund transactions
         // tslint:disable-next-line:max-line-length
         stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${data.stats.countRefundTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, data.stats.currency)})`;
@@ -186,9 +186,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
       }, {
-      id: 'stop.totalConsumption',
+      id: 'stop.totalConsumptionWh',
       name: 'transactions.total_consumption',
-      formatter: (totalConsumption) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+      formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
     }, {
       id: 'stop.price',
       name: 'transactions.price',

@@ -1,5 +1,4 @@
 import { FormArray } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -21,6 +20,7 @@ export abstract class TableDataSource<T extends Data> {
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
   public tableRowActionsDef!: TableActionDef[];
+  public firstLoad = false;
 
   public data: T[] = [];
   public formArray?: FormArray;
@@ -32,6 +32,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public hasActions!: boolean;
   public hasFilters!: boolean;
+  public filterSet = false;
   public isSearchEnabled = false;
   public isFooterEnabled = false;
   public hasRowActions = false;
@@ -67,6 +68,10 @@ export abstract class TableDataSource<T extends Data> {
     return !!this.tableDef && !!this.tableDef.rowSelection && !!this.tableDef.rowSelection.multiple;
   }
 
+  public isEditable(): boolean {
+    return this.tableDef && this.tableDef.isEditable;
+  }
+
   public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
     if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
@@ -98,11 +103,10 @@ export abstract class TableDataSource<T extends Data> {
 
   public selectAllRows() {
     // Select All
-    this.selectedRows = 0;
+    this.clearSelectedRows();
     this.data.forEach((row) => {
       if (row.isSelectable) {
-        row.isSelected = true;
-        this.selectedRows++;
+        this.toggleRowSelection(row, true);
       }
     });
   }
@@ -115,9 +119,9 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+  public toggleRowSelection(row: T, checked: boolean) {
     if (this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple) {
-      row.isSelected = event.checked;
+      row.isSelected = checked;
       if (row.isSelected) {
         this.selectedRows++;
         this.lastSelectedRow = row;
@@ -127,8 +131,8 @@ export abstract class TableDataSource<T extends Data> {
       }
     } else {
       this.clearSelectedRows();
-      if (event.checked) {
-        row.isSelected = event.checked;
+      if (checked) {
+        row.isSelected = checked;
         this.selectedRows = 1;
         this.lastSelectedRow = row;
       }
@@ -146,6 +150,7 @@ export abstract class TableDataSource<T extends Data> {
       limit: this.getPageSize(),
     });
     this.searchValue = searchValue;
+    this.filterSet = true;
   }
 
   public getSearchValue(): string {
@@ -179,9 +184,10 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   public getSorting(): Ordering[] {
-    if (this.getSort()) {
+    const sort = this.getSort();
+    if (sort && sort.active) {
       return [
-        { field: this.getSort().active, direction: this.getSort().direction },
+        { field: sort.active, direction: sort.direction },
       ];
     }
     // Find Sorted columns
@@ -260,6 +266,7 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
+    this.filterSet = true;
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
@@ -299,6 +306,7 @@ export abstract class TableDataSource<T extends Data> {
       });
       // Init
       this.resetTotalNumberOfRecords();
+      this.filterSet = false;
     }
   }
 
@@ -399,6 +407,8 @@ export abstract class TableDataSource<T extends Data> {
       skip: 0,
       limit: currentPaging.limit + currentPaging.skip,
     });
+    // Init
+    this.resetTotalNumberOfRecords();
     // Load data
     return this.loadData(showSpinner);
   }
@@ -429,6 +439,8 @@ export abstract class TableDataSource<T extends Data> {
         if (showSpinner) {
           this.spinnerService.hide();
         }
+        // Ok
+        this.firstLoad = true;
         // Notify
         observer.next();
         observer.complete();

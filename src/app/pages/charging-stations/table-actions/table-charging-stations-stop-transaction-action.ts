@@ -35,7 +35,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
       const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
-      const isStopAuthorized = !!connector.activeTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.activeTagID);
+      const isStopAuthorized = !!connector.currentTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.currentTagID);
       if (!isStopAuthorized) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),
@@ -53,7 +53,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
           translateService.instant('chargers.action_error.transaction_stop_not_available'));
         return;
       }
-      if (!connector.activeTransactionID) {
+      if (!connector.currentTransactionID) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),
           translateService.instant('chargers.action_error.no_active_transaction'));
@@ -67,7 +67,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
           if (connector.status !== ChargePointStatus.AVAILABLE) {
             // Remote Stop
             spinnerService.show();
-            centralServerService.chargingStationStopTransaction(chargingStation.id, connector.activeTransactionID)
+            centralServerService.chargingStationStopTransaction(chargingStation.id, connector.currentTransactionID)
                 .subscribe((response2: ActionResponse) => {
               spinnerService.hide();
               if (response2.status === OCPPGeneralResponse.ACCEPTED) {

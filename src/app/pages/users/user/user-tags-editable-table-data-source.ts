@@ -50,7 +50,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       actions.push(this.activateAction);
     }
     if (!tag.sessionCount) {
-      actions.push(this.inlineRemoveAction);
+      actions.push(this.deleteAction);
     }
     return actions;
   }
@@ -59,7 +59,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     const index = this.editableRows.indexOf(tag);
     let actionDone = false;
     switch (actionDef.id) {
-      case ButtonAction.INLINE_DELETE:
+      case ButtonAction.DELETE:
         this.editableRows.splice(index, 1);
         actionDone = true;
         break;

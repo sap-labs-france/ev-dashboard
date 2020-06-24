@@ -30,7 +30,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public isSmartChargingComponentActive = false;
 
   public chargingStationURL!: AbstractControl;
-  public private!: AbstractControl;
+  public public!: AbstractControl;
   public excludeFromSmartCharging: AbstractControl;
   public issuer!: AbstractControl;
   public maximumPower!: AbstractControl;
@@ -56,13 +56,10 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit(): void {
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ?
-        this.chargingStation.siteArea.siteID : '');
     // Init the form
     this.formGroup.addControl('id', new FormControl());
     this.formGroup.addControl('chargingStationURL', new FormControl('',
@@ -71,7 +68,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         Validators.pattern(Constants.URL_PATTERN),
       ]))
     );
-    this.formGroup.addControl('private', new FormControl(false));
+    this.formGroup.addControl('public', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
     this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
@@ -117,7 +114,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     );
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
-    this.private = this.formGroup.controls['private'];
+    this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
     this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
@@ -130,10 +127,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
-    // Deactivate for non admin users
-    if (!this.isAdmin) {
-      this.formGroup.disable();
-    }
     this.maximumPowerAmps.disable();
   }
 
@@ -143,13 +136,21 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
 
   public loadChargingStation() {
     if (this.chargingStation) {
+      // Admin?
+      this.isAdmin = this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ?
+          this.chargingStation.siteArea.siteID : '');
+      // Deactivate for non admin users
+      if (!this.isAdmin) {
+        this.formGroup.disable();
+      }
       // Init form with values
       this.formGroup.controls.id.setValue(this.chargingStation.id);
       if (this.chargingStation.chargingStationURL) {
         this.chargingStationURL.setValue(this.chargingStation.chargingStationURL);
       }
-      if (this.chargingStation.private) {
-        this.private.setValue(this.chargingStation.private);
+      if (this.chargingStation.public) {
+        this.public.setValue(this.chargingStation.public);
       }
       if (this.chargingStation.issuer) {
         this.issuer.setValue(this.chargingStation.issuer);
@@ -190,27 +191,28 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   }
 
   public connectorChanged() {
-    let totalPower = 0;
-    for (const connectorControl of this.connectors.controls) {
-      if (connectorControl.get('power').value as number > 0) {
-        totalPower += connectorControl.get('power').value as number;
+    if (!this.chargingStation.chargePoints) {
+      let totalPower = 0;
+      for (const connectorControl of this.connectors.controls) {
+        if (connectorControl.get('power').value as number > 0) {
+          totalPower += connectorControl.get('power').value as number;
+        }
       }
+      this.maximumPower.setValue(totalPower);
+      this.maximumPowerAmps.setValue(
+        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
     }
-    this.maximumPower.setValue(totalPower);
-    this.maximumPowerAmps.setValue(
-      Utils.convertWattToAmp(
-        this.formGroup.getRawValue() as ChargingStation, 0, totalPower));
   }
 
   public chargePointChanged() {
-    this.connectorChanged();
+    // Charge Point cannot be changed: do nothing
   }
 
   public maximumPowerChanged() {
     if (!this.maximumPower.errors) {
       this.maximumPowerAmps.setValue(
         Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation,
-          0, this.maximumPower.value as number));
+          null, 0, this.maximumPower.value as number));
     }
   }
 

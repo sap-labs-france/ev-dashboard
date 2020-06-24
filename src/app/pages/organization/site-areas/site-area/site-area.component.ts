@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -171,29 +170,6 @@ export class SiteAreaComponent implements OnInit {
         this.formGroup.markAsDirty();
       }
     });
-  }
-
-  public smartChargingChanged(event: MatCheckboxChange) {
-    if (event.checked) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_title'),
-        this.translateService.instant('chargers.smart_charging.enable_smart_charging_for_site_area_body'),
-      ).subscribe((result) => {
-        if (result === ButtonType.NO) {
-          this.smartCharging.setValue(false);
-        }
-      });
-    }
-    if (!event.checked) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_title'),
-        this.translateService.instant('chargers.smart_charging.disable_smart_charging_for_site_area_body'),
-      ).subscribe((result) => {
-        if (result === ButtonType.NO) {
-          this.smartCharging.setValue(true);
-        }
-      });
-    }
   }
 
   public setCurrentSiteAreaId(currentSiteAreaId: string) {

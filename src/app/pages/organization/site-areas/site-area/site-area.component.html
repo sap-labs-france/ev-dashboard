@@ -10,10 +10,10 @@
           <div class="tab-content">
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
-                <div class="col-md-5" style="display: block; margin-top: auto">
+                <div class="col-md-5 d-block mt-auto">
                   <div class="rotating-card-container app-organization-image-border"
                     [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
-                    <div class="card card-rotate card-background app-site-area-image-padding" style="margin-top: 0px;">
+                    <div class="card card-rotate card-background app-site-area-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                         <div class="card-body">
@@ -28,7 +28,7 @@
                           <div class="footer justify-content-center">
                             <button mat-flat-button color="primary" class="mr-2">
                               <mat-icon (click)="file.click()">mode_edit</mat-icon>
-                              <div style="display:none">
+                              <div class="d-none">
                                 <input type="file" name="..." (change)="imageChanged($event)" #file>
                               </div>
                             </button>
@@ -64,13 +64,13 @@
                       <input matInput type="text" placeholder="{{'sites.site' | translate}}"
                         [formControl]="site" required/>
                     </mat-form-field>
-                    <div style="text-align: left">
+                    <div class="text-left">
                       <mat-checkbox [formControl]="accessControl">
                         {{'site_areas.enable_access_control' | translate}}
                       </mat-checkbox>
                     </div>
-                    <div style="text-align: left" *ngIf="isSmartChargingComponentActive">
-                      <mat-checkbox [formControl]="smartCharging" (change)="smartChargingChanged($event)">
+                    <div class="text-left" *ngIf="isSmartChargingComponentActive">
+                      <mat-checkbox [formControl]="smartCharging">
                         {{'site_areas.enable_smart_charging' | translate}}
                       </mat-checkbox>
                     </div>

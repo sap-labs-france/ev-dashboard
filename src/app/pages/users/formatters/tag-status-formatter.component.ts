@@ -31,7 +31,7 @@ export class AppFormatTagStatusPipe implements PipeTransform {
   }
 
   public buildTagStatusClasses(active: boolean): string {
-    return `chip-width-5em ${active ? ChipType.SUCCESS : ChipType.DANGER}`;
+    return `chip-width-8em ${active ? ChipType.SUCCESS : ChipType.DANGER}`;
   }
 
   public buildTagStatusText(active: boolean): string {

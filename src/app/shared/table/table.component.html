@@ -22,7 +22,8 @@
               *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
               (click)="resetFilters()"
               [color]="(actionDef.color ? actionDef.color : '')" appTooltip
-              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+              [title]="(actionDef.name ? '' : actionDef.tooltip | translate)"
+              [disabled]="!dataSource.filterSet">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
@@ -366,7 +367,7 @@
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
     <!-- Message for no data in table -->
-    <div *ngIf="dataSource.data.length === 0 && !spinnerService.visible"
+    <div *ngIf="dataSource.data.length === 0 && dataSource.firstLoad"
          class="m-auto text-center table-no-record-found">
       <mat-error *ngIf="dataSource.formArray?.errors as errors; else noRecordFound">
         <div *ngIf="dataSource.tableDef.errorMessage; else defaultError">

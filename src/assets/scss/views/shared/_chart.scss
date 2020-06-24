@@ -34,6 +34,26 @@
   @include chart-color($brand-disabled);
 }
 
+.chart-yellow {
+  @include chart-color($brand-yellow);
+}
+
+.chart-purple {
+  @include chart-color($brand-purple);
+}
+
+.chart-purple-1 {
+  @include chart-color(mat-color($app-indigo, 500));
+}
+
+.chart-purple-2 {
+  @include chart-color(mat-color($app-indigo, 400));
+}
+
+.chart-purple-3 {
+  @include chart-color(mat-color($app-indigo, 300));
+}
+
 .chart-container {
   position: relative;
   width: 100%;
@@ -42,6 +62,11 @@
     height: 20em;
   }
   margin: 0 0 20px 0;
+}
+
+.chart-container-profiles {
+  position: relative;
+  height:27vh;
 }
 
 .chart-container-statistics {

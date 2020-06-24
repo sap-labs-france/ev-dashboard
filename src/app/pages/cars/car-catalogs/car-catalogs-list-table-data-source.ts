@@ -11,6 +11,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -150,7 +151,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0) : '-',
+        formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0, 0) : '-',
       },
       {
         id: 'rangeWLTP',
@@ -177,7 +178,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-20p',
         sortable: true,
         formatter: (chargeStandardPower: number) =>
-          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0) : '-',
+          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0, 0) : '-',
       },
       {
         id: 'chargeStandardPhase',
@@ -202,7 +203,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-20p',
         sortable: true,
         formatter: (fastChargePowerMax: number) => fastChargePowerMax ?
-          this.appUnitPipe.transform(fastChargePowerMax, 'kWh', 'kWh', true, 1, 0) : '-',
+          this.appUnitPipe.transform(fastChargePowerMax, 'kWh', 'kWh', true, 1, 0, 0) : '-',
       },
       {
         id: 'fastChargePlug',
@@ -268,6 +269,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
 
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
+      new TableAutoRefreshAction(false).getActionDef(),
       new TableRefreshAction().getActionDef(),
     ];
   }

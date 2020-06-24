@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyValue } from 'app/types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetSettings, LoginCredentialsAssetConnection } from 'app/types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType, AssetSetting } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
@@ -24,7 +24,7 @@ export class AssetConnectionComponent implements OnInit {
   public type!: AbstractControl;
   public url!: AbstractControl;
 
-  public loginCredentials!: LoginCredentialsAssetConnection;
+  public connection!: AssetSchneiderConnectionType;
   public assetConnectionTypes: KeyValue[] = [
     { key: AssetConnectionType.SCHNEIDER, value: 'settings.asset.types.schneider' }
   ];
@@ -70,34 +70,30 @@ export class AssetConnectionComponent implements OnInit {
   }
 
   public loadAssetConnection(): void {
-    if (!this.currentAssetConnection) {
-      return;
+    if (this.currentAssetConnection) {
+      if (this.currentAssetConnection.id) {
+        this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
+      }
+      if (this.currentAssetConnection.name) {
+        this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
+      }
+      if (this.currentAssetConnection.description) {
+        this.formGroup.controls.description.setValue(this.currentAssetConnection.description);
+      }
+      if (this.currentAssetConnection.type) {
+        this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
+        this.loadConnectionType();
+      }
+      if (this.currentAssetConnection.url) {
+        this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
+      }
     }
-    if (this.currentAssetConnection.id) {
-      this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
-    }
-    if (this.currentAssetConnection.name) {
-      this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
-    }
-    if (this.currentAssetConnection.description) {
-      this.formGroup.controls.description.setValue(this.currentAssetConnection.description);
-    }
-    if (this.currentAssetConnection.type) {
-      this.formGroup.controls.type.setValue(this.currentAssetConnection.type);
-      this.loadConnectionType();
-    }
-    if (this.currentAssetConnection.url) {
-      this.formGroup.controls.url.setValue(this.currentAssetConnection.url);
-    }
-    this.formGroup.updateValueAndValidity();
-    this.formGroup.markAsPristine();
-    this.formGroup.markAllAsTouched();
   }
 
   public loadConnectionType(): void {
     switch (this.currentAssetConnection.type) {
       case AssetConnectionType.SCHNEIDER:
-        this.loginCredentials = this.currentAssetConnection.loginCredentials;
+        this.connection = this.currentAssetConnection.connection;
         break;
     }
   }
@@ -115,7 +111,7 @@ export class AssetConnectionComponent implements OnInit {
     }
   }
 
-  public setConnectionAndClose(assetSettings: AssetSettings): void {
+  public setConnectionAndClose(assetSettings: AssetSetting): void {
     if (this.inDialog) {
       this.dialogRef.close(assetSettings);
     }

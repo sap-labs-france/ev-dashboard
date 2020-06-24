@@ -8,10 +8,10 @@ import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDe
 import { Utils } from 'app/utils/Utils';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
-
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;

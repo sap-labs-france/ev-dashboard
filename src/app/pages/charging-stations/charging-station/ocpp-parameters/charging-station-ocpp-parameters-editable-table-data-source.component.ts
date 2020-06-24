@@ -7,7 +7,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { TableExportAction } from 'app/shared/table/actions/table-export-action';
 import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
-import { ChargingStation, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
 import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
@@ -18,6 +18,8 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
+import { TableRequestOCPPParamsAction } from '../../table-actions/table-request-ocpp-params-action';
+import { TableUpdateOCPPParamsAction } from '../../table-actions/table-update-ocpp-params-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
@@ -50,7 +52,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [new TableExportAction().getActionDef()];
+    return [
+      new TableExportAction().getActionDef(),
+      new TableUpdateOCPPParamsAction().getActionDef(),
+      new TableRequestOCPPParamsAction().getActionDef(),
+    ];
   }
 
   public buildTableRowActions(): TableActionDef[] {
@@ -76,6 +82,18 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
             this.exportParameters();
           }
         });
+        break;
+      case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
+        if (actionDef.action) {
+          actionDef.action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+             this.router, this.spinnerService, this.refreshData());
+        }
+        break;
+      case ChargingStationButtonAction.REQUEST_OCPP_PARAMS:
+        if (actionDef.action) {
+          actionDef.action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+             this.router, this.spinnerService, this.refreshData());
+        }
         break;
     }
     super.actionTriggered(actionDef);

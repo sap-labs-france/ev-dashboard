@@ -14,7 +14,9 @@ import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-are
 import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { AssetSettings } from 'app/types/Setting';
 import { SiteArea } from 'app/types/SiteArea';
+import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
@@ -34,6 +36,8 @@ export class AssetComponent implements OnInit {
   public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
   public selectedSiteArea: SiteArea;
+  public assetTypes!: KeyValue[];
+  public assetConnectionsList!: KeyValue[];
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -44,9 +48,7 @@ export class AssetComponent implements OnInit {
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
-  public assetTypes!: KeyValue[];
   public dynamicAsset!: AbstractControl;
-  public assetConnection!: AbstractControl;
   public assetConnectionID!: AbstractControl;
   public meterID!: AbstractControl;
   public asset!: Asset;
@@ -71,6 +73,8 @@ export class AssetComponent implements OnInit {
     }
     // Get asset types
     this.assetTypes = AssetTypes;
+    // Get asset connections list
+    this.loadAssetConnectionsList();
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
@@ -107,7 +111,7 @@ export class AssetComponent implements OnInit {
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
       ]),
-      assetConnection: new FormControl('',
+      assetConnectionID: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -127,7 +131,7 @@ export class AssetComponent implements OnInit {
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
-    this.assetConnection = this.formGroup.controls['assetConnection'];
+    this.assetConnectionID = this.formGroup.controls['assetConnectionID'];
     this.meterID = this.formGroup.controls['meterID'];
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
@@ -180,8 +184,11 @@ export class AssetComponent implements OnInit {
         this.formGroup.controls.dynamicAsset.setValue(this.asset.dynamicAsset);
         this.connectionFormDisabled();
       }
+      if (this.asset.connectionID) {
+        this.formGroup.controls.assetConnectionID.setValue(this.asset.connectionID);
+      }
       if (this.asset.meterID) {
-        this.formGroup.controls.meterID.setValue(this.asset.meterID)
+        this.formGroup.controls.meterID.setValue(this.asset.meterID);
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
@@ -208,10 +215,10 @@ export class AssetComponent implements OnInit {
 
   public connectionFormDisabled() {
     if (this.dynamicAsset.value === true) {
-      this.assetConnection.enable();
+      this.assetConnectionID.enable();
       this.meterID.enable();
     } else {
-      this.assetConnection.disable();
+      this.assetConnectionID.disable();
       this.meterID.disable();
     }
   }
@@ -298,28 +305,6 @@ export class AssetComponent implements OnInit {
     });
   }
 
-  public assignAssetConnection() {
-    // Create dialog
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = 'transparent-dialog-container';
-    // dialogConfig.data = {
-    //   title: 'assets.assign_asset_connection',
-    //   validateButtonTitle: 'general.select',
-    //   sitesAdminOnly: true,
-    //   rowMultipleSelection: false,
-    // };
-    // this.dialog.open(SiteAreasDialogComponent, dialogConfig)
-    //   .afterClosed().subscribe((result) => {
-    //     if (result && result.length > 0 && result[0].objectRef) {
-    //       const siteArea = ((result[0].objectRef) as SiteArea);
-    //       this.formGroup.markAsDirty();
-    //       this.formGroup.controls.siteArea.setValue(siteArea.name);
-    //       this.formGroup.controls.siteAreaID.setValue(siteArea.id);
-    //       this.selectedSiteArea = siteArea;
-    //     }
-    // });
-  }
-
   public assignGeoMap() {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
@@ -398,6 +383,25 @@ export class AssetComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'assets.create_error');
       }
+    });
+  }
+
+  public loadAssetConnectionsList() {
+    this.spinnerService.show();
+    this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response && response.result && response.result.length > 0) {
+        const assetSetting = response.result[0] as AssetSettings;
+        const connections = [] as KeyValue[];
+        for (const connection of assetSetting.content.asset.connections) {
+          connections.push({ key: connection.id, value: connection.name});
+        }
+        this.assetConnectionsList = connections;
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'assets.asset_settings_error');
     });
   }
 

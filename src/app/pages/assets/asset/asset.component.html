@@ -119,13 +119,12 @@
               </div>
               <div class="form-group">
                 <mat-form-field>
-                  <input matInput readonly=true type="text" placeholder="{{'assets.asset_connection' | translate}}"
-                    class="form-field-popup" (click)="assignAssetConnection()"
-                    [formControl]="assetConnection" required />
-                  <button [hidden]="!dynamicAsset.value" mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignAssetConnection()">
-                    <mat-icon>create</mat-icon>
-                  </button>
-                  <mat-error *ngIf="assetConnection.errors?.required">
+                  <mat-select [formControl]="assetConnectionID" placeholder="{{'chargers.connector' | translate}}">
+                    <mat-option *ngFor="let connection of assetConnectionsList" value="{{connection.key}}">
+                      {{connection.value}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="assetConnectionID.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>

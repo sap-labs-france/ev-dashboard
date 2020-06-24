@@ -336,7 +336,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             color: 'rgba(0,0,0,0.2)',
           },
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')),
+            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'V',
             min: 0,
             fontColor: this.defaultColor,
           },
@@ -552,7 +552,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? value / 1000 : value,
+              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? (value / 1000) + 'kW' : value  + 'A',
               fontColor: this.defaultColor,
               min: 0,
             },

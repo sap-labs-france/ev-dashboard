@@ -14,9 +14,9 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 import { TableTestAssetConnectionAction } from './table-actions/table-test-asset-connection-action';
-
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {

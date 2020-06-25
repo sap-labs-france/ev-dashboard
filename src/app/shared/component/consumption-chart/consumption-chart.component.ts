@@ -427,7 +427,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
                   case 'instantAmps':
                     return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
                   case 'instantAmpsDC':
-                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A DC';
                   case 'cumulatedConsumptionWh':
                     return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW.h';
                   case 'cumulatedConsumptionAmps':

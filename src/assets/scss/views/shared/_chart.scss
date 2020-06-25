@@ -54,6 +54,10 @@
   @include chart-color(mat-color($app-indigo, 300));
 }
 
+.chart-yellow {
+  @include chart-color($brand-yellow);
+}
+
 .chart-container {
   position: relative;
   width: 100%;

@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.4",
+    "last_update": "Versión 2.3.5",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -1590,7 +1590,7 @@
     "graph": {
       "power": "Potencia instantánea (kW)",
       "no_consumption": "No hay datos de consumo disponibles.",
-      "limit_watts": "Límite máximo (kW)"
+      "limit_watts": "Límite (kW)"
     }
   },
   "asset": {
@@ -1845,14 +1845,25 @@
       "invoices": "Facturas"
     },
     "graph": {
-      "battery": "Nivel de batería (%)",
-      "power": "Potencia instantánea (kW)",
-      "amps": "Amplificadores de red instantánea (A)",
+      "battery": "Batería (%)",
+      "power": "Grid Power (kW)",
+      "power_l1": "Grid Power L1 (kW)",
+      "power_l2": "Grid Power L2 (kW)",
+      "power_l3": "Grid Power L3 (kW)",
+      "amps": "Grid Amps (A)",
+      "amps_l1": "Grid Amps L1 (A)",
+      "amps_l2": "Grid Amps L2 (A)",
+      "amps_l3": "Grid Amps L3 (A)",
       "energy": "Energía entregada (kW.h)",
       "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Resetear",
       "no_consumption": "No hay datos de consumo disponibles.",
       "cumulated_amount": "Cantidad",
+      "amperage": "Amperage (A)",
+      "amperage_dc": "Amperage DC (A)",
+      "amperage_l1": "Amperage L1 (A)",
+      "amperage_l2": "Amperage L2 (A)",
+      "amperage_l3": "Amperage L3 (A)",
       "voltage": "Voltage (V)",
       "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
@@ -1863,8 +1874,8 @@
       "limit_plan_watts": "Plan de límite (kW)",
       "limit_plan_amps": "Plan de límite (A)",
       "limit": "Límite máximo",
-      "limit_watts": "Límite de red máximo (kW)",
-      "limit_amps": "Límite de red máximo (A)",
+      "limit_watts": "Límite de red (kW)",
+      "limit_amps": "Límite de red (A)",
       "load_all_consumptions": "Mostrar resolución completa de la gráfica (un punto cada 6s)",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"

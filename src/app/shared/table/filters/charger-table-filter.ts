@@ -12,7 +12,6 @@ export class ChargerTableFilter extends TableFilter {
       httpId: 'ChargeBoxID',
       type: FilterType.DIALOG_TABLE,
       label: '',
-      defaultValue: 'general.all',
       name: 'chargers.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: ChargersDialogComponent,

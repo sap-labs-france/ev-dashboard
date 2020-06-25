@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.4',
-        date: new Date('2020-06-24'),
+        version: '2.3.5',
+        date: new Date('2020-06-25'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Admin and Basic users can create Cars`,
+              `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
               `Added test of Schneider BMS' connection in Asset Settings`,
               `Keep selected legends in consumption charts when the unit is changed (kW/A)`,
               `Fixed sorting on Charging Station list`,

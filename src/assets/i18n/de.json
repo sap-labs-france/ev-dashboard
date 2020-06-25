@@ -1649,7 +1649,7 @@
     "create_success": "The car '{{carName}}' has been created with success",
     "update_success": "Car updated successfully",
     "assign_car_catalog": "Assign car catalog",
-    "delete_success": "Car delete successfully",
+    "delete_success": "Car deleted successfully",
     "delete_error": "Error occurred while deleting the car",
     "create_error": "Error occurred while creating the car",
     "update_error": "Error occurred while updating the car",

@@ -1648,7 +1648,7 @@
     "car_makers": "Car Makers",
     "create_success": "The car '{{carName}}' has been created with success",
     "update_success": "Car updated successfully",
-    "delete_success": "Car delete successfully",
+    "delete_success": "Car deleted successfully",
     "delete_error": "Error occurred while deleting the car",
     "assign_car_catalog": "Assign car model",
     "create_error": "Error occurred while creating the car",

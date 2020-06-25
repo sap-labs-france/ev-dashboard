@@ -23,7 +23,7 @@
     "connectors": "Ladepunkte",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.4",
+    "last_update": "Version 2.3.5",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -412,7 +412,7 @@
     "titles": "Standort Bereiche",
     "site_invalid": "Standort Bereich ungültig",
     "site_area_do_not_exist": "Standort Bereich existiert nicht mehr",
-    "max_limit_kw": "Max limit",
+    "max_limit_kw": "limit",
     "created_on": "Erstellt am",
     "created_by": "Erstellt von",
     "changed_on": "Geändert am",
@@ -1590,7 +1590,7 @@
     "graph": {
       "power": "Instant Power (kW)",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Limit (kW)"
     }
   },
   "asset": {
@@ -1845,14 +1845,22 @@
       "invoices": "Rechnungen"
     },
     "graph": {
-      "battery": "Batteriestand (%)",
-      "power": "Momentanleistung (kW)",
-      "amps": "Instant Grid Amps (A)",
+      "battery": "Batterie (%)",
+      "power": "Grid Power (kW)",
+      "power_l1": "Grid Power L1 (kW)",
+      "power_l2": "Grid Power L2 (kW)",
+      "power_l3": "Grid Power L3 (kW)",
+      "amps": "Grid Amps (A)",
+      "amps_l1": "Grid Amps L1 (A)",
+      "amps_l2": "Grid Amps L2 (A)",
+      "amps_l3": "Grid Amps L3 (A)",
       "energy": "Energie geladen (kW.h)",
       "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Reset",
       "no_consumption": "Keine Verbrauchsdaten verfügbar",
       "cumulated_amount": "Betrag",
+      "amperage": "Amperage (A)",
+      "amperage_dc": "Amperage DC (A)",
       "voltage": "Voltage (V)",
       "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
@@ -1862,9 +1870,9 @@
       "plan_amps": "Plan (A)",
       "limit_plan_watts": "Geplantes Limit (kW)",
       "limit_plan_amps": "Plan Limit (A)",
-      "limit": "Max Limit",
-      "limit_watts": "Maximales Limit (kW)",
-      "limit_amps": "Max Grid Limit (A)",
+      "limit": "Limit",
+      "limit_watts": "Limit (kW)",
+      "limit_amps": "Grid Limit (A)",
       "load_all_consumptions": "Show full chart resolution (one point every 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"

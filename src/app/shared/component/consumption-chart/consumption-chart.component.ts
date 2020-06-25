@@ -25,11 +25,15 @@ export class ConsumptionChartComponent implements AfterViewInit {
   @Input() public ratio!: number;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
+  @ViewChild('primary1', { static: true }) public primary1Element!: ElementRef;
+  @ViewChild('primary2', { static: true }) public primary2Element!: ElementRef;
+  @ViewChild('primary3', { static: true }) public primary3Element!: ElementRef;
   @ViewChild('accent', { static: true }) public accentElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
   @ViewChild('success', { static: true }) public successElement!: ElementRef;
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
   @ViewChild('warning', { static: true }) public warningElement!: ElementRef;
+  @ViewChild('cyan', { static: true }) public cyanElement!: ElementRef;
   @ViewChild('purple', { static: true }) public purpleElement!: ElementRef;
   @ViewChild('purple1', { static: true }) public purple1Element!: ElementRef;
   @ViewChild('purple2', { static: true }) public purple2Element!: ElementRef;
@@ -48,7 +52,10 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private options!: ChartOptions;
   private chart!: Chart;
   private consumptionColor!: string;
-  private instantPowerColor!: string;
+  private instantPowerAmpsColor!: string;
+  private instantPowerAmpsL1Color!: string;
+  private instantPowerAmpsL2Color!: string;
+  private instantPowerAmpsL3Color!: string;
   private amountColor!: string;
   private limitColor!: string;
   private stateOfChargeColor!: string;
@@ -61,6 +68,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private language!: string;
   private activeLegend = [
     {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.power'), hidden: false},
+    {key: this.translateService.instant('transactions.graph.amps_l1') + this.translateService.instant('transactions.graph.power_l1'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.amps_l2') + this.translateService.instant('transactions.graph.power_l2'), hidden: true},
+    {key: this.translateService.instant('transactions.graph.amps_l3') + this.translateService.instant('transactions.graph.power_l3'), hidden: true},
     {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('transactions.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true},
     {key: this.translateService.instant('transactions.graph.energy_amps') + this.translateService.instant('transactions.graph.energy'), hidden: true},
     {key: this.translateService.instant('transactions.graph.cumulated_amount'), hidden: true},
@@ -88,8 +98,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.consumptionColor = this.getStyleColor(this.accentElement.nativeElement);
-    this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
+    this.instantPowerAmpsColor = this.getStyleColor(this.primaryElement.nativeElement);
+    this.instantPowerAmpsL1Color = this.getStyleColor(this.primary1Element.nativeElement);
+    this.instantPowerAmpsL2Color = this.getStyleColor(this.primary2Element.nativeElement);
+    this.instantPowerAmpsL3Color = this.getStyleColor(this.primary3Element.nativeElement);
+    this.consumptionColor = this.getStyleColor(this.cyanElement.nativeElement);
     this.amountColor = this.getStyleColor(this.warningElement.nativeElement);
     this.stateOfChargeColor = this.getStyleColor(this.successElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
@@ -163,10 +176,48 @@ export class ConsumptionChartComponent implements AfterViewInit {
         data: [],
         yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
         lineTension: this.lineTension,
-        ...Utils.formatLineColor(this.instantPowerColor),
+        ...Utils.formatLineColor(this.instantPowerAmpsColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.amps' : 'transactions.graph.power'),
       });
+      // Power/Amps L1/L2/L3
+      if (this.transaction.values.find((consumption) => consumption.instantWattsL1 > 0) ||
+          this.transaction.values.find((consumption) => consumption.instantWattsL2 > 0) ||
+          this.transaction.values.find((consumption) => consumption.instantWattsL3 > 0)) {
+        datasets.push({
+          name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmpsL1' : 'instantWattsL1',
+          type: 'line',
+          data: [],
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps_l1'))))].hidden,
+          yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantPowerAmpsL1Color),
+          label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+            'transactions.graph.amps_l1' : 'transactions.graph.power_l1'),
+        });
+        datasets.push({
+          name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmpsL2' : 'instantWattsL2',
+          type: 'line',
+          data: [],
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps_l2'))))].hidden,
+          yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantPowerAmpsL2Color),
+          label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+            'transactions.graph.amps_l2' : 'transactions.graph.power_l2'),
+        });
+        datasets.push({
+          name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmpsL3' : 'instantWattsL3',
+          type: 'line',
+          data: [],
+          hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps_l3'))))].hidden,
+          yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
+          lineTension: this.lineTension,
+          ...Utils.formatLineColor(this.instantPowerAmpsL3Color),
+          label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+            'transactions.graph.amps_l3' : 'transactions.graph.power_l3'),
+        });
+      }
       // Limit Amps/Power
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
@@ -245,8 +296,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }
       // Voltage L1/L2/L3
       if (this.transaction.values.find((consumption) => consumption.instantVoltsL1 > 0) ||
-        this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
-        this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
+          this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
+          this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
         datasets.push({
           name: 'instantVoltsL1',
           type: 'line',
@@ -309,13 +360,20 @@ export class ConsumptionChartComponent implements AfterViewInit {
     return this.transaction && this.transaction.values && this.transaction.values.length > 0;
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   private refreshDataSets() {
     if (this.data.datasets) {
       for (const key of Object.keys(this.data.datasets)) {
         this.data.datasets[key].data = [];
       }
       const instantPowerDataSet = this.getDataSet('instantWatts');
+      const instantPowerL1DataSet = this.getDataSet('instantWattsL1');
+      const instantPowerL2DataSet = this.getDataSet('instantWattsL2');
+      const instantPowerL3DataSet = this.getDataSet('instantWattsL3');
       const instantAmpsDataSet = this.getDataSet('instantAmps');
+      const instantAmpsL1DataSet = this.getDataSet('instantAmpsL1');
+      const instantAmpsL2DataSet = this.getDataSet('instantAmpsL2');
+      const instantAmpsL3DataSet = this.getDataSet('instantAmpsL3');
       const instantAmpsDCDataSet = this.getDataSet('instantAmpsDC');
       const cumulatedConsumptionDataSet = this.getDataSet('cumulatedConsumptionWh');
       const cumulatedConsumptionAmpsDataSet = this.getDataSet('cumulatedConsumptionAmps');
@@ -334,8 +392,26 @@ export class ConsumptionChartComponent implements AfterViewInit {
         if (instantPowerDataSet) {
           instantPowerDataSet.push(consumption.instantWatts);
         }
+        if (instantPowerL1DataSet) {
+          instantPowerL1DataSet.push(consumption.instantWattsL1);
+        }
+        if (instantPowerL2DataSet) {
+          instantPowerL2DataSet.push(consumption.instantWattsL2);
+        }
+        if (instantPowerL3DataSet) {
+          instantPowerL3DataSet.push(consumption.instantWattsL3);
+        }
         if (instantAmpsDataSet) {
           instantAmpsDataSet.push(consumption.instantAmps);
+        }
+        if (instantAmpsL1DataSet) {
+          instantAmpsL1DataSet.push(consumption.instantAmpsL1);
+        }
+        if (instantAmpsL2DataSet) {
+          instantAmpsL2DataSet.push(consumption.instantAmpsL2);
+        }
+        if (instantAmpsL3DataSet) {
+          instantAmpsL3DataSet.push(consumption.instantAmpsL3);
         }
         if (instantAmpsDCDataSet) {
           instantAmpsDCDataSet.push(consumption.instantAmpsDC);
@@ -405,7 +481,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         bodySpacing: 5,
         mode: 'index',
         position: 'nearest',
-        multiKeyBackground: Utils.toRgba(this.instantPowerColor, 0.7),
+        multiKeyBackground: Utils.toRgba(this.instantPowerAmpsColor, 0.7),
         intersect: false,
         callbacks: {
           labelColor: (tooltipItem: ChartTooltipItem, chart: Chart) => {
@@ -424,8 +500,20 @@ export class ConsumptionChartComponent implements AfterViewInit {
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantWatts':
                     return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW';
+                  case 'instantWattsL1':
+                    return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L1';
+                  case 'instantWattsL2':
+                    return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L2';
+                  case 'instantWattsL3':
+                    return ' ' + this.decimalPipe.transform(value / 1000, '1.0-2') + ' kW L3';
                   case 'instantAmps':
                     return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A';
+                  case 'instantAmpsL1':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L1';
+                  case 'instantAmpsL2':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L2';
+                  case 'instantAmpsL3':
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A L3';
                   case 'instantAmpsDC':
                     return ' ' + this.decimalPipe.transform(value, '1.0-0') + ' A DC';
                   case 'cumulatedConsumptionWh':
@@ -520,7 +608,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           {
             id: 'amperage',
             type: 'linear',
-            position: 'right',
+            position: 'left',
             display: 'auto',
             gridLines: {
               display: true,
@@ -535,7 +623,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           {
             id: 'voltage',
             type: 'linear',
-            position: 'right',
+            position: 'left',
             display: 'auto',
             gridLines: {
               display: true,

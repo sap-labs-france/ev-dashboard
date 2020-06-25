@@ -1590,7 +1590,7 @@
     "graph": {
       "power": "Instant Power (kW)",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Limit (kW)"
     }
   },
   "asset": {
@@ -1845,9 +1845,15 @@
       "invoices": "Factures"
     },
     "graph": {
-      "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Réseau Instantanée (kW)",
-      "amps": "Amperage Réseau Instantané (A)",
+      "battery": "Batterie (%)",
+      "power": "Puissance Réseau (kW)",
+      "power_l1": "Puissance Réseau L1 (kW)",
+      "power_l2": "Puissance Réseau L2 (kW)",
+      "power_l3": "Puissance Réseau L3 (kW)",
+      "amps": "Amperage Réseau (A)",
+      "amps_l1": "Amperage Réseau L1 (A)",
+      "amps_l2": "Amperage Réseau L2 (A)",
+      "amps_l3": "Amperage Réseau L3 (A)",
       "energy": "Energie Délivrée (kW.h)",
       "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
@@ -1855,9 +1861,6 @@
       "cumulated_amount": "Montant",
       "amperage": "Amperage (A)",
       "amperage_dc": "Amperage DC (A)",
-      "amperage_l1": "Amperage L1 (A)",
-      "amperage_l2": "Amperage L2 (A)",
-      "amperage_l3": "Amperage L3 (A)",
       "voltage": "Voltage (V)",
       "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
@@ -1867,9 +1870,9 @@
       "plan_amps": "Plan (A)",
       "limit_plan_watts": "Limite du Plan (kW)",
       "limit_plan_amps": "Limite du Plan (A)",
-      "limit": "Limitation Max",
-      "limit_watts": "Limitation Réseau Max (kW)",
-      "limit_amps": "Limitation Réseau Max (A)",
+      "limit": "Limitation",
+      "limit_watts": "Limitation Réseau (kW)",
+      "limit_amps": "Limitation Réseau (A)",
       "load_all_consumptions": "Afficher la résolution maximale de la courbe (1 point toutes les 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"

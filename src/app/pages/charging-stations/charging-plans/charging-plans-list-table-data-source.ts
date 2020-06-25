@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { ChargePlanTableFilter } from 'app/shared/table/filters/charge-plan-table-filter';
@@ -19,14 +20,12 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingPlansCurrentLimitCellComponent } from '../cell-components/charging-plans-current-limit-cell.component';
-import { ChargingPlansSiteAreaLimitCellComponent } from '../cell-components/charging-plans-site-area-limit-cell.component';
 import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
-import { TableExportChargingStationsAction } from '../table-actions/table-export-charging-stations-action';
+
 
 @Injectable()
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
@@ -38,6 +37,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
+    private appUnitPipe: AppUnitPipe,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
@@ -118,16 +118,15 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     if (this.isOrganizationComponentActive) {
       tableColumns.push(
         {
-          id: 'siteArea.name',
+          id: 'chargingStation.siteArea.name',
           name: 'chargers.smart_charging.charging_plans.site_area',
           sortable: false,
         },
         {
-          id: 'siteArea.maximumPower',
+          id: 'chargingStation.siteArea.maximumPower',
           name: 'chargers.smart_charging.charging_plans.site_area_limit',
           sortable: false,
-          isAngularComponent: true,
-          angularComponent: ChargingPlansSiteAreaLimitCellComponent,
+          formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
         },
       );
     }

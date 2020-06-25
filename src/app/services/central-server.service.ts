@@ -27,12 +27,12 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-
 
 @Injectable()
 export class CentralServerService {
@@ -1396,6 +1396,19 @@ export class CentralServerService {
       { userID },
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadInvoice(params: FilterParams): Observable<Blob> {
+    this.checkInit();
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/BillingDownloadInvoice`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params,
       })
       .pipe(
         catchError(this.handleHttpError),

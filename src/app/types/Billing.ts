@@ -17,18 +17,20 @@ export interface BillingUserData extends Data {
 }
 
 export interface BillingInvoice extends Data {
+  invoiceID: string;
   number: string;
   status: BillingInvoiceStatus;
   amountDue: number;
   currency: string;
   customerID: string;
   date: Date;
-  downloadUrl: string;
   payUrl: string;
+  downloadable: boolean;
 }
 
 export enum BillingButtonAction {
   PAY_INVOICE = 'Pay',
   SYNCHRONIZE_USERS = 'SynchronizeUsers',
   SYNCHRONIZE_INVOICES = 'SynchronizeInvoices',
+  DOWNLOAD_INVOICE = 'DownloadInvoice'
 }

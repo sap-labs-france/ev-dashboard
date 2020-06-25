@@ -1173,6 +1173,7 @@
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
+    "cannot_download_invoice": "Impossible de télécharger la facture",
     "pay": "Payer",
     "user": "Utilisateur"
   },

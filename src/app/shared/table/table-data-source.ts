@@ -1,18 +1,17 @@
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { FormArray } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
+import { TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult, Ordering, Paging } from 'app/types/DataResult';
+import { FilterParams } from 'app/types/GlobalType';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 import { Observable, of } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
-import { FilterParams } from 'app/types/GlobalType';
-import { FormArray } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSort } from '@angular/material/sort';
-import { SpinnerService } from 'app/services/spinner.service';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
-import { first } from 'rxjs/operators';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
@@ -33,6 +32,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public hasActions!: boolean;
   public hasFilters!: boolean;
+  public filterSet = false;
   public isSearchEnabled = false;
   public isFooterEnabled = false;
   public hasRowActions = false;
@@ -68,6 +68,10 @@ export abstract class TableDataSource<T extends Data> {
     return !!this.tableDef && !!this.tableDef.rowSelection && !!this.tableDef.rowSelection.multiple;
   }
 
+  public isEditable(): boolean {
+    return this.tableDef && this.tableDef.isEditable;
+  }
+
   public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
     if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
@@ -99,11 +103,10 @@ export abstract class TableDataSource<T extends Data> {
 
   public selectAllRows() {
     // Select All
-    this.selectedRows = 0;
+    this.clearSelectedRows();
     this.data.forEach((row) => {
       if (row.isSelectable) {
-        row.isSelected = true;
-        this.selectedRows++;
+        this.toggleRowSelection(row, true);
       }
     });
   }
@@ -116,9 +119,9 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+  public toggleRowSelection(row: T, checked: boolean) {
     if (this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple) {
-      row.isSelected = event.checked;
+      row.isSelected = checked;
       if (row.isSelected) {
         this.selectedRows++;
         this.lastSelectedRow = row;
@@ -128,8 +131,8 @@ export abstract class TableDataSource<T extends Data> {
       }
     } else {
       this.clearSelectedRows();
-      if (event.checked) {
-        row.isSelected = event.checked;
+      if (checked) {
+        row.isSelected = checked;
         this.selectedRows = 1;
         this.lastSelectedRow = row;
       }
@@ -147,6 +150,7 @@ export abstract class TableDataSource<T extends Data> {
       limit: this.getPageSize(),
     });
     this.searchValue = searchValue;
+    this.filterSet = true;
   }
 
   public getSearchValue(): string {
@@ -180,9 +184,10 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   public getSorting(): Ordering[] {
-    if (this.getSort()) {
+    const sort = this.getSort();
+    if (sort && sort.active) {
       return [
-        { field: this.getSort().active, direction: this.getSort().direction },
+        { field: sort.active, direction: sort.direction },
       ];
     }
     // Find Sorted columns
@@ -261,6 +266,7 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       this.updateFilterLabel(filter);
     }
+    this.filterSet = true;
   }
 
   public updateFilterLabel(filter: TableFilterDef) {
@@ -300,6 +306,7 @@ export abstract class TableDataSource<T extends Data> {
       });
       // Init
       this.resetTotalNumberOfRecords();
+      this.filterSet = false;
     }
   }
 

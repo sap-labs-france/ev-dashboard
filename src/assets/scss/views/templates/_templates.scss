@@ -62,6 +62,19 @@ pre {
 @include palette($app-warn, "warn");
 @include palette($app-warning, "warning");
 @include palette($app-success, "success");
+@include palette($app-yellow, "yellow");
+@include palette($app-purple, "purple");
+@include palette($app-grey, "grey");
+@include palette($app-brown, "brown");
+@include palette($app-blue-grey, "blue-grey");
+@include palette($app-deep-orange, "deep-orange");
+@include palette($app-lime, "lime");
+@include palette($app-light-green, "light-green");
+@include palette($app-teal, "teal");
+@include palette($app-cyan, "cyan");
+@include palette($app-indigo, "indigo");
+@include palette($app-pink, "pink");
+@include palette($app-red, "red");
 
 @each $background-prop in $background-props {
   .color-background-#{$background-prop} {

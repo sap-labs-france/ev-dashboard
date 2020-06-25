@@ -1,17 +1,16 @@
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
+import { Schedule } from 'app/types/ChargingProfile';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
+import { ConsumptionUnit } from 'app/types/Transaction';
+import { Utils } from 'app/utils/Utils';
+import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
-import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
-import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
-
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { LocaleService } from 'app/services/locale.service';
-import { Schedule } from 'app/types/ChargingProfile';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'app/utils/Utils';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
@@ -21,7 +20,7 @@ import { Utils } from 'app/utils/Utils';
         <app-chart-unit-selector (unitChanged)="unitChanged($event)"></app-chart-unit-selector>
       </div>
     </div>
-    <div class="chart-container" style="position: relative; height:27vh;">
+    <div class="chart-container chart-container-profiles">
       <div #primary class='chart-primary'></div>
       <div #danger class='chart-danger'></div>
       <canvas #chart></canvas>
@@ -124,7 +123,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan'),
+          'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
       };
       // Build Schedules
       for (const chargingSlot of this.chargingSchedules) {
@@ -176,7 +175,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
+          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
       };
       // Add points
       if (limitDataSet.data && chargingSlotDataSet.data && chargingSlotDataSet.data.length > 0) {

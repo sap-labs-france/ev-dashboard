@@ -25,6 +25,10 @@
       <button mat-raised-button *ngIf="(isSmartChargingComponentActive && chargingStation.siteArea.smartCharging)" color="primary" (click)="triggerSmartCharging()">
         <mat-icon>signal_cellular_alt</mat-icon><span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
       </button>
+      <span class="toolbar-spacer"></span>
+      <mat-slide-toggle (change)="toggleAutoRefesh($event.checked)" [checked]="autoRefreshEnabled">
+        {{'general.auto_refresh' | translate}}
+      </mat-slide-toggle>
     </div>
     <div class="row">
       <div class="form-group col-md-4">

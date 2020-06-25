@@ -82,7 +82,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           // At first filter out the connectors that are null
           charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
           charger.connectors.forEach((connector) => {
-            connector.hasDetails = connector.activeTransactionID > 0;
+            connector.hasDetails = connector.currentTransactionID > 0;
           });
         });
         // Ok

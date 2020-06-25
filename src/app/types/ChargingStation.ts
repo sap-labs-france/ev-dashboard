@@ -1,7 +1,7 @@
-import { Data } from './Table';
-import { InactivityStatus } from './Transaction';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
+import { Data } from './Table';
+import { InactivityStatus } from './Transaction';
 import { User } from './User';
 
 export interface ChargingStation extends Data {
@@ -9,7 +9,7 @@ export interface ChargingStation extends Data {
   templateHash?: string;
   templateHashTechnical?: string;
   issuer: boolean;
-  private: boolean;
+  public: boolean;
   siteAreaID?: string;
   chargePointSerialNumber: string;
   chargePointModel: string;
@@ -95,18 +95,6 @@ export interface OcppParameter extends Data {
   readonly: boolean;
 }
 
-export interface ConsumptionValue {
-  date: Date;
-  instantPower: number;
-  cumulatedConsumption: number;
-  cumulatedConsumptionAmps: number;
-  amount: number;
-  stateOfCharge: number;
-  cumulatedAmount: number;
-  currencyCode: string;
-  limitWatts: number;
-}
-
 export interface ChargePoint {
   chargePointID: number;
   currentType: CurrentType;
@@ -125,10 +113,14 @@ export interface ChargePoint {
 
 export interface Connector extends Data {
   connectorId: number;
-  currentConsumption: number;
+  currentInstantWatts: number;
   currentStateOfCharge?: number;
-  totalInactivitySecs?: number;
-  totalConsumption?: number;
+  currentTotalConsumptionWh?: number;
+  currentTotalInactivitySecs?: number;
+  currentInactivityStatus?: InactivityStatus;
+  currentTransactionID?: number;
+  currentTransactionDate?: Date;
+  currentTagID?: string;
   status: ChargePointStatus;
   errorCode?: string;
   info?: string;
@@ -138,11 +130,7 @@ export interface Connector extends Data {
   voltage?: Voltage;
   amperage?: number;
   amperageLimit?: number;
-  activeTransactionID?: number;
-  activeTransactionDate?: Date;
-  activeTagID?: string;
   statusLastChangedOn?: Date;
-  inactivityStatus?: InactivityStatus;
   numberOfConnectedPhase?: number;
   userID?: string;
   user?: User;
@@ -175,8 +163,7 @@ export enum CurrentType {
 }
 
 export interface ChargingStationCapabilities {
-  supportStaticLimitationForChargingStation?: boolean;
-  supportStaticLimitationPerConnector?: boolean;
+  supportStaticLimitation?: boolean;
   supportChargingProfiles?: boolean;
   supportTxDefaultProfile?: boolean;
 }

@@ -2,7 +2,7 @@
   "name": "ev-dashboard",
   "description": "Dashboard for Electric Vehicle charging station",
   "homepage": "https://github.com/LucasBrazi06/ev-dashboard",
-  "version": "2.1.10",
+  "version": "2.3.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/LucasBrazi06/ev-dashboard.git"
@@ -105,7 +105,7 @@
     "rxjs": "^6.5.5",
     "socket.io-client": "^2.3.0",
     "sweetalert2": "^9.10.13",
-    "tslib": "^1.11.2",
+    "tslib": "^1.13.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {

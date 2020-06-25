@@ -152,9 +152,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
       },
       {
-        id: 'stop.totalConsumption',
+        id: 'stop.totalConsumptionWh',
         name: 'transactions.consumption',
-        formatter: (totalConsumption: number) => this.appUnitPipe.transform(totalConsumption, 'Wh', 'kWh'),
+        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'stateOfCharge',
@@ -210,7 +210,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
         // Total Consumption
         // tslint:disable-next-line:max-line-length
-        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Total Price
         // tslint:disable-next-line:max-line-length
         stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;

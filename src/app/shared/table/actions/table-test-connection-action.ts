@@ -1,19 +1,17 @@
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
-
 import { TableAction } from './table-action';
 
-export class TableInlineDeleteAction implements TableAction {
+export class TableTestConnectionAction implements TableAction {
   private action: TableActionDef = {
-    id: ButtonAction.INLINE_DELETE,
+    id: ButtonAction.TEST_CONNECTION,
     type: 'button',
-    icon: 'delete',
-    color: ButtonColor.WARN,
-    name: 'general.delete',
-    tooltip: 'general.tooltips.delete',
+    icon: 'link',
+    color: ButtonColor.PRIMARY,
+    name: 'general.test_connection',
+    tooltip: 'general.tooltips.test_connection',
   };
 
-  // Return an action
   public getActionDef(): TableActionDef {
     return this.action;
   }

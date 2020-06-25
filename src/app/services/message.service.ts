@@ -5,30 +5,35 @@ declare var $: any;
 
 @Injectable()
 export class MessageService {
+  private lastLostConnectionDate: Date = new Date();
   // Message Template
   private messageTemplate = `
-      <div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">
-        <button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">
-          <i class="material-icons">close</i>
-        </button>
-        <i class="material-icons" data-notify="icon">notifications</i>
-        <span data-notify="title"><b>{1}</b></span>
-        <span data-notify="message">{2}</span>
-        <div class="progress" data-notify="progressbar">
-          <div class="progress-bar progress-bar-{0}" role="progressbar"
-            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-          </div>
+    <div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">
+      <button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">
+        <i class="material-icons">close</i>
+      </button>
+      <i class="material-icons" data-notify="icon">notifications</i>
+      <span data-notify="title"><b>{1}</b></span>
+      <span data-notify="message">{2}</span>
+      <div class="progress" data-notify="progressbar">
+        <div class="progress-bar progress-bar-{0} progress-bar-custom" role="progressbar"
+          aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
         </div>
-        <a href="{3}" target="{4}" data-notify="url"></a>
       </div>
-    `;
+      <a href="{3}" target="{4}" data-notify="url"></a>
+    </div>
+  `;
 
   constructor(
     private translateService: TranslateService) {
   }
 
   public showErrorMessageConnectionLost() {
-    this.showErrorMessage('general.backend_not_running');
+    // Avoid multiple same messages when connection is lost during 5 secs
+    if ((new Date().getTime() - this.lastLostConnectionDate.getTime()) > 5000) {
+      this.showErrorMessage('general.backend_not_running');
+      this.lastLostConnectionDate = new Date();
+    }
   }
 
   public showWarningMessageUserOrTenantUpdated() {

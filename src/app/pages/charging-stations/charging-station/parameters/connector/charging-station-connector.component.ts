@@ -135,6 +135,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     if (this.currentType.value === CurrentType.DC) {
       this.numberOfConnectedPhase.setValue(3);
       this.numberOfConnectedPhase.disable();
+      this.amperage.updateValueAndValidity();
     } else {
       this.numberOfConnectedPhase.enable();
     }

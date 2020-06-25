@@ -161,7 +161,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -173,7 +173,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.limit_amps'))))].hidden,
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -185,7 +185,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
         type: 'line',
         hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.energy_amps'))))].hidden,
         data: [],
-        yAxisID: 'power',
+        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'amperage' : 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.consumptionColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
@@ -505,9 +505,10 @@ export class ConsumptionChartComponent implements AfterViewInit {
             id: 'power',
             type: 'linear',
             position: 'left',
+            display: 'auto',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.KILOWATT) ? (value / 1000) + 'kW' : value  + 'A',
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'kW',
               fontColor: this.defaultColor,
               min: 0,
             },

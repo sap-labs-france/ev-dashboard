@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.3",
+    "last_update": "Version 2.3.5",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -72,6 +72,7 @@
     "synchronize": "Synchronize",
     "force_synchronize": "Force synchronization",
     "download": "Download",
+    "test_connection": "Test Connection",
     "upload": "Upload",
     "change": "Changer",
     "reload": "Reload",
@@ -204,6 +205,7 @@
       "clear": "Clear",
       "save": "Save",
       "download": "Download",
+      "test_connection": "Test Connection",
       "force_available_status": "Force Status to Available",
       "force_unavailable_status": "Force Status to Unavailable"
     }
@@ -1320,7 +1322,7 @@
       "update_success": "Billing settings have been updated successfully",
       "update_error": "Error occurred while updating the billing settings",
       "check_connection": "Check Connection",
-      "connection_success": "Connection to the billing system was tested with success",
+      "connection_success": "Connection to the billing system was tested successfully",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
       "force_synchronize": "Force synchronization",
       "user": {
@@ -1412,8 +1414,12 @@
         "delete_confirm": "Do you really want to delete the connection '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Schneider Building Management"
+        "schneider": "Schneider Building Management System"
       },
+      "connection_success": "Connection to the system was tested successfully",
+      "unknown_connection_error": "Unknown connection error",
+      "invalid_grant": "Incorrect User or Password",
+      "connection_failed": "Connection failed",
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Asset settings have not been found",
@@ -1584,7 +1590,7 @@
     "graph": {
       "power": "Instant Power (kW)",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Limit (kW)"
     }
   },
   "asset": {
@@ -1678,9 +1684,8 @@
     "remove_users_car_error": "Error occurred while removing the users",
     "car_not_found": "Car has not been found",
     "car_error": "Error occurred while retrieving the car",
-    "car_user_error": "Error occurred while retrieving the users of the car",
+    "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
-    "users": "Utilisateurs",
     "converter": "Converter",
     "dialog": {
       "delete": {
@@ -1688,6 +1693,7 @@
         "confirm": "Do you really want to delete this car?"
       }
     },
+    "users": "Users",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",
@@ -1847,14 +1853,25 @@
       "invoices": "Invoices"
     },
     "graph": {
-      "battery": "Battery Level (%)",
-      "power": "Instant Grid Power (kW)",
-      "amps": "Instant Grid Amps (A)",
+      "battery": "Battery (%)",
+      "power": "Grid Power (kW)",
+      "power_l1": "Grid Power L1 (kW)",
+      "power_l2": "Grid Power L2 (kW)",
+      "power_l3": "Grid Power L3 (kW)",
+      "amps": "Grid Amps (A)",
+      "amps_l1": "Grid Amps L1 (A)",
+      "amps_l2": "Grid Amps L2 (A)",
+      "amps_l3": "Grid Amps L3 (A)",
       "energy": "Energy Delivered (kW.h)",
       "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Reset",
       "no_consumption": "No consumption data available",
       "cumulated_amount": "Amount",
+      "amperage": "Amperage (A)",
+      "amperage_dc": "Amperage DC (A)",
+      "amperage_l1": "Amperage L1 (A)",
+      "amperage_l2": "Amperage L2 (A)",
+      "amperage_l3": "Amperage L3 (A)",
       "voltage": "Voltage (V)",
       "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
@@ -1864,9 +1881,9 @@
       "plan_amps": "Plan (A)",
       "limit_plan_watts": "Plan Limit (kW)",
       "limit_plan_amps": "Plan Limit (A)",
-      "limit": "Max Limit",
-      "limit_watts": "Max Grid Limit (kW)",
-      "limit_amps": "Max Grid Limit (A)",
+      "limit": "Limit",
+      "limit_watts": "Grid Limit (kW)",
+      "limit_amps": "Grid Limit (A)",
       "load_all_consumptions": "Show full chart resolution (one point every 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"

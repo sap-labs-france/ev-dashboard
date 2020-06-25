@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -18,8 +18,8 @@ import { ButtonType } from 'app/types/Table';
 import { UserCar } from 'app/types/User';
 import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
-import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
 
+import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
 
 @Component({
   selector: 'app-car',

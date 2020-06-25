@@ -19,10 +19,10 @@ import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/
 import { User, UserSite } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
 import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component';
-
 
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<UserSite> {

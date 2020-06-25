@@ -23,7 +23,7 @@
     "connectors": "Ladepunkte",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.3",
+    "last_update": "Version 2.3.5",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -72,6 +72,7 @@
     "synchronize": "Synchronisieren",
     "force_synchronize": "Synchronisation erzwingen",
     "download": "Herunterladen",
+    "test_connection": "Test Connection",
     "upload": "Hochladen",
     "change": "Ladepunkt",
     "reload": "Neuladen",
@@ -204,6 +205,7 @@
       "clear": "Löschen",
       "save": "Speichern",
       "download": "Download",
+      "test_connection": "Test Connection",
       "force_available_status": "Status Verfügbar erzwingen",
       "force_unavailable_status": "Status Nicht-Verfügbar erzwingen"
     }
@@ -410,7 +412,7 @@
     "titles": "Standort Bereiche",
     "site_invalid": "Standort Bereich ungültig",
     "site_area_do_not_exist": "Standort Bereich existiert nicht mehr",
-    "max_limit_kw": "Max limit",
+    "max_limit_kw": "limit",
     "created_on": "Erstellt am",
     "created_by": "Erstellt von",
     "changed_on": "Geändert am",
@@ -629,8 +631,8 @@
     "cant_charge_in_parallel": "Kann nicht alle Ladepunkte parallel betreiben",
     "share_power_to_all_connectors": "Share the power with all connectors",
     "exclude_from_power_limitation": "Cannot limit the power",
-    "exclude_smart_charging": "Exclude from Smart Charging",
     "public": "Diese Ladestation ist öffentlich",
+    "exclude_smart_charging": "Exclude from Smart Charging",
     "public_url": "Öffentliche URL",
     "current_ip": "Aktuelle IP Route",
     "select_chargers": "Ladestation auswählen",
@@ -646,8 +648,8 @@
     "maximum_energy_amps": "Maximum Power (Amps)",
     "efficiency": "Efficiency (%)",
     "invalid_efficiency": "Efficiency must be a positive number not greater 100",
-    "charge_point": "Charge Point",
     "connector": "Ladepunkt",
+    "charge_point": "Charge Point",
     "connector0": "Ladestation",
     "connector_type": "Typ",
     "connector_error_title": "Fehler",
@@ -1044,7 +1046,7 @@
     "locale_invalid": "Ungültige Örtlichkeit",
     "locale_desc_english": "Englisch",
     "locale_desc_french": "Französisch",
-    "locale_desc_spanish": "spanisch",
+    "locale_desc_spanish": "Spanisch",
     "locale_desc_german": "Deutsch",
     "role_unknown": "Unbekannt",
     "locale_unknown": "Unbekannt",
@@ -1412,8 +1414,12 @@
         "delete_confirm": "Do you really want to delete the connection '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Schneider Building Management"
+        "schneider": "Schneider Building Management System"
       },
+      "connection_success": "Connection to the system was tested successfully",
+      "unknown_connection_error": "Unknown connection error",
+      "invalid_grant": "Incorrect User or Password",
+      "connection_failed": "Connection failed",
       "description": "E-Mobility can manage your asset consumption and use this information with the smart charging algorithm to balance the charging station's consumptions for a given site area.",
       "setting_do_not_exist": "Configuration has not been found",
       "setting_not_found": "Asset settings have not been found",
@@ -1584,7 +1590,7 @@
     "graph": {
       "power": "Instant Power (kW)",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Limit (kW)"
     }
   },
   "asset": {
@@ -1678,16 +1684,16 @@
     "remove_users_car_error": "Error occurred while removing the users",
     "car_not_found": "Car has not been found",
     "car_error": "Error occurred while retrieving the car",
-    "car_user_error": "Error occurred while retrieving the users of the car",
-    "assign_converter": "Assign Converter",
-    "converter": "Converter",
     "dialog": {
       "delete": {
         "title": "Delete Car",
         "confirm": "Do you really want to delete this car?"
       }
     },
+    "car_user_error": "Error occurred while retrieving the car's users",
+    "assign_converter": "Assign Converter",
     "users": "Users",
+    "converter": "Converter",
     "unit": {
       "meters": "m",
       "seconde": "sek",
@@ -1847,26 +1853,34 @@
       "invoices": "Rechnungen"
     },
     "graph": {
-      "battery": "Batteriestand (%)",
-      "power": "Momentanleistung (kW)",
-      "amps": "Instant Grid Amps (A)",
+      "battery": "Batterie (%)",
+      "power": "Grid Power (kW)",
+      "power_l1": "Grid Power L1 (kW)",
+      "power_l2": "Grid Power L2 (kW)",
+      "power_l3": "Grid Power L3 (kW)",
+      "amps": "Grid Amps (A)",
+      "amps_l1": "Grid Amps L1 (A)",
+      "amps_l2": "Grid Amps L2 (A)",
+      "amps_l3": "Grid Amps L3 (A)",
       "energy": "Energie geladen (kW.h)",
       "energy_amps": "Energy Delivered (A.h)",
       "reset_zoom": "Reset",
       "no_consumption": "Keine Verbrauchsdaten verfügbar",
       "cumulated_amount": "Betrag",
+      "amperage": "Amperage (A)",
+      "amperage_dc": "Amperage DC (A)",
       "voltage": "Voltage (V)",
       "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
       "voltage_l2": "Voltage L2 (V)",
       "voltage_l3": "Voltage L3 (V)",
-      "limit_plan_watts": "Geplantes Limit (kW)",
-      "limit_plan_amps": "Plan Limit (A)",
-      "limit": "Max Limit",
       "plan_watts": "Plan (kW)",
       "plan_amps": "Plan (A)",
-      "limit_watts": "Maximales Limit (kW)",
-      "limit_amps": "Max Grid Limit (A)",
+      "limit_plan_watts": "Geplantes Limit (kW)",
+      "limit_plan_amps": "Plan Limit (A)",
+      "limit": "Limit",
+      "limit_watts": "Limit (kW)",
+      "limit_amps": "Grid Limit (A)",
       "load_all_consumptions": "Show full chart resolution (one point every 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
@@ -1995,7 +2009,6 @@
     "billing_synchronization_failed": "Benachrichtige mich, wenn eine Synchronisation mit dem Rechnungslegungssystem fehlgeschlagen ist",
     "session_not_started": "Benachrichtige mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtige mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",
-    "car_synchronization_failed": "Benachrichtige mich, wenn beim synchronisieren der Fahrzeuge ein Fehler aufgetreten ist.",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
   }
 }

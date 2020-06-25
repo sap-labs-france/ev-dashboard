@@ -23,7 +23,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.3",
+    "last_update": "Version 2.3.5",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -72,6 +72,7 @@
     "synchronize": "Synchroniser",
     "force_synchronize": "Forcer la synchronization",
     "download": "Télécharger",
+    "test_connection": "Tester la connection",
     "upload": "Envoyer",
     "change": "Changer",
     "reload": "Recharger",
@@ -204,6 +205,7 @@
       "clear": "Effacer",
       "save": "Save",
       "download": "Télécharger",
+      "test_connection": "Tester la connection",
       "force_available_status": "Forcer le Statut en Disponible",
       "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
@@ -1414,6 +1416,10 @@
       "types": {
         "schneider": "Gestion Bâtiment Schneider"
       },
+      "connection_success": "Connexion vers le système vérifiée avec succès",
+      "unknown_connection_error": "Erreur de connexion inconnue",
+      "invalid_grant": "Utilisateur ou Mot de passe incorrect",
+      "connection_failed": "Échec de la connexion",
       "description": "E-Mobility peut gérer la consommation des assets et utiliser cette information avec l'algorithme de charge intelligente pour équilibrer la consommation des bornes sur une zone donnée.",
       "setting_do_not_exist": "La configuration n'existe pas",
       "setting_not_found": "La configuration des ressources n'a pas été trouvée",
@@ -1584,7 +1590,7 @@
     "graph": {
       "power": "Instant Power (kW)",
       "no_consumption": "No consumption data available",
-      "limit_watts": "Max Limit (kW)"
+      "limit_watts": "Limit (kW)"
     }
   },
   "asset": {
@@ -1847,14 +1853,22 @@
       "invoices": "Factures"
     },
     "graph": {
-      "battery": "Niveau de Batterie (%)",
-      "power": "Puissance Réseau Instantanée (kW)",
-      "amps": "Amperage Réseau Instantané (A)",
+      "battery": "Batterie (%)",
+      "power": "Puissance Réseau (kW)",
+      "power_l1": "Puissance Réseau L1 (kW)",
+      "power_l2": "Puissance Réseau L2 (kW)",
+      "power_l3": "Puissance Réseau L3 (kW)",
+      "amps": "Amperage Réseau (A)",
+      "amps_l1": "Amperage Réseau L1 (A)",
+      "amps_l2": "Amperage Réseau L2 (A)",
+      "amps_l3": "Amperage Réseau L3 (A)",
       "energy": "Energie Délivrée (kW.h)",
       "energy_amps": "Energie Délivrée (A.h)",
       "reset_zoom": "Remise à Zéro",
       "no_consumption": "Aucune donnée disponible",
       "cumulated_amount": "Montant",
+      "amperage": "Amperage (A)",
+      "amperage_dc": "Amperage DC (A)",
       "voltage": "Voltage (V)",
       "voltage_dc": "Voltage DC (V)",
       "voltage_l1": "Voltage L1 (V)",
@@ -1864,9 +1878,9 @@
       "plan_amps": "Plan (A)",
       "limit_plan_watts": "Limite du Plan (kW)",
       "limit_plan_amps": "Limite du Plan (A)",
-      "limit": "Limitation Max",
-      "limit_watts": "Limitation Réseau Max (kW)",
-      "limit_amps": "Limitation Réseau Max (A)",
+      "limit": "Limitation",
+      "limit_watts": "Limitation Réseau (kW)",
+      "limit_amps": "Limitation Réseau (A)",
       "load_all_consumptions": "Afficher la résolution maximale de la courbe (1 point toutes les 60s)",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"

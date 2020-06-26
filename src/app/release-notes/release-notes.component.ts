@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Admin and Basic users can create Cars`,
               `Excluded Suspended EV/EVSE from Smart Charging`,
               `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
+              `Fixed Badges got deactivated after saving User's profile`,
               `Added test of Schneider BMS' connection in Asset Settings`,
               `Keep selected legends in consumption charts when the unit is changed (kW/A)`,
               `Fixed sorting on Charging Station list`,

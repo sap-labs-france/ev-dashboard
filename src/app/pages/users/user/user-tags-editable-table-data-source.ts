@@ -103,7 +103,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.maxLength(20),
           Validators.pattern('^[a-zA-Z0-9]*$'),
         ],
         canBeDisabled: true,
@@ -111,7 +111,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
           { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 8 } },
-          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 16 } },
+          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 20 } },
           { id: 'pattern', message: 'users.invalid_tag_id' },
         ],
         headerClass: 'text-left col-20p',

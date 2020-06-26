@@ -30,10 +30,11 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Admin and Basic users can create Cars`,
-              `Excluded Suspended EV/EVSE from Smart Charging`,
-              `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
+              `Excluded Suspended EV from Smart Charging`,
               `Fixed Badges got deactivated after saving User's profile`,
+              `Fixed typos in French translation`,
+              `Admin and Basic users can create Cars`,
+              `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
               `Added test of Schneider BMS' connection in Asset Settings`,
               `Keep selected legends in consumption charts when the unit is changed (kW/A)`,
               `Fixed sorting on Charging Station list`,
@@ -42,7 +43,6 @@ export class ReleaseNotesComponent {
               `Fixed Site Area filter was hanging`,
               `Do not push backend notifications to the front-end if the app is not connected anymore`,
               `Add support for Ebee firmware version 5.10.x`,
-              `Fixed typos in French translation`,
             ],
           },
         ],

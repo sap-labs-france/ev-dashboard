@@ -619,14 +619,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     return null;
   }
 
-  public toUpperCase(control: AbstractControl) {
-    control.setValue(control.value.toUpperCase());
-  }
-
-  public firstLetterToUpperCase(control: AbstractControl) {
-    control.setValue(Utils.firstLetterInUpperCase(control.value));
-  }
-
   private loadRefundSettings() {
     if (this.componentService.isActive(TenantComponents.REFUND)) {
       this.centralServerService.getSettings(TenantComponents.REFUND).subscribe((settingResult) => {

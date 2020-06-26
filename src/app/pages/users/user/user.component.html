@@ -43,8 +43,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="name" appAutofocus matInput
-                      placeholder="{{'users.name' | translate}}" required
-                      (input)="toUpperCase(name)" type="text">
+                      placeholder="{{'users.name' | translate}}" required type="text">
                     <mat-error *ngIf="name.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>
@@ -53,8 +52,7 @@
                 <div class="form-group">
                   <mat-form-field>
                     <input [formControl]="firstName" matInput
-                      placeholder="{{'users.first_name' | translate}}" required
-                      (input)="firstLetterToUpperCase(firstName)" type="text">
+                      placeholder="{{'users.first_name' | translate}}" required type="text">
                     <mat-error *ngIf="firstName.errors?.required">
                       {{"general.mandatory_field" | translate}}
                     </mat-error>

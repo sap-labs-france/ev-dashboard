@@ -83,7 +83,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         multiple: true,
       },
       search: {
-        enabled: false,
+        enabled: true,
       },
       rowFieldNameIdentifier: 'site.id',
     };

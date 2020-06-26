@@ -5,12 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
-import { CarCatalog, CarConverter, CarType, Car } from 'app/types/Car';
+import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
-import { User, UserToken, UserCar } from 'app/types/User';
+import { User, UserCar, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 

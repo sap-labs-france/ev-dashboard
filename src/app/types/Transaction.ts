@@ -104,6 +104,7 @@ export enum TransactionButtonAction {
   EXPORT_TRANSACTIONS = 'export_transactions',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
+  LINK_INVOICE_TRANSACTION = 'link_invoice_transaction'
 }
 
 export enum ConsumptionUnit {

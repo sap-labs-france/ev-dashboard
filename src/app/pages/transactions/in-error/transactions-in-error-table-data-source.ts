@@ -38,15 +38,17 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
+import { TableLinkInvoiceTransaction } from '../table-actions/table-link-invoice-transaction';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
-export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
+export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
   private isAdmin = false;
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
+  private linkInvoice = new TableLinkInvoiceTransaction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -128,6 +130,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         enabled: true,
         multiple: true,
       },
+      hasDynamicRowAction: true
     };
   }
 
@@ -241,6 +244,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`),
       });
     }
+    // If billing is activated check that transactions have billing data
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      errorTypes.push({
+        key: TransactionInErrorType.NO_BILLING_DATA,
+        value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_BILLING_DATA}.title`),
+      });
+    }
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
@@ -263,13 +273,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  public buildTableRowActions(): TableActionDef[] {
+  public buildTableDynamicRowActions(rowItem: TransactionInError): TableActionDef[] {
     const actions = [];
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
       actions.push(this.viewAction);
     }
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
       actions.push(this.deleteAction);
+    }
+    if (rowItem.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
+      actions.push(this.linkInvoice);
     }
     return actions;
   }
@@ -287,6 +300,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
+        case TransactionButtonAction.LINK_INVOICE_TRANSACTION:
+          if (actionDef.action) {
+            actionDef.action(transaction.id, this.dialogService, this.translateService, this.messageService,
+              this.centralServerService, this.router, this.refreshData.bind(this));
+          }
+          break;
     }
   }
 

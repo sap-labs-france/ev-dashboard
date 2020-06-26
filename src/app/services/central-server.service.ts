@@ -27,12 +27,12 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-
 
 @Injectable()
 export class CentralServerService {
@@ -1346,6 +1346,18 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_FORCE_SYNCHRONIZE_USER_INVOICES}`,
       { userID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public linkTransactionToInvoice(transactionID: number): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_LINK_TRANSACTION_TO_INVOICE}`, { transactionID },
       {
         headers: this.buildHttpHeaders(),
       })

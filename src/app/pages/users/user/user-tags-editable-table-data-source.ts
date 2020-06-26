@@ -162,9 +162,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       this.translateService.instant('tags.activate_confirm', {tagID: tag.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = true;
-        tag.active = true;
+        this.setPropertyValue(tag, 'active', true);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();
@@ -181,9 +179,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       this.translateService.instant('tags.deactivate_confirm', {tagID: tag.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = false;
-        tag.active = false;
+        this.setPropertyValue(tag, 'active', false);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();

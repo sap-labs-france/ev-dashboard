@@ -96,6 +96,11 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
+  public setPropertyValue(row: T, propertyName: string, propertyValue: string|boolean|number) {
+    row[propertyName] = propertyValue;
+    (row[`${propertyName}FormControl`] as FormControl).setValue(propertyValue);
+  }
+
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
     // Use get content to get the filtered fields
     const contentRows = this.getContent();
@@ -215,7 +220,11 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       let value;
       switch (tableColumnDef.editType) {
         case TableEditType.DISPLAY_ONLY:
-          continue;
+          if (!tableColumnDef.isAngularComponent) {
+            continue;
+          }
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
+          break;
         case TableEditType.CHECK_BOX:
         case TableEditType.RADIO_BUTTON:
           value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : false;

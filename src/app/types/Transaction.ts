@@ -1,3 +1,4 @@
+import { BillingTransactionData } from './Billing';
 import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
@@ -60,6 +61,7 @@ export interface Transaction extends Data {
   };
   dateTimestring: string;
   values: TransactionConsumption[];
+  billingData: BillingTransactionData;
 }
 
 export interface TransactionConsumption {

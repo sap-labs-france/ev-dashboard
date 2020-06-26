@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.3.6',
-        date: new Date('2020-06-6'),
+        date: new Date('2020-06-26'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -42,6 +42,7 @@ export class ReleaseNotesComponent {
               `Fixed Site Area filter was hanging`,
               `Do not push backend notifications to the front-end if the app is not connected anymore`,
               `Add support for Ebee firmware version 5.10.x`,
+              `Fixed typos in French translation`,
             ],
           },
         ],

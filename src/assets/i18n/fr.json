@@ -942,7 +942,7 @@
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Tension Phase/Neutre (V)",
-    "amperage": "Intensité Total (A)",
+    "amperage": "Intensité Totale Phase/Neutre (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",

@@ -139,7 +139,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  private logout() {
+  public logout() {
     // Logoff
     this.centralServerService.logout().subscribe(() => {
       // Clear

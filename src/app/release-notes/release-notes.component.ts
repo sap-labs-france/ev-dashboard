@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.6',
-        date: new Date('2020-06-26'),
+        version: '2.3.7',
+        date: new Date('2020-06-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Implemented EV-Ready minimal amperage of 13A per phase`,
               `Excluded Suspended EV from Smart Charging`,
               `Fixed Badges got deactivated after saving User's profile`,
               `Fixed typos in French translation`,

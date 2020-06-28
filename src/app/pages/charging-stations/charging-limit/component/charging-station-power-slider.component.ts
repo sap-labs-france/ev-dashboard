@@ -47,12 +47,17 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(
       this.chargingStation, this.chargePoint, this.connector ? this.connector.connectorId : 0, this.forChargingProfile);
-    if (!this.currentAmp) {
+    if (this.currentAmp === undefined) {
       this.currentAmp = chargerPowers.currentAmp;
     }
     this.minAmp = chargerPowers.minAmp;
     this.maxAmp = chargerPowers.maxAmp;
     this.notSupported = chargerPowers.notSupported;
+    // Override the min for charging profile
+    if (this.forChargingProfile) {
+      this.minAmp = 0;
+    }
+    // Override Min in Charging Profile
     // Convert
     this.updateDisplayedPowerKW();
     this.ampSteps = Utils.computeStaticLimitAmpSteps(this.chargingStation, this.chargePoint);

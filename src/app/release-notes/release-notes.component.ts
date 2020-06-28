@@ -24,13 +24,16 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.6',
-        date: new Date('2020-06-26'),
+        version: '2.3.7',
+        date: new Date('2020-06-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Excluded Suspended EV from Smart Charging`,
+              `Limit the max power of the 'safe' car to the power of the connector in the SAP Smart Charging`,
+              `Auto-detect single phase Car in SAP Smart Charging using new Meter Values per phase`,
+              `Implemented EV-Ready minimal amperage of 13A per phase in Static Limitation and SAP Smart Charging`,
+              `Excluded Suspended EV from the SAP Smart Charging`,
               `Fixed Badges got deactivated after saving User's profile`,
               `Fixed typos in French translation`,
               `Admin and Basic users can create Cars`,

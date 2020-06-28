@@ -19,8 +19,8 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   @Input() public forChargingProfile = false;
   @Output() public silderChanged = new EventEmitter<number>();
 
-  public minAmp = StaticLimitAmps.MIN_LIMIT;
-  public maxAmp = StaticLimitAmps.MIN_LIMIT;
+  public minAmp;
+  public maxAmp;
   public displayedMinPowerKW = '';
   public displayedMinPowerAmp = '';
   public displayedMaxPowerKW = '';
@@ -28,7 +28,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public displayedCurrentPowerW = '';
   public notSupported = false;
   public isSmartChargingComponentActive = false;
-  public ampSteps = StaticLimitAmps.MIN_LIMIT;
+  public ampSteps;
 
   constructor(
       private appUnitFormatter: AppUnitPipe,
@@ -55,7 +55,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     this.notSupported = chargerPowers.notSupported;
     // Convert
     this.updateDisplayedPowerKW();
-    this.ampSteps = Utils.computeAmpSteps(this.chargingStation);
+    this.ampSteps = Utils.computeStaticLimitAmpSteps(this.chargingStation, this.chargePoint);
   }
 
   public formatSlideLabelPowerKW = (currentAmp: number): string|null => {

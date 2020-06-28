@@ -399,6 +399,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             if (!foundChargingProfile) {
               chargingProfile.id = response.id;
               this.chargingProfiles.push(chargingProfile);
+            } else {
+              foundChargingProfile.id = response.id;
             }
             this.messageService.showSuccessMessage(
               this.translateService.instant('chargers.smart_charging.power_limit_plan_success',

@@ -398,6 +398,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             const foundChargingProfile = this.chargingProfiles.find((exitingChargingProfile) => exitingChargingProfile.id === chargingProfile.id);
             if (!foundChargingProfile) {
               chargingProfile.id = response.id;
+              this.chargingProfilesControl.setValue(chargingProfile);
               this.chargingProfiles.push(chargingProfile);
             }
             this.messageService.showSuccessMessage(

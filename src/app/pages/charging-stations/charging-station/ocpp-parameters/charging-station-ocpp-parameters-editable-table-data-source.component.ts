@@ -18,7 +18,6 @@ import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-com
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
   private charger!: ChargingStation;
-  private inlineSaveAction = new TableInlineSaveOCPPParameterAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -56,7 +55,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   public buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
     const actions = [];
     if (!param.readonly) {
-      actions.push(this.inlineSaveAction);
+      const inlineSaveAction = new TableInlineSaveOCPPParameterAction();
+      actions.push(inlineSaveAction.getActionDef());
     }
     return actions;
   }
@@ -88,6 +88,25 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     // Call super
     super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
     this.formArray?.controls[0].get('key').markAllAsTouched();
+    this.formArray?.controls[0].get('value').markAllAsTouched();
+  }
+
+  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
+    super.rowCellUpdated(cellValue, rowIndex, columnDef, postDataProcessing);
+    const row = this.getContent()[rowIndex];
+    if (this.formArray) {
+      if (row['dynamicRowActions']) {
+        if (this.formArray.controls[rowIndex].get('key').invalid || this.formArray.controls[rowIndex].get('value').invalid) {
+          row['dynamicRowActions'][0].disabled = true;
+        } else {
+          row['dynamicRowActions'][0].disabled = false;
+        }
+        this.refreshData();
+      }
+
+    }
+    this.formArray?.controls[rowIndex].get('key').markAllAsTouched();
+    this.formArray?.controls[rowIndex].get('value').markAllAsTouched();
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {

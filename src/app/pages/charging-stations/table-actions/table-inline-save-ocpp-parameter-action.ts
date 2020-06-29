@@ -18,6 +18,7 @@ export class TableInlineSaveOCPPParameterAction extends TableInlineSaveAction {
       id: ChargingStationButtonAction.INLINE_SAVE_OCPP_PARAMETER,
       name: 'general.save',
       action: this.saveOcppParameter,
+      disabled: true,
     };
   }
 
@@ -60,11 +61,6 @@ export class TableInlineSaveOCPPParameterAction extends TableInlineSaveAction {
             });
         }
       });
-    } else {
-      dialogService.createAndShowOkDialog(
-        translateService.instant('chargers.action_error.ocpp_parameters_change_title'),
-        translateService.instant('chargers.action_error.ocpp_parameters_should_not_be_empty'));
     }
   }
-
 }

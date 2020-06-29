@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { KeyValue } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
+
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
 @Component({

@@ -49,7 +49,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     } else {
       actions.push(this.activateAction);
     }
-    if (!tag.sessionCount) {
+    if (!tag.transactionsCount) {
       actions.push(this.deleteAction);
     }
     return actions;
@@ -103,7 +103,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.maxLength(20),
           Validators.pattern('^[a-zA-Z0-9]*$'),
         ],
         canBeDisabled: true,
@@ -111,7 +111,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
           { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 8 } },
-          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 16 } },
+          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 20 } },
           { id: 'pattern', message: 'users.invalid_tag_id' },
         ],
         headerClass: 'text-left col-20p',
@@ -132,10 +132,10 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         class: 'text-center col-15p',
       },
       {
-        id: 'sessionCount',
+        id: 'transactionsCount',
         name: 'tags.sessions',
         editType: TableEditType.DISPLAY_ONLY,
-        formatter: (value: number) => value ? value.toString() : '-',
+        formatter: (transactionsCount: number) => transactionsCount ? transactionsCount.toString() : '-',
         headerClass: 'col-10p',
         class: 'text-center col-10p',
       },
@@ -153,7 +153,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
   }
 
   protected isCellDisabled(columnDef: TableColumnDef, tag: Tag): boolean {
-    return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
+    return tag && tag.transactionsCount ? tag.transactionsCount > 0 : false;
   }
 
   private activateTag(tag: Tag) {
@@ -162,9 +162,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       this.translateService.instant('tags.activate_confirm', {tagID: tag.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = true;
-        tag.active = true;
+        this.setPropertyValue(tag, 'active', true);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();
@@ -181,9 +179,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       this.translateService.instant('tags.deactivate_confirm', {tagID: tag.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = false;
-        tag.active = false;
+        this.setPropertyValue(tag, 'active', false);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();

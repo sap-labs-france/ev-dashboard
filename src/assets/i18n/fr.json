@@ -626,7 +626,7 @@
     "ocpp_protocol": "Protocole OCPP",
     "ocpp_version_title": "OCPP",
     "private_url": "URL Privée",
-    "nb_connected_phase": "Nombre de Phases Connectées",
+    "nb_connected_phase": "Nombre de Phase(s) Connectée(s)",
     "current_type": "Type de Courant",
     "cant_charge_in_parallel": "Ne peut pas charger en parallèle",
     "share_power_to_all_connectors": "Partage la puissance avec les connecteurs",
@@ -942,7 +942,7 @@
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Tension Phase/Neutre (V)",
-    "amperage": "Intensité Totale Phase/Neutre (A)",
+    "amperage": "Intensité Totale (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",

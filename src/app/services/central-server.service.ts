@@ -937,6 +937,23 @@ export class CentralServerService {
       );
   }
 
+  public rebuildTransactionConsumption(id: number): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    if (!id) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REBUILD_TRANSACTION_CONSUMPTIONS}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: { ID: id.toString() },
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public exportLogs(params: FilterParams): Observable<Blob> {
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.LOGGINGS_EXPORT}`,

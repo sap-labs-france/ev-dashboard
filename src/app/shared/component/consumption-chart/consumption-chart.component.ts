@@ -390,7 +390,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
       for (const consumption of this.transaction.values) {
         labels.push(new Date(consumption.date).getTime());
         if (instantPowerDataSet) {
-          instantPowerDataSet.push(consumption.instantWatts);
+          if (consumption.instantWattsDC > 0) {
+            instantPowerDataSet.push(consumption.instantWattsDC);
+          } else {
+            instantPowerDataSet.push(consumption.instantWatts);
+          }
         }
         if (instantPowerL1DataSet) {
           instantPowerL1DataSet.push(consumption.instantWattsL1);

@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.8',
+        date: new Date('2020-06-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Notify Admin Users when Charging Stations are overheating`,
+              `Fixed Smart Charging minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.7',
         date: new Date('2020-06-28'),
         componentChanges: [

@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyValue } from 'app/types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType, AssetSetting } from 'app/types/Setting';
+import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType } from 'app/types/Setting';
 import { Constants } from 'app/utils/Constants';
 
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
@@ -71,9 +71,7 @@ export class AssetConnectionComponent implements OnInit {
 
   public loadAssetConnection(): void {
     if (this.currentAssetConnection) {
-      if (this.currentAssetConnection.id) {
-        this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
-      }
+      this.formGroup.controls.id.setValue(this.currentAssetConnection.id);
       if (this.currentAssetConnection.name) {
         this.formGroup.controls.name.setValue(this.currentAssetConnection.name);
       }
@@ -111,9 +109,13 @@ export class AssetConnectionComponent implements OnInit {
     }
   }
 
-  public setConnectionAndClose(assetSettings: AssetSetting): void {
+  public setConnectionAndClose(assetConnection: AssetConnectionSetting): void {
     if (this.inDialog) {
-      this.dialogRef.close(assetSettings);
+      // Generate the ID
+      if (!assetConnection.id) {
+        assetConnection.id = new Date().getTime().toString();
+      }
+      this.dialogRef.close(assetConnection);
     }
   }
 }

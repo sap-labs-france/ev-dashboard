@@ -35,6 +35,12 @@ export default class SocketIOClient {
     } else {
       // console.log('Missing serverURL and token arguments');
     }
+    this.socketIO.on('unauthorized', (error) => {
+      if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
+        // Redirect user to login page perhaps?
+        console.log('SocketIO client user token has expired');
+      }
+    });
     this.socketIO.on('connect', () => {
       console.log(`SocketIO client is connected`);
       connectCallback();

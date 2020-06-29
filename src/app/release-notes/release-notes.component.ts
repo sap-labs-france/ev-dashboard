@@ -24,15 +24,27 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.3',
-        date: new Date('2020-06-23'),
+        version: '2.3.7',
+        date: new Date('2020-06-28'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Limit the max power of the 'safe' car to the power of the connector in the SAP Smart Charging`,
+              `Auto-detect single phase Car in SAP Smart Charging using new Meter Values per phase`,
+              `Implemented EV-Ready minimal amperage of 13A per phase in Static Limitation and SAP Smart Charging`,
+              `Excluded Suspended EV from the SAP Smart Charging`,
+              `Fixed Badges got deactivated after saving User's profile`,
+              `Fixed typos in French translation`,
               `Admin and Basic users can create Cars`,
+              `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
+              `Added test of Schneider BMS' connection in Asset Settings`,
+              `Keep selected legends in consumption charts when the unit is changed (kW/A)`,
+              `Fixed sorting on Charging Station list`,
               `Set Static Limitation OCPP parameter for Legrand Charging Station`,
               `Translated EULA in Spanish and German`,
+              `Fixed Site Area filter was hanging`,
+              `Do not push backend notifications to the front-end if the app is not connected anymore`,
               `Add support for Ebee firmware version 5.10.x`,
             ],
           },

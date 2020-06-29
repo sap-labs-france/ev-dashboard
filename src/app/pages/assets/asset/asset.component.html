@@ -119,12 +119,12 @@
               </div>
               <div class="form-group">
                 <mat-form-field>
-                  <mat-select [formControl]="assetConnectionID" placeholder="{{'chargers.connector' | translate}}">
+                  <mat-select [formControl]="connectionID" placeholder="{{'chargers.connector' | translate}}" required>
                     <mat-option *ngFor="let connection of assetConnectionsList" value="{{connection.key}}">
                       {{connection.value}}
                     </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="assetConnectionID.errors?.required">
+                  <mat-error *ngIf="connectionID.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
                 </mat-form-field>

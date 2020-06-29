@@ -49,7 +49,7 @@ export class AssetComponent implements OnInit {
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
   public dynamicAsset!: AbstractControl;
-  public assetConnectionID!: AbstractControl;
+  public connectionID!: AbstractControl;
   public meterID!: AbstractControl;
   public asset!: Asset;
 
@@ -111,7 +111,7 @@ export class AssetComponent implements OnInit {
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
       ]),
-      assetConnectionID: new FormControl('',
+      connectionID: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -131,8 +131,10 @@ export class AssetComponent implements OnInit {
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
-    this.assetConnectionID = this.formGroup.controls['assetConnectionID'];
+    this.connectionID = this.formGroup.controls['connectionID'];
     this.meterID = this.formGroup.controls['meterID'];
+    // Disable connection form by default
+    this.connectionFormDisabled();
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
@@ -185,7 +187,7 @@ export class AssetComponent implements OnInit {
         this.connectionFormDisabled();
       }
       if (this.asset.connectionID) {
-        this.formGroup.controls.assetConnectionID.setValue(this.asset.connectionID);
+        this.formGroup.controls.connectionID.setValue(this.asset.connectionID);
       }
       if (this.asset.meterID) {
         this.formGroup.controls.meterID.setValue(this.asset.meterID);
@@ -215,10 +217,10 @@ export class AssetComponent implements OnInit {
 
   public connectionFormDisabled() {
     if (this.dynamicAsset.value === true) {
-      this.assetConnectionID.enable();
+      this.connectionID.enable();
       this.meterID.enable();
     } else {
-      this.assetConnectionID.disable();
+      this.connectionID.disable();
       this.meterID.disable();
     }
   }

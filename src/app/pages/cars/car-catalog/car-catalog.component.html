@@ -106,11 +106,30 @@
                     <td class="px-2 py-2 text-left">
                       {{carCatalog?.chargeStandardPower ? (carCatalog.chargeStandardPower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}
                     </td>
+
+                    <th class="props-header px-2 py-2 text-left">{{"cars.charge_option_power" | translate}}</th>
+                    <td class="px-2 py-2 text-left">
+                      {{carCatalog?.chargeOptionPower ? (carCatalog.chargeOptionPower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}
+                    </td>
                   </tr>
                   <tr class="mat-row" role="row">
-                    <th class="props-header px-2 py-2 text-left">{{"cars.evse_phase_ac" | translate}}</th>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evse_phase_ac_standard" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{carCatalog?.chargeStandardPhase ? carCatalog.chargeStandardPhase : '-'}}</td>
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evse_phase_ac_option" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{carCatalog?.chargeOptionPhase ? carCatalog.chargeOptionPhase : '-'}}</td>
                   </tr>
+
+                  <tr class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.charge_alternative_power" | translate}}</th>
+                    <td class="px-2 py-2 text-left">
+                      {{carCatalog?.chargeAlternativePower ? (carCatalog.chargeAlternativePower | appDecimal:'1.0-1') : '-'}} {{"cars.unit.kilowatt" | translate}}
+                    </td>
+                  </tr>
+                  <tr class="mat-row" role="row">
+                    <th class="props-header px-2 py-2 text-left">{{"cars.evse_phase_ac_alternative" | translate}}</th>
+                    <td class="px-2 py-2 text-left">{{carCatalog?.chargeAlternativePhase ? carCatalog.chargeAlternativePhase : '-'}}</td>
+                  </tr>
+
                   <tr class="mat-row" role="row">
                     <th class="props-header px-2 py-2 text-left">{{"cars.fast_charge_plug" | translate}}</th>
                     <td class="px-2 py-2 text-left">{{carCatalog?.fastChargePlug ? carCatalog.fastChargePlug : '-'}}</td>
@@ -129,14 +148,6 @@
               </tbody>
             </table>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>battery_charging_full</mat-icon><span>{{"cars.charge_standard_tables" | translate}}</span>
-        </ng-template>
-        <div class="card-body tab-dialog-car-min-content">
-          <app-table [dataSource]="carCatalogConverterTableDataSource"></app-table>
         </div>
       </mat-tab>
       <mat-tab>

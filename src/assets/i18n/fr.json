@@ -1622,7 +1622,9 @@
     "drivetrain_power_hp": "Puissance",
     "fast_charge_plug": "Connecteur DC",
     "charge_plug_location": "Emplacement De La Prise",
-    "charge_standard_power": "Puissance AC",
+    "charge_standard_power": "Puissance AC standard",
+    "charge_alternative_power": "Puissance AC alternative",
+    "charge_option_power": "Puissance AC option",
     "charge_standard_charge_speed": "Vitesse AC",
     "charge_standard_charge_time": "Temps AC",
     "fast_charge_power_max": "Puissance DC",
@@ -1639,7 +1641,9 @@
     "evse_phase_volt": "Tension",
     "evse_phase_amp": "Intensité",
     "evse_phase": "Phase(s)",
-    "evse_phase_ac": "Phase(s) AC",
+    "evse_phase_ac_standard": "Phase(s) AC standard",
+    "evse_phase_ac_alternative": "Phase(s) AC alternative",
+    "evse_phase_ac_option": "Phase(s) AC option",
     "charge_phase_volt": "Charge Phase Volt",
     "charge_phase_amp": "Charge Phase Amp",
     "charge_phase": "Charge Phase",
@@ -1653,8 +1657,8 @@
     "select_car_maker": "Selection Constructeur Véhicules",
     "car_makers": "Constructeurs de Véhicules",
     "create_success": "Le véhicule '{{carName}}' a été créé avec succès",
-    "update_success": "Véhicule modifié avec succès",
-    "delete_success": "Véhicule supprimé avec succès",
+    "update_success": "Le véhicule '{{carName}}' modifié avec succès",
+    "delete_success": "Le véhicule '{{carName}}' a été supprimé avec succès",
     "delete_error": "Une erreur est survenue pendant la suppression du véhicules",
     "assign_car_catalog": "Assigner véhicule",
     "create_error": "Une erreur est survenue pendant la création du véhicules",
@@ -1688,12 +1692,8 @@
     "assign_converter": "Assigner Convertisseurs",
     "users": "Utilisateurs",
     "converter": "Convertisseur",
-    "dialog": {
-      "delete": {
-        "title": "Supprimer véhicule",
-        "confirm": "Voulez-vous vraiment supprimer ce véhicule?"
-      }
-    },
+    "delete_title": "Supprimer véhicule",
+    "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{carName}}'?",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

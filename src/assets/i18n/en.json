@@ -1622,7 +1622,9 @@
     "drivetrain_power_hp": "Power",
     "fast_charge_plug": "DC Plug",
     "charge_plug_location": "Charge Plug Location",
-    "charge_standard_power": "AC Power",
+    "charge_standard_power": "Standard AC Power",
+    "charge_alternative_power": "Alternative AC Power",
+    "charge_option_power": "Option AC Power",
     "charge_standard_charge_speed": "AC Speed",
     "charge_standard_charge_time": "AC Time",
     "fast_charge_power_max": "DC Power",
@@ -1639,7 +1641,9 @@
     "evse_phase_volt": "Voltage",
     "evse_phase_amp": "Amperage",
     "evse_phase": "Phase(s)",
-    "evse_phase_ac": "AC Phase(s)",
+    "evse_phase_ac_standard": "Standard AC Phase(s)",
+    "evse_phase_ac_alternative": "Alternative AC Phase(s)",
+    "evse_phase_ac_option": "Option AC Phase(s)",
     "charge_phase_volt": "Charge Phase Volt",
     "charge_phase_amp": "Charge Phase Amp",
     "charge_phase": "Charge Phase",
@@ -1653,8 +1657,8 @@
     "select_car_maker": "Select Car Maker",
     "car_makers": "Car Makers",
     "create_success": "The car '{{carName}}' has been created with success",
-    "update_success": "Car updated successfully",
-    "delete_success": "Car deleted successfully",
+    "update_success": "The car '{{carName}}' has been updated successfully",
+    "delete_success": "The car '{{carName}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the car",
     "assign_car_catalog": "Assign car model",
     "create_error": "Error occurred while creating the car",
@@ -1687,12 +1691,8 @@
     "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
     "converter": "Converter",
-    "dialog": {
-      "delete": {
-        "title": "Delete Car",
-        "confirm": "Do you really want to delete this car?"
-      }
-    },
+    "delete_title": "Delete Car",
+    "delete_confirm": "Do you really want to delete the car {{carName}}?",
     "users": "Users",
     "unit": {
       "meters": "m",

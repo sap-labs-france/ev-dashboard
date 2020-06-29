@@ -7,6 +7,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
 import { Car, CarButtonAction } from 'app/types/Car';
 import { TableActionDef } from 'app/types/Table';
+import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 export class TableDeleteCarAction extends TableDeleteAction {
@@ -21,9 +22,9 @@ export class TableDeleteCarAction extends TableDeleteAction {
   private deleteCar(car: Car, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
-      car, 'cars.dialog.delete.title',
-      translateService.instant('cars.dialog.delete.confirm'),
-      translateService.instant('cars.delete_success'),
+      car, 'cars.delete_title',
+      translateService.instant('cars.delete_confirm',{ carName: Utils.buildCarCatalogName(car.carCatalog) }),
+      translateService.instant('cars.delete_success',{ carName: Utils.buildCarCatalogName(car.carCatalog) }),
       'cars.delete_error',
       centralServerService.deleteCar.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);

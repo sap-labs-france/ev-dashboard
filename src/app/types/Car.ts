@@ -32,7 +32,13 @@ export interface CarCatalog extends Data {
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
-  chargeStandardTables: CarConverter[];
+  chargeOptionPower?: number;
+  chargeAlternativePower?: number;
+  chargeOptionPhase?: number;
+  chargeAlternativePhase?: number;
+  chargeOptionPhaseAmp?: number;
+  chargeAlternativePhaseAmp?: number;
+  chargeStandardPhaseAmp?: number;
 }
 
 export interface Car extends Data, CreatedUpdatedProps {
@@ -62,19 +68,6 @@ export enum CarType {
   POOL_CAR = 'PC',
 }
 
-export interface CarConverter extends Data {
-  type: string;
-  evsePhaseVolt: number;
-  evsePhaseVoltCalculated: number;
-  evsePhaseAmp: number;
-  evsePhase: number;
-  chargePhaseVolt: number;
-  chargePhaseAmp: number;
-  chargePhase: number;
-  chargePower: number;
-  chargeTime: number;
-  chargeSpeed: number;
-}
 export interface CarMaker extends Data {
   carMaker: string;
 }

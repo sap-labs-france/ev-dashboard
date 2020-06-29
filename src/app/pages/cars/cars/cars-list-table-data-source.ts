@@ -9,6 +9,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
@@ -43,6 +44,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService,
     private dialogService: DialogService,
+    private appUnitPipe: AppUnitPipe,
   ) {
     super(spinnerService, translateService);
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -124,6 +126,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
+        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0, 0) : '-'
       },
       {
         id: 'licensePlate',
@@ -235,16 +238,6 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       this.editAction,
       this.deleteAction,
     ];
-  }
-
-  public canDisplayRowAction(actionDef: TableActionDef, car: Car) {
-    const foundCarUser = car.carUsers.find((carUser) => carUser.user.id === this.centralServerService.getLoggedUser().id);
-    switch (actionDef.id) {
-      case CarButtonAction.DELETE_CAR:
-        return this.isBasic ? foundCarUser.owner : true;
-      default:
-        return true;
-    }
   }
 
   public rowActionTriggered(actionDef: TableActionDef, car: Car) {

@@ -2249,7 +2249,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['CarID'] = carID;
+    params['ID'] = carID;
     // Execute the REST service
     return this.httpClient.get<Car>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR}`,
       {
@@ -2370,7 +2370,7 @@ export class CentralServerService {
   public deleteCar(id: number): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarDelete?CarID=${id}`,
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

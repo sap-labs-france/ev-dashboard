@@ -836,7 +836,9 @@
       "smart_charging_charger_version": "La carga inteligente necesita al menos la versión OCPP 1.6 en la estación de carga",
       "session_details_title": "Error de detalles de la sesión",
       "session_details_not_authorized": "No tiene autorización para mostrar los detalles de la sesión",
-      "not_authorize": "No tiene autorización para realizar esta acción"
+      "not_authorized": "No tiene autorización para realizar esta acción",
+      "ocpp_parameters_should_not_be_empty": "OCPP Parameter key and value should not be empty",
+      "ocpp_parameters_change_title": "OCPP Parameter Error"
     },
     "reboot_confirm": "¿Está seguro que desea reiniciar la estación de carga '{{chargeBoxID}}'?",
     "reboot_success": "La estación de carga '{{chargeBoxID}}' se ha reiniciado exitosamente",

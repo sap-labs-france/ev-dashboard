@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Removed Charging Station from the Gireve when changing it to private`,
               `Added a free OCPP key/value input fields in OCPP Parameters`,
               `Notify Admin Users when Charging Stations are overheating`,
               `Use of RegExp to match firmware versions in Charging Station's Templates`,

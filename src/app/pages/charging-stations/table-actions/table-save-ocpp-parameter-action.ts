@@ -19,6 +19,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
       name: 'general.save',
       action: this.saveOcppParameter,
       disabled: true,
+      formRowAction: true,
     };
   }
 

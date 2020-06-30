@@ -6,7 +6,7 @@ import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 
-export class TableExportOCPPLocalAction extends TableExportAction {
+export class TableExportOCPPParamsLocalAction extends TableExportAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),

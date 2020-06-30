@@ -102,6 +102,7 @@ export interface TableActionDef {
   isDropdownMenu?: boolean;
   dropdownActions?: TableActionDef[];
   tooltip: string;
+  formRowAction?: boolean;
   action?(...args: any[]): void;
 }
 
@@ -132,7 +133,6 @@ export interface TableDef {
   rowFieldNameIdentifier?: string;
   isSimpleTable?: boolean;
   hasDynamicRowAction?: boolean;
-  hasPristineFormAtLoad?: boolean;
 }
 
 export interface TableColumnDef {
@@ -141,9 +141,9 @@ export interface TableColumnDef {
   footerName?: string;
   type?: string;
   editType?: TableEditType;
-  validators?: ValidatorFn[];
   unique?: boolean;
   canBeDisabled?: boolean;
+  validators?: ValidatorFn[];
   errors?: {
     id: string;
     message: string;

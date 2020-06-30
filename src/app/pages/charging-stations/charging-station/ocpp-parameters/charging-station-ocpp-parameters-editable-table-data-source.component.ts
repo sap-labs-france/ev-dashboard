@@ -7,11 +7,10 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { TableExportOCPPLocalAction } from '../../table-actions/table-export-ocpp-local-action';
+import { TableExportOCPPParamsLocalAction } from '../../table-actions/table-export-ocpp-params-local-action';
 import { TableSaveOCPPParameterAction } from '../../table-actions/table-save-ocpp-parameter-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
@@ -40,16 +39,18 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       hasDynamicRowAction: true,
       search: {
         enabled: true
-      },
-      hasPristineFormAtLoad: true
+      }
     };
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [new TableExportOCPPLocalAction().getActionDef()];
+    return [
+      new TableExportOCPPParamsLocalAction().getActionDef()
+    ];
   }
 
   public buildTableRowActions(): TableActionDef[] {
+    // Avoid editable datasource default button (delete)
     return [];
   }
 
@@ -68,8 +69,10 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
           actionDef.action(this.charger, this.getContent(), this.dialogService, this.translateService);
         }
         break;
+      default:
+        super.actionTriggered(actionDef);
+        break;
     }
-    super.actionTriggered(actionDef);
   }
 
   public setCharger(charger: ChargingStation) {
@@ -85,30 +88,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         }
         break;
     }
-    // Call super
-    super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
-    if (this.formArray && !Utils.isEmptyArray(this.formArray.controls)) {
-      this.formArray.controls[0].get('key').markAllAsTouched();
-      this.formArray.controls[0].get('value').markAllAsTouched();
-    }
-  }
-
-  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
-    super.rowCellUpdated(cellValue, rowIndex, columnDef, postDataProcessing);
-    const row = this.getContent()[rowIndex];
-    if (this.formArray) {
-      if (row['dynamicRowActions'] && !Utils.isEmptyArray(row['dynamicRowActions'])) {
-        if (this.formArray.controls[rowIndex].get('key').invalid || this.formArray.controls[rowIndex].get('value').invalid) {
-          row['dynamicRowActions'][0].disabled = true;
-        } else {
-          row['dynamicRowActions'][0].disabled = false;
-        }
-        this.refreshData();
-      }
-
-    }
-    this.formArray?.controls[rowIndex].get('key').markAllAsTouched();
-    this.formArray?.controls[rowIndex].get('value').markAllAsTouched();
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -119,6 +98,12 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         isAngularComponent: true,
         angularComponent: ChargingStationOcppParametersInputFieldCellComponent,
         headerClass: 'text-right col-20p',
+        validators: [
+          Validators.required,
+        ],
+        errors: [
+          { id: 'required', message: 'general.mandatory_field' },
+        ],
         class: 'text-right col-20p table-cell-angular-big-component',
       },
       {
@@ -141,10 +126,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   protected isCellDisabled(columnDef: TableColumnDef, editableRow: OcppParameter): boolean {
-    if (columnDef.id === 'value') {
-      return editableRow.readonly;
-    }
-    return (editableRow.id !== 'InputRow');
+    return editableRow.readonly;
   }
 
   public createRow(): OcppParameter {
@@ -160,6 +142,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     // Create custom row
     const customOcppParameterRow = this.createRow();
     customOcppParameterRow.id = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
+    customOcppParameterRow.readonly = false;
     // Set
     super.setContent([
       customOcppParameterRow,

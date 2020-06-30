@@ -188,7 +188,7 @@
       [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table class="table">
       <!-- Headers -->
-      <thead *ngIf="dataSource.tableColumnDefs">
+      <thead *ngIf="dataSource.tableColumnsDef">
       <tr>
         <!-- Select Header -->
         <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
@@ -210,7 +210,7 @@
           {{'general.actions' | translate}}
         </th>
         <!-- Text Header -->
-        <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
+        <th *ngFor="let tableColumnDef of dataSource.tableColumnsDef"
             (click)="sortChanged(tableColumnDef)"
             [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
             [class.sortable]="tableColumnDef.sortable">
@@ -286,7 +286,7 @@
               </ng-container>
             </td>
             <!-- Cells -->
-            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnsDef">
               <!-- Angular Component Cell -->
               <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
                 <td *ngIf="!dataSource.tableDef.isEditable"
@@ -295,15 +295,13 @@
                 </td>
                 <td *ngIf="dataSource.tableDef.isEditable"
                     [class]="(tableColumnDef.class ? tableColumnDef.class + ' p-1 align-middle' : 'p-1 align-middle')"
-                    [class.table-field-invalid]="row[tableColumnDef.id + 'FormControl']?.errors && !dataSource.tableDef.hasPristineFormAtLoad">
+                    [class.table-field-invalid]="row[tableColumnDef.id + 'FormControl']?.errors">
                   <input *ngIf="!tableColumnDef.editType || tableColumnDef.editType === TableEditType.INPUT"
                     [name]="tableColumnDef.id"
                     class="form-control text-line"
-                    [class.table-warning]="(row[tableColumnDef.id + 'FormControl']?.dirty || row[tableColumnDef.id + 'FormControl']?.touched) && row[tableColumnDef.id + 'FormControl']?.errors"
                     [placeholder]="tableColumnDef.name | translate"
                     [ngModel]="row[tableColumnDef.id]" [disabled]="row[tableColumnDef.id + 'FormControl']?.disabled"
                     (ngModelChange)="rowCellUpdated($event, rowIndex, tableColumnDef)"
-                    (blur)="row[tableColumnDef.id + 'FormControl']?.markAsDirty()"
                     type="text">
                   <mat-checkbox *ngIf="tableColumnDef.editType === TableEditType.CHECK_BOX"
                     [(ngModel)]="row[tableColumnDef.id]"
@@ -318,15 +316,13 @@
                   <span *ngIf="tableColumnDef.editType === 'displayonly'" class="text-center"
                     [innerHtml]="row[tableColumnDef.id] | appFormatRowCell:tableColumnDef:row">
                   </span>
-                  <ng-container *ngIf="!dataSource.tableDef.hasPristineFormAtLoad || row[tableColumnDef.id + 'FormControl']?.dirty || row[tableColumnDef.id + 'FormControl']?.touched">
-                    <mat-error *ngIf="row[tableColumnDef.id + 'FormControl']?.errors as errors">
-                      <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
-                        <div class="table-mat-error text-left" *ngIf="errors ? errors[error.id] : false"
-                          [translate]="error.message" [translateParams]="error.messageParams">
-                        </div>
-                      </ng-template>
-                    </mat-error>
-                  </ng-container>
+                  <mat-error *ngIf="row[tableColumnDef.id + 'FormControl']?.errors as errors">
+                    <ng-template ngFor let-error [ngForOf]="tableColumnDef.errors">
+                      <div class="table-mat-error text-left" *ngIf="errors ? errors[error.id] : false"
+                        [translate]="error.message" [translateParams]="error.messageParams">
+                      </div>
+                    </ng-template>
+                  </mat-error>
                 </td>
               </ng-template>
               <td *ngIf="tableColumnDef.isAngularComponent"

@@ -23,7 +23,7 @@
     "connectors": "Ladepunkte",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.8",
+    "last_update": "Version 2.3.9",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -836,7 +836,9 @@
       "smart_charging_charger_version": "Smart-Charging benötigt mindestens OCPP Version 1.6 an der Ladestation",
       "session_details_title": "Fehler Ladevorgang Details",
       "session_details_not_authorized": "Sie sind nicht berechtigt die Ladevorgangsdetails aufzurufen",
-      "not_authorize": "Sie sind nicht berechtigt diese Aktion durchzuführen"
+      "not_authorized": "Sie sind nicht berechtigt diese Aktion durchzuführen",
+      "ocpp_parameters_should_not_be_empty": "OCPP Parameter key and value should not be empty",
+      "ocpp_parameters_change_title": "OCPP Parameter Error"
     },
     "reboot_confirm": "Wollen Sie die Ladestation'{{chargeBoxID}}'wirklich neustarten?",
     "reboot_success": "Die Ladestation'{{chargeBoxID}}' wurde erfolgreich neugestartet",

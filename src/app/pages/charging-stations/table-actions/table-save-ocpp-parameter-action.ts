@@ -5,17 +5,17 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableInlineSaveAction } from 'app/shared/table/actions/table-inline-save-action';
+import { TableSaveAction } from 'app/shared/table/actions/table-save-action';
 import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
 import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-export class TableInlineSaveOCPPParameterAction extends TableInlineSaveAction {
+export class TableSaveOCPPParameterAction extends TableSaveAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: ChargingStationButtonAction.INLINE_SAVE_OCPP_PARAMETER,
+      id: ChargingStationButtonAction.SAVE_OCPP_PARAMETER,
       name: 'general.save',
       action: this.saveOcppParameter,
       disabled: true,

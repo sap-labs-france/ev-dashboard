@@ -5,13 +5,12 @@ import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app
 import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
-import * as FileSAver from 'file-saver';
 
-export class TableExportOCPPAsCSVAction extends TableExportAction {
+export class TableExportOCPPLocalAction extends TableExportAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: ChargingStationButtonAction.EXPORT_OCPP_AS_CSV,
+      id: ChargingStationButtonAction.EXPORT_OCPP_PARAMS,
       name: 'general.export',
       action: this.exportOCPPAsCSV,
     };

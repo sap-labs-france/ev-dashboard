@@ -7,13 +7,14 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { TableExportOCPPAsCSVAction } from '../../table-actions/table-export-ocpp-as-csv-action';
-import { TableInlineSaveOCPPParameterAction } from '../../table-actions/table-inline-save-ocpp-parameter-action';
+import { TableExportOCPPLocalAction } from '../../table-actions/table-export-ocpp-local-action';
+import { TableSaveOCPPParameterAction } from '../../table-actions/table-save-ocpp-parameter-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
+import { Utils } from 'app/utils/Utils';
+
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
@@ -45,25 +46,24 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [new TableExportOCPPAsCSVAction().getActionDef()];
+    return [new TableExportOCPPLocalAction().getActionDef()];
   }
 
   public buildTableRowActions(): TableActionDef[] {
     return [];
   }
 
-  public buildTableDynamicRowActions(param: OcppParameter): TableActionDef[] {
+  public buildTableDynamicRowActions(ocppParameter: OcppParameter): TableActionDef[] {
     const actions = [];
-    if (!param.readonly) {
-      const inlineSaveAction = new TableInlineSaveOCPPParameterAction();
-      actions.push(inlineSaveAction.getActionDef());
+    if (!ocppParameter.readonly) {
+      actions.push(new TableSaveOCPPParameterAction().getActionDef());
     }
     return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ChargingStationButtonAction.EXPORT_OCPP_AS_CSV:
+      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         if (actionDef.action) {
           actionDef.action(this.charger, this.getContent(), this.dialogService, this.translateService);
         }
@@ -78,7 +78,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public rowActionTriggered(actionDef: TableActionDef, ocppParameter: OcppParameter, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
     switch (actionDef.id) {
-      case ChargingStationButtonAction.INLINE_SAVE_OCPP_PARAMETER:
+      case ChargingStationButtonAction.SAVE_OCPP_PARAMETER:
         if (actionDef.action) {
           actionDef.action(this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
@@ -87,15 +87,17 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     }
     // Call super
     super.rowActionTriggered(actionDef, ocppParameter, dropdownItem, postDataProcessing, true);
-    this.formArray?.controls[0].get('key').markAllAsTouched();
-    this.formArray?.controls[0].get('value').markAllAsTouched();
+    if (this.formArray && !Utils.isEmptyArray(this.formArray.controls)) {
+      this.formArray.controls[0].get('key').markAllAsTouched();
+      this.formArray.controls[0].get('value').markAllAsTouched();
+    }
   }
 
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
     super.rowCellUpdated(cellValue, rowIndex, columnDef, postDataProcessing);
     const row = this.getContent()[rowIndex];
     if (this.formArray) {
-      if (row['dynamicRowActions']) {
+      if (row['dynamicRowActions'] && !Utils.isEmptyArray(row['dynamicRowActions'])) {
         if (this.formArray.controls[rowIndex].get('key').invalid || this.formArray.controls[rowIndex].get('value').invalid) {
           row['dynamicRowActions'][0].disabled = true;
         } else {

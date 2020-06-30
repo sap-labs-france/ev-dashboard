@@ -31,6 +31,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Notify Admin Users when Charging Stations are overheating`,
+              `Use of RegExp to match firmware versions in Charging Station's Templates`,
+              `Display DC Power in Session's consumption charts`,
+              `Enabled German and Spanish beta translations`,
+              `Ensure OCPP error messages always follow the OCPP specs`,
               `Fixed Smart Charging minor bugs`,
             ],
           },

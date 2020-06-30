@@ -324,6 +324,8 @@
     "asset_settings_error": "Erreur survenue lors de la réception des paramètres des ressources",
     "create_success": "La ressource '{{assetName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la ressource",
+    "refresh_success": "La connexion à la ressource a été renouvelée avec succès",
+    "refresh_error": "Une erreur est survenue pendant le rafraichissement de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "select_assets": "Selection Ressource",
     "dialog_tabs": {

@@ -58,7 +58,7 @@ export interface DataResult<T extends Data> {
   result: T[];
 }
 
-export interface AssetTestConnectionResponse extends ActionResponse {
+export interface TestAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 

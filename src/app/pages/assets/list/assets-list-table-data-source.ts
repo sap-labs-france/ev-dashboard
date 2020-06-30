@@ -20,10 +20,10 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
 import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
 import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
+import { TableRefreshAssetAction } from '../table-actions/table-refresh-asset-action';
 import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
 
 @Injectable()
@@ -32,6 +32,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
+  private refreshAction = new TableRefreshAssetAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -91,17 +92,26 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       {
         id: 'name',
         name: 'assets.name',
-        headerClass: 'col-40p',
-        class: 'text-left col-40p',
+        headerClass: 'col-30p',
+        class: 'text-left col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true,
       },
       {
+        id: 'dynamicAsset',
+        name: 'assets.dynamic_asset',
+        headerClass: 'col-25p',
+        class: 'col-25p',
+        sortable: true,
+        formatter: (dynamicAsset: boolean) => dynamicAsset ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+      },
+      {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        headerClass: 'col-50p',
-        class: 'col-50p',
+        headerClass: 'col-35p',
+        class: 'col-35p',
         sortable: true,
       },
     ];
@@ -126,6 +136,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     if (this.isAdmin) {
       actions.push(this.editAction);
+      actions.push(this.refreshAction);
       actions.push(new TableMoreAction([
         openInMaps,
         this.deleteAction,
@@ -161,6 +172,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         if (actionDef.action) {
           actionDef.action(asset, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
+        break;
+      case AssetButtonAction.REFRESH_ASSET_CONNECTION:
+        if (actionDef.action) {
+          actionDef.action(asset, this.spinnerService, this.centralServerService, this.messageService,
+            this.router, this.refreshData.bind(this));
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:

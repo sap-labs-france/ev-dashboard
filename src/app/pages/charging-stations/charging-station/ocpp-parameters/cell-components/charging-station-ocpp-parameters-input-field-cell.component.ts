@@ -9,17 +9,17 @@ import { OcppParameter } from 'app/types/ChargingStation';
       <span class="text-right" >{{row.key}}</span>
     </ng-container>
     <ng-container *ngIf="row.id === customOcppParameterRowID">
-    <input id="key" name="key" class="form-control text-line"
-      [class.table-warning]="key.invalid && (key.dirty || key.touched)"
-      required maxlength="50" [placeholder]="'chargers.charger_param_key' | translate"
-      [ngModel]="row['key']" #key="ngModel" (ngModelChange)= "valueChanged($event)"
-      type="text">
-    <mat-error *ngIf="key.invalid && (key.dirty || key.touched)"
-      role="alert" class="mat-error">
-      <div *ngIf="key.errors.required" class="table-mat-error text-left">
-        {{'general.mandatory_field' | translate}}
-      </div>
-    </mat-error>
+      <input id="key" name="key" class="form-control text-line"
+        [class.table-warning]="key.invalid && (key.dirty || key.touched)"
+        required maxlength="50" [placeholder]="'chargers.charger_param_key' | translate"
+        [ngModel]="row['key']" #key="ngModel" (ngModelChange)= "valueChanged($event)"
+        type="text">
+      <mat-error *ngIf="key.invalid && (key.dirty || key.touched)"
+        role="alert" class="mat-error">
+        <div *ngIf="key.errors.required" class="table-mat-error text-left">
+          {{'general.mandatory_field' | translate}}
+        </div>
+      </mat-error>
     </ng-container>
   `,
 })

@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.9',
+        date: new Date('2020-07-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Removed Charging Station from the Gireve when changing it to private`,
+              `Added a free OCPP key/value input fields in OCPP Parameters`,
+              `Notify Admin Users when Charging Stations are overheating`,
+              `Use of RegExp to match firmware versions in Charging Station's Templates`,
+              `Display DC Power in Session's consumption charts`,
+              `Enabled German and Spanish beta translations`,
+              `Ensure OCPP error messages always follow the OCPP specs`,
+              `Fixed Smart Charging minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.7',
         date: new Date('2020-06-28'),
         componentChanges: [

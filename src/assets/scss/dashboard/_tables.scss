@@ -535,3 +535,7 @@ tr.element-row:not(.expanded-row):active {
     border-top: none !important;
   }
 }
+
+.table-warning {
+  border-color: $brand-warn !important;
+}

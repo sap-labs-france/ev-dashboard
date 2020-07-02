@@ -24,12 +24,15 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.10',
-        date: new Date('2020-07-01'),
+        version: '2.3.11',
+        date: new Date('2020-07-02'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Charging Station's total power not updated when not belonging to the templates`,
+              `Fixed display power with wrong unit in consumption chart`,
+              `Fixed badge is no longer mandatory in user's profile`,
               `Removed Charging Station from the Gireve when changing it to private`,
               `Added a free OCPP key/value input fields in OCPP Parameters`,
               `Notify Admin Users when Charging Stations are overheating`,

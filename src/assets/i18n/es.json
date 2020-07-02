@@ -1694,7 +1694,7 @@
     "assign_converter": "Assign Converter",
     "converter": "Converter",
     "delete_title": "Delete Car",
-    "delete_confirm": "Do you really want to delete the car {{carName}}?",
+    "delete_confirm": "Do you really want to delete the car '{{carName}}'?",
     "users": "Users",
     "unit": {
       "meters": "m",

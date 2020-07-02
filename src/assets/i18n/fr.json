@@ -1694,7 +1694,7 @@
     "assign_converter": "Assigner Convertisseurs",
     "users": "Utilisateurs",
     "converter": "Convertisseur",
-    "delete_title": "Supprimer véhicule",
+    "delete_title": "Supprimer Véhicule",
     "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{carName}}'?",
     "unit": {
       "meters": "m",

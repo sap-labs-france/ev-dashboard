@@ -1691,7 +1691,7 @@
     "car_not_found": "Car has not been found",
     "car_error": "Error occurred while retrieving the car",
     "delete_title": "Delete Car",
-    "delete_confirm": "Do you really want to delete the car {{carName}}?",
+    "delete_confirm": "Do you really want to delete the car '{{carName}}'?",
     "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
     "users": "Users",

@@ -44,6 +44,7 @@ import { TransactionsInactivityStatusFilter } from '../filters/transactions-inac
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -51,6 +52,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
+  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -243,6 +245,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     const rowActions = [this.viewAction];
     if (this.isAdmin) {
       rowActions.push(this.deleteAction);
+      // Enable only for one user for the time being
+      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
+        rowActions.push(this.rebuildTransactionConsumptionsAction);
+      }
     }
     return rowActions;
   }
@@ -269,6 +275,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
         }
         break;
     }

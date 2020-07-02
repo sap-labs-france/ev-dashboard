@@ -188,7 +188,7 @@
       [class]="(dataSource.tableDef && dataSource.tableDef.class ? dataSource.tableDef.class : 'table-list') + ' table-responsive-md flex-grow-1'">
     <table class="table">
       <!-- Headers -->
-      <thead *ngIf="dataSource.tableColumnDefs">
+      <thead *ngIf="dataSource.tableColumnsDef">
       <tr>
         <!-- Select Header -->
         <th *ngIf="dataSource.tableDef.rowSelection && dataSource.tableDef.rowSelection.enabled"
@@ -210,7 +210,7 @@
           {{'general.actions' | translate}}
         </th>
         <!-- Text Header -->
-        <th *ngFor="let tableColumnDef of dataSource.tableColumnDefs"
+        <th *ngFor="let tableColumnDef of dataSource.tableColumnsDef"
             (click)="sortChanged(tableColumnDef)"
             [class]="(tableColumnDef.headerClass ? tableColumnDef.headerClass + ' table-header' : 'table-header')"
             [class.sortable]="tableColumnDef.sortable">
@@ -286,7 +286,7 @@
               </ng-container>
             </td>
             <!-- Cells -->
-            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnDefs">
+            <ng-template ngFor let-tableColumnDef [ngForOf]="dataSource.tableColumnsDef">
               <!-- Angular Component Cell -->
               <ng-template [ngIf]="!tableColumnDef.isAngularComponent">
                 <td *ngIf="!dataSource.tableDef.isEditable"

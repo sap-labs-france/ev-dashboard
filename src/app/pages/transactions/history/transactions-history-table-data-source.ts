@@ -43,8 +43,8 @@ import { TransactionsInactivityCellComponent } from '../cell-components/transact
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
-import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
+import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed display power with wrong unit in consumption chart`,
               `Fixed badge is no longer mandatory in user's profile`,
               `Removed Charging Station from the Gireve when changing it to private`,
               `Added a free OCPP key/value input fields in OCPP Parameters`,

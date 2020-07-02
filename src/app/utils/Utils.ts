@@ -651,15 +651,13 @@ export class Utils {
     }
   }
 
-  public static buildConverterName(chargePower: number, evsePhase: number, chargePhaseAmp: number, translateService: TranslateService): string {
-    let converterName: string = '';
-    if (chargePower) {
-      converterName += `${chargePower} kW`;
-    }
-    if (evsePhase) {
+  public static buildCarConverterName(chargePower: number, evsePhase: number, chargePhaseAmp: number, translateService: TranslateService): string {
+    let converterName = '';
+    converterName += `${chargePower} kW`;
+    if (evsePhase > 0) {
       converterName += ` - ${evsePhase} ${translateService.instant('cars.evse_phase')}`;
     }
-    if (chargePhaseAmp) {
+    if (chargePhaseAmp > 0) {
       converterName += ` - ${chargePhaseAmp} A`;
     }
     return converterName;

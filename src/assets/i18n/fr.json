@@ -808,12 +808,15 @@
       "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs",
       "minutes": "min(s)",
       "charging_plans": {
-        "charging_plan_name": "Name",
-        "charging_station_id": "Charging Station",
-        "connector_id": "Connector ID",
-        "current_limit": "Current limit",
-        "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit"
+        "charging_plan_name": "Nom",
+        "charging_station_id": "Borne",
+        "connector_id": "Connecteur",
+        "current_limit": "Limite Actuelle",
+        "kind": "Type",
+        "purpose": "But",
+        "stack_level": "Niveau Prio",
+        "site_area":"Zone",
+        "site_area_limit":"Limite Zone"
       }
     },
     "more_actions": {

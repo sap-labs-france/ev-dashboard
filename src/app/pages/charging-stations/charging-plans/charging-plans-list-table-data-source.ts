@@ -108,11 +108,19 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         sortable: false,
       },
       {
-        id: 'profile.chargingSchedule.chargingSchedulePeriod',
-        name: 'chargers.smart_charging.charging_plans.current_limit',
+        id: 'profile.chargingProfileKind',
+        name: 'chargers.smart_charging.charging_plans.kind',
         sortable: false,
-        isAngularComponent: true,
-        angularComponent: ChargingPlansCurrentLimitCellComponent,
+      },
+      {
+        id: 'profile.chargingProfilePurpose',
+        name: 'chargers.smart_charging.charging_plans.purpose',
+        sortable: false,
+      },
+      {
+        id: 'profile.stackLevel',
+        name: 'chargers.smart_charging.charging_plans.stack_level',
+        sortable: false,
       },
     ];
     if (this.isOrganizationComponentActive) {

@@ -114,6 +114,7 @@ export class CarComponent implements OnInit {
     this.converterType = this.formGroup.controls['converterType'];
     this.type = this.formGroup.controls['type'];
     // Default
+    this.converterType.disable();
     if (!this.isBasic) {
       this.isDefault.disable();
     }
@@ -146,26 +147,10 @@ export class CarComponent implements OnInit {
         this.licensePlate.setValue(car.licensePlate);
         this.carCatalogID.setValue(car.carCatalogID);
         this.type.setValue(car.type);
-        this.converterType.setValue(car.converterType);
-        this.carConverters = [{
-          key: car.carCatalog.chargeStandardPower,
-          value: Utils.buildConverterName(car.carCatalog.chargeStandardPower, car.carCatalog.chargeStandardPhase,
-              car.carCatalog.chargeStandardPhaseAmp, this.translateService)
-        }];
-        if (car.carCatalog.chargeAlternativePower) {
-          this.carConverters.push({
-            key: car.carCatalog.chargeAlternativePower,
-            value: Utils.buildConverterName(car.carCatalog.chargeAlternativePower, car.carCatalog.chargeAlternativePhase,
-              car.carCatalog.chargeAlternativePhaseAmp, this.translateService)
-          });
-        }
-        if (car.carCatalog.chargeOptionPower) {
-          this.carConverters.push({
-            key: car.carCatalog.chargeOptionPower,
-            value: Utils.buildConverterName(car.carCatalog.chargeOptionPower, car.carCatalog.chargeOptionPhase,
-              car.carCatalog.chargeOptionPhaseAmp, this.translateService)  });
-        }
+        // Build drop down converters
         this.selectedCarCatalog = car.carCatalog;
+        this.buildCarConverter();
+        this.converterType.setValue(car.converterType);
         this.carCatalog.setValue(Utils.buildCarCatalogName(car.carCatalog));
         // Set default car
         if (this.isBasic) {
@@ -320,29 +305,39 @@ export class CarComponent implements OnInit {
         this.carCatalogID.setValue(result[0].key);
         this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
         this.selectedCarCatalog = carCatalog;
-        this.carConverters = [{
-          key: this.selectedCarCatalog.chargeStandardPower,
-          value: Utils.buildConverterName(this.selectedCarCatalog.chargeStandardPower, this.selectedCarCatalog.chargeStandardPhase,
-            this.selectedCarCatalog.chargeStandardPhaseAmp, this.translateService)
-        }];
-        if (this.selectedCarCatalog.chargeAlternativePower) {
-          this.carConverters.push({
-            key: this.selectedCarCatalog.chargeAlternativePower,
-            value: Utils.buildConverterName(this.selectedCarCatalog.chargeAlternativePower, this.selectedCarCatalog.chargeAlternativePhase,
-              this.selectedCarCatalog.chargeAlternativePhaseAmp, this.translateService)
-          });
-        }
-        if (this.selectedCarCatalog.chargeOptionPower) {
-          this.carConverters.push({
-            key: this.selectedCarCatalog.chargeOptionPower,
-            value: Utils.buildConverterName(this.selectedCarCatalog.chargeOptionPower, this.selectedCarCatalog.chargeOptionPhase,
-              this.selectedCarCatalog.chargeOptionPhaseAmp, this.translateService)  });
-        }
-        // Clear converter
-        this.converterType.setValue('');
-        this.converterType.enable();
+        // Build drop down
+        this.buildCarConverter();
         this.formGroup.markAsDirty();
       }
     });
+  }
+
+  private buildCarConverter() {
+    this.carConverters = [{
+      key: this.selectedCarCatalog.chargeStandardPower,
+      value: Utils.buildCarConverterName(this.selectedCarCatalog.chargeStandardPower, this.selectedCarCatalog.chargeStandardPhase,
+        this.selectedCarCatalog.chargeStandardPhaseAmp, this.translateService)
+    }];
+    if (this.selectedCarCatalog.chargeAlternativePower) {
+      this.carConverters.push({
+        key: this.selectedCarCatalog.chargeAlternativePower,
+        value: Utils.buildCarConverterName(this.selectedCarCatalog.chargeAlternativePower, this.selectedCarCatalog.chargeAlternativePhase,
+          this.selectedCarCatalog.chargeAlternativePhaseAmp, this.translateService)
+      });
+    }
+    if (this.selectedCarCatalog.chargeOptionPower > 0 &&
+        this.selectedCarCatalog.chargeOptionPower !== this.selectedCarCatalog.chargeAlternativePower) {
+      this.carConverters.push({
+        key: this.selectedCarCatalog.chargeOptionPower,
+        value: Utils.buildCarConverterName(this.selectedCarCatalog.chargeOptionPower, this.selectedCarCatalog.chargeOptionPhase,
+          this.selectedCarCatalog.chargeOptionPhaseAmp, this.translateService)  });
+    }
+    // Clear converter
+    if (this.carConverters.length === 1) {
+      this.converterType.setValue(this.carConverters[0]);
+    } else {
+      this.converterType.setValue('');
+    }
+    this.converterType.enable();
   }
 }

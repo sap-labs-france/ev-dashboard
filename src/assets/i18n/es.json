@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.11",
+    "last_update": "Versión 2.3.12",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -765,7 +765,8 @@
       "current_limit": "Planificación del límite de potencia real",
       "current_limit_title": "Límite de potencia real",
       "limit_title": "Límite",
-      "limit_in_amps": "({{limitInAmps}} A)",
+      "limit_in_amps": "({{limitInAmps}}A)",
+      "limit_in_watts": "({{limitInAmps}}kW)",
       "no_current_limit": "No se encontró ninguna planificación de límite",
       "planning_energy_limit": "Planes de carga",
       "from_date": "Desde",
@@ -805,7 +806,18 @@
       "trigger_smart_charging": "Activar carga inteligente",
       "trigger_smart_charging_success": "El algoritmo de carga inteligente se ha activado exitosamente",
       "trigger_smart_charging_error": "Se produjo un error al activar el algoritmo de carga inteligente, verifique los registros",
-      "minutes": "minutos"
+      "minutes": "minutos",
+      "charging_plans": {
+        "charging_plan_name": "Name",
+        "charging_station_id": "Charging Station",
+        "connector_id": "Connector ID",
+        "current_limit": "Current limit",
+        "kind": "Kind",
+        "purpose": "Purpose",
+        "stack_level": "Stack Level",
+        "site_area":"Site Area",
+        "site_area_limit":"Site Area Limit"
+      }
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnóstico del cargador '{{chargeBoxID}}",
@@ -948,6 +960,7 @@
     "session_details": "Sesión",
     "tabs": {
       "list": "Estaciones de carga",
+      "charging_plans": "Charging Plans",
       "in_error": "Con errores"
     },
     "errors": {

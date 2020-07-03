@@ -24,12 +24,16 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.11',
-        date: new Date('2020-07-02'),
+        version: '2.3.12',
+        date: new Date('2020-07-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Charging Plan list`,
+              `Added Static Limitation on Legrand Charging Station`,
+              `Added a minimum of 3 schedules when building the Charging Profiles with SAP Smart Charging`,
+              `Fixed rounded Amps/Watts numbers in Charging Plans`,
               `Charging Station's total power not updated when not belonging to the templates`,
               `Fixed display power with wrong unit in consumption chart`,
               `Fixed badge is no longer mandatory in user's profile`,

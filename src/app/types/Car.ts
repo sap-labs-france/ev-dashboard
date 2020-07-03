@@ -56,7 +56,7 @@ export interface Car extends Data, CreatedUpdatedProps {
 
 export interface Converter {
   powerWatts: number;
-  powerAmps: number;
+  ampPerPhase: number;
   numberOfPhases: number;
   type: ConverterType;
 }

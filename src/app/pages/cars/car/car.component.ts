@@ -330,7 +330,7 @@ export class CarComponent implements OnInit {
         this.selectedCarCatalog.chargeStandardPhaseAmp, this.translateService),
       converter: {
         powerWatts: this.selectedCarCatalog.chargeStandardPower,
-        powerAmps: this.selectedCarCatalog.chargeStandardPhaseAmp,
+        ampPerPhase: this.selectedCarCatalog.chargeStandardPhaseAmp,
         numberOfPhases: this.selectedCarCatalog.chargeStandardPhase,
         type: ConverterType.STANDARD
       }
@@ -342,7 +342,7 @@ export class CarComponent implements OnInit {
           this.selectedCarCatalog.chargeAlternativePhaseAmp, this.translateService),
         converter: {
           powerWatts: this.selectedCarCatalog.chargeAlternativePower,
-          powerAmps: this.selectedCarCatalog.chargeAlternativePhaseAmp,
+          ampPerPhase: this.selectedCarCatalog.chargeAlternativePhaseAmp,
           numberOfPhases: this.selectedCarCatalog.chargeAlternativePhase,
           type: ConverterType.ALTERNATIVE
         }
@@ -356,7 +356,7 @@ export class CarComponent implements OnInit {
           this.selectedCarCatalog.chargeOptionPhaseAmp, this.translateService),
         converter: {
           powerWatts: this.selectedCarCatalog.chargeOptionPower,
-          powerAmps: this.selectedCarCatalog.chargeOptionPhaseAmp,
+          ampPerPhase: this.selectedCarCatalog.chargeOptionPhaseAmp,
           numberOfPhases: this.selectedCarCatalog.chargeOptionPhase,
           type: ConverterType.OPTION
         }

@@ -11,7 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from 'app/shared/table/filters/charging-station-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -158,7 +158,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
-        new ChargerTableFilter().getFilterDef(),
+        new ChargingStationTableFilter().getFilterDef(),
       ];
     }
     return [];

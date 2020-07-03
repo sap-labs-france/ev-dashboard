@@ -115,7 +115,7 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
     if (this.data && this.data.datasets && this.data.labels) {
       const labels: number[] = [];
       const datasets: ChartDataSets[] = [];
-      // Build Charging Plan dataset
+      // Build Schedules dataset
       const chargingSlotDataSet: ChartDataSets = {
         type: 'line',
         data: [],
@@ -125,46 +125,23 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
       };
-      // Build Schedules
+      // Create Schedule chart points
       for (const chargingSlot of this.chargingSchedules) {
-        // Add a point
-        if (this.data.labels && chargingSlotDataSet.data) {
-          labels.push(chargingSlot.startDate.getTime());
-          chargingSlotDataSet.data.push({
-            x: chargingSlot.startDate.getTime(),
-            y: chargingSlot.limitInkW,
-          } as number & ChartPoint);
-        }
+        labels.push(chargingSlot.startDate.getTime());
+        chargingSlotDataSet.data.push({
+          x: chargingSlot.startDate.getTime(),
+          y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingSlot.limit : chargingSlot.limitInkW,
+        } as number & ChartPoint);
       }
-      let connector: Connector;
-      let chargePoint: ChargePoint;
-      let chargingStationPowers: ChargingStationPowers;
-      if (this.connectorId > 0) {
-        connector = Utils.getConnectorFromID(this.chargingStation, this.connectorId);
-        chargePoint = Utils.getChargePointFromID(this.chargingStation, connector.chargePointID);
-        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, this.connectorId);
-      } else {
-        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
-      }
-      // Create the last point with the duration
+      // Create the last Schedule point with the last duration
       if (chargingSlotDataSet.data && this.chargingSchedules.length > 0) {
         const chargingSlot = this.chargingSchedules[this.chargingSchedules.length - 1];
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
-          y: chargingSlot.limitInkW,
+          y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingSlot.limit : chargingSlot.limitInkW,
         } as number & ChartPoint);
       }
-      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
-        for (const chartPoint of chargingSlotDataSet.data as ChartPoint[]) {
-          if (chargePoint) {
-            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, chargePoint, this.connectorId, (chartPoint.y as number) * 1000);
-          } else {
-            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, null, this.connectorId, (chartPoint.y as number) * 1000);
-          }
-        }
-      }
-      // Push in the graph
       datasets.push(chargingSlotDataSet);
       // Build Max Limit dataset
       const limitDataSet: ChartDataSets = {
@@ -177,27 +154,22 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
           'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
       };
-      // Add points
-      if (limitDataSet.data && chargingSlotDataSet.data && chargingSlotDataSet.data.length > 0) {
+      let chargingStationPowers: ChargingStationPowers;
+      let chargePoint: ChargePoint;
+      if (this.connectorId > 0) {
+        const connector = Utils.getConnectorFromID(this.chargingStation, this.connectorId);
+        chargePoint = Utils.getChargePointFromID(this.chargingStation, connector.chargePointID);
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, this.connectorId);
+      } else {
+        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
+      }
+      // Add First and Last Max Limit points
+      for (const data of chargingSlotDataSet.data) {
         // First
         limitDataSet.data.push({
-          x: (chargingSlotDataSet.data[0] as ChartPoint).x,
-          y: chargingStationPowers.currentWatt / 1000,
+          x: (data as ChartPoint).x,
+          y: (this.selectedUnit === ConsumptionUnit.AMPERE) ? chargingStationPowers.currentAmp : chargingStationPowers.currentWatt / 1000,
         } as number & ChartPoint);
-        // Last
-        limitDataSet.data.push({
-          x: (chargingSlotDataSet.data[chargingSlotDataSet.data.length - 1] as ChartPoint).x,
-          y: chargingStationPowers.currentWatt / 1000,
-        } as number & ChartPoint);
-      }
-      if (this.selectedUnit === ConsumptionUnit.AMPERE) {
-        for (const chartPoint of limitDataSet.data as ChartPoint[]) {
-          if (chargePoint) {
-            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, chargePoint, this.connectorId, (chartPoint.y as number) * 1000);
-          } else {
-            chartPoint.y = Utils.convertWattToAmp(this.chargingStation, null, this.connectorId, (chartPoint.y as number) * 1000);
-          }
-        }
       }
       // Push in the graph
       datasets.push(limitDataSet);
@@ -244,9 +216,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
                 if (chartPoint) {
                   const value = chartPoint.y as number;
                   if (this.selectedUnit === ConsumptionUnit.AMPERE) {
-                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                    return ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
                   }
-                  return ' ' + this.decimalPipe.transform(value, '2.2-2') + 'kW';
+                  return ' ' + this.decimalPipe.transform(value, '1.0-2') + 'kW';
                 }
               }
             }
@@ -299,10 +271,9 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
             position: 'left',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => {
-                const result = this.decimalPipe.transform(value, '1.0-0');
-                return result ? parseFloat(result) : 0;
-              },
+              callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ?
+                parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'A' :
+                parseInt(this.decimalPipe.transform(value, '1.0-2')) + ((value < 1000) ? 'W' : 'kW'),
               fontColor: this.defaultColor,
             },
             gridLines: {

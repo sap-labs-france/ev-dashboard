@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class ChargersDialogTableDataSource extends DialogTableDataSource<ChargingStation> {
+export class ChargingStationsDialogTableDataSource extends DialogTableDataSource<ChargingStation> {
   constructor(
       public spinnerService: SpinnerService,
       public translateService: TranslateService,

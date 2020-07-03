@@ -11,7 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from 'app/shared/table/filters/charging-station-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
 
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
+import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
 
 @Injectable()
@@ -159,7 +159,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
-        new ChargerTableFilter().getFilterDef(),
+        new ChargingStationTableFilter().getFilterDef(),
       ];
     }
     return [];
@@ -196,7 +196,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ChargingStationLimitationDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(() => {
         this.refreshData().subscribe();
       });

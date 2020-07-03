@@ -116,9 +116,6 @@ export class ChargingStationSmartChargingLimitPlannerChartComponent implements O
       const labels: number[] = [];
       const datasets: ChartDataSets[] = [];
       // Build Schedules dataset
-      console.log('====================================');
-      console.log(this.chargingSchedules);
-      console.log('====================================');
       const chargingSlotDataSet: ChartDataSets = {
         type: 'line',
         data: [],

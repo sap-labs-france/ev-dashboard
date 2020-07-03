@@ -242,6 +242,10 @@ export class Utils {
     return 6;
   }
 
+  public static getRoundedNumberToTwoDecimals(numberToRound: number): number {
+    return Math.round(numberToRound * 100) / 100;
+  }
+
   public static convertAmpToWatt(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorID = 0, ampValue: number): number {
     const voltage = Utils.getChargingStationVoltage(chargingStation, chargePoint, connectorID);
     if (voltage) {

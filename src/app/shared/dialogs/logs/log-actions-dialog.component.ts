@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
-import { LogActions } from 'app/types/Log';
+import { LogAction } from 'app/types/Log';
 
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { LogActionsDialogTableDataSource } from './log-actions-dialog-table-data-source';
@@ -9,7 +9,7 @@ import { LogActionsDialogTableDataSource } from './log-actions-dialog-table-data
 @Component({
   templateUrl: '../dialog-table-data.component.html',
 })
-export class LogActionsDialogComponent extends DialogTableDataComponent<LogActions> {
+export class LogActionsDialogComponent extends DialogTableDataComponent<LogAction> {
   constructor(
     protected dialogRef: MatDialogRef<LogActionsDialogComponent>,
     private logActionsDialogTableDataSource: LogActionsDialogTableDataSource,
@@ -22,7 +22,7 @@ export class LogActionsDialogComponent extends DialogTableDataComponent<LogActio
     this.logActionsDialogTableDataSource.destroyDatasource();
   }
 
-  public getSelectedItems(selectedRows: LogActions[]): KeyValue[] {
+  public getSelectedItems(selectedRows: LogAction[]): KeyValue[] {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {

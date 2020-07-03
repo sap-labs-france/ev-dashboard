@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { logActions } from 'app/pages/logs/model/logs.model';
 import { SpinnerService } from 'app/services/spinner.service';
 import { DataResult } from 'app/types/DataResult';
-import { LogActions } from 'app/types/Log';
+import { LogAction } from 'app/types/Log';
 import { ServerAction } from 'app/types/Server';
 import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogActions> {
+export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAction> {
   private reversed = false;
   constructor(
     public spinnerService: SpinnerService,
@@ -21,9 +21,9 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<LogActions>> {
+  public loadDataImpl(): Observable<DataResult<LogAction>> {
     return new Observable((observer) => {
-      const actions: LogActions[] = [];
+      const actions: LogAction[] = [];
       const searchValue = this.getSearchValue().length > 0 ? this.getSearchValue() : '';
       // let reversed = false;
       if (this.getSort().direction === 'desc' && !this.reversed) {

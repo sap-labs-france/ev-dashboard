@@ -6,6 +6,7 @@ import { RefundReport } from './Refund';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { User } from './User';
+import { LogAction } from './Log';
 
 export interface Image {
   id: string;
@@ -33,7 +34,7 @@ export interface SubjectInfo {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|CarConverter;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|CarConverter|LogAction;
   readonly?: boolean;
   icon?: string;
   tooltip?: string;

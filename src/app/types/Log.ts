@@ -18,8 +18,8 @@ export interface Log extends Data {
   detailedMessages: string[];
 }
 
-export interface LogActions extends Data {
-action: ServerAction;
+export interface LogAction extends Data {
+  action: ServerAction;
 }
 
 export enum LogButtonAction {

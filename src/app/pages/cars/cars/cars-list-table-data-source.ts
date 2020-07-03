@@ -5,21 +5,25 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarButtonAction, CarType } from 'app/types/Car';
+import { Car, CarButtonAction, CarType, CarConverter } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
+import { TableDeleteCarAction } from '../table-actions/table-delete-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
 
 @Injectable()
@@ -28,6 +32,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
   public isBasic: boolean;
   private createAction = new TableCreateCarAction().getActionDef();
   private editAction = new TableEditCarAction().getActionDef();
+  private deleteAction = new TableDeleteCarAction().getActionDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -38,6 +43,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     private dialog: MatDialog,
     private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService,
+    private dialogService: DialogService,
+    private appUnitPipe: AppUnitPipe,
   ) {
     super(spinnerService, translateService);
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -114,11 +121,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
-        id: 'converterType',
+        id: 'converter',
         name: 'cars.converter',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
+        formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
       },
       {
         id: 'licensePlate',
@@ -180,20 +188,20 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         class: 'col-15p',
         sortable: true,
       },
-      {
-        id: 'lastChangedOn',
-        name: 'users.changed_on',
-        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      },
-      {
-        id: 'lastChangedBy',
-        name: 'users.changed_by',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-      });
+        {
+          id: 'lastChangedOn',
+          name: 'users.changed_on',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        },
+        {
+          id: 'lastChangedBy',
+          name: 'users.changed_by',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        });
     }
     return tableColumnDef;
   }
@@ -209,6 +217,15 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     }
   }
 
+  public buildTableFiltersDef(): TableFilterDef[] {
+    if (this.authorizationService.isAdmin()) {
+      return [
+        new UserTableFilter().getFilterDef(),
+      ];
+    }
+    return [];
+  }
+
   public buildTableActionsRightDef(): TableActionDef[] {
     return [
       new TableAutoRefreshAction(false).getActionDef(),
@@ -218,7 +235,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableRowActions(): TableActionDef[] {
     return [
-      this.editAction
+      this.editAction,
+      this.deleteAction,
     ];
   }
 
@@ -227,6 +245,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
           actionDef.action(car, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case CarButtonAction.DELETE_CAR:
+        if (actionDef.action) {
+          actionDef.action(car, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
     }

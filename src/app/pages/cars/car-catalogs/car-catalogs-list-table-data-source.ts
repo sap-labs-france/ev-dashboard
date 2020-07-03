@@ -182,7 +182,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
       },
       {
         id: 'chargeStandardPhase',
-        name: 'cars.evse_phase_ac',
+        name: 'cars.evse_phase_ac_standard',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,

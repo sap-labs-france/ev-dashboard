@@ -10,15 +10,15 @@ import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
+
 import { ChargingStationPowerSliderCellComponent } from './cell-components/charging-station-power-slider-cell.component';
 import { ChargingPlanChartComponent } from './charging-plans/charging-plan-chart.component';
 import { ChargingPlansComponent } from './charging-plans/charging-plans.component';
 import { ChargingStationAdvancedComponent } from './charging-station-advanced/charging-station-advanced.component';
 import { ChargingStationLimitationComponent } from './charging-station-limitation.component';
 import { ChargingStationLimitationDialogComponent } from './charging-station-limitation.dialog.component';
-import { ChargingStationStaticLimitationComponent } from './static-limitation/charging-station-static-limitation.component';
 import { ChargingStationPowerSliderComponent } from './components/charging-station-power-slider.component';
-
+import { ChargingStationStaticLimitationComponent } from './static-limitation/charging-station-static-limitation.component';
 
 @NgModule({
   imports: [

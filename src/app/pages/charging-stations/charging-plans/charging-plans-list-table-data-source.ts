@@ -11,7 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { ChargePlanTableFilter } from 'app/shared/table/filters/charge-plan-table-filter';
+import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -24,7 +24,6 @@ import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
-
 
 @Injectable()
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
@@ -45,7 +44,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private dialogService: DialogService,
   ) {
     super(spinnerService, translateService);
-    // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{WithChargingStation: 'true'}, {WithSiteArea: 'true'}]);
@@ -62,8 +60,8 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public loadDataImpl(): Observable<DataResult<ChargingProfile>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getChargingProfiles(this.buildFilterValues(),this.getPaging(), this.getSorting()).subscribe((chargingProfiles) => {
-          // Ok
+      this.centralServerService.getChargingProfiles(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe((chargingProfiles) => {
           observer.next(chargingProfiles);
           observer.complete();
         }, (error) => {
@@ -149,7 +147,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     return tableActionsDef;
   }
 
-
   public rowActionTriggered(actionDef: TableActionDef, chargingProfile: ChargingProfile) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.SMART_CHARGING:
@@ -161,7 +158,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
-        new ChargePlanTableFilter().getFilterDef(),
+        new ChargerTableFilter().getFilterDef(),
       ];
     }
     return [];
@@ -172,7 +169,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       return [];
     }
     if (this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(chargingProfile.siteArea ? chargingProfile.siteArea.siteID : '')) {
+      this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
       return [
         this.smartChargingAction,
       ];

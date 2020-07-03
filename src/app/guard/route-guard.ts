@@ -38,7 +38,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
 
   public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
-    const isActiveInSuperTenant = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
+    const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
 
     if (isIEOrEdge) {
       this.redirectToBrowserNotSupportRoute();
@@ -52,9 +52,8 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       }
       this.redirectToDefaultRoute();
       return false;
-    } else {
-      this.userRole = undefined;
     }
+    this.userRole = undefined;
     // Add URL origin
     queryParams['returnUrl'] = routerState.url;
     // Check user/pass in URL

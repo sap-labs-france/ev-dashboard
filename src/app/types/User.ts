@@ -1,9 +1,10 @@
 import { Address } from './Address';
 import { BillingUserData } from './Billing';
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import { Tag } from './Tag';
 
-export interface User extends Data {
+export interface User extends Data, CreatedUpdatedProps {
   id: string;
   issuer: boolean;
   name: string;
@@ -21,10 +22,6 @@ export interface User extends Data {
   costCenter: boolean;
   status: string;
   image: string | null;
-  createdBy: string;
-  createdOn: Date;
-  lastChangedBy: string;
-  lastChangedOn: Date;
   role: string;
   locale: string;
   language: string;
@@ -67,6 +64,7 @@ export interface UserToken {
   id?: string;
   role?: string;
   name?: string;
+  email?: string;
   firstName?: string;
   locale?: string;
   language?: string;
@@ -82,6 +80,21 @@ export interface UserToken {
   sitesAdmin?: string[];
   activeComponents?: string[];
   sitesOwner?: string[];
+}
+
+export interface UserCar extends Data, CreatedUpdatedProps {
+  id: string;
+  user: User;
+  carID: string;
+  default?: boolean;
+  owner?: boolean;
+}
+
+export interface UserSite extends Data {
+  user: User;
+  siteID: string;
+  siteAdmin: boolean;
+  siteOwner: boolean;
 }
 
 export enum UserButtonAction {

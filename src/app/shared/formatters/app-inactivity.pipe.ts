@@ -24,8 +24,7 @@ export class AppInactivityPipe implements PipeTransform {
       const percentage = totalDurationSecs > 0 ? (totalInactivitySecs / totalDurationSecs) : 0;
       return this.appDurationPipe.transform(totalInactivitySecs) +
         ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
-    } else {
-      return this.appDurationPipe.transform(totalInactivitySecs);
     }
+    return this.appDurationPipe.transform(totalInactivitySecs);
   }
 }

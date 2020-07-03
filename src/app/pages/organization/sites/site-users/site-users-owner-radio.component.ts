@@ -2,8 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { RestResponse } from 'app/types/GlobalType';
-import { UserSite } from 'app/types/Site';
-import { UserToken } from 'app/types/User';
+import { UserSite, UserToken } from 'app/types/User';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';

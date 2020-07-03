@@ -17,7 +17,6 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -45,6 +44,7 @@ import { TransactionsInactivityCellComponent } from '../cell-components/transact
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
@@ -54,7 +54,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private checkLogAction = new TableCheckLogsAction().getActionDef();
-
+  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -214,7 +214,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
         // Total Consumption
         // tslint:disable-next-line:max-line-length
-        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Total Price
         // tslint:disable-next-line:max-line-length
         stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
@@ -248,6 +248,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.isAdmin) {
       rowActions.push(this.deleteAction);
       rowActions.push(this.checkLogAction);
+      // Enable only for one user for the time being
+      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
+        rowActions.push(this.rebuildTransactionConsumptionsAction);
+      }
     }
     return rowActions;
   }
@@ -285,6 +289,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             this.router.navigate(['/logs'], { queryParams: { id: transaction.id } });
           }
         });
+      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
+        }
         break;
     }
   }

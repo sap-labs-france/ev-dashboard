@@ -95,8 +95,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     });
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    super.toggleRowSelection(row, event);
+  public toggleRowSelection(row: Transaction, checked: boolean) {
+    super.toggleRowSelection(row, checked);
     this.deleteManyAction.disabled = this.selectedRows === 0;
   }
 

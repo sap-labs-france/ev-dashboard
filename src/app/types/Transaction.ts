@@ -12,10 +12,10 @@ export interface Transaction extends Data {
   connectorId: number;
   meterStart: number;
   currentInstantWatts: number;
-  currentInstanWattsL1?: number;
-  currentInstanWattsL2?: number;
-  currentInstanWattsL3?: number;
-  currentInstanWattsDC?: number;
+  currentInstantWattsL1?: number;
+  currentInstantWattsL2?: number;
+  currentInstantWattsL3?: number;
+  currentInstantWattsDC?: number;
   currentInstantVoltage?: number;
   currentInstantVoltageL1?: number;
   currentInstantVoltageL2?: number;
@@ -102,6 +102,7 @@ export enum TransactionButtonAction {
   EXPORT_TRANSACTIONS = 'export_transactions',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
+  REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
 }
 
 export enum ConsumptionUnit {

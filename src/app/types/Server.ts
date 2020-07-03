@@ -26,7 +26,7 @@ export enum ServerAction {
   CHARGING_STATIONS_OCPP_PARAMS_EXPORT = 'ChargingStationsOCPPParamsExport',
   CHARGING_STATION = 'ChargingStation',
   CHARGING_STATIONS_OCPP_PARAMETERS = 'ChargingStationOcppParameters',
-  CHARGING_STATION_IN_ERROR = 'ChargingStationsInError',
+  CHARGING_STATIONS_IN_ERROR = 'ChargingStationsInError',
   CHARGING_STATION_UPDATE_PARAMS = 'ChargingStationUpdateParams',
   CHARGING_STATION_LIMIT_POWER = 'ChargingStationLimitPower',
   CHARGING_STATION_DELETE = 'ChargingStationDelete',
@@ -51,7 +51,7 @@ export enum ServerAction {
 
   LOGGINGS = 'Loggings',
   LOGGING = 'Logging',
-  LOGGING_EXPORT = 'LoggingsExport',
+  LOGGINGS_EXPORT = 'LoggingsExport',
 
   CHARGING_STATIONS = 'ChargingStations',
 
@@ -60,7 +60,10 @@ export enum ServerAction {
   CAR_CATALOG_IMAGES = 'CarCatalogImages',
   CAR_MAKERS = 'CarMakers',
   CAR_CREATE = 'CarCreate',
+  CAR_UPDATE = 'CarUpdate',
   CARS = 'Cars',
+  CAR = 'Car',
+  CAR_USERS = 'CarUsers',
   SYNCHRONIZE_CAR_CATALOGS = 'SynchronizeCarCatalogs',
 
   GET_CONNECTOR_CURRENT_LIMIT = 'GetConnectorCurrentLimit',
@@ -163,7 +166,7 @@ export enum ServerAction {
   EXTRA_INACTIVITY = 'ExtraInactivity',
 
   CONSUMPTION = 'Consumption',
-  REBUILD_CONSUMPTION = 'RebuildConsumption',
+  REBUILD_TRANSACTION_CONSUMPTIONS = 'RebuildTransactionConsumptions',
 
   WS_ERROR = 'WSError',
   WS_CLIENT_ERROR = 'WSClientError',
@@ -208,7 +211,6 @@ export enum ServerAction {
 
   CAR_CATALOG_SYNCHRONIZATION_FAILED = 'CarCatalogSynchronizationFailed',
   CAR_CATALOG_SYNCHRONIZATION = 'CarCatalogSynchronization',
-
   SESSION_NOT_STARTED_AFTER_AUTHORIZE = 'SessionNotStartedAfterAuthorize',
 
   UPDATE_CHARGING_STATION_WITH_TEMPLATE = 'UpdateChargingStationWithTemplate',
@@ -258,9 +260,10 @@ export enum ServerAction {
   ASSETS = 'Assets',
   ASSET = 'Asset',
   ASSET_IMAGE = 'AssetImage',
-  ASSET_IN_ERROR = 'AssetsInError',
+  ASSETS_IN_ERROR = 'AssetsInError',
   ASSET_UPDATE = 'AssetUpdate',
   ASSET_DELETE = 'AssetDelete',
+  CHECK_ASSET_CONNECTION = 'CheckAssetConnection',
 
   TENANT_CREATE = 'TenantCreate',
   TENANTS = 'Tenants',

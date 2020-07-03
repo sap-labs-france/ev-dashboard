@@ -44,10 +44,14 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   @Input() public chargingStation!: ChargingStation;
 
   public profileTypeMap: ProfileType[] = [
-    { key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
-      chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3 },
-    { key: ChargingProfileKindType.RECURRING, recurrencyKindType: RecurrencyKindType.DAILY, description: 'chargers.smart_charging.profile_types.recurring_daily',
-      chargingProfileKindType: ChargingProfileKindType.RECURRING, stackLevel: 2, profileId: 2 },
+    {
+      key: ChargingProfileKindType.ABSOLUTE, description: 'chargers.smart_charging.profile_types.absolute',
+      chargingProfileKindType: ChargingProfileKindType.ABSOLUTE, stackLevel: 3, profileId: 3
+    },
+    {
+      key: ChargingProfileKindType.RECURRING, recurrencyKindType: RecurrencyKindType.DAILY, description: 'chargers.smart_charging.profile_types.recurring_daily',
+      chargingProfileKindType: ChargingProfileKindType.RECURRING, stackLevel: 2, profileId: 2
+    },
     // { key: RecurrencyKindType.WEEKLY, description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, profileId: 1 },
   ];
   public formGroup!: FormGroup;
@@ -81,15 +85,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectChargingProfile().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
-          const chargingProfile = this.chargingProfiles.find(
-            (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id);
-          // Reload?
-          if (chargingProfile) {
-            this.refresh();
+          if (this.chargingProfiles && singleChangeNotification && singleChangeNotification.data) {
+            const chargingProfile = this.chargingProfiles.find(
+              (chargingProfile) => chargingProfile.id === singleChangeNotification.data.id);
+            // Reload?
+            if (chargingProfile) {
+              this.refresh();
+            }
           }
-        }
-      });
+        });
     }
   }
 
@@ -151,15 +155,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.profileTypeControl.valueChanges.subscribe((profileType: ProfileType) => {
       // Change date format
       if (profileType.key === ChargingProfileKindType.RECURRING) {
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
-        this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
+        this.scheduleEditableTableDataSource.tableColumnsDef[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
+        this.scheduleEditableTableDataSource.tableColumnsDef[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         // Set the date at midnight next day
         this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
       } else {
         this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
-        this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
+        this.scheduleEditableTableDataSource.tableColumnsDef[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
+        this.scheduleEditableTableDataSource.tableColumnsDef[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
       }
       this.scheduleEditableTableDataSource.refreshChargingSchedules();
       this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
@@ -189,7 +193,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.autoRefreshEnabled = value;
   }
 
-  public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors|null {
+  public validateDateMustBeInTheFuture(control: AbstractControl): ValidationErrors | null {
     // Check
     if (!control.value || (Utils.isValidDate(control.value) && moment(control.value).isAfter(new Date()))) {
       // Ok
@@ -198,7 +202,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     return { dateNotInFuture: true };
   }
 
-  public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors|null {
+  public validateEndDateLimitInRecurringPlan(control: AbstractControl): ValidationErrors | null {
     // Check
     if (!control.value || !this.startDateControl || (Utils.isValidDate(control.value) &&
       moment(control.value).isBefore(moment(this.startDateControl.value).add('1', 'd').add('1', 'm')))) {
@@ -246,7 +250,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public loadChargingProfiles() {
     if (this.chargingStation) {
       this.spinnerService.show();
-      this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfiles) => {
+      this.centralServerService.getChargingProfiles({ ChargeBoxID: this.chargingStation.id }).subscribe((chargingProfiles) => {
         this.spinnerService.hide();
         this.formGroup.markAsPristine();
         // Set Profile
@@ -316,7 +320,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
         const schedule: Schedule = {
           key: '',
           id: 0,
-          startDate: new Date (this.scheduleEditableTableDataSource.startDate),
+          startDate: new Date(this.scheduleEditableTableDataSource.startDate),
           duration: chargingProfile.profile.chargingSchedule.duration ? chargingProfile.profile.chargingSchedule.duration / 60 : 0,
           limit: chargingSchedule.limit,
           limitInkW: Utils.convertAmpToWatt(
@@ -410,6 +414,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             const foundChargingProfile = this.chargingProfiles.find((exitingChargingProfile) => exitingChargingProfile.id === chargingProfile.id);
             if (!foundChargingProfile) {
               chargingProfile.id = response.id;
+              this.chargingProfilesControl.setValue(chargingProfile);
               this.chargingProfiles.push(chargingProfile);
             }
             this.messageService.showSuccessMessage(

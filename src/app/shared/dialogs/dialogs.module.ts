@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
 import { ComponentModule } from '../component/component.module';
@@ -17,8 +16,8 @@ import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-s
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
-import { CarMakersTableDataSource } from './car/car-makers-dialog-table-data-source';
-import { CarMakersDialogComponent } from './car/car-makers-dialog.component';
+import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
+import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
 import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
 import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
@@ -37,9 +36,11 @@ import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
 
+
 export class FooterModule {
 }
 
+// tslint:disable-next-line: max-classes-per-file
 @NgModule({
   imports: [
     RouterModule,

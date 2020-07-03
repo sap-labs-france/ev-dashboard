@@ -4,13 +4,13 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { CarCatalog, ChargeStandardTable } from 'app/types/Car';
+import { CarCatalog, CarConverter } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeStandardTable> {
+export class CarCatalogConverterTableDataSource extends TableDataSource<CarConverter> {
   public carCatalog!: CarCatalog;
   constructor(
     public spinnerService: SpinnerService,
@@ -37,7 +37,7 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeSt
     this.refreshData(false).subscribe();
   }
 
-  public loadDataImpl(): Observable<DataResult<ChargeStandardTable>> {
+  public loadDataImpl(): Observable<DataResult<CarConverter>> {
     return new Observable((observer) => {
       // Return charge standard table
       if (this.carCatalog) {
@@ -84,7 +84,7 @@ export class CarCatalogConverterTableDataSource extends TableDataSource<ChargeSt
         name: 'cars.charge_power',
         headerClass: 'text-center col-20p',
         class: 'text-center col-20p',
-        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0) : '-',
+        formatter: (chargePower: number) => chargePower ? this.appUnitPipe.transform(chargePower, 'kW', 'kW', true, 1, 0, 0) : '-',
       },
       {
         id: 'chargeTime',

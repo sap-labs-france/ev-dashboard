@@ -14,9 +14,9 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Action, Entity } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { Site, UserSite } from 'app/types/Site';
+import { Site } from 'app/types/Site';
 import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { User } from 'app/types/User';
+import { User, UserSite } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
@@ -70,8 +70,8 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
     });
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    super.toggleRowSelection(row, event);
+  public toggleRowSelection(row: UserSite, checked: boolean) {
+    super.toggleRowSelection(row, checked);
     this.removeAction.disabled = !this.hasSelectedRows();
   }
 

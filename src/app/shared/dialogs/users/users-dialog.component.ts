@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KeyValue } from 'app/types/GlobalType';
 import { User } from 'app/types/User';
+import { Utils } from 'app/utils/Utils';
 
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { UsersDialogTableDataSource } from './users-dialog-table-data-source';
@@ -26,7 +27,7 @@ export class UsersDialogComponent extends DialogTableDataComponent<User> {
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
-        items.push({ key: row.id, value: `${row.name} ${row.firstName ? row.firstName : ''}`, objectRef: row });
+        items.push({ key: row.id, value: Utils.buildUserFullName(row), objectRef: row });
       });
     }
     return items;

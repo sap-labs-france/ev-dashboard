@@ -71,18 +71,21 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
-    let actionDone = actionAlreadyProcessed;
+    const index = this.editableRows.indexOf(editableRow);
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
         case ButtonAction.DELETE:
-          const index = this.editableRows.indexOf(editableRow);
           this.editableRows.splice(index, 1);
-          actionDone = true;
+          if (this.formArray) {
+            this.formArray.removeAt(index);
+            this.formArray.markAsDirty();
+          }
+          actionAlreadyProcessed = true;
           break;
       }
     }
     // Call post process
-    if (actionDone) {
+    if (actionAlreadyProcessed) {
       this.refreshData(false).subscribe();
       if (this.formArray) {
         this.formArray.markAsDirty();
@@ -94,6 +97,11 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       // Notify
       this.tableChangedSubject.next(this.editableRows);
     }
+  }
+
+  public setPropertyValue(row: T, propertyName: string, propertyValue: string|boolean|number) {
+    row[propertyName] = propertyValue;
+    (row[`${propertyName}FormControl`] as FormControl).setValue(propertyValue);
   }
 
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
@@ -116,6 +124,12 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       if (!formControl.errors) {
         contentRows[rowIndex][columnDef.id] = cellValue;
       }
+      // Check form button
+      const formGroup = row['formGroup'] as FormGroup;
+      const tableFormRowAction = this.getTableFormRowAction(row);
+      if (tableFormRowAction) {
+        tableFormRowAction.disabled = !formGroup.valid;
+      }
     }
     // Call post data processing
     if (postDataProcessing) {
@@ -125,18 +139,30 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     this.tableChangedSubject.next(this.editableRows);
   }
 
+  private getTableFormRowAction(row: T): TableActionDef {
+    // Check on static button row (should not happen)
+    for (const tableRowActionDef of this.tableRowActionsDef) {
+      if (tableRowActionDef.formRowAction) {
+        return tableRowActionDef;
+      }
+    }
+    // Check on dynamic button row
+    const dynamicRowActions = row['dynamicRowActions'] as TableActionDef[];
+    if (!Utils.isEmptyArray(dynamicRowActions)) {
+      for (const tableRowActionDef of dynamicRowActions) {
+        if (tableRowActionDef.formRowAction) {
+          return tableRowActionDef;
+        }
+      }
+    }
+  }
+
   public loadDataImpl(): Observable<DataResult<T>> {
     // Use the method to take into account the filtering
     const contentRows = this.getContent();
     if (contentRows) {
-      if (this.formArray) {
-        this.formArray.clear();
-        for (const contentRow of contentRows) {
-          this.formArray.push(this.createFormGroupDefinition(contentRow));
-        }
-        // Link row properties to form controls
-        this.addFormControlsToContent();
-      }
+      // Create form controls
+      this.createFormControls();
       return of({ count: contentRows.length, result: contentRows });
     }
     return of({ count: 0, result: [] });
@@ -146,24 +172,39 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     return [this.deleteAction];
   }
 
+  protected createFormControls() {
+    if (this.formArray) {
+      for (let rowIndex = 0; rowIndex < this.editableRows.length; rowIndex++) {
+        const editableRow = this.editableRows[rowIndex];
+        if (!editableRow['hasFormControl']) {
+          // Add controls in form array
+          const formGroup = this.createFormGroup(editableRow);
+          this.formArray.push(formGroup);
+          // Link row properties to form controls
+          this.addFormControlsToRow(rowIndex);
+        }
+      }
+    }
+  }
+
   protected abstract createRow(): T;
 
   protected isCellDisabled(columnDef: TableColumnDef, editableRow: T): boolean {
     return false;
   }
 
-  private addFormControlsToContent() {
+  private addFormControlsToRow(rowIndex: number) {
     if (this.formArray && this.editableRows) {
-      for (let i = 0; i < this.editableRows.length; i++) {
-        const editableRow = this.editableRows[i];
-        // There is one form group per line containing the form controls (one per props in table column def)
-        const formGroup = this.formArray.controls[i] as FormGroup;
-        if (formGroup) {
-          for (const tableColumnDef of this.tableColumnDefs) {
-            // Assign the form control to the data
-            editableRow[`${tableColumnDef.id}FormControl`] = formGroup.get(tableColumnDef.id);
-          }
+      const editableRow = this.editableRows[rowIndex];
+      // There is one form group per line containing the form controls (one per props in table column def)
+      const formGroup = this.formArray.controls[rowIndex] as FormGroup;
+      if (formGroup) {
+        for (const tableColumnDef of this.tableColumnsDef) {
+          // Assign the form control to the data
+          editableRow[`${tableColumnDef.id}FormControl`] = formGroup.get(tableColumnDef.id);
         }
+        // Flag
+        editableRow['hasFormControl'] = true;
       }
     }
   }
@@ -200,11 +241,17 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  private createFormGroupDefinition(editableRow: T): FormGroup {
+  protected createFormGroup(editableRow: T): FormGroup {
     const controls = {};
-    for (const tableColumnDef of this.tableColumnDefs) {
+    for (const tableColumnDef of this.tableColumnsDef) {
       let value;
       switch (tableColumnDef.editType) {
+        case TableEditType.DISPLAY_ONLY:
+          if (!tableColumnDef.isAngularComponent) {
+            continue;
+          }
+          value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : '';
+          break;
         case TableEditType.CHECK_BOX:
         case TableEditType.RADIO_BUTTON:
           value = editableRow[tableColumnDef.id] ? editableRow[tableColumnDef.id] : false;
@@ -225,7 +272,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       }
       controls[tableColumnDef.id] = formControl;
     }
-    return new FormGroup(controls);
+    // Keep the ref
+    editableRow['formGroup'] = new FormGroup(controls);
+    return editableRow['formGroup'] as FormGroup;
   }
 }
 

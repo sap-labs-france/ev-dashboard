@@ -1,10 +1,11 @@
 import { Address } from './Address';
 import { Company } from './Company';
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { SiteArea } from './SiteArea';
 import { Data } from './Table';
 import { User } from './User';
 
-export interface Site extends Data {
+export interface Site extends Data, CreatedUpdatedProps {
   id: string;
   name: string;
   companyID: string;
@@ -19,17 +20,6 @@ export interface Site extends Data {
   occupationData: object;
   userIDs: string[];
   users: User[];
-  createdBy: string;
-  createdOn: Date;
-  lastChangedBy: string;
-  lastChangedOn: Date;
-}
-
-export interface UserSite extends Data {
-  user: User;
-  siteID: string;
-  siteAdmin: boolean;
-  siteOwner: boolean;
 }
 
 export interface SiteUser extends Data {

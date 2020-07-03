@@ -15,7 +15,7 @@ export class ChargingStationsComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['all', 'inerror']);
+    super(activatedRoute, windowService, ['all','chargingplans', 'inerror']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
   }
 }

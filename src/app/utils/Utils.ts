@@ -182,12 +182,16 @@ export class Utils {
 
   public static getChargingStationPowers(chargingStation: ChargingStation,
       chargePoint?: ChargePoint, connectorId = 0, forChargingProfile: boolean = false): ChargingStationPowers {
+    const numberOfPhases = Utils.getNumberOfConnectedPhases(chargingStation, chargePoint, connectorId);
+    const numberOfConnectors = chargePoint ? chargePoint.connectorIDs.length : chargingStation.connectors.length;
     const result: ChargingStationPowers = {
       notSupported: false,
-      minAmp: StaticLimitAmps.MIN_LIMIT,
-      minWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, StaticLimitAmps.MIN_LIMIT),
-      maxAmp: StaticLimitAmps.MIN_LIMIT,
-      maxWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, StaticLimitAmps.MIN_LIMIT),
+      minAmp: StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors,
+      minWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId,
+        StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors),
+      maxAmp: StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors,
+      maxWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId,
+        StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors),
       currentAmp: 0,
       currentWatt: 0,
     };
@@ -228,18 +232,18 @@ export class Utils {
     return 0;
   }
 
-  public static computeAmpSteps(chargingStation: ChargingStation): number {
-    if (chargingStation) {
-      // Voltage at connector level?
-      if (chargingStation.connectors) {
-        for (const connector of chargingStation.connectors) {
-          if (connector.numberOfConnectedPhase) {
-            return connector.numberOfConnectedPhase * chargingStation.connectors.length;
-          }
-        }
+  public static computeStaticLimitAmpSteps(chargingStation: ChargingStation, chargePoint: ChargePoint): number {
+    if (chargingStation && chargePoint) {
+      const numberOfPhases = Utils.getNumberOfConnectedPhases(chargingStation, chargePoint, 0);
+      if (numberOfPhases > 0) {
+        return numberOfPhases * chargePoint.connectorIDs.length;
       }
     }
-    return StaticLimitAmps.MIN_LIMIT;
+    return 6;
+  }
+
+  public static getRoundedNumberToTwoDecimals(numberToRound: number): number {
+    return Math.round(numberToRound * 100) / 100;
   }
 
   public static convertAmpToWatt(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorID = 0, ampValue: number): number {
@@ -262,14 +266,14 @@ export class Utils {
     if (!chargingStation.chargePoints) {
       return null;
     }
-    return chargingStation.chargePoints.find((chargePoint) => chargePoint.chargePointID === chargePointID);
+    return chargingStation.chargePoints.find((chargePoint) => chargePoint && (chargePoint.chargePointID === chargePointID));
   }
 
   public static getConnectorFromID(chargingStation: ChargingStation, connectorID: number): Connector {
     if (!chargingStation.connectors) {
       return null;
     }
-    return chargingStation.connectors.find((connector) => connector.connectorId === connectorID);
+    return chargingStation.connectors.find((connector) => connector && (connector.connectorId === connectorID));
   }
 
   public static computeChargingStationTotalAmps(chargingStation: ChargingStation): number {
@@ -546,7 +550,7 @@ export class Utils {
     if (chargingStation) {
       return appUnitFormatter.transform(
         Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, ampValue),
-          'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
+          'W', unit, displayUnit, 1, 0, numberOfDecimals ? numberOfDecimals : 0);
     }
     return 'N/A';
   }

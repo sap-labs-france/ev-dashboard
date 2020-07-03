@@ -116,9 +116,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
     super(activatedRoute, windowService, ['common', 'tags', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
-
     this.maxSize = this.configService.getUser().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateUser()) {
@@ -138,11 +136,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isBasic = this.authorizationService.isBasic();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
-
     if (!this.isAdmin) {
       this.setHashArray(['common', 'address', 'password', 'connectors', 'miscs']);
     }
-
     this.canSeeInvoice = false;
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       this.componentService.getPricingSettings().subscribe((settings) => {
@@ -182,7 +178,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendUserAccountStatusChanged: new FormControl(true),
         sendSessionNotStarted: new FormControl(true),
         sendUserAccountInactivity: new FormControl(true),
-        // Admin notifs
         sendUnknownUserBadged: new FormControl(false),
         sendChargingStationStatusError: new FormControl(false),
         sendChargingStationRegistered: new FormControl(false),
@@ -206,8 +201,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Users.validatePhone,
         ])),
       iNumber: new FormControl(''),
-      tags: new FormArray([],
-        Validators.compose(this.isSuperAdmin || this.isBasic ? [] : [Validators.required])),
+      tags: new FormArray([]),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -289,10 +283,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.currentUserID = params['id'];
         this.loadUser();
       });
-    }
-    if (!this.currentUserID) {
-      // Create default badge
-      this.userTagsEditableTableDataSource.setContent([this.userTagsEditableTableDataSource.createRow()]);
     }
     this.loadRefundSettings();
     if (!this.inDialog) {

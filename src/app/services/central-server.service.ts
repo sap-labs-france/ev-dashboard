@@ -27,12 +27,12 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
-
 
 @Injectable()
 export class CentralServerService {
@@ -928,6 +928,23 @@ export class CentralServerService {
     }
     // Execute the REST service
     return this.httpClient.get<Transaction>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: { ID: id.toString() },
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public rebuildTransactionConsumption(id: number): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    if (!id) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.REBUILD_TRANSACTION_CONSUMPTIONS}`,
       {
         headers: this.buildHttpHeaders(),
         params: { ID: id.toString() },

@@ -143,15 +143,15 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
     this.profileTypeControl.valueChanges.subscribe((profileType: ProfileType) => {
       // Change date format
       if (profileType.key === ChargingProfileKindType.RECURRING) {
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
-        this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
+        this.scheduleEditableTableDataSource.tableColumnsDef[0].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
+        this.scheduleEditableTableDataSource.tableColumnsDef[2].formatter = (value: Date) => this.datePipe.transform(value, 'shortTime');
         // Set the date at midnight next day
         this.startDateControl.setValue(moment().add(1, 'd').startOf('d').toDate());
         this.scheduleEditableTableDataSource.startDate = new Date(this.startDateControl.value);
       } else {
         this.startDateControl.setValue(moment().add(10, 'm').startOf('m').toDate());
-        this.scheduleEditableTableDataSource.tableColumnDefs[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
-        this.scheduleEditableTableDataSource.tableColumnDefs[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
+        this.scheduleEditableTableDataSource.tableColumnsDef[0].formatter = (value: Date) => this.datePipe.transform(value, 'short');
+        this.scheduleEditableTableDataSource.tableColumnsDef[2].formatter = (value: Date) => this.datePipe.transform(value, 'short');
       }
       this.scheduleEditableTableDataSource.refreshChargingSchedules();
       this.endDateControl.setValue(this.scheduleEditableTableDataSource.endDate);
@@ -402,6 +402,7 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
             const foundChargingProfile = this.chargingProfiles.find((exitingChargingProfile) => exitingChargingProfile.id === chargingProfile.id);
             if (!foundChargingProfile) {
               chargingProfile.id = response.id;
+              this.chargingProfilesControl.setValue(chargingProfile);
               this.chargingProfiles.push(chargingProfile);
             }
             this.messageService.showSuccessMessage(

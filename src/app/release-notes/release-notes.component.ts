@@ -24,12 +24,41 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.5',
-        date: new Date('2020-06-25'),
+        version: '2.3.12',
+        date: new Date('2020-07-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed rounded Amps/Watts numbers in Charging Plans`,
+              `Charging Station's total power not updated when not belonging to the templates`,
+              `Fixed display power with wrong unit in consumption chart`,
+              `Fixed badge is no longer mandatory in user's profile`,
+              `Removed Charging Station from the Gireve when changing it to private`,
+              `Added a free OCPP key/value input fields in OCPP Parameters`,
+              `Notify Admin Users when Charging Stations are overheating`,
+              `Use of RegExp to match firmware versions in Charging Station's Templates`,
+              `Display DC Power in Session's consumption charts`,
+              `Enabled German and Spanish beta translations`,
+              `Ensure OCPP error messages always follow the OCPP specs`,
+              `Fixed Smart Charging minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.7',
+        date: new Date('2020-06-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Limit the max power of the 'safe' car to the power of the connector in the SAP Smart Charging`,
+              `Auto-detect single phase Car in SAP Smart Charging using new Meter Values per phase`,
+              `Implemented EV-Ready minimal amperage of 13A per phase in Static Limitation and SAP Smart Charging`,
+              `Excluded Suspended EV from the SAP Smart Charging`,
+              `Fixed Badges got deactivated after saving User's profile`,
+              `Fixed typos in French translation`,
               `Admin and Basic users can create Cars`,
               `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
               `Added test of Schneider BMS' connection in Asset Settings`,

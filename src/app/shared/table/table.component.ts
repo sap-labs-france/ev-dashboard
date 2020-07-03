@@ -52,8 +52,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnInit() {
     if (this.dataSource) {
       // Init Sort
-      if (this.dataSource.tableColumnDefs) {
-        const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
+      if (this.dataSource.tableColumnsDef) {
+        const columnDef = this.dataSource.tableColumnsDef.find((column) => column.sorted === true);
         if (columnDef) {
           // Yes: Set Sorting
           this.sort.active = columnDef.id;
@@ -61,7 +61,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.dataSource.setSort(this.sort);
         // Compute number of columns
-        this.numberOfColumns = this.dataSource.tableColumnDefs.length +
+        this.numberOfColumns = this.dataSource.tableColumnsDef.length +
           (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled ? 1 : 0) +
           (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
           (this.dataSource.hasRowActions ? 1 : 0);

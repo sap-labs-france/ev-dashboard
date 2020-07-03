@@ -89,7 +89,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
   public setChargingStation(chargingStation: ChargingStation, chargePoint: ChargePoint) {
     this.chargingStation = chargingStation;
     this.chargePoint = chargePoint;
-    this.tableColumnDefs[3].additionalParameters = { chargingStation, chargePoint };
+    this.tableColumnsDef[3].additionalParameters = { chargingStation, chargePoint };
     this.chargerPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, 0, true);
   }
 
@@ -110,7 +110,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
             chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         }
         // Update the limit in kW
-        chargingSchedules[i].limitInkW = Math.floor(Utils.convertAmpToWatt(
+        chargingSchedules[i].limitInkW = Utils.getRoundedNumberToTwoDecimals(Utils.convertAmpToWatt(
           this.chargingStation, this.chargePoint, this.connectorID, chargingSchedules[i].limit) / 1000);
         chargingSchedules[i].endDate =
           new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
@@ -124,7 +124,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       duration: 60,
-      limitInkW: Math.floor(Utils.convertAmpToWatt(
+      limitInkW: Utils.getRoundedNumberToTwoDecimals(Utils.convertAmpToWatt(
         this.chargingStation, this.chargePoint, this.connectorID, this.chargerPowers.maxAmp) / 1000),
       limit: this.chargerPowers.maxAmp,
       key: '',

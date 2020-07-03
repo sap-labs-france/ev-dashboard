@@ -390,7 +390,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
       for (const consumption of this.transaction.values) {
         labels.push(new Date(consumption.date).getTime());
         if (instantPowerDataSet) {
-          instantPowerDataSet.push(consumption.instantWatts);
+          if (consumption.instantWattsDC > 0) {
+            instantPowerDataSet.push(consumption.instantWattsDC);
+          } else {
+            instantPowerDataSet.push(consumption.instantWatts);
+          }
         }
         if (instantPowerL1DataSet) {
           instantPowerL1DataSet.push(consumption.instantWattsL1);
@@ -596,7 +600,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             display: 'auto',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'kW',
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + ((value < 1000) ? 'W' : 'kW'),
               fontColor: this.defaultColor,
               min: 0,
             },

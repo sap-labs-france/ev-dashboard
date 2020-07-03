@@ -30,6 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added Charging Plan list`,
+              `Added Static Limitation on Legrand Charging Station`,
+              `Added a minimum of 3 schedules when building the Charging Profiles with SAP Smart Charging`,
               `Fixed rounded Amps/Watts numbers in Charging Plans`,
               `Charging Station's total power not updated when not belonging to the templates`,
               `Fixed display power with wrong unit in consumption chart`,

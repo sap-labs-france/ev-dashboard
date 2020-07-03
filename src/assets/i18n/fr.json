@@ -766,6 +766,7 @@
       "current_limit_title": "Limite actuelle",
       "limit_title": "Limite",
       "limit_in_amps": "({{limitInAmps}}A)",
+      "limit_in_watts": "{{limitInWatts}}kW",
       "no_current_limit": "Aucun planning de charge trouvé",
       "planning_energy_limit": "Plans de Charge",
       "from_date": "De",
@@ -805,7 +806,18 @@
       "trigger_smart_charging": "Exécuter Charge Intelligente",
       "trigger_smart_charging_success": "L'algorithme de la charge intelligente a été éxécuté avec succès",
       "trigger_smart_charging_error": "Une erreur est survenue pendant l'exécution de l'algorithme de la charge intelligente, vérifier les logs",
-      "minutes": "min(s)"
+      "minutes": "min(s)",
+      "charging_plans": {
+        "charging_plan_name": "Nom",
+        "charging_station_id": "Borne",
+        "connector_id": "Connecteur",
+        "current_limit": "Limite Actuelle",
+        "kind": "Type",
+        "purpose": "But",
+        "stack_level": "Niveau Prio",
+        "site_area":"Zone",
+        "site_area_limit":"Limite Zone"
+      }
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnostique de la borne '{{chargeBoxID}}'",
@@ -948,6 +960,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",
+      "charging_plans": "Charging Plans",
       "in_error": "En Erreur"
     },
     "errors": {

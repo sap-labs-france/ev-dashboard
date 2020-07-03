@@ -14,7 +14,7 @@ import { Utils } from 'app/utils/Utils';
     </div>
   `,
 })
-export class ChargingStationsChargingProfilePowerSliderCellComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
+export class ChargingStationPowerSliderCellComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
   @Input() public row!: Schedule;
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargePoint!: ChargePoint;

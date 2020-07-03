@@ -9,10 +9,10 @@ import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType }
 import { Utils } from 'app/utils/Utils';
 
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { ChargingStationsChargingProfilePowerSliderCellComponent } from '../cell-components/charging-stations-charging-profile-power-slider-cell';
+import { ChargingStationPowerSliderCellComponent } from '../cell-components/charging-station-power-slider-cell.component';
 
 @Injectable()
-export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource extends EditableTableDataSource<Schedule> {
+export class ChargingPlansEditableTableDataSource extends EditableTableDataSource<Schedule> {
   public startDate!: Date;
   public endDate!: Date;
   public chargingStation!: ChargingStation;
@@ -31,7 +31,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
 
   public buildTableDef(): TableDef {
     return {
-      id: 'ChargingStationChargingProfileLimitScheduleEditableTableDataSource',
+      id: 'ChargingPlansEditableTableDataSource',
       isEditable: true,
       errorMessage: 'chargers.smart_charging.empty_schedule_list_error',
     };
@@ -78,7 +78,7 @@ export class ChargingStationChargingProfileLimitScheduleEditableTableDataSource 
         id: 'limit',
         name: 'chargers.smart_charging.limit_title',
         isAngularComponent: true,
-        angularComponent: ChargingStationsChargingProfilePowerSliderCellComponent,
+        angularComponent: ChargingStationPowerSliderCellComponent,
         headerClass: 'col-40p',
         class: 'col-40p p-1',
       },

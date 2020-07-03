@@ -369,14 +369,14 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(chargeBoxID: string, connectorID?: number): Observable<DataResult<ChargingProfile>> {
+  public getChargingProfiles(params: FilterParams, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingProfile>> {
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargeBoxID;
-    if (connectorID) {
-      params['ConnectorID'] = connectorID + '';
-    }
-    return this.httpClient.get<DataResult<ChargingProfile>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILES}`,
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    return this.httpClient.get<DataResult<ChargingProfile>>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILES}`,
       {
         headers: this.buildHttpHeaders(),
         params,

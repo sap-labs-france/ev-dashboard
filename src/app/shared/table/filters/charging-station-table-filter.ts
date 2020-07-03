@@ -1,7 +1,7 @@
 import { ChargingStationsDialogComponent } from 'app/shared/dialogs/charging-stations/charging-stations-dialog.component';
 import { FilterType, TableFilterDef } from 'app/types/Table';
-import { TableFilter } from './table-filter';
 
+import { TableFilter } from './table-filter';
 
 export class ChargingStationTableFilter extends TableFilter {
   constructor(siteIDs?: ReadonlyArray<string>) {

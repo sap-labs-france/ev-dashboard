@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
+
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { ChargingStationsDialogTableDataSource } from './charging-stations-dialog-table-data-source';
-
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',

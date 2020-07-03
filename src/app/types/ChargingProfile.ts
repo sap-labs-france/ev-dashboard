@@ -9,7 +9,6 @@ export interface ChargingProfile extends Data {
   chargingStation?: ChargingStation;
   chargePointID: number;
   connectorID?: number;
-  siteArea?: SiteArea;
   profile: Profile;
 }
 

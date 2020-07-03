@@ -20,7 +20,7 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
   providers: [ChargingStationOcppParametersEditableTableDataSource]
 })
 @Injectable()
-export class ChargingStationOcppParametersComponent implements OnInit, OnChanges {
+export class ChargingStationOcppParametersComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   public isAdmin: boolean;
   public formGroup!: FormGroup;

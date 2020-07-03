@@ -71,18 +71,21 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
-    let actionDone = actionAlreadyProcessed;
+    const index = this.editableRows.indexOf(editableRow);
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
         case ButtonAction.DELETE:
-          const index = this.editableRows.indexOf(editableRow);
           this.editableRows.splice(index, 1);
-          actionDone = true;
+          if (this.formArray) {
+            this.formArray.removeAt(index);
+            this.formArray.markAsDirty();
+          }
+          actionAlreadyProcessed = true;
           break;
       }
     }
     // Call post process
-    if (actionDone) {
+    if (actionAlreadyProcessed) {
       this.refreshData(false).subscribe();
       if (this.formArray) {
         this.formArray.markAsDirty();
@@ -121,6 +124,12 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       if (!formControl.errors) {
         contentRows[rowIndex][columnDef.id] = cellValue;
       }
+      // Check form button
+      const formGroup = row['formGroup'] as FormGroup;
+      const tableFormRowAction = this.getTableFormRowAction(row);
+      if (tableFormRowAction) {
+        tableFormRowAction.disabled = !formGroup.valid;
+      }
     }
     // Call post data processing
     if (postDataProcessing) {
@@ -128,6 +137,24 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
     // Notify all non filtered
     this.tableChangedSubject.next(this.editableRows);
+  }
+
+  private getTableFormRowAction(row: T): TableActionDef {
+    // Check on static button row (should not happen)
+    for (const tableRowActionDef of this.tableRowActionsDef) {
+      if (tableRowActionDef.formRowAction) {
+        return tableRowActionDef;
+      }
+    }
+    // Check on dynamic button row
+    const dynamicRowActions = row['dynamicRowActions'] as TableActionDef[];
+    if (!Utils.isEmptyArray(dynamicRowActions)) {
+      for (const tableRowActionDef of dynamicRowActions) {
+        if (tableRowActionDef.formRowAction) {
+          return tableRowActionDef;
+        }
+      }
+    }
   }
 
   public loadDataImpl(): Observable<DataResult<T>> {
@@ -172,7 +199,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       // There is one form group per line containing the form controls (one per props in table column def)
       const formGroup = this.formArray.controls[rowIndex] as FormGroup;
       if (formGroup) {
-        for (const tableColumnDef of this.tableColumnDefs) {
+        for (const tableColumnDef of this.tableColumnsDef) {
           // Assign the form control to the data
           editableRow[`${tableColumnDef.id}FormControl`] = formGroup.get(tableColumnDef.id);
         }
@@ -216,7 +243,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
 
   protected createFormGroup(editableRow: T): FormGroup {
     const controls = {};
-    for (const tableColumnDef of this.tableColumnDefs) {
+    for (const tableColumnDef of this.tableColumnsDef) {
       let value;
       switch (tableColumnDef.editType) {
         case TableEditType.DISPLAY_ONLY:
@@ -245,7 +272,9 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
       }
       controls[tableColumnDef.id] = formControl;
     }
-    return new FormGroup(controls);
+    // Keep the ref
+    editableRow['formGroup'] = new FormGroup(controls);
+    return editableRow['formGroup'] as FormGroup;
   }
 }
 

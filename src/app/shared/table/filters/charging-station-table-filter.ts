@@ -1,9 +1,9 @@
+import { ChargingStationsDialogComponent } from 'app/shared/dialogs/charging-stations/charging-stations-dialog.component';
 import { FilterType, TableFilterDef } from 'app/types/Table';
-
-import { ChargersDialogComponent } from '../../dialogs/chargers/chargers-dialog.component';
 import { TableFilter } from './table-filter';
 
-export class ChargerTableFilter extends TableFilter {
+
+export class ChargingStationTableFilter extends TableFilter {
   constructor(siteIDs?: ReadonlyArray<string>) {
     super();
     // Define filter
@@ -14,7 +14,7 @@ export class ChargerTableFilter extends TableFilter {
       label: '',
       name: 'chargers.titles',
       class: 'col-md-6 col-lg-3 col-xl-2',
-      dialogComponent: ChargersDialogComponent,
+      dialogComponent: ChargingStationsDialogComponent,
       multiple: true,
       cleared: true,
     };

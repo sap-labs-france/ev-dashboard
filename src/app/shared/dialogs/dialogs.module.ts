@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
 import { ComponentModule } from '../component/component.module';
@@ -21,8 +20,8 @@ import { CarConvertersDialogTableDataSource } from './car-converters/car-convert
 import { CarConvertersDialogComponent } from './car-converters/car-converters-dialog.component';
 import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
 import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
-import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
-import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
+import { ChargingStationsDialogTableDataSource } from './charging-stations/charging-stations-dialog-table-data-source';
+import { ChargingStationsDialogComponent } from './charging-stations/charging-stations-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
 import { CompaniesDialogComponent } from './companies/companies-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
@@ -36,6 +35,7 @@ import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-sour
 import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
+
 
 export class FooterModule {
 }
@@ -57,7 +57,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent,
+    ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
@@ -73,7 +73,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent,
+    ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
@@ -90,7 +90,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent,
+    ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
@@ -104,13 +104,13 @@ export class FooterModule {
   providers: [
     AppConnectorIdPipe,
     DialogService,
-    ChargersDialogTableDataSource,
+    ChargingStationsDialogTableDataSource,
     CompaniesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     SitesDialogTableDataSource,
     AssetsDialogTableDataSource,
     UsersDialogTableDataSource,
-    ChargersDialogTableDataSource,
+    ChargingStationsDialogTableDataSource,
     SitesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     CompaniesDialogTableDataSource,

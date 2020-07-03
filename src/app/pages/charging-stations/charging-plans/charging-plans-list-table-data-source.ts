@@ -123,7 +123,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
           id: 'chargingStation.siteArea.maximumPower',
           name: 'chargers.smart_charging.charging_plans.site_area_limit',
           sortable: false,
-          formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
+          formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
         },
       );
     }

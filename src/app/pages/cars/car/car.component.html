@@ -39,9 +39,9 @@
               <mat-form-field>
                 <mat-label for="converterType">{{'cars.converter' | translate}} *
                 </mat-label>
-                <mat-select appAutofocus id="converterPower" [formControl]="converterPower" (selectionChange)="currentConverterChanged($event)">
-                  <mat-option *ngFor="let carConverter of carConverters" [value]="carConverter.key">
-                    {{carConverter.value}}
+                <mat-select id="converterType" [formControl]="converterType" (selectionChange)="converterChanged($event)">
+                  <mat-option *ngFor="let carCatalogConverter of carCatalogConverters" [value]="carCatalogConverter.type">
+                    {{carCatalogConverter.value}}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="carCatalog.errors?.required">

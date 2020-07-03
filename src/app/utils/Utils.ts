@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
-import { Car, CarCatalog, CarType } from 'app/types/Car';
+import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
@@ -13,9 +13,9 @@ import { ButtonType } from 'app/types/Table';
 import { User, UserCar, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
-
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
+
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -655,14 +655,14 @@ export class Utils {
     }
   }
 
-  public static buildCarConverterName(chargePower: number, evsePhase: number, chargePhaseAmp: number, translateService: TranslateService): string {
+  public static buildCarCatalogConverterName(converter: CarConverter, translateService: TranslateService): string {
     let converterName = '';
-    converterName += `${chargePower} kW`;
-    if (evsePhase > 0) {
-      converterName += ` - ${evsePhase} ${translateService.instant('cars.evse_phase')}`;
+    converterName += `${converter.powerWatts} kW`;
+    if (converter.numberOfPhases > 0) {
+      converterName += ` - ${converter.numberOfPhases} ${translateService.instant('cars.evse_phase')}`;
     }
-    if (chargePhaseAmp > 0) {
-      converterName += ` - ${chargePhaseAmp} A`;
+    if (converter.amperagePerPhase > 0) {
+      converterName += ` - ${converter.amperagePerPhase} A`;
     }
     return converterName;
   }

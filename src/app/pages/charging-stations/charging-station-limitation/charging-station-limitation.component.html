@@ -8,7 +8,7 @@
         </ng-template>
         <div class="card-body tab-dialog-min-content row" *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported">
           <div class="col-md-12">
-            <app-charging-station-static-limit [chargingStation]="chargingStation"></app-charging-station-static-limit>
+            <app-charging-station-static-limitation [chargingStation]="chargingStation"></app-charging-station-static-limitation>
           </div>
         </div>
         <ng-template #notSupported>
@@ -24,7 +24,7 @@
         </ng-template>
         <ng-template matTabContent>
           <div class="card-body tab-dialog-min-content" *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
-            <app-charging-station-charging-profile-limit [chargingStation]="chargingStation"></app-charging-station-charging-profile-limit>
+            <app-charging-plans [chargingStation]="chargingStation"></app-charging-plans>
           </div>
           <ng-template #notSupported>
             <div class="card-body tab-dialog-min-content feature-not-supported pt-4">

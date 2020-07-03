@@ -27,7 +27,7 @@ import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
     </div>
   `,
 })
-export class ChargingStationSmartChargingLimitPlannerChartComponent implements OnChanges {
+export class ChargingPlanChartComponent implements OnChanges {
   @Input() public ratio!: number;
   @Input() public chargingStation!: ChargingStation;
   @Input() public connectorId!: number;

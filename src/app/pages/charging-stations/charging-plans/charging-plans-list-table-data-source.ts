@@ -22,7 +22,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
+import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
 
 @Injectable()
@@ -195,7 +195,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ChargingStationLimitationDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(() => {
         this.refreshData().subscribe();
       });

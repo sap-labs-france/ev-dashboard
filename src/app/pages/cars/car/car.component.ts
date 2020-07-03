@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationService } from 'app/services/authorization.service';
@@ -9,7 +10,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Car, CarCatalog, CarImage, CarType } from 'app/types/Car';
+import { Car, CarCatalog, CarImage, CarType, ConverterType } from 'app/types/Car';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
@@ -42,7 +43,8 @@ export class CarComponent implements OnInit {
   public isCompanyCar!: AbstractControl;
   public carCatalogID!: AbstractControl;
   public carCatalog!: AbstractControl;
-  public converterType!: AbstractControl;
+  public converterPower!: AbstractControl;
+  public converter!: AbstractControl;
   public isDefault!: AbstractControl;
   public type!: AbstractControl;
   public noImage = CarImage.NO_IMAGE;
@@ -94,7 +96,11 @@ export class CarComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      converterType: new FormControl('',
+      converterPower: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      converter: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -111,10 +117,11 @@ export class CarComponent implements OnInit {
     this.carCatalogID = this.formGroup.controls['carCatalogID'];
     this.carCatalog = this.formGroup.controls['carCatalog'];
     this.isDefault = this.formGroup.controls['isDefault'];
-    this.converterType = this.formGroup.controls['converterType'];
+    this.converterPower = this.formGroup.controls['converterPower'];
+    this.converter = this.formGroup.controls['converter'];
     this.type = this.formGroup.controls['type'];
     // Default
-    this.converterType.disable();
+    this.converterPower.disable();
     if (!this.isBasic) {
       this.isDefault.disable();
     }
@@ -135,6 +142,10 @@ export class CarComponent implements OnInit {
     this.closeDialog();
   }
 
+  public currentConverterChanged(event: MatSelectChange) {
+    this.converter.setValue((this.carConverters.find(converter => converter.key === event.value)).converter);
+  }
+
   public loadCar() {
     if (this.currentCarID) {
       this.spinnerService.show();
@@ -150,7 +161,7 @@ export class CarComponent implements OnInit {
         // Build drop down converters
         this.selectedCarCatalog = car.carCatalog;
         this.buildCarConverter();
-        this.converterType.setValue(car.converterType);
+        this.converterPower.setValue(car.converter.powerWatts);
         this.carCatalog.setValue(Utils.buildCarCatalogName(car.carCatalog));
         // Set default car
         if (this.isBasic) {
@@ -160,7 +171,7 @@ export class CarComponent implements OnInit {
           this.owner = foundCarUser.owner;
           if (!foundCarUser.owner) {
             this.carCatalog.disable();
-            this.converterType.disable();
+            this.converterPower.disable();
             this.vin.disable();
             this.licensePlate.disable();
             this.type.disable();
@@ -316,28 +327,48 @@ export class CarComponent implements OnInit {
     this.carConverters = [{
       key: this.selectedCarCatalog.chargeStandardPower,
       value: Utils.buildCarConverterName(this.selectedCarCatalog.chargeStandardPower, this.selectedCarCatalog.chargeStandardPhase,
-        this.selectedCarCatalog.chargeStandardPhaseAmp, this.translateService)
+        this.selectedCarCatalog.chargeStandardPhaseAmp, this.translateService),
+      converter: {
+        powerWatts: this.selectedCarCatalog.chargeStandardPower,
+        powerAmps: this.selectedCarCatalog.chargeStandardPhaseAmp,
+        numberOfPhases: this.selectedCarCatalog.chargeStandardPhase,
+        type: ConverterType.STANDARD
+      }
     }];
     if (this.selectedCarCatalog.chargeAlternativePower) {
       this.carConverters.push({
         key: this.selectedCarCatalog.chargeAlternativePower,
         value: Utils.buildCarConverterName(this.selectedCarCatalog.chargeAlternativePower, this.selectedCarCatalog.chargeAlternativePhase,
-          this.selectedCarCatalog.chargeAlternativePhaseAmp, this.translateService)
+          this.selectedCarCatalog.chargeAlternativePhaseAmp, this.translateService),
+        converter: {
+          powerWatts: this.selectedCarCatalog.chargeAlternativePower,
+          powerAmps: this.selectedCarCatalog.chargeAlternativePhaseAmp,
+          numberOfPhases: this.selectedCarCatalog.chargeAlternativePhase,
+          type: ConverterType.ALTERNATIVE
+        }
       });
     }
     if (this.selectedCarCatalog.chargeOptionPower > 0 &&
-        this.selectedCarCatalog.chargeOptionPower !== this.selectedCarCatalog.chargeAlternativePower) {
+      this.selectedCarCatalog.chargeOptionPower !== this.selectedCarCatalog.chargeAlternativePower) {
       this.carConverters.push({
         key: this.selectedCarCatalog.chargeOptionPower,
         value: Utils.buildCarConverterName(this.selectedCarCatalog.chargeOptionPower, this.selectedCarCatalog.chargeOptionPhase,
-          this.selectedCarCatalog.chargeOptionPhaseAmp, this.translateService)  });
+          this.selectedCarCatalog.chargeOptionPhaseAmp, this.translateService),
+        converter: {
+          powerWatts: this.selectedCarCatalog.chargeOptionPower,
+          powerAmps: this.selectedCarCatalog.chargeOptionPhaseAmp,
+          numberOfPhases: this.selectedCarCatalog.chargeOptionPhase,
+          type: ConverterType.OPTION
+        }
+      });
     }
     // Clear converter
     if (this.carConverters.length === 1) {
-      this.converterType.setValue(this.carConverters[0]);
+      this.converterPower.setValue(this.carConverters[0].key);
+      this.converter.setValue(this.carConverters[0].converter);
     } else {
-      this.converterType.setValue('');
+      this.converterPower.setValue('');
     }
-    this.converterType.enable();
+    this.converterPower.enable();
   }
 }

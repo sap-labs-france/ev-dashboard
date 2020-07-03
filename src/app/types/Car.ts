@@ -51,7 +51,20 @@ export interface Car extends Data, CreatedUpdatedProps {
   users?: User[];
   carUsers?: UserCar[];
   type?: CarType;
-  converterType?: string;
+  converter?: Converter;
+}
+
+export interface Converter {
+  powerWatts: number;
+  powerAmps: number;
+  numberOfPhases: number;
+  type: ConverterType;
+}
+
+export enum ConverterType {
+  STANDARD = 'S',
+  OPTION = 'O',
+  ALTERNATIVE = 'A',
 }
 
 export interface CarUser extends Data, CreatedUpdatedProps {

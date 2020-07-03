@@ -121,7 +121,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
-        id: 'converterType',
+        id: 'converter.powerWatts',
         name: 'cars.converter',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',

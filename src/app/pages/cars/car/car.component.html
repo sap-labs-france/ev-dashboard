@@ -39,7 +39,7 @@
               <mat-form-field>
                 <mat-label for="converterType">{{'cars.converter' | translate}} *
                 </mat-label>
-                <mat-select appAutofocus id="converterType" [formControl]="converterType">
+                <mat-select appAutofocus id="converterPower" [formControl]="converterPower" (selectionChange)="currentConverterChanged($event)">
                   <mat-option *ngFor="let carConverter of carConverters" [value]="carConverter.key">
                     {{carConverter.value}}
                   </mat-option>

@@ -22,7 +22,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingPlansCurrentLimitCellComponent } from '../cell-components/charging-plans-current-limit-cell.component';
 import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
 
@@ -78,15 +77,8 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public buildTableDef(): TableDef {
     return {
-      rowSelection: {
-        enabled: false,
-        multiple: false,
-      },
       search: {
         enabled: true,
-      },
-      rowDetails: {
-        enabled: false,
       },
       hasDynamicRowAction: true,
     };
@@ -96,7 +88,6 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
     let tableColumns: TableColumnDef[] = [
-
       {
         id: 'chargingStationID',
         name: 'chargers.smart_charging.charging_plans.charging_station_id',

@@ -11,6 +11,7 @@ import { CommonDirectivesModule } from 'app/shared/directives/directives.module'
 import { FormattersModule } from 'app/shared/formatters/formatters.module';
 import { TableModule } from 'app/shared/table/table.module';
 import { MomentModule } from 'ngx-moment';
+
 import { MaterialModule } from '../../app.module';
 import { TransactionDialogComponent } from '../transactions/transaction/transaction.dialog.component';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
@@ -44,7 +45,6 @@ import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stat
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
-
 
 @NgModule({
   imports: [

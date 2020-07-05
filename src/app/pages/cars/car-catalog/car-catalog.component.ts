@@ -8,14 +8,9 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { CarCatalog } from 'app/types/Car';
 import { Utils } from 'app/utils/Utils';
 
-import { CarCatalogConverterTableDataSource } from './car-catalog-converter-table-data-source';
-
 @Component({
   selector: 'app-car-catalog',
-  templateUrl: 'car-catalog.component.html',
-  providers: [
-    CarCatalogConverterTableDataSource,
-  ],
+  templateUrl: 'car-catalog.component.html'
 })
 export class CarCatalogComponent implements OnInit {
   @Input() public currentCarCatalogID!: number;
@@ -25,7 +20,6 @@ export class CarCatalogComponent implements OnInit {
   public isSuperAdmin: boolean;
 
   constructor(
-    public carCatalogConverterTableDataSource: CarCatalogConverterTableDataSource,
     private centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
     private messageService: MessageService,
@@ -46,7 +40,6 @@ export class CarCatalogComponent implements OnInit {
     this.centralServerService.getCarCatalog(this.currentCarCatalogID).subscribe((carCatalog: CarCatalog) => {
       this.spinnerService.hide();
       this.carCatalog = carCatalog;
-      this.carCatalogConverterTableDataSource.setCar(this.carCatalog);
     }, (error) => {
       // Show error
       this.spinnerService.hide();

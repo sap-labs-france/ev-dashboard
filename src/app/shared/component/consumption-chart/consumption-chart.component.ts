@@ -600,7 +600,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             display: 'auto',
             ticks: {
               beginAtZero: true,
-              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + 'kW',
+              callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0')) + ((value < 1000) ? 'W' : 'kW'),
               fontColor: this.defaultColor,
               min: 0,
             },

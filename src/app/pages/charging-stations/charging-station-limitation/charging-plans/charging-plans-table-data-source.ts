@@ -15,7 +15,7 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class ChargingStationChargingProfileLimitScheduleTableDataSource extends TableDataSource<Schedule> {
+export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
   public schedules!: Schedule[];
   public chargingStation!: ChargingStation;
   public chargePoint!: ChargePoint;

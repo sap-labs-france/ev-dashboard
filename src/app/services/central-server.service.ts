@@ -369,14 +369,14 @@ export class CentralServerService {
       );
   }
 
-  public getChargingProfiles(chargeBoxID: string, connectorID?: number): Observable<DataResult<ChargingProfile>> {
+  public getChargingProfiles(params: FilterParams, paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingProfile>> {
     this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['ChargeBoxID'] = chargeBoxID;
-    if (connectorID) {
-      params['ConnectorID'] = connectorID + '';
-    }
-    return this.httpClient.get<DataResult<ChargingProfile>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILES}`,
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    return this.httpClient.get<DataResult<ChargingProfile>>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_PROFILES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2266,7 +2266,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     const params: { [param: string]: string } = {};
-    params['CarID'] = carID;
+    params['ID'] = carID;
     // Execute the REST service
     return this.httpClient.get<Car>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR}`,
       {
@@ -2376,6 +2376,18 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_UPDATE}`, car,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteCar(id: number): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/CarDelete?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

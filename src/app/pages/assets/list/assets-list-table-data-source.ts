@@ -123,7 +123,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         class: 'col-20p text-center',
         sortable: true,
         formatter: (instantWatts: number) => instantWatts ?
-          this.appUnitPipe.transform(instantWatts, 'W', 'kW', true, 0, 0, 0) : '-',
+          this.appUnitPipe.transform(instantWatts, 'W', 'kW') : '-',
       },
     ];
     return tableColumnDef;

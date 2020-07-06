@@ -303,6 +303,7 @@
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
     "dynamic_asset": "Ressource Dynamique",
+    "instant_power": "Puissance Instantanée",
     "asset_connection": "Connexion à la Ressource",
     "meter_id": "ID du Compteur",
     "asset": "Ressource",

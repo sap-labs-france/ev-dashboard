@@ -303,6 +303,7 @@
     "produce": "Produce Energy",
     "consume": "Consume Energy",
     "dynamic_asset": "Dynamic Asset",
+    "instant_power": "Instant Power",
     "asset_connection": "Asset Connection",
     "meter_id": "Meter ID",
     "asset": "Asset",

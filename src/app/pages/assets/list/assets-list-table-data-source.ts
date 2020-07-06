@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
@@ -44,6 +45,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private appUnitPipe: AppUnitPipe
 ) {
     super(spinnerService, translateService);
     // Init
@@ -93,26 +95,35 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         id: 'name',
         name: 'assets.name',
         headerClass: 'col-30p',
-        class: 'text-left col-30p',
+        class: 'col-30p',
         sorted: true,
         direction: 'asc',
         sortable: true,
       },
       {
+        id: 'siteArea.name',
+        name: 'site_areas.title',
+        headerClass: 'col-25p text-center',
+        class: 'col-25p text-center',
+        sortable: true,
+      },
+      {
         id: 'dynamicAsset',
         name: 'assets.dynamic_asset',
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
         sortable: true,
         formatter: (dynamicAsset: boolean) => dynamicAsset ?
           this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
       {
-        id: 'siteArea.name',
-        name: 'site_areas.title',
-        headerClass: 'col-35p',
-        class: 'col-35p',
+        id: 'consumption.instantWatts',
+        name: 'assets.instant_power',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
         sortable: true,
+        formatter: (instantWatts: number) => instantWatts ?
+          this.appUnitPipe.transform(instantWatts, 'W', 'kW', true, 0, 0, 0) : '-',
       },
     ];
     return tableColumnDef;
@@ -136,7 +147,6 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     if (this.isAdmin) {
       actions.push(this.editAction);
-      actions.push(this.refreshAction);
       actions.push(new TableMoreAction([
         openInMaps,
         this.deleteAction,
@@ -144,6 +154,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     } else {
       actions.push(this.displayAction);
       actions.push(openInMaps);
+    }
+    // Display refresh button
+    if (this.isAdmin && asset.dynamicAsset) {
+      actions.splice(1, 0, this.refreshAction);
     }
     return actions;
   }

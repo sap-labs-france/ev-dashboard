@@ -1,3 +1,4 @@
+import { AbstractConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
@@ -14,6 +15,7 @@ export interface Asset extends Data, CreatedUpdatedProps {
   dynamicAsset: boolean;
   connectionID: string;
   meterID: string;
+  consumption: AbstractConsumption;
   createdBy: string;
   createdOn: Date;
   lastChangedBy: string;

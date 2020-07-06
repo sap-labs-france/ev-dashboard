@@ -303,6 +303,7 @@
     "produce": "Producto energético",
     "consume": "Consumo de energía",
     "dynamic_asset": "Activo Dinámico",
+    "instant_power": "Energía instantánea",
     "asset_connection": "Conexión de Activos",
     "meter_id": "ID del Medidor",
     "asset": "Activos",

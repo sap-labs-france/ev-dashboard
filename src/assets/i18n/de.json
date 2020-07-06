@@ -632,6 +632,7 @@
     "share_power_to_all_connectors": "Share the power with all connectors",
     "exclude_from_power_limitation": "Cannot limit the power",
     "public": "Diese Ladestation ist öffentlich",
+    "public_charger": "Offentlich",
     "exclude_smart_charging": "Exclude from Smart Charging",
     "public_url": "Öffentliche URL",
     "current_ip": "Aktuelle IP Route",

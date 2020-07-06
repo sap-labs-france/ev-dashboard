@@ -632,6 +632,7 @@
     "share_power_to_all_connectors": "Compartir energía con conectores",
     "exclude_from_power_limitation": "No se puede limitar la potencia",
     "public": "Está estación de carga es publica",
+    "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",

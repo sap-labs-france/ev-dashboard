@@ -141,25 +141,29 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         class: 'text-center col-30p',
         isAngularComponent: true,
         angularComponent: ChargingStationsHeartbeatCellComponent,
-        sortable: false,
       },
       {
         id: 'connectorsStatus',
         name: 'chargers.connectors_title',
         headerClass: 'text-center',
         class: 'text-center table-cell-angular-big-component',
-        sortable: false,
         isAngularComponent: true,
         angularComponent: ChargingStationsConnectorsCellComponent,
       },
       {
         id: 'connectorsConsumption',
         name: 'chargers.consumption_title',
-        sortable: false,
-        isAngularComponent: true,
         headerClass: 'text-center col-15em',
         class: 'text-center col-15em',
+        isAngularComponent: true,
         angularComponent: ChargingStationsInstantPowerChargerProgressBarCellComponent,
+      },
+      {
+        id: 'public',
+        name: 'chargers.public_charger',
+        headerClass: 'text-center col-5em',
+        class: 'text-center col-5em',
+        formatter: (publicChargingStation: boolean) => publicChargingStation ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
       },
     ];
     if (this.authorizationService.isAdmin()) {

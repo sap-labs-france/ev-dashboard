@@ -17,11 +17,11 @@ import { Utils } from 'app/utils/Utils';
 import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
 
 @Component({
-  selector: 'app-charging-station-static-limit',
-  templateUrl: './charging-station-static-limit.component.html',
+  selector: 'app-charging-station-static-limitation',
+  templateUrl: './charging-station-static-limitation.component.html',
 })
 @Injectable()
-export class ChargingStationStaticLimitComponent {
+export class ChargingStationStaticLimitationComponent {
   @Input() public chargingStation!: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin: boolean;
@@ -57,7 +57,7 @@ export class ChargingStationStaticLimitComponent {
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        this.centralServerService.getChargingProfiles(this.chargingStation.id).subscribe((chargingProfilesResult) => {
+        this.centralServerService.getChargingProfiles({ChargeBoxID: this.chargingStation.id}).subscribe((chargingProfilesResult) => {
           this.spinnerService.hide();
           let foundLimitIsExeeded = false;
           if (chargingProfilesResult.count > 0) {

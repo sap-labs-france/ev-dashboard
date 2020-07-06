@@ -1,7 +1,7 @@
 import { AuthorizationService } from '../../../services/authorization.service';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 
-export class LogSourceTableFilter extends ChargerTableFilter {
+export class LogSourceTableFilter extends ChargingStationTableFilter {
   constructor(siteIDs?: ReadonlyArray<string>) {
     super(siteIDs);
     // Get the filter

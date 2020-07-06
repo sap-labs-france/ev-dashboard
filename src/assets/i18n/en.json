@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.12",
+    "last_update": "Version 2.3.13",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -632,6 +632,7 @@
     "share_power_to_all_connectors": "Share the power with all connectors",
     "exclude_from_power_limitation": "Cannot limit the power",
     "public": "This charging station is public",
+    "public_charger": "Public",
     "exclude_smart_charging": "Exclude from Smart Charging",
     "public_url": "Public URL",
     "current_ip": "Current IP Route",
@@ -766,6 +767,7 @@
       "current_limit_title": "Actual power limit",
       "limit_title": "Limit",
       "limit_in_amps": "({{limitInAmps}}A)",
+      "limit_in_watts": "{{limitInWatts}}kW",
       "no_current_limit": "No limit planning found",
       "planning_energy_limit": "Charging Plans",
       "from_date": "From",
@@ -805,7 +807,18 @@
       "trigger_smart_charging": "Trigger Smart Charging",
       "trigger_smart_charging_success": "The smart charging algorithm has been triggered successfully",
       "trigger_smart_charging_error": "Error occurred while triggering the smart charging algorithm, check the logs",
-      "minutes": "min(s)"
+      "minutes": "min(s)",
+      "charging_plans": {
+        "charging_plan_name": "Name",
+        "charging_station_id": "Charging Station",
+        "connector_id": "Connector ID",
+        "current_limit": "Current limit",
+        "kind": "Kind",
+        "purpose": "Purpose",
+        "stack_level": "Stack Level",
+        "site_area":"Site Area",
+        "site_area_limit":"Site Area Limit"
+      }
     },
     "more_actions": {
       "get_diagnostics_title": "Charger '{{chargeBoxID}}' diagnostics",
@@ -948,6 +961,7 @@
     "session_details": "Session",
     "tabs": {
       "list": "Charging Stations",
+      "charging_plans": "Charging Plans",
       "in_error": "In Error"
     },
     "errors": {
@@ -1625,6 +1639,8 @@
     "fast_charge_plug": "DC Plug",
     "charge_plug_location": "Charge Plug Location",
     "charge_standard_power": "AC Power",
+    "charge_alternative_power": "Alternative AC Power",
+    "charge_option_power": "Option AC Power",
     "charge_standard_charge_speed": "AC Speed",
     "charge_standard_charge_time": "AC Time",
     "fast_charge_power_max": "DC Power",
@@ -1641,7 +1657,9 @@
     "evse_phase_volt": "Voltage",
     "evse_phase_amp": "Amperage",
     "evse_phase": "Phase(s)",
-    "evse_phase_ac": "AC Phase(s)",
+    "evse_phase_ac_standard": "AC Phase(s)",
+    "evse_phase_ac_alternative": "Alternative AC Phase(s)",
+    "evse_phase_ac_option": "Option AC Phase(s)",
     "charge_phase_volt": "Charge Phase Volt",
     "charge_phase_amp": "Charge Phase Amp",
     "charge_phase": "Charge Phase",
@@ -1655,7 +1673,9 @@
     "select_car_maker": "Select Car Maker",
     "car_makers": "Car Makers",
     "create_success": "The car '{{carName}}' has been created with success",
-    "update_success": "Car updated successfully",
+    "update_success": "The car '{{carName}}' has been updated successfully",
+    "delete_success": "The car '{{carName}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the car",
     "assign_car_catalog": "Assign car model",
     "create_error": "Error occurred while creating the car",
     "update_error": "Error occurred while updating the car",
@@ -1687,6 +1707,8 @@
     "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
     "converter": "Converter",
+    "delete_title": "Delete Car",
+    "delete_confirm": "Do you really want to delete the car '{{carName}}'?",
     "users": "Users",
     "unit": {
       "meters": "m",

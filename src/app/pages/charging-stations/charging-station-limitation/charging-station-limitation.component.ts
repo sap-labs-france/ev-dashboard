@@ -12,10 +12,10 @@ import { Utils } from 'app/utils/Utils';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-charging-station-charging-limit',
-  templateUrl: 'charging-station-charging-limit.component.html',
+  selector: 'app-charging-station-limitation',
+  templateUrl: 'charging-station-limitation.component.html',
 })
-export class ChargingStationChargingLimitComponent implements OnInit {
+export class ChargingStationLimitationComponent implements OnInit {
   @Input() public chargingStationID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;

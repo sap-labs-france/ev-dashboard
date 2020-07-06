@@ -20,9 +20,21 @@ export class ReleaseNotesComponent {
   constructor() {
     this.buidlReleaseNotes();
   }
-
+  
   public buidlReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.3.13',
+        date: new Date('2020-07-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Public column in Charging Station list`,
+            ],
+          },
+        ],
+      },
       {
         version: '2.3.12',
         date: new Date('2020-07-05'),

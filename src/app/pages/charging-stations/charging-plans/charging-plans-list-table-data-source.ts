@@ -11,7 +11,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from 'app/shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from 'app/shared/table/filters/charging-station-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingProfile } from 'app/types/ChargingProfile';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -20,9 +20,10 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationChargingLimitDialogComponent } from '../charging-limit/charging-station-charging-limit.dialog.component';
+import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
 
 @Injectable()
@@ -85,7 +86,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public buildTableColumnDefs(): TableColumnDef[] {
     // As sort directive in table can only be unset in Angular 7, all columns will be sortable
     // Build common part for all cases
-    let tableColumns: TableColumnDef[] = [
+    const tableColumns: TableColumnDef[] = [
       {
         id: 'chargingStationID',
         name: 'chargers.smart_charging.charging_plans.charging_station_id',
@@ -123,7 +124,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
           id: 'chargingStation.siteArea.maximumPower',
           name: 'chargers.smart_charging.charging_plans.site_area_limit',
           sortable: false,
-          formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
+          formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
         },
       );
     }
@@ -158,7 +159,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
       return [
-        new ChargerTableFilter().getFilterDef(),
+        new ChargingStationTableFilter().getFilterDef(),
       ];
     }
     return [];
@@ -195,7 +196,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       // disable outside click close
       dialogConfig.disableClose = true;
       // Open
-      const dialogRef = this.dialog.open(ChargingStationChargingLimitDialogComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ChargingStationLimitationDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(() => {
         this.refreshData().subscribe();
       });

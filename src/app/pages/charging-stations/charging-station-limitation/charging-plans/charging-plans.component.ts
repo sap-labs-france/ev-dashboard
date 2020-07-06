@@ -20,8 +20,8 @@ import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 
-import { ChargingStationChargingProfileLimitScheduleEditableTableDataSource } from './charging-station-charging-profile-limit-schedule-editable-table-data-source';
-import { ChargingStationChargingProfileLimitScheduleTableDataSource } from './charging-station-charging-profile-limit-schedule-table-data-source';
+import { ChargingPlansEditableTableDataSource } from './charging-plans-editable-table-data-source';
+import { ChargingPlansTableDataSource } from './charging-plans-table-data-source';
 
 interface ProfileType {
   key: string;
@@ -33,14 +33,14 @@ interface ProfileType {
 }
 
 @Component({
-  selector: 'app-charging-station-charging-profile-limit',
-  templateUrl: 'charging-station-charging-profile-limit.component.html',
+  selector: 'app-charging-plans',
+  templateUrl: 'charging-plans.component.html',
   providers: [
-    ChargingStationChargingProfileLimitScheduleEditableTableDataSource,
-    ChargingStationChargingProfileLimitScheduleTableDataSource,
+    ChargingPlansEditableTableDataSource,
+    ChargingPlansTableDataSource,
   ],
 })
-export class ChargingStationChargingProfileLimitComponent implements OnInit, AfterViewInit, OnChanges {
+export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
 
   public profileTypeMap: ProfileType[] = [
@@ -67,8 +67,8 @@ export class ChargingStationChargingProfileLimitComponent implements OnInit, Aft
   public autoRefreshEnabled = true;
 
   constructor(
-    public scheduleTableDataSource: ChargingStationChargingProfileLimitScheduleTableDataSource,
-    public scheduleEditableTableDataSource: ChargingStationChargingProfileLimitScheduleEditableTableDataSource,
+    public scheduleTableDataSource: ChargingPlansTableDataSource,
+    public scheduleEditableTableDataSource: ChargingPlansEditableTableDataSource,
     private centralServerNotificationService: CentralServerNotificationService,
     private configService: ConfigService,
     private translateService: TranslateService,

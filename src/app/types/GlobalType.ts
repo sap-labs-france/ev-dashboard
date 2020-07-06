@@ -2,11 +2,11 @@ import { Asset } from './Asset';
 import { Car, CarCatalog, CarConverter, CarMaker } from './Car';
 import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
+import { LogAction } from './Log';
 import { RefundReport } from './Refund';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { User } from './User';
-import { LogAction } from './Log';
 
 export interface Image {
   id: string;

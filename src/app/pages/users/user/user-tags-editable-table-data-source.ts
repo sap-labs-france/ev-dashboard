@@ -35,10 +35,6 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
   }
 
   public setContent(content: Tag[]) {
-    if (content.length === 0) {
-      const tag = this.createRow();
-      content.push(tag);
-    }
     super.setContent(content);
   }
 
@@ -56,33 +52,18 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
   }
 
   public rowActionTriggered(actionDef: TableActionDef, tag: Tag, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    const index = this.editableRows.indexOf(tag);
-    let actionDone = false;
+    let actionAlreadyProcessed = false;
     switch (actionDef.id) {
-      case ButtonAction.DELETE:
-        this.editableRows.splice(index, 1);
-        actionDone = true;
-        break;
       case ButtonAction.ACTIVATE:
+        actionAlreadyProcessed = true;
         this.activateTag(tag);
         break;
       case ButtonAction.DEACTIVATE:
+        actionAlreadyProcessed = true;
         this.deactivateTag(tag);
         break;
     }
-    // Call post process
-    if (actionDone) {
-      this.refreshData(false).subscribe();
-      if (this.formArray) {
-        this.formArray.markAsDirty();
-      }
-      // Call post data processing
-      if (postDataProcessing) {
-        postDataProcessing();
-      }
-      // Notify
-      this.tableChangedSubject.next(this.editableRows);
-    }
+    super.rowActionTriggered(actionDef, tag, dropdownItem, postDataProcessing, actionAlreadyProcessed);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -135,7 +116,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         id: 'transactionsCount',
         name: 'tags.sessions',
         editType: TableEditType.DISPLAY_ONLY,
-        formatter: (transactionsCount: number) => transactionsCount ? transactionsCount.toString() : '-',
+        formatter: (transactionsCount: number) => transactionsCount ? transactionsCount.toString() : '0',
         headerClass: 'col-10p',
         class: 'text-center col-10p',
       },

@@ -4,23 +4,23 @@ import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { ChargersDialogTableDataSource } from './chargers-dialog-table-data-source';
+import { ChargingStationsDialogTableDataSource } from './charging-stations-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
 })
-export class ChargersDialogComponent extends DialogTableDataComponent<ChargingStation> {
+export class ChargingStationsDialogComponent extends DialogTableDataComponent<ChargingStation> {
   constructor(
-    private chargersDataSource: ChargersDialogTableDataSource,
-    dialogRef: MatDialogRef<ChargersDialogComponent>,
+    private chargingStationsDataSource: ChargingStationsDialogTableDataSource,
+    dialogRef: MatDialogRef<ChargingStationsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
-    super(data, dialogRef, chargersDataSource);
+    super(data, dialogRef, chargingStationsDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'chargers.select_chargers';
     }
-    this.chargersDataSource.destroyDatasource();
+    this.chargingStationsDataSource.destroyDatasource();
   }
 
   public getSelectedItems(selectedRows: ChargingStation[]): KeyValue[] {

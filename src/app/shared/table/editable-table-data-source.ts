@@ -71,11 +71,15 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
   }
 
   public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem, postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
+    const index = this.editableRows.indexOf(editableRow);
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
         case ButtonAction.DELETE:
-          const index = this.editableRows.indexOf(editableRow);
           this.editableRows.splice(index, 1);
+          if (this.formArray) {
+            this.formArray.removeAt(index);
+            this.formArray.markAsDirty();
+          }
           actionAlreadyProcessed = true;
           break;
       }

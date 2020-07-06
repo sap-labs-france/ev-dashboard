@@ -10,7 +10,7 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -75,7 +75,7 @@ export class StatisticsPricingComponent implements OnInit {
     filterDef = new SiteAreaTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
-    filterDef = new ChargerTableFilter().getFilterDef();
+    filterDef = new ChargingStationTableFilter().getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new UserTableFilter().getFilterDef();

@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Public column in Charging Station list`,
+              `Updated German translation`,
             ],
           },
         ],

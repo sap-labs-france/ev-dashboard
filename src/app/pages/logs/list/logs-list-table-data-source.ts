@@ -49,20 +49,25 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
-    this.activatedRoute.queryParams.subscribe(params => {
-      if (params['fromChargingProfile']) {
-        this.logActionTableFilter.currentValue = [{ key: ServerAction.CHARGING_PROFILES, value: ServerAction.CHARGING_PROFILES },
-        { key: ServerAction.CHARGING_PROFILE_DELETE, value: ServerAction.CHARGING_PROFILE_DELETE },
-        { key: ServerAction.CHARGING_PROFILE_UPDATE, value: ServerAction.CHARGING_PROFILE_UPDATE }];
-        this.filterChanged(this.logActionTableFilter);
-        this.logSourceTableFilter.currentValue = [{ key: params['id'], value: params['id'] }];
-        this.filterChanged(this.logSourceTableFilter);
-      } else {
-        this.setSearchValue(params['id'] ? params['id'] : '');
-      }
-    });
+    this.initFilters();
   }
 
+  public initFilters() {
+    if (this.activatedRoute && this.activatedRoute.params) {
+      this.activatedRoute.queryParams.subscribe(params => {
+        if (params['fromChargingProfile']) {
+          this.logActionTableFilter.currentValue = [{ key: ServerAction.CHARGING_PROFILES, value: ServerAction.CHARGING_PROFILES },
+          { key: ServerAction.CHARGING_PROFILE_DELETE, value: ServerAction.CHARGING_PROFILE_DELETE },
+          { key: ServerAction.CHARGING_PROFILE_UPDATE, value: ServerAction.CHARGING_PROFILE_UPDATE }];
+          this.filterChanged(this.logActionTableFilter);
+          this.logSourceTableFilter.currentValue = [{ key: params['id'], value: params['id'] }];
+          this.filterChanged(this.logSourceTableFilter);
+        } else {
+          this.setSearchValue(params['id'] ? params['id'] : '');
+        }
+      });
+    }
+  }
   public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectLoggings();
   }

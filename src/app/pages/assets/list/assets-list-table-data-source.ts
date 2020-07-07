@@ -122,7 +122,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (instantWatts: number) => instantWatts >= 0 ?
+        formatter: (instantWatts: number) => instantWatts || instantWatts === 0 ?
           this.appUnitPipe.transform(instantWatts, 'W', 'kW') : '-',
       },
     ];

@@ -24,7 +24,7 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
   public loadDataImpl(): Observable<DataResult<LogAction>> {
     return new Observable((observer) => {
       const actions: LogAction[] = [];
-      const searchValue = this.getSearchValue().length > 0 ? this.getSearchValue() : '';
+      const searchValue = this.getSearchValue();
       // let reversed = false;
       if (this.getSort().direction === 'desc' && !this.reversed) {
         logActions.reverse();

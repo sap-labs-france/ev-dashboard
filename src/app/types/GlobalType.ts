@@ -1,5 +1,5 @@
 import { Asset } from './Asset';
-import { Car, CarCatalog, CarConverter, CarMaker } from './Car';
+import { Car, CarCatalog, CarMaker } from './Car';
 import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
 import { LogAction } from './Log';
@@ -34,7 +34,7 @@ export interface SubjectInfo {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|CarConverter|LogAction;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction;
   readonly?: boolean;
   icon?: string;
   tooltip?: string;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,7 +12,7 @@ import { Action, Entity } from 'app/types/Authorization';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { LogButtonAction } from 'app/types/Log';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
@@ -49,7 +48,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
-  private checkLogAction = new TableCheckLogsAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -275,7 +274,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       actions.push(this.deleteAction);
     }
     if (this.isAdmin) {
-      actions.push(this.checkLogAction);
+      actions.push(this.checkLogsAction);
     }
     return actions;
   }
@@ -293,16 +292,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECK_LOGS:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('logs.dialog.redirect.title'),
-          this.translateService.instant('logs.dialog.redirect.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.router.navigate(['/logs'], { queryParams: { id: transaction.id } });
-          }
-        });
-        break;
+
+        case LogButtonAction.CHECK_LOGS:
+          this.checkLogsAction.action('logs?search=' + transaction.id);
+          break;
     }
   }
 

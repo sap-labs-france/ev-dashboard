@@ -10,13 +10,15 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
 import { LogButtonAction } from 'app/types/Log';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -53,7 +55,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
-  private checkLogAction = new TableCheckLogsAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
 
   constructor(
@@ -247,7 +249,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     const rowActions = [this.viewAction];
     if (this.isAdmin) {
       rowActions.push(this.deleteAction);
-      rowActions.push(this.checkLogAction);
+      rowActions.push(this.checkLogsAction);
       // Enable only for one user for the time being
       if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
         rowActions.push(this.rebuildTransactionConsumptionsAction);
@@ -281,14 +283,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('logs.dialog.redirect.title'),
-          this.translateService.instant('logs.dialog.redirect.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.router.navigate(['/logs'], { queryParams: { id: transaction.id } });
-          }
-        });
+        this.checkLogsAction.action('logs?search=' + transaction.id);
+        break;
       case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
         if (actionDef.action) {
           actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,

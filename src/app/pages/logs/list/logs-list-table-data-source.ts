@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
@@ -45,7 +46,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private centralServerNotificationService: CentralServerNotificationService,
     private activatedRoute: ActivatedRoute,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -53,19 +55,26 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public initFilters() {
-    if (this.activatedRoute && this.activatedRoute.params) {
-      this.activatedRoute.queryParams.subscribe(params => {
-        if (params['fromChargingProfile']) {
-          this.logActionTableFilter.currentValue = [{ key: ServerAction.CHARGING_PROFILES, value: ServerAction.CHARGING_PROFILES },
-          { key: ServerAction.CHARGING_PROFILE_DELETE, value: ServerAction.CHARGING_PROFILE_DELETE },
-          { key: ServerAction.CHARGING_PROFILE_UPDATE, value: ServerAction.CHARGING_PROFILE_UPDATE }];
-          this.filterChanged(this.logActionTableFilter);
-          this.logSourceTableFilter.currentValue = [{ key: params['id'], value: params['id'] }];
-          this.filterChanged(this.logSourceTableFilter);
-        } else {
-          this.setSearchValue(params['id'] ? params['id'] : '');
-        }
+    const actions = this.windowService.getSearch('actions');
+    if (actions) {
+      actions.split('|').forEach(action => {
+        this.logActionTableFilter.currentValue.push({
+          key: action, value: action
+        });
       });
+      this.filterChanged(this.logActionTableFilter);
+      this.windowService.deleteSearch('actions');
+    }
+    const chargingStationID = this.windowService.getSearch('chargingStationID');
+    if (chargingStationID) {
+      this.logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+      this.filterChanged(this.logSourceTableFilter);
+      this.windowService.deleteSearch('chargingStationID');
+    }
+    const search = this.windowService.getSearch('search');
+    if (search) {
+      this.setSearchValue(search);
+      this.windowService.deleteSearch('search');
     }
   }
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -225,7 +234,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new StartDateFilter().getFilterDef(),
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
-        this.logActionTableFilter,
+        new LogActionTableFilter().getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
       ];
@@ -235,7 +244,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new StartDateFilter().getFilterDef(),
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
-        this.logActionTableFilter,
+        new LogActionTableFilter().getFilterDef(),
         this.logSourceTableFilter,
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
@@ -245,7 +254,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new StartDateFilter().getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
-      this.logActionTableFilter,
+      new LogActionTableFilter().getFilterDef(),
       new LogHostTableFilter().getFilterDef(),
       this.logSourceTableFilter,
       new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];

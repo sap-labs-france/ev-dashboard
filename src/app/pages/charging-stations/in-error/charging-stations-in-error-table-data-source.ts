@@ -18,7 +18,7 @@ import { ChargingStationButtonAction, Connector, OCPPVersion } from 'app/types/C
 import { DataResult } from 'app/types/DataResult';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
 import { LogButtonAction } from 'app/types/Log';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -42,7 +42,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private resetAction = new TableChargingStationsResetAction().getActionDef();
   private rebootAction = new TableChargingStationsRebootAction().getActionDef();
-  private checkLogAction = new TableCheckLogsAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
   private isOrganizationComponentActive: boolean;
 
   constructor(
@@ -214,14 +214,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('logs.dialog.redirect.title'),
-          this.translateService.instant('logs.dialog.redirect.confirm'),
-        ).subscribe((response) => {
-          if (response === ButtonType.YES) {
-            this.router.navigate(['/logs'], { queryParams: { id: chargingStation.id } });
-          }
-        });
+        new TableCheckLogsAction().getActionDef().action('logs?search=' + chargingStation.id);
         break;
     }
   }
@@ -286,7 +279,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         case ChargingStationInErrorType.CONNECTION_BROKEN:
           return [
             this.editAction,
-            this.checkLogAction,
+            this.checkLogsAction,
             new TableMoreAction([
               this.deleteAction,
             ]).getActionDef(),
@@ -294,7 +287,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         case ChargingStationInErrorType.CONNECTOR_ERROR:
           return [
             this.editAction,
-            this.checkLogAction,
+            this.checkLogsAction,
             new TableMoreAction([
               this.deleteAction,
               this.resetAction,

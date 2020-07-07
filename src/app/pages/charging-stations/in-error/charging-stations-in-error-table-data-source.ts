@@ -214,7 +214,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        new TableCheckLogsAction().getActionDef().action('logs?search=' + chargingStation.id);
+        this.checkLogsAction.action('logs?search=' + chargingStation.id);
         break;
     }
   }

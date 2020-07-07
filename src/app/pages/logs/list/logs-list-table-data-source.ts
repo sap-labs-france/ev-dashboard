@@ -7,7 +7,6 @@ import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { Log, LogButtonAction } from 'app/types/Log';
-import { ServerAction } from 'app/types/Server';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

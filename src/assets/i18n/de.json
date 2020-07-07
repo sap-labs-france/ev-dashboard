@@ -861,7 +861,7 @@
     "ocpp_params_list_error": "Keine OCPP Parameter anzuzeigen",
     "ocpp_params_update_from_template_title": "Aktualisiere OCPP Parameter",
     "ocpp_params_update_from_template_confirm": "Wollen Sie die OCPP Parameter der Ladestation'{{chargeBoxID}}' auf die aktuelle Vorlage aktualisieren?",
-    "ocpp_params_update_from_template_success": "Die OCPP Parameter der Ladestation '{{chargeBoxID}}' wurden erfolgreich aktualisiert?",
+    "ocpp_params_update_from_template_success": "Die OCPP Parameter der Ladestation '{{chargeBoxID}}' wurden erfolgreich aktualisiert",
     "ocpp_params_update_from_template_error": "Beim Aktualisieren der OCCPP Parameter der Ladestation ist ein Fehler aufgetreten",
     "set_configuration_title": "Speichere Änderungskonfigurationen",
     "set_configuration_confirm": "Wollen Sie den Parameter '{{key}}' der Ladestation '{{chargeBoxID}}'wirklich ändern?",

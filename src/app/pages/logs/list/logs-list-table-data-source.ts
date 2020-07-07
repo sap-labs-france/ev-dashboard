@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
@@ -43,7 +43,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private authorizationService: AuthorizationService,
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
-    private activatedRoute: ActivatedRoute,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {

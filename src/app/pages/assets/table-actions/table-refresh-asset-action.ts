@@ -25,8 +25,8 @@ export class TableRefreshAssetAction extends TableRefreshAction {
       centralServerService.refreshAssetConnection(asset.id).subscribe((response) => {
         spinnerService.hide();
         if (response.status && response.status === RestResponse.SUCCESS) {
-            refresh().subscribe();
-            messageService.showSuccessMessage('assets.refresh_success');
+          refresh().subscribe();
+          messageService.showSuccessMessage('assets.refresh_success');
         }
       }, (error) => {
         spinnerService.hide();

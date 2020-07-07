@@ -103,8 +103,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        headerClass: 'col-25p text-center',
-        class: 'col-25p text-center',
+        headerClass: 'col-25p',
+        class: 'col-25p',
         sortable: true,
       },
       {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
@@ -41,10 +42,42 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private router: Router,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
+    this.initFilters();
+  }
+
+  public initFilters() {
+    // Server Actions
+    const actions = this.windowService.getSearch('actions');
+    if (actions) {
+      const logActionTableFilter = this.tableFiltersDef.find(filter => filter.id === 'action');
+      if (logActionTableFilter) {
+        for (const action of actions.split('|')) {
+          logActionTableFilter.currentValue.push({
+            key: action, value: action
+          });
+        }
+        this.filterChanged(logActionTableFilter);
+      }
+    }
+    // Charging Station
+    const chargingStationID = this.windowService.getSearch('chargingStationID');
+    if (chargingStationID) {
+      const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+      if (logSourceTableFilter) {
+        logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+        this.filterChanged(logSourceTableFilter);
+      }
+    }
+    // Search
+    const search = this.windowService.getSearch('search');
+    if (search) {
+      this.setSearchValue(search);
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -199,34 +232,24 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    if (this.authorizationService.isSuperAdmin()) {
-      return [
-        new StartDateFilter().getFilterDef(),
-        new EndDateFilter().getFilterDef(),
-        new LogLevelTableFilter().getFilterDef(),
-        new LogActionTableFilter().getFilterDef(),
-        new LogHostTableFilter().getFilterDef(),
-        new UserTableFilter().getFilterDef(),
-      ];
-    }
-    if (this.authorizationService.isAdmin()) {
-      return [
-        new StartDateFilter().getFilterDef(),
-        new EndDateFilter().getFilterDef(),
-        new LogLevelTableFilter().getFilterDef(),
-        new LogActionTableFilter().getFilterDef(),
-        new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
-        new LogHostTableFilter().getFilterDef(),
-        new UserTableFilter().getFilterDef(),
-      ];
-    }
-    return [
+    const tableFiltersDef = [
       new StartDateFilter().getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
       new LogHostTableFilter().getFilterDef(),
-      new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
-      new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];
+    ];
+    if (this.authorizationService.isSuperAdmin()) {
+      tableFiltersDef.push(new UserTableFilter().getFilterDef());
+      return tableFiltersDef;
+    }
+    if (this.authorizationService.isAdmin()) {
+      tableFiltersDef.push(new UserTableFilter().getFilterDef());
+      tableFiltersDef.push(new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+    } else {
+      tableFiltersDef.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      tableFiltersDef.push(new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+    }
+    return tableFiltersDef;
   }
 }

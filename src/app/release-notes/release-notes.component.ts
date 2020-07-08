@@ -20,17 +20,22 @@ export class ReleaseNotesComponent {
   constructor() {
     this.buidlReleaseNotes();
   }
-  
+
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.13',
-        date: new Date('2020-07-06'),
+        version: '2.3.14',
+        date: new Date('2020-07-08'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
+              `Converted Action filter in Logs to a pop-up`,
+              `Added jump to Logs with predefined filters`,
               `Added Public column in Charging Station list`,
+              `Changed Car VIN validator`,
+              `Fixed missing spanish translation`,
               `Updated German translation`,
             ],
           },

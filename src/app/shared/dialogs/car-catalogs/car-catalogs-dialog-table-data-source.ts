@@ -11,15 +11,19 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 
 @Injectable()
 export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarCatalog> {
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private centralServerService: CentralServerService) {
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private centralServerService: CentralServerService,
+    private appUnitPipe: AppUnitPipe,
+    private decimalPipe: AppDecimalPipe) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -63,6 +67,30 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
         class: 'text-left col-40p',
         formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
       },
+      {
+        id: 'drivetrainPowerHP',
+        name: 'cars.drivetrain_power_hp',
+        class: 'text-left col-25p',
+        sortable: true,
+        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
+          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrain_power_hp_unit')}` : '-',
+      },
+      {
+        id: 'chargeStandardPower',
+        name: 'cars.charge_standard_power',
+        class: 'text-left col-25p',
+        sortable: true,
+        formatter: (chargeStandardPower: number) =>
+          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0) : '-',
+      },
+      {
+        id: 'rangeReal',
+        name: 'cars.range_real',
+        class: 'text-left col-25p',
+        sortable: true,
+        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' ' +
+          this.translateService.instant('cars.unit.kilometer') : '-',
+      }
     ];
   }
 }

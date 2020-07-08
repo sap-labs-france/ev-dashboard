@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -16,6 +17,7 @@ import { TableDataSource } from 'app/shared/table/table-data-source';
 import { ChargingStationButtonAction, Connector, OCPPVersion } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
+import { LogButtonAction } from 'app/types/Log';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
@@ -40,6 +42,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private resetAction = new TableChargingStationsResetAction().getActionDef();
   private rebootAction = new TableChargingStationsRebootAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
   private isOrganizationComponentActive: boolean;
 
   constructor(
@@ -61,7 +64,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters(
         [
-          {WithSite: true},
+          { WithSite: true },
         ]);
     }
     this.initDataSource();
@@ -76,28 +79,28 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       // Get data
       this.centralServerService.getChargingStationsInError(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        this.formatErrorMessages(chargers.result);
-        // Update details status
-        chargers.result.forEach((charger: ChargingStationInError) => {
-          // At first filter out the connectors that are null
-          charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
-          charger.connectors.forEach((connector) => {
-            connector.hasDetails = connector.currentTransactionID > 0;
+          this.formatErrorMessages(chargers.result);
+          // Update details status
+          chargers.result.forEach((charger: ChargingStationInError) => {
+            // At first filter out the connectors that are null
+            charger.connectors = charger.connectors.filter((connector) => !Utils.isNull(connector));
+            charger.connectors.forEach((connector) => {
+              connector.hasDetails = connector.currentTransactionID > 0;
+            });
           });
+          // Ok
+          observer.next(chargers);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
         });
-        // Ok
-        observer.next(chargers);
-        observer.complete();
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
     });
   }
 
-  public getConnectors(id: string): Observable<Connector>|null {
+  public getConnectors(id: string): Observable<Connector> | null {
     this.getData().forEach((charger) => {
       if (charger.id === id) {
         return charger;
@@ -210,6 +213,9 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
           actionDef.action(chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
+      case LogButtonAction.CHECK_LOGS:
+        this.checkLogsAction.action('logs?chargingStationID=' + chargingStation.id);
+        break;
     }
   }
 
@@ -246,8 +252,8 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     });
     if (this.isOrganizationComponentActive) {
       errorTypes.push({
-      key: ChargingStationInErrorType.MISSING_SITE_AREA,
-      value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`),
+        key: ChargingStationInErrorType.MISSING_SITE_AREA,
+        value: this.translateService.instant(`chargers.errors.${ChargingStationInErrorType.MISSING_SITE_AREA}.title`),
       });
     }
     // Sort
@@ -273,13 +279,15 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         case ChargingStationInErrorType.CONNECTION_BROKEN:
           return [
             this.editAction,
+            this.checkLogsAction,
             new TableMoreAction([
-              this.deleteAction
+              this.deleteAction,
             ]).getActionDef(),
           ];
         case ChargingStationInErrorType.CONNECTOR_ERROR:
           return [
             this.editAction,
+            this.checkLogsAction,
             new TableMoreAction([
               this.deleteAction,
               this.resetAction,

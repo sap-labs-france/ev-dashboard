@@ -18,7 +18,6 @@ export class ChargingStationTableFilter extends TableFilter {
       multiple: true,
       cleared: true,
     };
-
     if (siteIDs) {
       filterDef.dialogComponentData = {
         staticFilter: {

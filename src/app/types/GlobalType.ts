@@ -2,6 +2,7 @@ import { Asset } from './Asset';
 import { Car, CarCatalog, CarMaker } from './Car';
 import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
+import { LogAction } from './Log';
 import { RefundReport } from './Refund';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
@@ -33,7 +34,7 @@ export interface SubjectInfo {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction;
   readonly?: boolean;
   icon?: string;
   tooltip?: string;

@@ -1021,6 +1021,8 @@
     "search_last_week": "La semana pasada",
     "search_this_month": "Este mes",
     "search_last_month": "El mes pasado",
+    "select_actions": "Seleccionar Acciones",
+    "redirect": "Verificar registros",
     "no_logs": "No hay registros que coincidan con los filtros.",
     "dialog": {
       "export": {

@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.13',
-        date: new Date('2020-07-06'),
+        version: '2.3.14',
+        date: new Date('2020-07-08'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added Public column in Charging Station list`,
+              `Fixed missing spanish translation`,
               `Updated German translation`,
             ],
           },

@@ -61,7 +61,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
           });
         });
         this.filterChanged(logActionTableFilter);
-        this.windowService.deleteSearch('actions');
       }
     }
     const chargingStationID = this.windowService.getSearch('chargingStationID');
@@ -70,13 +69,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       if (logSourceTableFilter) {
         logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
         this.filterChanged(logSourceTableFilter);
-        this.windowService.deleteSearch('chargingStationID');
       }
     }
     const search = this.windowService.getSearch('search');
     if (search) {
       this.setSearchValue(search);
-      this.windowService.deleteSearch('search');
     }
   }
   public getDataChangeSubject(): Observable<ChangeNotification> {

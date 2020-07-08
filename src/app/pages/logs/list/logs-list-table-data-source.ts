@@ -33,8 +33,6 @@ import { TableExportLogsAction } from '../table-actions/table-export-logs-action
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
-  private logActionTableFilter = new LogActionTableFilter().getFilterDef();
-  private logSourceTableFilter = new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef();
   constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -55,19 +53,25 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
   public initFilters() {
     const actions = this.windowService.getSearch('actions');
     if (actions) {
-      actions.split('|').forEach(action => {
-        this.logActionTableFilter.currentValue.push({
-          key: action, value: action
+      const logActionTableFilter = this.tableFiltersDef.find(filter => filter.id == 'action');
+      if (logActionTableFilter) {
+        actions.split('|').forEach(action => {
+          logActionTableFilter.currentValue.push({
+            key: action, value: action
+          });
         });
-      });
-      this.filterChanged(this.logActionTableFilter);
-      this.windowService.deleteSearch('actions');
+        this.filterChanged(logActionTableFilter);
+        this.windowService.deleteSearch('actions');
+      }
     }
     const chargingStationID = this.windowService.getSearch('chargingStationID');
     if (chargingStationID) {
-      this.logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
-      this.filterChanged(this.logSourceTableFilter);
-      this.windowService.deleteSearch('chargingStationID');
+      const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id == 'charger');
+      if (logSourceTableFilter) {
+        logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+        this.filterChanged(logSourceTableFilter);
+        this.windowService.deleteSearch('chargingStationID');
+      }
     }
     const search = this.windowService.getSearch('search');
     if (search) {
@@ -232,7 +236,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new StartDateFilter().getFilterDef(),
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
-        this.logActionTableFilter,
+        new LogActionTableFilter().getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
       ];
@@ -242,8 +246,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new StartDateFilter().getFilterDef(),
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
-        this.logActionTableFilter,
-        this.logSourceTableFilter,
+        new LogActionTableFilter().getFilterDef(),
+        new LogSourceTableFilter().getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
       ];
@@ -252,9 +256,9 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new StartDateFilter().getFilterDef(),
       new EndDateFilter().getFilterDef(),
       new LogLevelTableFilter().getFilterDef(),
-      this.logActionTableFilter,
+      new LogActionTableFilter().getFilterDef(),
       new LogHostTableFilter().getFilterDef(),
-      this.logSourceTableFilter,
+      new LogSourceTableFilter().getFilterDef(),
       new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];
   }
 }

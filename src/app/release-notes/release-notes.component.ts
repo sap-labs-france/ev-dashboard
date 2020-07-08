@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
               `Added Public column in Charging Station list`,
               `Changed Car VIN validator`,
               `Fixed missing spanish translation`,

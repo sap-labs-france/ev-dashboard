@@ -1,4 +1,3 @@
-import { AuthorizationService } from '../../../services/authorization.service';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 
 export class LogSourceTableFilter extends ChargingStationTableFilter {

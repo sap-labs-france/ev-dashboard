@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.12",
+    "last_update": "Versión 2.3.14",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -632,6 +632,7 @@
     "share_power_to_all_connectors": "Compartir energía con conectores",
     "exclude_from_power_limitation": "No se puede limitar la potencia",
     "public": "Está estación de carga es publica",
+    "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
@@ -808,15 +809,15 @@
       "trigger_smart_charging_error": "Se produjo un error al activar el algoritmo de carga inteligente, verifique los registros",
       "minutes": "minutos",
       "charging_plans": {
-        "charging_plan_name": "Name",
-        "charging_station_id": "Charging Station",
-        "connector_id": "Connector ID",
-        "current_limit": "Current limit",
-        "kind": "Kind",
-        "purpose": "Purpose",
-        "stack_level": "Stack Level",
-        "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit"
+        "charging_plan_name": "Nombre",
+        "charging_station_id": "Estación de carga",
+        "connector_id": "ID del conector",
+        "current_limit": "Límite actual",
+        "kind": "Tipo",
+        "purpose": "Proósito",
+        "stack_level": "Nivel",
+        "site_area":"Zona",
+        "site_area_limit":"Límite por zona"
       }
     },
     "more_actions": {
@@ -1020,6 +1021,8 @@
     "search_last_week": "La semana pasada",
     "search_this_month": "Este mes",
     "search_last_month": "El mes pasado",
+    "select_actions": "Seleccionar Acciones",
+    "redirect": "Verificar registros",
     "no_logs": "No hay registros que coincidan con los filtros.",
     "dialog": {
       "export": {

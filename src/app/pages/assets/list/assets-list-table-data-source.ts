@@ -117,6 +117,15 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
           this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
       {
+        id: 'assetType',
+        name: 'assets.asset_type',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (assetType: string) => assetType === 'PR' ?
+          this.translateService.instant('assets.produce') : this.translateService.instant('assets.consume'),
+      },
+      {
         id: 'consumption.instantWatts',
         name: 'assets.instant_power',
         headerClass: 'col-20p text-center',

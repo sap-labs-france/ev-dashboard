@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
+              `Converted Action filter in Logs to a pop-up`,
+              `Added jump to Logs with predefined filters`,
               `Added Public column in Charging Station list`,
               `Changed Car VIN validator`,
               `Fixed missing spanish translation`,

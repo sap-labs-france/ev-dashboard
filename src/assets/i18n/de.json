@@ -307,6 +307,8 @@
     "titles": "Assets",
     "created_on": "Erstellt am",
     "created_by": "Erstellt von",
+    "changed_on": "Changed On",
+    "changed_by": "Changed By",
     "delete_title": "Löschen",
     "delete_button": "Löschen",
     "delete_confirm": "Möchten Sie das Asset '{{assetName}}' wirklich löschen?",

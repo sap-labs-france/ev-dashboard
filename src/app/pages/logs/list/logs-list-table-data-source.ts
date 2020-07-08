@@ -247,7 +247,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new EndDateFilter().getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogActionTableFilter().getFilterDef(),
-        new LogSourceTableFilter().getFilterDef(),
+        new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
         new LogHostTableFilter().getFilterDef(),
         new UserTableFilter().getFilterDef(),
       ];
@@ -258,7 +258,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       new LogLevelTableFilter().getFilterDef(),
       new LogActionTableFilter().getFilterDef(),
       new LogHostTableFilter().getFilterDef(),
-      new LogSourceTableFilter().getFilterDef(),
+      new LogSourceTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef(),
       new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef()];
   }
 }

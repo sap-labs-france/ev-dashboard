@@ -20,7 +20,7 @@ export class ReleaseNotesComponent {
   constructor() {
     this.buidlReleaseNotes();
   }
-  
+
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Public column in Charging Station list`,
+              `Changed Car VIN validator`,
               `Fixed missing spanish translation`,
               `Updated German translation`,
             ],

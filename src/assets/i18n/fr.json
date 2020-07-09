@@ -440,7 +440,7 @@
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "maximum_energy_watts": "Puissance Maximale (W)",
-    "maximum_energy_amps": "Puissance Maximale (A)",
+    "maximum_energy_amps": "Intensité Maximale (A)",
     "number_of_phases": "Nombre de phases",
     "export_all_params_title": "Exporter les paramètres OCPP",
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?",
@@ -645,8 +645,8 @@
     "ocpp_advanced_command": "Commandes OCPP Avancées",
     "unassigned": "Non Assignée",
     "unassigned_chargers": "Bornes",
-    "maximum_energy": "Energie Maximum (Watts)",
-    "maximum_energy_amps": "Energie Maximum (Amps)",
+    "maximum_energy": "Puissance Maximum (Watts)",
+    "maximum_energy_amps": "Intensité Maximum (Amps)",
     "efficiency": "Rendement (%)",
     "invalid_efficiency": "Le rendement doit être un nombre positif inférieur a 100",
     "connector": "Connecteur",
@@ -1022,7 +1022,7 @@
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
     "select_actions":"Selection Actions",
-    "redirect": "Checker les logs",
+    "redirect": "Contrôler les logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {

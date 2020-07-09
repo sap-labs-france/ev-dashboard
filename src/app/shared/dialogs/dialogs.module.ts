@@ -26,6 +26,8 @@ import { CompaniesDialogComponent } from './companies/companies-dialog.component
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
+import { LogActionsDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
+import { LogActionsDialogComponent } from './logs/log-actions-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
@@ -38,6 +40,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
 export class FooterModule {
 }
 
+// tslint:disable-next-line: max-classes-per-file
 @NgModule({
   imports: [
     RouterModule,
@@ -64,6 +67,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
+    LogActionsDialogComponent
   ],
   entryComponents: [
     CarMakersDialogComponent,
@@ -80,6 +84,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
+    LogActionsDialogComponent
   ],
   exports: [
     CarMakersDialogComponent,
@@ -95,6 +100,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
+    LogActionsDialogComponent
   ],
   providers: [
     AppConnectorIdPipe,
@@ -112,6 +118,7 @@ export class FooterModule {
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
+    LogActionsDialogTableDataSource
   ],
 })
 export class DialogsModule {

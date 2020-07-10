@@ -62,15 +62,15 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       // Get the Invoices
       this.centralServerService.getUserInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
-        // Ok
-        observer.next(invoices);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
-        // Error
-        observer.error(error);
-      });
+          // Ok
+          observer.next(invoices);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -141,7 +141,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeInvoices()) {
+      this.authorizationService.canSynchronizeInvoices()) {
       tableActionsDef.unshift(this.syncBillingInvoicesAction);
     }
     return [

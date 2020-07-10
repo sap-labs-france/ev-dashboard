@@ -1204,7 +1204,8 @@
     "createdOn": "Invoice date",
     "price": "Invoice price",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
-    "pay": "Pay"
+    "pay": "Pay",
+    "user": "User"
   },
   "tags": {
     "id": "ID",

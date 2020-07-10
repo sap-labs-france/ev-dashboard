@@ -5,7 +5,7 @@ import { TableAction } from './table-action';
 
 export class TableMultiSyncAction implements TableAction {
   private action: TableActionDef = {
-    id: ButtonAction.MULTI_CREATE,
+    id: ButtonAction.MULTI_SYNC,
     type: 'dropdown-button',
     icon: 'sync',
     color: ButtonColor.PRIMARY,

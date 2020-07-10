@@ -1345,7 +1345,7 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeInvoices(): Observable<ActionsResponse> {
+  public synchronizeInvoicesForBilling(): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_INVOICES}`, {},
@@ -1680,7 +1680,7 @@ export class CentralServerService {
       );
   }
 
-  public TableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
+  public tableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
     const params: { [param: string]: string } = {};
     params['ID'] = assetId;
     // Verify init

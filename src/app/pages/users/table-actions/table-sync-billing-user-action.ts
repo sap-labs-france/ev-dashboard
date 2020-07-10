@@ -4,27 +4,21 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAction } from 'app/shared/table/actions/table-action';
+import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { RestResponse } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { User, UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-export class TableSyncBillingUserAction implements TableAction {
-  private action: TableActionDef = {
-    id: UserButtonAction.SYNCHRONIZE_USER,
-    type: 'button',
-    icon: 'sync',
-    color: ButtonColor.PRIMARY,
-    name: 'settings.billing.user.synchronize_user',
-    tooltip: 'general.synchronize',
-    action: this.synchronizeUser,
-  };
-
-  // Return an action
+export class TableSyncBillingUserAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: UserButtonAction.SYNCHRONIZE_USER,
+      name: 'settings.billing.user.synchronize_user',
+      action: this.synchronizeUser,
+    };
   }
 
   private synchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added new firmware versions in Charging Station templates`,
               `Fixed Charging Station cannot change limits when not assigned to a Site Area`,
               `Fixed add a single phase Charging Station failed on a single phase Site Area`,
               `Updated Car VIN validator`,

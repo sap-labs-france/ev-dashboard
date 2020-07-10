@@ -1204,7 +1204,8 @@
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste aller Rechnungen kann nicht abgerufen werden",
-    "pay": "Bezahlen"
+    "pay": "Bezahlen",
+    "user": "User"
   },
   "tags": {
     "id": "ID",

@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.14',
-        date: new Date('2020-07-08'),
+        version: '2.3.15',
+        date: new Date('2020-07-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Assign an Asset to a Schneider Building Management System and manually retrieve the consumption of the Buildings, Solar Panels...`,
               `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
               `Converted Action filter in Logs to a pop-up`,
               `Added jump to Logs with predefined filters`,

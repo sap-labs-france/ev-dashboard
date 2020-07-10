@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/cor
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
@@ -14,6 +15,7 @@ import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, C
 import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { ServerAction } from 'app/types/Server';
 import { ButtonType } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
@@ -95,6 +97,12 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
           }
         });
     }
+  }
+
+  public redirectToLog() {
+    new TableCheckLogsAction().getActionDef().action('logs?chargingStationID=' + this.chargingStation.id +
+      '&actions=' + ServerAction.CHARGING_PROFILES + '|'
+      + ServerAction.CHARGING_PROFILE_DELETE + '|' + ServerAction.CHARGING_PROFILE_UPDATE);
   }
 
   public ngOnInit(): void {

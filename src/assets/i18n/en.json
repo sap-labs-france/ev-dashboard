@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.13",
+    "last_update": "Version 2.3.14",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -1021,6 +1021,8 @@
     "search_last_week": "Last Week",
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
+    "select_actions":"Select Actions",
+    "redirect": "Check logs",
     "no_logs": "No logs matching the filters",
     "dialog": {
       "export": {

@@ -30,6 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Send 24/7 Charging Station availability by default to the Gireve platform`,
+              `Do not send Locations with no Charging Station to the Gireve platform`,
+              `Do not send the number of phases when DC Charging Stations to the Gireve platform`,
               `Assign an Asset to a Schneider Building Management System and manually retrieve the consumption of the Buildings, Solar Panels...`,
               `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
               `Converted Action filter in Logs to a pop-up`,

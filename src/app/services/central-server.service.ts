@@ -1241,7 +1241,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INVOICE}?ID=${id}`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_USER_INVOICE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1335,7 +1335,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INVOICES}`,
+    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_USER_INVOICES}`,
       {
         headers: this.buildHttpHeaders(),
         params,

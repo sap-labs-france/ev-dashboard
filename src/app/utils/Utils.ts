@@ -13,9 +13,9 @@ import { ButtonType } from 'app/types/Table';
 import { User, UserCar, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
+
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -731,6 +731,22 @@ export class Utils {
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
+  }
+
+  static convertToBoolean(value: any): boolean {
+    let result = false;
+    // Check boolean
+    if (value) {
+      // Check the type
+      if (typeof value === 'boolean') {
+        // Already a boolean
+        result = value;
+      } else {
+        // Convert
+        result = (value === 'true');
+      }
+    }
+    return result;
   }
 
   public static convertToDate(date: any): Date {

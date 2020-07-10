@@ -48,6 +48,7 @@ import { TableDeleteTransactionAction } from '../table-actions/table-delete-tran
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
 import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -248,12 +249,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableRowActions(): TableActionDef[] {
     const rowActions = [this.viewAction];
     if (this.isAdmin) {
-      rowActions.push(this.deleteAction);
-      rowActions.push(this.checkLogsAction);
+      const moreActions = new TableMoreAction([]);
+      moreActions.addActionInMoreActions(this.deleteAction);
+      moreActions.addActionInMoreActions(this.checkLogsAction);
       // Enable only for one user for the time being
       if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-        rowActions.push(this.rebuildTransactionConsumptionsAction);
+        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
       }
+      rowActions.push(moreActions.getActionDef());
     }
     return rowActions;
   }

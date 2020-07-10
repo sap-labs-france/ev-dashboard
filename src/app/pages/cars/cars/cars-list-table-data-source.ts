@@ -14,7 +14,7 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarButtonAction, CarType, CarConverter } from 'app/types/Car';
+import { Car, CarButtonAction, CarConverter, CarType } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';

@@ -34,7 +34,7 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
         this.reversed = false;
       }
       // const sortedActions = this.getSort().direction === 'desc' && !reversed ? logActions.reverse() : logActions;
-      for (let [key, value] of Object.entries(logActions)) {
+      for (const [key, value] of Object.entries(logActions)) {
         if (value.value.toLowerCase().includes(searchValue.toLowerCase())) {
           actions.push({
             action: value.value as ServerAction,

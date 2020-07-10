@@ -3,7 +3,7 @@ import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 import { TableAction } from './table-action';
 
-export class TableTestConnectionAction implements TableAction {
+export class TableCheckConnectionAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.TEST_CONNECTION,
     type: 'button',

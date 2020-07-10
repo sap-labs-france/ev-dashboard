@@ -23,7 +23,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.14",
+    "last_update": "Version 2.3.15",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -302,6 +302,10 @@
     "asset_type": "Type de ressource",
     "produce": "Produit de l'Energie'",
     "consume": "Consomme de l'Energie",
+    "dynamic_asset": "Ressource Dynamique",
+    "instant_power": "Puissance Instantanée",
+    "asset_connection": "Connexion à la Ressource",
+    "meter_id": "ID du Compteur",
     "asset": "Ressource",
     "title": "Ressource",
     "titles": "Ressources",
@@ -318,10 +322,16 @@
     "update_success": "La ressource '{{assetName}}' a été mise à jour avec succès",
     "update_error": "Une erreur est survenue pendant la mise à jour de la ressource",
     "asset_not_found": "La ressource n'a pas été trouvée",
+    "asset_settings_error": "Erreur survenue lors de la réception des paramètres des ressources",
     "create_success": "La ressource '{{assetName}}' a été créée avec succès",
     "create_error": "Une erreur est survenue pendant la création de la ressource",
+    "refresh_success": "La connexion à la ressource a été renouvelée avec succès",
+    "refresh_error": "Une erreur est survenue pendant le rafraichissement de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "select_assets": "Selection Ressource",
+    "dialog_tabs": {
+      "connection": "Connexion"
+    },
     "errors": {
       "missing_site_area": {
         "title": "Non Assignée à une Zone",
@@ -333,6 +343,7 @@
   "sites": {
     "assign_company": "Assigner une Companie",
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
+    "auto_assignment": "Assign. Auto Utilisateur",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
     "user_list_target_title": "Utilisés",
@@ -440,7 +451,7 @@
     "create_error": "Une erreur est survenue pendant la création de la zone",
     "image_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "maximum_energy_watts": "Puissance Maximale (W)",
-    "maximum_energy_amps": "Puissance Maximale (A)",
+    "maximum_energy_amps": "Intensité Maximale (A)",
     "number_of_phases": "Nombre de phases",
     "export_all_params_title": "Exporter les paramètres OCPP",
     "export_all_params_confirm": "Voulez-vous vraiment exporter tous les paramètres OCPP de toutes les bornes appartenant à la zone '{{siteAreaName}}' ?",
@@ -645,8 +656,8 @@
     "ocpp_advanced_command": "Commandes OCPP Avancées",
     "unassigned": "Non Assignée",
     "unassigned_chargers": "Bornes",
-    "maximum_energy": "Energie Maximum (Watts)",
-    "maximum_energy_amps": "Energie Maximum (Amps)",
+    "maximum_energy": "Puissance Maximum (Watts)",
+    "maximum_energy_amps": "Intensité Maximum (Amps)",
     "efficiency": "Rendement (%)",
     "invalid_efficiency": "Le rendement doit être un nombre positif inférieur a 100",
     "connector": "Connecteur",
@@ -1022,7 +1033,7 @@
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
     "select_actions":"Selection Actions",
-    "redirect": "Checker les logs",
+    "redirect": "Contrôler les logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {
@@ -1232,6 +1243,8 @@
     "smart_charging_still_active_for_site_area": "La charge intelligente est encore active pour certaines zones.<br>Désactivez la charge intelligente sur ces zones."
   },
   "settings": {
+    "settings_not_saved_title": "Changements non Sauvegardé",
+    "settings_not_saved": "Vous devez d'abord enregistrer vos changements",
     "tabs": {
       "ocpi": "Itinérance",
       "charging_station": "Borne",

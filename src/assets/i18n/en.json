@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.14",
+    "last_update": "Version 2.3.15",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -302,6 +302,10 @@
     "asset_type": "Asset type",
     "produce": "Produce Energy",
     "consume": "Consume Energy",
+    "dynamic_asset": "Dynamic Asset",
+    "instant_power": "Instant Power",
+    "asset_connection": "Asset Connection",
+    "meter_id": "Meter ID",
     "asset": "Asset",
     "title": "Asset",
     "titles": "Assets",
@@ -318,10 +322,16 @@
     "update_success": "The asset '{{assetName}}' has been updated successfully",
     "update_error": "Error occurred while updating the asset",
     "asset_not_found": "Asset has not been found",
+    "asset_settings_error": "Error occurred while getting asset connections",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset",
+    "refresh_success": "The asset connection has been successfully refreshed",
+    "refresh_error": "Error occurred while refreshing the asset connection",
     "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "select_assets": "Select Asset",
+    "dialog_tabs": {
+      "connection": "Connection"
+    },
     "errors": {
       "missing_site_area": {
         "title": "Not Assigned to a Site Area",
@@ -333,6 +343,7 @@
   "sites": {
     "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
@@ -440,7 +451,7 @@
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Maximum Power (W)",
-    "maximum_energy_amps": "Maximum Power (A)",
+    "maximum_energy_amps": "Maximum Amperage (A)",
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
@@ -646,7 +657,7 @@
     "unassigned": "Unassigned",
     "unassigned_chargers": "Chargers",
     "maximum_energy": "Maximum Power (Watts)",
-    "maximum_energy_amps": "Maximum Power (Amps)",
+    "maximum_energy_amps": "Maximum Amperage (Amps)",
     "efficiency": "Efficiency (%)",
     "invalid_efficiency": "Efficiency must be a positive number not greater 100",
     "connector": "Connector",
@@ -1232,6 +1243,8 @@
     "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Charging Station",

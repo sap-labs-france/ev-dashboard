@@ -53,6 +53,7 @@ export enum ButtonAction {
   DELETE = 'delete',
   DELETE_MANY = 'delete_many',
   REFRESH = 'refresh',
+  SYNCHRONIZE = 'synchronize',
   AUTO_REFRESH = 'auto-refresh',
   EXPORT = 'export',
   ADD = 'add',

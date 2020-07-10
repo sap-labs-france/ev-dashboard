@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -11,7 +10,6 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -32,24 +30,24 @@ import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 import { TableSyncBillingInvoicesAction } from '../table-actions/table-sync-billing-invoices-action';
 
+
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
 
   constructor(
-    public spinnerService: SpinnerService,
-    public translateService: TranslateService,
-    private messageService: MessageService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog,
-    private centralServerNotificationService: CentralServerNotificationService,
-    private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
-    private datePipe: AppDatePipe,
-    private appCurrencyPipe: AppCurrencyPipe,
-    private appUserNamePipe: AppUserNamePipe,
-    private componentService: ComponentService) {
+      public spinnerService: SpinnerService,
+      public translateService: TranslateService,
+      private messageService: MessageService,
+      private dialogService: DialogService,
+      private router: Router,
+      private appUserNamePipe: AppUserNamePipe,
+      private centralServerNotificationService: CentralServerNotificationService,
+      private centralServerService: CentralServerService,
+      private authorizationService: AuthorizationService,
+      private datePipe: AppDatePipe,
+      private appCurrencyPipe: AppCurrencyPipe,
+      private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -81,12 +79,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       search: {
         enabled: true,
       },
-      hasDynamicRowAction: true,
     };
-  }
-
-  public buildTableDynamicRowActions(row: BillingInvoice): TableActionDef[] {
-    return [];
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -102,21 +95,21 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         sortable: true,
       },
       {
-        id: 'number',
-        name: 'invoices.id',
-        headerClass: 'col-30p',
-        class: 'col-30p',
-        sortable: true,
-      },
-      {
         id: 'createdOn',
         name: 'invoices.createdOn',
         formatter: (date: Date) => this.datePipe.transform(date),
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sorted: true,
         sortable: true,
         direction: 'desc',
+      },
+      {
+        id: 'number',
+        name: 'invoices.id',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
       },
       {
         id: 'amount',
@@ -128,11 +121,18 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       },
     );
     if (this.authorizationService.isAdmin()) {
-      columns.splice(1, 0, {
+      columns.splice(3, 0, {
         id: 'user',
         name: 'invoices.user',
-        class: 'text-left',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
       });
     }
     return columns as TableColumnDef[];

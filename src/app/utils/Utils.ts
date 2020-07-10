@@ -733,7 +733,7 @@ export class Utils {
     }
   }
 
-  static convertToBoolean(value: any): boolean {
+  public static convertToBoolean(value: any): boolean {
     let result = false;
     // Check boolean
     if (value) {

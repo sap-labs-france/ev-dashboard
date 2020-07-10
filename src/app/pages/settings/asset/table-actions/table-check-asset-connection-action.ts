@@ -26,8 +26,8 @@ export class TableCheckAssetConnectionAction extends TableCheckConnectionAction 
     messageService: MessageService, router: Router) {
     if (formArray.dirty) {
       dialogService.createAndShowOkDialog(
-        translateService.instant("settings.settings_not_saved_title"),
-        translateService.instant("settings.settings_not_saved"),
+        translateService.instant('settings.settings_not_saved_title'),
+        translateService.instant('settings.settings_not_saved'),
       ).subscribe();
     } else {
       // Check connection

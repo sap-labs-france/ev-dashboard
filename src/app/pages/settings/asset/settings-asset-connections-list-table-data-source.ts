@@ -13,11 +13,11 @@ import { AssetButtonAction } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef, ButtonType } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 import { TableCheckAssetConnectionAction } from './table-actions/table-check-asset-connection-action';
-
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
@@ -126,8 +126,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         break;
       case ButtonAction.DELETE:
         this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant("settings.asset.connection.delete_title"),
-          this.translateService.instant("settings.asset.connection.delete_confirm", { assetConnectionName: assetConnection.name }),
+          this.translateService.instant('settings.asset.connection.delete_title'),
+          this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
         ).subscribe((result) => {
           if (result === ButtonType.YES) {
             super.rowActionTriggered(actionDef, assetConnection);

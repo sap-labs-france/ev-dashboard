@@ -33,7 +33,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
-  private refreshAction = new TableRetrieveAssetConsumptionAction().getActionDef();
+  private retrieveConsumptionAction = new TableRetrieveAssetConsumptionAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -166,7 +166,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     }
     // Display refresh button
     if (this.isAdmin && asset.dynamicAsset) {
-      actions.splice(1, 0, this.refreshAction);
+      actions.splice(1, 0, this.retrieveConsumptionAction);
     }
     return actions;
   }

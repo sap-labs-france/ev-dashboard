@@ -299,9 +299,13 @@
     "asset_number": "Asset(s)",
     "logo": "Logo",
     "name": "Name",
-    "asset_type": "Asset-typ",
-    "produce": "Erzeugt Energie",
-    "consume": "Verbraucht Energie",
+    "asset_type": "Asset type",
+    "produce": "Produce Energy",
+    "consume": "Consume Energy",
+    "dynamic_asset": "Dynamic Asset",
+    "instant_power": "Instant Power",
+    "asset_connection": "Asset Connection",
+    "meter_id": "Meter ID",
     "asset": "Asset",
     "title": "Asset",
     "titles": "Assets",
@@ -318,10 +322,16 @@
     "update_success": "Das Asset '{{assetName}}' wurde erfolgreich aktualisiert",
     "update_error": "Beim Aktualisieren des Assets ist ein Fehler aufgetreten",
     "asset_not_found": "Asset wurde nicht gefunden",
+    "asset_settings_error": "Error occurred while getting asset connections",
     "create_success": "Das Asset '{{assetName}}' wurde erfolgreich erstellt",
     "create_error": "Beim Erstellen des Assets ist ein Fehler aufgetreten",
+    "refresh_success": "The asset connection has been successfully refreshed",
+    "refresh_error": "Error occurred while refreshing the asset connection",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist {{maxPictureKb}} Kb",
     "select_assets": "Asset auswählen",
+    "dialog_tabs": {
+      "connection": "Connection"
+    },
     "errors": {
       "missing_site_area": {
         "title": "Keinem Standortbereich zugewiesen",
@@ -333,6 +343,7 @@
   "sites": {
     "assign_company": "Unternehmen zuweisen",
     "auto_user_site_assignment": "Automatische Benutzerzuordnung an diesem Standort",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Für Ladestationen authorisierte Benutzer an diesem Standort",
     "user_list_source_title": "Verfügbar",
     "user_list_target_title": "Zugeordnet",
@@ -1232,6 +1243,8 @@
     "smart_charging_still_active_for_site_area": "Smart-Charging ist noch immer aktiv für ausgewählte Standortbereiche.<br>Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Ladestation",

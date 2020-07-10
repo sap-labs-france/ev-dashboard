@@ -16,11 +16,11 @@ export interface Transaction extends Data {
   currentInstantWattsL2?: number;
   currentInstantWattsL3?: number;
   currentInstantWattsDC?: number;
-  currentInstantVoltage?: number;
-  currentInstantVoltageL1?: number;
-  currentInstantVoltageL2?: number;
-  currentInstantVoltageL3?: number;
-  currentInstantVoltageDC?: number;
+  currentInstantVolts?: number;
+  currentInstantVoltsL1?: number;
+  currentInstantVoltsL2?: number;
+  currentInstantVoltsL3?: number;
+  currentInstantVoltsDC?: number;
   currentInstantAmps?: number;
   currentInstantAmpsL1?: number;
   currentInstantAmpsL2?: number;

@@ -343,6 +343,7 @@
   "sites": {
     "assign_company": "Asignar empresa",
     "auto_user_site_assignment": "Asignación automática de nuevos usuarios a este sitio.",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Usuarios autorizados para usar las estaciones de carga en este sitio",
     "user_list_source_title": "Disponible",
     "user_list_target_title": "Asignado",
@@ -1242,6 +1243,8 @@
     "smart_charging_still_active_for_site_area": "La carga inteligente todavía está activada para ciertas áreas del sitio. <br> Desactive la carga inteligente para cada zona en la organización."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Estación de carga",

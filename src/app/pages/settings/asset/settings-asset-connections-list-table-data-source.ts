@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
@@ -12,11 +13,11 @@ import { AssetButtonAction } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
+import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef, ButtonType } from 'app/types/Table';
 import { Observable } from 'rxjs';
-
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
-import { TableTestAssetConnectionAction } from './table-actions/table-test-asset-connection-action';
+import { TableCheckAssetConnectionAction } from './table-actions/table-check-asset-connection-action';
+
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
@@ -24,6 +25,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private dialog: MatDialog,
+    private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private router: Router,
     private messageService: MessageService) {
@@ -97,7 +99,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   public buildTableRowActions(): TableActionDef[] {
     return [
       new TableEditAction().getActionDef(),
-      new TableTestAssetConnectionAction().getActionDef(),
+      new TableCheckAssetConnectionAction().getActionDef(),
       ...super.buildTableRowActions()
     ];
   }
@@ -116,11 +118,21 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       case ButtonAction.EDIT:
         this.showAssetConnectionDialog(assetConnection);
         break;
-      case AssetButtonAction.TEST_ASSET_CONNECTION:
+      case AssetButtonAction.CHECK_ASSET_CONNECTION:
         if (actionDef.action) {
-          actionDef.action(assetConnection, this.spinnerService, this.centralServerService,
-            this.messageService, this.router);
+          actionDef.action(assetConnection, this.formArray, this.dialogService, this.spinnerService, this.translateService,
+            this.centralServerService, this.messageService, this.router);
         }
+        break;
+      case ButtonAction.DELETE:
+        this.dialogService.createAndShowYesNoDialog(
+          this.translateService.instant("settings.asset.connection.delete_title"),
+          this.translateService.instant("settings.asset.connection.delete_confirm", { assetConnectionName: assetConnection.name }),
+        ).subscribe((result) => {
+          if (result === ButtonType.YES) {
+            super.rowActionTriggered(actionDef, assetConnection);
+          }
+        });
         break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);

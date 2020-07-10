@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
 import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
 import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
 import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
-import { TableRefreshAssetAction } from '../table-actions/table-refresh-asset-action';
+import { TableRetrieveAssetConsumptionAction } from '../table-actions/table-retrieve-asset-consumption-action';
 import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
-  private refreshAction = new TableRefreshAssetAction().getActionDef();
+  private refreshAction = new TableRetrieveAssetConsumptionAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -94,8 +94,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       {
         id: 'name',
         name: 'assets.name',
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -103,8 +103,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        headerClass: 'col-25p',
-        class: 'col-25p',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sortable: true,
       },
       {
@@ -126,7 +126,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
           this.translateService.instant('assets.produce') : this.translateService.instant('assets.consume'),
       },
       {
-        id: 'consumption.instantWatts',
+        id: 'currentInstantWatts',
         name: 'assets.instant_power',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
@@ -197,7 +197,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case AssetButtonAction.REFRESH_ASSET_CONNECTION:
+      case AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION:
         if (actionDef.action) {
           actionDef.action(asset, this.spinnerService, this.centralServerService, this.messageService,
             this.router, this.refreshData.bind(this));

@@ -16,8 +16,8 @@ export interface AbstractConsumption {
   instantVoltsDC: number;
   consumptionWh: number;
   consumptionAmps: number;
-  lastMetricWh: number;
-  lastMetric: Date;
+  lastConsumptionWh: number;
+  lastConsumptionDate: Date;
 }
 
 export default interface Consumption extends AbstractConsumption {

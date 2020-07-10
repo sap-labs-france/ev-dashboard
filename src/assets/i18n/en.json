@@ -343,6 +343,7 @@
   "sites": {
     "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
@@ -1242,6 +1243,8 @@
     "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Charging Station",

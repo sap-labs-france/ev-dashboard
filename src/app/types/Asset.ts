@@ -32,8 +32,8 @@ export enum AssetButtonAction {
   EDIT_ASSET = 'edit_asset',
   CREATE_ASSET = 'create_asset',
   DELETE_ASSET = 'delete_asset',
-  REFRESH_ASSET_CONNECTION = 'refresh_asset_connection',
-  TEST_ASSET_CONNECTION = 'test_connection_asset',
+  RETRIEVE_ASSET_CONSUMPTION = 'refresh_asset_connection',
+  CHECK_ASSET_CONNECTION = 'check_asset_connection',
 }
 
 export enum AssetImage {

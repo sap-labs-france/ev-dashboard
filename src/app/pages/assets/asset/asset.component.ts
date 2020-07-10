@@ -37,7 +37,7 @@ export class AssetComponent implements OnInit {
   public maxSize: number;
   public selectedSiteArea: SiteArea;
   public assetTypes!: KeyValue[];
-  public assetConnectionsList!: KeyValue[];
+  public assetConnections!: KeyValue[];
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -74,7 +74,7 @@ export class AssetComponent implements OnInit {
     // Get asset types
     this.assetTypes = AssetTypes;
     // Get asset connections list
-    this.loadAssetConnectionsList();
+    this.loadAssetConnections();
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
@@ -134,7 +134,7 @@ export class AssetComponent implements OnInit {
     this.connectionID = this.formGroup.controls['connectionID'];
     this.meterID = this.formGroup.controls['meterID'];
     // Disable connection form by default
-    this.connectionFormDisabled();
+    this.disableConnectionDetails();
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
@@ -184,7 +184,7 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.dynamicAsset) {
         this.formGroup.controls.dynamicAsset.setValue(this.asset.dynamicAsset);
-        this.connectionFormDisabled();
+        this.disableConnectionDetails();
       }
       if (this.asset.connectionID) {
         this.formGroup.controls.connectionID.setValue(this.asset.connectionID);
@@ -215,8 +215,8 @@ export class AssetComponent implements OnInit {
     });
   }
 
-  public connectionFormDisabled() {
-    if (this.dynamicAsset.value === true) {
+  public disableConnectionDetails() {
+    if (Utils.convertToBoolean(this.dynamicAsset.value)) {
       this.connectionID.enable();
       this.meterID.enable();
     } else {
@@ -388,7 +388,7 @@ export class AssetComponent implements OnInit {
     });
   }
 
-  public loadAssetConnectionsList() {
+  public loadAssetConnections() {
     this.spinnerService.show();
     this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((response) => {
       this.spinnerService.hide();
@@ -398,7 +398,7 @@ export class AssetComponent implements OnInit {
         for (const connection of assetSetting.content.asset.connections) {
           connections.push({ key: connection.id, value: connection.name});
         }
-        this.assetConnectionsList = connections;
+        this.assetConnections = connections;
       }
     }, (error) => {
       this.spinnerService.hide();

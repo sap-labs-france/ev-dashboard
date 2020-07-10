@@ -343,6 +343,7 @@
   "sites": {
     "assign_company": "Unternehmen zuweisen",
     "auto_user_site_assignment": "Automatische Benutzerzuordnung an diesem Standort",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Für Ladestationen authorisierte Benutzer an diesem Standort",
     "user_list_source_title": "Verfügbar",
     "user_list_target_title": "Zugeordnet",
@@ -1242,6 +1243,8 @@
     "smart_charging_still_active_for_site_area": "Smart-Charging ist noch immer aktiv für ausgewählte Standortbereiche.<br>Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Ladestation",

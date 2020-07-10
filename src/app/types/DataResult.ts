@@ -49,7 +49,7 @@ export interface GetDiagnosticResponse extends ActionResponse {
   fileName: string;
 }
 
-export interface ValidateBillingConnectionResponse extends ActionResponse {
+export interface CheckBillingConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 
@@ -58,7 +58,7 @@ export interface DataResult<T extends Data> {
   result: T[];
 }
 
-export interface TestAssetConnectionResponse extends ActionResponse {
+export interface CheckAssetConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 

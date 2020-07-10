@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Updated Car VIN validator`,
               `Send 24/7 Charging Station availability by default to the Gireve platform`,
               `Do not send Locations with no Charging Station to the Gireve platform`,
               `Do not send the number of phases when DC Charging Stations to the Gireve platform`,

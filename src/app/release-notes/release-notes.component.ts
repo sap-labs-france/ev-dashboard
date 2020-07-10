@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed add a single phase Charging Station failed on a single phase Site Area`,
               `Updated Car VIN validator`,
               `Send 24/7 Charging Station availability by default to the Gireve platform`,
               `Do not send Locations with no Charging Station to the Gireve platform`,

@@ -35,10 +35,6 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
   }
 
   public setContent(content: Tag[]) {
-    if (content.length === 0) {
-      const tag = this.createRow();
-      content.push(tag);
-    }
     super.setContent(content);
   }
 
@@ -49,40 +45,25 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
     } else {
       actions.push(this.activateAction);
     }
-    if (!tag.sessionCount) {
+    if (!tag.transactionsCount) {
       actions.push(this.deleteAction);
     }
     return actions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, tag: Tag, dropdownItem?: DropdownItem, postDataProcessing?: () => void) {
-    const index = this.editableRows.indexOf(tag);
-    let actionDone = false;
+    let actionAlreadyProcessed = false;
     switch (actionDef.id) {
-      case ButtonAction.DELETE:
-        this.editableRows.splice(index, 1);
-        actionDone = true;
-        break;
       case ButtonAction.ACTIVATE:
+        actionAlreadyProcessed = true;
         this.activateTag(tag);
         break;
       case ButtonAction.DEACTIVATE:
+        actionAlreadyProcessed = true;
         this.deactivateTag(tag);
         break;
     }
-    // Call post process
-    if (actionDone) {
-      this.refreshData(false).subscribe();
-      if (this.formArray) {
-        this.formArray.markAsDirty();
-      }
-      // Call post data processing
-      if (postDataProcessing) {
-        postDataProcessing();
-      }
-      // Notify
-      this.tableChangedSubject.next(this.editableRows);
-    }
+    super.rowActionTriggered(actionDef, tag, dropdownItem, postDataProcessing, actionAlreadyProcessed);
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -103,7 +84,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.maxLength(20),
           Validators.pattern('^[a-zA-Z0-9]*$'),
         ],
         canBeDisabled: true,
@@ -111,7 +92,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
           { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 8 } },
-          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 16 } },
+          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 20 } },
           { id: 'pattern', message: 'users.invalid_tag_id' },
         ],
         headerClass: 'text-left col-20p',
@@ -132,10 +113,10 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         class: 'text-center col-15p',
       },
       {
-        id: 'sessionCount',
+        id: 'transactionsCount',
         name: 'tags.sessions',
         editType: TableEditType.DISPLAY_ONLY,
-        formatter: (value: number) => value ? value.toString() : '-',
+        formatter: (transactionsCount: number) => transactionsCount ? transactionsCount.toString() : '0',
         headerClass: 'col-10p',
         class: 'text-center col-10p',
       },
@@ -153,7 +134,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
   }
 
   protected isCellDisabled(columnDef: TableColumnDef, tag: Tag): boolean {
-    return tag && tag.sessionCount ? tag.sessionCount > 0 : false;
+    return tag && tag.transactionsCount ? tag.transactionsCount > 0 : false;
   }
 
   private activateTag(tag: Tag) {
@@ -162,9 +143,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       this.translateService.instant('tags.activate_confirm', {tagID: tag.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = true;
-        tag.active = true;
+        this.setPropertyValue(tag, 'active', true);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();
@@ -181,9 +160,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
       this.translateService.instant('tags.deactivate_confirm', {tagID: tag.id}),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        const index = this.editableRows.indexOf(tag);
-        this.editableRows[index].active = false;
-        tag.active = false;
+        this.setPropertyValue(tag, 'active', false);
         this.refreshData(false).subscribe();
         if (this.formArray) {
           this.formArray.markAsDirty();

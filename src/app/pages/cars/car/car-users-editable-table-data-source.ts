@@ -177,7 +177,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
 
   private getAddedCarUsers(): UserCar[] {
     // Check users in original list not in updated list
-    const addedCarUsers: UserCar[] = []; 
+    const addedCarUsers: UserCar[] = [];
     // Updated users
     for (const carUser of this.editableRows) {
       // Original users

@@ -171,7 +171,7 @@ export class ComponentService {
     };
     settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
       if (settingConnection.type === AssetConnectionType.SCHNEIDER) {
-        settingsToSave.sensitiveData.push(`content.asset.connections[${index}].password`);
+        settingsToSave.sensitiveData.push(`content.asset.connections[${index}].connection.password`);
       }
     });
     // Delete IDS

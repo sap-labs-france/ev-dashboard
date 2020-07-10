@@ -27,6 +27,7 @@ export default class SocketIOClient {
       // Init and connect Socket IO
       this.socketIO = io(serverURL, {
         query: 'token=' + token,
+        transports: ['websocket'],
       });
     } else if (this.socketIO && this.socketIO.disconnected) {
       // Connect Socket IO
@@ -34,9 +35,19 @@ export default class SocketIOClient {
     } else {
       // console.log('Missing serverURL and token arguments');
     }
+    this.socketIO.on('unauthorized', (error) => {
+      if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
+        // Redirect user to login page perhaps?
+        console.log('SocketIO client user token has expired');
+      }
+    });
     this.socketIO.on('connect', () => {
       console.log(`SocketIO client is connected`);
       connectCallback();
+    });
+    // On reconnection, reset the transports option
+    this.socketIO.on('reconnect_attempt', () => {
+      this.socketIO.io.opts.transports = ['polling', 'websocket'];
     });
     // Temporary debug log
     this.socketIO.on('connect_timeout', (timeout) => { console.log(`SocketIO client connection timeout: ${timeout}`); });

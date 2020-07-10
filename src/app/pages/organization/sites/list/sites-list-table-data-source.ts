@@ -90,16 +90,24 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       {
         id: 'name',
         name: 'sites.name',
-        headerClass: 'col-30p',
-        class: 'text-left col-30p',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true,
       },
       {
+        id: 'autoUserSiteAssignment',
+        name: 'sites.auto_assignment',
+        headerClass: 'col-15p text-center',
+        class: 'col-15p text-center',
+        formatter: (autoUserSiteAssignment: boolean) => autoUserSiteAssignment ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+      },
+      {
         id: 'company.name',
         name: 'companies.title',
-        headerClass: 'col-30p',
+        headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
       },

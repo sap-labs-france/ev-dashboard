@@ -119,6 +119,7 @@ export class LocaleService {
         return 'es_MX';
       case 'de':
         return 'de_DE';
+      case 'en':
       default:
         return 'en_US';
     }
@@ -131,7 +132,7 @@ export class LocaleService {
       case 'es':
         return 'es-MX';
       case 'de':
-        return 'de_DE';
+        return 'de-DE';
       case 'en':
       default:
         return 'en-US';

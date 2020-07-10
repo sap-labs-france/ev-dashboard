@@ -8,14 +8,14 @@ import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDe
 import { Utils } from 'app/utils/Utils';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
-
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
-  public tableColumnDefs!: TableColumnDef[];
+  public tableColumnsDef!: TableColumnDef[];
   public tableFiltersDef!: TableFilterDef[];
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
@@ -191,7 +191,7 @@ export abstract class TableDataSource<T extends Data> {
       ];
     }
     // Find Sorted columns
-    const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
+    const columnDef = this.tableColumnsDef.find((column) => column.sorted === true);
     if (columnDef) {
       return [
         { field: columnDef.id, direction: columnDef.direction ? columnDef.direction : '' },
@@ -548,10 +548,10 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   private initTableColumnDefs(force: boolean): TableColumnDef[] {
-    if (!this.tableColumnDefs || force) {
-      this.tableColumnDefs = this.buildTableColumnDefs();
+    if (!this.tableColumnsDef || force) {
+      this.tableColumnsDef = this.buildTableColumnDefs();
     }
-    return this.tableColumnDefs;
+    return this.tableColumnsDef;
   }
 
   private initTableActionsDef(force: boolean): TableActionDef[] {
@@ -627,7 +627,9 @@ export abstract class TableDataSource<T extends Data> {
     const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);
     for (const freshRow of freshData) {
       // Check for complex property
-      for (const tableColumnDef of this.tableColumnDefs) {
+      for (const tableColumnDef of this.tableColumnsDef) {
+        // Keep a ref of the column def
+        freshRow[tableColumnDef.id + 'TableColumnsDef'] = tableColumnDef;
         // Check for complex column id with dot
         if (tableColumnDef.id.indexOf('.') !== -1) {
           const keys = tableColumnDef.id.split('.');

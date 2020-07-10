@@ -1,7 +1,8 @@
 import { Asset } from './Asset';
-import { Car, CarCatalog, CarConverter, CarMaker } from './Car';
+import { Car, CarCatalog, CarMaker } from './Car';
 import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
+import { LogAction } from './Log';
 import { RefundReport } from './Refund';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
@@ -33,7 +34,7 @@ export interface SubjectInfo {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|CarConverter;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction;
   readonly?: boolean;
   icon?: string;
   tooltip?: string;
@@ -52,6 +53,7 @@ export enum ButtonAction {
   DELETE = 'delete',
   DELETE_MANY = 'delete_many',
   REFRESH = 'refresh',
+  SYNCHRONIZE = 'synchronize',
   AUTO_REFRESH = 'auto-refresh',
   EXPORT = 'export',
   ADD = 'add',
@@ -74,6 +76,7 @@ export enum ButtonAction {
   VIEW = 'view',
   INLINE_SAVE = 'inline-save',
   DOWNLOAD = 'download',
+  TEST_CONNECTION = 'test-connection'
 }
 
 export enum ChipType {

@@ -49,13 +49,17 @@ export interface GetDiagnosticResponse extends ActionResponse {
   fileName: string;
 }
 
-export interface ValidateBillingConnectionResponse extends ActionResponse {
+export interface CheckBillingConnectionResponse extends ActionResponse {
   connectionIsValid: boolean;
 }
 
 export interface DataResult<T extends Data> {
   count: number;
   result: T[];
+}
+
+export interface CheckAssetConnectionResponse extends ActionResponse {
+  connectionIsValid: boolean;
 }
 
 export interface TransactionDataResult {

@@ -1,3 +1,4 @@
+import { AbstractConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
@@ -11,6 +12,14 @@ export interface Asset extends Data, CreatedUpdatedProps {
   assetType: string;
   coordinates: number[];
   image: string;
+  dynamicAsset: boolean;
+  connectionID: string;
+  meterID: string;
+  consumption: AbstractConsumption;
+  createdBy: string;
+  createdOn: Date;
+  lastChangedBy: string;
+  lastChangedOn: Date;
 }
 
 export const AssetTypes: KeyValue[] = [
@@ -23,6 +32,8 @@ export enum AssetButtonAction {
   EDIT_ASSET = 'edit_asset',
   CREATE_ASSET = 'create_asset',
   DELETE_ASSET = 'delete_asset',
+  RETRIEVE_ASSET_CONSUMPTION = 'retrieve_asset_connection',
+  CHECK_ASSET_CONNECTION = 'check_asset_connection',
 }
 
 export enum AssetImage {

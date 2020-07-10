@@ -23,7 +23,9 @@ import { ChargingStationsHeartbeatCellComponent } from './cell-components/chargi
 import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
-import { ChargingStationSmartChargingModule } from './charging-limit/charging-station-charging-limit.module';
+import { ChargingPlansListTableDataSource } from './charging-plans/charging-plans-list-table-data-source';
+import { ChargingPlansListComponent } from './charging-plans/charging-plans-list.component';
+import { ChargingStationLimitationModule } from './charging-station-limitation/charging-station-limitation.module';
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationComponent } from './charging-station/charging-station.component';
 import { ChargingStationFirmwareUpdateComponent } from './charging-station/firmware-update/charging-station-firmware-update.component';
@@ -59,7 +61,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     FormattersModule,
     ComponentModule,
     ChartModule,
-    ChargingStationSmartChargingModule,
+    ChargingStationLimitationModule,
     MomentModule,
   ],
   entryComponents: [
@@ -87,6 +89,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsConnectorInactivityCellComponent,
     ChargingStationFirmwareUpdateComponent,
     ChargingStationsFirmwareStatusCellComponent,
+    ChargingPlansListComponent,
   ],
   declarations: [
     ChargingStationDialogComponent,
@@ -117,6 +120,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsConnectorInactivityCellComponent,
     ChargingStationFirmwareUpdateComponent,
     ChargingStationsFirmwareStatusCellComponent,
+    ChargingPlansListComponent,
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,
@@ -126,6 +130,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsListTableDataSource,
     ChargingStationsConnectorsDetailTableDataSource,
     ChargingStationOcppParametersEditableTableDataSource,
+    ChargingPlansListTableDataSource,
   ],
 })
 export class ChargingStationsModule {

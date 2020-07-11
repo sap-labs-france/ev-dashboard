@@ -156,14 +156,26 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           class: 'col-15p',
           sortable: true,
         },
-        {
-          id: 'plateID',
-          name: 'users.plate_id',
-          headerClass: 'col-10p',
-          class: 'col-10p',
-          sortable: true,
-        },
       );
+      if (this.componentService.isActive(TenantComponents.BILLING)) {
+        columns.push(
+          {
+            id: 'billingData.customerID',
+            name: 'billing.id',
+            headerClass: 'col-15p',
+            class: 'col-15p',
+            sortable: true,
+          },
+          {
+            id: 'billingData.lastChangedOn',
+            name: 'billing.updated_on',
+            headerClass: 'col-15p',
+            formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+            class: 'col-15p',
+            sortable: true,
+          },
+        );
+      }
     }
     columns.push(
       {
@@ -199,25 +211,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         class: 'col-15p',
       },
     );
-    if (this.componentService.isActive(TenantComponents.BILLING)) {
-      columns.push(
-        {
-          id: 'billingData.customerID',
-          name: 'billing.id',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'billingData.lastChangedOn',
-          name: 'billing.updatedOn',
-          headerClass: 'col-15p',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          class: 'col-15p',
-          sortable: true,
-        },
-      );
-    }
     return columns as TableColumnDef[];
   }
 

@@ -1790,7 +1790,7 @@
     "type_placeholder": "Tipo",
     "description": "Interfaz de facturación",
     "id": "ID de facturación",
-    "updatedOn": "Sincronizado en",
+    "updated_on": "Sincronizado en",
     "tabs": {
       "invoices": "Facturas",
       "in_error": "Con errores"

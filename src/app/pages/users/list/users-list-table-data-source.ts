@@ -265,11 +265,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case BillingButtonAction.SYNCHRONIZE_USERS:
         if (this.syncBillingUsersAction.action) {
           this.syncBillingUsersAction.action(
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.router,
+            this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router,
           );
         }
         break;

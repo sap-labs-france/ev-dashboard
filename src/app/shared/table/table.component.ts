@@ -16,6 +16,7 @@ import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operato
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
+import { ButtonAction } from 'app/types/GlobalType';
 
 @Component({
   selector: 'app-table',
@@ -89,7 +90,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.tableActionsRightDef) {
       // Init Auto-Refresh
       for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
-        if (tableActionRightDef.id === 'auto-refresh') {
+        if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
           // Active by default?
           if (tableActionRightDef.currentValue) {
             this.createAutoRefresh();

@@ -5,12 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
-import { CarCatalog, CarConverter, CarType, Car } from 'app/types/Car';
+import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
 import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
-import { User, UserToken, UserCar } from 'app/types/User';
+import { User, UserCar, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
@@ -35,7 +35,7 @@ export class Utils {
   }
 
   public static registerValidateCloseKeyEvents(dialogRef: MatDialogRef<any>,
-     validate: () => void, close: () => void) {
+    validate: () => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
       if (keydownEvents && keydownEvents.code === 'Escape') {
@@ -48,7 +48,7 @@ export class Utils {
   }
 
   public static registerSaveCloseKeyEvents(dialogRef: MatDialogRef<any>, formGroup: FormGroup,
-      save: (data: Data) => void, close: () => void) {
+    save: (data: Data) => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
       if (keydownEvents && keydownEvents.code === 'Escape') {
@@ -64,7 +64,7 @@ export class Utils {
   }
 
   public static checkAndSaveAndCloseDialog(formGroup: FormGroup, dialogService: DialogService,
-      translateService: TranslateService, save: (data: Data) => void, closeDialog: (saved: boolean) => void) {
+    translateService: TranslateService, save: (data: Data) => void, closeDialog: (saved: boolean) => void) {
     if (formGroup.invalid && formGroup.dirty) {
       dialogService.createAndShowInvalidChangeCloseDialog(
         translateService.instant('general.change_invalid_pending_title'),
@@ -181,20 +181,24 @@ export class Utils {
   }
 
   public static getChargingStationPowers(chargingStation: ChargingStation,
-      chargePoint?: ChargePoint, connectorId = 0, forChargingProfile: boolean = false): ChargingStationPowers {
+    chargePoint?: ChargePoint, connectorId = 0, forChargingProfile: boolean = false): ChargingStationPowers {
+    const numberOfPhases = Utils.getNumberOfConnectedPhases(chargingStation, chargePoint, connectorId);
+    const numberOfConnectors = chargePoint ? chargePoint.connectorIDs.length : chargingStation.connectors.length;
     const result: ChargingStationPowers = {
       notSupported: false,
-      minAmp: StaticLimitAmps.MIN_LIMIT,
-      minWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, StaticLimitAmps.MIN_LIMIT),
-      maxAmp: StaticLimitAmps.MIN_LIMIT,
-      maxWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, StaticLimitAmps.MIN_LIMIT),
+      minAmp: StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors,
+      minWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId,
+        StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors),
+      maxAmp: StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors,
+      maxWatt: Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId,
+        StaticLimitAmps.MIN_LIMIT_PER_PHASE * numberOfPhases * numberOfConnectors),
       currentAmp: 0,
       currentWatt: 0,
     };
     // Check
     if (!chargingStation ||
-        !chargingStation.connectors ||
-        Utils.isEmptyArray(chargingStation.connectors)) {
+      !chargingStation.connectors ||
+      Utils.isEmptyArray(chargingStation.connectors)) {
       result.notSupported = true;
       result.currentAmp = result.maxAmp;
       result.currentWatt = Utils.convertAmpToWatt(
@@ -228,18 +232,18 @@ export class Utils {
     return 0;
   }
 
-  public static computeAmpSteps(chargingStation: ChargingStation): number {
-    if (chargingStation) {
-      // Voltage at connector level?
-      if (chargingStation.connectors) {
-        for (const connector of chargingStation.connectors) {
-          if (connector.numberOfConnectedPhase) {
-            return connector.numberOfConnectedPhase * chargingStation.connectors.length;
-          }
-        }
+  public static computeStaticLimitAmpSteps(chargingStation: ChargingStation, chargePoint: ChargePoint): number {
+    if (chargingStation && chargePoint) {
+      const numberOfPhases = Utils.getNumberOfConnectedPhases(chargingStation, chargePoint, 0);
+      if (numberOfPhases > 0) {
+        return numberOfPhases * chargePoint.connectorIDs.length;
       }
     }
-    return StaticLimitAmps.MIN_LIMIT;
+    return 6;
+  }
+
+  public static getRoundedNumberToTwoDecimals(numberToRound: number): number {
+    return Math.round(numberToRound * 100) / 100;
   }
 
   public static convertAmpToWatt(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorID = 0, ampValue: number): number {
@@ -262,14 +266,14 @@ export class Utils {
     if (!chargingStation.chargePoints) {
       return null;
     }
-    return chargingStation.chargePoints.find((chargePoint) => chargePoint.chargePointID === chargePointID);
+    return chargingStation.chargePoints.find((chargePoint) => chargePoint && (chargePoint.chargePointID === chargePointID));
   }
 
   public static getConnectorFromID(chargingStation: ChargingStation, connectorID: number): Connector {
     if (!chargingStation.connectors) {
       return null;
     }
-    return chargingStation.connectors.find((connector) => connector.connectorId === connectorID);
+    return chargingStation.connectors.find((connector) => connector && (connector.connectorId === connectorID));
   }
 
   public static computeChargingStationTotalAmps(chargingStation: ChargingStation): number {
@@ -306,7 +310,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-            // Connector
+              // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -433,7 +437,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-            // Connector
+              // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -517,7 +521,7 @@ export class Utils {
               continue;
             }
             if (chargePointOfCS.cannotChargeInParallel ||
-                chargePointOfCS.sharePowerToAllConnectors) {
+              chargePointOfCS.sharePowerToAllConnectors) {
               // Add limit amp of one connector
               amperageLimit += Utils.getConnectorFromID(chargingStation, chargePointOfCS.connectorIDs[0]).amperageLimit;
             } else {
@@ -540,13 +544,13 @@ export class Utils {
   }
 
   public static convertAmpToWattString(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorId = 0,
-      appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W'|'kW' = 'kW', displayUnit: boolean = true,
-      numberOfDecimals?: number): string {
+    appUnitFormatter: AppUnitPipe, ampValue: number, unit: 'W' | 'kW' = 'kW', displayUnit: boolean = true,
+    numberOfDecimals?: number): string {
     // TBD use corresponding connector, instead of first connector
     if (chargingStation) {
       return appUnitFormatter.transform(
         Utils.convertAmpToWatt(chargingStation, chargePoint, connectorId, ampValue),
-          'W', unit, displayUnit, 1, numberOfDecimals ? numberOfDecimals : 0);
+        'W', unit, displayUnit, 1, 0, numberOfDecimals ? numberOfDecimals : 0);
     }
     return 'N/A';
   }
@@ -586,7 +590,7 @@ export class Utils {
     return usersName;
   }
 
-  public static buildUserFullName(user: User|UserToken, withID = false): string {
+  public static buildUserFullName(user: User | UserToken, withID = false): string {
     let fullName: string;
     if (!user || !user.name) {
       return '-';
@@ -651,25 +655,19 @@ export class Utils {
     }
   }
 
-  public static buildConverterName(chargeStandardTable: CarConverter, translateService: TranslateService): string {
-    let converterName: string;
-    if (!chargeStandardTable) {
-      return '-';
+  public static buildCarCatalogConverterName(converter: CarConverter, translateService: TranslateService): string {
+    let converterName = '';
+    converterName += `${converter.powerWatts} kW`;
+    if (converter.numberOfPhases > 0) {
+      converterName += ` - ${converter.numberOfPhases} ${translateService.instant('cars.evse_phase')}`;
     }
-    converterName = chargeStandardTable.type;
-    if (chargeStandardTable.evsePhaseAmp) {
-      converterName += ` - ${chargeStandardTable.evsePhaseAmp} A`;
-    }
-    if (chargeStandardTable.evsePhase) {
-      converterName += ` - ${chargeStandardTable.evsePhase} ${translateService.instant('cars.evse_phase')}`;
-    }
-    if (chargeStandardTable.chargePower) {
-      converterName += ` - ${chargeStandardTable.chargePower} kW`;
+    if (converter.amperagePerPhase > 0) {
+      converterName += ` - ${converter.amperagePerPhase} A`;
     }
     return converterName;
   }
 
-  public static getMobileVendor(): MobileType|null {
+  public static getMobileVendor(): MobileType | null {
     const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
       return MobileType.IOS;
@@ -733,6 +731,22 @@ export class Utils {
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
+  }
+
+  static convertToBoolean(value: any): boolean {
+    let result = false;
+    // Check boolean
+    if (value) {
+      // Check the type
+      if (typeof value === 'boolean') {
+        // Already a boolean
+        result = value;
+      } else {
+        // Convert
+        result = (value === 'true');
+      }
+    }
+    return result;
   }
 
   public static convertToDate(date: any): Date {

@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
@@ -20,10 +21,10 @@ import { ButtonAction } from 'app/types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
 import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
 import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
+import { TableRetrieveAssetConsumptionAction } from '../table-actions/table-retrieve-asset-consumption-action';
 import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
 
 @Injectable()
@@ -32,6 +33,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   private editAction = new TableEditAssetAction().getActionDef();
   private deleteAction = new TableDeleteAssetAction().getActionDef();
   private displayAction = new TableViewAssetAction().getActionDef();
+  private retrieveConsumptionAction = new TableRetrieveAssetConsumptionAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -43,6 +45,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
+    private appUnitPipe: AppUnitPipe
 ) {
     super(spinnerService, translateService);
     // Init
@@ -91,8 +94,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       {
         id: 'name',
         name: 'assets.name',
-        headerClass: 'col-40p',
-        class: 'text-left col-40p',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -100,9 +103,36 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       {
         id: 'siteArea.name',
         name: 'site_areas.title',
-        headerClass: 'col-50p',
-        class: 'col-50p',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sortable: true,
+      },
+      {
+        id: 'dynamicAsset',
+        name: 'assets.dynamic_asset',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (dynamicAsset: boolean) => dynamicAsset ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
+      },
+      {
+        id: 'assetType',
+        name: 'assets.asset_type',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (assetType: string) => assetType === 'PR' ?
+          this.translateService.instant('assets.produce') : this.translateService.instant('assets.consume'),
+      },
+      {
+        id: 'currentInstantWatts',
+        name: 'assets.instant_power',
+        headerClass: 'col-20p text-center',
+        class: 'col-20p text-center',
+        sortable: true,
+        formatter: (instantWatts: number) => instantWatts || instantWatts === 0 ?
+          this.appUnitPipe.transform(instantWatts, 'W', 'kW') : '-',
       },
     ];
     return tableColumnDef;
@@ -134,6 +164,10 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       actions.push(this.displayAction);
       actions.push(openInMaps);
     }
+    // Display refresh button
+    if (this.isAdmin && asset.dynamicAsset) {
+      actions.splice(1, 0, this.retrieveConsumptionAction);
+    }
     return actions;
   }
 
@@ -161,6 +195,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         if (actionDef.action) {
           actionDef.action(asset, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
+        break;
+      case AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION:
+        if (actionDef.action) {
+          actionDef.action(asset, this.spinnerService, this.centralServerService, this.messageService,
+            this.router, this.refreshData.bind(this));
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:

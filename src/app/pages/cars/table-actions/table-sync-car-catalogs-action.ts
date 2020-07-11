@@ -4,25 +4,19 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAction } from 'app/shared/table/actions/table-action';
+import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { CarButtonAction } from 'app/types/Car';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
-export class TableSyncCarCatalogsAction implements TableAction {
-  private action: TableActionDef = {
-    id: CarButtonAction.SYNCHRONIZE,
-    type: 'button',
-    icon: 'sync',
-    color: ButtonColor.PRIMARY,
-    name: 'settings.car.synchronize_car_catalogs',
-    tooltip: 'general.synchronize',
-    action: this.synchronizeCarCatalogs,
-  };
-
-  // Return an action
+export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: CarButtonAction.SYNCHRONIZE,
+      name: 'settings.car.synchronize_car_catalogs',
+      action: this.synchronizeCarCatalogs,
+    };
   }
 
   private synchronizeCarCatalogs(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,

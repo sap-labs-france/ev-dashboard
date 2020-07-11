@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
@@ -9,6 +10,8 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { ButtonAction } from 'app/types/GlobalType';
+import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
@@ -31,7 +34,7 @@ import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -43,7 +46,9 @@ import { TransactionsInactivityCellComponent } from '../cell-components/transact
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -51,6 +56,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
+  private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -77,7 +84,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     // Init
     this.initDataSource();
     // Add statistics to query
-    this.setStaticFilters([{Statistics: 'history'}]);
+    this.setStaticFilters([{ Statistics: 'history' }]);
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -86,17 +93,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
-        this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
-          .subscribe((transactions) => {
-            // Ok
-            observer.next(transactions);
-            observer.complete();
-          }, (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            // Error
-            observer.error(error);
-          });
-      },
+      this.centralServerService.getTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe((transactions) => {
+          // Ok
+          observer.next(transactions);
+          observer.complete();
+        }, (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
+    },
     );
   }
 
@@ -123,14 +130,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       });
     }
     columns.push({
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        class: 'text-left',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value: Date) => this.datePipe.transform(value),
-      },
+      id: 'timestamp',
+      name: 'transactions.started_at',
+      class: 'text-left',
+      sorted: true,
+      sortable: true,
+      direction: 'desc',
+      formatter: (value: Date) => this.datePipe.transform(value),
+    },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
@@ -217,7 +224,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         return stats;
       }
     }
-    return  '';
+    return '';
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -225,7 +232,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       new IssuerFilter().getFilterDef(),
       new StartDateFilter(moment().startOf('y').toDate()).getFilterDef(),
       new EndDateFilter().getFilterDef(),
-      new ChargerTableFilter().getFilterDef(),
+      new ChargingStationTableFilter().getFilterDef(),
       new TransactionsInactivityStatusFilter().getFilterDef(),
     ];
     // Show Site Area Filter If Organization component is active
@@ -242,7 +249,14 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   public buildTableRowActions(): TableActionDef[] {
     const rowActions = [this.viewAction];
     if (this.isAdmin) {
-      rowActions.push(this.deleteAction);
+      const moreActions = new TableMoreAction([]);
+      moreActions.addActionInMoreActions(this.deleteAction);
+      moreActions.addActionInMoreActions(this.checkLogsAction);
+      // Enable only for one user for the time being
+      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
+        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
+      }
+      rowActions.push(moreActions.getActionDef());
     }
     return rowActions;
   }
@@ -269,6 +283,15 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case LogButtonAction.CHECK_LOGS:
+        this.checkLogsAction.action('logs?search=' + transaction.id);
+        break;
+      case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
+        if (actionDef.action) {
+          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
         }
         break;
     }

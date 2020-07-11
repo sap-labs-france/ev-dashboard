@@ -61,7 +61,7 @@ export class ChargingStationComponent implements OnInit {
       && !this.authorizationService.isDemo()) {
       // Not authorized
       this.messageService.showErrorMessage(
-        this.translateService.instant('chargers.action_error.not_authorize'));
+        this.translateService.instant('chargers.action_error.not_authorized'));
       this.dialog.closeAll();
     }
     this.isAdmin = this.authorizationService.isAdmin();

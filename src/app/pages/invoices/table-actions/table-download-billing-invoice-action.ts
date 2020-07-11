@@ -28,7 +28,7 @@ export class TableDownloadBillingInvoice implements TableAction {
   private downloadInvoice(invoiceID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
 
-    centralServerService.downloadInvoice({ invoiceID }).subscribe(async (result) => {
+    centralServerService.downloadInvoice(invoiceID).subscribe(async (result) => {
         FileSaver.saveAs(result, filename);
     }, (error) => {
       spinnerService.hide();

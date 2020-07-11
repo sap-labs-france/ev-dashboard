@@ -179,13 +179,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       case BillingButtonAction.DOWNLOAD_INVOICE:
         if (this.downloadBillingInvoiceAction.action) {
           this.downloadBillingInvoiceAction.action(
-            billingInvoice.invoiceID,
-            'invoice_' + billingInvoice.number + '.pdf',
-            this.translateService,
-            this.spinnerService,
-            this.messageService,
-            this.centralServerService,
-            this.router
+            billingInvoice.id, 'invoice_' + billingInvoice.number, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
           );
         }
         break;

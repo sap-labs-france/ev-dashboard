@@ -1371,13 +1371,12 @@ export class CentralServerService {
       );
   }
 
-  public downloadInvoice(params: FilterParams): Observable<Blob> {
+  public downloadInvoice(id: string): Observable<Blob> {
     this.checkInit();
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/BillingDownloadInvoice`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DOWNLOAD_INVOICE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
-        params,
       })
       .pipe(
         catchError(this.handleHttpError),

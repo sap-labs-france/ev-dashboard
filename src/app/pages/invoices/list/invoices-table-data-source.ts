@@ -82,6 +82,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       search: {
         enabled: true,
       },
+      hasDynamicRowAction: true
     };
   }
 
@@ -162,12 +163,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       case BillingButtonAction.SYNCHRONIZE_INVOICES:
         if (this.syncBillingInvoicesAction.action) {
           this.syncBillingInvoicesAction.action(
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.router,
-            this.refreshData.bind(this)
+            this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.refreshData.bind(this)
           );
         }
         break;

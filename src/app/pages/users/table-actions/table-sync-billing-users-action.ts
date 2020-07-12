@@ -3,18 +3,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef } from 'app/types/Table';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { BillingButtonAction } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
 
-
 export class TableSyncBillingUsersAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: BillingButtonAction.SYNCHRONIZE_USERS,
+      id: BillingButtonAction.SYNCHRONIZE_BILLING_USERS,
       name: 'settings.billing.user.synchronize_users',
       action: this.synchronizeUsers,
     };

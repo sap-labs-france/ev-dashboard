@@ -1204,6 +1204,8 @@
     "createdOn": "Invoice date",
     "price": "Invoice price",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
+    "cannot_download_invoice": "Cannot download invoice",
+    "number_of_items": "Sessions",
     "pay": "Pay",
     "user": "User"
   },
@@ -1790,7 +1792,7 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on",
+    "updated_on": "Billing Synchronized on",
     "tabs": {
       "invoices": "Invoices",
       "in_error": "In Error"

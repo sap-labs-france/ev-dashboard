@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
@@ -48,7 +49,6 @@ import { TableDeleteTransactionAction } from '../table-actions/table-delete-tran
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
 import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {

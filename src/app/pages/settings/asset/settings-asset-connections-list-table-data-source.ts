@@ -13,11 +13,11 @@ import { AssetButtonAction } from 'app/types/Asset';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from 'app/types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef, ButtonType } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
+
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 import { TableCheckAssetConnectionAction } from './table-actions/table-check-asset-connection-action';
-
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {

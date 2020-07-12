@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import ChangeNotification from 'app/types/ChangeNotification';
+import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Observable, Subscription, fromEvent } from 'rxjs';
@@ -89,7 +90,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.tableActionsRightDef) {
       // Init Auto-Refresh
       for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
-        if (tableActionRightDef.id === 'auto-refresh') {
+        if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
           // Active by default?
           if (tableActionRightDef.currentValue) {
             this.createAutoRefresh();

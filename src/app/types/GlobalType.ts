@@ -31,6 +31,14 @@ export interface SubjectInfo {
   };
 }
 
+export enum DocumentType {
+  PDF = 'pdf',
+}
+
+export enum DocumentEncoding {
+  BASE64 = 'base64',
+}
+
 export interface KeyValue {
   key: string;
   value: string;

@@ -1204,6 +1204,7 @@
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste aller Rechnungen kann nicht abgerufen werden",
+    "number_of_items": "Sessions",
     "pay": "Bezahlen",
     "user": "User"
   },
@@ -1790,7 +1791,7 @@
     "type_placeholder": "Typ",
     "description": "Rechnungslegungs Interface",
     "id": "Rechnungslegungs ID",
-    "updatedOn": "Synchronisiert am",
+    "updated_on": "Synchronisiert am",
     "tabs": {
       "invoices": "Rechnungen",
       "in_error": "Fehlerhaft"

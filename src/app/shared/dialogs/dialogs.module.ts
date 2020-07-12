@@ -40,7 +40,6 @@ import { UsersDialogComponent } from './users/users-dialog.component';
 export class FooterModule {
 }
 
-// tslint:disable-next-line: max-classes-per-file
 @NgModule({
   imports: [
     RouterModule,

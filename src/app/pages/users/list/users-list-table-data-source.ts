@@ -218,7 +218,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeUsers()) {
+        this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
     return [
@@ -242,7 +242,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USER)) {
+        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_BILLING_USER)) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
     if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
@@ -262,7 +262,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      case BillingButtonAction.SYNCHRONIZE_USERS:
+      case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:
         if (this.syncBillingUsersAction.action) {
           this.syncBillingUsersAction.action(
             this.dialogService, this.translateService, this.messageService,

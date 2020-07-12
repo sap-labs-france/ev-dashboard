@@ -15,7 +15,7 @@ export class TableSyncBillingUserAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
     return {
       ...super.getActionDef(),
-      id: UserButtonAction.SYNCHRONIZE_USER,
+      id: UserButtonAction.SYNCHRONIZE_BILLING_USER,
       name: 'settings.billing.user.synchronize_user',
       action: this.synchronizeUser,
     };

@@ -1204,6 +1204,8 @@
     "createdOn": "Date de facture",
     "price": "Prix de la facture",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
+    "cannot_download_invoice": "Impossible de télécharger la facture",
+    "number_of_items": "Sessions",
     "pay": "Payer",
     "user": "Utilisateur"
   },
@@ -1789,8 +1791,8 @@
     "title": "Facturation",
     "type_placeholder": "Type",
     "description": "Interface de Facturation",
-    "id": "ID facturation",
-    "updatedOn": "Synchronisé le",
+    "id": "ID Facturation",
+    "updated_on": "Factures Synchronisées le",
     "tabs": {
       "invoices": "Factures",
       "in_error": "En Erreur"

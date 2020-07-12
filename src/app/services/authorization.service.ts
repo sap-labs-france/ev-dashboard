@@ -45,8 +45,16 @@ export class AuthorizationService {
   }
 
   public canListSettings(): boolean {
-    return this.canAccess(Entity.SETTINGS,
-      Action.LIST);
+    return this.canAccess(Entity.SETTINGS, Action.LIST);
+  }
+
+  public canDownloadInvoice(userId: string): boolean {
+    if (this.canAccess(Entity.INVOICE, Action.DOWNLOAD)) {
+      if (this.isAdmin() || (!!this.loggedUser && this.loggedUser.id === userId)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public canUpdateUser(): boolean {

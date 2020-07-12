@@ -1205,6 +1205,7 @@
     "price": "Prix de la facture",
     "cannot_retrieve_invoices": "Impossible de récupérer la liste des factures",
     "cannot_download_invoice": "Impossible de télécharger la facture",
+    "number_of_items": "Sessions",
     "pay": "Payer",
     "user": "Utilisateur"
   },

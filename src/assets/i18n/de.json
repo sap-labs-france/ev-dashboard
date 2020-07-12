@@ -1204,6 +1204,7 @@
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste aller Rechnungen kann nicht abgerufen werden",
+    "number_of_items": "Sessions",
     "pay": "Bezahlen",
     "user": "User"
   },

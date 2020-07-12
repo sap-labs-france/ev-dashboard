@@ -17,14 +17,15 @@ export interface BillingUserData extends Data {
 }
 
 export interface BillingInvoice extends Data {
+  id: string;
+  createdOn?: Date;
   invoiceID: string;
+  userID?: string;
+  nbrOfItems?: number;
   number: string;
   status: BillingInvoiceStatus;
-  amountDue: number;
+  amount?: number;
   currency: string;
-  customerID: string;
-  date: Date;
-  payUrl: string;
   downloadable: boolean;
 }
 

@@ -86,8 +86,12 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     };
   }
 
-  public buildTableDynamicRowActions(row: BillingInvoice): TableActionDef[] {
-    return row.downloadable ? [this.downloadBillingInvoiceAction] : [];
+  public buildTableDynamicRowActions(invoice: BillingInvoice): TableActionDef[] {
+    const rowActions = [];
+    if (invoice.downloadable && this.authorizationService.canDownloadInvoice(invoice.userID)) {
+        rowActions.push(this.downloadBillingInvoiceAction);
+    }
+    return rowActions;
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -117,6 +121,13 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         name: 'invoices.id',
         headerClass: 'col-15p',
         class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'nbrOfItems',
+        name: 'invoices.number_of_items',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
         sortable: true,
       },
       {

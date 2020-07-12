@@ -1204,6 +1204,7 @@
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
+    "number_of_items": "Sessions",
     "pay": "Pagar",
     "user": "User"
   },

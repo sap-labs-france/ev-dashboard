@@ -35,6 +35,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
+  public readonly ButtonAction = ButtonAction;
 
   private autoRefreshSubscription!: Subscription;
   private alive!: boolean;

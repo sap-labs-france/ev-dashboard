@@ -126,8 +126,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         break;
       case ButtonAction.DELETE:
         this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant("settings.asset.connection.delete_title"),
-          this.translateService.instant("settings.asset.connection.delete_confirm", { assetConnectionName: assetConnection.name }),
+          this.translateService.instant('settings.asset.connection.delete_title'),
+          this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
         ).subscribe((result) => {
           if (result === ButtonType.YES) {
             super.rowActionTriggered(actionDef, assetConnection);

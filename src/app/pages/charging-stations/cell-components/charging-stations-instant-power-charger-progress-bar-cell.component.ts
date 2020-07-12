@@ -23,7 +23,6 @@ export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends
   @Input() public row!: ChargingStation;
 }
 
-// tslint:disable-next-line: max-classes-per-file
 @Pipe({name: 'appChargingStationsFormatPowerCharger'})
 export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform {
   constructor(private decimalPipe: AppDecimalPipe) {

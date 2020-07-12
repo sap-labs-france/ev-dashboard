@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import ChangeNotification from 'app/types/ChangeNotification';
+import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Observable, Subscription, fromEvent } from 'rxjs';
@@ -16,7 +17,6 @@ import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operato
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
 import { TableDataSource } from './table-data-source';
-import { ButtonAction } from 'app/types/GlobalType';
 
 @Component({
   selector: 'app-table',

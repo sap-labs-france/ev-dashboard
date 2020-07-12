@@ -11,6 +11,7 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -31,7 +32,6 @@ import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
 import { TableDownloadBillingInvoice } from '../table-actions/table-download-billing-invoice-action';
 import { TableSyncBillingInvoicesAction } from '../table-actions/table-sync-billing-invoices-action';
-
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {

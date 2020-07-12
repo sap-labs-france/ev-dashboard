@@ -23,7 +23,7 @@
     "connectors": "Ladepunkte",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.15",
+    "last_update": "Version 2.3.16",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -1204,7 +1204,8 @@
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste aller Rechnungen kann nicht abgerufen werden",
-    "pay": "Bezahlen"
+    "pay": "Bezahlen",
+    "user": "User"
   },
   "tags": {
     "id": "ID",

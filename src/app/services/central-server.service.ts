@@ -1242,7 +1242,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INVOICE}?ID=${id}`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_USER_INVOICE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1336,7 +1336,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INVOICES}`,
+    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_USER_INVOICES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1346,7 +1346,7 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeInvoices(): Observable<ActionsResponse> {
+  public synchronizeInvoicesForBilling(): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_INVOICES}`, {},
@@ -1681,7 +1681,7 @@ export class CentralServerService {
       );
   }
 
-  public TableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
+  public tableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
     const params: { [param: string]: string } = {};
     params['ID'] = assetId;
     // Verify init

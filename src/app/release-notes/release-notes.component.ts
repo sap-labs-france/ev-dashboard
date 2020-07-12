@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.15',
-        date: new Date('2020-07-10'),
+        version: '2.3.16',
+        date: new Date('2020-07-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added synchronization of User's Invoices with Stripe`,
               `Disabled in SAP Smart Charging the check of the three phases Car on single phase Charging Station`,
               `Added new firmware versions in Charging Station templates`,
               `Fixed Charging Station cannot change limits when not assigned to a Site Area`,

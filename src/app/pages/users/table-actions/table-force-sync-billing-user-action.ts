@@ -4,27 +4,21 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAction } from 'app/shared/table/actions/table-action';
+import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { RestResponse } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { User, UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-export class TableForceSyncBillingUserAction implements TableAction {
-  private action: TableActionDef = {
-    id: UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER,
-    type: 'button',
-    icon: 'sync',
-    color: ButtonColor.PRIMARY,
-    name: 'settings.billing.force_synchronize',
-    tooltip: 'general.force_synchronize',
-    action: this.forceSynchronizeUser,
-  };
-
-  // Return an action
+export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER,
+      name: 'settings.billing.force_synchronize',
+      action: this.forceSynchronizeUser,
+    };
   }
 
   private forceSynchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,

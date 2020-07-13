@@ -35,3 +35,17 @@ export enum BillingButtonAction {
   SYNCHRONIZE_INVOICES = 'synchronize_invoices',
   DOWNLOAD_INVOICE = 'download_invoice'
 }
+
+export interface BillingTransactionData {
+  status?: string;
+  invoiceID?: string;
+  invoiceStatus?: BillingInvoiceStatus;
+  invoiceItem?: BillingInvoiceItem;
+  lastUpdate?: Date;
+}
+
+export interface BillingInvoiceItem {
+  description: string;
+  amount: number;
+  taxes?: string[];
+}

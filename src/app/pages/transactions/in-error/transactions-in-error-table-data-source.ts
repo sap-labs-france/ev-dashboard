@@ -153,15 +153,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       columns.push({
         id: 'id',
         name: 'transactions.id',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'd-none d-xl-table-cell',
+        headerClass: 'col-10p',
+        class: 'col-10p',
       });
     }
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push({
         id: 'user',
         name: 'transactions.user',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
       });
     }
@@ -169,7 +170,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         sortable: true,
         direction: 'desc',
@@ -178,21 +180,23 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         formatter: (chargingStationID: string, row: TransactionInError) => this.formatChargingStation(chargingStationID, row),
       },
       {
         id: 'errorCodeDetails',
         name: 'errors.details',
         sortable: false,
-        headerClass: 'text-center',
-        class: 'action-cell text-center',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
       {
         id: 'errorCode',
         name: 'errors.title',
+        headerClass: 'col-30p',
         class: 'col-30p text-danger',
         sortable: true,
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),

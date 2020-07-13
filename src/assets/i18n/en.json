@@ -1200,9 +1200,9 @@
       "unpaid": "Unpaid",
       "draft": "Draft"
     },
-    "id": "Invoice number",
-    "createdOn": "Invoice date",
-    "price": "Invoice price",
+    "id": "Invoice Number",
+    "createdOn": "Invoice Date",
+    "price": "Invoice Price",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
     "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",
@@ -1930,7 +1930,8 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?",
-        "rejected_refunded_msg": "You cannot delete a session that has been already refunded!"
+        "rejected_refunded_msg": "You cannot delete a session that has been already refunded!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Export Sessions",

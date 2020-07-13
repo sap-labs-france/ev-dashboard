@@ -1204,6 +1204,7 @@
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste aller Rechnungen kann nicht abgerufen werden",
+    "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",
     "pay": "Bezahlen",
     "user": "User"
@@ -1929,7 +1930,8 @@
       "delete": {
         "title": "Lösche Ladevorgang",
         "confirm": "Wollen Sie den Ladevorgang von {{user}} wirklich löschen?",
-        "rejected_refunded_msg": "Sie können keinen Ladevorgang löschen, der bereits zurückerstattet wurde!"
+        "rejected_refunded_msg": "Sie können keinen Ladevorgang löschen, der bereits zurückerstattet wurde!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Exportiere Ladevorgänge",

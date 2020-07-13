@@ -1930,7 +1930,8 @@
       "delete": {
         "title": "Supprimer la Session",
         "confirm": "Voulez-vous vraiment supprimer la session de {{user}} ?",
-        "rejected_refunded_msg": "Vous ne pouvez pas supprimer une session qui a déjà été remboursée!"
+        "rejected_refunded_msg": "Vous ne pouvez pas supprimer une session qui a déjà été remboursée!",
+        "rejected_billed_msg": "Vous ne pouvez pas supprimer une session qui a déjà été facturée!"
       },
       "export": {
         "title": "Exporter les sessions",

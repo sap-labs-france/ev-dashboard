@@ -1204,6 +1204,7 @@
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
+    "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",
     "pay": "Pagar",
     "user": "User"
@@ -1929,7 +1930,8 @@
       "delete": {
         "title": "Eliminar sesión",
         "confirm": "¿Está seguro que desea eliminar la sesión de {{user}}?",
-        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!"
+        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Exportar sesiones",

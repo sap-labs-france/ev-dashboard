@@ -1200,9 +1200,9 @@
       "unpaid": "Unpaid",
       "draft": "Draft"
     },
-    "id": "Invoice number",
-    "createdOn": "Invoice date",
-    "price": "Invoice price",
+    "id": "Invoice Number",
+    "createdOn": "Invoice Date",
+    "price": "Invoice Price",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
     "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",

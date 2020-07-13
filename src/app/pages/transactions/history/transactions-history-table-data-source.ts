@@ -125,47 +125,56 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       columns.push({
         id: 'id',
         name: 'transactions.id',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'd-none d-xl-table-cell',
+        headerClass: 'col-10p',
+        class: 'col-10p',
       });
     }
-    columns.push({
-      id: 'timestamp',
-      name: 'transactions.started_at',
-      class: 'text-left',
-      sorted: true,
-      sortable: true,
-      direction: 'desc',
-      formatter: (value: Date) => this.datePipe.transform(value),
-    },
+    columns.push(
+      {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
+      },
+      {
+        id: 'timestamp',
+        name: 'transactions.started_at',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sorted: true,
+        sortable: true,
+        direction: 'desc',
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
       {
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
-        class: 'text-left',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         formatter: (totalDurationSecs: number) => this.appDurationPipe.transform(totalDurationSecs),
       },
       {
         id: 'stop.totalInactivitySecs',
         name: 'transactions.inactivity',
-        headerClass: 'd-none d-lg-table-cell',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         sortable: false,
         isAngularComponent: true,
         angularComponent: TransactionsInactivityCellComponent,
       },
       {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        class: 'text-left',
-        formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
-      },
-      {
         id: 'stop.totalConsumptionWh',
         name: 'transactions.consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'stateOfCharge',
         name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
       },
     );
@@ -173,20 +182,30 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
       });
-      if (this.componentService.isActive(TenantComponents.PRICING)) {
-        columns.push({
-          id: 'stop.price',
-          name: 'transactions.price',
-          headerClass: 'd-none d-xl-table-cell',
-          class: 'd-none d-xl-table-cell',
-          formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.stop.priceUnit),
-        });
-      }
     }
-    return columns as TableColumnDef[];
+    if (this.componentService.isActive(TenantComponents.PRICING)) {
+      columns.push({
+        id: 'stop.price',
+        name: 'transactions.price',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.stop.priceUnit),
+      });
+    }
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      columns.push({
+        id: 'billingData.invoiceID',
+        name: 'invoices.id',
+        headerClass: 'text-center col-10p',
+        class: 'col-10p',
+        formatter: (invoiceID: string) => invoiceID ? invoiceID : '-',
+      });
+    }
+  return columns as TableColumnDef[];
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {

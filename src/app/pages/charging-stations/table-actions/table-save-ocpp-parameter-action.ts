@@ -1,15 +1,16 @@
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { TableChargingStationsRebootAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-reboot-action';
+import { ButtonType, TableActionDef } from 'app/types/Table';
+import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
+
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableSaveAction } from 'app/shared/table/actions/table-save-action';
-import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
-import { ButtonType, TableActionDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableChargingStationsRebootAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-reboot-action';
+import { TableSaveAction } from 'app/shared/table/actions/table-save-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from 'app/utils/Utils';
 
 export class TableSaveOCPPParameterAction extends TableSaveAction {
   public getActionDef(): TableActionDef {
@@ -35,7 +36,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
         if (result === ButtonType.YES) {
           spinnerService.show();
           centralServerService.updateChargingStationOCPPConfiguration(
-            charger.id, { key: param.key, value: param.value, readonly: param.readonly }).subscribe((response) => {
+            charger.id, { key: param.key, value: param.value, readonly: param.readonly, type: param.type }).subscribe((response) => {
               spinnerService.hide();
               // Ok?
               if (response.status === OCPPConfigurationStatus.ACCEPTED ||

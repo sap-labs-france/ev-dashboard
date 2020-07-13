@@ -1,5 +1,6 @@
-import { Asset } from './Asset';
 import { Car, CarCatalog, CarMaker } from './Car';
+
+import { Asset } from './Asset';
 import { ChargingStation } from './ChargingStation';
 import { Company } from './Company';
 import { RefundReport } from './Refund';
@@ -35,6 +36,7 @@ export interface KeyValue {
   value: string;
   objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker;
   readonly?: boolean;
+  type?: string;
   icon?: string;
   tooltip?: string;
 }

@@ -178,11 +178,11 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-20p',
         sortable: true,
         formatter: (chargeStandardPower: number) =>
-          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kWh', 'kWh', true, 1, 0, 0) : '-',
+          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0) : '-',
       },
       {
         id: 'chargeStandardPhase',
-        name: 'cars.evse_phase_ac',
+        name: 'cars.evse_phase_ac_standard',
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
@@ -203,7 +203,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-20p',
         sortable: true,
         formatter: (fastChargePowerMax: number) => fastChargePowerMax ?
-          this.appUnitPipe.transform(fastChargePowerMax, 'kWh', 'kWh', true, 1, 0, 0) : '-',
+          this.appUnitPipe.transform(fastChargePowerMax, 'kW', 'kW', true, 1, 0, 0) : '-',
       },
       {
         id: 'fastChargePlug',

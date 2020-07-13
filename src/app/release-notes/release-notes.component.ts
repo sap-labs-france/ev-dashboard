@@ -24,12 +24,89 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.5',
-        date: new Date('2020-06-25'),
+        version: '2.3.17',
+        date: new Date('2020-07-13'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Set a default departure time for the SAP Smart Charging`,
+              `Synchronize invoices between Stripe and e-Mobility`,
+              `Store and Download invoices (pdf) from e-Mobility`,
+              `Prevent billed sessions from being deleted`,
+              `Enhanced Badge unit tests`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.16',
+        date: new Date('2020-07-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added synchronization of User's Invoices with Stripe`,
+              `Disabled in SAP Smart Charging the check of the three phases Car on single phase Charging Station`,
+              `Added new firmware versions in Charging Station templates`,
+              `Fixed Charging Station cannot change limits when not assigned to a Site Area`,
+              `Fixed add a single phase Charging Station failed on a single phase Site Area`,
+              `Updated Car VIN validator`,
+              `Send 24/7 Charging Station availability by default to the Gireve platform`,
+              `Do not send Locations with no Charging Station to the Gireve platform`,
+              `Do not send the number of phases when DC Charging Stations to the Gireve platform`,
+              `Assign an Asset to a Schneider Building Management System and manually retrieve the consumption of the Buildings, Solar Panels...`,
+              `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
+              `Converted Action filter in Logs to a pop-up`,
+              `Added jump to Logs with predefined filters`,
+              `Added Public column in Charging Station list`,
+              `Changed Car VIN validator`,
+              `Fixed missing spanish translation`,
+              `Updated German translation`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.12',
+        date: new Date('2020-07-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Charging Plan list`,
+              `Added Converter selection in Car Management`,
+              `Added Static Limitation on Legrand Charging Station`,
+              `Added a minimum of 3 schedules when building the Charging Profiles with SAP Smart Charging`,
+              `Fixed rounded Amps/Watts numbers in Charging Plans`,
+              `Charging Station's total power not updated when not belonging to the templates`,
+              `Fixed display power with wrong unit in consumption chart`,
+              `Fixed badge is no longer mandatory in user's profile`,
+              `Removed Charging Station from the Gireve when changing it to private`,
+              `Added a free OCPP key/value input fields in OCPP Parameters`,
+              `Notify Admin Users when Charging Stations are overheating`,
+              `Use of RegExp to match firmware versions in Charging Station's Templates`,
+              `Display DC Power in Session's consumption charts`,
+              `Enabled German and Spanish beta translations`,
+              `Ensure OCPP error messages always follow the OCPP specs`,
+              `Fixed Smart Charging minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.7',
+        date: new Date('2020-06-28'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Limit the max power of the 'safe' car to the power of the connector in the SAP Smart Charging`,
+              `Auto-detect single phase Car in SAP Smart Charging using new Meter Values per phase`,
+              `Implemented EV-Ready minimal amperage of 13A per phase in Static Limitation and SAP Smart Charging`,
+              `Excluded Suspended EV from the SAP Smart Charging`,
+              `Fixed Badges got deactivated after saving User's profile`,
+              `Fixed typos in French translation`,
               `Admin and Basic users can create Cars`,
               `Added Amps/Power of L1, L2 and L3 phases in session's charts`,
               `Added test of Schneider BMS' connection in Asset Settings`,

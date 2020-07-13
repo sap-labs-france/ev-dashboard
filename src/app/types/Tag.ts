@@ -7,7 +7,7 @@ export interface Tag extends Data {
   active: boolean;
   userID?: string;
   description?: string;
-  sessionCount?: number;
+  transactionsCount?: number;
   lastChangedBy?: Partial<User>;
   lastChangedOn?: Date;
 }

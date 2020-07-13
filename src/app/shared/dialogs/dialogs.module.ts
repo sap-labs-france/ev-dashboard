@@ -17,17 +17,17 @@ import { AssetsDialogTableDataSource } from './assets/assets-dialog-table-data-s
 import { AssetsDialogComponent } from './assets/assets-dialog.component';
 import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-dialog-table-data-source';
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
-import { CarConvertersDialogTableDataSource } from './car-converters/car-converters-dialog-table-data-source';
-import { CarConvertersDialogComponent } from './car-converters/car-converters-dialog.component';
 import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
 import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
-import { ChargersDialogTableDataSource } from './chargers/chargers-dialog-table-data-source';
-import { ChargersDialogComponent } from './chargers/chargers-dialog.component';
+import { ChargingStationsDialogTableDataSource } from './charging-stations/charging-stations-dialog-table-data-source';
+import { ChargingStationsDialogComponent } from './charging-stations/charging-stations-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
 import { CompaniesDialogComponent } from './companies/companies-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
+import { LogActionsDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
+import { LogActionsDialogComponent } from './logs/log-actions-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
@@ -57,7 +57,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent,
+    ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
@@ -66,14 +66,14 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    CarConvertersDialogComponent,
+    LogActionsDialogComponent
   ],
   entryComponents: [
     CarMakersDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent,
+    ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
@@ -83,14 +83,14 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    CarConvertersDialogComponent
+    LogActionsDialogComponent
   ],
   exports: [
     CarMakersDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     ConfirmationDialogComponent,
-    ChargersDialogComponent,
+    ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
     AssetsDialogComponent,
     CompaniesDialogComponent,
@@ -99,25 +99,25 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    CarConvertersDialogComponent
+    LogActionsDialogComponent
   ],
   providers: [
     AppConnectorIdPipe,
     DialogService,
-    ChargersDialogTableDataSource,
+    ChargingStationsDialogTableDataSource,
     CompaniesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     SitesDialogTableDataSource,
     AssetsDialogTableDataSource,
     UsersDialogTableDataSource,
-    ChargersDialogTableDataSource,
+    ChargingStationsDialogTableDataSource,
     SitesDialogTableDataSource,
     SiteAreasDialogTableDataSource,
     CompaniesDialogTableDataSource,
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
-    CarConvertersDialogTableDataSource
+    LogActionsDialogTableDataSource
   ],
 })
 export class DialogsModule {

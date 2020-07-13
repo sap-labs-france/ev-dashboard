@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.5",
+    "last_update": "Versión 2.3.17",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -302,6 +302,10 @@
     "asset_type": "Tipo de activos",
     "produce": "Producto energético",
     "consume": "Consumo de energía",
+    "dynamic_asset": "Activo Dinámico",
+    "instant_power": "Energía instantánea",
+    "asset_connection": "Conexión de Activos",
+    "meter_id": "ID del Medidor",
     "asset": "Activos",
     "title": "Activo",
     "titles": "Activos",
@@ -318,10 +322,16 @@
     "update_success": "El activo '{{assetName}}' se ha actualizado correctamente",
     "update_error": "Se produjo un error al actualizar el activo",
     "asset_not_found": "No se ha encontrado el activo",
+    "asset_settings_error": "Se produjo un error al obtener las conexiones de los activos",
     "create_success": "El activo '{{assetName}}' se ha creado exitosamente",
     "create_error": "Se produjo un error al crear el activo",
+    "refresh_success": "La conexión del activo ha sido actualizada con éxito",
+    "refresh_error": "Se produjo un error al actualizar la conexión del activo",
     "logo_size_error": "Se excedió el límite de tamaño de la imágen, el límite está por debajo de {{maxPictureKb}} Kb",
     "select_assets": "Seleccionar activo",
+    "dialog_tabs": {
+      "connection": "Conexión"
+    },
     "errors": {
       "missing_site_area": {
         "title": "No está asignado a una zona",
@@ -333,6 +343,7 @@
   "sites": {
     "assign_company": "Asignar empresa",
     "auto_user_site_assignment": "Asignación automática de nuevos usuarios a este sitio.",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Usuarios autorizados para usar las estaciones de carga en este sitio",
     "user_list_source_title": "Disponible",
     "user_list_target_title": "Asignado",
@@ -440,7 +451,7 @@
     "create_error": "Se produjo un error al crear zona",
     "image_size_error": "Se excedió el límite de tamaño de la imagen, el límite está por debajo de {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Potencia máxima (kW)",
-    "maximum_energy_amps": "Potencia máxima (A)",
+    "maximum_energy_amps": "Amperaje máxima (A)",
     "number_of_phases": "Número de fases",
     "export_all_params_title": "Exportar parámetros OCPP",
     "export_all_params_confirm": "¿Está seguro que desea exportar todos los parámetros OCPP de todas las estaciones de carga que pertenecen a la zona '{{siteAreaName}}' ?",
@@ -632,6 +643,7 @@
     "share_power_to_all_connectors": "Compartir energía con conectores",
     "exclude_from_power_limitation": "No se puede limitar la potencia",
     "public": "Está estación de carga es publica",
+    "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
@@ -645,7 +657,7 @@
     "unassigned": "Sin asignar",
     "unassigned_chargers": "Cargadores",
     "maximum_energy": "Potencia máxima (Vatios)",
-    "maximum_energy_amps": "Energía máxima (Amps)",
+    "maximum_energy_amps": "Amperaje máxima (Amps)",
     "efficiency": "Rendimiento (%)",
     "invalid_efficiency": "El rendimiento debe ser un número positivo menor a 100",
     "connector": "Conector",
@@ -765,7 +777,8 @@
       "current_limit": "Planificación del límite de potencia real",
       "current_limit_title": "Límite de potencia real",
       "limit_title": "Límite",
-      "limit_in_amps": "({{limitInAmps}} A)",
+      "limit_in_amps": "({{limitInAmps}}A)",
+      "limit_in_watts": "({{limitInAmps}}kW)",
       "no_current_limit": "No se encontró ninguna planificación de límite",
       "planning_energy_limit": "Planes de carga",
       "from_date": "Desde",
@@ -805,7 +818,18 @@
       "trigger_smart_charging": "Activar carga inteligente",
       "trigger_smart_charging_success": "El algoritmo de carga inteligente se ha activado exitosamente",
       "trigger_smart_charging_error": "Se produjo un error al activar el algoritmo de carga inteligente, verifique los registros",
-      "minutes": "minutos"
+      "minutes": "minutos",
+      "charging_plans": {
+        "charging_plan_name": "Nombre",
+        "charging_station_id": "Estación de carga",
+        "connector_id": "ID del conector",
+        "current_limit": "Límite actual",
+        "kind": "Tipo",
+        "purpose": "Proósito",
+        "stack_level": "Nivel",
+        "site_area":"Zona",
+        "site_area_limit":"Límite por zona"
+      }
     },
     "more_actions": {
       "get_diagnostics_title": "Diagnóstico del cargador '{{chargeBoxID}}",
@@ -836,7 +860,9 @@
       "smart_charging_charger_version": "La carga inteligente necesita al menos la versión OCPP 1.6 en la estación de carga",
       "session_details_title": "Error de detalles de la sesión",
       "session_details_not_authorized": "No tiene autorización para mostrar los detalles de la sesión",
-      "not_authorize": "No tiene autorización para realizar esta acción"
+      "not_authorized": "No tiene autorización para realizar esta acción",
+      "ocpp_parameters_should_not_be_empty": "OCPP Parameter key and value should not be empty",
+      "ocpp_parameters_change_title": "OCPP Parameter Error"
     },
     "reboot_confirm": "¿Está seguro que desea reiniciar la estación de carga '{{chargeBoxID}}'?",
     "reboot_success": "La estación de carga '{{chargeBoxID}}' se ha reiniciado exitosamente",
@@ -946,6 +972,7 @@
     "session_details": "Sesión",
     "tabs": {
       "list": "Estaciones de carga",
+      "charging_plans": "Charging Plans",
       "in_error": "Con errores"
     },
     "errors": {
@@ -1005,6 +1032,8 @@
     "search_last_week": "La semana pasada",
     "search_this_month": "Este mes",
     "search_last_month": "El mes pasado",
+    "select_actions": "Seleccionar Acciones",
+    "redirect": "Verificar registros",
     "no_logs": "No hay registros que coincidan con los filtros.",
     "dialog": {
       "export": {
@@ -1175,7 +1204,10 @@
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
-    "pay": "Pagar"
+    "cannot_download_invoice": "Cannot download invoice",
+    "number_of_items": "Sessions",
+    "pay": "Pagar",
+    "user": "User"
   },
   "tags": {
     "id": "ID",
@@ -1214,6 +1246,8 @@
     "smart_charging_still_active_for_site_area": "La carga inteligente todavía está activada para ciertas áreas del sitio. <br> Desactive la carga inteligente para cada zona en la organización."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Estación de carga",
@@ -1622,7 +1656,9 @@
     "drivetrain_power_hp": "Potencia",
     "fast_charge_plug": "Enchufe DC",
     "charge_plug_location": "Ubicación del enchufe",
-    "charge_standard_power": "Potencia del AC",
+    "charge_standard_power": "AC Power",
+    "charge_alternative_power": "Alternative AC Power",
+    "charge_option_power": "Option AC Power",
     "charge_standard_charge_speed": "Velocidad del AC",
     "charge_standard_charge_time": "Tiempo del AC",
     "fast_charge_power_max": "Potencia del DC",
@@ -1639,7 +1675,9 @@
     "evse_phase_volt": "Voltaje",
     "evse_phase_amp": "Amperaje",
     "evse_phase": "Fase(s)",
-    "evse_phase_ac": "Fase(s) AC",
+    "evse_phase_ac_standard": "AC Phase(s)",
+    "evse_phase_ac_alternative": "Alternative AC Phase(s)",
+    "evse_phase_ac_option": "Option AC Phase(s)",
     "charge_phase_volt": "Voltaje de fase de carga",
     "charge_phase_amp": "Amplificador de fase de carga",
     "charge_phase": "Fase de carga",
@@ -1653,8 +1691,10 @@
     "select_car_maker": "Seleccionar fabricante del vehículo",
     "car_makers": "Fabricantes de vehículos",
     "create_success": "El vehículo '{{carName}}' se ha creado exitosamente",
-    "update_success": "Car updated successfully",
     "assign_car_catalog": "Asignar vehículo",
+    "update_success": "The car '{{carName}}' has been updated successfully",
+    "delete_success": "The car '{{carName}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the car",
     "create_error": "Se produjo un error al crear el vehículo",
     "update_error": "Error occurred while updating the car",
     "car_exist": "Ya ha creado este vehículo",
@@ -1685,6 +1725,8 @@
     "car_user_error": "Error occurred while retrieving the car's users",
     "assign_converter": "Assign Converter",
     "converter": "Converter",
+    "delete_title": "Delete Car",
+    "delete_confirm": "Do you really want to delete the car '{{carName}}'?",
     "users": "Users",
     "unit": {
       "meters": "m",
@@ -1750,7 +1792,7 @@
     "type_placeholder": "Tipo",
     "description": "Interfaz de facturación",
     "id": "ID de facturación",
-    "updatedOn": "Sincronizado en",
+    "updated_on": "Sincronizado en",
     "tabs": {
       "invoices": "Facturas",
       "in_error": "Con errores"
@@ -1789,6 +1831,10 @@
     "soft_stop_transaction_confirm": "¿Está seguro que desea detener la sesión de '{{userFullName}}' en '{{chargeBoxID}}'?",
     "soft_stop_transaction_success": "La sesión se detuvo correctamente, puede desconectar el conector",
     "soft_stop_transaction_error": "Se produjo un error al intentar detener la sesión",
+    "rebuild_transaction_consumptions_title": "Rebuild Consumptions",
+    "rebuild_transaction_consumptions_confirm": "Do you really want to rebuild all the session's consumptions?",
+    "rebuild_transaction_consumptions_success": "The session's consumptions have been rebuilt successfully",
+    "rebuild_transaction_consumptions_error": "Error occurred while rebuilding the session's consumptions",
     "delete": "Eliminar",
     "error_code": "Error",
     "delete_transaction_title": "Eliminar sesión",
@@ -1884,7 +1930,8 @@
       "delete": {
         "title": "Eliminar sesión",
         "confirm": "¿Está seguro que desea eliminar la sesión de {{user}}?",
-        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!"
+        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Exportar sesiones",

@@ -27,7 +27,7 @@ import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -114,7 +114,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     columns.push({
         id: 'timestamp',
         name: 'transactions.started_at',
-        class: 'text-left',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         sorted: true,
         sortable: true,
         direction: 'desc',
@@ -123,14 +124,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
-        class: 'text-left',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
         formatter: (currentTotalDurationSecs: number, row: Transaction) =>
           this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
       },
       {
         id: 'currentTotalInactivitySecs',
         name: 'transactions.inactivity',
-        headerClass: 'd-none d-lg-table-cell',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         sortable: false,
         isAngularComponent: true,
         angularComponent: TransactionsInactivityCellComponent,
@@ -138,19 +141,22 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       },
       {
         id: 'connectorId',
         name: 'transactions.connector',
-        headerClass: 'text-center',
-        class: 'table-cell-angular-big-component',
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component col-10p',
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },
       {
         id: 'currentInstantWatts',
         name: 'transactions.current_consumption',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (currentInstantWatts: number) => this.appUnitPipe.transform(currentInstantWatts, 'W', 'kW'),
       },
       {
@@ -161,6 +167,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       {
         id: 'currentStateOfCharge',
         name: 'transactions.state_of_charge',
+        headerClass: 'col-10p',
+        class: 'col-10p',
         formatter: (currentStateOfCharge: number, row: Transaction) => {
           if (!currentStateOfCharge) {
             return '';
@@ -172,12 +180,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       columns.splice(1, 0, {
         id: 'user',
         name: 'transactions.user',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
       });
     }
-    return columns as TableColumnDef[];
-
+    return columns;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -205,7 +213,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
-    filters.push(new ChargerTableFilter().getFilterDef());
+    filters.push(new ChargingStationTableFilter().getFilterDef());
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     }

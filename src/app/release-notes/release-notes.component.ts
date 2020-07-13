@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.17',
+        date: new Date('2020-07-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set a default departure time for the SAP Smart Charging`,
+              `Synchronize invoices between Stripe and e-Mobility`,
+              `Store and Download invoices (pdf) from e-Mobility`,
+              `Prevent billed sessions from being deleted`,
+              `Enhanced Badge unit tests`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.16',
         date: new Date('2020-07-11'),
         componentChanges: [

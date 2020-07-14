@@ -5,10 +5,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { Action, Entity } from 'app/types/Authorization';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
 import { LogButtonAction } from 'app/types/Log';
@@ -18,7 +18,6 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -37,11 +36,11 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
+import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
-import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
@@ -281,12 +280,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(rowItem: TransactionInError): TableActionDef[] {
-    const rowActions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [this.viewAction];
     const moreActions = new TableMoreAction([]);
-    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
-      rowActions.push(this.viewAction);
-    }
-    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
+    if (this.authorizationService.canDeleteTransaction()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (rowItem.errorCode === TransactionInErrorType.NO_BILLING_DATA) {

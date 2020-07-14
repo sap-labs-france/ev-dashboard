@@ -12,7 +12,6 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
 import { Address } from 'app/types/Address';
-import { Action, Entity } from 'app/types/Authorization';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { RegistrationToken } from 'app/types/RegistrationToken';
@@ -23,8 +22,8 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
-
 import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
+
 
 @Component({
   selector: 'app-site-area',
@@ -83,7 +82,7 @@ export class SiteAreaComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE);
+    this.isAdmin = this.authorizationService.canCreateSiteArea();
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 

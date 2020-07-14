@@ -11,12 +11,10 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { CompaniesDialogComponent } from 'app/shared/dialogs/companies/companies-dialog.component';
 import { Address } from 'app/types/Address';
-import { Action, Entity } from 'app/types/Authorization';
 import { Company } from 'app/types/Company';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { Site, SiteImage } from 'app/types/Site';
-import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
 
@@ -61,7 +59,7 @@ export class SiteComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Set
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE);
+    this.isAdmin = this.authorizationService.canCreateSite();
   }
 
   public ngOnInit() {
@@ -135,7 +133,7 @@ export class SiteComponent implements OnInit {
     if (!this.currentSiteID) {
       return;
     }
-    this.isAdmin = this.authorizationService.canAccess(Entity.SITE, Action.CREATE) ||
+    this.isAdmin = this.authorizationService.canCreateSite() ||
       this.authorizationService.isSiteAdmin(this.currentSiteID) ||
       this.authorizationService.isSiteOwner(this.currentSiteID);
     // if not admin switch in readonly mode

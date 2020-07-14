@@ -10,7 +10,6 @@ import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -23,7 +22,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Action, Entity } from '../../../types/Authorization';
 import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
@@ -37,6 +35,7 @@ import { TableDeleteUserAction } from '../table-actions/table-delete-user-action
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
+
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -229,8 +228,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
     if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
-        this.authorizationService.canAccess(Entity.USER, Action.UPDATE) &&
-        this.authorizationService.canAccess(Entity.SITE, Action.UPDATE)) {
+        this.authorizationService.canUpdateUser() &&
+        this.authorizationService.canUpdateSite()) {
       actions = [
         this.editAction,
         this.assignSitesToUser,
@@ -242,10 +241,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_BILLING_USER)) {
+        this.authorizationService.canSynchronizeBillingUser()) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
-    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
+    if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (moreActions.getActionsInMoreActions().length > 0) {

@@ -1358,7 +1358,7 @@
       "check_connection": "Verificar conexión",
       "connection_success": "La conexión al sistema de facturación se verificó exitosamente",
       "connection_error": "No se puede conectar al sistema de facturación. Verifique su clave secreta",
-      "force_synchronize": "Forzar sincronización",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",

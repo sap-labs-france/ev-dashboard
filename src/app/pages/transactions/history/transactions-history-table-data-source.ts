@@ -43,6 +43,7 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
+import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
 import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
@@ -57,6 +58,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private checkLogsAction = new TableCheckLogsAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
+  private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -115,6 +117,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         enabled: true,
         angularComponent: ConsumptionChartDetailComponent,
       },
+      hasDynamicRowAction: true
     };
   }
 
@@ -264,12 +267,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  public buildTableRowActions(): TableActionDef[] {
+  public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
     const rowActions = [this.viewAction];
     if (this.isAdmin) {
       const moreActions = new TableMoreAction([]);
       moreActions.addActionInMoreActions(this.deleteAction);
       moreActions.addActionInMoreActions(this.checkLogsAction);
+      if (this.componentService.isActive(TenantComponents.BILLING) &&
+        !transaction.billingData) {
+        moreActions.addActionInMoreActions(this.createInvoice);
+      }
       // Enable only for one user for the time being
       if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
         moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
@@ -305,6 +312,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         break;
       case LogButtonAction.CHECK_LOGS:
         this.checkLogsAction.action('logs?search=' + transaction.id);
+        break;
+      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
+        if (actionDef.action) {
+          actionDef.action(transaction.id, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
         break;
       case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
         if (actionDef.action) {

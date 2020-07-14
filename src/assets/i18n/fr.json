@@ -2027,7 +2027,7 @@
       "no_billing_data": {
         "title": "Transaction sans données de facturation",
         "description": "Aucune donnée de facturation n'est assignée à cette transaction.",
-        "action": "Supprimez cette transaction ou attribuez-lui des données de facturation."
+        "action": "Supprimez cette transaction ou créer une facture a partir ce celle-ci."
       }
     }
   },

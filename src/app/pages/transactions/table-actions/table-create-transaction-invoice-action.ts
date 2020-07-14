@@ -46,6 +46,7 @@ export class TableCreateTransactionInvoiceAction implements TableAction {
             Utils.handleError(JSON.stringify(linkResponse), messageService, 'transactions.create_invoice_error');
           }
         }, (error) => {
+          spinnerService.hide();
           Utils.handleHttpError(error, router, messageService, centralServerService,
             'transactions.create_invoice_error');
         });

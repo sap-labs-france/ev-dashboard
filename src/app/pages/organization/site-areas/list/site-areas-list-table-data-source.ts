@@ -17,7 +17,6 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -26,7 +25,6 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
-
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { TableAssignAssetsToSiteAreaAction } from '../table-actions/table-assign-assets-to-site-area-action';
@@ -38,6 +36,7 @@ import { TableEditSiteAreaAction } from '../table-actions/table-edit-site-area-a
 import { TableViewChargingStationsOfSiteAreaAction } from '../table-actions/table-view-charging-stations-of-site-area-action';
 import { TableViewSiteAreaAction } from '../table-actions/table-view-site-area-action';
 import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
+
 
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
@@ -174,7 +173,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE)) {
+    if (this.authorizationService.canCreateSiteArea()) {
       return [
         new TableCreateSiteAreaAction().getActionDef(),
         ...tableActionsDef,

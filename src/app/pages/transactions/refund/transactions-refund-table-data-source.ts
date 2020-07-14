@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { Action, Entity } from 'app/types/Authorization';
 import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
@@ -14,7 +13,6 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -45,6 +43,7 @@ import { TableOpenURLConcurAction } from '../table-actions/table-open-url-concur
 import { TableRefundTransactionsAction } from '../table-actions/table-refund-transactions-action';
 import { TableSyncRefundTransactionsAction } from '../table-actions/table-sync-refund-transactions-action';
 
+
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
   private refundTransactionEnabled = false;
@@ -70,7 +69,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService, translateService);
-    this.refundTransactionEnabled = this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
+    this.refundTransactionEnabled = this.authorizationService.canRefundTransaction();
     this.isAdmin = this.authorizationService.isAdmin();
     // Check
     this.checkConcurConnection();

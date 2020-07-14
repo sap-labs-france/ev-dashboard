@@ -1358,7 +1358,7 @@
       "check_connection": "Verbindung überprüfen",
       "connection_success": "Verbindung zum Rechnungslegungssystem wurde erfolgreich überprüft",
       "connection_error": "Es konnte keine Verbindung zum Rechnungslegungssystem hergestellt werden. Überprüfen Sie den Sicherheitsschlüssel.",
-      "force_synchronize": "Force synchronization",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Rechnungslegungssynchronisation",
         "synchronize_user": "Rechnungslegungssynchronisation",
@@ -1417,8 +1417,8 @@
       "update_success": "SAP Analytics Cloud Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der SAP Analytics Cloud Einstellungen ist ein Fehler aufgetreten"
     },
-    "smartCharging": {
-      "sapSmartCharging": {
+    "smart_charging": {
+      "sap_smart_charging": {
         "title": "SAP Smart Charging",
         "settings": "Einstellungen",
         "user": "Benutzer",
@@ -1876,6 +1876,8 @@
     "refundDate": "Überwiesen am",
     "reportId": "Report ID",
     "select_report": "Report auswählen",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Typ",
@@ -1945,6 +1947,10 @@
       "refund": {
         "title": "Zurückerstatten",
         "confirm": "Wollen Sie wirklich {{quantity}} Ladevorgänge zum Rückerstattungssystem übermitteln?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -2017,6 +2023,11 @@
         "title": "Ladevorgang ohne Benutzer",
         "description": "Der Benutzer dieses Ladevorganges ist unbekannt.",
         "action": "Löschen Sie den Ladevorgang oder deaktivieren Sie die Zugangskontrolle für diesen Standortbereich."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

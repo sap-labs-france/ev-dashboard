@@ -2027,7 +2027,7 @@
       "no_billing_data": {
         "title": "Session with no Billing data",
         "description": "There is no billing data for this Session.",
-        "action": "Delete the Session or create an invoice from it."
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

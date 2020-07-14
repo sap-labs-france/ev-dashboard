@@ -7,6 +7,7 @@ export class TableCheckLogsAction extends TableOpenURLAction {
     return {
       ...super.getActionDef(),
       id: LogButtonAction.CHECK_LOGS,
+      name: 'logs.redirect',
       tooltip: 'logs.redirect'
     };
   }

@@ -11,7 +11,6 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
 import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -19,7 +18,6 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -49,6 +47,7 @@ import { TableDeleteTransactionAction } from '../table-actions/table-delete-tran
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
 import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -205,7 +204,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (invoiceID: string) => invoiceID ? invoiceID : '-',
       });
     }
-  return columns as TableColumnDef[];
+    return columns;
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {

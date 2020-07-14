@@ -41,6 +41,7 @@ import { TableDeleteTransactionAction } from '../table-actions/table-delete-tran
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
@@ -192,7 +193,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         name: 'errors.details',
         sortable: false,
         headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
+        class: 'text-center col-10p p-0',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
@@ -280,20 +281,24 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(rowItem: TransactionInError): TableActionDef[] {
-    const actions = [];
+    const rowActions: TableActionDef[] = [];
+    const moreActions = new TableMoreAction([]);
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
-      actions.push(this.viewAction);
+      rowActions.push(this.viewAction);
     }
     if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
-      actions.push(this.deleteAction);
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (rowItem.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
-      actions.push(this.createInvoice);
+      moreActions.addActionInMoreActions(this.createInvoice);
     }
     if (this.isAdmin) {
-      actions.push(this.checkLogsAction);
+      moreActions.addActionInMoreActions(this.checkLogsAction);
     }
-    return actions;
+    if (moreActions.getActionsInMoreActions().length > 0) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {

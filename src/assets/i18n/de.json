@@ -1417,8 +1417,8 @@
       "update_success": "SAP Analytics Cloud Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der SAP Analytics Cloud Einstellungen ist ein Fehler aufgetreten"
     },
-    "smartCharging": {
-      "sapSmartCharging": {
+    "smart_charging": {
+      "sap_smart_charging": {
         "title": "SAP Smart Charging",
         "settings": "Einstellungen",
         "user": "Benutzer",
@@ -2023,6 +2023,11 @@
         "title": "Ladevorgang ohne Benutzer",
         "description": "Der Benutzer dieses Ladevorganges ist unbekannt.",
         "action": "Löschen Sie den Ladevorgang oder deaktivieren Sie die Zugangskontrolle für diesen Standortbereich."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the Session or link some Billing data to it."
       }
     }
   },

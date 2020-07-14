@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Updated Delta Charging Station templates`,
               `Set a default departure time for the SAP Smart Charging`,
               `Synchronize invoices between Stripe and e-Mobility`,
+              `Create invoice on Sessions without Billing data`,
               `Store and Download invoices (pdf) from e-Mobility`,
               `Prevent billed sessions from being deleted`,
               `Enhanced Badge unit tests`,

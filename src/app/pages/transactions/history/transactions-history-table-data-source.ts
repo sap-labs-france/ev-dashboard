@@ -205,7 +205,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (invoiceID: string) => invoiceID ? invoiceID : '-',
       });
     }
-  return columns as TableColumnDef[];
+    return columns as TableColumnDef[];
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {

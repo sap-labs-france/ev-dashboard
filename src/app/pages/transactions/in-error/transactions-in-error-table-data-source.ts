@@ -39,8 +39,8 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
-import { TableLinkInvoiceTransaction } from '../table-actions/table-link-invoice-transaction';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
@@ -49,7 +49,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
-  private linkInvoice = new TableLinkInvoiceTransaction().getActionDef();
+  private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private checkLogsAction = new TableCheckLogsAction().getActionDef();
 
   constructor(
@@ -288,7 +288,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       actions.push(this.deleteAction);
     }
     if (rowItem.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
-      actions.push(this.linkInvoice);
+      actions.push(this.createInvoice);
     }
     if (this.isAdmin) {
       actions.push(this.checkLogsAction);
@@ -309,10 +309,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case TransactionButtonAction.LINK_INVOICE_TRANSACTION:
+      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {
           actionDef.action(transaction.id, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.refreshData.bind(this));
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.CHECK_LOGS:

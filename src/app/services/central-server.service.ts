@@ -1372,10 +1372,10 @@ export class CentralServerService {
       );
   }
 
-  public linkTransactionToInvoice(transactionID: number): Observable<ActionResponse> {
+  public createTransactionInvoice(transactionID: number): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_LINK_TRANSACTION_TO_INVOICE}`, { transactionID },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_CREATE_TRANSACTION_INVOICE}`, { transactionID },
       {
         headers: this.buildHttpHeaders(),
       })

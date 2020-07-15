@@ -25,13 +25,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.3.17',
-        date: new Date('2020-07-13'),
+        date: new Date('2020-07-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Updated Delta Charging Station templates`,
               `Set a default departure time for the SAP Smart Charging`,
               `Synchronize invoices between Stripe and e-Mobility`,
+              `Create invoice on Sessions without Billing data`,
               `Store and Download invoices (pdf) from e-Mobility`,
               `Prevent billed sessions from being deleted`,
               `Enhanced Badge unit tests`,

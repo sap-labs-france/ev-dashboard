@@ -23,7 +23,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Action, Entity } from '../../../types/Authorization';
 import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
@@ -229,8 +228,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
     if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
-        this.authorizationService.canAccess(Entity.USER, Action.UPDATE) &&
-        this.authorizationService.canAccess(Entity.SITE, Action.UPDATE)) {
+        this.authorizationService.canUpdateUser() &&
+        this.authorizationService.canUpdateSite()) {
       actions = [
         this.editAction,
         this.assignSitesToUser,
@@ -242,10 +241,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_BILLING_USER)) {
+        this.authorizationService.canSynchronizeBillingUser()) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
-    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
+    if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (moreActions.getActionsInMoreActions().length > 0) {

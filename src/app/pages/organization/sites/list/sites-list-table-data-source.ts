@@ -15,7 +15,6 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -131,7 +130,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAccess(Entity.SITE, Action.CREATE)) {
+    if (this.authorizationService.canCreateSite()) {
       return [
         new TableCreateSiteAction().getActionDef(),
         ...tableActionsDef,
@@ -161,7 +160,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         openInMaps,
       ]).getActionDef();
     }
-    if (this.authorizationService.canAccess(Entity.SITE, Action.DELETE)) {
+    if (this.authorizationService.canDeleteSite()) {
       if (moreActions.dropdownActions) {
         moreActions.dropdownActions.push(this.deleteAction);
       }

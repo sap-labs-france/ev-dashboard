@@ -36,12 +36,28 @@ export class AuthorizationService {
     return this.canAccess(Entity.ASSET, Action.UPDATE);
   }
 
+  public canCreateSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.CREATE);
+  }
+
+  public canDeleteSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.DELETE);
+  }
+
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
   }
 
+  public canCreateSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.CREATE);
+  }
+
   public canUpdateSiteArea(): boolean {
     return this.canAccess(Entity.SITE_AREA, Action.UPDATE);
+  }
+
+  public canDeleteSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.DELETE);
   }
 
   public canListSettings(): boolean {
@@ -57,8 +73,24 @@ export class AuthorizationService {
     return false;
   }
 
+  public canDeleteTransaction(): boolean {
+    return this.canAccess(Entity.TRANSACTION, Action.DELETE);
+  }
+
+  public canDeleteUser(): boolean {
+    return this.canAccess(Entity.USER, Action.DELETE);
+  }
+
   public canUpdateUser(): boolean {
     return this.canAccess(Entity.USER, Action.UPDATE);
+  }
+
+  public canSynchronizeBillingUser(): boolean {
+    return this.canAccess(Entity.USER, Action.SYNCHRONIZE_BILLING_USER);
+  }
+
+  public canRefundTransaction(): boolean {
+    return this.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
   }
 
   public canSynchronizeBillingUsers(): boolean {

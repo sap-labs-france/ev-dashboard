@@ -38,6 +38,7 @@ export enum TransactionInErrorType {
   INVALID_START_DATE = 'incorrect_starting_date',
   MISSING_PRICE = 'missing_price',
   MISSING_USER = 'missing_user',
+  NO_BILLING_DATA = 'no_billing_data'
 }
 
 export enum ChargingStationInErrorType {

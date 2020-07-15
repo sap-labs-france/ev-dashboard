@@ -1358,7 +1358,7 @@
       "check_connection": "Verificar conexión",
       "connection_success": "La conexión al sistema de facturación se verificó exitosamente",
       "connection_error": "No se puede conectar al sistema de facturación. Verifique su clave secreta",
-      "force_synchronize": "Forzar sincronización",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",
@@ -1876,6 +1876,8 @@
     "refundDate": "Transferido en",
     "reportId": "ID del informe",
     "select_report": "Seleccionar informe",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Tipo",
@@ -1945,6 +1947,10 @@
       "refund": {
         "title": "Reembolso",
         "confirm": "¿Está seguro que desea transferir {{quantity}} sesiones al sistema de reembolso?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -2017,6 +2023,11 @@
         "title": "Sesión sin usuario",
         "description": "Ningún usuario está asignado a esta sesión.",
         "action": "Elimine esta sesión o desactive el control de acceso para esta zona."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

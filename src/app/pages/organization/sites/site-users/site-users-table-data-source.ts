@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,11 +10,10 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Action, Entity } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site } from 'app/types/Site';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User, UserSite } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -118,7 +116,7 @@ export class SiteUsersTableDataSource extends TableDataSource<UserSite> {
       },
     ];
 
-    if (this.authorisationService.canAccess(Entity.SITE, Action.CREATE)) {
+    if (this.authorisationService.canCreateSite()) {
       columns.push({
         id: 'siteOwner',
         isAngularComponent: true,

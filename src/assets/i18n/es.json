@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.12",
+    "last_update": "Versión 2.3.17",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -302,6 +302,10 @@
     "asset_type": "Tipo de activos",
     "produce": "Producto energético",
     "consume": "Consumo de energía",
+    "dynamic_asset": "Activo Dinámico",
+    "instant_power": "Energía instantánea",
+    "asset_connection": "Conexión de Activos",
+    "meter_id": "ID del Medidor",
     "asset": "Activos",
     "title": "Activo",
     "titles": "Activos",
@@ -318,10 +322,16 @@
     "update_success": "El activo '{{assetName}}' se ha actualizado correctamente",
     "update_error": "Se produjo un error al actualizar el activo",
     "asset_not_found": "No se ha encontrado el activo",
+    "asset_settings_error": "Se produjo un error al obtener las conexiones de los activos",
     "create_success": "El activo '{{assetName}}' se ha creado exitosamente",
     "create_error": "Se produjo un error al crear el activo",
+    "refresh_success": "La conexión del activo ha sido actualizada con éxito",
+    "refresh_error": "Se produjo un error al actualizar la conexión del activo",
     "logo_size_error": "Se excedió el límite de tamaño de la imágen, el límite está por debajo de {{maxPictureKb}} Kb",
     "select_assets": "Seleccionar activo",
+    "dialog_tabs": {
+      "connection": "Conexión"
+    },
     "errors": {
       "missing_site_area": {
         "title": "No está asignado a una zona",
@@ -333,6 +343,7 @@
   "sites": {
     "assign_company": "Asignar empresa",
     "auto_user_site_assignment": "Asignación automática de nuevos usuarios a este sitio.",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Usuarios autorizados para usar las estaciones de carga en este sitio",
     "user_list_source_title": "Disponible",
     "user_list_target_title": "Asignado",
@@ -440,7 +451,7 @@
     "create_error": "Se produjo un error al crear zona",
     "image_size_error": "Se excedió el límite de tamaño de la imagen, el límite está por debajo de {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Potencia máxima (kW)",
-    "maximum_energy_amps": "Potencia máxima (A)",
+    "maximum_energy_amps": "Amperaje máxima (A)",
     "number_of_phases": "Número de fases",
     "export_all_params_title": "Exportar parámetros OCPP",
     "export_all_params_confirm": "¿Está seguro que desea exportar todos los parámetros OCPP de todas las estaciones de carga que pertenecen a la zona '{{siteAreaName}}' ?",
@@ -632,6 +643,7 @@
     "share_power_to_all_connectors": "Compartir energía con conectores",
     "exclude_from_power_limitation": "No se puede limitar la potencia",
     "public": "Está estación de carga es publica",
+    "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
@@ -645,7 +657,7 @@
     "unassigned": "Sin asignar",
     "unassigned_chargers": "Cargadores",
     "maximum_energy": "Potencia máxima (Vatios)",
-    "maximum_energy_amps": "Energía máxima (Amps)",
+    "maximum_energy_amps": "Amperaje máxima (Amps)",
     "efficiency": "Rendimiento (%)",
     "invalid_efficiency": "El rendimiento debe ser un número positivo menor a 100",
     "connector": "Conector",
@@ -808,15 +820,15 @@
       "trigger_smart_charging_error": "Se produjo un error al activar el algoritmo de carga inteligente, verifique los registros",
       "minutes": "minutos",
       "charging_plans": {
-        "charging_plan_name": "Name",
-        "charging_station_id": "Charging Station",
-        "connector_id": "Connector ID",
-        "current_limit": "Current limit",
-        "kind": "Kind",
-        "purpose": "Purpose",
-        "stack_level": "Stack Level",
-        "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit"
+        "charging_plan_name": "Nombre",
+        "charging_station_id": "Estación de carga",
+        "connector_id": "ID del conector",
+        "current_limit": "Límite actual",
+        "kind": "Tipo",
+        "purpose": "Proósito",
+        "stack_level": "Nivel",
+        "site_area":"Zona",
+        "site_area_limit":"Límite por zona"
       }
     },
     "more_actions": {
@@ -1020,6 +1032,8 @@
     "search_last_week": "La semana pasada",
     "search_this_month": "Este mes",
     "search_last_month": "El mes pasado",
+    "select_actions": "Seleccionar Acciones",
+    "redirect": "Verificar registros",
     "no_logs": "No hay registros que coincidan con los filtros.",
     "dialog": {
       "export": {
@@ -1190,7 +1204,10 @@
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
-    "pay": "Pagar"
+    "cannot_download_invoice": "Cannot download invoice",
+    "number_of_items": "Sessions",
+    "pay": "Pagar",
+    "user": "User"
   },
   "tags": {
     "id": "ID",
@@ -1229,6 +1246,8 @@
     "smart_charging_still_active_for_site_area": "La carga inteligente todavía está activada para ciertas áreas del sitio. <br> Desactive la carga inteligente para cada zona en la organización."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Estación de carga",
@@ -1339,7 +1358,7 @@
       "check_connection": "Verificar conexión",
       "connection_success": "La conexión al sistema de facturación se verificó exitosamente",
       "connection_error": "No se puede conectar al sistema de facturación. Verifique su clave secreta",
-      "force_synchronize": "Forzar sincronización",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",
@@ -1773,7 +1792,7 @@
     "type_placeholder": "Tipo",
     "description": "Interfaz de facturación",
     "id": "ID de facturación",
-    "updatedOn": "Sincronizado en",
+    "updated_on": "Sincronizado en",
     "tabs": {
       "invoices": "Facturas",
       "in_error": "Con errores"
@@ -1857,6 +1876,8 @@
     "refundDate": "Transferido en",
     "reportId": "ID del informe",
     "select_report": "Seleccionar informe",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Tipo",
@@ -1911,7 +1932,8 @@
       "delete": {
         "title": "Eliminar sesión",
         "confirm": "¿Está seguro que desea eliminar la sesión de {{user}}?",
-        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!"
+        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Exportar sesiones",
@@ -1925,6 +1947,10 @@
       "refund": {
         "title": "Reembolso",
         "confirm": "¿Está seguro que desea transferir {{quantity}} sesiones al sistema de reembolso?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -1997,6 +2023,11 @@
         "title": "Sesión sin usuario",
         "description": "Ningún usuario está asignado a esta sesión.",
         "action": "Elimine esta sesión o desactive el control de acceso para esta zona."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

@@ -198,6 +198,10 @@ tr.element-row:not(.expanded-row):active {
   min-height: 24px;
 }
 
+.right-actions > .mat-slide-toggle {
+  margin-right: 10px;
+}
+
 .mat-slide-toggle.mat-checked {
   .mat-slide-toggle-thumb {
     background-color: $brand-primary;

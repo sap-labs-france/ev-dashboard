@@ -14,7 +14,9 @@ import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-are
 import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { AssetSettings } from 'app/types/Setting';
 import { SiteArea } from 'app/types/SiteArea';
+import TenantComponents from 'app/types/TenantComponents';
 import { Constants } from 'app/utils/Constants';
 import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
 import { Utils } from 'app/utils/Utils';
@@ -34,6 +36,8 @@ export class AssetComponent implements OnInit {
   public image: string = AssetImage.NO_IMAGE;
   public maxSize: number;
   public selectedSiteArea: SiteArea;
+  public assetTypes!: KeyValue[];
+  public assetConnections!: KeyValue[];
 
   public formGroup!: FormGroup;
   public id!: AbstractControl;
@@ -44,7 +48,9 @@ export class AssetComponent implements OnInit {
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
-  public assetTypes!: KeyValue[];
+  public dynamicAsset!: AbstractControl;
+  public connectionID!: AbstractControl;
+  public meterID!: AbstractControl;
   public asset!: Asset;
 
   constructor(
@@ -67,6 +73,8 @@ export class AssetComponent implements OnInit {
     }
     // Get asset types
     this.assetTypes = AssetTypes;
+    // Get asset connections list
+    this.loadAssetConnections();
     // Get admin flag
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
   }
@@ -103,6 +111,15 @@ export class AssetComponent implements OnInit {
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
           ])),
       ]),
+      connectionID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
+      dynamicAsset: new FormControl(false),
+      meterID: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ]))
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -113,6 +130,11 @@ export class AssetComponent implements OnInit {
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
+    this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
+    this.connectionID = this.formGroup.controls['connectionID'];
+    this.meterID = this.formGroup.controls['meterID'];
+    // Disable connection form by default
+    this.disableConnectionDetails();
     // if not admin switch in readonly mode
     if (!this.isAdmin) {
       this.formGroup.disable();
@@ -160,6 +182,16 @@ export class AssetComponent implements OnInit {
         this.longitude.setValue(this.asset.coordinates[0]);
         this.latitude.setValue(this.asset.coordinates[1]);
       }
+      if (this.asset.dynamicAsset) {
+        this.formGroup.controls.dynamicAsset.setValue(this.asset.dynamicAsset);
+        this.disableConnectionDetails();
+      }
+      if (this.asset.connectionID) {
+        this.formGroup.controls.connectionID.setValue(this.asset.connectionID);
+      }
+      if (this.asset.meterID) {
+        this.formGroup.controls.meterID.setValue(this.asset.meterID);
+      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
@@ -181,6 +213,16 @@ export class AssetComponent implements OnInit {
             this.centralServerService, 'general.unexpected_error_backend');
       }
     });
+  }
+
+  public disableConnectionDetails() {
+    if (Utils.convertToBoolean(this.dynamicAsset.value)) {
+      this.connectionID.enable();
+      this.meterID.enable();
+    } else {
+      this.connectionID.disable();
+      this.meterID.disable();
+    }
   }
 
   public updateAssetImage(asset: Asset) {
@@ -343,6 +385,25 @@ export class AssetComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'assets.create_error');
       }
+    });
+  }
+
+  public loadAssetConnections() {
+    this.spinnerService.show();
+    this.centralServerService.getSettings(TenantComponents.ASSET).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response && response.result && response.result.length > 0) {
+        const assetSetting = response.result[0] as AssetSettings;
+        const connections = [] as KeyValue[];
+        for (const connection of assetSetting.content.asset.connections) {
+          connections.push({ key: connection.id, value: connection.name});
+        }
+        this.assetConnections = connections;
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'assets.asset_settings_error');
     });
   }
 

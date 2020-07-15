@@ -1,3 +1,4 @@
+import { BillingTransactionData } from './Billing';
 import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
@@ -16,11 +17,11 @@ export interface Transaction extends Data {
   currentInstantWattsL2?: number;
   currentInstantWattsL3?: number;
   currentInstantWattsDC?: number;
-  currentInstantVoltage?: number;
-  currentInstantVoltageL1?: number;
-  currentInstantVoltageL2?: number;
-  currentInstantVoltageL3?: number;
-  currentInstantVoltageDC?: number;
+  currentInstantVolts?: number;
+  currentInstantVoltsL1?: number;
+  currentInstantVoltsL2?: number;
+  currentInstantVoltsL3?: number;
+  currentInstantVoltsDC?: number;
   currentInstantAmps?: number;
   currentInstantAmpsL1?: number;
   currentInstantAmpsL2?: number;
@@ -60,6 +61,7 @@ export interface Transaction extends Data {
   };
   dateTimestring: string;
   values: TransactionConsumption[];
+  billingData: BillingTransactionData;
 }
 
 export interface TransactionConsumption {
@@ -102,6 +104,7 @@ export enum TransactionButtonAction {
   EXPORT_TRANSACTIONS = 'export_transactions',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
+  CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
 }
 

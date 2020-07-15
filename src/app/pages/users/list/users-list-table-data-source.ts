@@ -10,7 +10,6 @@ import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -23,7 +22,6 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Action, Entity } from '../../../types/Authorization';
 import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
@@ -37,6 +35,7 @@ import { TableDeleteUserAction } from '../table-actions/table-delete-user-action
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
+
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -156,14 +155,26 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           class: 'col-15p',
           sortable: true,
         },
-        {
-          id: 'plateID',
-          name: 'users.plate_id',
-          headerClass: 'col-10p',
-          class: 'col-10p',
-          sortable: true,
-        },
       );
+      if (this.componentService.isActive(TenantComponents.BILLING)) {
+        columns.push(
+          {
+            id: 'billingData.customerID',
+            name: 'billing.id',
+            headerClass: 'col-15p',
+            class: 'col-15p',
+            sortable: true,
+          },
+          {
+            id: 'billingData.lastChangedOn',
+            name: 'billing.updated_on',
+            headerClass: 'col-15p',
+            formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+            class: 'col-15p',
+            sortable: true,
+          },
+        );
+      }
     }
     columns.push(
       {
@@ -199,25 +210,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         class: 'col-15p',
       },
     );
-    if (this.componentService.isActive(TenantComponents.BILLING)) {
-      columns.push(
-        {
-          id: 'billingData.customerID',
-          name: 'billing.id',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'billingData.lastChangedOn',
-          name: 'billing.updatedOn',
-          headerClass: 'col-15p',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          class: 'col-15p',
-          sortable: true,
-        },
-      );
-    }
     return columns as TableColumnDef[];
   }
 
@@ -225,7 +217,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     const tableActionsDef = super.buildTableActionsDef();
     tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeUsers()) {
+        this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
     return [
@@ -236,8 +228,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions;
     if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
-        this.authorizationService.canAccess(Entity.USER, Action.UPDATE) &&
-        this.authorizationService.canAccess(Entity.SITE, Action.UPDATE)) {
+        this.authorizationService.canUpdateUser() &&
+        this.authorizationService.canUpdateSite()) {
       actions = [
         this.editAction,
         this.assignSitesToUser,
@@ -249,10 +241,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     const moreActions = new TableMoreAction([]);
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USER)) {
+        this.authorizationService.canSynchronizeBillingUser()) {
       moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
     }
-    if (this.currentUser.id !== user.id && this.authorizationService.canAccess(Entity.USER, Action.DELETE)) {
+    if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     if (moreActions.getActionsInMoreActions().length > 0) {
@@ -269,14 +261,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           actionDef.action(this.dialog, this.refreshData.bind(this));
         }
         break;
-      case BillingButtonAction.SYNCHRONIZE_USERS:
+      case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:
         if (this.syncBillingUsersAction.action) {
           this.syncBillingUsersAction.action(
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.router,
+            this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router,
           );
         }
         break;

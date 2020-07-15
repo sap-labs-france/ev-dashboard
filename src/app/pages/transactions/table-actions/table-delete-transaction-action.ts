@@ -28,6 +28,10 @@ export class TableDeleteTransactionAction extends TableDeleteAction {
       dialogService.createAndShowOkDialog(
         translateService.instant('transactions.dialog.delete.title'),
         translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
+    } else if (transaction.billingData && transaction.billingData.invoiceID) {
+      dialogService.createAndShowOkDialog(
+        translateService.instant('transactions.dialog.delete.title'),
+        translateService.instant('transactions.dialog.delete.rejected_billed_msg'));
     } else {
       super.delete(
         transaction, 'transactions.dialog.delete.title',

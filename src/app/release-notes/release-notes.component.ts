@@ -24,6 +24,52 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.17',
+        date: new Date('2020-07-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Updated Delta Charging Station templates`,
+              `Set a default departure time for the SAP Smart Charging`,
+              `Synchronize invoices between Stripe and e-Mobility`,
+              `Create invoice on Sessions without Billing data`,
+              `Store and Download invoices (pdf) from e-Mobility`,
+              `Prevent billed sessions from being deleted`,
+              `Enhanced Badge unit tests`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.16',
+        date: new Date('2020-07-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added synchronization of User's Invoices with Stripe`,
+              `Disabled in SAP Smart Charging the check of the three phases Car on single phase Charging Station`,
+              `Added new firmware versions in Charging Station templates`,
+              `Fixed Charging Station cannot change limits when not assigned to a Site Area`,
+              `Fixed add a single phase Charging Station failed on a single phase Site Area`,
+              `Updated Car VIN validator`,
+              `Send 24/7 Charging Station availability by default to the Gireve platform`,
+              `Do not send Locations with no Charging Station to the Gireve platform`,
+              `Do not send the number of phases when DC Charging Stations to the Gireve platform`,
+              `Assign an Asset to a Schneider Building Management System and manually retrieve the consumption of the Buildings, Solar Panels...`,
+              `Add more columns to distinguish between same Car makers/models/versions in Car selection pop-up`,
+              `Converted Action filter in Logs to a pop-up`,
+              `Added jump to Logs with predefined filters`,
+              `Added Public column in Charging Station list`,
+              `Changed Car VIN validator`,
+              `Fixed missing spanish translation`,
+              `Updated German translation`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.12',
         date: new Date('2020-07-05'),
         componentChanges: [

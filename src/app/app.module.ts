@@ -144,7 +144,6 @@ export function localeFactory(
   return language;
 }
 
-// tslint:disable-next-line: max-classes-per-file
 @NgModule({
   imports: [
     CommonModule,

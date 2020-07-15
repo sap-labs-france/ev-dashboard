@@ -185,7 +185,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     }
   }
 
-  public toggleAutoRefesh(value: boolean) {
+  public toggleAutoRefresh(value: boolean) {
     this.autoRefreshEnabled = value;
   }
 

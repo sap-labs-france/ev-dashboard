@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
-import { Action, Entity } from 'app/types/Authorization';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { Site, SiteUser } from 'app/types/Site';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -23,6 +20,7 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import { Utils } from '../../../utils/Utils';
 import { UserSitesAdminCheckboxComponent } from './user-sites-admin-checkbox.component';
 import { UserSitesOwnerRadioComponent } from './user-sites-owner-radio.component';
+
 
 @Injectable()
 export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
@@ -121,7 +119,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
       },
 
     ];
-    if (this.authorisationService.canAccess(Entity.SITE, Action.CREATE)) {
+    if (this.authorisationService.canCreateSiteArea()) {
       columns.push({
         id: 'siteOwner',
         isAngularComponent: true,

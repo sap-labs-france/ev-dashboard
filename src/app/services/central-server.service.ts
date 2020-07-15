@@ -9,7 +9,7 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/Ch
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging, CheckAssetConnectionResponse, CheckBillingConnectionResponse } from 'app/types/DataResult';
+import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
@@ -27,6 +27,7 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
 import { ConfigService } from './config.service';
@@ -1241,7 +1242,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INVOICE}?ID=${id}`,
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_USER_INVOICE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
         responseType: 'blob',
@@ -1335,7 +1336,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_INVOICES}`,
+    return this.httpClient.get<DataResult<BillingInvoice>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_INVOICES}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1345,10 +1346,11 @@ export class CentralServerService {
       );
   }
 
-  public synchronizeInvoices(): Observable<ActionsResponse> {
+  public synchronizeInvoicesForBilling(): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionsResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_INVOICES}`, {},
+    return this.httpClient.post<ActionsResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_SYNCHRONIZE_INVOICES}`, {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1364,6 +1366,30 @@ export class CentralServerService {
       { userID },
       {
         headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createTransactionInvoice(transactionID: number): Observable<ActionResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_CREATE_TRANSACTION_INVOICE}`, { transactionID },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadInvoice(id: string): Observable<Blob> {
+    this.checkInit();
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DOWNLOAD_INVOICE}?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1680,7 +1706,7 @@ export class CentralServerService {
       );
   }
 
-  public TableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
+  public tableRetrieveAssetConsumptionAction(assetId: string): Observable<ActionResponse> {
     const params: { [param: string]: string } = {};
     params['ID'] = assetId;
     // Verify init
@@ -2087,7 +2113,7 @@ export class CentralServerService {
   public deleteTransaction(id: number): Observable<ActionResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTIONS_DELETE}?ID=${id}`,
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_DELETE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
       })

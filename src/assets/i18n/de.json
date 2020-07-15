@@ -23,7 +23,7 @@
     "connectors": "Ladepunkte",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.15",
+    "last_update": "Version 2.3.17",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -1204,7 +1204,10 @@
     "createdOn": "Rechnungsdatum",
     "price": "Rechnungspreis",
     "cannot_retrieve_invoices": "Liste aller Rechnungen kann nicht abgerufen werden",
-    "pay": "Bezahlen"
+    "cannot_download_invoice": "Cannot download invoice",
+    "number_of_items": "Sessions",
+    "pay": "Bezahlen",
+    "user": "User"
   },
   "tags": {
     "id": "ID",
@@ -1355,7 +1358,7 @@
       "check_connection": "Verbindung überprüfen",
       "connection_success": "Verbindung zum Rechnungslegungssystem wurde erfolgreich überprüft",
       "connection_error": "Es konnte keine Verbindung zum Rechnungslegungssystem hergestellt werden. Überprüfen Sie den Sicherheitsschlüssel.",
-      "force_synchronize": "Force synchronization",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Rechnungslegungssynchronisation",
         "synchronize_user": "Rechnungslegungssynchronisation",
@@ -1414,8 +1417,8 @@
       "update_success": "SAP Analytics Cloud Einstellungen wurden erfolgreich aktualisiert",
       "update_error": "Beim Aktualisieren der SAP Analytics Cloud Einstellungen ist ein Fehler aufgetreten"
     },
-    "smartCharging": {
-      "sapSmartCharging": {
+    "smart_charging": {
+      "sap_smart_charging": {
         "title": "SAP Smart Charging",
         "settings": "Einstellungen",
         "user": "Benutzer",
@@ -1789,7 +1792,7 @@
     "type_placeholder": "Typ",
     "description": "Rechnungslegungs Interface",
     "id": "Rechnungslegungs ID",
-    "updatedOn": "Synchronisiert am",
+    "updated_on": "Synchronisiert am",
     "tabs": {
       "invoices": "Rechnungen",
       "in_error": "Fehlerhaft"
@@ -1873,6 +1876,8 @@
     "refundDate": "Überwiesen am",
     "reportId": "Report ID",
     "select_report": "Report auswählen",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Typ",
@@ -1927,7 +1932,8 @@
       "delete": {
         "title": "Lösche Ladevorgang",
         "confirm": "Wollen Sie den Ladevorgang von {{user}} wirklich löschen?",
-        "rejected_refunded_msg": "Sie können keinen Ladevorgang löschen, der bereits zurückerstattet wurde!"
+        "rejected_refunded_msg": "Sie können keinen Ladevorgang löschen, der bereits zurückerstattet wurde!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Exportiere Ladevorgänge",
@@ -1941,6 +1947,10 @@
       "refund": {
         "title": "Zurückerstatten",
         "confirm": "Wollen Sie wirklich {{quantity}} Ladevorgänge zum Rückerstattungssystem übermitteln?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -2013,6 +2023,11 @@
         "title": "Ladevorgang ohne Benutzer",
         "description": "Der Benutzer dieses Ladevorganges ist unbekannt.",
         "action": "Löschen Sie den Ladevorgang oder deaktivieren Sie die Zugangskontrolle für diesen Standortbereich."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

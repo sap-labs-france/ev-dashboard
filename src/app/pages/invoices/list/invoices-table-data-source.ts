@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
+import { TableDownloadAction } from 'app/shared/table/actions/table-download-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
@@ -28,11 +30,13 @@ import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
+import { TableDownloadBillingInvoice } from '../table-actions/table-download-billing-invoice-action';
 import { TableSyncBillingInvoicesAction } from '../table-actions/table-sync-billing-invoices-action';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private syncBillingInvoicesAction = new TableSyncBillingInvoicesAction().getActionDef();
+  private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
 
   constructor(
       public spinnerService: SpinnerService,
@@ -40,7 +44,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       private messageService: MessageService,
       private dialogService: DialogService,
       private router: Router,
-      private dialog: MatDialog,
+      private appUserNamePipe: AppUserNamePipe,
       private centralServerNotificationService: CentralServerNotificationService,
       private centralServerService: CentralServerService,
       private authorizationService: AuthorizationService,
@@ -61,15 +65,15 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       // Get the Invoices
       this.centralServerService.getUserInvoices(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((invoices) => {
-        // Ok
-        observer.next(invoices);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
-        // Error
-        observer.error(error);
-      });
+          // Ok
+          observer.next(invoices);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -78,12 +82,16 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       search: {
         enabled: true,
       },
-      hasDynamicRowAction: true,
+      hasDynamicRowAction: true
     };
   }
 
-  public buildTableDynamicRowActions(row: BillingInvoice): TableActionDef[] {
-    return [];
+  public buildTableDynamicRowActions(invoice: BillingInvoice): TableActionDef[] {
+    const rowActions = [];
+    if (invoice.downloadable && this.authorizationService.canDownloadInvoice(invoice.userID)) {
+        rowActions.push(this.downloadBillingInvoiceAction);
+    }
+    return rowActions;
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -99,21 +107,28 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         sortable: true,
       },
       {
-        id: 'number',
-        name: 'invoices.id',
-        headerClass: 'col-30p',
-        class: 'col-30p',
-        sortable: true,
-      },
-      {
         id: 'createdOn',
         name: 'invoices.createdOn',
         formatter: (date: Date) => this.datePipe.transform(date),
-        headerClass: 'col-30p',
-        class: 'col-30p',
+        headerClass: 'col-20p',
+        class: 'col-20p',
         sorted: true,
         sortable: true,
         direction: 'desc',
+      },
+      {
+        id: 'number',
+        name: 'invoices.id',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      },
+      {
+        id: 'nbrOfItems',
+        name: 'invoices.number_of_items',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        sortable: true,
       },
       {
         id: 'amount',
@@ -124,13 +139,28 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         sortable: true,
       },
     );
+    if (this.authorizationService.isAdmin()) {
+      columns.splice(3, 0, {
+        id: 'user',
+        name: 'invoices.user',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
+        headerClass: 'col-20p text-left',
+        class: 'col-20p text-left',
+      });
+    }
     return columns as TableColumnDef[];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeInvoices()) {
+      this.authorizationService.canSynchronizeInvoices()) {
       tableActionsDef.unshift(this.syncBillingInvoicesAction);
     }
     return [
@@ -144,12 +174,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       case BillingButtonAction.SYNCHRONIZE_INVOICES:
         if (this.syncBillingInvoicesAction.action) {
           this.syncBillingInvoicesAction.action(
-            this.dialogService,
-            this.translateService,
-            this.messageService,
-            this.centralServerService,
-            this.router,
-            this.refreshData.bind(this)
+            this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.refreshData.bind(this)
           );
         }
         break;
@@ -157,6 +183,16 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   }
 
   public rowActionTriggered(actionDef: TableActionDef, billingInvoice: BillingInvoice) {
+    switch (actionDef.id) {
+      case BillingButtonAction.DOWNLOAD_INVOICE:
+        if (this.downloadBillingInvoiceAction.action) {
+          this.downloadBillingInvoiceAction.action(
+            billingInvoice.id, 'invoice_' + billingInvoice.number, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
+    }
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {

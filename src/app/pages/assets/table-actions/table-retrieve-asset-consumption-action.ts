@@ -22,7 +22,7 @@ export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction 
     centralServerService: CentralServerService, messageService: MessageService,
     router: Router, refresh?: () => Observable<void>) {
       spinnerService.show();
-      centralServerService.TableRetrieveAssetConsumptionAction(asset.id).subscribe((response) => {
+      centralServerService.tableRetrieveAssetConsumptionAction(asset.id).subscribe((response) => {
         spinnerService.hide();
         if (response.status && response.status === RestResponse.SUCCESS) {
           refresh().subscribe();

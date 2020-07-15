@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableAction } from 'app/shared/table/actions/table-action';
+import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { RestResponse } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -11,20 +11,14 @@ import { MessageService } from '../../../services/message.service';
 import { BillingButtonAction } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
 
-export class TableSyncBillingInvoicesAction implements TableAction {
-  private action: TableActionDef = {
-    id: BillingButtonAction.SYNCHRONIZE_INVOICES,
-    type: 'button',
-    icon: 'sync',
-    color: ButtonColor.PRIMARY,
-    name: 'settings.billing.invoice.synchronize_invoices',
-    tooltip: 'general.synchronize',
-    action: this.synchronizeInvoices,
-  };
-
-  // Return an action
+export class TableSyncBillingInvoicesAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: BillingButtonAction.SYNCHRONIZE_INVOICES,
+      name: 'settings.billing.invoice.synchronize_invoices',
+      action: this.synchronizeInvoices,
+    };
   }
 
   private synchronizeInvoices(dialogService: DialogService, translateService: TranslateService,
@@ -36,7 +30,7 @@ export class TableSyncBillingInvoicesAction implements TableAction {
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         messageService.showInfoMessage('settings.billing.invoice.synchronize_invoices_started');
-        centralServerService.synchronizeInvoices().subscribe((synchronizeResponse) => {
+        centralServerService.synchronizeInvoicesForBilling().subscribe((synchronizeResponse) => {
           if (synchronizeResponse.status === RestResponse.SUCCESS) {
             if (synchronizeResponse.inSuccess) {
               if (refresh) {

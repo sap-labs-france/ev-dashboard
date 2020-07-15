@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.15",
+    "last_update": "Versión 2.3.17",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -1204,7 +1204,10 @@
     "createdOn": "Fecha de factura",
     "price": "Costo de factura",
     "cannot_retrieve_invoices": "No se puede recuperar la lista de facturas.",
-    "pay": "Pagar"
+    "cannot_download_invoice": "Cannot download invoice",
+    "number_of_items": "Sessions",
+    "pay": "Pagar",
+    "user": "User"
   },
   "tags": {
     "id": "ID",
@@ -1355,7 +1358,7 @@
       "check_connection": "Verificar conexión",
       "connection_success": "La conexión al sistema de facturación se verificó exitosamente",
       "connection_error": "No se puede conectar al sistema de facturación. Verifique su clave secreta",
-      "force_synchronize": "Forzar sincronización",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Sincronización del usuario (Facturación)",
         "synchronize_user": "Sincronización del usuario (Facturación)",
@@ -1789,7 +1792,7 @@
     "type_placeholder": "Tipo",
     "description": "Interfaz de facturación",
     "id": "ID de facturación",
-    "updatedOn": "Sincronizado en",
+    "updated_on": "Sincronizado en",
     "tabs": {
       "invoices": "Facturas",
       "in_error": "Con errores"
@@ -1873,6 +1876,8 @@
     "refundDate": "Transferido en",
     "reportId": "ID del informe",
     "select_report": "Seleccionar informe",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Tipo",
@@ -1927,7 +1932,8 @@
       "delete": {
         "title": "Eliminar sesión",
         "confirm": "¿Está seguro que desea eliminar la sesión de {{user}}?",
-        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!"
+        "rejected_refunded_msg": "¡No puede eliminar una sesión que ha sido reembolsada!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Exportar sesiones",
@@ -1941,6 +1947,10 @@
       "refund": {
         "title": "Reembolso",
         "confirm": "¿Está seguro que desea transferir {{quantity}} sesiones al sistema de reembolso?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -2013,6 +2023,11 @@
         "title": "Sesión sin usuario",
         "description": "Ningún usuario está asignado a esta sesión.",
         "action": "Elimine esta sesión o desactive el control de acceso para esta zona."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

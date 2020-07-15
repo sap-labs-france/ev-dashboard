@@ -2437,7 +2437,7 @@ export class CentralServerService {
       );
   }
 
-  public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue) {
+  public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service

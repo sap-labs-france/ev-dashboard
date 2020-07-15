@@ -2447,7 +2447,7 @@ export class CentralServerService {
         "chargeBoxID": "${id}",
         "args": {
           "key": "${chargerParameter.key}",
-          "value": "${chargerParameter.value}"
+          "value": "${chargerParameter.value}",
           "type": "${chargerParameter.type}"
         }
       }`;

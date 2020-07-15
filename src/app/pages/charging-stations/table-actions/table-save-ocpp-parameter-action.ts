@@ -1,16 +1,16 @@
-import { ButtonType, TableActionDef } from 'app/types/Table';
-import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
-
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { TableChargingStationsRebootAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-reboot-action';
 import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableChargingStationsRebootAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-reboot-action';
 import { TableSaveAction } from 'app/shared/table/actions/table-save-action';
-import { TranslateService } from '@ngx-translate/core';
+import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
+import { Observable } from 'rxjs';
 
 export class TableSaveOCPPParameterAction extends TableSaveAction {
   public getActionDef(): TableActionDef {
@@ -35,32 +35,35 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
           spinnerService.show();
-          centralServerService.updateChargingStationOCPPConfiguration(
-            charger.id, { key: param.key, value: param.value, readonly: param.readonly, type: param.type }).subscribe((response) => {
-              spinnerService.hide();
-              // Ok?
-              if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                  response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                messageService.showSuccessMessage(
-                  translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
-                // Reboot Required?
-                if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                  const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
-                  if (chargingStationsRebootAction.action) {
-                    chargingStationsRebootAction.action(charger, dialogService, translateService,
-                      messageService, centralServerService, spinnerService, router);
-                  }
+          const params: KeyValue = { key: param.key, value: param.value, readonly: param.readonly };
+          if (param.type) {
+            params.type = param.type;
+          }
+          centralServerService.updateChargingStationOCPPConfiguration(charger.id, params).subscribe((response) => {
+            spinnerService.hide();
+            // Ok?
+            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
+              // Reboot Required?
+              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
+                if (chargingStationsRebootAction.action) {
+                  chargingStationsRebootAction.action(charger, dialogService, translateService,
+                    messageService, centralServerService, spinnerService, router);
                 }
-              } else {
-                Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
               }
-              if (refresh) {
-                refresh().subscribe();
-              }
-            }, (error) => {
-              spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
-            });
+            } else {
+              Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
+            }
+            if (refresh) {
+              refresh().subscribe();
+            }
+          }, (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
+          });
         }
       });
     }

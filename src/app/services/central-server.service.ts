@@ -2437,25 +2437,29 @@ export class CentralServerService {
       );
   }
 
-  public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue): Observable<ActionResponse> {
+  public updateChargingStationOCPPConfiguration(id: string, chargerParameter: KeyValue) {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    const body = chargerParameter.type ? `{
-      "chargeBoxID": "${id}",
-      "args": {
-        "key": "${chargerParameter.key}",
-        "value": "${chargerParameter.value}"
-        "type": "${chargerParameter.type}"
-      }
-    }` :
-    `{
-      "chargeBoxID": "${id}",
-      "args": {
-        "key": "${chargerParameter.key}",
-        "value": "${chargerParameter.value}"
-      }
-    }`;
+    let body = '';
+    if (chargerParameter.type) {
+      body = `{
+        "chargeBoxID": "${id}",
+        "args": {
+          "key": "${chargerParameter.key}",
+          "value": "${chargerParameter.value}"
+          "type": "${chargerParameter.type}"
+        }
+      }`;
+    } else {
+      body = `{
+        "chargeBoxID": "${id}",
+        "args": {
+          "key": "${chargerParameter.key}",
+          "value": "${chargerParameter.value}"
+        }
+      }`;
+    }
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_CHANGE_CONFIGURATION}`, body,
       {

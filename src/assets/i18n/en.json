@@ -1358,7 +1358,7 @@
       "check_connection": "Check Connection",
       "connection_success": "Connection to the billing system was tested successfully",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
-      "force_synchronize": "Force synchronization",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",
@@ -1876,6 +1876,8 @@
     "refundDate": "Transferred On",
     "reportId": "Report ID",
     "select_report": "Select Report",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Type",
@@ -1945,6 +1947,10 @@
       "refund": {
         "title": "Refund",
         "confirm": "Do you really want to transfer {{quantity}} session(s) to your refunding system?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -2017,6 +2023,11 @@
         "title": "Session with no User",
         "description": "The User is unknown for this Session.",
         "action": "Delete the Session or disable the access control in the corresponding Site Area."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

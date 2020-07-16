@@ -1239,8 +1239,8 @@
     "delete_title": "Organisation löschen",
     "delete_success": "Die Organisation'{{name}}' wurde erfolgreich gelöscht",
     "delete_error": "Beim Löschen der Organisation ist ein Fehler aufgetreten",
-    "save_error_refund": "Pricing muss für die Rückerstattung aktiv sein",
-    "save_error_billing": "Pricing muss für Rechnungslegung aktiv sein",
+    "save_error_refund": "Preisbildung muss für die Rückerstattung aktiv sein",
+    "save_error_billing": "Preisbildung muss für Rechnungslegung aktiv sein",
     "save_error_smart_charging": "Organisation muss aktiv sein für Smart-Charging",
     "save_error_building": "Organisation muss aktiv sein um Gebäude zu benutzen",
     "smart_charging_still_active_for_site_area": "Smart-Charging ist noch immer aktiv für ausgewählte Standortbereiche.<br>Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
@@ -1252,7 +1252,7 @@
       "ocpi": "Roaming",
       "charging_station": "Ladestation",
       "refund": "Rückerstattung",
-      "pricing": "Pricing",
+      "pricing": "Preisbildung",
       "billing": "Rechnungslegung",
       "analytics": "Analysen",
       "smartCharging": "Smart-Charging",
@@ -1328,12 +1328,12 @@
       }
     },
     "pricing": {
-      "description": "Das Pricing Interface ermöglicht Preisbildungsmöglichkeiten für den Ladestationenbetreiber.",
-      "not_found": "Pricing Einstellungen nicht gefunden",
-      "create_success": "Pricing Einstellungen wurden erfolgreich erstellt",
-      "create_error": "Beim Erstellen der Pricing Einstellungen ist ein Fehler aufgetreten",
-      "update_success": "Pricing Einstellungen wurden erfolgreich aktuaqlisiert",
-      "update_error": "Beim Aktualisieren der Pricing Einstellungen ist ein Fehler aufgetreten",
+      "description": "Das Preisbildungs-Interface ermöglicht Preisbildungsmöglichkeiten für den Ladestationenbetreiber.",
+      "not_found": "Preisbildungseinstellungen nicht gefunden",
+      "create_success": "Preisbildungseinstellungen wurden erfolgreich erstellt",
+      "create_error": "Beim Erstellen der Preisbildungseinstellungen ist ein Fehler aufgetreten",
+      "update_success": "Preisbildungseinstellungen wurden erfolgreich aktuaqlisiert",
+      "update_error": "Beim Aktualisieren der Preisbildungseinstellungen ist ein Fehler aufgetreten",
       "full_description": "E-Mobility bietet zwei Wege den Preis für den Ladevorgang zu berechnen.<br>Einfache Preisbildung ermöglicht einen festen Preis pro kW.h an Ihrer Ladestation.<br>Ein externes erweitertes Preisfindungssystem für komplexere Preisbildungspläne ist SAP Convergent Charging (SAP Hybris Rechnungslegung.)<br>Weitere technische Informationen auf ",
       "convergentcharging": {
         "title": "SAP Convergent Charging",
@@ -1343,7 +1343,7 @@
         "password": "Passwort"
       },
       "simple": {
-        "title": "Einfaches Pricing",
+        "title": "Einfache Preisbildung",
         "price": "Preis",
         "currency": "Währung"
       }

@@ -10,7 +10,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Car, CarCatalog, CarConverter, CarConverterType, CarImage, CarType } from 'app/types/Car';
+import { Car, CarCatalog, CarConverter, CarConverterType, CarType } from 'app/types/Car';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
@@ -51,7 +51,6 @@ export class CarComponent implements OnInit {
   public converter!: AbstractControl;
   public isDefault!: AbstractControl;
   public type!: AbstractControl;
-  public noImage = CarImage.NO_IMAGE;
   public owner = true;
   public carTypes: KeyValue[] = [
     { key: CarType.COMPANY, value: 'cars.company_car' },

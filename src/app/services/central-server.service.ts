@@ -2266,13 +2266,15 @@ export class CentralServerService {
   }
 
   public getCarCatalogs(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<CarCatalog>> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [], withImages = true): Observable<DataResult<CarCatalog>> {
     // Verify init
     this.checkInit();
     // Build Paging
     this.getPaging(paging, params);
     // Build Ordering
     this.getSorting(ordering, params);
+    // Image flag
+    params['withImages'] = withImages.toString();
     // Execute the REST service
     return this.httpClient.get<DataResult<CarCatalog>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOGS}`,
       {

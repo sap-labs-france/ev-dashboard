@@ -22,8 +22,8 @@ import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
-import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
 
+import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
 
 @Component({
   selector: 'app-site-area',

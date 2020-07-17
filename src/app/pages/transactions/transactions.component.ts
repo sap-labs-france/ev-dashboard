@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import TenantComponents from 'app/types/TenantComponents';
+
 import { AuthorizationService } from '../../services/authorization.service';
 import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
-
 
 @Component({
   selector: 'app-transactions',

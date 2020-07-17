@@ -18,6 +18,7 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -48,7 +49,6 @@ import { TableDeleteTransactionAction } from '../table-actions/table-delete-tran
 import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
 import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
-
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {

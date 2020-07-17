@@ -10,7 +10,7 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Car, CarCatalog, CarConverter, CarConverterType, CarType } from 'app/types/Car';
+import { Car, CarCatalog, CarConverter, CarConverterType, CarImage, CarType } from 'app/types/Car';
 import { ActionResponse } from 'app/types/DataResult';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
@@ -20,6 +20,7 @@ import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
 
 import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
+import { ConfigService } from 'app/services/config.service';
 
 @Component({
   selector: 'app-car',
@@ -32,10 +33,10 @@ export class CarComponent implements OnInit {
   @Input() public currentCarID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
-
+  public carImage: string;
   public isBasic: boolean;
   public selectedCarCatalog: CarCatalog;
-  public carCatalogConverters: { type: CarConverterType, value: string, converter: CarConverter}[] = [];
+  public carCatalogConverters: { type: CarConverterType, value: string, converter: CarConverter }[] = [];
   public isAdmin: boolean;
   public isPool = false;
   private car: Car;
@@ -51,11 +52,15 @@ export class CarComponent implements OnInit {
   public converter!: AbstractControl;
   public isDefault!: AbstractControl;
   public type!: AbstractControl;
+  public noImage = CarImage.NO_IMAGE;
   public owner = true;
   public carTypes: KeyValue[] = [
     { key: CarType.COMPANY, value: 'cars.company_car' },
     { key: CarType.PRIVATE, value: 'cars.private_car' }
   ];
+
+  private centralSystemServerConfig: any;
+  private centralRestServerServiceBaseURL!: string;
 
   constructor(
     public carUsersEditableTableDataSource: CarUsersEditableTableDataSource,
@@ -66,7 +71,8 @@ export class CarComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService,
+    private configService: ConfigService) {
     this.isBasic = this.authorizationService.isBasic();
     this.isAdmin = this.authorizationService.isAdmin();
     if (this.isAdmin) {
@@ -75,6 +81,10 @@ export class CarComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.centralSystemServerConfig = this.configService.getCentralSystemServer();
+    // Build Central Service URL
+    this.centralRestServerServiceBaseURL = this.centralSystemServerConfig.protocol + '://' +
+      this.centralSystemServerConfig.host + ':' + this.centralSystemServerConfig.port;
     // Init the form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
@@ -164,6 +174,7 @@ export class CarComponent implements OnInit {
         this.converter.setValue(car.converter);
         this.converterType.setValue(car.converter.type);
         this.carCatalog.setValue(Utils.buildCarCatalogName(car.carCatalog));
+        this.carImage = this.centralRestServerServiceBaseURL + '/client/util/CarImage?CarCatalogID=' + car.carCatalog.id;
         // Set default car
         if (this.isBasic) {
           // Fill in props
@@ -317,6 +328,8 @@ export class CarComponent implements OnInit {
         this.carCatalogID.setValue(result[0].key);
         this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
         this.selectedCarCatalog = carCatalog;
+        this.carImage = this.centralRestServerServiceBaseURL + '/client/util/CarImage?CarCatalogID=' + result[0].key;
+
         // Build drop down
         this.buildCarCatalogConverter();
         this.formGroup.markAsDirty();

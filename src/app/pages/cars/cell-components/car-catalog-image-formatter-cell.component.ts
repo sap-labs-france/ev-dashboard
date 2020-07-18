@@ -5,8 +5,8 @@ import { Car, CarCatalog } from 'app/types/Car';
 @Component({
   template: `
     <div class="logo-container">
-      <img *ngIf="row.carCatalog ? row.carCatalog.image : row.image" class="app-cars-logo"
-        [src]='row.carCatalog ? row.carCatalog.image : row.image'>
+      <img *ngIf="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" class="app-cars-logo"
+        [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']">
     </div>
   `,
 })

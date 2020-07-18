@@ -38,6 +38,7 @@ import { WindowService } from './window.service';
 export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
+  private centralRestServerServiceUtilURL!: string;
   private centralRestServerServiceAuthURL!: string;
   private centralSystemServerConfig: any;
   private initialized = false;
@@ -54,6 +55,18 @@ export class CentralServerService {
     private dialog: MatDialog) {
     // Default
     this.initialized = false;
+  }
+
+  public getCentralRestServerServiceUtilURL(): string {
+    return this.centralRestServerServiceUtilURL;
+  }
+
+  public getCentralRestServerServiceSecuredURL(): string {
+    return this.centralRestServerServiceSecuredURL;
+  }
+
+  public getCentralRestServerServiceAuthURL(): string {
+    return this.centralRestServerServiceAuthURL;
   }
 
   public removeChargersFromSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
@@ -2338,23 +2351,20 @@ export class CentralServerService {
       );
   }
 
-  public getCarCatalog(carCatalogID: number): Observable<CarCatalog> {
+  public getCarCatalog(id: number): Observable<CarCatalog> {
     // Verify init
     this.checkInit();
-    const params: { [param: number]: string } = {};
-    params['CarCatalogID'] = carCatalogID;
     // Execute the REST service
-    return this.httpClient.get<CarCatalog>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG}`,
+    return this.httpClient.get<CarCatalog>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
-        params
       })
       .pipe(
         catchError(this.handleHttpError),
       );
   }
 
-  public getCarCatalogImages(carCatalogID: number, params: FilterParams,
+  public getCarCatalogImages(id: number, params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING): Observable<DataResult<ImageObject>> {
     // Verify init
     this.checkInit();
@@ -2362,10 +2372,9 @@ export class CentralServerService {
     this.getPaging(paging, params);
     // Execute the REST service
     return this.httpClient.get<DataResult<ImageObject>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG_IMAGES}?CarCatalogID=${carCatalogID}`,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR_CATALOG_IMAGES}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
-        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -2678,6 +2687,8 @@ export class CentralServerService {
       this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
+      // Util API
+      this.centralRestServerServiceUtilURL = this.centralRestServerServiceBaseURL + '/client/util';
       // Init Socket IO if user already logged
       if (this.configService.getCentralSystemServer().socketIOEnabled && this.isAuthenticated()) {
         this.centralServerNotificationService.initSocketIO(this.getLoggedUserToken());

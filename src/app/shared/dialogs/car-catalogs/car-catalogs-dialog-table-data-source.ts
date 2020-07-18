@@ -32,7 +32,8 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
   public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getCarCatalogs(this.buildFilterValues(),
+      const params = this.buildFilterValues();
+      this.centralServerService.getCarCatalogs(params,
         this.getPaging(), this.getSorting()).subscribe((CarCatalogs) => {
           // Ok
           observer.next(CarCatalogs);

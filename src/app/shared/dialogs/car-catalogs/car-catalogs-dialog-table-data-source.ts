@@ -33,7 +33,6 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
     return new Observable((observer) => {
       // Get data
       const params = this.buildFilterValues();
-      params['WithImages'] = 'false';
       this.centralServerService.getCarCatalogs(params,
         this.getPaging(), this.getSorting()).subscribe((CarCatalogs) => {
           // Ok

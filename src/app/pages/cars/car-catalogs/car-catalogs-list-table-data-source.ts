@@ -110,7 +110,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         id: 'image',
         name: 'cars.image',
         headerClass: 'text-center col-8p',
-        class: 'col-8p',
+        class: 'col-8p p-0',
         isAngularComponent: true,
         angularComponent: CarCatalogImageFormatterCellComponent,
       },

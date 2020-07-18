@@ -57,6 +57,7 @@ export enum ServerAction {
 
   CAR_CATALOGS = 'CarCatalogs',
   CAR_CATALOG = 'CarCatalog',
+  CAR_CATALOG_IMAGE = 'CarCatalogImage',
   CAR_CATALOG_IMAGES = 'CarCatalogImages',
   CAR_MAKERS = 'CarMakers',
   CAR_CREATE = 'CarCreate',
@@ -343,8 +344,8 @@ export enum ServerAction {
   BILLING_USER_INVOICE = 'BillingUserInvoice',
   BILLING_SYNCHRONIZE_INVOICES = 'BillingSynchronizeInvoices',
   BILLING_FORCE_SYNCHRONIZE_USER_INVOICES = 'BillingForceSynchronizeUserInvoices',
-  BILLING_CREATE_TRANSACTION_INVOICE = 'BillingCreateTransactionInvoice',
   BILLING_DOWNLOAD_INVOICE = 'BillingDownloadInvoice',
+  BILLING_CREATE_TRANSACTION_INVOICE = 'BillingCreateTransactionInvoice',
 
   MONGO_DB = 'MongoDB',
 

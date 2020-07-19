@@ -16,6 +16,7 @@ import * as moment from 'moment';
 
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
+import { Constants } from './Constants';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -101,7 +102,11 @@ export class Utils {
   public static containsGPSCoordinates(coordinates: number[]): boolean {
     // Check if GPs are available
     if (coordinates && coordinates.length === 2 && coordinates[0] && coordinates[1]) {
-      return true;
+      // Check Longitude & Latitude
+      if (new RegExp(Constants.REGEX_VALIDATION_LONGITUDE).test(coordinates[0].toString()) &&
+          new RegExp(Constants.REGEX_VALIDATION_LATITUDE).test(coordinates[1].toString())) {
+        return true;
+      }
     }
     return false;
   }

@@ -5,4 +5,6 @@ export default interface CentralSystemServerConfiguration {
   pollEnabled?: boolean;
   pollIntervalSecs?: number;
   socketIOEnabled?: boolean;
+  connectionRetriesCount?: number;
+  logoutOnConnectionError?: boolean;
 }

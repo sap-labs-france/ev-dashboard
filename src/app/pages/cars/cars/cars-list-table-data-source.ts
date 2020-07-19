@@ -21,11 +21,11 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableDeleteCarAction } from '../table-actions/table-delete-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
-
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {

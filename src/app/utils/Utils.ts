@@ -16,6 +16,7 @@ import * as moment from 'moment';
 
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
+import { Constants } from './Constants';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -101,7 +102,11 @@ export class Utils {
   public static containsGPSCoordinates(coordinates: number[]): boolean {
     // Check if GPs are available
     if (coordinates && coordinates.length === 2 && coordinates[0] && coordinates[1]) {
-      return true;
+      // Check Longitude & Latitude
+      if (new RegExp(Constants.REGEX_VALIDATION_LONGITUDE).test(coordinates[0].toString()) &&
+          new RegExp(Constants.REGEX_VALIDATION_LATITUDE).test(coordinates[1].toString())) {
+        return true;
+      }
     }
     return false;
   }
@@ -310,7 +315,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -437,7 +442,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -694,6 +699,12 @@ export class Utils {
       // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
+        if (centralServerService.configService.getCentralSystemServer().logoutOnConnectionError) {
+          // Log Off (remove token)
+          centralServerService.logoutSucceeded();
+          // Navigate to Login
+          router.navigate(['/auth/login']);
+        }
         break;
 
       // Unauthorized!

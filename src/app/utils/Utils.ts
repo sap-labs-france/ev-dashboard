@@ -310,7 +310,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -437,7 +437,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -694,6 +694,12 @@ export class Utils {
       // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
+        if (centralServerService.configService.getCentralSystemServer().logoutOnConnectionError) {
+          // Log Off (remove token)
+          centralServerService.logoutSucceeded();
+          // Navigate to Login
+          router.navigate(['/auth/login']);
+        }
         break;
 
       // Unauthorized!

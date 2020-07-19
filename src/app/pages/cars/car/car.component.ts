@@ -18,8 +18,8 @@ import { ButtonType } from 'app/types/Table';
 import { UserCar } from 'app/types/User';
 import { Cars } from 'app/utils/Cars';
 import { Utils } from 'app/utils/Utils';
-import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
 
+import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
 
 @Component({
   selector: 'app-car',

@@ -18,6 +18,7 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -40,7 +41,6 @@ import { TableCreateTransactionInvoiceAction } from '../table-actions/table-crea
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
-
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {

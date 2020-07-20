@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.17',
-        date: new Date('2020-07-15'),
+        version: '2.3.19',
+        date: new Date('2020-07-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Car images are retrieved asynchronously`,
               `Updated Delta Charging Station templates`,
               `Set a default departure time for the SAP Smart Charging`,
               `Synchronize invoices between Stripe and e-Mobility`,

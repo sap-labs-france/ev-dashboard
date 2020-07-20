@@ -22,6 +22,7 @@ import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableDeleteCarAction } from '../table-actions/table-delete-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
@@ -97,6 +98,14 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
+      {
+        id: 'carCatalog.image',
+        name: 'cars.image',
+        headerClass: 'text-center col-8p',
+        class: 'col-8p p-0',
+        isAngularComponent: true,
+        angularComponent: CarCatalogImageFormatterCellComponent,
+      },
       {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',

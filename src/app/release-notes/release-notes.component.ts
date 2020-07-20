@@ -24,6 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.20',
+        date: new Date('2020-07-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handling of GPS coordinates to locate the Charging Stations`,
+              `German translation fixes`,
+              `Car Catalog list loading performance improvement`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.19',
         date: new Date('2020-07-18'),
         componentChanges: [

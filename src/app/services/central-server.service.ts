@@ -26,8 +26,9 @@ import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
+import { Utils } from 'app/utils/Utils';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, concat, delay, retry, retryWhen, take, tap } from 'rxjs/operators';
 
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -752,8 +753,17 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        retry(this.configService.getCentralSystemServer().connectionRetriesCount),
-        catchError(this.handleHttpError),
+        // retry(this.configService.getCentralSystemServer().connectionRetriesCount),
+        retryWhen(errors =>
+          errors.pipe(
+            // Log error message
+            tap(() => Utils.consoleDebugLog(`Retrying connection to backend REST API because of ${errors}`)),
+            delay(1000),
+            take(this.configService.getCentralSystemServer().connectionRetriesCount),
+            concat(Observable.throw(errors)),
+          )
+        ),
+        catchError(this.handleHttpError)
       );
   }
 

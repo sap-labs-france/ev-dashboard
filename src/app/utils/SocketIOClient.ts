@@ -1,5 +1,7 @@
 import * as io from 'socket.io-client';
 
+import { Utils } from './Utils';
+
 export default class SocketIOClient {
   private static instance: SocketIOClient;
   private socketIO: SocketIOClient.Socket;
@@ -33,16 +35,16 @@ export default class SocketIOClient {
       // Connect Socket IO
       this.socketIO.connect();
     } else {
-      // console.log('Missing serverURL and token arguments');
+      // Utils.consoleDebugLog('Missing serverURL and token arguments');
     }
     this.socketIO.on('unauthorized', (error) => {
       if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
         // Redirect user to login page perhaps?
-        console.log('SocketIO client user token has expired');
+        Utils.consoleDebugLog('SocketIO client user token has expired');
       }
     });
     this.socketIO.on('connect', () => {
-      console.log(`SocketIO client is connected`);
+      Utils.consoleDebugLog(`SocketIO client is connected`);
       connectCallback();
     });
     // On reconnection, reset the transports option
@@ -50,10 +52,10 @@ export default class SocketIOClient {
       this.socketIO.io.opts.transports = ['polling', 'websocket'];
     });
     // Temporary debug log
-    this.socketIO.on('connect_timeout', (timeout) => { console.log(`SocketIO client connection timeout: ${timeout}`); });
-    this.socketIO.on('connect_error', (error) => { console.log(`SocketIO client connect error: ${error}`); });
-    this.socketIO.on('reconnecting', (attempt) => { console.log(`SocketIO client #${attempt} try to reconnect`); });
-    this.socketIO.on('reconnect_error', (error) => { console.log(`SocketIO client reconnect error: ${error}`); });
+    this.socketIO.on('connect_timeout', (timeout) => { Utils.consoleDebugLog(`SocketIO client connection timeout: ${timeout}`); });
+    this.socketIO.on('connect_error', (error) => { Utils.consoleDebugLog(`SocketIO client connect error: ${error}`); });
+    this.socketIO.on('reconnecting', (attempt) => { Utils.consoleDebugLog(`SocketIO client #${attempt} try to reconnect`); });
+    this.socketIO.on('reconnect_error', (error) => { Utils.consoleDebugLog(`SocketIO client reconnect error: ${error}`); });
   }
 
   public disconnect() {

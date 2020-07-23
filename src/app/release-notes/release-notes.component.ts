@@ -24,15 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.21',
-        date: new Date('2020-07-21'),
+        version: '2.3.22',
+        date: new Date('2020-07-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Handling of GPS coordinates to locate the Charging Stations`,
-              `German translation fixes`,
+              `Added OCPI Tariff module for Gireve`,
+              `Handle GPS coodinates of Sites, Site Areas and Charging Stations`,
               `Car Catalog list loading performance improvement`,
+              `German translation fixes`,
             ],
           },
         ],

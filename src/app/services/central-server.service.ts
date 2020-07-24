@@ -8,6 +8,7 @@ import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
@@ -25,7 +26,6 @@ import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { Utils } from 'app/utils/Utils';
 import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
 import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
@@ -81,7 +81,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -96,7 +96,7 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTIONS_DELETE}`, options)
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -111,7 +111,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -126,7 +126,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -141,7 +141,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -156,7 +156,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -171,7 +171,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -184,7 +184,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -197,7 +197,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -212,7 +212,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -227,7 +227,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -247,7 +247,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -265,7 +265,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -283,7 +283,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -303,7 +303,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -322,7 +322,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -339,7 +339,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -359,7 +359,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -379,7 +379,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -399,7 +399,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -417,7 +417,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -432,7 +432,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -451,7 +451,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -468,7 +468,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -488,7 +488,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -508,7 +508,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -525,7 +525,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -541,7 +541,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -558,7 +558,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -575,7 +575,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -592,7 +592,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -609,7 +609,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -626,7 +626,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -643,7 +643,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -665,7 +665,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -682,7 +682,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -699,7 +699,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -716,7 +716,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -733,7 +733,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -753,7 +753,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError)
       );
   }
@@ -771,7 +771,7 @@ export class CentralServerService {
         params: { ID: id },
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -792,7 +792,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -812,7 +812,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -832,7 +832,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -852,7 +852,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -872,7 +872,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -890,7 +890,7 @@ export class CentralServerService {
         params: { ID: id },
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -910,7 +910,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -931,7 +931,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -952,7 +952,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -968,7 +968,7 @@ export class CentralServerService {
         params: { UserID: userId },
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -983,7 +983,7 @@ export class CentralServerService {
         params: { UserID: userId },
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1001,7 +1001,7 @@ export class CentralServerService {
         params: { ID: id.toString() },
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1019,7 +1019,7 @@ export class CentralServerService {
         params: { ID: id.toString() },
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1033,7 +1033,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1047,7 +1047,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1061,7 +1061,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1075,7 +1075,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1089,7 +1089,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1104,7 +1104,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1124,7 +1124,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1145,7 +1145,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1166,7 +1166,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1185,7 +1185,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1205,7 +1205,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1219,7 +1219,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1233,7 +1233,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1246,7 +1246,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1267,7 +1267,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1284,7 +1284,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1301,7 +1301,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1318,7 +1318,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1336,7 +1336,7 @@ export class CentralServerService {
         responseType: 'blob',
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1350,7 +1350,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1364,7 +1364,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1377,7 +1377,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1390,7 +1390,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1404,7 +1404,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1417,7 +1417,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1437,7 +1437,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1451,7 +1451,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1465,7 +1465,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1478,7 +1478,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1491,7 +1491,7 @@ export class CentralServerService {
         responseType: 'blob',
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1511,7 +1511,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1523,7 +1523,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1535,7 +1535,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1547,7 +1547,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1561,7 +1561,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1577,7 +1577,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1650,7 +1650,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1674,7 +1674,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1690,7 +1690,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1704,7 +1704,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1718,7 +1718,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1732,7 +1732,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1746,7 +1746,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1760,7 +1760,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1774,7 +1774,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1788,7 +1788,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1802,7 +1802,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1819,7 +1819,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1836,7 +1836,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1850,7 +1850,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1864,7 +1864,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1878,7 +1878,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1892,7 +1892,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1906,7 +1906,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1920,7 +1920,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1934,7 +1934,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1948,7 +1948,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1963,7 +1963,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1978,7 +1978,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -1993,7 +1993,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2008,7 +2008,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2023,7 +2023,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2038,7 +2038,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2053,7 +2053,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2068,7 +2068,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2083,7 +2083,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2098,7 +2098,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2113,7 +2113,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2128,7 +2128,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2143,7 +2143,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2158,7 +2158,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2173,7 +2173,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2189,7 +2189,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2205,7 +2205,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2220,7 +2220,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2237,7 +2237,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2253,7 +2253,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2266,7 +2266,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2279,7 +2279,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2292,7 +2292,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2305,7 +2305,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2324,7 +2324,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2344,7 +2344,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2359,7 +2359,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2374,7 +2374,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2389,7 +2389,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2404,7 +2404,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2419,7 +2419,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2439,7 +2439,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2459,7 +2459,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2476,7 +2476,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2496,7 +2496,7 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2510,7 +2510,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2529,7 +2529,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2544,7 +2544,7 @@ export class CentralServerService {
         params
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2558,7 +2558,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2572,7 +2572,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2586,7 +2586,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2599,7 +2599,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2621,7 +2621,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2647,7 +2647,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2667,7 +2667,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2690,7 +2690,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2717,7 +2717,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2759,7 +2759,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2778,7 +2778,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2797,7 +2797,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2810,7 +2810,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2823,7 +2823,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2836,7 +2836,7 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }
@@ -2867,10 +2867,10 @@ export class CentralServerService {
     }
   }
 
-  private httpRetry(maxRetry: number = Constants.DEFAULT_BACKEND_CONNECTION_RETRIES_COUNT) {
+  private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES) {
     return (src: Observable<any>) => src.pipe(
       retryWhen(
-        this.retryExponentialStrategy()
+        this.retryExponentialStrategy({ maxRetryAttempts: maxRetry })
       )
     );
   }
@@ -2886,7 +2886,7 @@ export class CentralServerService {
   }
 
   private retryExponentialStrategy = ({
-    maxRetryAttempts = Constants.DEFAULT_BACKEND_CONNECTION_RETRIES_COUNT,
+    maxRetryAttempts = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES,
     excludedStatusCodes = []
   }: {
     maxRetryAttempts?: number,
@@ -2902,7 +2902,7 @@ export class CentralServerService {
         }
         const retryDelay = this.exponentialDelay(retryAttempt);
         if (retryAttempt <= maxRetryAttempts) {
-          Utils.consoleDebugLog(`Connection retry attempt #${retryAttempt} to backend REST API in ${retryDelay}: ${error.toString()}`);
+          Utils.consoleDebugLog(`Connection retry attempt #${retryAttempt} to backend REST API in ${retryDelay} with error status: ${error.status}`);
         }
         return timer(retryDelay);
       })

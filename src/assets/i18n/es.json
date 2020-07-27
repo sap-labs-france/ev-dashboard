@@ -329,6 +329,7 @@
     "refresh_error": "Se produjo un error al actualizar la conexión del activo",
     "logo_size_error": "Se excedió el límite de tamaño de la imágen, el límite está por debajo de {{maxPictureKb}} Kb",
     "select_assets": "Seleccionar activo",
+    "consumption_date": "Fecha",
     "dialog_tabs": {
       "connection": "Conexión"
     },
@@ -1633,6 +1634,11 @@
     "tabs": {
       "assets": "Activos",
       "in_error": "Con errores"
+    },
+    "graph": {
+      "power": "Potencia instantánea (kW)",
+      "amps": "Grid Amps (A)",
+      "no_consumption": "No hay datos de consumo disponibles."
     }
   },
   "cars": {

@@ -1,7 +1,7 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
+import { TableFilterDef, FilterType } from 'app/types/Table';
 import * as moment from 'moment';
-
 import { TableFilter } from './table-filter';
+
 
 export class DateRangeFilter extends TableFilter {
   constructor() {

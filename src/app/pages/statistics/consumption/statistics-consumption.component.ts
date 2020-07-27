@@ -1,11 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DateRangeFilter } from 'app/shared/table/filters/date-range-filter';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { DateRangeFilter } from 'app/shared/table/filters/date-range-table-filter';
 import { FilterParams } from 'app/types/GlobalType';
 import { TableFilterDef } from 'app/types/Table';
-
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -17,6 +14,7 @@ import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
 
+
 @Component({
   selector: 'app-statistics-consumption',
   templateUrl: './statistics-consumption.component.html',
@@ -26,9 +24,7 @@ export class StatisticsConsumptionComponent implements OnInit {
   public totalConsumption = 0;
   public selectedChart!: string;
   public selectedCategory!: string;
-  public selectedDateFrom!: Date;
   public selectedDateRange!: any;
-  public selectedDateTo!: Date;
   public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
@@ -58,7 +54,6 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
-
     filterDef = new DateRangeFilter().getFilterDef();
     filterDef.timePicker24Hour = this.language !== 'en';
     this.allFiltersDef.push(filterDef);
@@ -86,16 +81,8 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.selectedCategory = category;
   }
 
-  public dateFromChange(date: Date) {
-    this.selectedDateFrom = date;
-  }
-
   public dateRangeChange(date: any) {
     this.selectedDateRange = date;
-  }
-
-  public dateToChange(date: Date) {
-    this.selectedDateTo = date;
   }
 
   public yearChanged(year: number): void {

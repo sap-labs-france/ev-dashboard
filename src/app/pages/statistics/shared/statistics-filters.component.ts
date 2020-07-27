@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
-
+import { DaterangepickerDirective, DaterangepickerComponent } from 'ngx-daterangepicker-material';
 export interface StatisticsButtonGroup {
   name: string;
   title: string;
@@ -37,7 +37,9 @@ export class StatisticsFiltersComponent implements OnInit {
   public sacLinksActive = false;
   public initDateRange = false;
   public dateRangeValue: any;
+  @ViewChild(DaterangepickerComponent) public daterangepickerComponent: DaterangepickerComponent
 
+  @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
   @Output() public category = new EventEmitter();
   @Output() public year = new EventEmitter();
   @Output() public dateFrom = new EventEmitter();
@@ -74,8 +76,13 @@ export class StatisticsFiltersComponent implements OnInit {
       moment.locale(this.language);
     });
   }
+  public openDateRange() {
+    this.picker.open();
+  }
 
-
+  public stop(event: any) {
+    // this.daterangepickerComponent.closeDateRangePicker;
+  }
   public ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -145,8 +152,24 @@ export class StatisticsFiltersComponent implements OnInit {
   }
 
   public dateRangeChange(filterDef: StatisticsFilterDef, event): void {
-    if (filterDef.type === 'date-range') {
+    if (filterDef.type === 'date-range' && event.hasOwnProperty('startDate') && event.hasOwnProperty('endDate')) {
       filterDef.currentValue = event ? event : null;
+    } else {
+      const dateRange = event.currentTarget.value;
+      if (dateRange.split('-').length - 1 !== 1) {
+        filterDef.currentValue = null;
+      } else {
+        const startDate = moment(dateRange.split('-')[0]);
+        const endDate = moment(dateRange.split('-')[1]);
+        if(!startDate.isValid() || !endDate.isValid()){
+        filterDef.currentValue = null;
+        } else {
+          filterDef.currentValue = {
+            startDate :startDate,
+            endDate: endDate
+          }
+        }
+      }
     }
     // Update filter
     this.filterChanged(filterDef);

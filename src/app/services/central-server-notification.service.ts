@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Entity } from 'app/types/Authorization';
+import { Utils } from 'app/utils/Utils';
 import { Observable, Subject } from 'rxjs';
 
 import ChangeNotification from '../types/ChangeNotification';
@@ -39,6 +40,8 @@ export class CentralServerNotificationService {
   private subjectChargingProfile = new Subject<SingleChangeNotification>();
   private subjectCars = new Subject<ChangeNotification>();
   private subjectCar = new Subject<SingleChangeNotification>();
+  private subjectUsersCars = new Subject<ChangeNotification>();
+  private subjectUserCar = new Subject<SingleChangeNotification>();
   private subjectCarCatalogs = new Subject<ChangeNotification>();
   private subjectCarCatalog = new Subject<SingleChangeNotification>();
   private socketIOClient: SocketIOClient;
@@ -167,6 +170,14 @@ export class CentralServerNotificationService {
     return this.subjectCar.asObservable();
   }
 
+  public getSubjectUsersCars(): Observable<ChangeNotification> {
+    return this.subjectUsersCars.asObservable();
+  }
+
+  public getSubjectUserCar(): Observable<SingleChangeNotification> {
+    return this.subjectUserCar.asObservable();
+  }
+
   public getSubjectCarCatalogs(): Observable<ChangeNotification> {
     return this.subjectCarCatalogs.asObservable();
   }
@@ -284,6 +295,7 @@ export class CentralServerNotificationService {
     this.socketIOClient.socket.on(Entity.CAR, (changeNotification: SingleChangeNotification) => {
       this.subjectCar.next(changeNotification);
     });
+
     // Monitor Car Catalogs
     this.socketIOClient.socket.on(Entity.CAR_CATALOGS, (changeNotification: ChangeNotification) => {
       this.subjectCars.next(changeNotification);
@@ -311,7 +323,7 @@ export class CentralServerNotificationService {
       // Close
       this.socketIOClient.disconnect();
     } else {
-      console.log('SocketIO client not initialized and user logged in');
+      Utils.consoleDebugLog('SocketIO client not initialized and user logged in');
     }
     // Clear
     this.socketIOClient = null;

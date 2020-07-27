@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +7,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { ChargersDialogComponent } from 'app/shared/dialogs/chargers/chargers-dialog.component';
+import { ChargingStationsDialogComponent } from 'app/shared/dialogs/charging-stations/charging-stations-dialog.component';
 import { TableAddAction } from 'app/shared/table/actions/table-add-action';
 import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -17,7 +16,7 @@ import { DataResult } from 'app/types/DataResult';
 import { ButtonAction, RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
@@ -66,8 +65,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     });
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    super.toggleRowSelection(row, event);
+  public toggleRowSelection(row: ChargingStation, checked: boolean) {
+    super.toggleRowSelection(row, checked);
     this.removeAction.disabled = !this.hasSelectedRows();
   }
 
@@ -183,7 +182,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       },
     };
     // Show
-    const dialogRef = this.dialog.open(ChargersDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ChargingStationsDialogComponent, dialogConfig);
     // Register to the answer
     dialogRef.afterClosed().subscribe((chargers) => this.addChargers(chargers));
   }

@@ -1,4 +1,6 @@
+import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
+import { User, UserCar } from './User';
 
 export interface CarCatalog extends Data {
   id: number;
@@ -30,25 +32,47 @@ export interface CarCatalog extends Data {
   miscTurningCircle: number;
   miscSegment: string;
   miscIsofixSeats: number;
-  chargeStandardTables: ChargeStandardTable[];
+  chargeOptionPower?: number;
+  chargeAlternativePower?: number;
+  chargeOptionPhase?: number;
+  chargeAlternativePhase?: number;
+  chargeOptionPhaseAmp?: number;
+  chargeAlternativePhaseAmp?: number;
+  chargeStandardPhaseAmp?: number;
 }
 
-export interface UserCar extends Data {
-  vin: string;
-  licensePlate: string;
-  carCatalog: CarCatalog;
-}
-
-export interface Car extends Data {
+export interface Car extends Data, CreatedUpdatedProps {
   id: string;
   vin: string;
   licensePlate: string;
-  carCatalog: CarCatalog;
-  carCatalogID?: number;
+  carCatalogID: number;
+  carCatalog?: CarCatalog;
   userIDs?: string;
-  forced?: boolean;
-  isDefault?: boolean;
+  users?: User[];
+  carUsers?: UserCar[];
   type?: CarType;
+  converter?: CarConverter;
+}
+
+export interface CarConverter {
+  type: CarConverterType;
+  powerWatts: number;
+  amperagePerPhase: number;
+  numberOfPhases: number;
+}
+
+export enum CarConverterType {
+  STANDARD = 'S',
+  OPTION = 'O',
+  ALTERNATIVE = 'A',
+}
+
+export interface CarUser extends Data, CreatedUpdatedProps {
+  id: string;
+  car: Car;
+  userID: string;
+  default?: boolean;
+  owner?: boolean;
 }
 
 export enum CarType {
@@ -57,21 +81,12 @@ export enum CarType {
   POOL_CAR = 'PC',
 }
 
-export interface ChargeStandardTable extends Data {
-  type: string;
-  evsePhaseVolt: number;
-  evsePhaseVoltCalculated: number;
-  evsePhaseAmp: number;
-  evsePhase: number;
-  chargePhaseVolt: number;
-  chargePhaseAmp: number;
-  chargePhase: number;
-  chargePower: number;
-  chargeTime: number;
-  chargeSpeed: number;
-}
-export interface CarMakersTable extends Data {
+export interface CarMaker extends Data {
   carMaker: string;
+}
+
+export interface ChangeEvent {
+  changed: boolean;
 }
 
 export interface ImageObject extends Data {
@@ -87,4 +102,6 @@ export enum CarButtonAction {
   VIEW_CAR_CATALOG = 'view_car_catalog',
   SYNCHRONIZE = 'synchronize',
   CREATE_CAR = 'create_car',
+  EDIT_CAR = 'edit_car',
+  DELETE_CAR = 'delete_car'
 }

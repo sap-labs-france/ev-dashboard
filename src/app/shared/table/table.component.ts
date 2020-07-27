@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import ChangeNotification from 'app/types/ChangeNotification';
+import { ButtonAction } from 'app/types/GlobalType';
 import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Observable, Subscription, fromEvent } from 'rxjs';
@@ -34,6 +35,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public readonly FilterType = FilterType;
   public readonly TableEditType = TableEditType;
+  public readonly ButtonAction = ButtonAction;
 
   private autoRefreshSubscription!: Subscription;
   private alive!: boolean;
@@ -52,8 +54,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnInit() {
     if (this.dataSource) {
       // Init Sort
-      if (this.dataSource.tableColumnDefs) {
-        const columnDef = this.dataSource.tableColumnDefs.find((column) => column.sorted === true);
+      if (this.dataSource.tableColumnsDef) {
+        const columnDef = this.dataSource.tableColumnsDef.find((column) => column.sorted === true);
         if (columnDef) {
           // Yes: Set Sorting
           this.sort.active = columnDef.id;
@@ -61,7 +63,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.dataSource.setSort(this.sort);
         // Compute number of columns
-        this.numberOfColumns = this.dataSource.tableColumnDefs.length +
+        this.numberOfColumns = this.dataSource.tableColumnsDef.length +
           (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled ? 1 : 0) +
           (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
           (this.dataSource.hasRowActions ? 1 : 0);
@@ -89,7 +91,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataSource.tableActionsRightDef) {
       // Init Auto-Refresh
       for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
-        if (tableActionRightDef.id === 'auto-refresh') {
+        if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
           // Active by default?
           if (tableActionRightDef.currentValue) {
             this.createAutoRefresh();
@@ -182,14 +184,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
+    let filterIsChanged = false;
     if ((filterDef.type === FilterType.DIALOG_TABLE ||
       filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
-      filterDef.currentValue = [];
+      if (filterDef.currentValue.length > 0) {
+        filterDef.currentValue = [];
+        filterIsChanged = true;
+      }
       filterDef.cleared = true;
     } else {
-      filterDef.currentValue = null;
+      if (filterDef.currentValue) {
+        filterDef.currentValue = null;
+        filterIsChanged = true;
+      }
     }
-    this.filterChanged(filterDef);
+    if (filterIsChanged) {
+      this.filterChanged(filterDef);
+    }
   }
 
   public showDialogTableFilter(filterDef: TableFilterDef) {
@@ -290,7 +301,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public toggleRowSelection(row: Data, event: MatCheckboxChange) {
-    this.dataSource.toggleRowSelection(row, event);
+    this.dataSource.toggleRowSelection(row, event.checked);
   }
 
   public toggleMasterSelect() {

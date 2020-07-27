@@ -145,7 +145,6 @@ export function localeFactory(
   return language;
 }
 
-// tslint:disable-next-line: max-classes-per-file
 @NgModule({
   imports: [
     CommonModule,
@@ -162,7 +161,7 @@ export function localeFactory(
     ChartModule,
     BrowserNotSupportedModule,
     NgxDaterangepickerMd.forRoot(),
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyA4X0viMaongt6MuKkUfcY9dSqZNtg8LZQ' }),
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyCIH5GgUOJF-4TlCcL5le107L_thn6WESg' }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -17,7 +17,6 @@ import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-ma
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Action, Entity } from 'app/types/Authorization';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -109,8 +108,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       {
         id: 'name',
         name: 'site_areas.name',
-        headerClass: 'col-30p',
-        class: 'text-left col-30p',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sorted: true,
         direction: 'asc',
         sortable: true,
@@ -118,10 +117,24 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       {
         id: 'maximumPower',
         name: 'site_areas.max_limit_kw',
-        headerClass: 'col-20p text-center',
-        class: 'col-20p text-center',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
         sortable: true,
-        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0),
+        formatter: (maximumPower: number) => this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0),
+      },
+      {
+        id: 'numberOfPhases',
+        name: 'site_areas.number_of_phases',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+      },
+      {
+        id: 'accessControl',
+        name: 'site_areas.access_control',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        formatter: (accessControl: boolean) => accessControl ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       },
       {
         id: 'site.name',
@@ -146,12 +159,11 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       },
     ];
     if (this.componentService.isActive(TenantComponents.SMART_CHARGING)) {
-      tableColumnDef.splice(2, 0, {
+      tableColumnDef.splice(3, 0, {
         id: 'smartCharging',
         name: 'site_areas.smart_charging',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        sortable: true,
         formatter: (smartCharging: boolean) => smartCharging ?
           this.translateService.instant('general.yes') : this.translateService.instant('general.no'),
       });
@@ -161,7 +173,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    if (this.authorizationService.canAccess(Entity.SITE_AREA, Action.CREATE)) {
+    if (this.authorizationService.canCreateSiteArea()) {
       return [
         new TableCreateSiteAreaAction().getActionDef(),
         ...tableActionsDef,

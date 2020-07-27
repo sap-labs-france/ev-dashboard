@@ -56,7 +56,7 @@ $outer-spinner: $brand-warn !default;
   flex-direction: column;
   overflow: auto;
   white-space: nowrap;
-  height: 100px;
+  height: 25vh;
   min-height: 100px;
   background-color: mat-color($app-background, dialog);
 }
@@ -196,6 +196,10 @@ tr.element-row:not(.expanded-row):active {
 
 .refresh-icon {
   min-height: 24px;
+}
+
+.right-actions > .mat-slide-toggle {
+  margin-right: 10px;
 }
 
 .mat-slide-toggle.mat-checked {
@@ -419,7 +423,7 @@ tr.element-row:not(.expanded-row):active {
   > tbody > tr > th,
   > tfoot > tr > th {
     font-size: $font-size-sm;
-    padding: 5px 8px 2px 8px;
+    padding: 5px 8px 2px 10px;
     vertical-align: middle;
   }
 
@@ -534,4 +538,8 @@ tr.element-row:not(.expanded-row):active {
     border-bottom: none !important;
     border-top: none !important;
   }
+}
+
+.table-warning {
+  border-color: $brand-warn !important;
 }

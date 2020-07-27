@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { Action, Entity } from 'app/types/Authorization';
 import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
 import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
@@ -31,7 +30,7 @@ import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -70,7 +69,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe) {
     super(spinnerService, translateService);
-    this.refundTransactionEnabled = this.authorizationService.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
+    this.refundTransactionEnabled = this.authorizationService.canRefundTransaction();
     this.isAdmin = this.authorizationService.isAdmin();
     // Check
     this.checkConcurConnection();
@@ -124,7 +123,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       if (data.stats) {
         // Total Consumption
         // tslint:disable-next-line:max-line-length
-        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0)}`;
+        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
         // Refund transactions
         // tslint:disable-next-line:max-line-length
         stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${data.stats.countRefundTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, data.stats.currency)})`;
@@ -224,7 +223,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     ];
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-        filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+        filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
         filters.push(new ReportTableFilter().getFilterDef());

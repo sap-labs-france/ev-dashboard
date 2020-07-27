@@ -1,3 +1,4 @@
+import { ServerAction } from './Server';
 import { Data } from './Table';
 
 export interface Log extends Data {
@@ -17,7 +18,12 @@ export interface Log extends Data {
   detailedMessages: string[];
 }
 
+export interface LogAction extends Data {
+  action: ServerAction;
+}
+
 export enum LogButtonAction {
   EXPORT_LOGS = 'export_logs',
+  CHECK_LOGS = 'check_logs',
 }
 

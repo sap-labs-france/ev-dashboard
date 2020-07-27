@@ -92,7 +92,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
-  public sendBillingUserSynchronizationFailed!: AbstractControl;
+  public sendBillingSynchronizationFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
   public user!: User;
@@ -116,9 +116,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
     super(activatedRoute, windowService, ['common', 'tags', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
-
     this.maxSize = this.configService.getUser().maxPictureKb;
-
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
       !authorizationService.canUpdateUser()) {
@@ -138,11 +136,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
     this.isBasic = this.authorizationService.isBasic();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
-
     if (!this.isAdmin) {
       this.setHashArray(['common', 'address', 'password', 'connectors', 'miscs']);
     }
-
     this.canSeeInvoice = false;
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       this.componentService.getPricingSettings().subscribe((settings) => {
@@ -182,7 +178,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendUserAccountStatusChanged: new FormControl(true),
         sendSessionNotStarted: new FormControl(true),
         sendUserAccountInactivity: new FormControl(true),
-        // Admin notifs
         sendUnknownUserBadged: new FormControl(false),
         sendChargingStationStatusError: new FormControl(false),
         sendChargingStationRegistered: new FormControl(false),
@@ -190,7 +185,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendPreparingSessionNotStarted: new FormControl(false),
         sendOcpiPatchStatusError: new FormControl(false),
         sendSmtpAuthError: new FormControl(false),
-        sendBillingUserSynchronizationFailed: new FormControl(false),
+        sendBillingSynchronizationFailed: new FormControl(false),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -206,8 +201,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Users.validatePhone,
         ])),
       iNumber: new FormControl(''),
-      tags: new FormArray([],
-        Validators.compose(this.isSuperAdmin || this.isBasic ? [] : [Validators.required])),
+      tags: new FormArray([]),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -276,7 +270,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
-    this.sendBillingUserSynchronizationFailed = this.notifications.controls['sendBillingUserSynchronizationFailed'];
+    this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     if (this.isAdmin) {
@@ -289,10 +283,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.currentUserID = params['id'];
         this.loadUser();
       });
-    }
-    if (!this.currentUserID) {
-      // Create default badge
-      this.userTagsEditableTableDataSource.setContent([this.userTagsEditableTableDataSource.createRow()]);
     }
     this.loadRefundSettings();
     if (!this.inDialog) {
@@ -433,9 +423,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingUserSynchronizationFailed')) {
-        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
       } else {
-        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendUserAccountInactivity')) {
         this.notifications.controls.sendUserAccountInactivity.setValue(user.notifications.sendUserAccountInactivity);
@@ -495,7 +485,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(true);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpAuthError.setValue(true);
-        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(true);
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
         break;
       case UserRole.BASIC:
         this.formGroup.controls.notificationsActive.setValue(true);
@@ -514,7 +504,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
-        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         break;
       case UserRole.DEMO:
         this.formGroup.controls.notificationsActive.setValue(false);
@@ -533,7 +523,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
-        this.notifications.controls.sendBillingUserSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         break;
     }
   }
@@ -617,14 +607,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       return this.refundSetting.content.concur.apiUrl;
     }
     return null;
-  }
-
-  public toUpperCase(control: AbstractControl) {
-    control.setValue(control.value.toUpperCase());
-  }
-
-  public firstLetterToUpperCase(control: AbstractControl) {
-    control.setValue(Utils.firstLetterInUpperCase(control.value));
   }
 
   private loadRefundSettings() {

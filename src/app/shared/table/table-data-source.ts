@@ -1,5 +1,4 @@
 import { FormArray } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSort } from '@angular/material/sort';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
@@ -16,7 +15,7 @@ import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;
-  public tableColumnDefs!: TableColumnDef[];
+  public tableColumnsDef!: TableColumnDef[];
   public tableFiltersDef!: TableFilterDef[];
   public tableActionsDef!: TableActionDef[];
   public tableActionsRightDef!: TableActionDef[];
@@ -69,6 +68,10 @@ export abstract class TableDataSource<T extends Data> {
     return !!this.tableDef && !!this.tableDef.rowSelection && !!this.tableDef.rowSelection.multiple;
   }
 
+  public isEditable(): boolean {
+    return this.tableDef && this.tableDef.isEditable;
+  }
+
   public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
     if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
@@ -100,11 +103,10 @@ export abstract class TableDataSource<T extends Data> {
 
   public selectAllRows() {
     // Select All
-    this.selectedRows = 0;
+    this.clearSelectedRows();
     this.data.forEach((row) => {
       if (row.isSelectable) {
-        row.isSelected = true;
-        this.selectedRows++;
+        this.toggleRowSelection(row, true);
       }
     });
   }
@@ -117,9 +119,9 @@ export abstract class TableDataSource<T extends Data> {
     }
   }
 
-  public toggleRowSelection(row: Data, event: MatCheckboxChange) {
+  public toggleRowSelection(row: T, checked: boolean) {
     if (this.tableDef && this.tableDef.rowSelection && this.tableDef.rowSelection.multiple) {
-      row.isSelected = event.checked;
+      row.isSelected = checked;
       if (row.isSelected) {
         this.selectedRows++;
         this.lastSelectedRow = row;
@@ -129,8 +131,8 @@ export abstract class TableDataSource<T extends Data> {
       }
     } else {
       this.clearSelectedRows();
-      if (event.checked) {
-        row.isSelected = event.checked;
+      if (checked) {
+        row.isSelected = checked;
         this.selectedRows = 1;
         this.lastSelectedRow = row;
       }
@@ -182,13 +184,14 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   public getSorting(): Ordering[] {
-    if (this.getSort()) {
+    const sort = this.getSort();
+    if (sort && sort.active) {
       return [
-        { field: this.getSort().active, direction: this.getSort().direction },
+        { field: sort.active, direction: sort.direction },
       ];
     }
     // Find Sorted columns
-    const columnDef = this.tableColumnDefs.find((column) => column.sorted === true);
+    const columnDef = this.tableColumnsDef.find((column) => column.sorted === true);
     if (columnDef) {
       return [
         { field: columnDef.id, direction: columnDef.direction ? columnDef.direction : '' },
@@ -545,10 +548,10 @@ export abstract class TableDataSource<T extends Data> {
   }
 
   private initTableColumnDefs(force: boolean): TableColumnDef[] {
-    if (!this.tableColumnDefs || force) {
-      this.tableColumnDefs = this.buildTableColumnDefs();
+    if (!this.tableColumnsDef || force) {
+      this.tableColumnsDef = this.buildTableColumnDefs();
     }
-    return this.tableColumnDefs;
+    return this.tableColumnsDef;
   }
 
   private initTableActionsDef(force: boolean): TableActionDef[] {
@@ -624,7 +627,9 @@ export abstract class TableDataSource<T extends Data> {
     const selectedRowIDs = this.data.filter((row) => row.isSelected).map((row) => row.id);
     for (const freshRow of freshData) {
       // Check for complex property
-      for (const tableColumnDef of this.tableColumnDefs) {
+      for (const tableColumnDef of this.tableColumnsDef) {
+        // Keep a ref of the column def
+        freshRow[tableColumnDef.id + 'TableColumnsDef'] = tableColumnDef;
         // Check for complex column id with dot
         if (tableColumnDef.id.indexOf('.') !== -1) {
           const keys = tableColumnDef.id.split('.');

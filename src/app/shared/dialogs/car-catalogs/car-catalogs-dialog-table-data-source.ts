@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { CarCatalog } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef } from 'app/types/Table';
@@ -15,11 +17,13 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 @Injectable()
 export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarCatalog> {
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private centralServerService: CentralServerService) {
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private centralServerService: CentralServerService,
+    private appUnitPipe: AppUnitPipe,
+    private decimalPipe: AppDecimalPipe) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -28,7 +32,8 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
   public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getCarCatalogs(this.buildFilterValues(),
+      const params = this.buildFilterValues();
+      this.centralServerService.getCarCatalogs(params,
         this.getPaging(), this.getSorting()).subscribe((CarCatalogs) => {
           // Ok
           observer.next(CarCatalogs);
@@ -63,6 +68,30 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
         class: 'text-left col-40p',
         formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
       },
+      {
+        id: 'drivetrainPowerHP',
+        name: 'cars.drivetrain_power_hp',
+        class: 'text-left col-25p',
+        sortable: true,
+        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
+          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrain_power_hp_unit')}` : '-',
+      },
+      {
+        id: 'chargeStandardPower',
+        name: 'cars.charge_standard_power',
+        class: 'text-left col-25p',
+        sortable: true,
+        formatter: (chargeStandardPower: number) =>
+          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0) : '-',
+      },
+      {
+        id: 'rangeReal',
+        name: 'cars.range_real',
+        class: 'text-left col-25p',
+        sortable: true,
+        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' ' +
+          this.translateService.instant('cars.unit.kilometer') : '-',
+      }
     ];
   }
 }

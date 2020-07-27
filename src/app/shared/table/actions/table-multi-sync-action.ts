@@ -1,13 +1,13 @@
 import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, DropdownItem, TableActionDef } from 'app/types/Table';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 import { TableAction } from './table-action';
 
 export class TableMultiSyncAction implements TableAction {
   private action: TableActionDef = {
-    id: ButtonAction.MULTI_CREATE,
+    id: ButtonAction.MULTI_SYNC,
     type: 'dropdown-button',
-    icon: 'cloud',
+    icon: 'sync',
     color: ButtonColor.PRIMARY,
     name: 'general.synchronize',
     tooltip: 'general.tooltips.synchronize',

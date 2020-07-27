@@ -8,11 +8,12 @@ import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import * as moment from 'moment';
+import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
-import { DaterangepickerDirective, DaterangepickerComponent } from 'ngx-daterangepicker-material';
+
 export interface StatisticsButtonGroup {
   name: string;
   title: string;
@@ -80,9 +81,6 @@ export class StatisticsFiltersComponent implements OnInit {
     this.picker.open();
   }
 
-  public stop(event: any) {
-    // this.daterangepickerComponent.closeDateRangePicker;
-  }
   public ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     this.isOrganizationActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -157,16 +155,20 @@ export class StatisticsFiltersComponent implements OnInit {
     } else {
       const dateRange = event.currentTarget.value;
       if (dateRange.split('-').length - 1 !== 1) {
-        filterDef.currentValue = null;
+        this.setDateRangeFilterYear(false);
       } else {
         const startDate = moment(dateRange.split('-')[0]);
         const endDate = moment(dateRange.split('-')[1]);
-        if(!startDate.isValid() || !endDate.isValid()){
-        filterDef.currentValue = null;
+        if (!startDate.isValid() || !endDate.isValid()) {
+          this.setDateRangeFilterYear(false);
         } else {
-          filterDef.currentValue = {
-            startDate :startDate,
-            endDate: endDate
+          if (startDate > endDate) {
+            this.setDateRangeFilterYear(false);
+          } else {
+            filterDef.currentValue = {
+              startDate,
+              endDate
+            };
           }
         }
       }
@@ -441,8 +443,7 @@ export class StatisticsFiltersComponent implements OnInit {
       if (filterDef.type === FilterType.DATE_RANGE) {
         if (init) {
           this.initDateRange = true;
-          filterDef.timePicker24Hour = !(this.language === 'en');
-          filterDef.locale = {
+          filterDef.dateRangeTableFilterDef.locale = {
             daysOfWeek: moment.weekdaysMin(),
             monthNames: moment.monthsShort(),
             firstDay: moment.localeData().firstDayOfWeek()

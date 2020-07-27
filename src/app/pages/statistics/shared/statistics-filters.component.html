@@ -141,15 +141,14 @@
               <input
                   matInput
                   ngxDaterangepickerMd
-                  placeholder="Choose date"
-                  [timePicker]="filterDef.timePicker"
-                  [timePickerSeconds]="filterDef.timePickerSeconds"
-                  [timePicker24Hour]="filterDef.timePicker24Hour"
+                  [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+                  [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
+                  [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour"
                   [(ngModel)]="filterDef.currentValue"
-                  [locale]="filterDef.locale"
+                  [locale]="filterDef.dateRangeTableFilterDef.locale"
                   (change)="dateRangeChange(filterDef,$event)"
               />
-              <mat-icon matSuffix class="ngx-daterangepicker-action" (click)="openDateRange()">calendar_today</mat-icon>
+              <mat-icon matSuffix class="ngx-daterangepicker-action" (click)="openDateRange()">date_range</mat-icon>
           </mat-form-field>
         </div>
     </div>

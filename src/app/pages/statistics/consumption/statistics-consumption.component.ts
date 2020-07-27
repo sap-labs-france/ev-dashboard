@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DateRangeFilter } from 'app/shared/table/filters/date-range-table-filter';
+import { DateRangeTableFilter } from 'app/shared/table/filters/date-range-table-filter';
 import { FilterParams } from 'app/types/GlobalType';
 import { TableFilterDef } from 'app/types/Table';
+
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -13,7 +14,6 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { ChartData, SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService } from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
-
 
 @Component({
   selector: 'app-statistics-consumption',
@@ -54,8 +54,7 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
-    filterDef = new DateRangeFilter().getFilterDef();
-    filterDef.timePicker24Hour = this.language !== 'en';
+    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();

@@ -41,6 +41,10 @@ export interface TableFilterDef {
   multiple?: boolean;
   exhaustive?: boolean;
   cleared?: boolean;
+  dateRangeTableFilterDef?: DateRangeTableFilterDef;
+}
+
+export interface DateRangeTableFilterDef {
   singleDatePicker?: boolean;
   minDate?: Date;
   maxDate?: Date;

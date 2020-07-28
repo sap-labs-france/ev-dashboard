@@ -54,6 +54,9 @@
       <mat-form-field>
         <input matInput placeholder="{{'general.latitude' | translate}}" type="text" [formControl]="latitude">
         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()">
+          <mat-icon>pin_drop</mat-icon>
+        </button>
       </mat-form-field>
     </div>
   </div>
@@ -62,6 +65,9 @@
       <mat-form-field>
         <input matInput placeholder="{{'general.longitude' | translate}}" type="text" [formControl]="longitude">
         <mat-error>{{"general.invalid_value" | translate}}</mat-error>
+        <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()">
+          <mat-icon>pin_drop</mat-icon>
+        </button>
       </mat-form-field>
     </div>
   </div>

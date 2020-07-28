@@ -12,6 +12,7 @@ import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
@@ -2868,9 +2869,10 @@ export class CentralServerService {
   }
 
   private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES) {
+    const noRetryHTTPErrorCodes: number[] = [HTTPError.OBJECT_DOES_NOT_EXIST_ERROR];
     return (src: Observable<any>) => src.pipe(
       retryWhen(
-        this.retryExponentialStrategy({ maxRetryAttempts: maxRetry })
+        this.retryExponentialStrategy({ maxRetryAttempts: maxRetry, excludedStatusCodes: noRetryHTTPErrorCodes })
       )
     );
   }

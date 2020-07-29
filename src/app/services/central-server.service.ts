@@ -1578,7 +1578,6 @@ export class CentralServerService {
         headers: this.buildHttpHeaders(),
       })
       .pipe(
-        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
         catchError(this.handleHttpError),
       );
   }

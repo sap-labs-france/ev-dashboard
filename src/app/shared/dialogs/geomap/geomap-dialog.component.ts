@@ -57,10 +57,10 @@ export class GeoMapDialogComponent {
     switch (mapTypeId) {
       case MapTypeId.HYBRID:
       case MapTypeId.SATELLITE:
-        this.labelFormatted = { text: this.label, color: 'white', fontWeight: 'bold' };
+        this.labelFormatted = this.label ? { text: this.label, color: 'white', fontWeight: 'bold' } : '';
         break;
       default:
-        this.labelFormatted = { text: this.label, color: 'black', fontWeight: 'bold' };
+        this.labelFormatted = this.label ? { text: this.label, color: 'black', fontWeight: 'bold' } : '';
     }
   }
 

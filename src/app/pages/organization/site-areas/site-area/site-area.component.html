@@ -77,7 +77,7 @@
                     <div class="row">
                       <div class="col-md-6">
                         <mat-form-field>
-                          <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage" 
+                          <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage"
                               (selectionChange)="voltageChanged()" required>
                             <mat-option [value]="230">230</mat-option>
                             <mat-option [value]="110">110</mat-option>
@@ -152,7 +152,7 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <app-address [address]="address" [formGroup]="formGroup"></app-address>
+                  <app-address [address]="address" [formGroup]="formGroup" componentName="{{'site_areas.title' | translate}}" [itemComponentName]="name.value"></app-address>
                 </div>
               </div>
               <div class="clearfix"></div>

@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Force update of OCPP Params of the latest parameters in the template`,
               `Force request OCPP parameters from the Charging Station`,
+              `Add Google Map helper in Company, Site and Site Area`,
             ],
           },
         ],

@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.23',
+        date: new Date('2020-07-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Force update of OCPP Params of the latest parameters in the template`,
+              `Force request OCPP parameters from the Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.22',
         date: new Date('2020-07-23'),
         componentChanges: [

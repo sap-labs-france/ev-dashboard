@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { LocaleService } from 'app/services/locale.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { AssetConsumption } from 'app/types/Asset';
+import { SiteAreaConsumption } from 'app/types/SiteArea';
 import { ConsumptionUnit } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
@@ -20,7 +21,7 @@ import * as moment from 'moment';
 
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
-  @Input() public assetConsumption!: AssetConsumption;
+  @Input() public assetConsumption!: SiteAreaConsumption;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
@@ -40,10 +41,18 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   private options!: ChartOptions;
   private chart!: Chart;
   private instantPowerColor!: string;
+  private limitColor!: string;
   private defaultColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: this.translateService.instant('asset.graph.amps') + this.translateService.instant('asset.graph.power'), hidden: false}
+    {
+      key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('asset.graph.power'),
+      hidden: false
+    },
+    {
+      key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('asset.graph.limit_watts'),
+      hidden: this.authorizationService.isAdmin() ? false : true
+    },
   ];
 
   constructor(
@@ -53,7 +62,8 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     private localeService: LocaleService,
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
-    private decimalPipe: AppDecimalPipe) {
+    private decimalPipe: AppDecimalPipe,
+    private authorizationService: AuthorizationService ) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -70,6 +80,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
+    this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
     this.defaultColor = this.getStyleColor(this.chartElement.nativeElement);
     if (this.canDisplayGraph()) {
       this.prepareOrUpdateGraph();
@@ -81,8 +92,8 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   public refresh() {
     this.spinnerService.show();
     // Change Date for testing e.g.:
-    this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
-      .subscribe((assetConsumption: AssetConsumption) => {
+    this.centralServerService.getSiteAreaConsumption("5abebb1b4bae1457eb565e98", this.startDate, this.endDate)
+      .subscribe((assetConsumption: SiteAreaConsumption) => {
         this.spinnerService.hide();
         this.assetConsumption = assetConsumption;
         this.prepareOrUpdateGraph();
@@ -137,13 +148,25 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       datasets.push({
         name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmps' : 'instantWatts',
         type: 'line',
-        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('asset.graph.amps'))))].hidden,
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
         data: [],
         yAxisID: 'power',
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerColor),
         label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'asset.graph.amps' : 'asset.graph.power'),
+          'transactions.graph.amps' : 'asset.graph.power'),
+      });
+      // Limit Amps/Power
+      datasets.push({
+        name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'limitAmps' : 'limitWatts',
+        type: 'line',
+        hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.limit_amps'))))].hidden,
+        data: [],
+        yAxisID: 'power',
+        lineTension: this.lineTension,
+        ...Utils.formatLineColor(this.limitColor),
+        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
+          'transactions.graph.limit_amps' : 'asset.graph.limit_watts'),
       });
       this.options.scales.yAxes = [{
         id: 'power',
@@ -177,6 +200,8 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       }
       const instantPowerDataSet = this.getDataSet('instantWatts');
       const instantAmpsDataSet = this.getDataSet('instantAmps');
+      const limitWattsDataSet = this.getDataSet('limitWatts');
+      const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
       for (const consumption of this.assetConsumption.values) {
         labels.push(new Date(consumption.date).getTime());
@@ -185,6 +210,20 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
         }
         if (instantAmpsDataSet) {
           instantAmpsDataSet.push(consumption.instantAmps);
+        }
+        if (limitWattsDataSet) {
+          if (consumption.limitWatts) {
+            limitWattsDataSet.push(consumption.limitWatts);
+          } else {
+            limitWattsDataSet.push(limitWattsDataSet.length > 0 ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
+          }
+        }
+        if (limitAmpsDataSet) {
+          if (consumption.limitAmps) {
+            limitAmpsDataSet.push(consumption.limitAmps);
+          } else {
+            limitAmpsDataSet.push(limitAmpsDataSet.length > 0 ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
+          }
         }
       }
       this.data.labels = labels;
@@ -236,6 +275,10 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
                   case 'instantWatts':
                     return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
                   case 'instantAmps':
+                    return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
+                  case 'limitWatts':
+                    return ' ' + this.decimalPipe.transform(value / 1000, '2.0-0') + 'kW';
+                  case 'limitAmps':
                     return ' ' + this.decimalPipe.transform(value, '2.0-0') + 'A';
                   default:
                     return value + '';

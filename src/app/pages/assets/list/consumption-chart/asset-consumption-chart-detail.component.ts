@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { Asset } from 'app/types/Asset';
-
 import { AssetConsumptionChartComponent } from './asset-consumption-chart.component';
 
 @Component({

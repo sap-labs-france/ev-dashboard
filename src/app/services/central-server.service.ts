@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Asset, AssetConsumption } from 'app/types/Asset';
+import { Asset } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
@@ -1189,25 +1189,6 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<SiteAreaConsumption>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.SITE_AREA_CONSUMPTION}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        retry(this.configService.getCentralSystemServer().connectionRetriesCount),
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getAssetConsumption(assetID: string, startDate: Date, endDate: Date): Observable<AssetConsumption> {
-    const params: { [param: string]: string } = {};
-    params['ID'] = assetID;
-    params['StartDate'] = startDate.toISOString();
-    params['EndDate'] = endDate.toISOString();
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.get<AssetConsumption>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_CONSUMPTION}`,
       {
         headers: this.buildHttpHeaders(),
         params,

@@ -1637,7 +1637,7 @@
     },
     "graph": {
       "power": "Aktuelle Leistung (kW)",
-      "amps": "Netzstromstärke (A)",
+      "limit_watts": "Netz-Limit (kW)",
       "no_consumption": "Keine Verbrauchsdaten verfügbar"
     }
   },

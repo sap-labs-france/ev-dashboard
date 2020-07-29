@@ -1637,7 +1637,7 @@
     },
     "graph": {
       "power": "Puissance Instantanée (kW)",
-      "amps": "Intensité Réseau (A)",
+      "limit_watts": "Limitation Réseau (kW)",
       "no_consumption": "Aucune donnée de consommation disponible"
     }
   },

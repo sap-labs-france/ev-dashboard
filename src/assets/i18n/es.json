@@ -1637,7 +1637,7 @@
     },
     "graph": {
       "power": "Potencia instantánea (kW)",
-      "amps": "Grid Amps (A)",
+      "limit_watts": "Límite de red (kW)",
       "no_consumption": "No hay datos de consumo disponibles."
     }
   },

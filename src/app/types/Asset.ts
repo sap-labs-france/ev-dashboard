@@ -22,17 +22,6 @@ export interface Asset extends Data, CreatedUpdatedProps {
   lastChangedOn: Date;
 }
 
-export interface AssetConsumption {
-  assetID: string;
-  values: AssetConsumptionValues[];
-}
-
-export interface AssetConsumptionValues {
-  date: Date;
-  instantWatts: number;
-  instantAmps: number;
-}
-
 export const AssetTypes: KeyValue[] = [
   { key: 'CO', value: 'assets.consume' },
   { key: 'PR', value: 'assets.produce' },

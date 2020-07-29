@@ -31,6 +31,14 @@ export interface SubjectInfo {
   };
 }
 
+export enum DocumentType {
+  PDF = 'pdf',
+}
+
+export enum DocumentEncoding {
+  BASE64 = 'base64',
+}
+
 export interface KeyValue {
   key: string;
   value: string;
@@ -53,19 +61,21 @@ export enum ButtonAction {
   DELETE = 'delete',
   DELETE_MANY = 'delete_many',
   REFRESH = 'refresh',
-  AUTO_REFRESH = 'auto-refresh',
+  SYNCHRONIZE = 'synchronize',
+  AUTO_REFRESH = 'auto_refresh',
   EXPORT = 'export',
   ADD = 'add',
   CREATE = 'create',
   COPY = 'copy',
-  MULTI_COPY = 'multi-copy',
-  MULTI_CREATE = 'multi-create',
+  MULTI_COPY = 'multi_copy',
+  MULTI_CREATE = 'multi_create',
+  MULTI_SYNC = 'multi_sync',
   NO_ACTION = 'block',
   OPEN = 'open',
   OPEN_URL = 'open_url',
   REGISTER = 'register',
   REMOVE = 'remove',
-  RESET_FILTERS = 'reset-filters',
+  RESET_FILTERS = 'reset_filters',
   REVOKE = 'revoke',
   SEND = 'send',
   SETTINGS = 'settings',
@@ -73,9 +83,9 @@ export enum ButtonAction {
   STOP = 'stop',
   UNREGISTER = 'unregister',
   VIEW = 'view',
-  INLINE_SAVE = 'inline-save',
+  INLINE_SAVE = 'inline_save',
   DOWNLOAD = 'download',
-  TEST_CONNECTION = 'test-connection'
+  TEST_CONNECTION = 'test_connection'
 }
 
 export enum ChipType {

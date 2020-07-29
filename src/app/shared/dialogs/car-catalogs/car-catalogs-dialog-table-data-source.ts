@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { CarCatalog } from 'app/types/Car';
 import { DataResult } from 'app/types/DataResult';
 import { TableColumnDef } from 'app/types/Table';
@@ -11,8 +13,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 
 @Injectable()
 export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarCatalog> {
@@ -32,7 +32,8 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
   public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       // Get data
-      this.centralServerService.getCarCatalogs(this.buildFilterValues(),
+      const params = this.buildFilterValues();
+      this.centralServerService.getCarCatalogs(params,
         this.getPaging(), this.getSorting()).subscribe((CarCatalogs) => {
           // Ok
           observer.next(CarCatalogs);

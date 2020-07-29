@@ -14,7 +14,7 @@ import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refr
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarButtonAction, CarType, CarConverter } from 'app/types/Car';
+import { Car, CarButtonAction, CarConverter, CarType } from 'app/types/Car';
 import ChangeNotification from 'app/types/ChangeNotification';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -22,6 +22,7 @@ import { UserCar } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 import { TableCreateCarAction } from '../table-actions/table-create-car-action';
 import { TableDeleteCarAction } from '../table-actions/table-delete-car-action';
 import { TableEditCarAction } from '../table-actions/table-edit-car-action';
@@ -97,6 +98,14 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
 
   public buildTableColumnDefs(): TableColumnDef[] {
     const tableColumnDef: TableColumnDef[] = [
+      {
+        id: 'carCatalog.image',
+        name: 'cars.image',
+        headerClass: 'text-center col-8p',
+        class: 'col-8p p-0',
+        isAngularComponent: true,
+        angularComponent: CarCatalogImageFormatterCellComponent,
+      },
       {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',

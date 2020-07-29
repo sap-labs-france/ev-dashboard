@@ -13,9 +13,10 @@ import { ButtonType } from 'app/types/Table';
 import { User, UserCar, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
+
 import { CentralServerService } from '../services/central-server.service';
 import { MessageService } from '../services/message.service';
-
+import { Constants } from './Constants';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -101,7 +102,11 @@ export class Utils {
   public static containsGPSCoordinates(coordinates: number[]): boolean {
     // Check if GPs are available
     if (coordinates && coordinates.length === 2 && coordinates[0] && coordinates[1]) {
-      return true;
+      // Check Longitude & Latitude
+      if (new RegExp(Constants.REGEX_VALIDATION_LONGITUDE).test(coordinates[0].toString()) &&
+          new RegExp(Constants.REGEX_VALIDATION_LATITUDE).test(coordinates[1].toString())) {
+        return true;
+      }
     }
     return false;
   }
@@ -168,7 +173,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
-    console.log(`Error: ${errorMessage}: ${error}`);
+    Utils.consoleDebugLog(`Error: ${errorMessage}: ${error}`);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -310,7 +315,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -437,7 +442,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -694,6 +699,12 @@ export class Utils {
       // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
+        if (centralServerService.configService.getCentralSystemServer().logoutOnConnectionError) {
+          // Log Off (remove token)
+          centralServerService.logoutSucceeded();
+          // Navigate to Login
+          router.navigate(['/auth/login']);
+        }
         break;
 
       // Unauthorized!
@@ -727,10 +738,26 @@ export class Utils {
 
       // Backend issue
       default:
-        console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
+        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
+  }
+
+  public static convertToBoolean(value: any): boolean {
+    let result = false;
+    // Check boolean
+    if (value) {
+      // Check the type
+      if (typeof value === 'boolean') {
+        // Already a boolean
+        result = value;
+      } else {
+        // Convert
+        result = (value === 'true');
+      }
+    }
+    return result;
   }
 
   public static convertToDate(date: any): Date {
@@ -778,6 +805,10 @@ export class Utils {
 
   public static isValidDate(date: any): boolean {
     return moment(date).isValid();
+  }
+
+  public static consoleDebugLog(msg: any) {
+    console.log(`${(new Date()).toISOString()} :: ` + msg);
   }
 
   public static copyToClipboard(content: any) {

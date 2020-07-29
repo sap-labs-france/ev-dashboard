@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import AssetConfiguration from 'app/types/configuration/AssetConfiguration';
 import CarConfiguration from 'app/types/configuration/CarConfiguration';
+import { Constants } from 'app/utils/Constants';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
@@ -29,6 +30,12 @@ export class ConfigService {
   public getCentralSystemServer(): CentralSystemServerConfiguration {
     if (typeof this.config.CentralSystemServer.socketIOEnabled === 'undefined') {
       this.config.CentralSystemServer.socketIOEnabled = true;
+    }
+    if (typeof this.config.CentralSystemServer.connectionMaxRetries === 'undefined') {
+      this.config.CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES;
+    }
+    if (typeof this.config.CentralSystemServer.logoutOnConnectionError === 'undefined') {
+      this.config.CentralSystemServer.logoutOnConnectionError = true;
     }
     return this.config.CentralSystemServer;
   }

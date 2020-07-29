@@ -9,7 +9,7 @@
         <ng-container *ngFor="let actionDef of dataSource.tableActionsDef; let i=index">
           <!-- Action Button -->
           <button mat-raised-button
-              *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset-filters'"
+              *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
               (click)="actionTriggered(actionDef)"
               [color]="(actionDef.color ? actionDef.color : '')"
               [disabled]="actionDef.disabled"
@@ -19,7 +19,7 @@
           </button>
           <!-- Reset Filters -->
           <button mat-raised-button
-              *ngIf="actionDef.type === 'button' && actionDef.id === 'reset-filters'"
+              *ngIf="actionDef.type === 'button' && actionDef.id === 'reset_filters'"
               (click)="resetFilters()"
               [color]="(actionDef.color ? actionDef.color : '')" appTooltip
               [title]="(actionDef.name ? '' : actionDef.tooltip | translate)"
@@ -58,7 +58,7 @@
           <ng-container
             *ngFor="let actionRightDef of dataSource.tableActionsRightDef; let i=index">
             <!-- Action Slide -->
-            <ng-container *ngIf="actionRightDef.id !== 'auto-refresh'">
+            <ng-container *ngIf="actionRightDef.id !== ButtonAction.AUTO_REFRESH">
               <mat-slide-toggle (change)="actionTriggered(actionRightDef, $event)"
                   *ngIf="actionRightDef.type === 'slide'"
                   [checked]="actionRightDef.currentValue">
@@ -79,7 +79,7 @@
               </button>
             </ng-container>
             <!-- Refresh -->
-            <button mat-raised-button *ngIf="actionRightDef.id === 'refresh'"
+            <button mat-raised-button *ngIf="actionRightDef.id === ButtonAction.REFRESH"
                 class="button-refresh" (click)="refresh()"
                 [color]="(actionRightDef.color ? actionRightDef.color : '')" appTooltip
                 [title]="actionRightDef.tooltip | translate">
@@ -92,7 +92,7 @@
               </div>
             </button>
             <!-- Auto Refresh -->
-            <ng-container *ngIf="actionRightDef.id === 'auto-refresh'">
+            <ng-container *ngIf="actionRightDef.id === ButtonAction.AUTO_REFRESH">
               <mat-slide-toggle (change)="toggleAutoRefresh($event)"
                   [checked]="actionRightDef.currentValue" appTooltip
                   [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)"

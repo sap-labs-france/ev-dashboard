@@ -16,7 +16,7 @@ export class TableRebuildTransactionConsumptionsAction implements TableAction {
     type: 'button',
     icon: 'build',
     color: ButtonColor.PRIMARY,
-    name: '',
+    name: 'transactions.rebuild_transaction_consumptions_title',
     tooltip: 'transactions.rebuild_transaction_consumptions_title',
     action: this.rebuildTransactionConsumptions,
   };

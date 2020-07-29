@@ -31,13 +31,14 @@ export class CarCarouselComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     if (this.carCatalogID) {
+      this.spinnerService.show();
       this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
         { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
+          this.spinnerService.hide();
           this.images = Array(carImage.count).fill('');
           this.images[0] = carImage.result[0].image;
-          this.spinnerService.hide();
         }, (error) => {
-          // Show error
+          this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
         });
     }

@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.14",
+    "last_update": "Version 2.3.22",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -302,6 +302,10 @@
     "asset_type": "Asset type",
     "produce": "Produce Energy",
     "consume": "Consume Energy",
+    "dynamic_asset": "Dynamic Asset",
+    "instant_power": "Instant Power",
+    "asset_connection": "Asset Connection",
+    "meter_id": "Meter ID",
     "asset": "Asset",
     "title": "Asset",
     "titles": "Assets",
@@ -318,10 +322,16 @@
     "update_success": "The asset '{{assetName}}' has been updated successfully",
     "update_error": "Error occurred while updating the asset",
     "asset_not_found": "Asset has not been found",
+    "asset_settings_error": "Error occurred while getting asset connections",
     "create_success": "The asset '{{assetName}}' has been created successfully",
     "create_error": "Error occurred while creating the asset",
+    "refresh_success": "The asset connection has been successfully refreshed",
+    "refresh_error": "Error occurred while refreshing the asset connection",
     "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "select_assets": "Select Asset",
+    "dialog_tabs": {
+      "connection": "Connection"
+    },
     "errors": {
       "missing_site_area": {
         "title": "Not Assigned to a Site Area",
@@ -333,6 +343,7 @@
   "sites": {
     "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
+    "auto_assignment": "Auto User Assignment",
     "user_list": "Users authorized to use charging stations on this site",
     "user_list_source_title": "Available",
     "user_list_target_title": "Assigned",
@@ -440,7 +451,7 @@
     "create_error": "Error occurred while creating the site area",
     "image_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "maximum_energy_watts": "Maximum Power (W)",
-    "maximum_energy_amps": "Maximum Power (A)",
+    "maximum_energy_amps": "Maximum Amperage (A)",
     "number_of_phases": "Number of phases",
     "export_all_params_title": "Export OCPP parameters",
     "export_all_params_confirm": "Do you really want to export all the OCPP parameters of all the charging stations belonging to the site area '{{siteAreaName}}' ?",
@@ -646,7 +657,7 @@
     "unassigned": "Unassigned",
     "unassigned_chargers": "Chargers",
     "maximum_energy": "Maximum Power (Watts)",
-    "maximum_energy_amps": "Maximum Power (Amps)",
+    "maximum_energy_amps": "Maximum Amperage (Amps)",
     "efficiency": "Efficiency (%)",
     "invalid_efficiency": "Efficiency must be a positive number not greater 100",
     "connector": "Connector",
@@ -752,7 +763,7 @@
       "power_limit_has_charging_plan_title": "Existing Charging Plan",
       "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
       "power_limit_plan_title": "Planner Limit power",
-      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charing plan?",
+      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charging plan?",
       "power_limit_plan_clear": "Do you really want to clear the charging profile of '{{chargeBoxID}}'?",
       "power_limit_plan_success": "Charging profiles for '{{chargeBoxID}}' have been applied successfully",
       "power_limit_plan_error": "Error occurred while applying the charging profiles",
@@ -1189,11 +1200,14 @@
       "unpaid": "Unpaid",
       "draft": "Draft"
     },
-    "id": "Invoice number",
-    "createdOn": "Invoice date",
-    "price": "Invoice price",
+    "id": "Invoice Number",
+    "createdOn": "Invoice Date",
+    "price": "Invoice Price",
     "cannot_retrieve_invoices": "Cannot retrieve the list of invoices",
-    "pay": "Pay"
+    "cannot_download_invoice": "Cannot download invoice",
+    "number_of_items": "Sessions",
+    "pay": "Pay",
+    "user": "User"
   },
   "tags": {
     "id": "ID",
@@ -1232,6 +1246,8 @@
     "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant."
   },
   "settings": {
+    "settings_not_saved_title": "Settings not Saved",
+    "settings_not_saved": "You must save your settings first",
     "tabs": {
       "ocpi": "Roaming",
       "charging_station": "Charging Station",
@@ -1342,7 +1358,7 @@
       "check_connection": "Check Connection",
       "connection_success": "Connection to the billing system was tested successfully",
       "connection_error": "Impossible to connect to the billing system. Check your secret key.",
-      "force_synchronize": "Force synchronization",
+      "force_synchronize": "Force Billing Synchronization",
       "user": {
         "synchronize_users": "Synchronize Billing Users",
         "synchronize_user": "Synchronize Billing User",
@@ -1776,7 +1792,7 @@
     "type_placeholder": "Type",
     "description": "Billing Interface",
     "id": "Billing ID",
-    "updatedOn": "Synchronized on",
+    "updated_on": "Billing Synchronized on",
     "tabs": {
       "invoices": "Invoices",
       "in_error": "In Error"
@@ -1860,6 +1876,8 @@
     "refundDate": "Transferred On",
     "reportId": "Report ID",
     "select_report": "Select Report",
+    "create_invoice_success": "Invoice has been created successfully for this session",
+    "create_invoice_error": "Error occured while creating an invoice for this session",
     "filter": {
       "type": {
         "name": "Type",
@@ -1914,7 +1932,8 @@
       "delete": {
         "title": "Delete Session",
         "confirm": "Do you really want to delete the session of {{user}} ?",
-        "rejected_refunded_msg": "You cannot delete a session that has been already refunded!"
+        "rejected_refunded_msg": "You cannot delete a session that has been already refunded!",
+        "rejected_billed_msg": "You cannot delete a session that has been already billed!"
       },
       "export": {
         "title": "Export Sessions",
@@ -1928,6 +1947,10 @@
       "refund": {
         "title": "Refund",
         "confirm": "Do you really want to transfer {{quantity}} session(s) to your refunding system?"
+      },
+      "create_invoice": {
+        "title": "Create Invoice",
+        "confirm": "Do you really want to create an invoice to this session?"
       },
       "session": {
         "tooltips": {
@@ -2000,6 +2023,11 @@
         "title": "Session with no User",
         "description": "The User is unknown for this Session.",
         "action": "Delete the Session or disable the access control in the corresponding Site Area."
+      },
+      "no_billing_data": {
+        "title": "Session with no Billing data",
+        "description": "There is no billing data for this Session.",
+        "action": "Delete the session or create an invoice from it."
       }
     }
   },

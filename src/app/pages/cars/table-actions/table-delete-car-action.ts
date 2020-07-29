@@ -23,8 +23,8 @@ export class TableDeleteCarAction extends TableDeleteAction {
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     super.delete(
       car, 'cars.delete_title',
-      translateService.instant('cars.delete_confirm',{ carName: Utils.buildCarCatalogName(car.carCatalog) }),
-      translateService.instant('cars.delete_success',{ carName: Utils.buildCarCatalogName(car.carCatalog) }),
+      translateService.instant('cars.delete_confirm', { carName: Utils.buildCarCatalogName(car.carCatalog) }),
+      translateService.instant('cars.delete_success', { carName: Utils.buildCarCatalogName(car.carCatalog) }),
       'cars.delete_error',
       centralServerService.deleteCar.bind(centralServerService),
       dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);

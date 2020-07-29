@@ -1,5 +1,4 @@
 import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
-import { SiteArea } from 'app/types/SiteArea';
 
 import { Data } from './Table';
 

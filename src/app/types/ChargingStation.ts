@@ -43,6 +43,7 @@ export interface ChargingStation extends Data {
   capabilities?: ChargingStationCapabilities;
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
+  distanceMeters?: number;
 }
 
 export enum OCPPProtocol {

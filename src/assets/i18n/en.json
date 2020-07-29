@@ -763,7 +763,7 @@
       "power_limit_has_charging_plan_title": "Existing Charging Plan",
       "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
       "power_limit_plan_title": "Planner Limit power",
-      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charing plan?",
+      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charging plan?",
       "power_limit_plan_clear": "Do you really want to clear the charging profile of '{{chargeBoxID}}'?",
       "power_limit_plan_success": "Charging profiles for '{{chargeBoxID}}' have been applied successfully",
       "power_limit_plan_error": "Error occurred while applying the charging profiles",

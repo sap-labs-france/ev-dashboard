@@ -2063,6 +2063,6 @@
     "session_not_started": "Notificarme si no se inició ninguna sesión después de la identificación",
     "user_account_inactivity": "Notificarme cuando no haya iniciado sesión en la aplicación durante más de 6 meses",
     "car_catalog_synchronization_failed": "Notificarme si se ha producido un error durante la sincronización de los automóviles",
-    "end_user_error_notification": "Notify me when an user reports an error"
+    "end_user_error_notification": "Notify me when a user reports an error"
   }
 }

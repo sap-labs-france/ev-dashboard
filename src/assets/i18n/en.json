@@ -2063,6 +2063,6 @@
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars",
-    "end_user_error_notification": "Notify me when an user reports an error"
+    "end_user_error_notification": "Notify me when a user reports an error"
   }
 }

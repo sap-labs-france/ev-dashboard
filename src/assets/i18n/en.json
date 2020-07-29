@@ -874,7 +874,7 @@
     "ocpp_params_list_error": "No OCPP parameter to display",
     "ocpp_params_update_from_template_title": "Update OCPP Params",
     "ocpp_params_update_from_template_confirm": "Do you really want to update the OCPP parameters of the charging station '{{chargeBoxID}}' with the latest template?",
-    "ocpp_params_update_from_template_success": "The OCPP parameters of the charging station '{{chargeBoxID}}' have been updated successfully?",
+    "ocpp_params_update_from_template_success": "The OCPP parameters have been updated successfully from the charging station '{{chargeBoxID}}'",
     "ocpp_params_update_from_template_error": "Error occurred while updating the OCPP parameters of the charging station",
     "set_configuration_title": "Save Change Configuration",
     "set_configuration_confirm": "Do you really want to change the param '{{key}}' on charging station '{{chargeBoxID}}'?",

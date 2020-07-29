@@ -12,7 +12,9 @@ import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { TableExportOCPPParamsLocalAction } from '../../table-actions/table-export-ocpp-params-local-action';
+import { TableRequestOCPPParamsAction } from '../../table-actions/table-request-ocpp-params-action';
 import { TableSaveOCPPParameterAction } from '../../table-actions/table-save-ocpp-parameter-action';
+import { TableUpdateOCPPParamsAction } from '../../table-actions/table-update-ocpp-params-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
@@ -45,6 +47,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public buildTableActionsDef(): TableActionDef[] {
     return [
+      new TableUpdateOCPPParamsAction().getActionDef(),
+      new TableRequestOCPPParamsAction().getActionDef(),
       new TableExportOCPPParamsLocalAction().getActionDef()
     ];
   }
@@ -71,6 +75,18 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         break;
       default:
         super.actionTriggered(actionDef);
+        break;
+      case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
+        if (actionDef.action) {
+          actionDef.action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+             this.router, this.spinnerService, this.refreshData());
+        }
+        break;
+      case ChargingStationButtonAction.REQUEST_OCPP_PARAMS:
+        if (actionDef.action) {
+          actionDef.action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+             this.router, this.spinnerService, this.refreshData());
+        }
         break;
     }
   }

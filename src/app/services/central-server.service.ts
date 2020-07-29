@@ -2765,7 +2765,7 @@ export class CentralServerService {
       );
   }
 
-  public requestChargingStationOcppParameters(id: string) {
+  public requestChargingStationOcppParameters(id: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service

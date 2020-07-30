@@ -31,8 +31,8 @@ export class ConfigService {
     if (typeof this.config.CentralSystemServer.socketIOEnabled === 'undefined') {
       this.config.CentralSystemServer.socketIOEnabled = true;
     }
-    if (typeof this.config.CentralSystemServer.connectionRetriesCount === 'undefined') {
-      this.config.CentralSystemServer.connectionRetriesCount = Constants.DEFAULT_BACKEND_CONNECTION_RETRIES_COUNT;
+    if (typeof this.config.CentralSystemServer.connectionMaxRetries === 'undefined') {
+      this.config.CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES;
     }
     if (typeof this.config.CentralSystemServer.logoutOnConnectionError === 'undefined') {
       this.config.CentralSystemServer.logoutOnConnectionError = true;

@@ -99,7 +99,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
       if (token) {
         data['captcha'] = token;
       } else {
-        this.messageService.showErrorMessage('general.invalid_captcha_token');
+        this.messageService.showErrorMessage('authentication.invalid_captcha_token');
         return;
       }
       data['hash'] = this.resetPasswordHash;

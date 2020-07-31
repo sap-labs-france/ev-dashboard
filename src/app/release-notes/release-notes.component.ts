@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.23',
-        date: new Date('2020-07-30'),
+        version: '2.3.24',
+        date: new Date('2020-07-31'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Provided workaround for Stop Transaction with no ID for Cahors Charging Stations`,
+              `Log more information when B2B HTTP Requests fail`,
               `Fixed OCPI CDR total duration is sent in hours`,
               `Force update of OCPP Params of the latest parameters in the template`,
               `Force request OCPP parameters from the Charging Station`,

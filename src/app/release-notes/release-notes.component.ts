@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Check if Charging Station is offline before sending notification to administrators`,
               `User can report error from the mobile app`,
               `Fixed billing synchronization failure notification`,
               `Provided workaround for Stop Transaction with no ID for Cahors Charging Stations`,

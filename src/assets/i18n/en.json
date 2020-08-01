@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.22",
+    "last_update": "Version 2.3.25",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred",
@@ -763,7 +763,7 @@
       "power_limit_has_charging_plan_title": "Existing Charging Plan",
       "power_limit_has_charging_plan_confim": "There is a conflict with an existing charging plan!<br>Do you want to change the plan and adjust it to the new limit?",
       "power_limit_plan_title": "Planner Limit power",
-      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charing plan?",
+      "power_limit_plan_confirm": "Do you really want to limit the power of '{{chargeBoxID}}' with this charging plan?",
       "power_limit_plan_clear": "Do you really want to clear the charging profile of '{{chargeBoxID}}'?",
       "power_limit_plan_success": "Charging profiles for '{{chargeBoxID}}' have been applied successfully",
       "power_limit_plan_error": "Error occurred while applying the charging profiles",
@@ -874,7 +874,7 @@
     "ocpp_params_list_error": "No OCPP parameter to display",
     "ocpp_params_update_from_template_title": "Update OCPP Params",
     "ocpp_params_update_from_template_confirm": "Do you really want to update the OCPP parameters of the charging station '{{chargeBoxID}}' with the latest template?",
-    "ocpp_params_update_from_template_success": "The OCPP parameters of the charging station '{{chargeBoxID}}' have been updated successfully?",
+    "ocpp_params_update_from_template_success": "The OCPP parameters have been updated successfully from the charging station '{{chargeBoxID}}'",
     "ocpp_params_update_from_template_error": "Error occurred while updating the OCPP parameters of the charging station",
     "set_configuration_title": "Save Change Configuration",
     "set_configuration_confirm": "Do you really want to change the param '{{key}}' on charging station '{{chargeBoxID}}'?",
@@ -2062,6 +2062,7 @@
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
-    "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars"
+    "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars",
+    "end_user_error_notification": "Notify me when a user reports an error"
   }
 }

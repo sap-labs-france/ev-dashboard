@@ -173,7 +173,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
-    Utils.consoleDebugLog(`Error: ${errorMessage}: ${error}`);
+    Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -738,7 +738,7 @@ export class Utils {
 
       // Backend issue
       default:
-        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
+        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
@@ -807,8 +807,8 @@ export class Utils {
     return moment(date).isValid();
   }
 
-  public static consoleDebugLog(msg: any) {
-    console.log(`${(new Date()).toISOString()} :: ` + msg);
+  public static consoleDebugLog(msg: any, error?: any) {
+    console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error);
   }
 
   public static copyToClipboard(content: any) {

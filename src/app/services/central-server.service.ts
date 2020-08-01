@@ -2903,7 +2903,7 @@ export class CentralServerService {
         }
         const retryDelay = this.exponentialDelay(retryAttempt);
         if (retryAttempt <= maxRetryAttempts) {
-          Utils.consoleDebugLog(`Connection retry attempt #${retryAttempt} to backend REST API in ${retryDelay} with error status: ${error.status}`);
+          Utils.consoleDebugLog(`Connection retry attempt #${retryAttempt} to backend REST API in ${retryDelay}`, error);
         }
         return timer(retryDelay);
       })

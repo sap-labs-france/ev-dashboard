@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.24',
-        date: new Date('2020-07-31'),
+        version: '2.3.25',
+        date: new Date('2020-08-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `User can report error from the mobile app`,
+              `Fixed billing synchronization failure notification`,
               `Provided workaround for Stop Transaction with no ID for Cahors Charging Stations`,
               `Log more information when B2B HTTP Requests fail`,
               `Fixed OCPI CDR total duration is sent in hours`,

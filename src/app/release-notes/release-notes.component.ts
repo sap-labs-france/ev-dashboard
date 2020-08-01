@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Dynamic Asset consumptions are now pulled every minute (Schneider BMS)`,
               `Check if Charging Station is offline before sending notification to administrators`,
               `User can report error from the mobile app`,
               `Fixed billing synchronization failure notification`,

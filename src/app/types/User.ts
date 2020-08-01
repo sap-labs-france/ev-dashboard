@@ -61,7 +61,7 @@ export interface UserNotifications {
   sendEndUserErrorNotification: boolean;
 }
 
-export default interface UserToken {
+export interface UserToken {
   id?: string;
   role?: string;
   name?: string;

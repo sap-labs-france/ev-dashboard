@@ -425,8 +425,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingUserSynchronizationFailed')) {
-        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
       } else {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }

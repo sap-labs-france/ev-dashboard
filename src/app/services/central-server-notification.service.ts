@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Entity } from 'app/types/Authorization';
-import { Utils } from 'app/utils/Utils';
 import { Observable, Subject } from 'rxjs';
 
 import ChangeNotification from '../types/ChangeNotification';
@@ -318,12 +317,10 @@ export class CentralServerNotificationService {
   }
 
   public resetSocketIO() {
-    // Check: Socket IO not initialized and user logged in
+    // Check
     if (this.socketIOClient) {
       // Close
       this.socketIOClient.disconnect();
-    } else {
-      Utils.consoleDebugLog('SocketIO client not initialized and user logged in');
     }
     // Clear
     this.socketIOClient = null;

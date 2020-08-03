@@ -55,9 +55,10 @@ export interface UserNotifications {
   sendUserAccountInactivity: boolean;
   sendPreparingSessionNotStarted: boolean;
   sendOfflineChargingStations: boolean;
-  sendBillingUserSynchronizationFailed: boolean;
+  sendBillingSynchronizationFailed: boolean;
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
+  sendEndUserErrorNotification: boolean;
 }
 
 export interface UserToken {
@@ -65,6 +66,7 @@ export interface UserToken {
   role?: string;
   name?: string;
   email?: string;
+  mobile?: string;
   firstName?: string;
   locale?: string;
   language?: string;
@@ -78,8 +80,8 @@ export interface UserToken {
   companies?: string[];
   sites?: string[];
   sitesAdmin?: string[];
-  activeComponents?: string[];
   sitesOwner?: string[];
+  activeComponents?: string[];
 }
 
 export interface UserCar extends Data, CreatedUpdatedProps {

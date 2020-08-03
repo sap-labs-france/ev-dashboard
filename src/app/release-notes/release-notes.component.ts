@@ -24,6 +24,27 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.25',
+        date: new Date('2020-08-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Dynamic Asset consumptions are now pulled every minute (Schneider BMS)`,
+              `Check if Charging Station is offline before sending notification to administrators`,
+              `User can report error from the mobile app`,
+              `Fixed billing synchronization failure notification`,
+              `Provided workaround for Stop Transaction with no ID for Cahors Charging Stations`,
+              `Log more information when B2B HTTP Requests fail`,
+              `Fixed OCPI CDR total duration is sent in hours`,
+              `Force update of OCPP Params of the latest parameters in the template`,
+              `Force request OCPP parameters from the Charging Station`,
+              `Add Google Map helper in Company, Site and Site Area`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.22',
         date: new Date('2020-07-23'),
         componentChanges: [

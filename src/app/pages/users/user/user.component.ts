@@ -95,6 +95,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendBillingSynchronizationFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
+  public sendEndUserErrorNotification!: AbstractControl;
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -186,6 +187,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOcpiPatchStatusError: new FormControl(false),
         sendSmtpAuthError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
+        sendEndUserErrorNotification: new FormControl(false),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -273,6 +275,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
+    this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     if (this.isAdmin) {
       this.userTagsEditableTableDataSource.setFormArray(this.tags);
     }
@@ -422,8 +425,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingUserSynchronizationFailed')) {
-        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
       } else {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }
@@ -436,6 +439,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
       } else {
         this.notifications.controls.sendSessionNotStarted.setValue(false);
+      }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndUserErrorNotification')) {
+        this.notifications.controls.sendEndUserErrorNotification.setValue(user.notifications.sendEndUserErrorNotification);
+      } else {
+        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
       }
       if (user.address) {
         this.address = user.address;
@@ -486,6 +494,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpAuthError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
+        this.notifications.controls.sendEndUserErrorNotification.setValue(true);
         break;
       case UserRole.BASIC:
         this.formGroup.controls.notificationsActive.setValue(true);
@@ -505,6 +514,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
       case UserRole.DEMO:
         this.formGroup.controls.notificationsActive.setValue(false);
@@ -524,6 +534,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
     }
   }

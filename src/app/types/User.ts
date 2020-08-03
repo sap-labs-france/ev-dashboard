@@ -66,6 +66,7 @@ export interface UserToken {
   role?: string;
   name?: string;
   email?: string;
+  mobile?: string;
   firstName?: string;
   locale?: string;
   language?: string;
@@ -79,8 +80,8 @@ export interface UserToken {
   companies?: string[];
   sites?: string[];
   sitesAdmin?: string[];
-  activeComponents?: string[];
   sitesOwner?: string[];
+  activeComponents?: string[];
 }
 
 export interface UserCar extends Data, CreatedUpdatedProps {

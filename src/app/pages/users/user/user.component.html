@@ -286,6 +286,12 @@
                         [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
                     </div>
                   </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
+                        [formControl]="sendEndUserErrorNotification">{{"notifications.end_user_error_notification" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -421,7 +427,7 @@
           </div>
         </mat-tab>
       </mat-tab-group>
-      <div class="tabs-actions">
+      <div [class]="inDialog ? 'tabs-actions' : 'tabs-actions-embedded'">
         <button mat-button (click)="saveUser(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
           <mat-icon>save</mat-icon>
           <span>{{'general.save' | translate}}</span>

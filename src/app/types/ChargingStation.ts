@@ -43,6 +43,7 @@ export interface ChargingStation extends Data {
   capabilities?: ChargingStationCapabilities;
   ocppStandardParameters?: KeyValue[];
   ocppVendorParameters?: KeyValue[];
+  distanceMeters?: number;
 }
 
 export enum OCPPProtocol {
@@ -179,8 +180,11 @@ export enum ChargingStationButtonAction {
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_CHARGING_STATIONS = 'export_charging_stations',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
+  UPDATE_OCPP_PARAMS = 'update_ocpp_params',
+  REQUEST_OCPP_PARAMS = 'request_ocpp_params',
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
+  SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
 }
 
 export enum ChargePointStatus {
@@ -212,5 +216,5 @@ export enum OCPPAvailabilityType {
 }
 
 export enum StaticLimitAmps {
-  MIN_LIMIT = 6,
+  MIN_LIMIT_PER_PHASE = 13,
 }

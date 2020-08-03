@@ -36,29 +36,69 @@ export class AuthorizationService {
     return this.canAccess(Entity.ASSET, Action.UPDATE);
   }
 
+  public canCreateSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.CREATE);
+  }
+
+  public canDeleteSite(): boolean {
+    return this.canAccess(Entity.SITE, Action.DELETE);
+  }
+
   public canUpdateSite(): boolean {
     return this.canAccess(Entity.SITE, Action.UPDATE);
+  }
+
+  public canCreateSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.CREATE);
   }
 
   public canUpdateSiteArea(): boolean {
     return this.canAccess(Entity.SITE_AREA, Action.UPDATE);
   }
 
+  public canDeleteSiteArea(): boolean {
+    return this.canAccess(Entity.SITE_AREA, Action.DELETE);
+  }
+
   public canListSettings(): boolean {
-    return this.canAccess(Entity.SETTINGS,
-      Action.LIST);
+    return this.canAccess(Entity.SETTINGS, Action.LIST);
+  }
+
+  public canDownloadInvoice(userId: string): boolean {
+    if (this.canAccess(Entity.INVOICE, Action.DOWNLOAD)) {
+      if (this.isAdmin() || (!!this.loggedUser && this.loggedUser.id === userId)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public canDeleteTransaction(): boolean {
+    return this.canAccess(Entity.TRANSACTION, Action.DELETE);
+  }
+
+  public canDeleteUser(): boolean {
+    return this.canAccess(Entity.USER, Action.DELETE);
   }
 
   public canUpdateUser(): boolean {
     return this.canAccess(Entity.USER, Action.UPDATE);
   }
 
-  public canSynchronizeUsers(): boolean {
-    return this.canAccess(Entity.BILLING, Action.SYNCHRONIZE_USERS);
+  public canSynchronizeBillingUser(): boolean {
+    return this.canAccess(Entity.USER, Action.SYNCHRONIZE_BILLING_USER);
+  }
+
+  public canRefundTransaction(): boolean {
+    return this.canAccess(Entity.TRANSACTION, Action.REFUND_TRANSACTION);
+  }
+
+  public canSynchronizeBillingUsers(): boolean {
+    return this.canAccess(Entity.USERS, Action.SYNCHRONIZE_BILLING_USERS);
   }
 
   public canSynchronizeInvoices(): boolean {
-    return this.canAccess(Entity.INVOICES, Action.SYNCHRONIZE_INVOICES);
+    return this.canAccess(Entity.INVOICES, Action.SYNCHRONIZE);
   }
 
   public canAccess(resource: string, action: string): boolean {

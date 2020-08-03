@@ -1,10 +1,11 @@
-import { ChargingRateUnitType } from 'app/types/ChargingStation';
+import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
 
 import { Data } from './Table';
 
 export interface ChargingProfile extends Data {
   id: string;
   chargingStationID: string;
+  chargingStation?: ChargingStation;
   chargePointID: number;
   connectorID?: number;
   profile: Profile;

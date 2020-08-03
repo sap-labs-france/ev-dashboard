@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { Action, Entity } from 'app/types/Authorization';
 import { ActionResponse, DataResult } from 'app/types/DataResult';
 import { ErrorMessage, TransactionInError, TransactionInErrorType } from 'app/types/InError';
-import { Data, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { LogButtonAction } from 'app/types/Log';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { User } from 'app/types/User';
@@ -29,24 +30,27 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { ChargerTableFilter } from '../../../shared/table/filters/charger-table-filter';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
+import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
 import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
 import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
-export class TransactionsInErrorTableDataSource extends TableDataSource<Transaction> {
+export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
   private isAdmin = false;
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
+  private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -128,6 +132,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         enabled: true,
         multiple: true,
       },
+      hasDynamicRowAction: true
     };
   }
 
@@ -151,15 +156,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       columns.push({
         id: 'id',
         name: 'transactions.id',
-        headerClass: 'd-none d-xl-table-cell',
-        class: 'd-none d-xl-table-cell',
+        headerClass: 'col-10p',
+        class: 'col-10p',
       });
     }
     if (this.isAdmin || this.isSiteAdmin) {
       columns.push({
         id: 'user',
         name: 'transactions.user',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
       });
     }
@@ -167,7 +173,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       {
         id: 'timestamp',
         name: 'transactions.started_at',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         sorted: true,
         sortable: true,
         direction: 'desc',
@@ -176,21 +183,23 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
-        class: 'text-left',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
         formatter: (chargingStationID: string, row: TransactionInError) => this.formatChargingStation(chargingStationID, row),
       },
       {
         id: 'errorCodeDetails',
         name: 'errors.details',
         sortable: false,
-        headerClass: 'text-center',
-        class: 'action-cell text-center',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p p-0',
         isAngularComponent: true,
         angularComponent: ErrorCodeDetailsComponent,
       },
       {
         id: 'errorCode',
         name: 'errors.title',
+        headerClass: 'col-30p',
         class: 'col-30p text-danger',
         sortable: true,
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
@@ -241,6 +250,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`),
       });
     }
+    // If billing is activated check that transactions have billing data
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
+      errorTypes.push({
+        key: TransactionInErrorType.NO_BILLING_DATA,
+        value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_BILLING_DATA}.title`),
+      });
+    }
     // Sort
     errorTypes.sort(Utils.sortArrayOfKeyValue);
     // Build filters
@@ -251,11 +267,11 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     ];
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      filters.push(new ChargerTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new ChargingStationTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new SiteTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
       filters.push(new SiteAreaTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
     } else {
-      filters.push(new ChargerTableFilter().getFilterDef());
+      filters.push(new ChargingStationTableFilter().getFilterDef());
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
@@ -263,15 +279,22 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    const actions = [];
-    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.READ)) {
-      actions.push(this.viewAction);
+  public buildTableDynamicRowActions(rowItem: TransactionInError): TableActionDef[] {
+    const rowActions: TableActionDef[] = [this.viewAction];
+    const moreActions = new TableMoreAction([]);
+    if (this.authorizationService.canDeleteTransaction()) {
+      moreActions.addActionInMoreActions(this.deleteAction);
     }
-    if (this.authorizationService.canAccess(Entity.TRANSACTION, Action.DELETE)) {
-      actions.push(this.deleteAction);
+    if (rowItem.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
+      moreActions.addActionInMoreActions(this.createInvoice);
     }
-    return actions;
+    if (this.isAdmin) {
+      moreActions.addActionInMoreActions(this.checkLogsAction);
+    }
+    if (moreActions.getActionsInMoreActions().length > 0) {
+      rowActions.push(moreActions.getActionDef());
+    }
+    return rowActions;
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
@@ -286,6 +309,15 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         if (actionDef.action) {
           actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
         }
+        break;
+      case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
+        if (actionDef.action) {
+          actionDef.action(transaction.id, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+        }
+        break;
+      case LogButtonAction.CHECK_LOGS:
+        this.checkLogsAction.action('logs?search=' + transaction.id);
         break;
     }
   }

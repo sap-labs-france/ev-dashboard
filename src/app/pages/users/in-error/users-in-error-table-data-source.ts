@@ -17,9 +17,7 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
-import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -41,7 +39,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private deleteAction = new TableDeleteUserAction().getActionDef();
   private syncBillingUserAction = new TableSyncBillingUserAction().getActionDef();
-  // tslint:disable-next-line: no-unsafe-any
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
 
   constructor(
@@ -55,8 +52,6 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       private centralServerService: CentralServerService,
       private componentService: ComponentService,
       private userRolePipe: AppUserRolePipe,
-      private userNamePipe: AppUserNamePipe,
-      private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
@@ -213,7 +208,7 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      case UserButtonAction.SYNCHRONIZE_USER:
+      case UserButtonAction.SYNCHRONIZE_BILLING_USER:
         if (this.syncBillingUserAction.action) {
           this.syncBillingUserAction.action(
             user, this.dialogService, this.translateService, this.spinnerService,

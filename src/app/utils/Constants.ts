@@ -10,6 +10,8 @@ export class Constants {
 
   public static readonly MAX_LIMIT = Number.MAX_SAFE_INTEGER;
 
+  public static readonly DEFAULT_MAX_BACKEND_CONNECTION_RETRIES = 3;
+
   /* Data Service */
   public static readonly DEFAULT_LIMIT = 100;
   public static readonly DEFAULT_SKIP = 0;

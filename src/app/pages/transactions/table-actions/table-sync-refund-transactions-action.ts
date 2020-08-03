@@ -4,27 +4,21 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
-import { TableAction } from 'app/shared/table/actions/table-action';
+import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { CarButtonAction } from 'app/types/Car';
 import { RestResponse } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
+import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-export class TableSyncRefundTransactionsAction implements TableAction {
-  private action: TableActionDef = {
-    id: CarButtonAction.SYNCHRONIZE,
-    type: 'button',
-    icon: 'sync',
-    color: ButtonColor.PRIMARY,
-    name: 'general.synchronize',
-    tooltip: 'general.synchronize',
-    action: this.synchronizeRefund,
-  };
-
-  // Return an action
+export class TableSyncRefundTransactionsAction extends TableSynchronizeAction {
   public getActionDef(): TableActionDef {
-    return this.action;
+    return {
+      ...super.getActionDef(),
+      id: CarButtonAction.SYNCHRONIZE,
+      name: 'general.synchronize',
+      action: this.synchronizeRefund,
+    };
   }
 
   private synchronizeRefund(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,

@@ -38,7 +38,7 @@ export class StatisticsFiltersComponent implements OnInit {
   public sacLinksActive = false;
   public initDateRange = false;
   public dateRangeValue: any;
-  @ViewChild(DaterangepickerComponent) public daterangepickerComponent: DaterangepickerComponent
+  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent
 
   @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
   @Output() public category = new EventEmitter();

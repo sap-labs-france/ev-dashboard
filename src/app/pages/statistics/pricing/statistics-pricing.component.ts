@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DateRangeTableFilter } from 'app/shared/table/filters/date-range-table-filter';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { FilterParams } from 'app/types/GlobalType';
@@ -28,8 +29,7 @@ export class StatisticsPricingComponent implements OnInit {
 
   public selectedChart!: string;
   public selectedCategory!: string;
-  public selectedDateFrom!: Date;
-  public selectedDateTo!: Date;
+  public selectedDateRange!: any;
   public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
@@ -62,11 +62,7 @@ export class StatisticsPricingComponent implements OnInit {
 
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
-
-    filterDef = new StartDateFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new EndDateFilter().getFilterDef();
+    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();
@@ -98,12 +94,8 @@ export class StatisticsPricingComponent implements OnInit {
     this.selectedYear = year;
   }
 
-  public dateFromChange(date: Date) {
-    this.selectedDateFrom = date;
-  }
-
-  public dateToChange(date: Date) {
-    this.selectedDateTo = date;
+  public dateRangeChange(date: any) {
+    this.selectedDateRange = date;
   }
 
   public filtersChanged(filterParams: FilterParams): void {
@@ -129,10 +121,10 @@ export class StatisticsPricingComponent implements OnInit {
     let totalPriceString = '';
 
     this.totalPriceWithUnit.forEach((object) => {
-        if (totalPriceString) {
-          totalPriceString += ' + ';
-        }
-        totalPriceString += Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
+      if (totalPriceString) {
+        totalPriceString += ' + ';
+      }
+      totalPriceString += Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
     });
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
@@ -225,7 +217,7 @@ export class StatisticsPricingComponent implements OnInit {
         .subscribe((statisticsData) => {
 
           if (statisticsData.length > 1) {
-          this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
+            this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
           }
 
           if (this.totalPriceWithUnit.length > 1) {
@@ -250,7 +242,7 @@ export class StatisticsPricingComponent implements OnInit {
 
           if (statisticsData.length > 1) {
             this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
-            }
+          }
 
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;

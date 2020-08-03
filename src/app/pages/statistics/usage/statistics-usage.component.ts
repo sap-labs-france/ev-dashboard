@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DateRangeTableFilter } from 'app/shared/table/filters/date-range-table-filter';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { FilterParams } from 'app/types/GlobalType';
@@ -25,8 +26,7 @@ export class StatisticsUsageComponent implements OnInit {
   public totalUsage = 0;
   public selectedChart!: string;
   public selectedCategory!: string;
-  public selectedDateFrom!: Date;
-  public selectedDateTo!: Date;
+  public selectedDateRange!: any;
   public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
@@ -56,11 +56,7 @@ export class StatisticsUsageComponent implements OnInit {
 
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
-
-    filterDef = new StartDateFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new EndDateFilter().getFilterDef();
+    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();
@@ -90,12 +86,8 @@ export class StatisticsUsageComponent implements OnInit {
     this.selectedYear = year;
   }
 
-  public dateFromChange(date: Date) {
-    this.selectedDateFrom = date;
-  }
-
-  public dateToChange(date: Date) {
-    this.selectedDateTo = date;
+  public dateRangeChange(date: any) {
+    this.selectedDateRange = date;
   }
 
   public filtersChanged(filterParams: FilterParams): void {

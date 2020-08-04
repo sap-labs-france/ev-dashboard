@@ -8,7 +8,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
 import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { SiteAreaConsumption } from 'app/types/SiteArea';
+import { AssetConsumption } from 'app/types/Asset';
 import { ConsumptionUnit } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
@@ -21,7 +21,7 @@ import * as moment from 'moment';
 
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
-  @Input() public assetConsumption!: SiteAreaConsumption;
+  @Input() public assetConsumption!: AssetConsumption;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
@@ -92,8 +92,8 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   public refresh() {
     this.spinnerService.show();
     // Change Date for testing e.g.:
-    this.centralServerService.getSiteAreaConsumption("5abebb1b4bae1457eb565e98", this.startDate, this.endDate)
-      .subscribe((assetConsumption: SiteAreaConsumption) => {
+    this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
+      .subscribe((assetConsumption: AssetConsumption) => {
         this.spinnerService.hide();
         this.assetConsumption = assetConsumption;
         this.prepareOrUpdateGraph();

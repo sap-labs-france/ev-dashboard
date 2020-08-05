@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.26',
+        date: new Date('2020-08-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Smart Charging - Limit the charging schedule periods according the OCPP paramater`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.25',
         date: new Date('2020-08-01'),
         componentChanges: [

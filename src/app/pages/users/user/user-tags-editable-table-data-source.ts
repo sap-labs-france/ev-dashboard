@@ -91,7 +91,7 @@ export class UserTagsEditableTableDataSource extends EditableTableDataSource<Tag
         unique: true,
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
-          { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 8 } },
+          { id: 'minlength', message: 'general.error_min_length', messageParams: { length: 1 } },
           { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 20 } },
           { id: 'pattern', message: 'users.invalid_tag_id' },
         ],

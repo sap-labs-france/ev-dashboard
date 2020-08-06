@@ -24,13 +24,17 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.26',
-        date: new Date('2020-08-04'),
+        version: '2.3.27',
+        date: new Date('2020-08-06'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed the Site Admin userscannot read their Charging Plan`,
               `Smart Charging - Limit the charging schedule periods according the OCPP paramater`,
+              `Added the Price Unit in the OCPI Settings when the price is managed by the IOP platform (Gireve)`,
+              `Log the URL connection of the Charging Station trying to connect to our backend`,
+              `Security: Log all HTTP requests`,
             ],
           },
         ],

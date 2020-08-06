@@ -21,6 +21,9 @@
   "Company": {
     "maxPictureKb": 150
   },
+  "Tenant": {
+    "maxPictureKb": 150
+  },
   "Site": {
     "maxPictureKb": 800
   },

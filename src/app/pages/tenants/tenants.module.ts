@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
+import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { TableModule } from '../../shared/table/table.module';
@@ -25,6 +26,7 @@ import { TenantsRoutes } from './tenants.routing';
     TableModule,
     CommonDirectivesModule,
     DialogsModule,
+    AddressModule,
   ],
   declarations: [
     TenantsListComponent,

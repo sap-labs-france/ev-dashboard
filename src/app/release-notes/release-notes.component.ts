@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Remove the price of the Session when the CDR is sent to the Roaming platform (Gireve)`,
+              `Removed the price when the CDR is sent to the Roaming platform (Gireve)`,
               `Fixed the Site Admin userscannot read their Charging Plan`,
               `Smart Charging - Limit the charging schedule periods according the OCPP paramater`,
               `Added the Price Unit in the OCPI Settings when the price is managed by the IOP platform (Gireve)`,

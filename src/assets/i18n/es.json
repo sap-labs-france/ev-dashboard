@@ -645,6 +645,7 @@
     "public": "Está estación de carga es publica",
     "public_charger": "Publica",
     "exclude_smart_charging": "Excluir carga inteligente",
+    "force_inactive": "Force charger to be inactive",
     "public_url": "URL pública",
     "current_ip": "Ruta IP actual",
     "select_chargers": "Seleccionar estación de carga",

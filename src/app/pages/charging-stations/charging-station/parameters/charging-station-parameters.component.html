@@ -67,6 +67,11 @@
           {{'chargers.exclude_smart_charging' | translate}}
         </mat-checkbox>
       </div>
+      <div class="col-md-3 text-left form-group">
+        <mat-checkbox [formControl]="forceInactive">
+          {{'chargers.force_inactive' | translate}}
+        </mat-checkbox>
+      </div>
     </div>
     <div class="row charging-station-connector-component"
         *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">

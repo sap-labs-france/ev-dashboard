@@ -163,6 +163,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public currentTypeChanged() {
     this.refreshNumberOfPhases();
+    this.refreshTotalAmperage();
   }
 
   public amperageChanged() {

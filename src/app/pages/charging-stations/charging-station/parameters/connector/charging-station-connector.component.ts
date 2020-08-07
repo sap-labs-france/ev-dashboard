@@ -153,7 +153,12 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   }
 
   public refreshTotalAmperage() {
-    this.amperage.setValue((this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number));
+    if ((this.amperagePerPhase.value as number) > 0) {
+        this.amperage.setValue((this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number));
+    } else {
+      this.amperage.setValue(0);
+    }
+    this.connectorChanged.emit();
   }
 
   public currentTypeChanged() {

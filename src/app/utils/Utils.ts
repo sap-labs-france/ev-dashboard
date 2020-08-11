@@ -809,9 +809,9 @@ export class Utils {
   }
 
   public static consoleDebugLog(msg: any, error?: any) {
-    const configService: ConfigService = {} as ConfigService;
+    const configService: ConfigService = new ConfigService();
     if (configService.getDebug().enabled) {
-      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error);
+      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
     }
   }
 

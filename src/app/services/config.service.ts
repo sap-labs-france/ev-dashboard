@@ -18,23 +18,21 @@ import UserConfiguration from '../types/configuration/UserConfiguration';
 
 @Injectable()
 export class ConfigService {
-  private config!: Configuration;
-  private http: HttpClient;
+  private static config: Configuration;
 
-  constructor() {
+  constructor(private http?: HttpClient) {
     this.load();
   }
 
   private getConfig(): Configuration {
-    if (!this.config) {
-      this.http.get<Configuration>('/assets/config.json').subscribe((configuration) => this.config = configuration);
-      return this.config;
+    if (!ConfigService.config) {
+      this.http.get<Configuration>('/assets/config.json').subscribe((configuration) => ConfigService.config = configuration);
     }
-    return this.config;
+    return ConfigService.config;
   }
 
   public load() {
-    this.config = this.getConfig();
+    this.getConfig();
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {

@@ -1,40 +1,40 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { Asset } from 'app/types/Asset';
+import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
+import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
+import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
-import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
-import { Company } from 'app/types/Company';
-import { IntegrationConnection, UserConnection } from 'app/types/Connection';
-import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
-import { EndUserLicenseAgreement } from 'app/types/Eula';
+import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { IntegrationConnection, UserConnection } from 'app/types/Connection';
+import { Site, SiteUser } from 'app/types/Site';
+import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
+import { User, UserCar, UserSite, UserToken } from 'app/types/User';
+import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
+
+import { Asset } from 'app/types/Asset';
+import { CentralServerNotificationService } from './central-server-notification.service';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
+import { Company } from 'app/types/Company';
+import { ConfigService } from './config.service';
+import { Constants } from '../utils/Constants';
+import { EndUserLicenseAgreement } from 'app/types/Eula';
 import { HTTPError } from 'app/types/HTTPError';
-import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
+import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { LocalStorageService } from './local-storage.service';
 import { Log } from 'app/types/Log';
+import { MatDialog } from '@angular/material/dialog';
 import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
 import { Setting } from 'app/types/Setting';
-import { Site, SiteUser } from 'app/types/Site';
-import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
-import { User, UserCar, UserSite, UserToken } from 'app/types/User';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { Utils } from 'app/utils/Utils';
-import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
-import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
-
-import { Constants } from '../utils/Constants';
-import { CentralServerNotificationService } from './central-server-notification.service';
-import { ConfigService } from './config.service';
-import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
 
 @Injectable()
@@ -2842,7 +2842,7 @@ export class CentralServerService {
   }
 
   private checkInit(): void {
-    // initialized?
+    // Initialized?
     if (!this.initialized) {
       // No: Process the init
       // Get the server config

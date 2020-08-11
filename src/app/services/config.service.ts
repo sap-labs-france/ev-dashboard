@@ -19,8 +19,9 @@ import UserConfiguration from '../types/configuration/UserConfiguration';
 @Injectable()
 export class ConfigService {
   private config!: Configuration;
+  private http: HttpClient;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.load();
   }
 

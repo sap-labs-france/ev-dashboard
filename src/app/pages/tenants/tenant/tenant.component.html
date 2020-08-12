@@ -37,9 +37,9 @@
                 <div class="tab-pane active" id="profile">
                   <div class="row">
                     <div class="col-md-2">
-                      <div class="rotating-card-container app-organization-image-border"
+                      <div class="rotating-card-container app-tenant-image-border"
                            [ngStyle]="{ 'pointer-events': 'all' }">
-                        <div class="card card-rotate card-background app-company-image mt-0">
+                        <div class="card card-rotate card-background app-tenant-image mt-0">
                           <div class="front front-background"
                                [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                             <div class="card-body">
@@ -100,7 +100,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <app-address [address]="address" [formGroup]="formGroup" componentName="{{'companies.company' | translate}}" [itemComponentName]="name.value"></app-address>
+                      <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}" [itemComponentName]="name.value"></app-address>
                     </div>
                   </div>
                   <div class="clearfix"></div>

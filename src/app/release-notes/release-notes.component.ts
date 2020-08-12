@@ -24,12 +24,25 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.27',
-        date: new Date('2020-08-06'),
+        version: '2.3.29',
+        date: new Date('2020-08-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Put back the price in the OCPI CDR even if the pricing is not active`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.28',
+        date: new Date('2020-08-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Get all consumptions to build the CDR sent to the Roaming platform (Gireve)`,
               `Removed the price when the CDR is sent to the Roaming platform (Gireve)`,
               `Fixed the Site Admin userscannot read their Charging Plan`,
               `Smart Charging - Limit the charging schedule periods according the OCPP paramater`,

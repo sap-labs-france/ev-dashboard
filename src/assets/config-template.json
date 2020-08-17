@@ -48,5 +48,8 @@
   "Advanced": {
     "debounceTimeNotifMillis": 50,
     "debounceTimeSearchMillis": 500
+  },
+  "Debug": {
+    "enabled": true
   }
 }

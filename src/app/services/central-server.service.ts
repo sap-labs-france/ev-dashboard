@@ -2842,7 +2842,7 @@ export class CentralServerService {
   }
 
   private checkInit(): void {
-    // initialized?
+    // Initialized?
     if (!this.initialized) {
       // No: Process the init
       // Get the server config

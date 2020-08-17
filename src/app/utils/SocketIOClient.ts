@@ -51,7 +51,6 @@ export default class SocketIOClient {
     this.socketIO.on('reconnect_attempt', () => {
       this.socketIO.io.opts.transports = ['polling', 'websocket'];
     });
-    // Temporary debug log
     this.socketIO.on('connect_timeout', (timeout) => { Utils.consoleDebugLog(`SocketIO client connection timeout: ${timeout}`); });
     this.socketIO.on('connect_error', (error) => { Utils.consoleDebugLog(`SocketIO client connect error: ${error}`); });
     this.socketIO.on('reconnecting', (attempt) => { Utils.consoleDebugLog(`SocketIO client #${attempt} try to reconnect`); });

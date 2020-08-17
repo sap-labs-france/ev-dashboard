@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.29',
+        date: new Date('2020-08-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Put back the price in the OCPI CDR even if the pricing is not active`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.28',
         date: new Date('2020-08-09'),
         componentChanges: [

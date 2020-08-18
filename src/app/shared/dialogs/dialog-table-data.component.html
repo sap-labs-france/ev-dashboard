@@ -10,14 +10,11 @@
       </ul>
     </div>
   </div>
-
   <div class="card-body">
     <app-table [dataSource]="dialogDataSource"></app-table>
   </div>
-
   <div class="card-footer mat-dialog-actions">
     <span class="toolbar-spacer"></span>
-
     <button mat-raised-button color="primary" (click)="validate()" [disabled]="dialogDataSource.selectedRows === 0">
       {{buttonTitle | translate}}
     </button>

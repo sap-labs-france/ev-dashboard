@@ -36,6 +36,7 @@ export class SettingsOcpiComponent implements OnInit {
   public logoType!: AbstractControl;
   public logoWidth!: AbstractControl;
   public logoHeight!: AbstractControl;
+  public currency!: AbstractControl;
 
   public ocpiSettings!: RoamingSettings;
 
@@ -114,6 +115,12 @@ export class SettingsOcpiComponent implements OnInit {
               Validators.minLength(3),
             ])),
         }),
+        currency: new FormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(3),
+          ]),
+        ),
       });
       // CPO identifier
       this.cpoCountryCode = (this.formGroup.controls['cpo'] as FormGroup).controls['countryCode'];
@@ -131,6 +138,7 @@ export class SettingsOcpiComponent implements OnInit {
       this.logoType = this.logoGroup.controls['type'];
       this.logoWidth = this.logoGroup.controls['width'];
       this.logoHeight = this.logoGroup.controls['height'];
+      this.currency = this.formGroup.controls['currency'];
       // Load the conf
       this.loadConfiguration();
     }
@@ -152,6 +160,8 @@ export class SettingsOcpiComponent implements OnInit {
         this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
         this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
       }
+      // Currency
+      this.currency.setValue(settings.ocpi.currency);
       const businessDetails = settings.ocpi.businessDetails;
       if (businessDetails) {
         this.name.setValue(businessDetails.name);

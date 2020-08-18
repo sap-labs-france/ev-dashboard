@@ -68,6 +68,7 @@ export interface RoamingSettings extends Setting {
 }
 
 export interface OcpiSetting {
+  currency: string;
   businessDetails: {
     name: string;
     website: string;

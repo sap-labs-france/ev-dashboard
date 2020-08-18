@@ -10,4 +10,5 @@ export interface Tag extends Data {
   transactionsCount?: number;
   lastChangedBy?: Partial<User>;
   lastChangedOn?: Date;
+  user?: User;
 }

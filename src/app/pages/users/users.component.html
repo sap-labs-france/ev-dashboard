@@ -9,6 +9,15 @@
         <app-users-list></app-users-list>
       </ng-template>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>nfc</mat-icon>
+        <span>{{'users.tabs.tags' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-tags-list></app-tags-list>
+      </ng-template>
+    </mat-tab>
     <mat-tab *ngIf="isAdmin">
       <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon><span>{{'users.tabs.in_error' | translate}}</span>

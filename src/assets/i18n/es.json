@@ -1047,7 +1047,8 @@
     "id": "ID",
     "tabs": {
       "list": "Usuarios",
-      "in_error": "Con errores"
+      "in_error": "Con errores",
+      "tags": "Insignia"
     },
     "number_of_sites": "No. de sitios",
     "number_of_transactions": "No. de sesiones",
@@ -1129,7 +1130,6 @@
     "changed_by_other_user": "El usuario '{{userFullName}}' ha sido modificado por otro usuario y volverá a cargarse",
     "update_error": "Se produjo un error al actualizar el usuario",
     "user_do_not_exist": "El usuario ya no existe",
-    "user_tag_id_already_used": "Una de las insignias ya está asignada a otro usuario",
     "title": "Usuario",
     "picture_size_error": "Se ha excedido el límite de tamaño de la imagen, el límite está por debajo de {{maxPictureKb}} Kb",
     "create_success": "El usuario {{userFullName}} se ha creado exitosamente",
@@ -1219,7 +1219,22 @@
     "activate_title": "Activación de insignia",
     "activate_confirm": "¿Está seguro que desea activar la insignia '{{tagID}}'? Una vez activada, esta insignia podrá utilizarse para comenzar sesiones.",
     "deactivate_title": "Desactivación de insignia",
-    "deactivate_confirm": "¿Está seguro que desea desactivar la insignia '{{tagID}}'? Una vez desactivada, esta insignia ya no podrá utilizarse para iniciar sesiones."
+    "deactivate_confirm": "¿Está seguro que desea desactivar la insignia '{{tagID}}'? Una vez desactivada, esta insignia ya no podrá utilizarse para iniciar sesiones.",
+    "deactivate_success": "The tag has been deactivated successfully",
+    "deactivate_error": "Error occurred while deactivating the tag",
+    "activate_success": "The tag has been activated successfully",
+    "activate_error": "Error occurred while activating the tag",
+    "delete_confirm": "Do you really want to delete the tag '{{id}}'?",
+    "delete_title": "Delete Tag",
+    "delete_success": "The tag '{{id}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the tag",
+    "create_success": "The badge '{{tagID}}' has been created successfully",
+    "create_error": "Error occurred while creating the badge",
+    "update_success": "The badge '{{tagID}}' has been updated successfully",
+    "update_error": "Error occurred while updating the badge",
+    "tag_error": "Error occurred while retrieving the tag",
+    "tag_not_found": "Badge has not been found",
+    "user_tag_id_already_used": "El insignia ya está asignada a otro usuario"
   },
   "tenants": {
     "title": "Organización",

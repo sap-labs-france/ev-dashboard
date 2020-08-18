@@ -1,0 +1,69 @@
+<div class="main-content">
+  <div class="card card-profile card-testimonial">
+    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>portrait</mat-icon>
+          <span>Badges</span>
+        </ng-template>
+        <div class="card-body">
+          <div class="row align-items-start">
+            <div class="col-md-7">
+              <div class="form-group">
+                <mat-form-field>
+                  <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" class="app-organization-name"
+                    type="text" [formControl]="id">
+                  <mat-error *ngIf="id.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                  <mat-error *ngIf="id.errors?.pattern">{{"users.invalid_tag_id" | translate}}</mat-error>
+                  <mat-error *ngIf="id.errors?.maxlength">
+                    <div [translate]="'general.error_max_length'" [translateParams]="{length: 20}"></div>
+                  </mat-error>
+                  <mat-error *ngIf="id.errors?.minlength">
+                    <div [translate]="'general.error_min_length'" [translateParams]="{length: 8}"></div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field>
+                  <input appAutofocus matInput placeholder="{{'general.description' | translate}}"
+                    class="app-organization-name" type="text" [formControl]="description">
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
+                    class="form-field-popup" (click)="assignUser()" [formControl]="user"/>
+                  <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignUser()">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <mat-error *ngIf="user.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <div class="text-left">
+                  <mat-checkbox [formControl]="issuer">
+                    {{'tags.issuer' | translate}}
+                  </mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="tabs-actions">
+      <button mat-button (click)="saveTag(formGroup.getRawValue())" [disabled]="!formGroup.valid || !formGroup.dirty">
+        <mat-icon>save</mat-icon>
+        <span>{{'general.save' | translate}}</span>
+      </button>
+      <button mat-icon-button *ngIf="inDialog" (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

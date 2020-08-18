@@ -1047,7 +1047,8 @@
     "id": "Id",
     "tabs": {
       "list": "Users",
-      "in_error": "In Error"
+      "in_error": "In Error",
+      "tags": "Badges"
     },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
@@ -1129,7 +1130,6 @@
     "changed_by_other_user": "The user '{{userFullName}}' has been changed by another user and will be reloaded",
     "update_error": "Error occurred while updating the user",
     "user_do_not_exist": "User does not exist",
-    "user_tag_id_already_used": "One of the badge is already assigned to another user",
     "title": "User",
     "picture_size_error": "The picture size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "create_success": "The user {{userFullName}} has been created successfully",
@@ -1219,7 +1219,22 @@
     "activate_title": "Badge activation",
     "activate_confirm": "Do you really want to activate the badge '{{tagID}}'? Once activated, this badge will be usable to start sessions.",
     "deactivate_title": "Badge deactivation",
-    "deactivate_confirm": "Do you really want to deactivate the badge '{{tagID}}'? Once deactivated, this badge will no longer be usable to start sessions."
+    "deactivate_confirm": "Do you really want to deactivate the badge '{{tagID}}'? Once deactivated, this badge will no longer be usable to start sessions.",
+    "deactivate_success": "The badge '{{tagID}}' has been deactivated successfully",
+    "deactivate_error": "Error occurred while deactivating the badge",
+    "activate_success": "The badge '{{tagID}}' has been activated successfully",
+    "activate_error": "Error occurred while activating the badge",
+    "delete_confirm": "Do you really want to delete the badge '{{tagID}}'?",
+    "delete_title": "Delete badge",
+    "delete_success": "The badge '{{tagID}}' has been deleted successfully",
+    "delete_error": "Error occurred while deleting the badge",
+    "create_success": "The badge '{{tagID}}' has been created successfully",
+    "create_error": "Error occurred while creating the badge",
+    "update_success": "The badge '{{tagID}}' has been updated successfully",
+    "update_error": "Error occurred while updating the badge",
+    "tag_error": "Error occurred while retrieving the badge",
+    "tag_not_found": "Badge has not been found",
+    "user_tag_id_already_used": "The badge is already assigned to another user"
   },
   "tenants": {
     "title": "Organization",

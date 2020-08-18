@@ -1047,7 +1047,8 @@
     "id": "Id",
     "tabs": {
       "list": "Utilisateurs",
-      "in_error": "En Erreur"
+      "in_error": "En Erreur",
+      "tags": "Badges"
     },
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessions",
@@ -1129,7 +1130,6 @@
     "changed_by_other_user": "L'utilisateur '{{userFullName}}' a été changé par un autre utilisateur et va être rechargé",
     "update_error": "Une erreur est survenue pendant la mise à jour de l'utilisateur",
     "user_do_not_exist": "L'utilisateur n'existe plus",
-    "user_tag_id_already_used": "Un des badges est déjà assigné à un autre utilisateur",
     "title": "Utilisateur",
     "picture_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "create_success": "L'utilisateur {{userFullName}} a été créé avec succès",
@@ -1219,7 +1219,22 @@
     "activate_title": "Badge activation",
     "activate_confirm": "Voulez-vous vraiment activer le badge '{{tagID}}'? Lorsqu'il sera activé, ce badge pourra servir pour démarrer une session.",
     "deactivate_title": "Badge désactivation",
-    "deactivate_confirm": "Voulez-vous vraiment désactiver le badge '{{tagID}}'? Lorsqu'il sera désactivé, ce badge ne pourra pas servir pour démarrer une session."
+    "deactivate_confirm": "Voulez-vous vraiment désactiver le badge '{{tagID}}'? Lorsqu'il sera désactivé, ce badge ne pourra pas servir pour démarrer une session.",
+    "deactivate_success": "Le badge '{{tagID}}' a été desactivé avec succès",
+    "deactivate_error": "Une erreur est survenue pendant la désactivation du badge",
+    "activate_success": "Le badge '{{tagID}}' a été activé avec succès",
+    "activate_error": "Une erreur est survenue pendant l'activation du badge",
+    "delete_confirm": "Voulez-vous vraiment supprimer le badge '{{tagID}}' ?",
+    "delete_title": "Supprimer le badge",
+    "delete_success": "Le badge '{{tagID}}' a été supprimée avec succès",
+    "delete_error": "Une erreur est survenue pendant la suppression du badge",
+    "create_success": "Le badge '{{tagID}}' a été créée avec succès",
+    "create_error": "Une erreur est survenue pendant la création du badge",
+    "update_error": "Une erreur est survenue pendant la mise à jour du badge",
+    "update_success": "Le badge '{{tagID}}' a été mis à jour avec succès",
+    "tag_error": "Une erreur est survenue pendant la récupération du badge",
+    "tag_not_found": "Le badge n'a pas été trouvé",
+    "user_tag_id_already_used": "Le badge est déjà assigné à un autre utilisateur",
   },
   "tenants": {
     "title": "Organisation",

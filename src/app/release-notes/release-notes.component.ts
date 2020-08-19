@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.29',
-        date: new Date('2020-08-11'),
+        version: '2.3.30',
+        date: new Date('2020-08-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Convert the total parking time in hours in the OCPI CDR`,
               `Put back the price in the OCPI CDR even if the pricing is not active`,
             ],
           },

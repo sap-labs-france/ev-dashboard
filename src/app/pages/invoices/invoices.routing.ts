@@ -14,5 +14,5 @@ export const InvoicesRoutes: Routes = [
         action: Action.LIST,
       },
     },
-  },
+  }
 ];

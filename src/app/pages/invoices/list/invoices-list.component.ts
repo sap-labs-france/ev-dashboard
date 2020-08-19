@@ -33,8 +33,6 @@ export class InvoicesListComponent implements OnInit {
       }, (error) => {
         this.spinnerService.hide();
       });
-    } else {
-      console.log('no');
     }
   }
 }

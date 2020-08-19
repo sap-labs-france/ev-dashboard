@@ -144,15 +144,6 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="isAdmin">
-          <ng-template mat-tab-label>
-            <mat-icon>nfc</mat-icon>
-            <span>{{'users.tags' | translate}}</span>
-          </ng-template>
-          <div class="card-body tab-dialog-min-content">
-            <app-table [dataSource]="userTagsEditableTableDataSource"></app-table>
-          </div>
-        </mat-tab>
         <mat-tab *ngIf="isSuperAdmin">
           <ng-template mat-tab-label>
             <mat-icon>email</mat-icon>

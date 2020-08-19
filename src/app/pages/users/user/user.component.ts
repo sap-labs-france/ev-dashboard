@@ -30,13 +30,11 @@ import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { UserRoles, userStatuses } from '../model/users.model';
-import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
-  providers: [UserTagsEditableTableDataSource],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -64,7 +62,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public phone!: AbstractControl;
   public mobile!: AbstractControl;
   public iNumber!: AbstractControl;
-  public tags!: FormArray;
   public plateID!: AbstractControl;
   public costCenter!: AbstractControl;
   public status!: AbstractControl;
@@ -102,7 +99,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   private currentLocale!: string;
 
   constructor(
-    public userTagsEditableTableDataSource: UserTagsEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -116,7 +112,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'tags', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
     this.maxSize = this.configService.getUser().maxPictureKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -203,7 +199,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Users.validatePhone,
         ])),
       iNumber: new FormControl(''),
-      tags: new FormArray([]),
       plateID: new FormControl('',
         Validators.compose([
           Validators.pattern('^[A-Z0-9-]*$'),
@@ -248,7 +243,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.phone = this.formGroup.controls['phone'];
     this.mobile = this.formGroup.controls['mobile'];
     this.iNumber = this.formGroup.controls['iNumber'];
-    this.tags = this.formGroup.controls['tags'] as FormArray;
     this.plateID = this.formGroup.controls['plateID'];
     this.costCenter = this.formGroup.controls['costCenter'];
     this.status = this.formGroup.controls['status'];
@@ -276,9 +270,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
-    if (this.isAdmin) {
-      this.userTagsEditableTableDataSource.setFormArray(this.tags);
-    }
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -353,9 +344,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       }
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
-      }
-      if (user.tags) {
-        this.userTagsEditableTableDataSource.setContent(user.tags);
       }
       if (Utils.objectHasProperty(user, 'notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
@@ -705,10 +693,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         case 510:
           this.messageService.showErrorMessage('authentication.email_already_exists');
           break;
-        // User Tag ID is already used
-        case 540:
-          this.messageService.showErrorMessage('users.user_tag_id_already_used');
-          break;
         // User deleted
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
           this.messageService.showErrorMessage('users.user_do_not_exist');
@@ -749,10 +733,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         // Email already exists
         case 510:
           this.messageService.showErrorMessage('authentication.email_already_exists');
-          break;
-        // User Tag ID is already used
-        case 540:
-          this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:

@@ -19,7 +19,6 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
-import { TagIssuerFormatterComponent } from '../formatters/tag-issuer-formatter.component';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 import { TableActivateTagAction } from '../table-actions/table-activate-tag-action';
 import { TableCreateTagAction } from '../table-actions/table-create-tag-action';
@@ -114,11 +113,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       {
         id: 'issuer',
         name: 'issuer.title',
-        isAngularComponent: true,
-        angularComponent: TagIssuerFormatterComponent,
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
+        formatter: (issuer) => issuer ? this.translateService.instant('issuer.local') :
+          this.translateService.instant('issuer.foreign'),
       },
       {
         id: 'transactionsCount',
@@ -141,15 +140,17 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
     const actions = [];
-    if (tag.active) {
-      actions.push(this.deactivateAction);
-    } else {
-      actions.push(this.activateAction);
+    if (tag.issuer) {
+      if (tag.active) {
+        actions.push(this.deactivateAction);
+      } else {
+        actions.push(this.activateAction);
+      }
+      if (!tag.transactionsCount) {
+        actions.push(this.deleteAction);
+      }
+      actions.push(this.editAction);
     }
-    if (!tag.transactionsCount) {
-      actions.push(this.deleteAction);
-    }
-    actions.push(this.editAction);
     return actions;
   }
 

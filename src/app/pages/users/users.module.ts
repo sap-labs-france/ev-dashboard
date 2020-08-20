@@ -12,7 +12,6 @@ import { CommonDirectivesModule } from '../../shared/directives/directives.modul
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
 import { UserConnectionComponent } from './connections/user-connection.component';
-import { AppFormatTagIssuerPipe, TagIssuerFormatterComponent } from './formatters/tag-issuer-formatter.component';
 import { AppFormatTagStatusPipe, TagStatusFormatterComponent } from './formatters/tag-status-formatter.component';
 import { AppUserRolePipe } from './formatters/user-role.pipe';
 import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
@@ -48,9 +47,7 @@ import { UserRoutes } from './users.routing';
   declarations: [
     UserStatusFormatterComponent,
     TagStatusFormatterComponent,
-    TagIssuerFormatterComponent,
     AppFormatUserStatusPipe,
-    AppFormatTagIssuerPipe,
     AppFormatTagStatusPipe,
     UsersListComponent,
     TagsListComponent,
@@ -70,7 +67,6 @@ import { UserRoutes } from './users.routing';
   entryComponents: [
     UserStatusFormatterComponent,
     TagStatusFormatterComponent,
-    TagIssuerFormatterComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,

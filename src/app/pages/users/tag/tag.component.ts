@@ -26,7 +26,6 @@ export class TagComponent implements OnInit {
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
-  public issuer!: AbstractControl;
   public user!: AbstractControl;
   public userID!: AbstractControl;
   public active!: AbstractControl;
@@ -52,9 +51,6 @@ export class TagComponent implements OnInit {
           Validators.maxLength(20),
           Validators.pattern('^[a-zA-Z0-9]*$'),
         ])),
-      issuer: new FormControl('',
-        Validators.compose([
-        ])),
       user: new FormControl('',
         Validators.compose([
           Validators.required,
@@ -73,7 +69,6 @@ export class TagComponent implements OnInit {
     // Form
     this.id = this.formGroup.controls['id'];
     this.description = this.formGroup.controls['description'];
-    this.issuer = this.formGroup.controls['issuer'];
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
     this.active = this.formGroup.controls['active'];
@@ -113,7 +108,6 @@ export class TagComponent implements OnInit {
         this.id.setValue(tag.id);
         this.userID.setValue(tag.user.id);
         this.description.setValue(tag.description);
-        this.issuer.setValue(tag.issuer);
         this.active.setValue(tag.active);
         this.user.setValue(Utils.buildUserFullName(tag.user));
         this.id.disable();

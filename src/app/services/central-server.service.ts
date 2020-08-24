@@ -2441,25 +2441,15 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    let body = '';
-    if (chargerParameter.type) {
-      body = `{
-        "chargeBoxID": "${id}",
-        "args": {
-          "key": "${chargerParameter.key}",
-          "value": "${chargerParameter.value}",
-          "type": "${chargerParameter.type}"
-        }
-      }`;
-    } else {
-      body = `{
-        "chargeBoxID": "${id}",
-        "args": {
-          "key": "${chargerParameter.key}",
-          "value": "${chargerParameter.value}"
-        }
-      }`;
-    }
+    const isCustom = chargerParameter.isCustom ? chargerParameter.isCustom : false;
+    const body = `{
+      "chargeBoxID": "${id}",
+      "args": {
+        "key": "${chargerParameter.key}",
+        "value": "${chargerParameter.value}",
+        "isCustom": "${chargerParameter.isCustom}"
+      }
+    }`;
     // Execute
     return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_CHANGE_CONFIGURATION}`, body,
       {

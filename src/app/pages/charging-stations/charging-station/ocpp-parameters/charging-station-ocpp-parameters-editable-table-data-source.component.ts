@@ -1,19 +1,19 @@
+import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from 'app/services/authorization.service';
+import { CentralServerService } from 'app/services/central-server.service';
+import { MessageService } from 'app/services/message.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 import { DialogService } from '../../../../services/dialog.service';
-import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { Injectable } from '@angular/core';
-import { MessageService } from 'app/services/message.service';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { TableExportOCPPParamsLocalAction } from '../../table-actions/table-export-ocpp-params-local-action';
 import { TableSaveOCPPParameterAction } from '../../table-actions/table-save-ocpp-parameter-action';
-import { TranslateService } from '@ngx-translate/core';
-import { Validators } from '@angular/forms';
+import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
 export class ChargingStationOcppParametersEditableTableDataSource extends EditableTableDataSource<OcppParameter> {
@@ -143,7 +143,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     const customOcppParameterRow = this.createRow();
     customOcppParameterRow.id = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
     customOcppParameterRow.readonly = false;
-    customOcppParameterRow.type = 'C';
+    customOcppParameterRow.isCustom = true;
     // Set
     super.setContent([
       customOcppParameterRow,

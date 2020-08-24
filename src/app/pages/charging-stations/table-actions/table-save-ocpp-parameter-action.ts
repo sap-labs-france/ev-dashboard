@@ -36,8 +36,8 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
         if (result === ButtonType.YES) {
           spinnerService.show();
           const params: KeyValue = { key: param.key, value: param.value, readonly: param.readonly };
-          if (param.type) {
-            params.type = param.type;
+          if (param.isCustom) {
+            params.isCustom = param.isCustom;
           }
           centralServerService.updateChargingStationOCPPConfiguration(charger.id, params).subscribe((response) => {
             spinnerService.hide();

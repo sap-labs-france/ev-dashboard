@@ -24,7 +24,33 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.31',
+        date: new Date('2020-08-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Total consumption renamed for SAP Analytics`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.30',
+        date: new Date('2020-08-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle multiple OCPI Authorizations with the same Badge ID`,
+              `Convert the total parking time in hours in the OCPI CDR`,
+              `Put back the price in the OCPI CDR even if the pricing is not active`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.31',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

@@ -969,6 +969,7 @@
     "amper": "Amperio",
     "voltage": "Voltaje (V)",
     "amperage": "Amperaje total (A)",
+    "amperagePerPhase": "Amperage per phase (A)",
     "session_details": "Sesión",
     "tabs": {
       "list": "Estaciones de carga",

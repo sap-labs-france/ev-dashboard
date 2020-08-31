@@ -969,6 +969,7 @@
     "amper": "Ampere",
     "voltage": "Phase/Neutral Voltage (V)",
     "amperage": "Total Amperage (A)",
+    "amperagePerPhase": "Amperage per phase (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Charging Stations",

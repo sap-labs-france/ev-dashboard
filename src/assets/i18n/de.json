@@ -969,6 +969,7 @@
     "amper": "Amper",
     "voltage": "Spannung zum Neutralleiter (V)",
     "amperage": "Gesamttromstärke (A)",
+    "amperagePerPhase": "Stromstärke pro Phase (A)",
     "session_details": "Ladevorgang",
     "tabs": {
       "list": "Ladestationen",

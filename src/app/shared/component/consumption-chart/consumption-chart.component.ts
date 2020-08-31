@@ -18,7 +18,6 @@ import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
   selector: 'app-transaction-chart',
   templateUrl: 'consumption-chart.component.html',
 })
-
 export class ConsumptionChartComponent implements AfterViewInit {
   @Input() public transactionId!: number;
   @Input() public transaction!: Transaction;

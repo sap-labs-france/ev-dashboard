@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Atess Charging Station vendor in templates`,
               `Add a new field Amps per phase in Edit Charging Station`,
+              `Added Date/Time range picker control in Statistics`,
               `Updated German and Spanish translations`,
             ],
           },

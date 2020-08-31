@@ -48,7 +48,7 @@
                 </button>
             </div>
 
-        <!-- Refresh -->
+            <!-- Refresh -->
             <button mat-raised-button
                     class="button-refresh" (click)="refresh()"
                     [color]="'primary'" appTooltip [title]="'general.refresh' | translate">
@@ -136,6 +136,20 @@
                         (dateChange)="dateFilterChanged(filterDef, $event)" [matDatetimepicker]="picker"
                         [value]="filterDef.currentValue" autocomplete="false">
             </mat-form-field>
+
+            <mat-form-field *ngIf="filterDef.type === 'date-range'">
+              <input
+                  matInput
+                  ngxDaterangepickerMd
+                  [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+                  [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
+                  [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour"
+                  [(ngModel)]="filterDef.currentValue"
+                  [locale]="filterDef.dateRangeTableFilterDef.locale"
+                  (change)="dateRangeChange(filterDef,$event)"
+              />
+              <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRange()">date_range</mat-icon>
+          </mat-form-field>
         </div>
     </div>
 </div>

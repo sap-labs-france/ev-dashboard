@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.33',
+        date: new Date('2020-08-31'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Atess Charging Station vendor in templates`,
+              `Updated German and Spanish translations`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.32',
         date: new Date('2020-08-27'),
         componentChanges: [
@@ -54,7 +67,7 @@ export class ReleaseNotesComponent {
         ],
       },
       {
-        version: '2.3.32',
+        version: '2.3.33',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

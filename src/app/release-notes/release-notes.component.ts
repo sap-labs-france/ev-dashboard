@@ -24,12 +24,31 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.31',
-        date: new Date('2020-08-24'),
+        version: '2.3.33',
+        date: new Date('2020-08-31'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Atess Charging Station vendor in templates`,
+              `Add a new field Amps per phase in Edit Charging Station`,
+              `Added Date/Time range picker control in Statistics`,
+              `Updated German and Spanish translations`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.32',
+        date: new Date('2020-08-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Push the OCPI CDR when the user unplug the connector with the extra parking time`,
+              `Add an additional inactivity consumption when the connector's status changes from Finishing to Available (session stopped by the Charging Station)`,
+              `Created a migration task to add an additional inactivity consumption to the existing sessions`,
+              `Handling of extra inactivity consumptions in the Sessions/OCPP Unit Tests`,
               `Total consumption renamed for SAP Analytics`,
             ],
           },
@@ -50,7 +69,7 @@ export class ReleaseNotesComponent {
         ],
       },
       {
-        version: '2.3.31',
+        version: '2.3.33',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

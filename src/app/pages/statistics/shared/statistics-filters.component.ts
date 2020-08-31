@@ -38,7 +38,7 @@ export class StatisticsFiltersComponent implements OnInit {
   public sacLinksActive = false;
   public initDateRange = false;
   public dateRangeValue: any;
-  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent
+  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
 
   @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
   @Output() public category = new EventEmitter();
@@ -47,7 +47,7 @@ export class StatisticsFiltersComponent implements OnInit {
   @Output() public dateTo = new EventEmitter();
   @Output() public dateRange = new EventEmitter();
 
-  @Input() public allYears?= false;
+  @Input() public allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
     { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },

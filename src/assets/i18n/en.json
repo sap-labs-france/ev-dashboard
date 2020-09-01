@@ -329,6 +329,7 @@
     "refresh_error": "Error occurred while refreshing the asset connection",
     "logo_size_error": "The image size limit exceeded, limit is below {{maxPictureKb}} Kb",
     "select_assets": "Select Asset",
+    "consumption_date": "Date",
     "dialog_tabs": {
       "connection": "Connection"
     },
@@ -1634,6 +1635,11 @@
     "tabs": {
       "assets": "Assets",
       "in_error": "In Error"
+    },
+    "graph": {
+      "power": "Instant Power (kW)",
+      "limit_watts": "Grid Limit (kW)",
+      "no_consumption": "No consumption data available"
     }
   },
   "cars": {

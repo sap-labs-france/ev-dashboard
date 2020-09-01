@@ -32,6 +32,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public power!: AbstractControl;
   public voltage!: AbstractControl;
   public amperage!: AbstractControl;
+  public amperagePerPhase!: AbstractControl;
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
 
@@ -67,6 +68,13 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           this.amperagePhaseValidator.bind(this),
         ])
       ),
+      amperagePerPhase: new FormControl(0,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      ),
       numberOfConnectedPhase: new FormControl(3,
         Validators.compose([
           Validators.required,
@@ -81,15 +89,17 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.power = this.formConnectorGroup.controls['power'];
     this.voltage = this.formConnectorGroup.controls['voltage'];
     this.amperage = this.formConnectorGroup.controls['amperage'];
+    this.amperagePerPhase = this.formConnectorGroup.controls['amperagePerPhase'];
     this.currentType = this.formConnectorGroup.controls['currentType'];
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
     if (!this.isAdmin) {
       this.type.disable();
       this.voltage.disable();
-      this.amperage.disable();
+      this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
     }
     this.power.disable();
+    this.amperage.disable();
     this.loadConnector();
   }
 
@@ -112,6 +122,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         Utils.getChargingStationCurrentType(this.chargingStation, this.chargePoint, this.connector.connectorId));
       this.numberOfConnectedPhase.setValue(
         Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
+      this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
       if (this.chargePoint) {
         this.formConnectorsArray.disable();
       } else {
@@ -141,11 +152,22 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     }
   }
 
+  public refreshTotalAmperage() {
+    if ((this.amperagePerPhase.value as number) > 0) {
+        this.amperage.setValue((this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number));
+    } else {
+      this.amperage.setValue(0);
+    }
+    this.connectorChanged.emit();
+  }
+
   public currentTypeChanged() {
     this.refreshNumberOfPhases();
+    this.refreshTotalAmperage();
   }
 
   public amperageChanged() {
+    this.refreshTotalAmperage();
     this.refreshPower();
   }
 
@@ -154,6 +176,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   }
 
   public numberOfConnectedPhaseChanged() {
+    this.refreshTotalAmperage();
     this.amperage.updateValueAndValidity();
   }
 

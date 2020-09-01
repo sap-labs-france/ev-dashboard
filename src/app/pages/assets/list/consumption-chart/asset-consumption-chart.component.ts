@@ -142,7 +142,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private createGraphData() {
-    if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
+    if (this.data.datasets && this.options?.scales?.yAxes) {
       const datasets: ChartDataSets[] = [];
       // Instant Amps/Power
       datasets.push({

@@ -25,11 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.3.33',
-        date: new Date('2020-08-31'),
+        date: new Date('2020-09-01'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Display Asset dynamic consumption`,
+              `Don't take into accouont Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
+              `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,
               `Added Atess Charging Station vendor in templates`,
               `Add a new field Amps per phase in Edit Charging Station`,
               `Added Date/Time range picker control in Statistics`,

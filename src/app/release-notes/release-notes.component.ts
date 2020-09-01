@@ -24,6 +24,83 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.33',
+        date: new Date('2020-08-31'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Atess Charging Station vendor in templates`,
+              `Add a new field Amps per phase in Edit Charging Station`,
+              `Added Date/Time range picker control in Statistics`,
+              `Updated German and Spanish translations`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.32',
+        date: new Date('2020-08-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Push the OCPI CDR when the user unplug the connector with the extra parking time`,
+              `Add an additional inactivity consumption when the connector's status changes from Finishing to Available (session stopped by the Charging Station)`,
+              `Created a migration task to add an additional inactivity consumption to the existing sessions`,
+              `Handling of extra inactivity consumptions in the Sessions/OCPP Unit Tests`,
+              `Total consumption renamed for SAP Analytics`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.30',
+        date: new Date('2020-08-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle multiple OCPI Authorizations with the same Badge ID`,
+              `Convert the total parking time in hours in the OCPI CDR`,
+              `Put back the price in the OCPI CDR even if the pricing is not active`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.33',
+        date: new Date('2020-08-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle multiple OCPI Authorizations with the same Badge ID`,
+              `Convert the total parking time in hours in the OCPI CDR`,
+              `Put back the price in the OCPI CDR even if the pricing is not active`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.28',
+        date: new Date('2020-08-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Get all consumptions to build the CDR sent to the Roaming platform (Gireve)`,
+              `Removed the price when the CDR is sent to the Roaming platform (Gireve)`,
+              `Fixed the Site Admin userscannot read their Charging Plan`,
+              `Smart Charging - Limit the charging schedule periods according the OCPP paramater`,
+              `Added the Price Unit in the OCPI Settings when the price is managed by the IOP platform (Gireve)`,
+              `Log the URL connection of the Charging Station trying to connect to our backend`,
+              `Security: Log all HTTP requests`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.25',
         date: new Date('2020-08-01'),
         componentChanges: [

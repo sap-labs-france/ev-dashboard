@@ -89,6 +89,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       },
       rowDetails: {
         enabled: true,
+        showDetailsField: 'dynamicAsset',
         angularComponent: AssetConsumptionChartDetailComponent,
       },
       hasDynamicRowAction: true,

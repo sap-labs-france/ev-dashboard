@@ -329,6 +329,7 @@
     "refresh_error": "Error occurred while refreshing the asset connection",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist {{maxPictureKb}} Kb",
     "select_assets": "Asset auswählen",
+    "consumption_date": "Datum",
     "dialog_tabs": {
       "connection": "Verbindung"
     },
@@ -1634,6 +1635,11 @@
     "tabs": {
       "assets": "Assets",
       "in_error": "Fehlerhaft"
+    },
+    "graph": {
+      "power": "Aktuelle Leistung (kW)",
+      "limit_watts": "Netz-Limit (kW)",
+      "no_consumption": "Keine Verbrauchsdaten verfügbar"
     }
   },
   "cars": {

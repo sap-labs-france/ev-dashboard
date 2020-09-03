@@ -21,6 +21,9 @@
   "Car": {
     "url": "https://ev-database.org/"
   },
+  "Tenant": {
+    "maxLogoKb": 150
+	},
   "Company": {
     "maxLogoKb": 100
   },

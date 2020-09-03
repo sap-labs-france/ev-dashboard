@@ -18,10 +18,10 @@
     "maxPictureKb": 150,
     "captchaSiteKey": ""
   },
-  "Company": {
-    "maxPictureKb": 150
-  },
   "Tenant": {
+    "maxLogoKb": 150
+	},
+  "Company": {
     "maxPictureKb": 150
   },
   "Site": {

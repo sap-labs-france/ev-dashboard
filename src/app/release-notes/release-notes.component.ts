@@ -24,14 +24,16 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.33',
-        date: new Date('2020-09-01'),
+        version: '2.3.34',
+        date: new Date('2020-09-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Display Asset dynamic consumption`,
-              `Don't take into accouont Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
+              `Make a charging station inactive`,
+              `Do not send notification on offline charging stations that are set inactive`,
+              `Display Asset dynamic consumption/production curve`,
+              `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
               `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,
               `Added Atess Charging Station vendor in templates`,
               `Add a new field Amps per phase in Edit Charging Station`,
@@ -72,7 +74,7 @@ export class ReleaseNotesComponent {
         ],
       },
       {
-        version: '2.3.33',
+        version: '2.3.34',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

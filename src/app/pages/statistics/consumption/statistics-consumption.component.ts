@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { DateRangeTableFilter } from 'app/shared/table/filters/date-range-table-filter';
 import { FilterParams } from 'app/types/GlobalType';
 import { TableFilterDef } from 'app/types/Table';
 
@@ -25,15 +24,14 @@ export class StatisticsConsumptionComponent implements OnInit {
   public totalConsumption = 0;
   public selectedChart!: string;
   public selectedCategory!: string;
-  public selectedDateFrom!: Date;
-  public selectedDateTo!: Date;
+  public selectedDateRange!: any;
   public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('consumptionBarChart', {static: true}) public ctxBarChart!: ElementRef;
-  @ViewChild('consumptionPieChart', {static: true}) public ctxPieChart!: ElementRef;
+  @ViewChild('consumptionBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('consumptionPieChart', { static: true }) public ctxPieChart!: ElementRef;
 
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
@@ -56,11 +54,7 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
-
-    filterDef = new StartDateFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new EndDateFilter().getFilterDef();
+    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();
@@ -86,12 +80,8 @@ export class StatisticsConsumptionComponent implements OnInit {
     this.selectedCategory = category;
   }
 
-  public dateFromChange(date: Date) {
-    this.selectedDateFrom = date;
-  }
-
-  public dateToChange(date: Date) {
-    this.selectedDateTo = date;
+  public dateRangeChange(date: any) {
+    this.selectedDateRange = date;
   }
 
   public yearChanged(year: number): void {
@@ -121,33 +111,33 @@ export class StatisticsConsumptionComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.consumption_per_cs_month_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+          { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.consumption_per_user_month_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+          { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_year_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_timeFrame_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_cs_total_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_year_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_timeFrame_title',
-          {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.consumption_per_user_total_title',
-            {total: Math.round(this.totalConsumption).toLocaleString(this.language)});
+            { total: Math.round(this.totalConsumption).toLocaleString(this.language) });
         }
       }
     }
@@ -195,7 +185,6 @@ export class StatisticsConsumptionComponent implements OnInit {
 
   public buildCharts(): void {
     this.spinnerService.show();
-
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DateRangeTableFilter } from 'app/shared/table/filters/date-range-table-filter';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { FilterParams } from 'app/types/GlobalType';
@@ -25,15 +26,14 @@ export class StatisticsInactivityComponent implements OnInit {
   public totalInactivity = 0;
   public selectedChart!: string;
   public selectedCategory!: string;
-  public selectedDateFrom!: Date;
-  public selectedDateTo!: Date;
+  public selectedDateRange!: any;
   public selectedYear!: number;
   public allYears = true;
   public allFiltersDef: TableFilterDef[] = [];
   public chartsInitialized = false;
 
-  @ViewChild('inactivityBarChart', {static: true}) public ctxBarChart!: ElementRef;
-  @ViewChild('inactivityPieChart', {static: true}) public ctxPieChart!: ElementRef;
+  @ViewChild('inactivityBarChart', { static: true }) public ctxBarChart!: ElementRef;
+  @ViewChild('inactivityPieChart', { static: true }) public ctxPieChart!: ElementRef;
 
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
@@ -57,10 +57,7 @@ export class StatisticsInactivityComponent implements OnInit {
   public ngOnInit(): void {
     let filterDef: TableFilterDef;
 
-    filterDef = new StartDateFilter().getFilterDef();
-    this.allFiltersDef.push(filterDef);
-
-    filterDef = new EndDateFilter().getFilterDef();
+    filterDef = new DateRangeTableFilter(this.language).getFilterDef();
     this.allFiltersDef.push(filterDef);
 
     filterDef = new SiteTableFilter().getFilterDef();
@@ -90,12 +87,8 @@ export class StatisticsInactivityComponent implements OnInit {
     this.selectedYear = year;
   }
 
-  public dateFromChange(date: Date) {
-    this.selectedDateFrom = date;
-  }
-
-  public dateToChange(date: Date) {
-    this.selectedDateTo = date;
+  public dateRangeChange(date: any) {
+    this.selectedDateRange = date;
   }
 
   public filtersChanged(filterParams: FilterParams): void {
@@ -121,33 +114,33 @@ export class StatisticsInactivityComponent implements OnInit {
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
         mainLabel = this.translateService.instant('statistics.inactivity_per_cs_month_title',
-          {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+          { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
       } else {
         mainLabel = this.translateService.instant('statistics.inactivity_per_user_month_title',
-          {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+          { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_year_title',
-            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
         } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_timeFrame_title',
-          {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.inactivity_per_cs_total_title',
-            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
         }
       } else {
         if (this.selectedYear > 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_year_title',
-            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
         } else if (this.selectedYear < 0) {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_timeFrame_title',
-          {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
         } else {
           mainLabel = this.translateService.instant('statistics.inactivity_per_user_total_title',
-            {total: Math.round(this.totalInactivity).toLocaleString(this.language)});
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
         }
       }
     }

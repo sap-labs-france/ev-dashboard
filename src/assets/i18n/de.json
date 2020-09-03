@@ -23,7 +23,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.27",
+    "last_update": "Version 2.3.33",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -329,6 +329,7 @@
     "refresh_error": "Error occurred while refreshing the asset connection",
     "logo_size_error": "Die maximale Bildgröße wurde überschritten, die maximale Bildgröße ist {{maxPictureKb}} Kb",
     "select_assets": "Asset auswählen",
+    "consumption_date": "Datum",
     "dialog_tabs": {
       "connection": "Verbindung"
     },
@@ -969,6 +970,7 @@
     "amper": "Amper",
     "voltage": "Spannung zum Neutralleiter (V)",
     "amperage": "Gesamttromstärke (A)",
+    "amperagePerPhase": "Stromstärke pro Phase (A)",
     "session_details": "Ladevorgang",
     "tabs": {
       "list": "Ladestationen",
@@ -1633,6 +1635,11 @@
     "tabs": {
       "assets": "Assets",
       "in_error": "Fehlerhaft"
+    },
+    "graph": {
+      "power": "Aktuelle Leistung (kW)",
+      "limit_watts": "Netz-Limit (kW)",
+      "no_consumption": "Keine Verbrauchsdaten verfügbar"
     }
   },
   "cars": {

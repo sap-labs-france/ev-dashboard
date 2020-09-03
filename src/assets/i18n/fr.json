@@ -23,7 +23,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.27",
+    "last_update": "Version 2.3.33",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite",
@@ -329,6 +329,7 @@
     "refresh_error": "Une erreur est survenue pendant le rafraichissement de la ressource",
     "logo_size_error": "La taille de l'image est trop importante, la limite est de {{maxPictureKb}} Ko",
     "select_assets": "Selection Ressource",
+    "consumption_date": "Date",
     "dialog_tabs": {
       "connection": "Connexion"
     },
@@ -899,7 +900,7 @@
     "change_config_phase_error": "Impossible d'assigner une borne triphasée sur une zone monophasée",
     "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_params_success": "Le paramètre '{{paramKey}}' a bien été mis à jour dans la borne '{{chargeBoxID}}'",
-    "change_params_error": "Une erreur est survenue pendant la mise à jour du paramètre de la borne",
+    "change_params_error": "Le paramètre '{{paramKey}}' a été refusé par la borne '{{chargeBoxID}}'",
     "delete_title": "Supprimer",
     "delete_confirm": "Voulez-vous vraiment supprimer la borne '{{chargeBoxID}}'?",
     "delete_success": "La borne '{{chargeBoxID}}' a été supprimée avec succès",
@@ -970,6 +971,7 @@
     "amper": "Ampere",
     "voltage": "Tension Phase/Neutre (V)",
     "amperage": "Intensité Totale (A)",
+    "amperagePerPhase": "Amperage per phase (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",
@@ -1623,9 +1625,9 @@
       "siteareas": "Zones"
     },
     "graph": {
-      "power": "Instant Power (kW)",
-      "no_consumption": "No consumption data available",
-      "limit_watts": "Limit (kW)"
+      "power": "Puissance Instantanée (kW)",
+      "no_consumption": "Aucune donnée de consommation disponible",
+      "limit_watts": "Limite (kW)"
     }
   },
   "asset": {
@@ -1634,6 +1636,11 @@
     "tabs": {
       "assets": "Assets",
       "in_error": "En Erreur"
+    },
+    "graph": {
+      "power": "Puissance Instantanée (kW)",
+      "limit_watts": "Limitation Réseau (kW)",
+      "no_consumption": "Aucune donnée de consommation disponible"
     }
   },
   "cars": {

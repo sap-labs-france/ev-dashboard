@@ -27,6 +27,7 @@ import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-acti
 import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
 import { TableRetrieveAssetConsumptionAction } from '../table-actions/table-retrieve-asset-consumption-action';
 import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
+import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
 
 @Injectable()
 export class AssetsListTableDataSource extends TableDataSource<Asset> {
@@ -85,6 +86,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     return {
       search: {
         enabled: true,
+      },
+      rowDetails: {
+        enabled: true,
+        showDetailsField: 'dynamicAsset',
+        angularComponent: AssetConsumptionChartDetailComponent,
       },
       hasDynamicRowAction: true,
     };

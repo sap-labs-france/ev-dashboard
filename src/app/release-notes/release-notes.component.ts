@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Make a charging station inactive`,
+              `Do not send notification on offline charging stations that are set inactive`,
               `Display Asset dynamic consumption/production curve`,
               `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
               `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,

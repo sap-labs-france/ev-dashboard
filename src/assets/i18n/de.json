@@ -646,6 +646,7 @@
     "public": "Diese Ladestation ist öffentlich",
     "public_charger": "Öffentlich",
     "exclude_smart_charging": "Vom Smart-Charging ausschließen",
+    "force_inactive": "Force charger to be inactive",
     "public_url": "Öffentliche URL",
     "current_ip": "Aktuelle IP Route",
     "select_chargers": "Ladestation auswählen",

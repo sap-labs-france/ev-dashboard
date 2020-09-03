@@ -32,6 +32,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public chargingStationURL!: AbstractControl;
   public public!: AbstractControl;
   public excludeFromSmartCharging: AbstractControl;
+  public forceInactive: AbstractControl;
   public issuer!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
@@ -71,6 +72,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.formGroup.addControl('public', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
     this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
+    this.formGroup.addControl('forceInactive', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.required,
@@ -117,6 +119,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
     this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
+    this.forceInactive = this.formGroup.controls['forceInactive'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.siteArea = this.formGroup.controls['siteArea'];
@@ -157,6 +160,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       if (this.excludeFromSmartCharging) {
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
+      }
+      if (this.forceInactive) {
+        this.forceInactive.setValue(this.chargingStation.forceInactive);
       }
       if (this.chargingStation.maximumPower) {
         this.maximumPower.setValue(this.chargingStation.maximumPower);

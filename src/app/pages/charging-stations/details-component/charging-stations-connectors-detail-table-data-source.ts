@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableViewTransactionAction } from 'app/pages/transactions/table-actions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from 'app/pages/transactions/table-actions/table-view-transaction-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
@@ -238,7 +238,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           return;
         }
         if (actionDef.action) {
-          actionDef.action({
+          (actionDef as TableViewTransactionActionDef).action({
             transactionID: connector.currentTransactionID,
             chargingStationID: this.chargingStation.id,
             connectorID: connector.connectorId,

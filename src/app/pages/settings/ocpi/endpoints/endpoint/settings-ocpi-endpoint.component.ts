@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { RestResponse } from 'app/types/GlobalType';
-import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';

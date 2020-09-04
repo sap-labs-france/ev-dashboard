@@ -12,8 +12,14 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableRefundTransactionsActionDef extends TableActionDef {
+  action: (refundSetting: RefundSettings, transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    clearSelectedRows: () => void, refresh?: () => Observable<void>) => void;
+}
+
 export class TableRefundTransactionsAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableRefundTransactionsActionDef = {
     id: TransactionButtonAction.REFUND_TRANSACTIONS,
     type: 'button',
     icon: 'local_atm',
@@ -24,7 +30,7 @@ export class TableRefundTransactionsAction implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableRefundTransactionsActionDef {
     return this.action;
   }
 

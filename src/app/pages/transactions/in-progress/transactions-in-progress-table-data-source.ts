@@ -36,7 +36,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -199,7 +199,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
     }

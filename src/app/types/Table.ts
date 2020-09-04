@@ -9,7 +9,7 @@ import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
-import { OcpiButtonAction } from './OCPIEndpoint';
+import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 import { RefundButtonAction } from './Refund';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';

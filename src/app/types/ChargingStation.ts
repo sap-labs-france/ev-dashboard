@@ -28,6 +28,7 @@ export interface ChargingStation extends Data {
   lastHeartBeat: Date;
   deleted: boolean;
   inactive: boolean;
+  forceInactive: boolean;
   lastReboot: Date;
   chargingStationURL: string;
   maximumPower: number;

@@ -29,7 +29,7 @@ export class TableViewTransactionAction extends TableViewAction {
     let data: any;
     // From Transaction
     if (Utils.objectHasProperty(transaction, 'id')) {
-      data = transaction.id;
+      data = (transaction as Transaction).id;
     // From Charging Station
     } else {
       data = transaction;

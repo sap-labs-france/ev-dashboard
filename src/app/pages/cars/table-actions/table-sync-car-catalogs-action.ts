@@ -9,8 +9,13 @@ import { CarButtonAction } from 'app/types/Car';
 import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
+export interface TableSyncCarCatalogsActionDef extends TableActionDef {
+  action: (dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) => void;
+}
+
 export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableSyncCarCatalogsActionDef {
     return {
       ...super.getActionDef(),
       id: CarButtonAction.SYNCHRONIZE,

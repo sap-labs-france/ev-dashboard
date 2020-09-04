@@ -5,6 +5,10 @@ import { CarButtonAction } from 'app/types/Car';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableCreateCarActionDef extends TableActionDef {
+  action: (dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableCreateCarAction extends TableCreateAction {
   public getActionDef(): TableActionDef {
     return {

@@ -23,10 +23,10 @@ import { Observable } from 'rxjs';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
-import { TableCreateCompanyAction } from '../table-actions/table-create-company-action';
-import { TableDeleteCompanyAction } from '../table-actions/table-delete-company-action';
-import { TableEditCompanyAction } from '../table-actions/table-edit-company-action';
-import { TableViewCompanyAction } from '../table-actions/table-view-company-action';
+import { TableCreateCompanyAction, TableCreateCompanyActionDef } from '../table-actions/table-create-company-action';
+import { TableDeleteCompanyAction, TableDeleteCompanyActionDef } from '../table-actions/table-delete-company-action';
+import { TableEditCompanyAction, TableEditCompanyActionDef } from '../table-actions/table-edit-company-action';
+import { TableViewCompanyAction, TableViewCompanyActionDef } from '../table-actions/table-view-company-action';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -162,7 +162,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateCompanyActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -171,14 +171,18 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   public rowActionTriggered(actionDef: TableActionDef, company: Company) {
     switch (actionDef.id) {
       case CompanyButtonAction.EDIT_COMPANY:
+        if (actionDef.action) {
+          (actionDef as TableEditCompanyActionDef).action(company, this.dialog, this.refreshData.bind(this));
+        }
+        break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
-          actionDef.action(company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCompanyActionDef).action(company, this.dialog, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:
         if (actionDef.action) {
-          actionDef.action(company, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteCompanyActionDef).action(company, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

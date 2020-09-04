@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableExportOCPPParamsAction } from 'app/pages/charging-stations/table-actions/table-export-ocpp-params-action';
+import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from 'app/pages/charging-stations/table-actions/table-export-ocpp-params-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -25,11 +25,11 @@ import { Observable } from 'rxjs';
 
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { TableAssignUsersToSiteAction } from '../table-actions/table-assign-users-to-site-action';
-import { TableCreateSiteAction } from '../table-actions/table-create-site-action';
-import { TableDeleteSiteAction } from '../table-actions/table-delete-site-action';
-import { TableEditSiteAction } from '../table-actions/table-edit-site-action';
-import { TableViewSiteAction } from '../table-actions/table-view-site-action';
+import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../table-actions/table-assign-users-to-site-action';
+import { TableCreateSiteAction, TableCreateSiteActionDef } from '../table-actions/table-create-site-action';
+import { TableDeleteSiteAction, TableDeleteSiteActionDef } from '../table-actions/table-delete-site-action';
+import { TableEditSiteAction, TableEditSiteActionDef } from '../table-actions/table-edit-site-action';
+import { TableViewSiteAction, TableViewSiteActionDef } from '../table-actions/table-view-site-action';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
@@ -175,7 +175,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(this.dialog, this.refreshData.bind(this));
         }
     }
   }
@@ -183,19 +183,25 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public rowActionTriggered(actionDef: TableActionDef, site: Site) {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
+        if (actionDef.action) {
+          (actionDef as TableEditSiteActionDef).action(site, this.dialog, this.refreshData.bind(this));
+        }
+        break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
-          actionDef.action(site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewSiteActionDef).action(site, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          actionDef.action(site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignUsersToSiteActionDef).action(
+            site, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:
         if (actionDef.action) {
-          actionDef.action(site, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteSiteActionDef).action(
+            site, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
@@ -206,7 +212,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action({ site }, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableExportOCPPParamsActionDef).action(
+            { site }, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.router, this.spinnerService);
         }
         break;

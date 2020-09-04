@@ -9,8 +9,13 @@ import { ButtonColor, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import * as FileSaver from 'file-saver';
 
+export interface TableDownloadBillingInvoiceDef extends TableActionDef {
+  action: (invoiceID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+}
+
 export class TableDownloadBillingInvoice implements TableAction {
-  private action: TableActionDef = {
+  private action: TableDownloadBillingInvoiceDef = {
     id: BillingButtonAction.DOWNLOAD_INVOICE,
     type: 'button',
     icon: 'cloud_download',
@@ -21,7 +26,7 @@ export class TableDownloadBillingInvoice implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDownloadBillingInvoiceDef {
     return this.action;
   }
 

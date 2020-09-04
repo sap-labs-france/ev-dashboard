@@ -11,8 +11,14 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsForceAvailableStatusActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsForceAvailableStatusAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsForceAvailableStatusActionDef = {
     id: ChargingStationButtonAction.FORCE_AVAILABLE_STATUS,
     type: 'button',
     icon: 'play_arrow',
@@ -22,7 +28,7 @@ export class TableChargingStationsForceAvailableStatusAction implements TableAct
     action: this.forceAvailable,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsForceAvailableStatusActionDef {
     return this.action;
   }
 

@@ -5,8 +5,12 @@ import { Site, SiteButtonAction } from 'app/types/Site';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableAssignUsersToSiteActionDef extends TableActionDef {
+  action: (site: Site, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableAssignUsersToSiteAction extends TableAssignAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableAssignUsersToSiteActionDef {
     return {
       ...super.getActionDef(),
       id: SiteButtonAction.ASSIGN_USERS_TO_SITE,

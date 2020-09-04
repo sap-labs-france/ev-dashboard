@@ -6,7 +6,6 @@ import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-a
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
-import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';

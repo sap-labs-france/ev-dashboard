@@ -1984,7 +1984,10 @@
       },
       "roaming": {
         "success": "The CDR of the session ID '{{sessionID}}' has been pushed successfully to the roaming platform",
-        "error": "An error occurred during the push of the CDR, check the logs"
+        "error": "An error occurred during the push of the CDR, check the logs",
+        "error_not_from_tenant": "This session does not belong to this tenant",
+        "error_no_ocpi": "This session does not contain OCPI data",
+        "error_cdr_already_pushed": "The CDR of this session has already been pushed"
       },
       "soft_stop": {
         "success": "The session of '{{user}}' has been stopped successfully.",

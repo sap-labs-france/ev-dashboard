@@ -1984,7 +1984,10 @@
       },
       "roaming": {
         "success": "Le CDR de la session '{{sessionID}}' a été envoyé à la platforme d'itinérance avec succès",
-        "error": "Une erreur est survenue pendant l'envoie du CDR, vérifiez les logs"
+        "error": "Une erreur est survenue pendant l'envoie du CDR, vérifiez les logs",
+        "error_not_from_tenant": "Cette session n'appartient pas a cette organization",
+        "error_no_ocpi": "Cette session ne contient pas de donnée OCPI",
+        "error_cdr_already_pushed": "Le CDR de cette session a déjà été envoyé"
       },
       "soft_stop": {
         "success": "La session de '{{user}}' a été arrétée avec succès.",

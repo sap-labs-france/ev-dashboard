@@ -2306,7 +2306,8 @@ export class CentralServerService {
   public pushTransactionCdr(id: number): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_PUSH_CDR}`, { transactionId: id },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_PUSH_CDR}`,
+      { transactionId: id },
       {
         headers: this.buildHttpHeaders(),
       })

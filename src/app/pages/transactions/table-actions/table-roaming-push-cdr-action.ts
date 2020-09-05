@@ -6,6 +6,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
 import { ActionsResponse } from 'app/types/DataResult';
+import { HTTPError } from 'app/types/HTTPError';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
@@ -56,8 +57,25 @@ export class TableRoamingPushCdrAction implements TableAction {
           }
         }, (error: any) => {
           spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService,
-            centralServerService, 'transactions.notification.roaming.error');
+          spinnerService.hide();
+          switch (error.status) {
+            case HTTPError.TRANSACTION_NOT_FROM_TENANT:
+              Utils.handleHttpError(error, router, messageService,
+                centralServerService, 'transactions.notification.roaming.error_not_from_tenant');
+              break;
+            case HTTPError.TRANSACTION_WITH_NO_OCPI_DATA:
+              Utils.handleHttpError(error, router, messageService,
+                centralServerService, 'transactions.notification.roaming.error_no_ocpi');
+              break;
+            case HTTPError.TRANSACTION_CDR_ALREADY_PUSHED:
+              Utils.handleHttpError(error, router, messageService,
+                centralServerService, 'transactions.notification.roaming.error_cdr_already_pushed');
+              break;
+            default:
+              Utils.handleHttpError(error, router, messageService,
+                centralServerService, 'transactions.notification.roaming.error');
+              break;
+          }
         });
       }
     });

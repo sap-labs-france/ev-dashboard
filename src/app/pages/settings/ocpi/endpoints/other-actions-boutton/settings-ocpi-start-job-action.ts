@@ -1,5 +1,5 @@
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { OcpiButtonAction } from 'app/types/OCPIEndpoint';
+import { OcpiButtonAction } from 'app/types/ocpi/OCPIEndpoint';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 export class SettingsOCPIStartJobAction implements TableAction {

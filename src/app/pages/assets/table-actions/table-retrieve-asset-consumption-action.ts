@@ -9,8 +9,14 @@ import { TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableRetrieveAssetConsumptionActionDef extends TableActionDef {
+  action: (asset: Asset, spinnerService: SpinnerService,
+    centralServerService: CentralServerService, messageService: MessageService,
+    router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableRetrieveAssetConsumptionActionDef {
     return {
       ...super.getActionDef(),
       id: AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION,

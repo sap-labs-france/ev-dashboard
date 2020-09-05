@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.3.34',
-        date: new Date('2020-09-03'),
+        date: new Date('2020-09-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Add manual push of the CDR in Session list`,
               `Make a charging station inactive`,
               `Do not send notification on offline charging stations that are set inactive`,
               `Display Asset dynamic consumption/production curve`,

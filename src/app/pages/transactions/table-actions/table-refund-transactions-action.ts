@@ -6,14 +6,21 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
 import { ActionsResponse } from 'app/types/DataResult';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { RefundSettings } from 'app/types/Setting';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableRefundTransactionsActionDef extends TableActionDef {
+  action: (refundSetting: RefundSettings, transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    clearSelectedRows: () => void, refresh?: () => Observable<void>) => void;
+}
+
 export class TableRefundTransactionsAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableRefundTransactionsActionDef = {
     id: TransactionButtonAction.REFUND_TRANSACTIONS,
     type: 'button',
     icon: 'local_atm',
@@ -24,7 +31,7 @@ export class TableRefundTransactionsAction implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableRefundTransactionsActionDef {
     return this.action;
   }
 
@@ -66,11 +73,11 @@ export class TableRefundTransactionsAction implements TableAction {
           }, (error: any) => {
             spinnerService.hide();
             switch (error.status) {
-              case 560: // not authorized
+              case HTTPAuthError.ERROR:
                 Utils.handleHttpError(error, router, messageService,
                   centralServerService, 'transactions.notification.refund.not_authorized');
                 break;
-              case 551: // cannot refund another user transactions
+              case HTTPError.REFUND_SESSION_OTHER_USER_ERROR:
                 Utils.handleHttpError(error, router, messageService,
                   centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
                 break;

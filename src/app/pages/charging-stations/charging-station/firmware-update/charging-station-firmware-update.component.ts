@@ -72,7 +72,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         }, (error) => {
           this.spinnerService.hide();
           switch (error.status) {
-            case 401:
+            case HTTPError.UNAUTHORIZED_ERROR:
               this.messageService.showErrorMessage('chargers.update_firmware_error');
               break;
             case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:

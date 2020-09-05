@@ -10,8 +10,13 @@ import { TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteCarActionDef extends TableActionDef {
+  action: (car: Car, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteCarAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteCarActionDef {
     return {
       ...super.getActionDef(),
       id: CarButtonAction.DELETE_CAR,

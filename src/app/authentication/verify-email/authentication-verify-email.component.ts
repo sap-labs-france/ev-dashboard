@@ -134,12 +134,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       // Check status error code
       switch (error.status) {
         // Account already active
-        case 530:
+        case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
           // Report the error
           this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
           break;
         // VerificationToken no longer valid
-        case 540:
+        case HTTPError.INVALID_TOKEN_ERROR:
           // Report the error
           this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
           break;
@@ -182,7 +182,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case 530:
+          case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
             this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
             break;

@@ -5,8 +5,12 @@ import { ChargingStation, ChargingStationButtonAction } from 'app/types/Charging
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableEditChargingStationActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableEditChargingStationAction extends TableEditAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableEditChargingStationActionDef {
     return {
       ...super.getActionDef(),
       id: ChargingStationButtonAction.EDIT_CHARGING_STATION,

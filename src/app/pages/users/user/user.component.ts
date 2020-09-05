@@ -702,11 +702,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Check status
       switch (error.status) {
         // Email already exists
-        case 510:
+        case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('authentication.email_already_exists');
           break;
         // User Tag ID is already used
-        case 540:
+        case HTTPError.USER_TAG_ID_ALREADY_USED_ERROR:
           this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
@@ -747,11 +747,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       // Check status
       switch (error.status) {
         // Email already exists
-        case 510:
+        case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('authentication.email_already_exists');
           break;
         // User Tag ID is already used
-        case 540:
+        case HTTPError.USER_TAG_ID_ALREADY_USED_ERROR:
           this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted

@@ -13,8 +13,15 @@ import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsStopTransactionActionDef extends TableActionDef {
+  action: (transaction: Transaction, authorizationService: AuthorizationService,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsStopTransactionAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsStopTransactionActionDef = {
     id: ChargingStationButtonAction.STOP_TRANSACTION,
     type: 'button',
     icon: 'stop',
@@ -24,7 +31,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     action: this.stopTransaction.bind(this),
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsStopTransactionActionDef {
     return this.action;
   }
 

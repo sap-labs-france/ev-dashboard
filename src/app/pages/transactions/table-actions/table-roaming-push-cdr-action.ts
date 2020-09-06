@@ -50,7 +50,7 @@ export class TableRoamingPushCdrAction implements TableAction {
               translateService.instant('transactions.notification.roaming.error'));
           } else {
             messageService.showSuccessMessage(
-              translateService.instant('transactions.notification.roaming.success'));
+              translateService.instant('transactions.notification.roaming.success', { sessionID: transaction.id }));
             if (refresh) {
               refresh().subscribe();
             }

@@ -345,6 +345,7 @@
   "sites": {
     "assign_company": "Asignar empresa",
     "auto_user_site_assignment": "Asignación automática de nuevos usuarios a este sitio.",
+    "public": "Public site",
     "auto_assignment": "Asignación automática de usiario",
     "user_list": "Usuarios autorizados para usar las estaciones de carga en este sitio",
     "user_list_source_title": "Disponible",

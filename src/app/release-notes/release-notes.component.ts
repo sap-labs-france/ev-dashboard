@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Add manual push of the CDR in Session list`,
               `Make a charging station inactive`,
+              `Added locks in scheduled OCPI jobs`,
               `Do not send notification on offline charging stations that are set inactive`,
               `Display Asset dynamic consumption/production curve`,
               `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,

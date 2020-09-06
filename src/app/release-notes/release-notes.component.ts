@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Add manual push of the CDR in Session list`,
+              `Do not push OCPI Locations (Sites) if there is no public Charging Station`,
               `Make a charging station inactive`,
               `Added locks in scheduled OCPI jobs`,
               `Do not send notification on offline charging stations that are set inactive`,

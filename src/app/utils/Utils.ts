@@ -707,7 +707,6 @@ export class Utils {
           router.navigate(['/auth/login']);
         }
         break;
-
       // Unauthorized!
       case UNAUTHORIZED:
         // Log Off (remove token)
@@ -715,7 +714,6 @@ export class Utils {
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
         break;
-
       // Conflict in User Session
       case FORBIDDEN:
         messageService.showWarningMessageUserOrTenantUpdated();
@@ -724,11 +722,9 @@ export class Utils {
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
-
       case BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
         break;
-
       case CONFLICT:
         if (error.details) {
           messageService.showErrorMessage(error.details.message, error.details.params);
@@ -736,7 +732,6 @@ export class Utils {
           messageService.showErrorMessage(error.message);
         }
         break;
-
       // Backend issue
       default:
         Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);

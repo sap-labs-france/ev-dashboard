@@ -20,9 +20,9 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
-import { TableCreateTenantAction } from '../table-actions/table-create-tenant-action';
-import { TableDeleteTenantAction } from '../table-actions/table-delete-tenant-action';
-import { TableEditTenantAction } from '../table-actions/table-edit-tenant-action';
+import { TableCreateTenantAction, TableCreateTenantActionDef } from '../table-actions/table-create-tenant-action';
+import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../table-actions/table-delete-tenant-action';
+import { TableEditTenantAction, TableEditTenantActionDef } from '../table-actions/table-edit-tenant-action';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {
@@ -131,7 +131,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       // Add
       case TenantButtonAction.CREATE_TENANT:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateTenantActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -139,15 +139,15 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
 
   public rowActionTriggered(actionDef: TableActionDef, tenant: Tenant) {
     switch (actionDef.id) {
-      case TenantButtonAction.VIEW_TENANT:
       case TenantButtonAction.EDIT_TENANT:
         if (actionDef.action) {
-          actionDef.action(tenant, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditTenantActionDef).action(tenant, this.dialog, this.refreshData.bind(this));
         }
         break;
       case TenantButtonAction.DELETE_TENANT:
         if (actionDef.action) {
-          actionDef.action(tenant, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteTenantActionDef).action(
+            tenant, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

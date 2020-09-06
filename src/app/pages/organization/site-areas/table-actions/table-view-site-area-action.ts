@@ -5,8 +5,12 @@ import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableViewSiteAreaActionDef extends TableActionDef {
+  action: (siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableViewSiteAreaAction extends TableViewAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableViewSiteAreaActionDef {
     return {
       ...super.getActionDef(),
       id: SiteAreaButtonAction.VIEW_SITE_AREA,

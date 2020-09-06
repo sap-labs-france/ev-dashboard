@@ -24,13 +24,16 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.34',
-        date: new Date('2020-09-03'),
+        version: '2.3.35',
+        date: new Date('2020-09-06'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Add manual push of the CDR in Session list`,
+              `Do not push OCPI Locations (Sites) if there is no public Charging Station`,
               `Make a charging station inactive`,
+              `Added locks in scheduled OCPI jobs`,
               `Do not send notification on offline charging stations that are set inactive`,
               `Display Asset dynamic consumption/production curve`,
               `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
@@ -74,7 +77,7 @@ export class ReleaseNotesComponent {
         ],
       },
       {
-        version: '2.3.34',
+        version: '2.3.35',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

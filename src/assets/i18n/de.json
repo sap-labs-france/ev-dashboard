@@ -345,6 +345,8 @@
   "sites": {
     "assign_company": "Unternehmen zuweisen",
     "auto_user_site_assignment": "Automatische Nutzerzuordnung zu diesem Standort",
+    "public": "This site is public",
+    "public_site": "Public",
     "auto_assignment": "Automatische Nutzerzuordnung",
     "user_list": "Für Ladestationen authorisierte Nutzer an diesem Standort",
     "user_list_source_title": "Verfügbar",

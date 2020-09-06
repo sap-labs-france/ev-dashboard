@@ -96,6 +96,13 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         sortable: true,
       },
       {
+        id: 'public',
+        name: 'sites.public_site',
+        headerClass: 'text-center col-10em',
+        class: 'text-center col-10em',
+        formatter: (publicSite: boolean) => publicSite ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+      },
+      {
         id: 'autoUserSiteAssignment',
         name: 'sites.auto_assignment',
         headerClass: 'col-15p text-center',

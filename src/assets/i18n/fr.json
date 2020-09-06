@@ -345,6 +345,8 @@
   "sites": {
     "assign_company": "Assigner une Companie",
     "auto_user_site_assignment": "Assignation automatique des nouveaux utilisateurs sur ce site",
+    "public": "This site is public",
+    "public_site": "Public",
     "auto_assignment": "Assign. Auto Utilisateur",
     "user_list": "Utilisateurs authorizés à utiliser les bornes sur ce site",
     "user_list_source_title": "Disponibles",
@@ -645,7 +647,7 @@
     "share_power_to_all_connectors": "Partage la puissance avec les connecteurs",
     "exclude_from_power_limitation": "Impossible de limiter la puissance",
     "public": "Cette borne est publique",
-    "public_charger": "Publique",
+    "public_charger": "Public",
     "exclude_smart_charging": "Exclure de la charge intelligente",
     "force_inactive": "Cette borne est inactive",
     "public_url": "URL Publique",

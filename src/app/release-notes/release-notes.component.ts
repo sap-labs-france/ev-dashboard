@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Ignore OCPP Status Notification on Connector ID '0'`,
               `Get OCPI public Locations with no Charging Station`,
+              `Push CDRs not pushed at the end of the Session every 15 mins`
             ],
           },
         ],

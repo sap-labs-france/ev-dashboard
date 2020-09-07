@@ -30,10 +30,10 @@ import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
-import { TableAssignSitesToUserAction } from '../table-actions/table-assign-sites-to-user-action';
-import { TableCreateUserAction } from '../table-actions/table-create-user-action';
-import { TableDeleteUserAction } from '../table-actions/table-delete-user-action';
-import { TableEditUserAction } from '../table-actions/table-edit-user-action';
+import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
+import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
+import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
+import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
 
@@ -258,7 +258,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateUserActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:
@@ -276,17 +276,18 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          actionDef.action(user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
-          actionDef.action(user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignSitesToUserActionDef).action(user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:
         if (actionDef.action) {
-          actionDef.action(user, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteUserActionDef).action(
+            user, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

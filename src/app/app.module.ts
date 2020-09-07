@@ -49,6 +49,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -159,6 +160,7 @@ export function localeFactory(
     HttpClientModule,
     ChartModule,
     BrowserNotSupportedModule,
+    NgxDaterangepickerMd.forRoot(),
     AgmCoreModule.forRoot({ apiKey: 'AIzaSyCIH5GgUOJF-4TlCcL5le107L_thn6WESg' }),
     TranslateModule.forRoot({
       loader: {

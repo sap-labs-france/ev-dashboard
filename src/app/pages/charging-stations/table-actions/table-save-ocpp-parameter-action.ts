@@ -11,8 +11,14 @@ import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableSaveOCPPParameterActionDef extends TableActionDef {
+  action: (charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
+    translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
+    spinnerService: SpinnerService, router: Router,  refresh?: () => Observable<void>) => void;
+}
+
 export class TableSaveOCPPParameterAction extends TableSaveAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableSaveOCPPParameterActionDef {
     return {
       ...super.getActionDef(),
       id: ChargingStationButtonAction.SAVE_OCPP_PARAMETER,
@@ -50,15 +56,17 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
                       messageService, centralServerService, spinnerService, router);
                   }
                 }
+                if (refresh) {
+                  refresh().subscribe();
+                }
               } else {
-                Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
-              }
-              if (refresh) {
-                refresh().subscribe();
+                Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error',
+                  { paramKey: param.key, chargeBoxID: charger.id });
               }
             }, (error) => {
               spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
+              Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error',
+                { paramKey: param.key, chargeBoxID: charger.id });
             });
         }
       });

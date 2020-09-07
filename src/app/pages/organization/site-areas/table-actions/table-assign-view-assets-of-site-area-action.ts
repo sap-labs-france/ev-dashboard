@@ -5,8 +5,12 @@ import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableViewAssignedAssetsOfSiteAreaActionDef extends TableActionDef {
+  action: (siteArea: SiteArea, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableViewAssignedAssetsOfSiteAreaAction extends TableAssignAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableViewAssignedAssetsOfSiteAreaActionDef {
     return {
       ...super.getActionDef(),
       id: SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA,

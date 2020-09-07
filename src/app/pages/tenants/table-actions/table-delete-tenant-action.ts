@@ -9,8 +9,13 @@ import { TableActionDef } from 'app/types/Table';
 import { Tenant, TenantButtonAction } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteTenantActionDef extends TableActionDef {
+  action: (tenant: Tenant, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteTenantAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteTenantActionDef {
     return {
       ...super.getActionDef(),
       id: TenantButtonAction.DELETE_TENANT,

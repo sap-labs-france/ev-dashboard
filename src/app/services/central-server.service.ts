@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Asset } from 'app/types/Asset';
+import { Asset, AssetConsumption } from 'app/types/Asset';
 import { BillingInvoice, BillingTax } from 'app/types/Billing';
 import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
@@ -16,7 +16,7 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
-import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -1289,6 +1289,25 @@ export class CentralServerService {
       );
   }
 
+  public getAssetConsumption(assetID: string, startDate: Date, endDate: Date): Observable<AssetConsumption> {
+    const params: { [param: string]: string } = {};
+    params['AssetID'] = assetID;
+    params['StartDate'] = startDate.toISOString();
+    params['EndDate'] = endDate.toISOString();
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<AssetConsumption>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.ASSET_CONSUMPTION}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTransactionConsumption(transactionId: number, loadAllConsumptions?: boolean, ordering: Ordering[] = []): Observable<Transaction> {
     const params: { [param: string]: string } = {};
     params['TransactionId'] = transactionId.toString();
@@ -2372,7 +2391,21 @@ export class CentralServerService {
   public refundTransactions(ids: number[]): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_REFUND}`, { transactionIds: ids },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTIONS_REFUND}`, { transactionIds: ids },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public pushTransactionCdr(id: number): Observable<ActionsResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_PUSH_CDR}`,
+      { transactionId: id },
       {
         headers: this.buildHttpHeaders(),
       })

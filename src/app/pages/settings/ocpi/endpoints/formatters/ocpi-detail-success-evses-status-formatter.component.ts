@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { OcpiEndpointDetail } from 'app/types/OCPIEndpoint';
+import { OcpiEndpointDetail } from 'app/types/ocpi/OCPIEndpoint';
 
 @Component({
   template: `

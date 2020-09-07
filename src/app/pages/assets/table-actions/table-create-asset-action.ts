@@ -5,8 +5,12 @@ import { AssetButtonAction } from 'app/types/Asset';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableCreateAssetActionDef extends TableActionDef {
+  action: (dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableCreateAssetAction extends TableCreateAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableCreateAssetActionDef {
     return {
       ...super.getActionDef(),
       id: AssetButtonAction.CREATE_ASSET,

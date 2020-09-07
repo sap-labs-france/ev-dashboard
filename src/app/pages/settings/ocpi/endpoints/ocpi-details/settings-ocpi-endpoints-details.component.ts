@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-endpoints-details-table-data-source';
 

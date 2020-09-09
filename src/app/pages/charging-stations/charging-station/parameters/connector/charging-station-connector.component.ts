@@ -113,15 +113,17 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.currentType = this.formConnectorGroup.controls['currentType'];
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
     this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
+    this.power.disable();
+    this.amperage.disable();
+    this.loadConnector();
+    this.phaseAssignmentToGrid.enable();
     if (!this.isAdmin) {
       this.type.disable();
       this.voltage.disable();
       this.amperagePerPhase.disable();
       this.numberOfConnectedPhase.disable();
+      this.phaseAssignmentToGrid.disable();
     }
-    this.power.disable();
-    this.amperage.disable();
-    this.loadConnector();
   }
 
   public ngOnChanges() {
@@ -155,7 +157,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
       if (this.chargePoint) {
         this.formConnectorGroup.disable();
-        this.phaseAssignmentToGrid.enable();
       } else {
         this.refreshPower();
         this.refreshNumberOfPhases();

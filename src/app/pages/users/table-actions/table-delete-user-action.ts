@@ -10,8 +10,13 @@ import { User, UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteUserActionDef extends TableActionDef {
+  action: (user: User, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteUserAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteUserActionDef {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.DELETE_USER,

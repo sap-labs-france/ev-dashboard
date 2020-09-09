@@ -22,11 +22,11 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/ty
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-import { TableCreateAssetAction } from '../table-actions/table-create-asset-action';
-import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
-import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
-import { TableRetrieveAssetConsumptionAction } from '../table-actions/table-retrieve-asset-consumption-action';
-import { TableViewAssetAction } from '../table-actions/table-view-asset-action';
+import { TableCreateAssetAction, TableCreateAssetActionDef } from '../table-actions/table-create-asset-action';
+import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../table-actions/table-delete-asset-action';
+import { TableEditAssetAction, TableEditAssetActionDef } from '../table-actions/table-edit-asset-action';
+import { TableRetrieveAssetConsumptionAction, TableRetrieveAssetConsumptionActionDef } from '../table-actions/table-retrieve-asset-consumption-action';
+import { TableViewAssetAction, TableViewAssetActionDef } from '../table-actions/table-view-asset-action';
 import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
 
 @Injectable()
@@ -184,7 +184,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -193,20 +193,24 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   public rowActionTriggered(actionDef: TableActionDef, asset: Asset) {
     switch (actionDef.id) {
       case AssetButtonAction.VIEW_ASSET:
+        if (actionDef.action) {
+          (actionDef as TableViewAssetActionDef).action(asset, this.dialog, this.refreshData.bind(this));
+        }
+        break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          actionDef.action(asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(asset, this.dialog, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
         if (actionDef.action) {
-          actionDef.action(asset, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteAssetActionDef).action(asset, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION:
         if (actionDef.action) {
-          actionDef.action(asset, this.spinnerService, this.centralServerService, this.messageService,
+          (actionDef as TableRetrieveAssetConsumptionActionDef).action(asset, this.spinnerService, this.centralServerService, this.messageService,
             this.router, this.refreshData.bind(this));
         }
         break;

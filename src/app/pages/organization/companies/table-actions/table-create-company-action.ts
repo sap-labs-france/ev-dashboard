@@ -5,8 +5,12 @@ import { CompanyButtonAction } from 'app/types/Company';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableCreateCompanyActionDef extends TableActionDef {
+  action: (dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableCreateCompanyAction extends TableCreateAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableCreateCompanyActionDef {
     return {
       ...super.getActionDef(),
       id: CompanyButtonAction.CREATE_COMPANY,

@@ -9,8 +9,13 @@ import { Asset, AssetButtonAction } from 'app/types/Asset';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteAssetActionDef extends TableActionDef {
+  action: (asset: Asset, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteAssetAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteAssetActionDef {
     return {
       ...super.getActionDef(),
       id: AssetButtonAction.DELETE_ASSET,

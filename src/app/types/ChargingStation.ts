@@ -28,6 +28,7 @@ export interface ChargingStation extends Data {
   lastHeartBeat: Date;
   deleted: boolean;
   inactive: boolean;
+  forceInactive: boolean;
   lastReboot: Date;
   chargingStationURL: string;
   maximumPower: number;
@@ -180,6 +181,7 @@ export enum ChargingStationButtonAction {
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_CHARGING_STATIONS = 'export_charging_stations',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
+  EXPORT_LOCAL_OCPP_PARAMS = 'export_local_ocpp_params',
   UPDATE_OCPP_PARAMS = 'update_ocpp_params',
   REQUEST_OCPP_PARAMS = 'request_ocpp_params',
   FORCE_AVAILABLE_STATUS = 'force_available_status',

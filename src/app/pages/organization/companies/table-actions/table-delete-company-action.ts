@@ -9,8 +9,13 @@ import { Company, CompanyButtonAction } from 'app/types/Company';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteCompanyActionDef extends TableActionDef {
+  action: (company: Company, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteCompanyAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteCompanyActionDef {
     return {
       ...super.getActionDef(),
       id: CompanyButtonAction.DELETE_COMPANY,

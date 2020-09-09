@@ -29,7 +29,7 @@ import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
-import { TableExportLogsAction } from '../table-actions/table-export-logs-action';
+import { TableExportLogsAction, TableExportLogsActionDef } from '../table-actions/table-export-logs-action';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
@@ -216,7 +216,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     switch (actionDef.id) {
       case LogButtonAction.EXPORT_LOGS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.dialogService,
+          (actionDef as TableExportLogsActionDef).action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }

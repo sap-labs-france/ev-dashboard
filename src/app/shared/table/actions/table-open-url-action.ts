@@ -3,8 +3,12 @@ import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 import { TableAction } from './table-action';
 
+export interface TableOpenURLActionDef extends TableActionDef {
+  action?: (url: string) => void;
+}
+
 export class TableOpenURLAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableOpenURLActionDef = {
     id: ButtonAction.OPEN_URL,
     type: 'button',
     icon: 'open_in_new',
@@ -15,7 +19,7 @@ export class TableOpenURLAction implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableOpenURLActionDef {
     return this.action;
   }
 

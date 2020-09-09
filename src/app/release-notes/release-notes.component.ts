@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added ATESS vendor for Smart Charging support`,
+              `Fixed number of phase in Smart Charging when no consumption`,
               `Added Logo and Address in Tenant management`,
               `Added Badge ID in Sessions' lists`,
               `Always try to get the User during Start Transaction when ACL is not active on Site Area`,

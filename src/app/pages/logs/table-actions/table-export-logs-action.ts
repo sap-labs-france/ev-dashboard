@@ -9,8 +9,14 @@ import { FilterParams } from 'app/types/GlobalType';
 import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef } from 'app/types/Table';
 
+export interface TableExportLogsActionDef extends TableActionDef {
+  action: (filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) => void;
+}
+
 export class TableExportLogsAction extends TableExportAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableExportLogsActionDef {
     return {
       ...super.getActionDef(),
       id: LogButtonAction.EXPORT_LOGS,

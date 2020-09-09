@@ -24,13 +24,34 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.33',
-        date: new Date('2020-09-01'),
+        version: '2.3.37',
+        date: new Date('2020-09-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Display Asset dynamic consumption`,
+              `Added Badge ID in Sessions' lists`,
+              `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
+              `Ignore OCPP Status Notification on Connector ID '0'`,
+              `Get OCPI public Locations with no Charging Station`,
+              `Push CDRs not pushed at the end of the Session every 15 mins`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.35',
+        date: new Date('2020-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add manual push of the CDR in Session list`,
+              `Do not push OCPI Locations (Sites) if there is no public Charging Station`,
+              `Make a charging station inactive`,
+              `Added locks in scheduled OCPI jobs`,
+              `Do not send notification on offline charging stations that are set inactive`,
+              `Display Asset dynamic consumption/production curve`,
               `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
               `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,
               `Added Atess Charging Station vendor in templates`,
@@ -59,20 +80,6 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.3.30',
-        date: new Date('2020-08-21'),
-        componentChanges: [
-          {
-            name: 'Dashboard',
-            changes: [
-              `Handle multiple OCPI Authorizations with the same Badge ID`,
-              `Convert the total parking time in hours in the OCPI CDR`,
-              `Put back the price in the OCPI CDR even if the pricing is not active`,
-            ],
-          },
-        ],
-      },
-      {
-        version: '2.3.33',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

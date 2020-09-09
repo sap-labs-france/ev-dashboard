@@ -11,8 +11,13 @@ import { TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableCreateTransactionInvoiceActionDef extends TableActionDef {
+  action: (transactionID: number, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableCreateTransactionInvoiceAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableCreateTransactionInvoiceActionDef = {
     id: TransactionButtonAction.CREATE_TRANSACTION_INVOICE,
     type: 'button',
     icon: 'add',
@@ -23,7 +28,7 @@ export class TableCreateTransactionInvoiceAction implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableCreateTransactionInvoiceActionDef {
     return this.action;
   }
 

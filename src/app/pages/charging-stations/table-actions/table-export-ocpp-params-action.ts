@@ -11,8 +11,13 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 
+export interface TableExportOCPPParamsActionDef extends TableActionDef {
+  action: (filters: { siteArea?: SiteArea; site?: Site; }, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) => void;
+}
+
 export class TableExportOCPPParamsAction extends TableExportAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableExportOCPPParamsActionDef {
     return {
       ...super.getActionDef(),
       id: ChargingStationButtonAction.EXPORT_OCPP_PARAMS,

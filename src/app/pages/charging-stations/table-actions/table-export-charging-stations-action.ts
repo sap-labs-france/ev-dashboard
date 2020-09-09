@@ -9,8 +9,14 @@ import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { FilterParams } from 'app/types/GlobalType';
 import { TableActionDef } from 'app/types/Table';
 
+export interface TableExportChargingStationsActionDef extends TableActionDef {
+  action: (filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) => void;
+}
+
 export class TableExportChargingStationsAction extends TableExportAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableExportChargingStationsActionDef {
     return {
       ...super.getActionDef(),
       id: ChargingStationButtonAction.EXPORT_CHARGING_STATIONS,

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
               `Ignore OCPP Status Notification on Connector ID '0'`,
               `Get OCPI public Locations with no Charging Station`,
               `Push CDRs not pushed at the end of the Session every 15 mins`

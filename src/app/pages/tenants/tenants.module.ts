@@ -5,9 +5,11 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MaterialModule } from '../../app.module';
+import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { TableModule } from '../../shared/table/table.module';
+import { TenantLogoFormatterCellComponent } from './cell-components/tenant-logo-formatter-cell.component';
 import { TenantsListTableDataSource } from './list/tenants-list-table-data-source';
 import { TenantsListComponent } from './list/tenants-list.component';
 import { TenantComponent } from './tenant/tenant.component';
@@ -25,14 +27,17 @@ import { TenantsRoutes } from './tenants.routing';
     TableModule,
     CommonDirectivesModule,
     DialogsModule,
+    AddressModule,
   ],
   declarations: [
     TenantsListComponent,
+    TenantLogoFormatterCellComponent,
     TenantComponent,
     TenantDialogComponent,
   ],
   entryComponents: [
     TenantsListComponent,
+    TenantLogoFormatterCellComponent,
     TenantDialogComponent,
   ],
   exports: [

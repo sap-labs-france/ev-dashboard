@@ -18,6 +18,9 @@
     "maxPictureKb": 150,
     "captchaSiteKey": ""
   },
+  "Tenant": {
+    "maxLogoKb": 150
+	},
   "Company": {
     "maxPictureKb": 150
   },

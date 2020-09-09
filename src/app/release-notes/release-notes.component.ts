@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.3.37',
+        version: '2.3.38',
         date: new Date('2020-09-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added ATESS vendor for Smart Charging support`,
+              `Added Logo and Address in Tenant management`,
               `Added Badge ID in Sessions' lists`,
               `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
               `Ignore OCPP Status Notification on Connector ID '0'`,

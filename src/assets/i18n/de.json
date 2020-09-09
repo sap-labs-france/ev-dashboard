@@ -1230,6 +1230,7 @@
   "tenants": {
     "title": "Organisation",
     "name": "Name",
+    "logo": "Logo",
     "tenant_management": "Organisations-Management",
     "tenant_not_found": "Diese Organisation existiert nicht! Login unmöglich!",
     "email": "Email",

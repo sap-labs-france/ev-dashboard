@@ -48,7 +48,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithLogo: true}]);
+    this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
 
@@ -93,7 +93,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         id: 'logo',
         name: 'companies.logo',
         headerClass: 'text-center col-8p',
-        class: 'col-8p',
+        class: 'col-8p p-0',
         isAngularComponent: true,
         angularComponent: CompanyLogoFormatterCellComponent,
       },

@@ -111,7 +111,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         class: 'd-none d-xl-table-cell',
       });
     }
-    columns.push({
+    columns.push(
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
+      {
         id: 'timestamp',
         name: 'transactions.started_at',
         headerClass: 'col-10p',

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
-import { ChargePoint, ChargingStation, Connector, CurrentType, Voltage } from 'app/types/ChargingStation';
+import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -26,6 +26,20 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     { key: CurrentType.DC, description: 'chargers.direct_current' },
   ];
 
+  public phaseAssignmentToGridMapThreePhased = [
+    { description: "chargers.phase_combinations.three_phased.cs_1_g_1", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L1, cSPhaseL2: OCPPPhase.L2, cSPhaseL3: OCPPPhase.L3 } },
+    { description: "chargers.phase_combinations.three_phased.cs_1_g_2", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L2, cSPhaseL2: OCPPPhase.L3, cSPhaseL3: OCPPPhase.L1 } },
+    { description: "chargers.phase_combinations.three_phased.cs_1_g_3", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L3, cSPhaseL2: OCPPPhase.L1, cSPhaseL3: OCPPPhase.L2 } },
+  ];
+
+  public phaseAssignmentToGridMapSinglePhased = [
+    { description: "chargers.phase_combinations.single_phased.cs_1_g_1", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L1, cSPhaseL2: null, cSPhaseL3: null } },
+    { description: "chargers.phase_combinations.single_phased.cs_1_g_2", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L2, cSPhaseL2: null, cSPhaseL3: null } },
+    { description: "chargers.phase_combinations.single_phased.cs_1_g_3", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L3, cSPhaseL2: null, cSPhaseL3: null } },
+  ];
+
+  public phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
+
   public formConnectorGroup: FormGroup;
   public connectorID!: AbstractControl;
   public type!: AbstractControl;
@@ -35,6 +49,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public amperagePerPhase!: AbstractControl;
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
+  public phaseAssignmentToGrid!: AbstractControl;
 
   public ngOnInit() {
     // Init connectors
@@ -80,6 +95,11 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           Validators.required,
         ])
       ),
+      phaseAssignmentToGrid: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
       currentType: new FormControl(CurrentType.AC),
     });
     // Add to form array
@@ -92,6 +112,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.amperagePerPhase = this.formConnectorGroup.controls['amperagePerPhase'];
     this.currentType = this.formConnectorGroup.controls['currentType'];
     this.numberOfConnectedPhase = this.formConnectorGroup.controls['numberOfConnectedPhase'];
+    this.phaseAssignmentToGrid = this.formConnectorGroup.controls['phaseAssignmentToGrid'];
     if (!this.isAdmin) {
       this.type.disable();
       this.voltage.disable();
@@ -122,9 +143,19 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         Utils.getChargingStationCurrentType(this.chargingStation, this.chargePoint, this.connector.connectorId));
       this.numberOfConnectedPhase.setValue(
         Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
+      if (this.numberOfConnectedPhase.value === 1) {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
+      }
+      if (this.connector.phaseAssignmentToGrid) {
+        this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[
+          this.phaseAssignmentToGridMap.findIndex(phaseAssignmentToGridMap =>
+            phaseAssignmentToGridMap.phaseAssignmentToGrid.cSPhaseL1 === this.connector.phaseAssignmentToGrid.cSPhaseL1)].
+          phaseAssignmentToGrid);
+      }
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
       if (this.chargePoint) {
-        this.formConnectorsArray.disable();
+        this.formConnectorGroup.disable();
+        this.phaseAssignmentToGrid.enable();
       } else {
         this.refreshPower();
         this.refreshNumberOfPhases();
@@ -145,16 +176,20 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public refreshNumberOfPhases() {
     if (this.currentType.value === CurrentType.DC) {
       this.numberOfConnectedPhase.setValue(3);
+      this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
+      this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[0].phaseAssignmentToGrid);
+      this.phaseAssignmentToGrid.disable();
       this.numberOfConnectedPhase.disable();
       this.amperage.updateValueAndValidity();
     } else {
       this.numberOfConnectedPhase.enable();
+      this.phaseAssignmentToGrid.enable();
     }
   }
 
   public refreshTotalAmperage() {
     if ((this.amperagePerPhase.value as number) > 0) {
-        this.amperage.setValue((this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number));
+      this.amperage.setValue((this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number));
     } else {
       this.amperage.setValue(0);
     }
@@ -178,12 +213,18 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhaseChanged() {
     this.refreshTotalAmperage();
     this.amperage.updateValueAndValidity();
+    if (this.numberOfConnectedPhase.value === 1) {
+      this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
+    } else {
+      this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
+    }
+    this.phaseAssignmentToGrid.setValue(null);
   }
 
-  private amperagePhaseValidator(amperageControl: AbstractControl): ValidationErrors|null {
+  private amperagePhaseValidator(amperageControl: AbstractControl): ValidationErrors | null {
     // Check
     if (!amperageControl.value ||
-       (((amperageControl.value as number) % (this.numberOfConnectedPhase.value as number)) === 0)) {
+      (((amperageControl.value as number) % (this.numberOfConnectedPhase.value as number)) === 0)) {
       // Ok
       return null;
     }

@@ -640,6 +640,20 @@
     "private_url": "Private URL",
     "nb_connected_phase": "Number of Connected Phase",
     "current_type": "Current Type",
+    "phase_assignment": "Phase Assignment",
+    "phase_combinations": {
+      "three_phased": {
+        "cs_1_g_1": "CS-Phase1: L1, CS-Phase2: L2, CS-Phase3: L3",
+        "cs_1_g_2": "CS-Phase1: L2, CS-Phase2: L3, CS-Phase3: L1",
+        "cs_1_g_3": "CS-Phase1: L3, CS-Phase2: L1, CS-Phase3: L2"
+      },
+      "single_phased": {
+        "cs_1_g_1": "CS-Phase1: L1, CS-Phase2: null, CS-Phase3: null",
+        "cs_1_g_2": "CS-Phase1: L2, CS-Phase2: null, CS-Phase3: null",
+        "cs_1_g_3": "CS-Phase1: L3, CS-Phase2: null, CS-Phase3: null"
+        }
+
+    },
     "cant_charge_in_parallel": "Cannot charge in parallel",
     "share_power_to_all_connectors": "Share the power with all connectors",
     "exclude_from_power_limitation": "Cannot limit the power",

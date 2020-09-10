@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
-import { RefundButtonAction } from 'app/types/Refund';
 import { RefundSettings } from 'app/types/Setting';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -39,10 +39,10 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
-import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
+import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../table-actions/table-export-transactions-action';
 import { TableOpenURLConcurAction } from '../table-actions/table-open-url-concur-action';
-import { TableRefundTransactionsAction } from '../table-actions/table-refund-transactions-action';
-import { TableSyncRefundTransactionsAction } from '../table-actions/table-sync-refund-transactions-action';
+import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../table-actions/table-refund-transactions-action';
+import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../table-actions/table-sync-refund-transactions-action';
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
@@ -252,9 +252,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case RefundButtonAction.SYNCHRONIZE:
+      case TransactionButtonAction.REFUND_SYNCHRONIZE:
         if (actionDef.action) {
-          actionDef.action(
+          (actionDef as TableSyncRefundTransactionsActionDef).action(
             this.dialogService, this.translateService, this.messageService, this.centralServerService,
             this.spinnerService, this.router, this.refreshData.bind(this)
           );
@@ -262,7 +262,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         break;
       case TransactionButtonAction.REFUND_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(
+          (actionDef as TableRefundTransactionsActionDef).action(
             this.refundSetting, this.getSelectedRows(),
             this.dialogService, this.translateService, this.messageService, this.centralServerService,
             this.spinnerService, this.router, this.clearSelectedRows.bind(this), this.refreshData.bind(this)
@@ -274,14 +274,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           this.messageService.showErrorMessage(
             this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
         } else if (this.refundSetting && this.refundSetting.content && this.refundSetting.content.concur && actionDef.action) {
-          actionDef.action(this.refundSetting.content.concur.appUrl ?
+          (actionDef as TableOpenURLActionDef).action(this.refundSetting.content.concur.appUrl ?
             this.refundSetting.content.concur.appUrl :
             this.refundSetting.content.concur.apiUrl);
         }
         break;
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.dialogService,
+          (actionDef as TableExportTransactionsActionDef).action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }

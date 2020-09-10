@@ -3,6 +3,8 @@ import { ChargingStation } from './ChargingStation';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 
 export interface Transaction extends Data {
   id: number;
@@ -62,6 +64,12 @@ export interface Transaction extends Data {
   dateTimestring: string;
   values: TransactionConsumption[];
   billingData: BillingTransactionData;
+  ocpiData?: {
+    session?: OCPISession;
+    cdr?: OCPICdr;
+    sessionCheckedOn?: Date;
+    cdrCheckedOn?: Date;
+  };
 }
 
 export interface TransactionConsumption {
@@ -104,6 +112,8 @@ export enum TransactionButtonAction {
   EXPORT_TRANSACTIONS = 'export_transactions',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
+  REFUND_SYNCHRONIZE = 'refund_synchronize',
+  PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
 }

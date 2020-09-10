@@ -11,8 +11,14 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsRebootActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsRebootAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsRebootActionDef = {
     id: ChargingStationButtonAction.REBOOT,
     type: 'button',
     icon: 'repeat',
@@ -22,7 +28,7 @@ export class TableChargingStationsRebootAction implements TableAction {
     action: this.reboot,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsRebootActionDef {
     return this.action;
   }
 

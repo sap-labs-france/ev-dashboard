@@ -15,7 +15,6 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
-import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -27,6 +26,7 @@ import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { Utils } from 'app/utils/Utils';
 import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
 import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
@@ -889,6 +889,24 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params: { ID: id },
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTenantLogo(tenantId: string): Observable<Logo> {
+    const params: { [param: string]: string } = {};
+    params['ID'] = tenantId;
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Logo>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_LOGO}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
       })
       .pipe(
         this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
@@ -2293,7 +2311,21 @@ export class CentralServerService {
   public refundTransactions(ids: number[]): Observable<ActionsResponse> {
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_REFUND}`, { transactionIds: ids },
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTIONS_REFUND}`, { transactionIds: ids },
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public pushTransactionCdr(id: number): Observable<ActionsResponse> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_PUSH_CDR}`,
+      { transactionId: id },
       {
         headers: this.buildHttpHeaders(),
       })

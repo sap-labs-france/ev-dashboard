@@ -14,6 +14,7 @@ import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration'
 import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
+import TenantConfiguration from '../types/configuration/TenantConfiguration';
 import UserConfiguration from '../types/configuration/UserConfiguration';
 
 @Injectable()
@@ -66,6 +67,10 @@ export class ConfigService {
 
   public getCompany(): CompanyConfiguration {
     return this.getConfig().Company;
+  }
+
+  public getTenant(): TenantConfiguration {
+    return this.getConfig().Tenant;
   }
 
   public getAsset(): AssetConfiguration {

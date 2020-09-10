@@ -8,14 +8,20 @@ import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchroni
 import { CarButtonAction } from 'app/types/Car';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef } from 'app/types/Table';
+import { TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableSyncRefundTransactionsActionDef extends TableActionDef {
+  action: (dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableSyncRefundTransactionsAction extends TableSynchronizeAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableSyncRefundTransactionsActionDef {
     return {
       ...super.getActionDef(),
-      id: CarButtonAction.SYNCHRONIZE,
+      id: TransactionButtonAction.REFUND_SYNCHRONIZE,
       name: 'general.synchronize',
       action: this.synchronizeRefund,
     };

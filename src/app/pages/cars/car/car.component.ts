@@ -86,7 +86,7 @@ export class CarComponent implements OnInit {
         ])),
       licensePlate: new FormControl('',
         Validators.compose([
-          Validators.required,
+          Validators.pattern('^[A-Z0-9- ]*$'),
         ])),
       carCatalog: new FormControl('',
         Validators.compose([

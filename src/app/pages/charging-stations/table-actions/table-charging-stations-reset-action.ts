@@ -11,8 +11,14 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsResetActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsResetAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsResetActionDef = {
     id: ChargingStationButtonAction.SOFT_RESET,
     type: 'button',
     icon: 'refresh',
@@ -22,7 +28,7 @@ export class TableChargingStationsResetAction implements TableAction {
     action: this.reset,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsResetActionDef {
     return this.action;
   }
 

@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
 
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
 import { TableSyncCarCatalogsAction } from '../table-actions/table-sync-car-catalogs-action';
-import { TableViewCarCatalogAction } from '../table-actions/table-view-car-catalog-action';
+import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../table-actions/table-view-car-catalog-action';
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
@@ -239,7 +239,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     switch (actionDef.id) {
       case CarButtonAction.VIEW_CAR_CATALOG:
         if (actionDef.action) {
-          actionDef.action(carCatalog, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCarCatalogActionDef).action(carCatalog, this.dialog, this.refreshData.bind(this));
         }
         break;
     }

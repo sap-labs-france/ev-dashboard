@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
@@ -23,10 +24,10 @@ import { Observable } from 'rxjs';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import ChangeNotification from '../../../../types/ChangeNotification';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
-import { TableCreateCompanyAction } from '../table-actions/table-create-company-action';
-import { TableDeleteCompanyAction } from '../table-actions/table-delete-company-action';
-import { TableEditCompanyAction } from '../table-actions/table-edit-company-action';
-import { TableViewCompanyAction } from '../table-actions/table-view-company-action';
+import { TableCreateCompanyAction, TableCreateCompanyActionDef } from '../table-actions/table-create-company-action';
+import { TableDeleteCompanyAction, TableDeleteCompanyActionDef } from '../table-actions/table-delete-company-action';
+import { TableEditCompanyAction, TableEditCompanyActionDef } from '../table-actions/table-edit-company-action';
+import { TableViewCompanyAction, TableViewCompanyActionDef } from '../table-actions/table-view-company-action';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -44,11 +45,12 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithLogo: true}]);
+    this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
 
@@ -93,7 +95,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         id: 'logo',
         name: 'companies.logo',
         headerClass: 'text-center col-8p',
-        class: 'col-8p',
+        class: 'col-8p p-0',
         isAngularComponent: true,
         angularComponent: CompanyLogoFormatterCellComponent,
       },
@@ -121,6 +123,38 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         sortable: true,
       },
     ];
+    if (this.authorizationService.isAdmin()) {
+      tableColumnDef.push(
+        {
+          id: 'createdOn',
+          name: 'users.created_on',
+          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+          headerClass: 'col-20p',
+          class: 'col-20p',
+          sortable: true,
+        },
+        {
+          id: 'createdBy',
+          name: 'users.created_by',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+        },
+        {
+          id: 'lastChangedOn',
+          name: 'users.changed_on',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          headerClass: 'col-20p',
+          class: 'col-20p',
+          sortable: true,
+        },
+        {
+          id: 'lastChangedBy',
+          name: 'users.changed_by',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+        },
+      );
+    }
     return tableColumnDef;
   }
 
@@ -162,7 +196,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateCompanyActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -171,14 +205,18 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   public rowActionTriggered(actionDef: TableActionDef, company: Company) {
     switch (actionDef.id) {
       case CompanyButtonAction.EDIT_COMPANY:
+        if (actionDef.action) {
+          (actionDef as TableEditCompanyActionDef).action(company, this.dialog, this.refreshData.bind(this));
+        }
+        break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
-          actionDef.action(company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCompanyActionDef).action(company, this.dialog, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:
         if (actionDef.action) {
-          actionDef.action(company, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteCompanyActionDef).action(company, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

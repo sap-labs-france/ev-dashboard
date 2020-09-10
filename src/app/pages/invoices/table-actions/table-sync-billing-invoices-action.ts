@@ -11,8 +11,14 @@ import { MessageService } from '../../../services/message.service';
 import { BillingButtonAction } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
 
+export interface TableSyncBillingInvoicesActionDef extends TableActionDef {
+  action: (dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableSyncBillingInvoicesAction extends TableSynchronizeAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableSyncBillingInvoicesActionDef {
     return {
       ...super.getActionDef(),
       id: BillingButtonAction.SYNCHRONIZE_INVOICES,

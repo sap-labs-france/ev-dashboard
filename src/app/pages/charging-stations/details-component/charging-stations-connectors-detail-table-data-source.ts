@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableViewTransactionAction } from 'app/pages/transactions/table-actions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from 'app/pages/transactions/table-actions/table-view-transaction-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
@@ -27,8 +27,8 @@ import { TableNoAction } from '../../../shared/table/actions/table-no-action';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { TableChargingStationsStartTransactionAction } from '../table-actions/table-charging-stations-start-transaction-action';
-import { TableChargingStationsStopTransactionAction } from '../table-actions/table-charging-stations-stop-transaction-action';
+import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../table-actions/table-charging-stations-start-transaction-action';
+import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from '../table-actions/table-charging-stations-stop-transaction-action';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -212,7 +212,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Start Transaction
       case ChargingStationButtonAction.START_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(this.chargingStation, connector, this.authorizationService, this.dialogService, this.dialog,
+          (actionDef as TableChargingStationsStartTransactionActionDef).action(
+            this.chargingStation, connector, this.authorizationService, this.dialogService, this.dialog,
             this.translateService, this.messageService, this.centralServerService, this.spinnerService,
             this.router, this.refreshData.bind(this));
         }
@@ -221,7 +222,8 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       case ChargingStationButtonAction.STOP_TRANSACTION:
         this.centralServerService.getTransaction(connector.currentTransactionID).subscribe((transaction) => {
           if (actionDef.action) {
-            actionDef.action(transaction, this.authorizationService, this.dialogService,
+            (actionDef as TableChargingStationsStopTransactionActionDef).action(
+              transaction, this.authorizationService, this.dialogService,
               this.translateService, this.messageService, this.centralServerService, this.spinnerService,
               this.router, this.refreshData.bind(this));
           }
@@ -238,7 +240,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
           return;
         }
         if (actionDef.action) {
-          actionDef.action({
+          (actionDef as TableViewTransactionActionDef).action({
             transactionID: connector.currentTransactionID,
             chargingStationID: this.chargingStation.id,
             connectorID: connector.connectorId,

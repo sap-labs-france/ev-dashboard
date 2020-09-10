@@ -17,8 +17,15 @@ import { Users } from 'app/utils/Users';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsStartTransactionActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, connector: Connector, authorizationService: AuthorizationService,
+    dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsStartTransactionAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsStartTransactionActionDef = {
     id: ChargingStationButtonAction.START_TRANSACTION,
     type: 'button',
     icon: 'play_arrow',
@@ -28,7 +35,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     action: this.startTransaction.bind(this),
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsStartTransactionActionDef {
     return this.action;
   }
 

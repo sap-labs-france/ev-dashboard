@@ -74,7 +74,7 @@ export class ConfigService {
   }
 
   public getTenant(): TenantConfiguration {
-    return this.config.Tenant;
+    return this.getConfig().Tenant;
   }
 
   public getAsset(): AssetConfiguration {

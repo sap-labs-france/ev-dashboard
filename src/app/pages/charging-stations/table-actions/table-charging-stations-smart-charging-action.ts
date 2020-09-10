@@ -33,7 +33,7 @@ export class TableChargingStationsSmartChargingAction extends TableViewAction {
         translateService.instant('chargers.action_error.smart_charging_title'),
         translateService.instant('chargers.action_error.smart_charging_charger_version'));
     } else {
-      super.view(ChargingStationLimitationDialogComponent,chargingStation.id, dialog, refresh);
+      super.view(ChargingStationLimitationDialogComponent, chargingStation.id, dialog, refresh);
     }
   }
 }

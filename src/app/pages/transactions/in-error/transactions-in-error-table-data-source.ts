@@ -171,6 +171,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     }
     columns.push(
       {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
+      {
         id: 'timestamp',
         name: 'transactions.started_at',
         headerClass: 'col-15p',

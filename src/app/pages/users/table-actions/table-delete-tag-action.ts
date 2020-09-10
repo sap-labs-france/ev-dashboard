@@ -10,8 +10,13 @@ import { Tag } from 'app/types/Tag';
 import { UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteTagActionDef extends TableActionDef {
+  action: (tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteTagAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteTagActionDef {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.DELETE_TAG,

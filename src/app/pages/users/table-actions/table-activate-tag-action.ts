@@ -7,12 +7,18 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { TableActivateAction } from 'app/shared/table/actions/table-activate-action';
 import { RestResponse } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef } from 'app/types/Table';
+import { Tag } from 'app/types/Tag';
 import { UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableActivateTagActionDef extends TableActionDef {
+  action: (tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableActivateTagAction extends TableActivateAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableActivateTagActionDef {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.ACTIVATE_TAG,
@@ -20,18 +26,25 @@ export class TableActivateTagAction extends TableActivateAction {
     };
   }
 
-  private activateTag(tagID: string, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  private activateTag(tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('tags.activate_title'),
-      translateService.instant('tags.activate_confirm', { tagID }),
+      translateService.instant('tags.activate_confirm', { tagID: tag.id }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
         spinnerService.show();
-        centralServerService.updateTagStatus(tagID, true).subscribe((actionResponse) => {
+        const tagUpdated: Tag = {
+          id: tag.id,
+          issuer: tag.issuer,
+          description: tag.description,
+          userID: tag.userID,
+          active: true,
+        } as Tag;
+        centralServerService.updateTag(tagUpdated).subscribe((actionResponse) => {
           spinnerService.hide();
           if (actionResponse.status === RestResponse.SUCCESS) {
-            messageService.showSuccessMessage('tags.activate_success', { tagID });
+            messageService.showSuccessMessage('tags.activate_success', { tagID: tag.id });
             if (refresh) {
               refresh().subscribe();
             }

@@ -4,15 +4,14 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>Badges</span>
+          <span>{{'users.tags' | translate}}</span>
         </ng-template>
-        <div class="card-body">
-          <div class="row align-items-start">
-            <div class="col-md-7">
-              <div class="col-md-4">
+        <div class="card-body align-items-start">
+          <div class="row">
+            <div class="col-md-4">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" class="app-organization-name"
+                  <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name"
                     type="text" [formControl]="id">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}
@@ -27,15 +26,22 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="col-md-7">
+          </div>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group">
                 <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'general.description' | translate}}"
-                    class="app-organization-name" type="text" [formControl]="description">
+                    class="app-car-name" type="text" [formControl]="description">
+                  <mat-error *ngIf="id.errors?.required">
+                    {{"general.mandatory_field" | translate}}
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
-              <div class="col-md-4">
+          </div>
+          <div class="row">
+            <div class="col-md-4">
               <div class="form-group">
                 <mat-form-field>
                   <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
@@ -48,7 +54,6 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-            </div>
             </div>
           </div>
           <div class="clearfix"></div>

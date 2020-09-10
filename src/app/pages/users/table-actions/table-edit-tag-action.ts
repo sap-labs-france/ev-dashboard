@@ -7,8 +7,12 @@ import { Observable } from 'rxjs';
 
 import { TagDialogComponent } from '../tag/tag.dialog.component';
 
+export interface TableEditTagActionDef extends TableActionDef {
+  action: (tag: Tag, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableEditTagAction extends TableEditAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableEditTagActionDef {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.EDIT_TAG,

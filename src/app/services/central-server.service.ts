@@ -918,24 +918,6 @@ export class CentralServerService {
       );
   }
 
-  public updateTagStatus(id: string, status: boolean): Observable<ActionResponse> {
-    // Verify init
-    this.checkInit();
-    const body = {
-      'id': id,
-      'status': status.toString()
-    };
-    // Execute the REST service
-    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE_STATUS}`, body,
-      {
-        headers: this.buildHttpHeaders()
-      })
-      .pipe(
-        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getUsersInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<User>> {
     // Verify init

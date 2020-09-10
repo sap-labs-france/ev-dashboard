@@ -20,11 +20,11 @@ import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
-import { TableActivateTagAction } from '../table-actions/table-activate-tag-action';
-import { TableCreateTagAction } from '../table-actions/table-create-tag-action';
-import { TableDeactivateTagAction } from '../table-actions/table-deactivate-tag-action';
-import { TableDeleteTagAction } from '../table-actions/table-delete-tag-action';
-import { TableEditTagAction } from '../table-actions/table-edit-tag-action';
+import { TableActivateTagAction, TableActivateTagActionDef } from '../table-actions/table-activate-tag-action';
+import { TableCreateTagAction, TableCreateTagActionDef } from '../table-actions/table-create-tag-action';
+import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../table-actions/table-deactivate-tag-action';
+import { TableDeleteTagAction, TableDeleteTagActionDef } from '../table-actions/table-delete-tag-action';
+import { TableEditTagAction, TableEditTagActionDef } from '../table-actions/table-edit-tag-action';
 
 @Injectable()
 export class TagsListTableDataSource extends TableDataSource<Tag> {
@@ -159,7 +159,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_TAG:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateTagActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -169,25 +169,25 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     switch (actionDef.id) {
       case UserButtonAction.ACTIVATE_TAG:
         if (actionDef.action) {
-          actionDef.action(tag.id, this.dialogService, this.translateService, this.messageService, this.centralServerService,
-            this.spinnerService, this.router, this.refreshData.bind(this));
+          (actionDef as TableActivateTagActionDef).action(tag, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DEACTIVATE_TAG:
         if (actionDef.action) {
-          actionDef.action(tag.id, this.dialogService, this.translateService, this.messageService, this.centralServerService,
-            this.spinnerService, this.router, this.refreshData.bind(this));
+          (actionDef as TableDeactivateTagActionDef).action(tag, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_TAG:
         if (actionDef.action) {
-          actionDef.action(tag, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteTagActionDef).action(tag, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EDIT_TAG:
         if (actionDef.action) {
-          actionDef.action(tag, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditTagActionDef).action(tag, this.dialog, this.refreshData.bind(this));
         }
         break;
     }

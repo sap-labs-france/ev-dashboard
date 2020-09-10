@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.3.38',
+        date: new Date('2020-09-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added ATESS vendor for Smart Charging support`,
+              `Fixed number of phase in Smart Charging when no consumption`,
+              `Added Logo and Address in Tenant management`,
+              `Added Badge ID in Sessions' lists`,
+              `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
+              `Ignore OCPP Status Notification on Connector ID '0'`,
+              `Get OCPI public Locations with no Charging Station`,
+              `Push CDRs not pushed at the end of the Session every 15 mins`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.35',
         date: new Date('2020-09-06'),
         componentChanges: [
@@ -64,20 +83,6 @@ export class ReleaseNotesComponent {
       },
       {
         version: '2.3.30',
-        date: new Date('2020-08-21'),
-        componentChanges: [
-          {
-            name: 'Dashboard',
-            changes: [
-              `Handle multiple OCPI Authorizations with the same Badge ID`,
-              `Convert the total parking time in hours in the OCPI CDR`,
-              `Put back the price in the OCPI CDR even if the pricing is not active`,
-            ],
-          },
-        ],
-      },
-      {
-        version: '2.3.35',
         date: new Date('2020-08-21'),
         componentChanges: [
           {

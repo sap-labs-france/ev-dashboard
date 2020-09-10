@@ -994,6 +994,24 @@ export class CentralServerService {
       );
   }
 
+  public getTenantLogo(tenantId: string): Observable<Logo> {
+    const params: { [param: string]: string } = {};
+    params['ID'] = tenantId;
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Logo>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.TENANT_LOGO}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTransactions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Transaction>> {
     // Verify init

@@ -23,7 +23,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.3.35",
+    "last_update": "Versión 2.3.38",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -1245,6 +1245,7 @@
   "tenants": {
     "title": "Organización",
     "name": "Nombre",
+    "logo": "Logo",
     "tenant_management": "Gestión de la organización",
     "tenant_not_found": "Esta organización no se ha encontrado",
     "email": "Correo electrónico",

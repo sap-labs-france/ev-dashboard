@@ -23,7 +23,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.3.35",
+    "last_update": "Version 2.3.38",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -1245,6 +1245,7 @@
   "tenants": {
     "title": "Organization",
     "name": "Name",
+    "logo": "Logo",
     "tenant_management": "Organization Management",
     "tenant_not_found": "This organization has not been found",
     "email": "Email",
@@ -1264,7 +1265,8 @@
     "save_error_billing": "Pricing must be active to use billing",
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_asset": "Organization must be active to use Asset",
-    "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant."
+    "smart_charging_still_active_for_site_area": "Smart Charging is still active for certain Site Areas.<br>Please deactivate Smart Charging for every Site Area in the tenant.",
+    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
   },
   "settings": {
     "settings_not_saved_title": "Settings not Saved",

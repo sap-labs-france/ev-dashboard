@@ -201,7 +201,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       iNumber: new FormControl(''),
       plateID: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z0-9-]*$'),
+          Validators.pattern('^[A-Z0-9- ]*$'),
         ])),
       costCenter: new FormControl('',
         Validators.compose([

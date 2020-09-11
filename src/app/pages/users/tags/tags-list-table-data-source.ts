@@ -3,11 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { IssuerFilter } from 'app/shared/table/filters/issuer-filter';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
-import { UserButtonAction } from 'app/types/User';
+import { User, UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -108,7 +109,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         name: 'users.title',
         headerClass: 'col-20p',
         class: 'col-20p',
-        formatter: (user) => Utils.buildUserFullName(user),
+        formatter: (user: User) => Utils.buildUserFullName(user),
       },
       {
         id: 'issuer',
@@ -118,13 +119,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         sortable: true,
         formatter: (issuer) => issuer ? this.translateService.instant('issuer.local') :
           this.translateService.instant('issuer.foreign'),
-      },
-      {
-        id: 'transactionsCount',
-        name: 'tags.sessions',
-        formatter: (transactionsCount: number) => transactionsCount ? transactionsCount.toString() : '0',
-        headerClass: 'col-10p',
-        class: 'text-center col-10p',
       },
     );
     return columns as TableColumnDef[];
@@ -146,9 +140,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       } else {
         actions.push(this.activateAction);
       }
-      if (!tag.transactionsCount) {
-        actions.push(this.deleteAction);
-      }
+      actions.push(this.deleteAction);
       actions.push(this.editAction);
     }
     return actions;
@@ -202,6 +194,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
+      new IssuerFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
     ];
   }

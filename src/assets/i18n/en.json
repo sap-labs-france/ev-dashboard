@@ -1234,6 +1234,7 @@
     "delete_title": "Delete badge",
     "delete_success": "The badge '{{tagID}}' has been deleted successfully",
     "delete_error": "Error occurred while deleting the badge",
+    "delete_has_transaction_error": "This badge is linked to sessions and cannot be deleted",
     "create_success": "The badge '{{tagID}}' has been created successfully",
     "create_error": "Error occurred while creating the badge",
     "update_success": "The badge '{{tagID}}' has been updated successfully",

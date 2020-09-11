@@ -145,36 +145,24 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         sortable: true,
       },
     );
-    if (this.authorizationService.isAdmin()) {
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
       columns.push(
         {
-          id: 'tags',
-          name: 'users.tags',
-          formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
+          id: 'billingData.customerID',
+          name: 'billing.id',
           headerClass: 'col-15p',
           class: 'col-15p',
           sortable: true,
         },
+        {
+          id: 'billingData.lastChangedOn',
+          name: 'billing.updated_on',
+          headerClass: 'col-15p',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          class: 'col-15p',
+          sortable: true,
+        },
       );
-      if (this.componentService.isActive(TenantComponents.BILLING)) {
-        columns.push(
-          {
-            id: 'billingData.customerID',
-            name: 'billing.id',
-            headerClass: 'col-15p',
-            class: 'col-15p',
-            sortable: true,
-          },
-          {
-            id: 'billingData.lastChangedOn',
-            name: 'billing.updated_on',
-            headerClass: 'col-15p',
-            formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-            class: 'col-15p',
-            sortable: true,
-          },
-        );
-      }
     }
     columns.push(
       {

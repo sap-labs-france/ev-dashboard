@@ -345,8 +345,8 @@
   "sites": {
     "assign_company": "Unternehmen zuweisen",
     "auto_user_site_assignment": "Automatische Nutzerzuordnung zu diesem Standort",
-    "public": "This site is public",
-    "public_site": "Public",
+    "public": "Dieser Standort ist öffentlich",
+    "public_site": "Öffentlich",
     "auto_assignment": "Automatische Nutzerzuordnung",
     "user_list": "Für Ladestationen authorisierte Nutzer an diesem Standort",
     "user_list_source_title": "Verfügbar",
@@ -649,7 +649,7 @@
     "public": "Diese Ladestation ist öffentlich",
     "public_charger": "Öffentlich",
     "exclude_smart_charging": "Vom Smart-Charging ausschließen",
-    "force_inactive": "This charging station is inactive",
+    "force_inactive": "Diese Ladestation ist inaktiv",
     "public_url": "Öffentliche URL",
     "current_ip": "Aktuelle IP Route",
     "select_chargers": "Ladestation auswählen",
@@ -1962,7 +1962,7 @@
       },
       "roaming": {
         "title": "Roaming",
-        "confirm": "Do you really want to push the CDR of the session ID '{{sessionID}}' to the roaming platform?"
+        "confirm": "Möchten sie die Ladevorgangsdetails des Ladevorgangs '{{sessionID}}' zur Roaming-Plattform hinzufügen?"
       },
       "create_invoice": {
         "title": "Rechnung erstellen",
@@ -1986,11 +1986,11 @@
         "error": "Beim Löschen des Ladevorgangs ist ein Fehler aufgetreten"
       },
       "roaming": {
-        "success": "The CDR of the session ID '{{sessionID}}' has been pushed successfully to the roaming platform",
-        "error": "An error occurred during the push of the CDR, check the logs",
-        "error_not_from_tenant": "This session does not belong to this tenant",
-        "error_no_ocpi": "This session does not contain OCPI data",
-        "error_cdr_already_pushed": "The CDR of this session has already been pushed"
+        "success": "Die Ladevorgangsdetails des Ladevorgangs '{{sessionID}}' wurden erfolgreich zur Roaming-Plattform hinzugefügt",
+        "error": "Beim hinzufügen der Ladevorgangsdetails ist ein Fehler aufgetreten, überprüfen Sie die Logs",
+        "error_not_from_tenant": "Dieser Ladevorgang gehört nicht zu dieser Organisation",
+        "error_no_ocpi": "Dieser Ladevorgang enthält keine OCPI-Daten",
+        "error_cdr_already_pushed": "Die Ladevorgangsdetails dieses Ladevorgangs wurden bereits hinzugefügt."
       },
       "soft_stop": {
         "success": "Der Ladevorgang von '{{user}}' wurde erfolgreich beendet.",

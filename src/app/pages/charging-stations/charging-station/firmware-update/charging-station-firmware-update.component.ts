@@ -10,7 +10,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
@@ -72,7 +72,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         }, (error) => {
           this.spinnerService.hide();
           switch (error.status) {
-            case HTTPError.UNAUTHORIZED_ERROR:
+            case HTTPAuthError.UNAUTHORIZED_ERROR:
               this.messageService.showErrorMessage('chargers.update_firmware_error');
               break;
             case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:

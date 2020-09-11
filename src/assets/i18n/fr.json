@@ -1241,6 +1241,7 @@
     "update_success": "Le badge '{{tagID}}' a été mis à jour avec succès",
     "tag_error": "Une erreur est survenue pendant la récupération du badge",
     "tag_not_found": "Le badge n'a pas été trouvé",
+    "select_tags": "Selection Badge",
     "user_tag_id_already_used": "Le badge est déjà assigné à un autre utilisateur",
   },
   "tenants": {

@@ -1241,6 +1241,7 @@
     "update_error": "Error occurred while updating the badge",
     "tag_error": "Error occurred while retrieving the tag",
     "tag_not_found": "Badge has not been found",
+    "select_tags": "Select Tag",
     "user_tag_id_already_used": "El insignia ya está asignada a otro usuario"
   },
   "tenants": {

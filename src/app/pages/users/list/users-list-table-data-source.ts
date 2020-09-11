@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
@@ -303,6 +303,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new IssuerFilter().getFilterDef(),
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
+      new TagTableFilter().getFilterDef(),
     ];
   }
 }

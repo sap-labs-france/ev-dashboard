@@ -22,18 +22,14 @@ export class ConfigService {
   private static config: Configuration;
 
   constructor(private http?: HttpClient) {
-    this.load();
+    this.getConfig();
   }
 
-  private getConfig(): Configuration {
+  public getConfig(): Configuration {
     if (!ConfigService.config) {
       this.http.get<Configuration>('/assets/config.json').subscribe((configuration) => ConfigService.config = configuration);
     }
     return ConfigService.config;
-  }
-
-  public load() {
-    this.getConfig();
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {

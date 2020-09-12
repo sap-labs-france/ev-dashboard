@@ -179,6 +179,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     dialogConfig.data = {
       staticFilter: {
         WithNoSiteArea: true,
+        Issuer: true,
       },
     };
     // Show

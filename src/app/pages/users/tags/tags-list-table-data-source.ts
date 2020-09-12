@@ -132,6 +132,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         sorted: true,
       },
       {
+        id: 'createdBy',
+        name: 'users.created_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
         id: 'lastChangedOn',
         name: 'users.changed_on',
         formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),

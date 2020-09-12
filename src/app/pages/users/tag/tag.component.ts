@@ -12,7 +12,9 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { ActionResponse } from 'app/types/DataResult';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
+import { ButtonType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
+import { User } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -23,6 +25,7 @@ export class TagComponent implements OnInit {
   @Input() public currentTagID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
@@ -30,14 +33,18 @@ export class TagComponent implements OnInit {
   public userID!: AbstractControl;
   public active!: AbstractControl;
 
+  public isAdmin = false;
+
   constructor(
-    public spinnerService: SpinnerService,
-    private centralServerService: CentralServerService,
-    private messageService: MessageService,
-    private translateService: TranslateService,
-    private dialogService: DialogService,
-    private router: Router,
-    private dialog: MatDialog) {
+      public spinnerService: SpinnerService,
+      private authorizationService: AuthorizationService,
+      private centralServerService: CentralServerService,
+      private messageService: MessageService,
+      private translateService: TranslateService,
+      private dialogService: DialogService,
+      private router: Router,
+      private dialog: MatDialog) {
+    this.isAdmin = this.authorizationService.isAdmin();
   }
 
   public ngOnInit() {
@@ -157,7 +164,8 @@ export class TagComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.update_success', { tagID: tag.id });
-        this.closeDialog(true);
+        // Reassign transactions to user?
+        this.checkUnassignedTransactions(tag.userID);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
       }
@@ -173,7 +181,8 @@ export class TagComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.create_success', { tagID: tag.id });
-        this.closeDialog(true);
+        // Reassign transactions to user?
+        this.checkUnassignedTransactions(tag.userID);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.create_error');
       }
@@ -186,6 +195,57 @@ export class TagComponent implements OnInit {
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');
       }
+    });
+  }
+
+  private checkUnassignedTransactions(userID: string) {
+    // Admin?
+    if (this.isAdmin && userID) {
+      // Check if there are unassigned transactions
+      this.centralServerService.getUnassignedTransactionsCount(userID).subscribe((count) => {
+        if (count && count > 0) {
+          this.dialogService.createAndShowYesNoDialog(
+            this.translateService.instant('users.assign_transactions_title'),
+            this.translateService.instant('users.assign_transactions_confirm', { count }),
+          ).subscribe((result) => {
+            if (result === ButtonType.YES) {
+              // Assign transactions to User
+              this.assignTransactionsToUser(userID);
+            } else {
+              this.closeDialog(true);
+            }
+          });
+        } else {
+          this.closeDialog(true);
+        }
+      }, (error) => {
+        // Hide
+        this.spinnerService.hide();
+        if (this.currentTagID) {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
+        } else {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
+        }
+      });
+    } else {
+      this.closeDialog(true);
+    }
+  }
+
+  private assignTransactionsToUser(userID: string) {
+    // Assign Transactions to User
+    this.spinnerService.show();
+    this.centralServerService.assignTransactionsToUser(userID).subscribe((response) => {
+      this.spinnerService.hide();
+      if (response.status === RestResponse.SUCCESS) {
+        this.messageService.showSuccessMessage('users.assign_transactions_success', { userFullName: this.user.value });
+      } else {
+        Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
+      }
+      this.closeDialog(true);
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
     });
   }
 }

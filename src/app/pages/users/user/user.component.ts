@@ -637,57 +637,22 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  private assignTransactionsToUser(user: User) {
-    // Show
-    this.spinnerService.show();
-    // Assign Transaction
-    this.centralServerService.assignTransactionsToUser(user.id).subscribe((response) => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('users.assign_transactions_success', { userFullName: user.firstName + ' ' + user.name });
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
-      }
-      // Close dialog
-      this.closeDialog(true);
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Handle error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
-    });
-  }
-
   private createUser(user: User) {
-    // Show
-    this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
-    // Yes: Update
+    this.spinnerService.show();
     this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
-        // Refresh
         user.id = response.id!;
         this.currentUserID = response.id!;
-        // Init form
-        this.formGroup.markAsPristine();
-        // Assign transactions?
-        this.checkUnassignedTransactions(user);
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
         // Email already exists
         case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
@@ -705,30 +670,19 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   private updateUser(user: User) {
-    // Show
-    this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
-    // Yes: Update
+    this.spinnerService.show();
     this.centralServerService.updateUser(user).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('users.update_success', { userFullName: user.firstName + ' ' + user.name });
-        // Init form
-        this.formGroup.markAsPristine();
-        // Assign transactions?
-        this.checkUnassignedTransactions(user);
+        this.closeDialog(true);
       } else {
-        // Error
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.update_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
         // Email already exists
         case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
@@ -754,42 +708,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
-  }
-
-  private checkUnassignedTransactions(user: User) {
-    // Admin?
-    if (this.isAdmin) {
-      // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe((count) => {
-        if (count && count > 0) {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', { count }),
-          ).subscribe((result) => {
-            if (result === ButtonType.YES) {
-              // Assign transactions
-              this.assignTransactionsToUser(user);
-            } else {
-              // Close dialog
-              this.closeDialog(true);
-            }
-          });
-        } else {
-          // Close dialog
-          this.closeDialog(true);
-        }
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        if (this.currentUserID) {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
-        } else {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
-        }
-      });
-    } else {
-      // Close dialog
-      this.closeDialog(true);
-    }
   }
 }

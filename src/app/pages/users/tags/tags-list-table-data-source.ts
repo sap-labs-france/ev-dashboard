@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { IssuerFilter } from 'app/shared/table/filters/issuer-filter';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { DataResult } from 'app/types/DataResult';
@@ -42,6 +44,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
+    private datePipe: AppDatePipe,
     private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     this.initDataSource();
@@ -78,8 +81,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [];
-    columns.push(
+    const tableColumnDef: TableColumnDef[] = [];
+    tableColumnDef.push(
       {
         id: 'active',
         name: 'tags.status',
@@ -99,29 +102,59 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       {
         id: 'description',
         name: 'general.description',
-        headerClass: 'text-center col-25p',
-        class: 'text-center col-25p',
+        headerClass: 'text-center col-30p',
+        class: 'text-center col-30p',
         formatter: (description: string) => description ? description : '-',
         sortable: true,
       },
       {
         id: 'user',
         name: 'users.title',
-        headerClass: 'col-20p',
-        class: 'col-20p',
+        headerClass: 'col-30p',
+        class: 'col-30p',
         formatter: (user: User) => Utils.buildUserFullName(user),
+      },
+      {
+        id: 'user.email',
+        name: 'users.email',
+        headerClass: 'col-30p',
+        class: 'col-30p',
       },
       {
         id: 'issuer',
         name: 'issuer.title',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
+        headerClass: 'text-center col-20p',
+        class: 'text-center col-20p',
         sortable: true,
         formatter: (issuer) => issuer ? this.translateService.instant('issuer.local') :
           this.translateService.instant('issuer.foreign'),
       },
     );
-    return columns as TableColumnDef[];
+    tableColumnDef.push(
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-20p',
+        class: 'col-20p',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-20p',
+        class: 'col-20p',
+      },
+    );
+    return tableColumnDef;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -134,14 +167,16 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableDynamicRowActions(tag: Tag): TableActionDef[] {
     const actions = [];
+    const moreActions = new TableMoreAction([]);
     if (tag.issuer) {
-      if (tag.active) {
-        actions.push(this.deactivateAction);
-      } else {
-        actions.push(this.activateAction);
-      }
-      actions.push(this.deleteAction);
       actions.push(this.editAction);
+      if (tag.active) {
+        moreActions.addActionInMoreActions(this.deactivateAction);
+      } else {
+        moreActions.addActionInMoreActions(this.activateAction);
+      }
+      moreActions.addActionInMoreActions(this.deleteAction);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

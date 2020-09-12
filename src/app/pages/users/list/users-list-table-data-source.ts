@@ -17,7 +17,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
@@ -58,7 +57,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       private appUserRolePipe: AppUserRolePipe,
-      private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init

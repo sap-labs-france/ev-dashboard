@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.0',
+        date: new Date('2020-09-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Badge Management framework`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.38',
         date: new Date('2020-09-09'),
         componentChanges: [

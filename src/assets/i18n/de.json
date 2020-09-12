@@ -12,6 +12,8 @@
     "expired_on": "Abgelaufen am",
     "revoked_on": "Widerrufen am",
     "description": "Beschreibung",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
     "day": "d",
     "hour": "h",
     "minute": "m",

@@ -11,7 +11,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name"
+                  <input matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name"
                     type="text" [formControl]="id">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}

@@ -30,7 +30,6 @@ export class TagComponent implements OnInit {
   public userID!: AbstractControl;
   public active!: AbstractControl;
 
-
   constructor(
     public spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
@@ -73,6 +72,9 @@ export class TagComponent implements OnInit {
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
     this.active = this.formGroup.controls['active'];
+    if (this.currentTagID) {
+      this.id.disable();
+    }
     // Set tag
     this.loadTag();
   }
@@ -148,7 +150,6 @@ export class TagComponent implements OnInit {
       this.createTag(tag);
     }
   }
-
 
   private updateTag(tag: Tag) {
     this.spinnerService.show();

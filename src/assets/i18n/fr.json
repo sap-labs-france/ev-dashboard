@@ -12,6 +12,8 @@
     "expired_on": "Expire le",
     "revoked_on": "Révoqué le",
     "description": "Description",
+    "activate": "Activer",
+    "deactivate": "Desactiver",
     "day": "j",
     "hour": "h",
     "minute": "m",

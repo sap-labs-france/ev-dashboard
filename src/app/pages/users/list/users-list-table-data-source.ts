@@ -107,16 +107,16 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         name: 'users.status',
         isAngularComponent: true,
         angularComponent: UserStatusFormatterComponent,
-        headerClass: 'col-10p',
-        class: 'col-10p table-cell-angular-big-component',
+        headerClass: 'col-10em',
+        class: 'col-10em table-cell-angular-big-component',
         sortable: true,
       },
       {
         id: 'role',
         name: 'users.role',
         formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'col-10em',
+        class: 'text-left col-10em',
         sortable: true,
       },
       {
@@ -138,8 +138,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'email',
         name: 'users.email',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sortable: true,
       },
     );
@@ -164,36 +164,36 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     }
     columns.push(
       {
-        id: 'eulaAcceptedOn',
-        name: 'users.eula_accepted_on',
-        formatter: (eulaAcceptedOn: Date, row: User) => {
-          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
-        },
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      },
-      {
         id: 'createdOn',
         name: 'users.created_on',
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        headerClass: 'col-15em',
+        class: 'col-15em',
         sortable: true,
       },
       {
         id: 'lastChangedOn',
         name: 'users.changed_on',
         formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        headerClass: 'col-15em',
+        class: 'col-15em',
         sortable: true,
       },
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'eulaAcceptedOn',
+        name: 'users.eula_accepted_on',
+        formatter: (eulaAcceptedOn: Date, row: User) => {
+          return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
+        },
+        headerClass: 'col-20em',
+        class: 'col-20em',
+        sortable: true,
       },
     );
     return columns as TableColumnDef[];

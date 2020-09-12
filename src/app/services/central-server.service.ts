@@ -24,6 +24,7 @@ import { Setting } from 'app/types/Setting';
 import { Site, SiteUser } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
+import { Tag } from 'app/types/Tag';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
@@ -831,6 +832,85 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTag(tagID: string): Observable<Tag> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['ID'] = tagID;
+    // Execute the REST service
+    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTags(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tag>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Tag>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteTag(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_DELETE}?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createTag(tag: Tag): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_CREATE}`, tag,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateTag(tag: Tag): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE}`, tag,
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
@@ -2919,7 +2999,7 @@ export class CentralServerService {
   }
 
   private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES) {
-    const noRetryHTTPErrorCodes: number[] = [HTTPError.OBJECT_DOES_NOT_EXIST_ERROR];
+    const noRetryHTTPErrorCodes: any[] = Utils.getValuesFromEnum(HTTPError);
     return (src: Observable<any>) => src.pipe(
       retryWhen(
         this.retryExponentialStrategy({ maxRetryAttempts: maxRetry, excludedStatusCodes: noRetryHTTPErrorCodes })

@@ -331,8 +331,14 @@ tr.element-row:not(.expanded-row):active {
 }
 
 @for $i from 1 through 100 {
-  .col-#{$i}em {
+  .col-#{$i}fem {
     @include col-fixsize(1em*$i)
+  }
+}
+
+@for $i from 1 through 100 {
+  .col-#{$i}em {
+    @include col-size(1em*$i)
   }
 }
 

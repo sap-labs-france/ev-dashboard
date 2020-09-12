@@ -101,7 +101,12 @@ export interface UserSite extends Data {
 
 export enum UserButtonAction {
   EDIT_USER = 'edit_user',
+  EDIT_TAG = 'edit_tag',
   CREATE_USER = 'create_user',
+  CREATE_TAG = 'create_tag',
+  DELETE_TAG = 'delete_tag',
+  ACTIVATE_TAG = 'activate_tag',
+  DEACTIVATE_TAG = 'deactivate_tag',
   DELETE_USER = 'delete_user',
   SYNCHRONIZE_BILLING_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',

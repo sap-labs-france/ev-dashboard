@@ -26,6 +26,12 @@ export class Utils {
     return true;
   }
 
+  public static getValuesFromEnum(enumType: any): number[] {
+    const keys: string[] = Object.keys(enumType).filter(httpError => typeof enumType[httpError] === 'number');
+    const values: number[] = keys.map((httpErrorKey: string) => enumType[httpErrorKey]);
+    return values;
+  }
+
   public static registerCloseKeyEvents(dialogRef: MatDialogRef<any>) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {

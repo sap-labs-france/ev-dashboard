@@ -1,6 +1,6 @@
-import { OCPIAuthMethod } from './OCPISession';
 import { OCPIChargingPeriod } from './OCPIChargingPeriod';
 import { OCPILocation } from './OCPILocation';
+import { OCPIAuthMethod } from './OCPISession';
 
 export interface OCPICdr {
   id: string;

@@ -130,7 +130,7 @@ export function getLocalStorage() {
 }
 
 export function configFactory(config: ConfigService) {
-  return () => config.load();
+  return () => config.getConfig();
 }
 
 export function localeFactory(

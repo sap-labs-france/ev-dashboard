@@ -116,10 +116,12 @@ export class TagComponent implements OnInit {
         this.spinnerService.hide();
         // Init form
         this.id.setValue(tag.id);
-        this.userID.setValue(tag.user.id);
         this.description.setValue(tag.description);
         this.active.setValue(tag.active);
-        this.user.setValue(Utils.buildUserFullName(tag.user));
+        if (tag.user) {
+          this.userID.setValue(tag.user.id);
+          this.user.setValue(Utils.buildUserFullName(tag.user));
+        }
         this.id.disable();
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

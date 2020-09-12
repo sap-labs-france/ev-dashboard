@@ -193,24 +193,30 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         id: 'createdOn',
         name: 'users.created_on',
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        headerClass: 'col-15em',
+        class: 'col-15em',
         sortable: true,
       },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-        });
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      });
     }
     return tableColumnDef;
   }

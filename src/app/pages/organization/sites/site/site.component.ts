@@ -280,7 +280,7 @@ export class SiteComponent implements OnInit {
           this.messageService.showErrorMessage('sites.site_not_found');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.create_error');
       }
     });
   }

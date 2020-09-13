@@ -2999,7 +2999,7 @@ export class CentralServerService {
   }
 
   private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES) {
-    const noRetryHTTPErrorCodes: any[] = Utils.getValuesFromEnum(HTTPError);
+    const noRetryHTTPErrorCodes: number[] = Utils.getValuesFromEnum(HTTPError);
     return (src: Observable<any>) => src.pipe(
       retryWhen(
         this.retryExponentialStrategy({ maxRetryAttempts: maxRetry, excludedStatusCodes: noRetryHTTPErrorCodes })

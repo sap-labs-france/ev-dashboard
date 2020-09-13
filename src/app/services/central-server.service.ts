@@ -3029,11 +3029,11 @@ export class CentralServerService {
         const retryAttempt = i + 1;
         // if maximum number of retries have been met
         // or response is a status code we don't wish to retry, throw error
-        if (retryAttempt > maxRetryAttempts || excludedStatusCodes.find(err => err === error.status)) {
+        if (retryAttempt > maxRetryAttempts - 1 || excludedStatusCodes.find(err => err === error.status)) {
           return throwError(error);
         }
         const retryDelay = this.exponentialDelay(retryAttempt);
-        if (retryAttempt <= maxRetryAttempts) {
+        if (retryAttempt <= maxRetryAttempts - 1) {
           Utils.consoleDebugLog(`Connection retry attempt #${retryAttempt} to backend REST API in ${retryDelay}`, error);
         }
         return timer(retryDelay);

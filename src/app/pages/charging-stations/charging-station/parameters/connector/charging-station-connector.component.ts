@@ -161,6 +161,10 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         this.refreshPower();
         this.refreshNumberOfPhases();
       }
+      // Force refresh the form
+      this.formConnectorGroup.updateValueAndValidity();
+      this.formConnectorGroup.markAsPristine();
+      this.formConnectorGroup.markAllAsTouched();
     }
   }
 

@@ -84,6 +84,18 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <div class="col-md-12" *ngIf="this.chargingStation.siteArea?.numberOfPhases === 3">
+            <mat-form-field>
+              <mat-select placeholder="{{'chargers.phase_assignment' | translate}}"
+                [formControl]="phaseAssignmentToGrid" required>
+                <mat-option *ngFor="let phaseAssignmentToGrid of phaseAssignmentToGridMap" [value]="phaseAssignmentToGrid.phaseAssignmentToGrid">
+                  {{phaseAssignmentToGrid.description | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="phaseAssignmentToGrid?.errors?.required">{{'general.mandatory_field' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
     </div>

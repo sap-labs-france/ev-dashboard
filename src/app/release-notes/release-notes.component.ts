@@ -25,12 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.0',
-        date: new Date('2020-09-12'),
+        date: new Date('2020-09-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `New Badge Management framework`,
+              `Charging Station Template updates`,
+              `Fixed minor bugs`,
             ],
           },
         ],

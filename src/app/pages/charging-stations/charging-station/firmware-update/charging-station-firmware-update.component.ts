@@ -64,7 +64,6 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        const fileName = 'r7_update_3.3.0.10_d4.epk';
         this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url.value).subscribe(() => {
           this.spinnerService.hide();
           this.messageService.showSuccessMessage(

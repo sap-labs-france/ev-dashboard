@@ -648,16 +648,15 @@
     "phase_assignment": "Phase Assignment",
     "phase_combinations": {
       "three_phased": {
-        "cs_1_g_1": "CS-Phase1: L1, CS-Phase2: L2, CS-Phase3: L3",
-        "cs_1_g_2": "CS-Phase1: L2, CS-Phase2: L3, CS-Phase3: L1",
-        "cs_1_g_3": "CS-Phase1: L3, CS-Phase2: L1, CS-Phase3: L2"
+        "cs_1_g_1": "Grid L1 > L1, Grid L2 > L2, Grid L3 > L3",
+        "cs_1_g_2": "Grid L2 > L1, Grid L3 > L2, Grid L1 > L3",
+        "cs_1_g_3": "Grid L3 > L1, Grid L1 > L2, Grid L2 > L3"
       },
       "single_phased": {
-        "cs_1_g_1": "CS-Phase1: L1, CS-Phase2: null, CS-Phase3: null",
-        "cs_1_g_2": "CS-Phase1: L2, CS-Phase2: null, CS-Phase3: null",
-        "cs_1_g_3": "CS-Phase1: L3, CS-Phase2: null, CS-Phase3: null"
+        "cs_1_g_1": "Grid L1 > L1",
+        "cs_1_g_2": "Grid L2 > L1",
+        "cs_1_g_3": "Grid L3 > L1"
         }
-
     },
     "cant_charge_in_parallel": "No se pueden usar todos los conectores en paralelo",
     "share_power_to_all_connectors": "Compartir energía con conectores",

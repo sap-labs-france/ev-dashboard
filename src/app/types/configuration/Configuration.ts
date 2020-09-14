@@ -4,10 +4,12 @@ import AuthorizationConfiguration from './AuthorizationConfiguration';
 import CarConfiguration from './CarConfiguration';
 import CentralSystemServerConfiguration from './CentralSystemServerConfiguration';
 import CompanyConfiguration from './CompanyConfiguration';
+import Debug from './Debug';
 import FrontEndConfiguration from './FrontEndConfiguration';
 import LocalesConfiguration from './LocalesConfiguration';
 import SiteAreaConfiguration from './SiteAreaConfiguration';
 import SiteConfiguration from './SiteConfiguration';
+import TenantConfiguration from './TenantConfiguration';
 import UserConfiguration from './UserConfiguration';
 
 export interface Configuration {
@@ -22,4 +24,6 @@ export interface Configuration {
   Site: SiteConfiguration;
   User: UserConfiguration;
   Car: CarConfiguration;
+  Tenant: TenantConfiguration;
+  Debug: Debug;
 }

@@ -18,6 +18,9 @@
     "maxPictureKb": 150,
     "captchaSiteKey": ""
   },
+  "Tenant": {
+    "maxLogoKb": 150
+	},
   "Company": {
     "maxPictureKb": 150
   },
@@ -48,5 +51,8 @@
   "Advanced": {
     "debounceTimeNotifMillis": 50,
     "debounceTimeSearchMillis": 500
+  },
+  "Debug": {
+    "enabled": true
   }
 }

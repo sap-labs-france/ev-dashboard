@@ -33,7 +33,7 @@ export interface OCPILocation {
     twentyfourseven: boolean;
     exceptional_openings?: OCPIPeriod[];
     exceptional_closings?: OCPIPeriod[];
-  }
+  };
   charging_when_closed?: boolean;
 }
 

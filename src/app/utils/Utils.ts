@@ -15,6 +15,7 @@ import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-code
 import * as moment from 'moment';
 
 import { CentralServerService } from '../services/central-server.service';
+import { ConfigService } from '../services/config.service';
 import { MessageService } from '../services/message.service';
 import { Constants } from './Constants';
 
@@ -24,6 +25,12 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static getValuesFromEnum(enumType: any): number[] {
+    const keys: string[] = Object.keys(enumType).filter(httpError => typeof enumType[httpError] === 'number');
+    const values: number[] = keys.map((httpErrorKey: string) => enumType[httpErrorKey]);
+    return values;
   }
 
   public static registerCloseKeyEvents(dialogRef: MatDialogRef<any>) {
@@ -111,7 +118,7 @@ export class Utils {
     return false;
   }
 
-  public static cloneJSonDocument(jsonDocument: object): object {
+  public static cloneJSonDocument(jsonDocument: any): any {
     return JSON.parse(JSON.stringify(jsonDocument));
   }
 
@@ -781,7 +788,7 @@ export class Utils {
   }
 
   public static convertToFloat(value: any): number {
-    let changedValue = value;
+    let changedValue: number = value;
     if (!value) {
       return 0;
     }
@@ -803,7 +810,10 @@ export class Utils {
   }
 
   public static consoleDebugLog(msg: any, error?: any) {
-    console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error);
+    const configService: ConfigService = new ConfigService();
+    if (configService.getDebug().enabled) {
+      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
+    }
   }
 
   public static copyToClipboard(content: any) {

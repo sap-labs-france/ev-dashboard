@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableOpenURLAction } from 'app/shared/table/actions/table-open-url-action';
 import { DataResult } from 'app/types/DataResult';
 import { ButtonAction } from 'app/types/GlobalType';
@@ -20,6 +21,7 @@ import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
+import { TenantLogoFormatterCellComponent } from '../cell-components/tenant-logo-formatter-cell.component';
 import { TableCreateTenantAction, TableCreateTenantActionDef } from '../table-actions/table-create-tenant-action';
 import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../table-actions/table-delete-tenant-action';
 import { TableEditTenantAction, TableEditTenantActionDef } from '../table-actions/table-edit-tenant-action';
@@ -39,9 +41,11 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       private router: Router,
       private dialog: MatDialog,
       private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService) {
+      private centralServerService: CentralServerService,
+      private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
+    this.setStaticFilters([{ WithLogo: true }]);
     this.initDataSource();
   }
 
@@ -77,6 +81,14 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public buildTableColumnDefs(): TableColumnDef[] {
     return [
       {
+        id: 'logo',
+        name: 'tenants.logo',
+        headerClass: 'text-center col-8p',
+        class: 'col-8p p-0',
+        isAngularComponent: true,
+        angularComponent: TenantLogoFormatterCellComponent,
+      },
+      {
         id: 'id',
         name: 'general.id',
         headerClass: 'col-25p',
@@ -105,6 +117,34 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
         headerClass: 'col-30p',
         class: 'col-30p',
         sortable: true,
+      },
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
       },
     ];
   }

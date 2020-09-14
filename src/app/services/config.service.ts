@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import AssetConfiguration from 'app/types/configuration/AssetConfiguration';
 import CarConfiguration from 'app/types/configuration/CarConfiguration';
+import Debug from 'app/types/configuration/Debug';
 import { Constants } from 'app/utils/Constants';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
@@ -13,70 +14,88 @@ import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration'
 import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';
+import TenantConfiguration from '../types/configuration/TenantConfiguration';
 import UserConfiguration from '../types/configuration/UserConfiguration';
 
 @Injectable()
 export class ConfigService {
-  private config!: Configuration;
+  private static config: Configuration;
 
-  constructor(private http: HttpClient) {
-    this.load().catch(() => {});
+  constructor(private http?: HttpClient) {
+    this.getConfig();
   }
 
-  public async load() {
-    this.config = await this.http.get<Configuration>('/assets/config.json').toPromise();
+  public getConfig(): Configuration {
+    if (!ConfigService.config) {
+      this.http.get<Configuration>('/assets/config.json').subscribe((configuration) => ConfigService.config = configuration);
+    }
+    return ConfigService.config;
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {
-    if (typeof this.config.CentralSystemServer.socketIOEnabled === 'undefined') {
-      this.config.CentralSystemServer.socketIOEnabled = true;
+    if (typeof this.getConfig().CentralSystemServer.socketIOEnabled === 'undefined') {
+      this.getConfig().CentralSystemServer.socketIOEnabled = true;
     }
-    if (typeof this.config.CentralSystemServer.connectionMaxRetries === 'undefined') {
-      this.config.CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES;
+    if (typeof this.getConfig().CentralSystemServer.connectionMaxRetries === 'undefined') {
+      this.getConfig().CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES;
     }
-    if (typeof this.config.CentralSystemServer.logoutOnConnectionError === 'undefined') {
-      this.config.CentralSystemServer.logoutOnConnectionError = true;
+    if (typeof this.getConfig().CentralSystemServer.logoutOnConnectionError === 'undefined') {
+      this.getConfig().CentralSystemServer.logoutOnConnectionError = true;
     }
-    return this.config.CentralSystemServer;
+    return this.getConfig().CentralSystemServer;
   }
 
   public getFrontEnd(): FrontEndConfiguration {
-    return (this.config.FrontEnd ? this.config.FrontEnd : {host: 'localhost'});
+    return (this.getConfig().FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' });
   }
 
   public getLocales(): LocalesConfiguration {
-    return this.config.Locales;
+    return this.getConfig().Locales;
   }
 
   public getAuthorization(): AuthorizationConfiguration {
-    return this.config.Authorization;
+    return this.getConfig().Authorization;
   }
 
   public getAdvanced(): AdvancedConfiguration {
-    return this.config.Advanced;
+    return this.getConfig().Advanced;
   }
 
   public getUser(): UserConfiguration {
-    return this.config.User;
+    return this.getConfig().User;
   }
 
   public getCompany(): CompanyConfiguration {
-    return this.config.Company;
+    return this.getConfig().Company;
+  }
+
+  public getTenant(): TenantConfiguration {
+    return this.getConfig().Tenant;
   }
 
   public getAsset(): AssetConfiguration {
-    return this.config.Asset;
+    return this.getConfig().Asset;
   }
 
   public getSite(): SiteConfiguration {
-    return this.config.Site;
+    return this.getConfig().Site;
   }
 
   public getSiteArea(): SiteAreaConfiguration {
-    return this.config.SiteArea;
+    return this.getConfig().SiteArea;
   }
 
   public getCar(): CarConfiguration {
-    return this.config.Car;
+    return this.getConfig().Car;
+  }
+
+  public getDebug(): Debug {
+    if (typeof this.getConfig().Debug === 'undefined') {
+      this.getConfig().Debug = {} as Debug;
+    }
+    if (typeof this.getConfig().Debug.enabled === 'undefined') {
+      this.getConfig().Debug.enabled = false;
+    }
+    return this.getConfig().Debug;
   }
 }

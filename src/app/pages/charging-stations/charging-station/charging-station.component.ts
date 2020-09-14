@@ -92,7 +92,7 @@ export class ChargingStationComponent implements OnInit {
 
   public saveChargingStation(chargingStation: ChargingStation) {
     // Clone
-    const chargingStationToSave = JSON.parse(JSON.stringify(chargingStation)) as ChargingStation;
+    const chargingStationToSave = Utils.cloneJSonDocument(chargingStation) as ChargingStation;
     // Do not save charge point
     delete chargingStationToSave.chargePoints;
     // Save

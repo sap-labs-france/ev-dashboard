@@ -9,6 +9,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
@@ -48,6 +49,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
+    private datePipe: AppDatePipe,
     private authorizationService: AuthorizationService) {
     super(spinnerService, translateService);
     this.setStaticFilters([{ WithCompany: true }]);
@@ -132,6 +134,38 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         sortable: true,
       },
     ];
+    if (this.authorizationService.isAdmin()) {
+      tableColumnDef.push(
+        {
+          id: 'createdOn',
+          name: 'users.created_on',
+          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+          headerClass: 'col-15em',
+          class: 'col-15em',
+          sortable: true,
+        },
+        {
+          id: 'createdBy',
+          name: 'users.created_by',
+          headerClass: 'col-15em',
+          class: 'col-15em',
+        },
+        {
+          id: 'lastChangedOn',
+          name: 'users.changed_on',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          headerClass: 'col-15em',
+          class: 'col-15em',
+          sortable: true,
+        },
+        {
+          id: 'lastChangedBy',
+          name: 'users.changed_by',
+          headerClass: 'col-15em',
+          class: 'col-15em',
+        },
+      );
+    }
     return tableColumnDef;
   }
 

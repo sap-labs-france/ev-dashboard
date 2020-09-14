@@ -27,15 +27,15 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   ];
 
   public phaseAssignmentToGridMapThreePhased = [
-    { description: "chargers.phase_combinations.three_phased.cs_1_g_1", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L1, cSPhaseL2: OCPPPhase.L2, cSPhaseL3: OCPPPhase.L3 } },
-    { description: "chargers.phase_combinations.three_phased.cs_1_g_2", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L2, cSPhaseL2: OCPPPhase.L3, cSPhaseL3: OCPPPhase.L1 } },
-    { description: "chargers.phase_combinations.three_phased.cs_1_g_3", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L3, cSPhaseL2: OCPPPhase.L1, cSPhaseL3: OCPPPhase.L2 } },
+    { description: "chargers.phase_combinations.three_phased.cs_1_g_1", phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: OCPPPhase.L2, csPhaseL3: OCPPPhase.L3 } },
+    { description: "chargers.phase_combinations.three_phased.cs_1_g_2", phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: OCPPPhase.L3, csPhaseL3: OCPPPhase.L1 } },
+    { description: "chargers.phase_combinations.three_phased.cs_1_g_3", phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: OCPPPhase.L1, csPhaseL3: OCPPPhase.L2 } },
   ];
 
   public phaseAssignmentToGridMapSinglePhased = [
-    { description: "chargers.phase_combinations.single_phased.cs_1_g_1", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L1, cSPhaseL2: null, cSPhaseL3: null } },
-    { description: "chargers.phase_combinations.single_phased.cs_1_g_2", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L2, cSPhaseL2: null, cSPhaseL3: null } },
-    { description: "chargers.phase_combinations.single_phased.cs_1_g_3", phaseAssignmentToGrid: { cSPhaseL1: OCPPPhase.L3, cSPhaseL2: null, cSPhaseL3: null } },
+    { description: "chargers.phase_combinations.single_phased.cs_1_g_1", phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: null, csPhaseL3: null } },
+    { description: "chargers.phase_combinations.single_phased.cs_1_g_2", phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: null, csPhaseL3: null } },
+    { description: "chargers.phase_combinations.single_phased.cs_1_g_3", phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: null, csPhaseL3: null } },
   ];
 
   public phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
@@ -151,7 +151,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
       if (this.connector.phaseAssignmentToGrid) {
         this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[
           this.phaseAssignmentToGridMap.findIndex(phaseAssignmentToGridMap =>
-            phaseAssignmentToGridMap.phaseAssignmentToGrid.cSPhaseL1 === this.connector.phaseAssignmentToGrid.cSPhaseL1)].
+            phaseAssignmentToGridMap.phaseAssignmentToGrid.csPhaseL1 === this.connector.phaseAssignmentToGrid.csPhaseL1)].
           phaseAssignmentToGrid);
       }
       this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));

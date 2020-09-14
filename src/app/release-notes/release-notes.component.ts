@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `New Badge Management framework`,
               `Charging Station Template updates`,
+              `Set the phase order in the Charging Station parameters for 3 phases Site Area`,
               `Fixed minor bugs`,
             ],
           },

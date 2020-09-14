@@ -118,7 +118,7 @@ export class Utils {
     return false;
   }
 
-  public static cloneJSonDocument(jsonDocument: object): object {
+  public static cloneJSonDocument(jsonDocument: any): any {
     return JSON.parse(JSON.stringify(jsonDocument));
   }
 

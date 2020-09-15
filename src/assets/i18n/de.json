@@ -25,7 +25,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.0",
+    "last_update": "Version 2.4.1",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -645,6 +645,19 @@
     "private_url": "Private URL",
     "nb_connected_phase": "Anzahl verbundener Phasen",
     "current_type": "Spannungsart",
+    "phase_assignment": "Phasenanordung",
+    "phase_combinations": {
+      "three_phased": {
+        "cs_1_g_1": "RST (L1, L2, L3)",
+        "cs_1_g_2": "STR (L2, L3, L1)",
+        "cs_1_g_3": "TRS (L3, L1, L2)"
+      },
+      "single_phased": {
+        "cs_1_g_1": "R (L1)",
+        "cs_1_g_2": "S (L2)",
+        "cs_1_g_3": "T (L3)"
+      }
+    },
     "cant_charge_in_parallel": "Paralleles Laden nicht möglich",
     "share_power_to_all_connectors": "Kapazität wird zwischen allen Anschlüssen geteilt",
     "exclude_from_power_limitation": "Kapazität kann nicht limitiert werden",

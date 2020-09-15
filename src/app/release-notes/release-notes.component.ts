@@ -24,13 +24,16 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.0',
-        date: new Date('2020-09-12'),
+        version: '2.4.1',
+        date: new Date('2020-09-14'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `New Badge Management framework`,
+              `Charging Station Template updates`,
+              `Set the phase order in the Charging Station parameters for 3 phases Site Area`,
+              `Fixed minor bugs`,
             ],
           },
         ],

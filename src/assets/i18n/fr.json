@@ -648,15 +648,15 @@
     "phase_assignment": "Phase Assignment",
     "phase_combinations": {
       "three_phased": {
-        "cs_1_g_1": "Réseau L1 > L1, Réseau L2 > L2, Réseau L3 > L3",
-        "cs_1_g_2": "Réseau L2 > L1, Réseau L3 > L2, Réseau L1 > L3",
-        "cs_1_g_3": "Réseau L3 > L1, Réseau L1 > L2, Réseau L2 > L3"
+        "cs_1_g_1": "RST (L1, L2, L3)",
+        "cs_1_g_2": "STR (L2, L3, L1)",
+        "cs_1_g_3": "TRS (L3, L1, L2)"
       },
       "single_phased": {
-        "cs_1_g_1": "Réseau L1 > L1",
-        "cs_1_g_2": "Réseau L2 > L1",
-        "cs_1_g_3": "Réseau L3 > L1"
-        }
+        "cs_1_g_1": "R (L1)",
+        "cs_1_g_2": "S (L2)",
+        "cs_1_g_3": "T (L3)"
+      }
     },
     "cant_charge_in_parallel": "Ne peut pas charger en parallèle",
     "share_power_to_all_connectors": "Partage la puissance avec les connecteurs",

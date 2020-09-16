@@ -1,4 +1,5 @@
 import { AfterViewChecked, Directive, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Utils } from 'app/utils/Utils';
 import * as CanvasGauges from 'canvas-gauges';
 
 /**
@@ -13,21 +14,21 @@ export abstract class BaseGaugeDirective<T extends CanvasGauges.BaseGauge, T2 ex
   /**
    * Canvas element on the template used by the library to draw gauge element
    */
-  @ViewChild('gauge', {static: true}) public canvas: ElementRef;
+  @ViewChild('gauge', { static: true }) public canvas: ElementRef;
   /**
    * Gauge options for rendering
    */
   @Input() public options: T2;
   /**
    * Stores gauge object which performs initial rendering and draws updates on the canvas.
-   * Shoulbe initialized in the child classes inside the ngOnInit implementation
+   * Should be initialized in the child classes inside the ngOnInit implementation
    */
   public gauge: T;
 
   /**
    *
    * @param el - reference to the element of the whole component, used to scrape options declared on the component itself
-   * @param zone - required to redraw gauge outside of Angular, due to animation lags caused by the ovewritten function of the ngZone
+   * @param zone - required to redraw gauge outside of Angular, due to animation lags caused by the overwritten function of the ngZone
    */
   constructor(private el: ElementRef, public zone: NgZone) {
   }
@@ -56,7 +57,7 @@ export abstract class BaseGaugeDirective<T extends CanvasGauges.BaseGauge, T2 ex
               part,
           )
           .join('')
-        ] = CanvasGauges.DomObserver.parse(attribute.value);
+      ] = CanvasGauges.DomObserver.parse(attribute.value);
     }
 
     return this.options;
@@ -67,15 +68,15 @@ export abstract class BaseGaugeDirective<T extends CanvasGauges.BaseGauge, T2 ex
    */
   public ngAfterViewChecked() {
     const props = this.getOptions();
-    /*        if (typeof props.value !== 'undefined') {
-                this.zone.runOutsideAngular(() => {
-                    this.gauge.value = props.value;
-                });
+    if (!Utils.isUndefined(props.value)) {
+      this.zone.runOutsideAngular(() => {
+        this.gauge.value = props.value;
+      });
+      delete props.value;
+    }
 
-                delete props.value;
-            }*/
     if (this.gauge) {
-//        this.gauge.update(props);
+      this.gauge.update(props);
     }
   }
 }

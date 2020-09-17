@@ -24,8 +24,8 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.1',
-        date: new Date('2020-09-14'),
+        version: '2.4.2',
+        date: new Date('2020-09-16'),
         componentChanges: [
           {
             name: 'Dashboard',

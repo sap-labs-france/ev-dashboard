@@ -68,15 +68,15 @@ export abstract class BaseGaugeDirective<T extends CanvasGauges.BaseGauge, T2 ex
    */
   public ngAfterViewChecked() {
     const props = this.getOptions();
-    if (!Utils.isUndefined(props.value)) {
-      this.zone.runOutsideAngular(() => {
-        this.gauge.value = props.value;
-      });
-      delete props.value;
-    }
+    // if (!Utils.isUndefined(props.value)) {
+    //   this.zone.runOutsideAngular(() => {
+    //     this.gauge.value = props.value;
+    //   });
+    //   delete props.value;
+    // }
 
-    if (this.gauge) {
-      this.gauge.update(props);
-    }
+    // if (this.gauge) {
+    //   this.gauge.update(props);
+    // }
   }
 }

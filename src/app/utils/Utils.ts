@@ -2,7 +2,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
 import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
@@ -14,9 +17,6 @@ import { User, UserCar, UserToken } from 'app/types/User';
 import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
 import * as moment from 'moment';
 
-import { CentralServerService } from '../services/central-server.service';
-import { ConfigService } from '../services/config.service';
-import { MessageService } from '../services/message.service';
 import { Constants } from './Constants';
 
 export class Utils {
@@ -807,6 +807,10 @@ export class Utils {
 
   public static isValidDate(date: any): boolean {
     return moment(date).isValid();
+  }
+
+  public static isUndefined(obj: any): boolean {
+    return typeof obj === 'undefined';
   }
 
   public static consoleDebugLog(msg: any, error?: any) {

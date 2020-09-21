@@ -1384,7 +1384,7 @@
       },
       "simple": {
         "title": "Einfache Preisbildung",
-        "price": "Preis",
+        "price": "Price (per kW.h)",
         "currency": "Währung"
       }
     },

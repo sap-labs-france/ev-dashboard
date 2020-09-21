@@ -1384,7 +1384,7 @@
       },
       "simple": {
         "title": "Calculs Basique",
-        "price": "Prix",
+        "price": "Prix (au kW.h)",
         "currency": "Devise"
       }
     },

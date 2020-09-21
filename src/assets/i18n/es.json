@@ -1384,7 +1384,7 @@
       },
       "simple": {
         "title": "Cálculos básicos",
-        "price": "Precio",
+        "price": "Price (per kW.h)",
         "currency": "Moneda"
       }
     },

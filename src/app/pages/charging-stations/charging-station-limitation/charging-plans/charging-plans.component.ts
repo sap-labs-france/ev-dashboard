@@ -144,7 +144,8 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
       this.loadProfile(chargingProfile);
     });
     // Check if smart charging is active
-    if (this.chargingStation.inactive || (this.isSmartChargingComponentActive && this.chargingStation.siteArea?.smartCharging)) {
+    if (this.chargingStation.inactive || (this.isSmartChargingComponentActive && this.chargingStation.siteArea?.smartCharging
+      && !this.chargingStation.excludeFromSmartCharging)) {
       this.startDateControl.disable();
     }
     // Change the Profile Type

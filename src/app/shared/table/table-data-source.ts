@@ -74,7 +74,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
-    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+    if (this.tableDef && this.tableDef.rowSelection && !Utils.isUndefined(this.multipleRowSelection)) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
       if (!multipleRowSelection && this.selectedRows > 1) {
         this.clearSelectedRows();
@@ -583,7 +583,7 @@ export abstract class TableDataSource<T extends Data> {
       this.tableDef = this.buildTableDef();
     }
     // Override multi-selection (let the undef check for boolean not yet assigned!)
-    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+    if (this.tableDef && this.tableDef.rowSelection && !Utils.isUndefined(this.multipleRowSelection)) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
     }
     return this.tableDef;

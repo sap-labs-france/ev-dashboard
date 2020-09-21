@@ -267,9 +267,9 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             };
           },
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
-            if (this.data.datasets && data.datasets && tooltipItem.datasetIndex !== undefined) {
+            if (this.data.datasets && data.datasets && !Utils.isUndefined(tooltipItem.datasetIndex)) {
               const dataSet = data.datasets[tooltipItem.datasetIndex];
-              if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
+              if (dataSet && dataSet.data && !Utils.isUndefined(tooltipItem.index)) {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantWatts':
@@ -290,7 +290,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           title: (item: ChartTooltipItem[], data: ChartData) => {
             if (data.labels && data.labels.length > 0) {
               const firstDate = new Date(data.labels[0] as number);
-              if (item[0].index !== undefined) {
+              if (!Utils.isUndefined(item[0].index)) {
                 const currentDate = new Date(data.labels[item[0].index] as number);
                 return this.datePipe.transform(currentDate) + ' - ' +
                   this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);

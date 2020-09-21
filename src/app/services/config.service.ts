@@ -33,13 +33,13 @@ export class ConfigService {
   }
 
   public getCentralSystemServer(): CentralSystemServerConfiguration {
-    if (typeof this.getConfig().CentralSystemServer.socketIOEnabled === 'undefined') {
+    if (this.isUndefined(this.getConfig().CentralSystemServer.socketIOEnabled)) {
       this.getConfig().CentralSystemServer.socketIOEnabled = true;
     }
-    if (typeof this.getConfig().CentralSystemServer.connectionMaxRetries === 'undefined') {
+    if (this.isUndefined(this.getConfig().CentralSystemServer.connectionMaxRetries)) {
       this.getConfig().CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES;
     }
-    if (typeof this.getConfig().CentralSystemServer.logoutOnConnectionError === 'undefined') {
+    if (this.isUndefined(this.getConfig().CentralSystemServer.logoutOnConnectionError)) {
       this.getConfig().CentralSystemServer.logoutOnConnectionError = true;
     }
     return this.getConfig().CentralSystemServer;
@@ -90,12 +90,16 @@ export class ConfigService {
   }
 
   public getDebug(): Debug {
-    if (typeof this.getConfig().Debug === 'undefined') {
+    if (this.isUndefined(this.getConfig().Debug)) {
       this.getConfig().Debug = {} as Debug;
     }
-    if (typeof this.getConfig().Debug.enabled === 'undefined') {
+    if (this.isUndefined(this.getConfig().Debug.enabled)) {
       this.getConfig().Debug.enabled = false;
     }
     return this.getConfig().Debug;
+  }
+
+  private isUndefined(obj: any): boolean {
+    return typeof obj === 'undefined';
   }
 }

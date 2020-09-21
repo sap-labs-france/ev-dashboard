@@ -3045,7 +3045,7 @@ export class CentralServerService {
     const header = {
       'Content-Type': 'application/json'
     };
-    if (tenant !== undefined) {
+    if (!Utils.isUndefined(tenant)) {
       header['Tenant'] = tenant;
     }
     // Check token

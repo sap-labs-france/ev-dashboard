@@ -8,7 +8,6 @@ import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
@@ -16,7 +15,6 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
-import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -24,9 +22,12 @@ import { Setting } from 'app/types/Setting';
 import { Site, SiteUser } from 'app/types/Site';
 import { SiteArea, SiteAreaConsumption } from 'app/types/SiteArea';
 import { StatisticData } from 'app/types/Statistic';
+import { Tag } from 'app/types/Tag';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { Utils } from 'app/utils/Utils';
 import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
 import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
@@ -831,6 +832,85 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTag(tagID: string): Observable<Tag> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['ID'] = tagID;
+    // Execute the REST service
+    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTags(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tag>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<Tag>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAGS}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteTag(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_DELETE}?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createTag(tag: Tag): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_CREATE}`, tag,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateTag(tag: Tag): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG_UPDATE}`, tag,
+      {
+        headers: this.buildHttpHeaders(),
       })
       .pipe(
         this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
@@ -2893,7 +2973,7 @@ export class CentralServerService {
   }
 
   private checkInit(): void {
-    // initialized?
+    // Initialized?
     if (!this.initialized) {
       // No: Process the init
       // Get the server config
@@ -2919,7 +2999,7 @@ export class CentralServerService {
   }
 
   private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES) {
-    const noRetryHTTPErrorCodes: number[] = [HTTPError.OBJECT_DOES_NOT_EXIST_ERROR];
+    const noRetryHTTPErrorCodes: number[] = Utils.getValuesFromEnum(HTTPError);
     return (src: Observable<any>) => src.pipe(
       retryWhen(
         this.retryExponentialStrategy({ maxRetryAttempts: maxRetry, excludedStatusCodes: noRetryHTTPErrorCodes })
@@ -2949,11 +3029,11 @@ export class CentralServerService {
         const retryAttempt = i + 1;
         // if maximum number of retries have been met
         // or response is a status code we don't wish to retry, throw error
-        if (retryAttempt > maxRetryAttempts || excludedStatusCodes.find(err => err === error.status)) {
+        if (retryAttempt > maxRetryAttempts - 1 || excludedStatusCodes.find(err => err === error.status)) {
           return throwError(error);
         }
         const retryDelay = this.exponentialDelay(retryAttempt);
-        if (retryAttempt <= maxRetryAttempts) {
+        if (retryAttempt <= maxRetryAttempts - 1) {
           Utils.consoleDebugLog(`Connection retry attempt #${retryAttempt} to backend REST API in ${retryDelay}`, error);
         }
         return timer(retryDelay);
@@ -2965,7 +3045,7 @@ export class CentralServerService {
     const header = {
       'Content-Type': 'application/json'
     };
-    if (tenant !== undefined) {
+    if (!Utils.isUndefined(tenant)) {
       header['Tenant'] = tenant;
     }
     // Check token

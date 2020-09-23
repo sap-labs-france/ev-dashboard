@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tag } from 'app/types/Tag';
 import TenantComponents from 'app/types/TenantComponents';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
@@ -17,7 +17,6 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { AppArrayToStringPipe } from '../../../shared/formatters/app-array-to-string.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
@@ -58,7 +57,6 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       private appUserRolePipe: AppUserRolePipe,
-      private arrayToStringPipe: AppArrayToStringPipe,
       private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
     // Init
@@ -109,16 +107,16 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         name: 'users.status',
         isAngularComponent: true,
         angularComponent: UserStatusFormatterComponent,
-        headerClass: 'col-10p',
-        class: 'col-10p table-cell-angular-big-component',
+        headerClass: 'col-10em',
+        class: 'col-10em table-cell-angular-big-component',
         sortable: true,
       },
       {
         id: 'role',
         name: 'users.role',
         formatter: (role: string) => role ? this.translateService.instant(this.appUserRolePipe.transform(role, loggedUserRole)) : '-',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
+        headerClass: 'col-10em',
+        class: 'text-left col-10em',
         sortable: true,
       },
       {
@@ -140,74 +138,68 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'email',
         name: 'users.email',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        headerClass: 'col-20p',
+        class: 'text-left col-20p',
         sortable: true,
       },
     );
-    if (this.authorizationService.isAdmin()) {
+    if (this.componentService.isActive(TenantComponents.BILLING)) {
       columns.push(
         {
-          id: 'tags',
-          name: 'users.tags',
-          formatter: (tags: Tag[]) => this.arrayToStringPipe.transform(tags.map((tag: Tag) => tag.id)),
+          id: 'billingData.customerID',
+          name: 'billing.id',
           headerClass: 'col-15p',
           class: 'col-15p',
           sortable: true,
         },
+        {
+          id: 'billingData.lastChangedOn',
+          name: 'billing.updated_on',
+          headerClass: 'col-15p',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          class: 'col-15p',
+          sortable: true,
+        },
       );
-      if (this.componentService.isActive(TenantComponents.BILLING)) {
-        columns.push(
-          {
-            id: 'billingData.customerID',
-            name: 'billing.id',
-            headerClass: 'col-15p',
-            class: 'col-15p',
-            sortable: true,
-          },
-          {
-            id: 'billingData.lastChangedOn',
-            name: 'billing.updated_on',
-            headerClass: 'col-15p',
-            formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-            class: 'col-15p',
-            sortable: true,
-          },
-        );
-      }
     }
     columns.push(
+      {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
       {
         id: 'eulaAcceptedOn',
         name: 'users.eula_accepted_on',
         formatter: (eulaAcceptedOn: Date, row: User) => {
           return eulaAcceptedOn ? this.datePipe.transform(eulaAcceptedOn) + ` (${this.translateService.instant('general.version')} ${row.eulaAcceptedVersion})` : '-';
         },
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        headerClass: 'col-20em',
+        class: 'col-20em',
         sortable: true,
-      },
-      {
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      },
-      {
-        id: 'lastChangedOn',
-        name: 'users.changed_on',
-        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      },
-      {
-        id: 'lastChangedBy',
-        name: 'users.changed_by',
-        headerClass: 'col-15p',
-        class: 'col-15p',
       },
     );
     return columns as TableColumnDef[];
@@ -315,6 +307,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new IssuerFilter().getFilterDef(),
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
+      new TagTableFilter().getFilterDef(),
     ];
   }
 }

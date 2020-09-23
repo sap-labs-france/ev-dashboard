@@ -4,6 +4,7 @@ import AuthorizationConfiguration from './AuthorizationConfiguration';
 import CarConfiguration from './CarConfiguration';
 import CentralSystemServerConfiguration from './CentralSystemServerConfiguration';
 import CompanyConfiguration from './CompanyConfiguration';
+import Debug from './Debug';
 import FrontEndConfiguration from './FrontEndConfiguration';
 import LocalesConfiguration from './LocalesConfiguration';
 import SiteAreaConfiguration from './SiteAreaConfiguration';
@@ -24,4 +25,5 @@ export interface Configuration {
   User: UserConfiguration;
   Car: CarConfiguration;
   Tenant: TenantConfiguration;
+  Debug: Debug;
 }

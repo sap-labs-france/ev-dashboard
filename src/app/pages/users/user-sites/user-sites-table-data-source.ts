@@ -186,6 +186,7 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
     dialogConfig.data = {
       staticFilter: {
         ExcludeSitesOfUserID: this.user.id,
+        Issuer: true,
       },
     };
     // Show

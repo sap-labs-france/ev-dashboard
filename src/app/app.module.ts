@@ -74,6 +74,7 @@ import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
+import { Utils } from './utils/Utils';
 
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeDe, 'de');
@@ -126,11 +127,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export function getLocalStorage() {
-  return (typeof window !== 'undefined') ? window.localStorage : null;
+  return (!Utils.isUndefined(window)) ? window.localStorage : null;
 }
 
 export function configFactory(config: ConfigService) {
-  return () => config.load();
+  return () => config.getConfig();
 }
 
 export function localeFactory(

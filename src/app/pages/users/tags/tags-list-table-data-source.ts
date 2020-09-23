@@ -66,7 +66,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
       if (userTableFilter) {
         userTableFilter.currentValue.push({
-          key: userID
+          key: userID, value: ''
         });
         this.filterChanged(userTableFilter);
       }

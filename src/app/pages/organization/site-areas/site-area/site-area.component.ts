@@ -159,6 +159,9 @@ export class SiteAreaComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {
+        Issuer: true
+      }
     };
     // Open
     this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {

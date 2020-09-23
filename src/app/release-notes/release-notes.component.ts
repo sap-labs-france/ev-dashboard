@@ -24,13 +24,15 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.2',
-        date: new Date('2020-09-16'),
+        version: '2.4.3',
+        date: new Date('2020-09-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `New Badge Management framework`,
+              `When Charging Stations are excluded from the Smart Charging they can be tuned manually`,
+              `Fixed retrieving the current connector power limit for the recursive daily Charging Plans and for the ones with one schedule period`,
               `Charging Station Template updates`,
               `Set the phase order in the Charging Station parameters for 3 phases Site Area`,
               `Fixed minor bugs`,

@@ -25,7 +25,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.4.2",
+    "last_update": "Versión 2.4.3",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -1386,7 +1386,7 @@
       },
       "simple": {
         "title": "Cálculos básicos",
-        "price": "Precio",
+        "price": "Price (per kW.h)",
         "currency": "Moneda"
       }
     },

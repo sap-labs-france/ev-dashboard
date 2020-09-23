@@ -1167,6 +1167,7 @@
     "assign_transactions_confirm": "'{{count}}' orphan sessions have been found. Do you want to assign them to this user?",
     "assign_transactions_success": "All orphan sessions have been assigned to the user '{{userFullName}}'",
     "assign_transactions_error": "Error occurred while assigning the orphan sessions to the user '{{userFullName}}', check the logs",
+    "redirect": "Check user",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",
@@ -1257,7 +1258,8 @@
     "tag_error": "Error occurred while retrieving the badge",
     "tag_not_found": "Badge has not been found",
     "select_tags": "Select Tag",
-    "user_tag_id_already_used": "The badge is already assigned to another user"
+    "user_tag_id_already_used": "The badge is already assigned to another user",
+    "redirect": "Check tags"
   },
   "tenants": {
     "title": "Organization",
@@ -1923,6 +1925,7 @@
     "select_report": "Select Report",
     "create_invoice_success": "Invoice has been created successfully for this session",
     "create_invoice_error": "Error occured while creating an invoice for this session",
+    "redirect": "Check transactions",
     "filter": {
       "type": {
         "name": "Type",

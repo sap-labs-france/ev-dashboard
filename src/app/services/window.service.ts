@@ -30,7 +30,7 @@ export class WindowService {
   }
 
   public getHash(): string {
-    return this.window.location.hash.substring(1);
+    return this.window.location.hash.substring(1, this.window.location.hash.indexOf('?'));
   }
 
   public getSubdomain(): string {
@@ -58,7 +58,13 @@ export class WindowService {
   }
 
   public getSearch(name: string): string {
-    return new URLSearchParams(window.location.search).get(name);
+    let search = '';
+    if (window.location.search) {
+      search = new URLSearchParams(window.location.search).get(name);
+    } else if (window.location.hash) {
+      search = new URLSearchParams(window.location.hash.slice(this.window.location.hash.indexOf('?'))).get(name);
+    }
+    return search;
   }
 
   public getSearches(name: string): string[] {

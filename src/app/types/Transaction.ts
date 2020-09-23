@@ -1,10 +1,10 @@
 import { BillingTransactionData } from './Billing';
 import { ChargingStation } from './ChargingStation';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
-import { OCPICdr } from './ocpi/OCPICdr';
-import { OCPISession } from './ocpi/OCPISession';
 
 export interface Transaction extends Data {
   id: number;
@@ -116,6 +116,7 @@ export enum TransactionButtonAction {
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
+  CHECK_TRANSACTIONS = 'check_transactions'
 }
 
 export enum ConsumptionUnit {

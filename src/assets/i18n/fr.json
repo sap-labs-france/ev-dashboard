@@ -1167,6 +1167,7 @@
     "assign_transactions_confirm": "'{{count}}' session(s) orpheline(s) a(ont) été trouvée(s). Voulez-vous les assigner a cet utilisateur ?",
     "assign_transactions_success": "Toutes les sessions orphelines ont été correctement assignées à l'utilisateur '{{userFullName}}'",
     "assign_transactions_error": "Une erreur est survenue pendant l'assignation des sessions orphelines à l'utilisateur '{{userFullName}}', vérifiez les logs",
+    "redirect": "Contrôler l'utilisateur",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",
@@ -1258,6 +1259,7 @@
     "tag_not_found": "Le badge n'a pas été trouvé",
     "select_tags": "Selection Badge",
     "user_tag_id_already_used": "Le badge est déjà assigné à un autre utilisateur",
+    "redirect": "Contrôler les badges"
   },
   "tenants": {
     "title": "Organisation",
@@ -1923,6 +1925,7 @@
     "select_report": "Selection Rapport",
     "create_invoice_success": "Facture créée avec succès pour cette session",
     "create_invoice_error": "Une erreur est survenue pendant la création de la facture, vérifiez les logs",
+    "redirect": "Contrôler les transactions",
     "filter": {
       "type": {
         "name": "Type",

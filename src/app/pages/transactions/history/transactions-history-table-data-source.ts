@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
@@ -11,6 +12,7 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { HTTPError } from 'app/types/HTTPError';
 import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -79,15 +81,57 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
+    this.initFilters();
     // Add statistics to query
     this.setStaticFilters([{ Statistics: 'history' }]);
+  }
+
+  public initFilters() {
+    const userID = this.windowService.getSearch('userID');
+    if (userID) {
+      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+      if (userTableFilter) {
+        userTableFilter.currentValue.push({
+          key: userID
+        });
+        this.filterChanged(userTableFilter);
+      }
+      this.loadUserFilterLabel(userID);
+    }
+    const tagID = this.windowService.getSearch('tagID');
+    if (tagID) {
+      this.setSearchValue(tagID);
+    }
+  }
+
+  public loadUserFilterLabel(userID: string) {
+    this.centralServerService.getUser(userID).subscribe((user: User) => {
+      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+      if (userTableFilter) {
+        userTableFilter.currentValue = [{
+          key: userID, value: Utils.buildUserFullName(user)
+        }];
+        this.filterChanged(userTableFilter);
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('users.user_do_not_exist');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    });
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

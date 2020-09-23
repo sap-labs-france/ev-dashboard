@@ -1167,6 +1167,7 @@
     "assign_transactions_confirm": "Se han encontrado '{{count}}' sesiones huérfanas. ¿Desea asignarlas a este usuario?",
     "assign_transactions_success": "Todas las sesiones huérfanas se han asignado al usuario '{{userFullName}}'",
     "assign_transactions_error": "Se produjo un error al asignar las sesiones huérfanas al usuario  '{{userFullName}}'",
+    "redirect": "Check user",
     "connectors": {
       "connect": "Conectar",
       "revoke": "Revocar",
@@ -1257,7 +1258,8 @@
     "tag_error": "Error occurred while retrieving the tag",
     "tag_not_found": "Badge has not been found",
     "select_tags": "Select Tag",
-    "user_tag_id_already_used": "El insignia ya está asignada a otro usuario"
+    "user_tag_id_already_used": "El insignia ya está asignada a otro usuario",
+    "redirect": "Check tags"
   },
   "tenants": {
     "title": "Organización",
@@ -1923,6 +1925,7 @@
     "select_report": "Seleccionar informe",
     "create_invoice_success": "Invoice has been created successfully for this session",
     "create_invoice_error": "Error occured while creating an invoice for this session",
+    "redirect": "Check transactions",
     "filter": {
       "type": {
         "name": "Tipo",

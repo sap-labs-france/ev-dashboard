@@ -1167,6 +1167,7 @@
     "assign_transactions_confirm": "'{{count}}' unzugeordnete Ladevorgänge gefunden. Wollen Sie diese diesem Nutzer zuordnen?",
     "assign_transactions_success": "Alle unzugeordneten Ladevorgänge wurden dem Nutzer '{{userFullName}}' zugeordnet",
     "assign_transactions_error": "Beim Zuordnen der unzugeordnenten Ladevorgänge zu '{{userFullName}}' ist ein Fehler aufgetreten",
+    "redirect": "Check user",
     "connectors": {
       "connect": "Verbinden",
       "revoke": "Widerrufen",
@@ -1257,7 +1258,8 @@
     "tag_error": "Beim Abrufen des Badges ist ein Fehler aufgetreten",
     "tag_not_found": "Badge wurde nicht gefunden",
     "select_tags": "Badge auswählen",
-    "user_tag_id_already_used": "Der Badge ist bereits einem anderem Nutzer zugeordnet"
+    "user_tag_id_already_used": "Der Badge ist bereits einem anderem Nutzer zugeordnet",
+    "redirect": "Check tags"
   },
   "tenants": {
     "title": "Organisation",
@@ -1923,6 +1925,7 @@
     "select_report": "Report auswählen",
     "create_invoice_success": "Für diesen Ladevorgang wurde erfolgreich eine Rechnung erstellt.",
     "create_invoice_error": "Während der Erstellung der Rechnung für den Ladevorgang ist ein Fehler aufgetreten",
+    "redirect": "Check transactions",
     "filter": {
       "type": {
         "name": "Typ",

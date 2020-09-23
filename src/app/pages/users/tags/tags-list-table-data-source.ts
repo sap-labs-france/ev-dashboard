@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckTransactionsAction } from 'app/pages/transactions/table-actions/table-check-transactions-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { IssuerFilter } from 'app/shared/table/filters/issuer-filter';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { DataResult } from 'app/types/DataResult';
+import { HTTPError } from 'app/types/HTTPError';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
+import { TransactionButtonAction } from 'app/types/Transaction';
 import { User, UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
 
@@ -24,6 +29,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 import { TableActivateTagAction, TableActivateTagActionDef } from '../table-actions/table-activate-tag-action';
+import { TableCheckUserAction } from '../table-actions/table-check-user-action';
 import { TableCreateTagAction, TableCreateTagActionDef } from '../table-actions/table-create-tag-action';
 import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../table-actions/table-deactivate-tag-action';
 import { TableDeleteTagAction, TableDeleteTagActionDef } from '../table-actions/table-delete-tag-action';
@@ -35,6 +41,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private activateAction = new TableActivateTagAction().getActionDef();
   private deactivateAction = new TableDeactivateTagAction().getActionDef();
   private editAction = new TableEditTagAction().getActionDef();
+  private checkUserAction = new TableCheckUserAction().getActionDef();
+  private checkTransactionsAction = new TableCheckTransactionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -45,10 +53,49 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     private dialog: MatDialog,
     private centralServerNotificationService: CentralServerNotificationService,
     private datePipe: AppDatePipe,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     this.initDataSource();
+    this.initFilters();
   }
+
+  public initFilters() {
+    const userID = this.windowService.getSearch('userID');
+    if (userID) {
+      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+      if (userTableFilter) {
+        userTableFilter.currentValue.push({
+          key: userID
+        });
+        this.filterChanged(userTableFilter);
+      }
+      this.loadUserFilterLabel(userID);
+    }
+  }
+
+  public loadUserFilterLabel(userID: string) {
+    this.centralServerService.getUser(userID).subscribe((user: User) => {
+      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+      if (userTableFilter) {
+        userTableFilter.currentValue = [{
+          key: userID, value: Utils.buildUserFullName(user)
+        }];
+        this.filterChanged(userTableFilter);
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('users.user_do_not_exist');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    });
+  }
+
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
     return this.centralServerNotificationService.getSubjectTags();
@@ -183,6 +230,10 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         moreActions.addActionInMoreActions(this.activateAction);
       }
       moreActions.addActionInMoreActions(this.deleteAction);
+      moreActions.addActionInMoreActions(this.checkTransactionsAction);
+      if (tag.userID) {
+        moreActions.addActionInMoreActions(this.checkUserAction);
+      }
       actions.push(moreActions.getActionDef());
     }
     return actions;
@@ -222,6 +273,16 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case UserButtonAction.EDIT_TAG:
         if (actionDef.action) {
           (actionDef as TableEditTagActionDef).action(tag, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case UserButtonAction.CHECK_USER:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('users#all?tagID=' + tag.id);
+        }
+        break;
+      case TransactionButtonAction.CHECK_TRANSACTIONS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('transactions#history?tagID=' + tag.id);
         }
         break;
     }

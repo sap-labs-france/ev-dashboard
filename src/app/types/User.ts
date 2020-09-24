@@ -113,7 +113,8 @@ export enum UserButtonAction {
   SYNCHRONIZE_BILLING_USERS = 'billing_synchronize_users',
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   CHECK_TAGS = 'check_tags',
-  CHECK_USER = 'check_user'
+  CHECK_USER = 'check_user',
+  ASSIGN_USER_TO_TAG = 'assign_user_to_tag'
 }
 
 export enum UserStatus {

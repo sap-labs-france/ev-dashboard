@@ -210,7 +210,8 @@
       "download": "Télécharger",
       "test_connection": "Tester la connection",
       "force_available_status": "Forcer le Statut en Disponible",
-      "force_unavailable_status": "Forcer le Statut en Indisponible"
+      "force_unavailable_status": "Forcer le Statut en Indisponible",
+      "assign_user_to_tag": "Assigner un nouveau utilisateur a ce badge"
     }
   },
   "issuer": {
@@ -1259,7 +1260,14 @@
     "tag_not_found": "Le badge n'a pas été trouvé",
     "select_tags": "Selection Badge",
     "user_tag_id_already_used": "Le badge est déjà assigné à un autre utilisateur",
-    "redirect": "Contrôler les badges"
+    "redirect": "Contrôler les badges",
+    "assign_user_to_tag_title": "Assigner utilisateur au badge",
+    "assign_user_to_tag_confirm": "Voulez-vous vraiment assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
+    "change_user_tag_title": "Changer l'utilisateur du tag",
+    "change_user_tag_confirm": "Voulez-vous vraiment désassigner l'utilisateur '{{oldUserName}}' et assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
+    "assign_user_to_tag_success": "L'utilisateur '{{userName}}' a assigné au badge avec succès",
+    "assign_user_to_tag_error": "Une erreur est survenue pendant l'assignation de l'utilisateurs au badge",
+    "assign_user_button": "Assigner utilisateur"
   },
   "tenants": {
     "title": "Organisation",

@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.3",
+    "last_update": "Version 2.4.5",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -210,7 +210,8 @@
       "download": "Download",
       "test_connection": "Test Connection",
       "force_available_status": "Force Status to Available",
-      "force_unavailable_status": "Force Status to Unavailable"
+      "force_unavailable_status": "Force Status to Unavailable",
+      "assign_user_to_tag": "Assign a new user to the tag"
     }
   },
   "issuer": {
@@ -942,7 +943,7 @@
     "start_transaction_confirm": "Do you really want to start a new session for user '{{userName}}' on the charging station '{{chargeBoxID}}'?",
     "start_transaction_success": "The session on the charging station '{{chargeBoxID}}' has been started successfully",
     "start_transaction_error": "Error occurred while trying to start a new session, check the logs",
-    "start_transaction_missing_active_tag": "Transaction cannot be started for user '{{userName}}' on the charging station '{{chargeBoxID}}', the user needs to have at least one active badge",
+    "start_transaction_missing_active_tag": "The session cannot be started for user '{{userName}}' on the charging station '{{chargeBoxID}}', the user needs to have at least one active badge",
     "start_transaction_user_not_allowed": "You are not allowed to start a session on this charging station",
     "unlock_connector_title": "Unlock",
     "unlock_connector_button": "Unlock",
@@ -1054,7 +1055,7 @@
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
     "select_actions":"Select Actions",
-    "redirect": "Check logs",
+    "redirect": "Navigate to Logs",
     "no_logs": "No logs matching the filters",
     "dialog": {
       "export": {
@@ -1167,6 +1168,7 @@
     "assign_transactions_confirm": "'{{count}}' orphan sessions have been found. Do you want to assign them to this user?",
     "assign_transactions_success": "All orphan sessions have been assigned to the user '{{userFullName}}'",
     "assign_transactions_error": "Error occurred while assigning the orphan sessions to the user '{{userFullName}}', check the logs",
+    "redirect": "Navigate to User",
     "connectors": {
       "connect": "Connect",
       "revoke": "Revoke",
@@ -1257,7 +1259,16 @@
     "tag_error": "Error occurred while retrieving the badge",
     "tag_not_found": "Badge has not been found",
     "select_tags": "Select Tag",
-    "user_tag_id_already_used": "The badge is already assigned to another user"
+    "user_tag_id_already_used": "The badge is already assigned to another user",
+    "redirect": "Navigate to Tags",
+    "assign_user_to_tag_title": "Assign user to tag",
+    "assign_user_to_tag_confirm": "Do you really want to assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
+    "change_user_tag_title": "Change user of tag",
+    "change_user_tag_confirm": "Do you really want to unassign the user '{{oldUserName}}' and assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
+    "assign_user_to_tag_success": "The user '{{userName}}' has been assigned to the badge successfully",
+    "tag_has_transaction_error": "Cannot update a tag which has transactions",
+    "assign_user_to_tag_error": "Error occurred while assigning the user to the badge",
+    "assign_user_button": "Assign user"
   },
   "tenants": {
     "title": "Organization",
@@ -1923,6 +1934,7 @@
     "select_report": "Select Report",
     "create_invoice_success": "Invoice has been created successfully for this session",
     "create_invoice_error": "Error occured while creating an invoice for this session",
+    "redirect": "Navigate to Sessions",
     "filter": {
       "type": {
         "name": "Type",
@@ -2067,13 +2079,13 @@
       },
       "missing_price": {
         "title": "Missing price",
-        "description": "The transaction has not been priced.",
-        "action": "Eventhough the pricing is activated in the organization, the transaction has not been priced. Contact your site administrator."
+        "description": "The session has not been priced.",
+        "action": "Eventhough the pricing is activated in the organization, the session has not been priced. Contact your site administrator."
       },
       "incorrect_starting_date": {
         "title": "Incorrect Starting Date",
         "description": "The starting date value is incorrect or impossible.",
-        "action": "Check the charging station settings. Ensure that the date sent at the start of the transaction is correct."
+        "action": "Check the charging station settings. Ensure that the date sent at the start of the session is correct."
       },
       "missing_user": {
         "title": "Session with no User",

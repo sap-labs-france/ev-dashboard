@@ -69,8 +69,9 @@ export class TagComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      active: new FormControl(true,
+      active: new FormControl('',
         Validators.compose([
+          Validators.required,
         ])),
     });
     // Form

@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.3",
+    "last_update": "Version 2.4.5",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -210,7 +210,8 @@
       "download": "Télécharger",
       "test_connection": "Tester la connection",
       "force_available_status": "Forcer le Statut en Disponible",
-      "force_unavailable_status": "Forcer le Statut en Indisponible"
+      "force_unavailable_status": "Forcer le Statut en Indisponible",
+      "assign_user_to_tag": "Assigner un nouveau utilisateur a ce badge"
     }
   },
   "issuer": {
@@ -1054,7 +1055,7 @@
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
     "select_actions":"Selection Actions",
-    "redirect": "Contrôler les logs",
+    "redirect": "Naviguer vers Logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {
       "export": {
@@ -1167,6 +1168,7 @@
     "assign_transactions_confirm": "'{{count}}' session(s) orpheline(s) a(ont) été trouvée(s). Voulez-vous les assigner a cet utilisateur ?",
     "assign_transactions_success": "Toutes les sessions orphelines ont été correctement assignées à l'utilisateur '{{userFullName}}'",
     "assign_transactions_error": "Une erreur est survenue pendant l'assignation des sessions orphelines à l'utilisateur '{{userFullName}}', vérifiez les logs",
+    "redirect": "Naviguer vers Utilisateurs",
     "connectors": {
       "connect": "Connecter",
       "revoke": "Révoquer",
@@ -1258,6 +1260,15 @@
     "tag_not_found": "Le badge n'a pas été trouvé",
     "select_tags": "Selection Badge",
     "user_tag_id_already_used": "Le badge est déjà assigné à un autre utilisateur",
+    "redirect": "Naviguer vers Badges",
+    "assign_user_to_tag_title": "Assigner utilisateur au badge",
+    "assign_user_to_tag_confirm": "Voulez-vous vraiment assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
+    "change_user_tag_title": "Changer l'utilisateur du tag",
+    "change_user_tag_confirm": "Voulez-vous vraiment désassigner l'utilisateur '{{oldUserName}}' et assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
+    "assign_user_to_tag_success": "L'utilisateur '{{userName}}' a assigné au badge avec succès",
+    "tag_has_transaction_error": "Impossible de mettre a jour un badge qui a des transactions",
+    "assign_user_to_tag_error": "Une erreur est survenue pendant l'assignation de l'utilisateurs au badge",
+    "assign_user_button": "Assigner utilisateur"
   },
   "tenants": {
     "title": "Organisation",
@@ -1923,6 +1934,7 @@
     "select_report": "Selection Rapport",
     "create_invoice_success": "Facture créée avec succès pour cette session",
     "create_invoice_error": "Une erreur est survenue pendant la création de la facture, vérifiez les logs",
+    "redirect": "Naviguer vers Sessions",
     "filter": {
       "type": {
         "name": "Type",

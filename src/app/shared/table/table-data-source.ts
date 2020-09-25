@@ -273,8 +273,13 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
-          filter.label = this.translateService.instant(filter.currentValue[0].value ? filter.currentValue[0].value : filter.currentValue[0]) +
-            (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+          if (filter.currentValue[0].value === '') {
+            filter.label = '';
+          } else {
+            filter.label = this.translateService.instant(filter.currentValue[0].value ?
+              filter.currentValue[0].value : filter.currentValue[0]) +
+              (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+          }
         } else {
           filter.label = '';
         }

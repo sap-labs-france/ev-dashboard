@@ -325,7 +325,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?search=' + transaction.id);
+        this.checkLogsAction.action('logs?Search=' + transaction.id);
         break;
     }
   }

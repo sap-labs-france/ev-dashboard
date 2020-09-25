@@ -8,6 +8,7 @@ import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
@@ -15,6 +16,7 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -26,8 +28,6 @@ import { Tag } from 'app/types/Tag';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { Utils } from 'app/utils/Utils';
 import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
 import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
@@ -2936,7 +2936,7 @@ export class CentralServerService {
   public getIntegrationConnections(userId: string): Observable<DataResult<IntegrationConnection>> {
     this.checkInit();
     return this.httpClient.get<DataResult<IntegrationConnection>>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.INTEGRATION_CONNECTIONS}?userId=${userId}`,
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.INTEGRATION_CONNECTIONS}?UserID=${userId}`,
       {
         headers: this.buildHttpHeaders(),
       })

@@ -10,6 +10,7 @@ import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { HTTPError } from 'app/types/HTTPError';
@@ -95,20 +96,28 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   }
 
   public initFilters() {
+    // User
     const userID = this.windowService.getSearch('userID');
     if (userID) {
       const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
       if (userTableFilter) {
         userTableFilter.currentValue.push({
-          key: userID
+          key: userID, value: '-',
         });
         this.filterChanged(userTableFilter);
       }
       this.loadUserFilterLabel(userID);
     }
+    // Tag
     const tagID = this.windowService.getSearch('tagID');
     if (tagID) {
-      this.setSearchValue(tagID);
+      const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
+      if (tagTableFilter) {
+        tagTableFilter.currentValue.push({
+          key: tagID, value: tagID,
+        });
+        this.filterChanged(tagTableFilter);
+      }
     }
   }
 
@@ -315,6 +324,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new TagTableFilter().getFilterDef());
     }
     return filters;
   }

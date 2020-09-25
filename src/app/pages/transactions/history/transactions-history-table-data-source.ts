@@ -97,7 +97,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public initFilters() {
     // User
-    const userID = this.windowService.getSearch('userID');
+    const userID = this.windowService.getSearch('UserID');
     if (userID) {
       const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
       if (userTableFilter) {
@@ -109,7 +109,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       this.loadUserFilterLabel(userID);
     }
     // Tag
-    const tagID = this.windowService.getSearch('tagID');
+    const tagID = this.windowService.getSearch('TagID');
     if (tagID) {
       const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
       if (tagTableFilter) {
@@ -377,7 +377,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?search=' + transaction.id);
+        this.checkLogsAction.action('logs?Search=' + transaction.id);
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {

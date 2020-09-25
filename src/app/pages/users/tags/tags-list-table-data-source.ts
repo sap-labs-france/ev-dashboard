@@ -63,7 +63,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   }
 
   public initFilters() {
-    const userID = this.windowService.getSearch('userID');
+    const userID = this.windowService.getSearch('UserID');
     if (userID) {
       const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
       if (userTableFilter) {
@@ -280,12 +280,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         break;
       case UserButtonAction.CHECK_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#all?tagID=' + tag.id);
+          (actionDef as TableOpenURLActionDef).action('users#all?TagID=' + tag.id);
         }
         break;
       case TransactionButtonAction.CHECK_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?tagID=' + tag.id);
+          (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id);
         }
         break;
       case UserButtonAction.ASSIGN_USER_TO_TAG:

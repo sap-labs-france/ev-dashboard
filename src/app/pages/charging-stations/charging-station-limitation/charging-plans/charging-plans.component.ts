@@ -100,7 +100,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   }
 
   public redirectToLog() {
-    new TableCheckLogsAction().getActionDef().action('logs?chargingStationID=' + this.chargingStation.id +
+    new TableCheckLogsAction().getActionDef().action('logs?ChargingStationID=' + this.chargingStation.id +
       '&actions=' + ServerAction.CHARGING_PROFILES + '|'
       + ServerAction.CHARGING_PROFILE_DELETE + '|' + ServerAction.CHARGING_PROFILE_UPDATE);
   }

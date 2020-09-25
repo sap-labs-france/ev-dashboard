@@ -1055,7 +1055,7 @@
     "search_this_month": "Este mes",
     "search_last_month": "El mes pasado",
     "select_actions": "Seleccionar Acciones",
-    "redirect": "Verificar registros",
+    "redirect": "Navigate to Logs",
     "no_logs": "No hay registros que coincidan con los filtros.",
     "dialog": {
       "export": {
@@ -1168,7 +1168,7 @@
     "assign_transactions_confirm": "Se han encontrado '{{count}}' sesiones huérfanas. ¿Desea asignarlas a este usuario?",
     "assign_transactions_success": "Todas las sesiones huérfanas se han asignado al usuario '{{userFullName}}'",
     "assign_transactions_error": "Se produjo un error al asignar las sesiones huérfanas al usuario  '{{userFullName}}'",
-    "redirect": "Check user",
+    "redirect": "Navigate to User",
     "connectors": {
       "connect": "Conectar",
       "revoke": "Revocar",
@@ -1260,7 +1260,7 @@
     "tag_not_found": "Badge has not been found",
     "select_tags": "Select Tag",
     "user_tag_id_already_used": "El insignia ya está asignada a otro usuario",
-    "redirect": "Check tags",
+    "redirect": "Navigate to Tags",
     "assign_user_to_tag_title": "Assign user to tag",
     "assign_user_to_tag_confirm": "Do you really want to assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
     "change_user_tag_title": "Change user of tag",
@@ -1933,7 +1933,7 @@
     "select_report": "Seleccionar informe",
     "create_invoice_success": "Invoice has been created successfully for this session",
     "create_invoice_error": "Error occured while creating an invoice for this session",
-    "redirect": "Check transactions",
+    "redirect": "Navigate to Sessions",
     "filter": {
       "type": {
         "name": "Tipo",

@@ -9,6 +9,7 @@ import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.comp
 import { TableAssignAction } from 'app/shared/table/actions/table-assign-action';
 import { ActionResponse } from 'app/types/DataResult';
 import { RestResponse } from 'app/types/GlobalType';
+import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import { User, UserButtonAction } from 'app/types/User';
@@ -83,7 +84,14 @@ export class TableAssignUserToTagAction extends TableAssignAction {
           }
         }, (error) => {
           spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.assign_user_to_tag_error');
+          switch (error.status) {
+            case HTTPError.TAG_HAS_TRANSACTIONS:
+              messageService.showErrorMessage('tags.tag_has_transaction_error');
+              break;
+            default:
+              Utils.handleHttpError(error, router, messageService,
+                centralServerService, 'general.unexpected_error_backend');
+          }
         });
       }
     });

@@ -1266,6 +1266,7 @@
     "change_user_tag_title": "Changer l'utilisateur du tag",
     "change_user_tag_confirm": "Voulez-vous vraiment désassigner l'utilisateur '{{oldUserName}}' et assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
     "assign_user_to_tag_success": "L'utilisateur '{{userName}}' a assigné au badge avec succès",
+    "tag_has_transaction_error": "Impossible de mettre a jour un badge qui a des transactions",
     "assign_user_to_tag_error": "Une erreur est survenue pendant l'assignation de l'utilisateurs au badge",
     "assign_user_button": "Assigner utilisateur"
   },

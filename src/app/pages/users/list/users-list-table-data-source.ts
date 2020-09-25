@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckTransactionsAction } from 'app/pages/transactions/table-actions/table-check-transactions-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
+import { TransactionButtonAction } from 'app/types/Transaction';
 import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
 
@@ -30,6 +34,7 @@ import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
+import { TableCheckTagsAction } from '../table-actions/table-check-tags-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
 import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
@@ -43,6 +48,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteAction = new TableDeleteUserAction().getActionDef();
   private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
+  private checkTagsAction = new TableCheckTagsAction().getActionDef();
+  private checkTransactionsAction = new TableCheckTransactionsAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -57,15 +64,31 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       private authorizationService: AuthorizationService,
       private componentService: ComponentService,
       private appUserRolePipe: AppUserRolePipe,
-      private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
     if (this.authorizationService.hasSitesAdminRights()) {
       this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
     }
     this.initDataSource();
+    this.initFilters();
     // Store the current user
     this.currentUser = this.centralServerService.getLoggedUser();
+  }
+
+  public initFilters() {
+    // Tag
+    const tagID = this.windowService.getSearch('TagID');
+    if (tagID) {
+      const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
+      if (tagTableFilter) {
+        tagTableFilter.currentValue.push({
+          key: tagID, value: tagID,
+        });
+        this.filterChanged(tagTableFilter);
+      }
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -239,9 +262,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
-    if (moreActions.getActionsInMoreActions().length > 0) {
-      actions.push(moreActions.getActionDef());
-    }
+    moreActions.addActionInMoreActions(this.checkTagsAction);
+    moreActions.addActionInMoreActions(this.checkTransactionsAction);
+    actions.push(moreActions.getActionDef());
     return actions;
   }
 
@@ -290,6 +313,16 @@ export class UsersListTableDataSource extends TableDataSource<User> {
             this.messageService, this.centralServerService, this.router,
             this.refreshData.bind(this)
           );
+        }
+        break;
+      case UserButtonAction.CHECK_TAGS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id);
+        }
+        break;
+      case TransactionButtonAction.CHECK_TRANSACTIONS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id);
         }
         break;
     }

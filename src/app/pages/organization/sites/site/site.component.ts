@@ -116,6 +116,9 @@ export class SiteComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {
+        Issuer: true
+      }
     };
     // Open
     this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {

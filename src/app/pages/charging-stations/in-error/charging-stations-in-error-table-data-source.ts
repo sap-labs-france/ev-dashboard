@@ -220,7 +220,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         break;
       case LogButtonAction.CHECK_LOGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('logs?chargingStationID=' + chargingStation.id);
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + chargingStation.id);
         }
         break;
     }

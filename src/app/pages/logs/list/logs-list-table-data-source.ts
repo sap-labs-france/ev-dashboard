@@ -65,7 +65,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Charging Station
-    const chargingStationID = this.windowService.getSearch('chargingStationID');
+    const chargingStationID = this.windowService.getSearch('ChargingStationID');
     if (chargingStationID) {
       const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
       if (logSourceTableFilter) {
@@ -74,7 +74,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Search
-    const search = this.windowService.getSearch('search');
+    const search = this.windowService.getSearch('Search');
     if (search) {
       this.setSearchValue(search);
     }

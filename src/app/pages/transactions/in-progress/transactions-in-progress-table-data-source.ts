@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -223,6 +224,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     filters.push(new ChargingStationTableFilter().getFilterDef());
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new TagTableFilter().getFilterDef());
     }
     return filters;
   }

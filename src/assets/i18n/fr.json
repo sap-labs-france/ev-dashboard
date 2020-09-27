@@ -990,7 +990,7 @@
     "amper": "Ampere",
     "voltage": "Tension Phase/Neutre (V)",
     "amperage": "Intensité Totale (A)",
-    "amperagePerPhase": "Amperage per phase (A)",
+    "amperagePerPhase": "Intensité par phase (A)",
     "session_details": "Session",
     "tabs": {
       "list": "Bornes",

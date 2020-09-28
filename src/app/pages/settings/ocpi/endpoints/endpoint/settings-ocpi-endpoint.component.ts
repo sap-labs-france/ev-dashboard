@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'app/services/dialog.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
+import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { MessageService } from '../../../../../services/message.service';
@@ -180,13 +181,13 @@ export class SettingsOcpiEnpointComponent implements OnInit {
         // switch message according status code recieved
         let messageId = 'ocpiendpoints.error_ping';
         switch (response.statusCode) {
-          case 401:
+          case StatusCodes.UNAUTHORIZED:
             messageId = 'ocpiendpoints.error_ping_401';
             break;
-          case 404:
+          case StatusCodes.NOT_FOUND:
             messageId = 'ocpiendpoints.error_ping_404';
             break;
-          case 412:
+          case StatusCodes.PRECONDITION_FAILED:
             messageId = 'ocpiendpoints.error_ping_412';
             break;
           default:

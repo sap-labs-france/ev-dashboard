@@ -14,7 +14,7 @@ import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
 import { User, UserCar, UserToken } from 'app/types/User';
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 
 import { Constants } from './Constants';
@@ -714,24 +714,24 @@ export class Utils {
         }
         break;
       // Unauthorized!
-      case UNAUTHORIZED:
+      case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
         centralServerService.logoutSucceeded();
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
         break;
       // Conflict in User Session
-      case FORBIDDEN:
+      case StatusCodes.FORBIDDEN:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
         centralServerService.logoutSucceeded();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
-      case BAD_REQUEST:
+      case StatusCodes.BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
         break;
-      case CONFLICT:
+      case StatusCodes.CONFLICT:
         if (error.details) {
           messageService.showErrorMessage(error.details.message, error.details.params);
         } else {

@@ -30,7 +30,8 @@ export class WindowService {
   }
 
   public getHash(): string {
-    return this.window.location.hash.substring(1, this.window.location.hash.indexOf('?'));
+    return this.window.location.hash.includes('?') ? this.window.location.hash.substring(1, this.window.location.hash.indexOf('?')) :
+      this.window.location.hash.substring(1);
   }
 
   public getSubdomain(): string {

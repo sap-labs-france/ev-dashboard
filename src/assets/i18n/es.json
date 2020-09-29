@@ -1259,7 +1259,7 @@
     "tag_error": "Error occurred while retrieving the tag",
     "tag_not_found": "Badge has not been found",
     "select_tags": "Select Tag",
-    "user_tag_id_already_used": "El insignia ya está asignada a otro usuario",
+    "tag_id_already_used": "The badge '{{tagID}}'already exists",
     "redirect": "Navigate to Tags",
     "assign_user_to_tag_title": "Assign user to tag",
     "assign_user_to_tag_confirm": "Do you really want to assign the user '{{newUserName}}' to the tag '{{tagID}}'?",

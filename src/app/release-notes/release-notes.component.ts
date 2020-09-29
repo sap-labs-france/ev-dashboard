@@ -24,7 +24,28 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.5',
+        version: '2.4.6',
+        date: new Date('2020-09-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Allow high volume of data in export functions`,
+              `Migration tasks for aligning the local Badges with local Users + default description`,
+              `For Badge ID to be in upper case when created manually`,
+              `Auto refresh Badge management list`,
+              `Build Smart Charging safe Car + Override with Meter Values`,
+              `Enable vehicule identifier in OCPP for the Ebee Charging Station`,
+              `Handle Meter Values with L1_N, L2_N and L3_N phases`,
+              `Add Voltage Meter Value on Legrand Charging Station`,
+              `Enable authentication with badge on Schneider Charging Station`,
+              `Display a relevant error message when trying to create a Badge that already exists`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.45',
         date: new Date('2020-09-25'),
         componentChanges: [
           {

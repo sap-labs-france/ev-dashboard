@@ -148,6 +148,10 @@ export class TagComponent implements OnInit {
     }
   }
 
+  public toUpperCase(control: AbstractControl) {
+    control.setValue(control.value.toUpperCase());
+  }
+
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveTag.bind(this), this.closeDialog.bind(this));
@@ -192,8 +196,8 @@ export class TagComponent implements OnInit {
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
-        case HTTPError.USER_TAG_ID_ALREADY_USED_ERROR:
-          this.messageService.showErrorMessage('tags.user_tag_id_already_used');
+        case HTTPError.TAG_ALREADY_EXIST_ERROR:
+          this.messageService.showErrorMessage('tags.tag_id_already_used', { tagID: tag.id });
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');

@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Allow high volume of data in export functions`,
               `For Badge ID to be in upper case when created manually`,
+              `Build Smart Charging safe Car + Override with Meter Values`,
               `Enable vehicule identifier in OCPP for the Ebee Charging Station`,
               `Handle Meter Values with L1_N, L2_N and L3_N phases`,
               `Add Voltage Meter Value on Legrand Charging Station`,

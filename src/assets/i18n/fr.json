@@ -1259,7 +1259,7 @@
     "tag_error": "Une erreur est survenue pendant la récupération du badge",
     "tag_not_found": "Le badge n'a pas été trouvé",
     "select_tags": "Selection Badge",
-    "user_tag_id_already_used": "Le badge est déjà assigné à un autre utilisateur",
+    "tag_id_already_used": "Le badge '{{tagID}}' existe déjà",
     "redirect": "Naviguer vers Badges",
     "assign_user_to_tag_title": "Assigner utilisateur au badge",
     "assign_user_to_tag_confirm": "Voulez-vous vraiment assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",

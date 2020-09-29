@@ -31,7 +31,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Allow high volume of data in export functions`,
+              `Migration tasks for aligning the local Badges with local Users + default description`,
               `For Badge ID to be in upper case when created manually`,
+              `Auto refresh Badge management list`,
               `Build Smart Charging safe Car + Override with Meter Values`,
               `Enable vehicule identifier in OCPP for the Ebee Charging Station`,
               `Handle Meter Values with L1_N, L2_N and L3_N phases`,

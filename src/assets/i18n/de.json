@@ -1259,7 +1259,7 @@
     "tag_error": "Beim Abrufen des Badges ist ein Fehler aufgetreten",
     "tag_not_found": "Badge wurde nicht gefunden",
     "select_tags": "Badge auswählen",
-    "tag_id_already_used": "Der badge '{{tagID}}' existiert bereits",
+    "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
     "redirect": "Zu den Badges navigieren",
     "assign_user_to_tag_title": "Nutzer dem Badge zuordnen",
     "assign_user_to_tag_confirm": "Möchten Sie den Nutzer '{{newUserName}}' wirklich dem Badge '{{tagID}}' zuordnen?",

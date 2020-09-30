@@ -25,7 +25,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.6",
+    "last_update": "Version 2.4.7",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -211,7 +211,7 @@
       "test_connection": "Verbindung testen",
       "force_available_status": "Status verfügbar erzwingen",
       "force_unavailable_status": "Status nicht verfügbar erzwingen",
-      "assign_user_to_tag": "Assign/Change a new user to the tag"
+      "assign_user_to_tag": "Neuen Nutzer einem Badge Zuordnen/Ändern"
     }
   },
   "issuer": {
@@ -1055,7 +1055,7 @@
     "search_this_month": "Dieser Monat",
     "search_last_month": "Letzter Monat",
     "select_actions": "Wählen Sie die Aktionen",
-    "redirect": "Navigate to Logs",
+    "redirect": "Zu den Logs navigieren",
     "no_logs": "Keine Logs, die den Filtern entpsrechen",
     "dialog": {
       "export": {
@@ -1168,7 +1168,7 @@
     "assign_transactions_confirm": "'{{count}}' unzugeordnete Ladevorgänge gefunden. Wollen Sie diese diesem Nutzer zuordnen?",
     "assign_transactions_success": "Alle unzugeordneten Ladevorgänge wurden dem Nutzer '{{userFullName}}' zugeordnet",
     "assign_transactions_error": "Beim Zuordnen der unzugeordnenten Ladevorgänge zu '{{userFullName}}' ist ein Fehler aufgetreten",
-    "redirect": "Navigate to User",
+    "redirect": "Zum Nutzer navigieren",
     "connectors": {
       "connect": "Verbinden",
       "revoke": "Widerrufen",
@@ -1259,16 +1259,16 @@
     "tag_error": "Beim Abrufen des Badges ist ein Fehler aufgetreten",
     "tag_not_found": "Badge wurde nicht gefunden",
     "select_tags": "Badge auswählen",
-    "tag_id_already_used": "The badge '{{tagID}}'already exists",
-    "redirect": "Navigate to Tags",
-    "assign_user_to_tag_title": "Assign user to tag",
-    "assign_user_to_tag_confirm": "Do you really want to assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
-    "change_user_tag_title": "Change user of tag",
-    "change_user_tag_confirm": "Do you really want to unassign the user '{{oldUserName}}' and assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
-    "assign_user_to_tag_success": "The user '{{userName}}' has been assigned to the badge successfully",
-    "tag_has_transaction_error": "Cannot update a tag which has transactions",
-    "assign_user_to_tag_error": "Error occurred while assigning the user to the badge",
-    "assign_user_button": "Assign user"
+    "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
+    "redirect": "Zu den Badges navigieren",
+    "assign_user_to_tag_title": "Nutzer dem Badge zuordnen",
+    "assign_user_to_tag_confirm": "Möchten Sie den Nutzer '{{newUserName}}' wirklich dem Badge '{{tagID}}' zuordnen?",
+    "change_user_tag_title": "Den Nutzer des Badges ändern",
+    "change_user_tag_confirm": "Möchten Sie den Nutzer '{{oldUserName}}' wirklich entfernen und den Nutzer '{{newUserName}}' dem Badge '{{tagID}}' zuordnen?",
+    "assign_user_to_tag_success": "Der Nutzer '{{userName}}' wurde erfolgreich dem Badge zugeordnet",
+    "tag_has_transaction_error": "Ein Badge mit Transaktionen kann nicht aktualisiert werden",
+    "assign_user_to_tag_error": "Bei der Zuordnung des Nutzers zum Badge ist ein Fehler aufgetreten",
+    "assign_user_button": "Nutzer zuordnen"
   },
   "tenants": {
     "title": "Organisation",
@@ -1934,7 +1934,7 @@
     "select_report": "Report auswählen",
     "create_invoice_success": "Für diesen Ladevorgang wurde erfolgreich eine Rechnung erstellt.",
     "create_invoice_error": "Während der Erstellung der Rechnung für den Ladevorgang ist ein Fehler aufgetreten",
-    "redirect": "Navigate to Sessions",
+    "redirect": "Zu den Ladevorgängen navigieren",
     "filter": {
       "type": {
         "name": "Typ",

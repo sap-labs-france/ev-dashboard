@@ -169,7 +169,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="isAdmin">
+        <mat-tab *ngIf="isAdmin || isBasic">
           <ng-template mat-tab-label>
             <mat-icon>email</mat-icon>
             <span>{{'general.notifications' | translate}}</span>

@@ -101,7 +101,7 @@
     "ngx-moment": "^3.5.0",
     "perfect-scrollbar": "^1.5.0",
     "popper.js": "^1.16.1",
-    "rxjs": "^6.6.0",
+    "rxjs": "^6.6.3",
     "socket.io-client": "^2.3.0",
     "sweetalert2": "^9.17.0",
     "tslib": "^1.13.0",

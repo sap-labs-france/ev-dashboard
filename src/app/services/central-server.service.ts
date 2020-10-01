@@ -3000,13 +3000,13 @@ export class CentralServerService {
     }
   }
 
-  private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES, noTimeoutRetry = false) {
+  private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES, timeoutNoRetry = false) {
     const noRetryHTTPErrorCodes: number[] = Utils.getValuesFromEnum(HTTPError).concat(Utils.getValuesFromEnum(HTTPAuthError));
     return (src: Observable<any>) => src.pipe(
       retryWhen(
         this.retryExponentialStrategy({
           maxRetryAttempts: maxRetry,
-          noTimeoutRetry,
+          timeoutNoRetry,
           excludedStatusCodes: noRetryHTTPErrorCodes
         })
       )
@@ -3025,11 +3025,11 @@ export class CentralServerService {
 
   private retryExponentialStrategy = ({
     maxRetryAttempts = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES,
-    noTimeoutRetry = false,
+    timeoutNoRetry = false,
     excludedStatusCodes = []
   }: {
     maxRetryAttempts?: number,
-    noTimeoutRetry?: boolean,
+    timeoutNoRetry?: boolean,
     excludedStatusCodes?: number[]
   } = {}) => (attempts: Observable<any>) => {
     return attempts.pipe(
@@ -3038,7 +3038,7 @@ export class CentralServerService {
         // if maximum number of retries have been met
         // or response is a status code we don't wish to retry, throw error
         if (retryAttempt > maxRetryAttempts - 1 || excludedStatusCodes.find(err => err === error.status)
-          || (noTimeoutRetry && error instanceof TimeoutError)) {
+          || (timeoutNoRetry && error instanceof TimeoutError)) {
           return throwError(error);
         }
         const retryDelay = this.exponentialDelay(retryAttempt);

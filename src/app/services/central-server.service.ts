@@ -3000,7 +3000,7 @@ export class CentralServerService {
     }
   }
 
-  private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES, timeoutNoRetry = false) {
+  private httpRetry(maxRetry: number = Constants.DEFAULT_BACKEND_CONNECTION_MAX_RETRIES, timeoutNoRetry = false) {
     const noRetryHTTPErrorCodes: number[] = Utils.getValuesFromEnum(HTTPError).concat(Utils.getValuesFromEnum(HTTPAuthError));
     return (src: Observable<any>) => src.pipe(
       retryWhen(
@@ -3024,7 +3024,7 @@ export class CentralServerService {
   }
 
   private retryExponentialStrategy = ({
-    maxRetryAttempts = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES,
+    maxRetryAttempts = Constants.DEFAULT_BACKEND_CONNECTION_MAX_RETRIES,
     timeoutNoRetry = false,
     excludedStatusCodes = []
   }: {

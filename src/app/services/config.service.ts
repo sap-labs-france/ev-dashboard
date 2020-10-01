@@ -37,7 +37,7 @@ export class ConfigService {
       this.getConfig().CentralSystemServer.socketIOEnabled = true;
     }
     if (this.isUndefined(this.getConfig().CentralSystemServer.connectionMaxRetries)) {
-      this.getConfig().CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES;
+      this.getConfig().CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_BACKEND_CONNECTION_MAX_RETRIES;
     }
     if (this.isUndefined(this.getConfig().CentralSystemServer.logoutOnConnectionError)) {
       this.getConfig().CentralSystemServer.logoutOnConnectionError = true;

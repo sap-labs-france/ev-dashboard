@@ -74,6 +74,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       }
       this.loadUserFilterLabel(userID);
     }
+    const tagID = this.windowService.getSearch('TagID');
+    if (tagID) {
+      this.setSearchValue(tagID);
+      this.editAction.action({ id: tagID } as Tag, this.dialog, this.refreshData.bind(this));
+    }
   }
 
   public loadUserFilterLabel(userID: string) {

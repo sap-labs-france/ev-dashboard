@@ -29,8 +29,9 @@ import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { Utils } from 'app/utils/Utils';
-import { BehaviorSubject, EMPTY, Observable, throwError, timer } from 'rxjs';
-import { catchError, mergeMap, retryWhen } from 'rxjs/operators';
+import { StatusCodes } from 'http-status-codes';
+import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError, timer } from 'rxjs';
+import { catchError, mergeMap, retryWhen, timeout } from 'rxjs/operators';
 
 import { Constants } from '../utils/Constants';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1132,7 +1133,8 @@ export class CentralServerService {
         params,
       })
       .pipe(
-        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        timeout(Constants.DEFAULT_BACKEND_CONNECTION_TIMEOUT),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries, true),
         catchError(this.handleHttpError),
       );
   }
@@ -1378,14 +1380,14 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    // Execute
     return this.httpClient.get<DataResult<Log>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.LOGGINGS}`,
       {
         headers: this.buildHttpHeaders(),
         params,
       })
       .pipe(
-        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        timeout(Constants.DEFAULT_BACKEND_CONNECTION_TIMEOUT),
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries, true),
         catchError(this.handleHttpError),
       );
   }
@@ -2998,11 +3000,15 @@ export class CentralServerService {
     }
   }
 
-  private httpRetry(maxRetry: number = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES) {
+  private httpRetry(maxRetry: number = Constants.DEFAULT_BACKEND_CONNECTION_MAX_RETRIES, timeoutNoRetry = false) {
     const noRetryHTTPErrorCodes: number[] = Utils.getValuesFromEnum(HTTPError).concat(Utils.getValuesFromEnum(HTTPAuthError));
     return (src: Observable<any>) => src.pipe(
       retryWhen(
-        this.retryExponentialStrategy({ maxRetryAttempts: maxRetry, excludedStatusCodes: noRetryHTTPErrorCodes })
+        this.retryExponentialStrategy({
+          maxRetryAttempts: maxRetry,
+          timeoutNoRetry,
+          excludedStatusCodes: noRetryHTTPErrorCodes
+        })
       )
     );
   }
@@ -3018,10 +3024,12 @@ export class CentralServerService {
   }
 
   private retryExponentialStrategy = ({
-    maxRetryAttempts = Constants.DEFAULT_MAX_BACKEND_CONNECTION_RETRIES,
+    maxRetryAttempts = Constants.DEFAULT_BACKEND_CONNECTION_MAX_RETRIES,
+    timeoutNoRetry = false,
     excludedStatusCodes = []
   }: {
     maxRetryAttempts?: number,
+    timeoutNoRetry?: boolean,
     excludedStatusCodes?: number[]
   } = {}) => (attempts: Observable<any>) => {
     return attempts.pipe(
@@ -3029,7 +3037,8 @@ export class CentralServerService {
         const retryAttempt = i + 1;
         // if maximum number of retries have been met
         // or response is a status code we don't wish to retry, throw error
-        if (retryAttempt > maxRetryAttempts - 1 || excludedStatusCodes.find(err => err === error.status)) {
+        if (retryAttempt > maxRetryAttempts - 1 || excludedStatusCodes.find(err => err === error.status)
+          || (timeoutNoRetry && error instanceof TimeoutError)) {
           return throwError(error);
         }
         const retryDelay = this.exponentialDelay(retryAttempt);
@@ -3088,10 +3097,14 @@ export class CentralServerService {
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
     // In a real world app, we might use a remote logging infrastructure
     const errMsg = { status: 0, message: '', details: undefined };
-    if (error) {
+    if (error && error instanceof TimeoutError) {
+      errMsg.status = StatusCodes.REQUEST_TIMEOUT;
+      errMsg.message = error.message;
+      errMsg.details = undefined;
+    } else if (error) {
       errMsg.status = error.status;
       errMsg.message = error.message ? error.message : error.toString();
-      errMsg.details = error.error;
+      errMsg.details = error.error ? error.error : undefined;
     }
     return throwError(errMsg);
   }

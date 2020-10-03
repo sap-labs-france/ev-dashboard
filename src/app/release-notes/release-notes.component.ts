@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.7',
-        date: new Date('2020-09-30'),
+        version: '2.4.9',
+        date: new Date('2020-10-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed cannot update new registered Users`,
+              `Send notification to Admins when an unknow Badge is used on a Charging Station`,
               `Enable the Basic users to activate/deactivate his Notifications`,
               `Allow high volume of data in export functions`,
               `Migration tasks for aligning the local Badges with local Users + default description`,

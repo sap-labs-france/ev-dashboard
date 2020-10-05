@@ -1,8 +1,12 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Address } from 'app/types/Address';
 import { Constants } from 'app/utils/Constants';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
+
+import { GeoMapDialogComponent } from '../dialogs/geomap/geomap-dialog.component';
 
 @Component({
   selector: 'app-address',
@@ -12,6 +16,8 @@ export class AddressComponent implements OnInit, OnChanges {
   @Input() public formGroup!: FormGroup;
   @Input() public hideGeoLocation = false;
   @Input() public address!: Address;
+  @Input() public componentName!: string;
+  @Input() public itemComponentName!: string;
   public addressFormGroup!: FormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;
@@ -24,6 +30,11 @@ export class AddressComponent implements OnInit, OnChanges {
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
 
+  constructor(
+    private translateService: TranslateService,
+    private dialog: MatDialog) {
+  }
+
   public ngOnInit() {
     // Set Address form group
     this.addressFormGroup = new FormGroup({
@@ -34,7 +45,7 @@ export class AddressComponent implements OnInit, OnChanges {
       department: new FormControl(''),
       region: new FormControl(''),
       country: new FormControl(''),
-      coordinates: new FormArray ([
+      coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
             Validators.max(180),
@@ -163,5 +174,54 @@ export class AddressComponent implements OnInit, OnChanges {
 
   public showPlace() {
     window.open(`http://maps.google.com/maps?q=${this.latitude.value},${this.longitude.value}`);
+  }
+
+  public assignGeoMap() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '70vw';
+    dialogConfig.disableClose = false;
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    // Get latitud/longitude from form
+    let latitude = this.latitude.value;
+    let longitude = this.longitude.value;
+    // If one is not available try to get from SiteArea and then from Site
+    if (!latitude || !longitude) {
+      if (this.address) {
+        if (this.address.coordinates && this.address.coordinates.length === 2) {
+          latitude = this.address.coordinates[1];
+          longitude = this.address.coordinates[0];
+        } else {
+          if (this.address && this.address.coordinates && this.address.coordinates.length === 2) {
+            latitude = this.address.coordinates[1];
+            longitude = this.address.coordinates[0];
+          }
+        }
+      }
+    }
+    // Set data
+    dialogConfig.data = {
+      dialogTitle: (this.componentName && this.itemComponentName) ? this.translateService.instant('geomap.dialog_geolocation_title',
+        { componentName: this.componentName, itemComponentName: this.itemComponentName }) : this.translateService.instant('geomap.select_geolocation'),
+      latitude,
+      longitude,
+      label: this.itemComponentName ? this.itemComponentName : '',
+    };
+    // disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialog.open(GeoMapDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
+        }
+      });
   }
 }

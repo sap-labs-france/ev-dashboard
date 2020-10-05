@@ -10,8 +10,13 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 
+export interface TableRebuildTransactionConsumptionsActionDef extends TableActionDef {
+  action: (transaction: Transaction, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService) => void;
+}
+
 export class TableRebuildTransactionConsumptionsAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableRebuildTransactionConsumptionsActionDef = {
     id: TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS,
     type: 'button',
     icon: 'build',
@@ -22,7 +27,7 @@ export class TableRebuildTransactionConsumptionsAction implements TableAction {
   };
 
   // Return an action
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableRebuildTransactionConsumptionsActionDef {
     return this.action;
   }
 

@@ -7,12 +7,16 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
+import { Observable } from 'rxjs';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { TableExportOCPPParamsLocalAction } from '../../table-actions/table-export-ocpp-params-local-action';
-import { TableSaveOCPPParameterAction } from '../../table-actions/table-save-ocpp-parameter-action';
+import { TableExportOCPPParamsActionDef } from '../../table-actions/table-export-ocpp-params-action';
+import { TableExportOCPPParamsLocalAction, TableExportOCPPParamsLocalActionDef } from '../../table-actions/table-export-ocpp-params-local-action';
+import { TableRequestOCPPParamsAction, TableRequestOCPPParamsActionDef } from '../../table-actions/table-request-ocpp-params-action';
+import { TableSaveOCPPParameterAction, TableSaveOCPPParameterActionDef } from '../../table-actions/table-save-ocpp-parameter-action';
+import { TableUpdateOCPPParamsAction, TableUpdateOCPPParamsActionDef } from '../../table-actions/table-update-ocpp-params-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
@@ -45,6 +49,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public buildTableActionsDef(): TableActionDef[] {
     return [
+      new TableUpdateOCPPParamsAction().getActionDef(),
+      new TableRequestOCPPParamsAction().getActionDef(),
       new TableExportOCPPParamsLocalAction().getActionDef()
     ];
   }
@@ -64,13 +70,27 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
+      case ChargingStationButtonAction.EXPORT_LOCAL_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.charger, this.getContent(), this.dialogService, this.translateService);
+          (actionDef as TableExportOCPPParamsLocalActionDef).action(
+            this.charger, this.getContent(), this.dialogService, this.translateService);
         }
         break;
       default:
         super.actionTriggered(actionDef);
+        break;
+      case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
+        if (actionDef.action) {
+          (actionDef as TableUpdateOCPPParamsActionDef).action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+             this.router, this.spinnerService, this.refreshData.bind(this));
+        }
+        break;
+      case ChargingStationButtonAction.REQUEST_OCPP_PARAMS:
+        if (actionDef.action) {
+          (actionDef as TableRequestOCPPParamsActionDef).action(
+            this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+             this.router, this.spinnerService, this.refreshData.bind(this));
+        }
         break;
     }
   }
@@ -83,7 +103,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     switch (actionDef.id) {
       case ChargingStationButtonAction.SAVE_OCPP_PARAMETER:
         if (actionDef.action) {
-          actionDef.action(this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableSaveOCPPParameterActionDef).action(
+            this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

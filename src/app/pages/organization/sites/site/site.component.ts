@@ -36,6 +36,7 @@ export class SiteComponent implements OnInit {
   public company!: AbstractControl;
   public companyID!: AbstractControl;
   public autoUserSiteAssignment!: AbstractControl;
+  public public!: AbstractControl;
 
   public address!: Address;
   public isAdmin = false;
@@ -79,6 +80,7 @@ export class SiteComponent implements OnInit {
           Validators.required,
         ])),
       autoUserSiteAssignment: new FormControl(false),
+      public: new FormControl(false),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -86,6 +88,7 @@ export class SiteComponent implements OnInit {
     this.company = this.formGroup.controls['company'];
     this.companyID = this.formGroup.controls['companyID'];
     this.autoUserSiteAssignment = this.formGroup.controls['autoUserSiteAssignment'];
+    this.public = this.formGroup.controls['public'];
     if (this.currentSiteID) {
       this.loadSite();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -113,6 +116,9 @@ export class SiteComponent implements OnInit {
       validateButtonTitle: 'general.select',
       sitesAdminOnly: true,
       rowMultipleSelection: false,
+      staticFilter: {
+        Issuer: true
+      }
     };
     // Open
     this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
@@ -159,6 +165,11 @@ export class SiteComponent implements OnInit {
         this.formGroup.controls.autoUserSiteAssignment.setValue(site.autoUserSiteAssignment);
       } else {
         this.formGroup.controls.autoUserSiteAssignment.setValue(false);
+      }
+      if (site.public) {
+        this.formGroup.controls.public.setValue(site.public);
+      } else {
+        this.formGroup.controls.public.setValue(false);
       }
       if (site.address) {
         this.address = site.address;
@@ -272,7 +283,7 @@ export class SiteComponent implements OnInit {
           this.messageService.showErrorMessage('sites.site_not_found');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site.create_error');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.create_error');
       }
     });
   }

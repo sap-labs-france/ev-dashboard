@@ -32,10 +32,10 @@ export class CarComponent implements OnInit {
   @Input() public currentCarID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
-
+  public carCatalogImage: string;
   public isBasic: boolean;
   public selectedCarCatalog: CarCatalog;
-  public carCatalogConverters: { type: CarConverterType, value: string, converter: CarConverter}[] = [];
+  public carCatalogConverters: { type: CarConverterType, value: string, converter: CarConverter }[] = [];
   public isAdmin: boolean;
   public isPool = false;
   private car: Car;
@@ -86,7 +86,7 @@ export class CarComponent implements OnInit {
         ])),
       licensePlate: new FormControl('',
         Validators.compose([
-          Validators.required,
+          Validators.pattern('^[A-Z0-9- ]*$'),
         ])),
       carCatalog: new FormControl('',
         Validators.compose([
@@ -165,6 +165,7 @@ export class CarComponent implements OnInit {
         this.converter.setValue(car.converter);
         this.converterType.setValue(car.converter.type);
         this.carCatalog.setValue(Utils.buildCarCatalogName(car.carCatalog));
+        this.carCatalogImage = car.carCatalog.image;
         // Set default car
         if (this.isBasic) {
           // Fill in props
@@ -318,6 +319,7 @@ export class CarComponent implements OnInit {
         this.carCatalogID.setValue(result[0].key);
         this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
         this.selectedCarCatalog = carCatalog;
+        this.carCatalogImage = carCatalog.image;
         // Build drop down
         this.buildCarCatalogConverter();
         this.formGroup.markAsDirty();

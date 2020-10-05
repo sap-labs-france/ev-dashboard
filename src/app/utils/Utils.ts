@@ -2,7 +2,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { ConfigService } from 'app/services/config.service';
 import { DialogService } from 'app/services/dialog.service';
+import { MessageService } from 'app/services/message.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { Address } from 'app/types/Address';
 import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
@@ -11,11 +14,10 @@ import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
 import { User, UserCar, UserToken } from 'app/types/User';
-import { BAD_REQUEST, CONFLICT, FORBIDDEN, UNAUTHORIZED } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 
-import { CentralServerService } from '../services/central-server.service';
-import { MessageService } from '../services/message.service';
+import { Constants } from './Constants';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -23,6 +25,12 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static getValuesFromEnum(enumType: any): number[] {
+    const keys: string[] = Object.keys(enumType).filter(httpError => typeof enumType[httpError] === 'number');
+    const values: number[] = keys.map((httpErrorKey: string) => enumType[httpErrorKey]);
+    return values;
   }
 
   public static registerCloseKeyEvents(dialogRef: MatDialogRef<any>) {
@@ -101,12 +109,16 @@ export class Utils {
   public static containsGPSCoordinates(coordinates: number[]): boolean {
     // Check if GPs are available
     if (coordinates && coordinates.length === 2 && coordinates[0] && coordinates[1]) {
-      return true;
+      // Check Longitude & Latitude
+      if (new RegExp(Constants.REGEX_VALIDATION_LONGITUDE).test(coordinates[0].toString())
+        && new RegExp(Constants.REGEX_VALIDATION_LATITUDE).test(coordinates[1].toString())) {
+        return true;
+      }
     }
     return false;
   }
 
-  public static cloneJSonDocument(jsonDocument: object): object {
+  public static cloneJSonDocument(jsonDocument: any): any {
     return JSON.parse(JSON.stringify(jsonDocument));
   }
 
@@ -168,7 +180,7 @@ export class Utils {
   }
 
   public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
-    console.log(`Error: ${errorMessage}: ${error}`);
+    Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
 
@@ -310,7 +322,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -437,7 +449,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-              // Connector
+            // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -694,40 +706,44 @@ export class Utils {
       // Server connection error
       case 0:
         messageService.showErrorMessageConnectionLost();
+        if (centralServerService.configService.getCentralSystemServer().logoutOnConnectionError) {
+          // Log Off (remove token)
+          centralServerService.logoutSucceeded();
+          // Navigate to Login
+          router.navigate(['/auth/login']);
+        }
         break;
-
       // Unauthorized!
-      case UNAUTHORIZED:
+      case StatusCodes.UNAUTHORIZED:
         // Log Off (remove token)
         centralServerService.logoutSucceeded();
         // Not logged in so redirect to login page with the return url
         router.navigate(['/auth/login']);
         break;
-
       // Conflict in User Session
-      case FORBIDDEN:
+      case StatusCodes.FORBIDDEN:
         messageService.showWarningMessageUserOrTenantUpdated();
         // Log Off (remove token)
         centralServerService.logoutSucceeded();
         // Navigate to Login
         router.navigate(['/auth/login']);
         break;
-
-      case BAD_REQUEST:
+      case StatusCodes.BAD_REQUEST:
         messageService.showErrorMessage('general.invalid_content');
         break;
-
-      case CONFLICT:
+      case StatusCodes.CONFLICT:
         if (error.details) {
           messageService.showErrorMessage(error.details.message, error.details.params);
         } else {
           messageService.showErrorMessage(error.message);
         }
         break;
-
+      case StatusCodes.REQUEST_TIMEOUT:
+        messageService.showErrorMessage(error.message);
+        break;
       // Backend issue
       default:
-        console.log(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`);
+        Utils.consoleDebugLog(`HTTP Error: ${errorMessage}: ${error.message} (${error.status})`, error);
         messageService.showErrorMessage(errorMessage, params);
         break;
     }
@@ -775,7 +791,7 @@ export class Utils {
   }
 
   public static convertToFloat(value: any): number {
-    let changedValue = value;
+    let changedValue: number = value;
     if (!value) {
       return 0;
     }
@@ -794,6 +810,17 @@ export class Utils {
 
   public static isValidDate(date: any): boolean {
     return moment(date).isValid();
+  }
+
+  public static isUndefined(obj: any): boolean {
+    return typeof obj === 'undefined';
+  }
+
+  public static consoleDebugLog(msg: any, error?: any) {
+    const configService: ConfigService = new ConfigService();
+    if (configService.getDebug().enabled) {
+      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
+    }
   }
 
   public static copyToClipboard(content: any) {

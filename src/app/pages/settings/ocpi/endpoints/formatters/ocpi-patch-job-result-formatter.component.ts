@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
-import { OcpiEndpoint } from 'app/types/OCPIEndpoint';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { Constants } from 'app/utils/Constants';
 
 @Component({

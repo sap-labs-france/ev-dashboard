@@ -5,8 +5,12 @@ import { TableActionDef } from 'app/types/Table';
 import { UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
 
+export interface TableCreateUserActionDef extends TableActionDef {
+  action: (dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableCreateUserAction extends TableCreateAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableCreateUserActionDef {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.CREATE_USER,

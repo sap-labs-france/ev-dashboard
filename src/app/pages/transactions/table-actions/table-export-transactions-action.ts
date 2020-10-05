@@ -9,8 +9,14 @@ import { FilterParams } from 'app/types/GlobalType';
 import { TableActionDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
 
+export interface TableExportTransactionsActionDef extends TableActionDef {
+  action: (filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) => void;
+}
+
 export class TableExportTransactionsAction extends TableExportAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableExportTransactionsActionDef {
     return {
       ...super.getActionDef(),
       id: TransactionButtonAction.EXPORT_TRANSACTIONS,

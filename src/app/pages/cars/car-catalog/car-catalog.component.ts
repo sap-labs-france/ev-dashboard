@@ -43,7 +43,7 @@ export class CarCatalogComponent implements OnInit {
     }, (error) => {
       // Show error
       this.spinnerService.hide();
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_error');
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.car_error');
     });
   }
 }

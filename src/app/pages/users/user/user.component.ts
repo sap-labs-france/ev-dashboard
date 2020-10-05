@@ -30,13 +30,11 @@ import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
 import { UserRoles, userStatuses } from '../model/users.model';
-import { UserTagsEditableTableDataSource } from './user-tags-editable-table-data-source';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
-  providers: [UserTagsEditableTableDataSource],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -64,7 +62,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public phone!: AbstractControl;
   public mobile!: AbstractControl;
   public iNumber!: AbstractControl;
-  public tags!: FormArray;
   public plateID!: AbstractControl;
   public costCenter!: AbstractControl;
   public status!: AbstractControl;
@@ -95,13 +92,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendBillingSynchronizationFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
+  public sendEndUserErrorNotification!: AbstractControl;
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
   private currentLocale!: string;
 
   constructor(
-    public userTagsEditableTableDataSource: UserTagsEditableTableDataSource,
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -115,7 +112,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'tags', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
     this.maxSize = this.configService.getUser().maxPictureKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -186,6 +183,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOcpiPatchStatusError: new FormControl(false),
         sendSmtpAuthError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
+        sendEndUserErrorNotification: new FormControl(false),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -201,10 +199,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
           Users.validatePhone,
         ])),
       iNumber: new FormControl(''),
-      tags: new FormArray([]),
       plateID: new FormControl('',
         Validators.compose([
-          Validators.pattern('^[A-Z0-9-]*$'),
+          Validators.pattern('^[A-Z0-9- ]*$'),
         ])),
       costCenter: new FormControl('',
         Validators.compose([
@@ -246,7 +243,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.phone = this.formGroup.controls['phone'];
     this.mobile = this.formGroup.controls['mobile'];
     this.iNumber = this.formGroup.controls['iNumber'];
-    this.tags = this.formGroup.controls['tags'] as FormArray;
     this.plateID = this.formGroup.controls['plateID'];
     this.costCenter = this.formGroup.controls['costCenter'];
     this.status = this.formGroup.controls['status'];
@@ -273,9 +269,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
-    if (this.isAdmin) {
-      this.userTagsEditableTableDataSource.setFormArray(this.tags);
-    }
+    this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -351,9 +345,6 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       if (user.plateID) {
         this.formGroup.controls.plateID.setValue(user.plateID);
       }
-      if (user.tags) {
-        this.userTagsEditableTableDataSource.setContent(user.tags);
-      }
       if (Utils.objectHasProperty(user, 'notificationsActive')) {
         this.formGroup.controls.notificationsActive.setValue(user.notificationsActive);
       }
@@ -422,8 +413,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendSmtpAuthError.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingUserSynchronizationFailed')) {
-        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingUserSynchronizationFailed);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
+        this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
       } else {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
       }
@@ -436,6 +427,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendSessionNotStarted.setValue(user.notifications.sendSessionNotStarted);
       } else {
         this.notifications.controls.sendSessionNotStarted.setValue(false);
+      }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndUserErrorNotification')) {
+        this.notifications.controls.sendEndUserErrorNotification.setValue(user.notifications.sendEndUserErrorNotification);
+      } else {
+        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
       }
       if (user.address) {
         this.address = user.address;
@@ -486,6 +482,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpAuthError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
+        this.notifications.controls.sendEndUserErrorNotification.setValue(true);
         break;
       case UserRole.BASIC:
         this.formGroup.controls.notificationsActive.setValue(true);
@@ -505,6 +502,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
       case UserRole.DEMO:
         this.formGroup.controls.notificationsActive.setValue(false);
@@ -524,6 +522,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
+        this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
     }
   }
@@ -638,65 +637,26 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     }
   }
 
-  private assignTransactionsToUser(user: User) {
-    // Show
-    this.spinnerService.show();
-    // Assign Transaction
-    this.centralServerService.assignTransactionsToUser(user.id).subscribe((response) => {
-      // Hide
-      this.spinnerService.hide();
-      // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        // Ok
-        this.messageService.showSuccessMessage('users.assign_transactions_success', { userFullName: user.firstName + ' ' + user.name });
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'users.assign_transactions_error');
-      }
-      // Close dialog
-      this.closeDialog(true);
-    }, (error) => {
-      // Hide
-      this.spinnerService.hide();
-      // Handle error
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.assign_transactions_error');
-    });
-  }
-
   private createUser(user: User) {
-    // Show
-    this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
-    // Yes: Update
+    this.spinnerService.show();
     this.centralServerService.createUser(user).subscribe((response: ActionResponse) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
-        // Refresh
         user.id = response.id!;
         this.currentUserID = response.id!;
-        // Init form
-        this.formGroup.markAsPristine();
-        // Assign transactions?
-        this.checkUnassignedTransactions(user);
+        this.closeDialog(true);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.create_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
         // Email already exists
-        case 510:
+        case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('authentication.email_already_exists');
-          break;
-        // User Tag ID is already used
-        case 540:
-          this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
@@ -710,38 +670,23 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   private updateUser(user: User) {
-    // Show
-    this.spinnerService.show();
     // Set the image
     this.updateUserImage(user);
-    // Yes: Update
+    this.spinnerService.show();
     this.centralServerService.updateUser(user).subscribe((response) => {
-      // Hide
       this.spinnerService.hide();
-      // Ok?
       if (response.status === RestResponse.SUCCESS) {
-        // Ok
         this.messageService.showSuccessMessage('users.update_success', { userFullName: user.firstName + ' ' + user.name });
-        // Init form
-        this.formGroup.markAsPristine();
-        // Assign transactions?
-        this.checkUnassignedTransactions(user);
+        this.closeDialog(true);
       } else {
-        // Error
         Utils.handleError(JSON.stringify(response), this.messageService, 'users.update_error');
       }
     }, (error) => {
-      // Hide
       this.spinnerService.hide();
-      // Check status
       switch (error.status) {
         // Email already exists
-        case 510:
+        case HTTPError.USER_EMAIL_ALREADY_EXIST_ERROR:
           this.messageService.showErrorMessage('authentication.email_already_exists');
-          break;
-        // User Tag ID is already used
-        case 540:
-          this.messageService.showErrorMessage('users.user_tag_id_already_used');
           break;
         // User deleted
         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
@@ -763,42 +708,5 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public close() {
     Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
       this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
-  }
-
-  private checkUnassignedTransactions(user: User) {
-    // Admin?
-    if (this.isAdmin) {
-      // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(user.id).subscribe((count) => {
-        if (count && count > 0) {
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('users.assign_transactions_title'),
-            this.translateService.instant('users.assign_transactions_confirm', { count }),
-          ).subscribe((result) => {
-            if (result === ButtonType.YES) {
-              // Assign transactions
-              this.assignTransactionsToUser(user);
-            } else {
-              // Close dialog
-              this.closeDialog(true);
-            }
-          });
-        } else {
-          // Close dialog
-          this.closeDialog(true);
-        }
-      }, (error) => {
-        // Hide
-        this.spinnerService.hide();
-        if (this.currentUserID) {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
-        } else {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
-        }
-      });
-    } else {
-      // Close dialog
-      this.closeDialog(true);
-    }
   }
 }

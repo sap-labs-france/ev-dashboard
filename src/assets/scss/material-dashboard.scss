@@ -45,17 +45,21 @@
 
 @import "views/browser-not-supported/browser-not-supported";
 
-@import "views/chargers/charging-station";
-@import "views/chargers/charging-stations-data-source-table";
-@import "views/chargers/smart-charging-limit-planner-chart";
-@import "views/chargers/smart-charging-limit-planner";
-@import "views/chargers/smart-charging-power-slider";
+@import "views/charging-stations/charging-station";
+@import "views/charging-stations/charging-stations-data-source-table";
+@import "views/charging-stations/smart-charging-limit-planner-chart";
+@import "views/charging-stations/smart-charging-limit-planner";
+@import "views/charging-stations/smart-charging-power-slider";
 
 @import "views/organization/organization";
 
 @import "views/assets/assets";
 
 @import "views/cars/cars";
+
+@import "views/tags/tags";
+
+@import "views/tenant/tenant";
 
 @import "views/shared/chip";
 @import "views/shared/connector-cell";
@@ -65,6 +69,7 @@
 @import "views/shared/session.dialog";
 @import "views/shared/recaptcha";
 @import "views/shared/carousel";
+@import "views/shared/date-picker";
 
 @import "views/settings/endpoint.dialog";
 @import "views/settings/settings-ocpi-endpoints-source-table";

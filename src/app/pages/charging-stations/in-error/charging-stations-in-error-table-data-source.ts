@@ -11,6 +11,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
@@ -30,10 +31,10 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import ChangeNotification from '../../../types/ChangeNotification';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
-import { TableChargingStationsRebootAction } from '../table-actions/table-charging-stations-reboot-action';
-import { TableChargingStationsResetAction } from '../table-actions/table-charging-stations-reset-action';
-import { TableDeleteChargingStationAction } from '../table-actions/table-delete-charging-station-action';
-import { TableEditChargingStationAction } from '../table-actions/table-edit-charging-station-action';
+import { TableChargingStationsRebootAction, TableChargingStationsRebootActionDef } from '../table-actions/table-charging-stations-reboot-action';
+import { TableChargingStationsResetAction, TableChargingStationsResetActionDef } from '../table-actions/table-charging-stations-reset-action';
+import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../table-actions/table-delete-charging-station-action';
+import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../table-actions/table-edit-charging-station-action';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
@@ -192,29 +193,35 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
     switch (actionDef.id) {
       case ChargingStationButtonAction.REBOOT:
         if (actionDef.action) {
-          actionDef.action(chargingStation, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableChargingStationsRebootActionDef).action(
+            chargingStation, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.SOFT_RESET:
         if (actionDef.action) {
-          actionDef.action(chargingStation, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableChargingStationsResetActionDef).action(
+            chargingStation, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.DELETE_CHARGING_STATION:
         if (actionDef.action) {
-          actionDef.action(chargingStation, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteChargingStationActionDef).action(
+            chargingStation, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
-          actionDef.action(chargingStation, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditChargingStationActionDef).action(
+            chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?chargingStationID=' + chargingStation.id);
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + chargingStation.id);
+        }
         break;
     }
   }

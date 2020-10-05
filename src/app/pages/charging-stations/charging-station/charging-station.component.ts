@@ -11,11 +11,11 @@ import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue, RestResponse } from 'app/types/GlobalType';
 import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { Utils } from 'app/utils/Utils';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
-
 
 @Component({
   selector: 'app-charging-station',
@@ -92,7 +92,7 @@ export class ChargingStationComponent implements OnInit {
 
   public saveChargingStation(chargingStation: ChargingStation) {
     // Clone
-    const chargingStationToSave = JSON.parse(JSON.stringify(chargingStation)) as ChargingStation;
+    const chargingStationToSave = Utils.cloneJSonDocument(chargingStation) as ChargingStation;
     // Do not save charge point
     delete chargingStationToSave.chargePoints;
     // Save

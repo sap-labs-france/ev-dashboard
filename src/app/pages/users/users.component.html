@@ -3,7 +3,8 @@
                  animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>people</mat-icon><span>{{'users.tabs.list' | translate}}</span>
+        <mat-icon>people</mat-icon>
+        <span>{{'users.tabs.list' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-users-list></app-users-list>
@@ -11,7 +12,17 @@
     </mat-tab>
     <mat-tab *ngIf="isAdmin">
       <ng-template mat-tab-label>
-        <mat-icon>warning</mat-icon><span>{{'users.tabs.in_error' | translate}}</span>
+        <mat-icon>nfc</mat-icon>
+        <span>{{'users.tabs.tags' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-tags-list></app-tags-list>
+      </ng-template>
+    </mat-tab>
+    <mat-tab *ngIf="isAdmin">
+      <ng-template mat-tab-label>
+        <mat-icon>warning</mat-icon>
+        <span>{{'users.tabs.in_error' | translate}}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-users-in-error></app-users-in-error>

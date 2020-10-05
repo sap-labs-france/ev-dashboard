@@ -1,5 +1,6 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
+import * as moment from 'moment';
 
 import { AssetButtonAction } from './Asset';
 import { BillingButtonAction } from './Billing';
@@ -8,16 +9,15 @@ import { ChargingStationButtonAction } from './ChargingStation';
 import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
-import { OcpiButtonAction } from './OCPIEndpoint';
-import { RefundButtonAction } from './Refund';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
+import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 
 export interface Data {
-  id: string|number;
+  id: string | number;
   key: string;
   isSelected?: boolean;
   isSelectable?: boolean;
@@ -40,8 +40,26 @@ export interface TableFilterDef {
   multiple?: boolean;
   exhaustive?: boolean;
   cleared?: boolean;
+  dateRangeTableFilterDef?: DateRangeTableFilterDef;
 }
 
+export interface DateRangeTableFilterDef {
+  singleDatePicker?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
+  timePicker?: boolean;
+  timePicker24Hour?: boolean;
+  timePickerSeconds?: boolean;
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
+  locale?: Locale;
+}
+
+export interface Locale {
+  daysOfWeek: string[];
+  monthNames: string[];
+  firstDay: number;
+}
 export interface DropdownItem {
   id: string;
   name: string;
@@ -61,6 +79,7 @@ export enum FilterType {
   DROPDOWN = 'dropdown',
   DIALOG_TABLE = 'dialog-table',
   DATE = 'date',
+  DATE_RANGE = 'date-range',
 }
 
 export enum ButtonType {
@@ -89,9 +108,9 @@ export enum DialogType {
 }
 
 export interface TableActionDef {
-  id: ButtonAction|CompanyButtonAction|TenantButtonAction|SiteAreaButtonAction|ChargingStationButtonAction|
-    UserButtonAction|TransactionButtonAction|SiteButtonAction|OcpiButtonAction|AssetButtonAction|
-    BillingButtonAction|CarButtonAction|RefundButtonAction|LogButtonAction;
+  id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
+  UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | AssetButtonAction |
+  BillingButtonAction | CarButtonAction | LogButtonAction;
   type: ActionType;
   currentValue?: any;
   name: string;

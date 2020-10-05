@@ -25,6 +25,19 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.9',
+        date: new Date('2020-10-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Site filter in User list`,
+              `Static Power limitation must not be provided by the Charging Station Template`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.8',
         date: new Date('2020-10-03'),
         componentChanges: [
           {

@@ -106,7 +106,8 @@ export enum UserButtonAction {
   SYNCHRONIZE_BILLING_USER = 'billing_synchronize_user',
   BILLING_FORCE_SYNCHRONIZE_USER = 'billing_force_synchronize_user',
   SYNCHRONIZE_BILLING_USERS = 'billing_synchronize_users',
-  ASSIGN_SITES_TO_USER = 'assign_sites_to_user'
+  ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
+  EXPORT_USERS = 'export_users'
 }
 
 export enum UserStatus {

@@ -34,6 +34,7 @@ import { TableAssignSitesToUserAction } from '../table-actions/table-assign-site
 import { TableCreateUserAction } from '../table-actions/table-create-user-action';
 import { TableDeleteUserAction } from '../table-actions/table-delete-user-action';
 import { TableEditUserAction } from '../table-actions/table-edit-user-action';
+import { TableExportUsersAction } from '../table-actions/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
 
@@ -215,6 +216,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeBillingUsers()) {
@@ -259,6 +261,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
           actionDef.action(this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case UserButtonAction.EXPORT_USERS:
+        if (actionDef.action) {
+          actionDef.action(this.data, this.dialogService, this.translateService);
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:

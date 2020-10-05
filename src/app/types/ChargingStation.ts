@@ -94,7 +94,7 @@ export enum ChargingRateUnitType {
 export interface OcppParameter extends Data {
   key: string;
   value: string;
-  isCustom?: boolean;
+  custom?: boolean;
   readonly: boolean;
 }
 

@@ -7,6 +7,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -341,6 +342,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       new UserRoleFilter(this.centralServerService).getFilterDef(),
       new UserStatusFilter().getFilterDef(),
       new TagTableFilter().getFilterDef(),
+      new SiteTableFilter().getFilterDef(),
     ];
   }
 }

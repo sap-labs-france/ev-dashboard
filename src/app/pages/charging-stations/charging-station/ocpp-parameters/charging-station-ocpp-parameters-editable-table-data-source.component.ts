@@ -164,7 +164,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     const customOcppParameterRow = this.createRow();
     customOcppParameterRow.id = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
     customOcppParameterRow.readonly = false;
-    customOcppParameterRow.isCustom = true;
+    customOcppParameterRow.custom = true;
     // Set
     super.setContent([
       customOcppParameterRow,

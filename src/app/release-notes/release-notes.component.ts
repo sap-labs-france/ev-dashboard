@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Site filter in User list`,
+              `Static Power limitation must not be provided by the Charging Station Template`,
             ],
           },
         ],

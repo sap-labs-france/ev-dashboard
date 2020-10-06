@@ -12,6 +12,6 @@ export class InvoicesListComponent {
 
   constructor(
     public invoicesListTableDataSource: InvoicesTableDataSource,
-    ) {
+  ) {
   }
 }

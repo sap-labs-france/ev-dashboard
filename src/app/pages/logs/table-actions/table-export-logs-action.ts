@@ -25,8 +25,8 @@ export class TableExportLogsAction extends TableExportAction {
   }
 
   private exportLogs(filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router,
-      spinnerService: SpinnerService) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) {
     super.export(filters, 'exported-logs.csv',
       'logs.dialog.export.title', 'logs.dialog.export.confirm',
       'logs.dialog.export.error',

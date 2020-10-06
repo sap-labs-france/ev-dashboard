@@ -44,23 +44,23 @@ export class TableChargingStationsClearCacheAction implements TableAction {
         spinnerService.show();
         // Clear cache
         centralServerService.chargingStationClearCache(chargingStation.id).subscribe((response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.clear_cache_error');
+          spinnerService.hide();
+          if (response.status === OCPPGeneralResponse.ACCEPTED) {
+            messageService.showSuccessMessage(
+              translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
+            if (refresh) {
+              refresh().subscribe();
             }
-          }, (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.clear_cache_error');
-          });
-        }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, 'chargers.clear_cache_error');
+          }
+        }, (error: any) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, 'chargers.clear_cache_error');
+        });
+      }
     });
   }
 }

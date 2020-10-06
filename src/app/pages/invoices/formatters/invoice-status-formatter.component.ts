@@ -19,7 +19,7 @@ export class InvoiceStatusFormatterComponent extends CellContentTemplateDirectiv
   @Input() public row!: BillingInvoice;
 }
 
-@Pipe({name: 'appFormatInvoiceStatus'})
+@Pipe({ name: 'appFormatInvoiceStatus' })
 export class AppFormatInvoiceStatusPipe implements PipeTransform {
   public transform(invoiceStatus: BillingInvoiceStatus, type: string): string {
     if (type === 'class') {

@@ -24,7 +24,7 @@ export class TableDeleteChargingStationAction extends TableDeleteAction {
   }
 
   private deleteChargingStation(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     if (chargingStation.connectors.findIndex((connector) => connector.currentTransactionID > 0) >= 0) {
       // Do not delete when active transaction on going
       dialogService.createAndShowOkDialog(

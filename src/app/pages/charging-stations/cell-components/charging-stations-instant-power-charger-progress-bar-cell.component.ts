@@ -23,7 +23,7 @@ export class ChargingStationsInstantPowerChargerProgressBarCellComponent extends
   @Input() public row!: ChargingStation;
 }
 
-@Pipe({name: 'appChargingStationsFormatPowerCharger'})
+@Pipe({ name: 'appChargingStationsFormatPowerCharger' })
 export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform {
   constructor(private decimalPipe: AppDecimalPipe) {
   }

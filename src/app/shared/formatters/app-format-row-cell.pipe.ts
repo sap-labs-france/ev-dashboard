@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TableColumnDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
-@Pipe({name: 'appFormatRowCell'})
+@Pipe({ name: 'appFormatRowCell' })
 export class AppFormatRowCellPipe implements PipeTransform {
 
   public transform(value: string, tableColumnDef: TableColumnDef, row: any): string | null {

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-@Pipe({name: 'appConnectorErrorCode'})
+@Pipe({ name: 'appConnectorErrorCode' })
 export class AppConnectorErrorCodePipe implements PipeTransform {
   private connectorErrorCodeMap: any = {
     ConnectorLockFailure: 'chargers.status_error_connector_lock_failure',

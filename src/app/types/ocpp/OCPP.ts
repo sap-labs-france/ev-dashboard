@@ -1,6 +1,5 @@
 import { ChargingProfile, ChargingSchedule, Profile } from 'app/types/ChargingProfile';
-import { ChargingRateUnitType } from 'app/types/ChargingStation';
-import { OcppParameter } from 'app/types/ChargingStation';
+import { ChargingRateUnitType, OcppParameter } from 'app/types/ChargingStation';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface OCPPCommandParam {

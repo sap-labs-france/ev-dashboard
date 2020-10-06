@@ -28,6 +28,7 @@ import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
 import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from 'app/types/ocpp/OCPP';
 import { Utils } from 'app/utils/Utils';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError, timer } from 'rxjs';
@@ -2864,9 +2865,9 @@ export class CentralServerService {
     );
   }
 
-  public chargingStationReset(id: string, hard: boolean = true): Observable<ActionResponse> {
+  public chargingStationReset(id: string, hard: boolean = false): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
+      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
   }
 
   public chargingStationClearCache(id: string): Observable<ActionResponse> {

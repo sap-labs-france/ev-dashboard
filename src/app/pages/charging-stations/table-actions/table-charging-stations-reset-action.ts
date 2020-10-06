@@ -43,7 +43,7 @@ export class TableChargingStationsResetAction implements TableAction {
       if (result === ButtonType.YES) {
         spinnerService.show();
         // Reboot
-        centralServerService.chargingStationReset(chargingStation.id, false).subscribe((response: ActionResponse) => {
+        centralServerService.chargingStationReset(chargingStation.id).subscribe((response: ActionResponse) => {
             spinnerService.hide();
             if (response.status === OCPPGeneralResponse.ACCEPTED) {
               messageService.showSuccessMessage(

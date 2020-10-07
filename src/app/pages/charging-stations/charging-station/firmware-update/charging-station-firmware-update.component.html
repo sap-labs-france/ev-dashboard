@@ -1,7 +1,7 @@
 <div class="d-flex flex-column">
   <div class="left-actions d-flex flex-row mat-toolbar-row">
     <button mat-raised-button color="primary" class="mb-2" (click)="updateFirmware()"
-        [disabled]="!isAdmin || (url && !url.value)">
+      [disabled]="!isAdmin || (url && !url.value)">
       <mat-icon>system_update_alt</mat-icon>
       <span>{{'chargers.button_update_firmware' | translate}}</span>
     </button>

@@ -21,14 +21,14 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   private siteKey: string;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private router: Router,
-      private route: ActivatedRoute,
-      private spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private reCaptchaV3Service: ReCaptchaV3Service,
-      private configService: ConfigService,
-      private translateService: TranslateService) {
+    private centralServerService: CentralServerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private reCaptchaV3Service: ReCaptchaV3Service,
+    private configService: ConfigService,
+    private translateService: TranslateService) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form

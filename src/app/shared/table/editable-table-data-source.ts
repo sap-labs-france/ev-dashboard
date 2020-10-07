@@ -99,7 +99,7 @@ export abstract class EditableTableDataSource<T extends Data> extends TableDataS
     }
   }
 
-  public setPropertyValue(row: T, propertyName: string, propertyValue: string|boolean|number) {
+  public setPropertyValue(row: T, propertyName: string, propertyValue: string | boolean | number) {
     row[propertyName] = propertyValue;
     (row[`${propertyName}FormControl`] as FormControl).setValue(propertyValue);
   }

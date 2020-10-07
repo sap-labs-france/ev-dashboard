@@ -36,7 +36,7 @@ export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemp
   }
 }
 
-@Pipe({name: 'appChargingStationsFormatFirmwareStatus'})
+@Pipe({ name: 'appChargingStationsFormatFirmwareStatus' })
 export class AppChargingStationsFormatFirmwareStatusPipe implements PipeTransform {
   public transform(status: string, type: string): string {
     if (type === 'class') {

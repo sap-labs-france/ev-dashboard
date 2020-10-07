@@ -101,7 +101,7 @@ export class ChargingStationComponent implements OnInit {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('chargers.change_config_success',
-            { chargeBoxID: this.chargingStation.id });
+          { chargeBoxID: this.chargingStation.id });
         this.closeDialog(true);
       } else {
         this.messageService.showErrorMessage('chargers.change_config_error');
@@ -116,8 +116,8 @@ export class ChargingStationComponent implements OnInit {
           this.messageService.showErrorMessage('chargers.change_config_error');
           break;
         case HTTPError.THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA:
-            this.messageService.showErrorMessage('chargers.change_config_phase_error');
-            break;
+          this.messageService.showErrorMessage('chargers.change_config_phase_error');
+          break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'change_config_error');

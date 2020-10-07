@@ -24,9 +24,9 @@ export class ChargingStationsTransactionDetailComponentCellComponent extends Cel
   public dialogRef!: MatDialogRef<TransactionDialogComponent>;
 
   constructor(
-      private localeService: LocaleService,
-      private authorizationService: AuthorizationService,
-      private dialog: MatDialog) {
+    private localeService: LocaleService,
+    private authorizationService: AuthorizationService,
+    private dialog: MatDialog) {
     super();
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;

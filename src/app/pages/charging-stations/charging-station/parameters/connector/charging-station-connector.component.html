@@ -88,7 +88,8 @@
             <mat-form-field>
               <mat-select placeholder="{{'chargers.phase_assignment' | translate}}"
                 [formControl]="phaseAssignmentToGrid" required>
-                <mat-option *ngFor="let phaseAssignmentToGrid of phaseAssignmentToGridMap" [value]="phaseAssignmentToGrid.phaseAssignmentToGrid">
+                <mat-option *ngFor="let phaseAssignmentToGrid of phaseAssignmentToGridMap"
+                  [value]="phaseAssignmentToGrid.phaseAssignmentToGrid">
                   {{phaseAssignmentToGrid.description | translate}}
                 </mat-option>
               </mat-select>

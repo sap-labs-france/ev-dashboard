@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'appArrayToString'})
+@Pipe({ name: 'appArrayToString' })
 export class AppArrayToStringPipe implements PipeTransform {
 
   public transform(array: any[]): any {

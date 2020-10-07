@@ -80,29 +80,29 @@ interface ChartDataLocal {
         group([
           query('.first-chart', [
             group([
-            animate('1.5s ease-in', style({ opacity: '0' })),
-          ]),
+              animate('1.5s ease-in', style({ opacity: '0' })),
+            ]),
           ]),
           query('.second-chart', [
-            style({opacity: '0'}),
+            style({ opacity: '0' }),
             group([
-            animate('1.5s ease-in', style({ opacity: '1' })),
-          ]),
+              animate('1.5s ease-in', style({ opacity: '1' })),
+            ]),
           ]),
         ]),
       ]),
       transition('true => false', [
         group([
           query('.first-chart', [
-            style({opacity: '0'}),
+            style({ opacity: '0' }),
             group([
-            animate('1.5s ease-in', style({ opacity: '1' })),
-          ]),
+              animate('1.5s ease-in', style({ opacity: '1' })),
+            ]),
           ]),
           query('.second-chart', [
             group([
-            animate('1.5s ease-in', style({ opacity: '0' })),
-          ]),
+              animate('1.5s ease-in', style({ opacity: '0' })),
+            ]),
           ]),
         ]),
       ]),

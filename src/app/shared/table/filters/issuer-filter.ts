@@ -25,6 +25,6 @@ export class IssuerFilter extends TableFilter {
 }
 
 export const items: KeyValue[] = [
-  {key: 'true', value: 'issuer.local'},
-  {key: 'false', value: 'issuer.foreign'},
+  { key: 'true', value: 'issuer.local' },
+  { key: 'false', value: 'issuer.foreign' },
 ];

@@ -82,14 +82,14 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
       case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
         if (actionDef.action) {
           (actionDef as TableUpdateOCPPParamsActionDef).action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
-             this.router, this.spinnerService, this.refreshData.bind(this));
+            this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REQUEST_OCPP_PARAMS:
         if (actionDef.action) {
           (actionDef as TableRequestOCPPParamsActionDef).action(
             this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
-             this.router, this.spinnerService, this.refreshData.bind(this));
+            this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
     }

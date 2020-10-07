@@ -27,7 +27,7 @@ export class TableChargingStationsSmartChargingAction extends TableViewAction {
   }
 
   private viewSmartCharging(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      dialog: MatDialog, refresh?: () => Observable<void>) {
+    dialog: MatDialog, refresh?: () => Observable<void>) {
     if (parseFloat(chargingStation.ocppVersion) < 1.6) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.smart_charging_title'),

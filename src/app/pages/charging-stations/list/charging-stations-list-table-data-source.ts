@@ -70,7 +70,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Init
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{WithSite: true}]);
+      this.setStaticFilters([{ WithSite: true }]);
     }
     this.initDataSource();
   }
@@ -84,23 +84,23 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       // Get data
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
-        // Update details status
-        chargers.result.forEach((charger: ChargingStation) => {
-          // At first filter out the connectors that are null
-          charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNull(connector));
-          charger.connectors.forEach((connector) => {
-            connector.hasDetails = connector.currentTransactionID > 0;
+          // Update details status
+          chargers.result.forEach((charger: ChargingStation) => {
+            // At first filter out the connectors that are null
+            charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNull(connector));
+            charger.connectors.forEach((connector) => {
+              connector.hasDetails = connector.currentTransactionID > 0;
+            });
           });
+          // Ok
+          observer.next(chargers);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
         });
-        // Ok
-        observer.next(chargers);
-        observer.complete();
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
     });
   }
 
@@ -332,7 +332,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
     if (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
+      this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
       return [
         this.editAction,
         this.smartChargingAction,
@@ -344,7 +344,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           this.deleteAction,
           openInMaps,
         ]).getActionDef()
-      ,
+        ,
       ];
     }
     return [openInMaps];

@@ -8,6 +8,7 @@ import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
@@ -15,6 +16,8 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from 'app/types/ocpp/OCPP';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -26,8 +29,6 @@ import { Tag } from 'app/types/Tag';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { Utils } from 'app/utils/Utils';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError, timer } from 'rxjs';
@@ -1195,7 +1196,7 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(params: FilterParams): Observable<Blob> {
+  public exportAllChargingStationsOCPPParams(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS_OCPP_PARAMS_EXPORT}`,
@@ -2864,9 +2865,9 @@ export class CentralServerService {
     );
   }
 
-  public chargingStationReset(id: string, hard: boolean = true): Observable<ActionResponse> {
+  public chargingStationReset(id: string, hard: boolean = false): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
+      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
   }
 
   public chargingStationClearCache(id: string): Observable<ActionResponse> {

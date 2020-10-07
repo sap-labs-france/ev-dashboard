@@ -33,11 +33,11 @@ export class TableRequestOCPPParamsAction implements TableAction {
   }
 
   private requestOCPPParameters(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
+    refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.get_configuration_title'),
-      translateService.instant('chargers.get_configuration_confirm', {chargeBoxID: chargingStation.id})
+      translateService.instant('chargers.get_configuration_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();

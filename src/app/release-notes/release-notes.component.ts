@@ -24,14 +24,15 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.9',
-        date: new Date('2020-10-05'),
+        version: '2.4.10',
+        date: new Date('2020-10-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added Site filter in User list`,
               `Static Power limitation must not be provided by the Charging Station Template`,
+              `Minor fixes`
             ],
           },
         ],
@@ -1360,7 +1361,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Concur: Add quick expense V4 implementation`,
               `Convergent Invoicing: Enhanced logs when an error occurred`,
-              `Ignored connector ID 0 for EBEE charger`            ],
+              `Ignored connector ID 0 for EBEE charger`],
           },
         ],
       },

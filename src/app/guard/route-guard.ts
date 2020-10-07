@@ -74,11 +74,11 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         this.messageService.showErrorMessage(
           this.translateService.instant('authentication.wrong_email_or_password'));
         // Navigate to login
-        this.router.navigate([RouteGuardService.LOGIN_ROUTE], {queryParams: {email}});
+        this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
       });
     } else {
       // Not logged in so redirect to login page with the return url
-      this.router.navigate([RouteGuardService.LOGIN_ROUTE], {queryParams});
+      this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams });
     }
     return false;
   }

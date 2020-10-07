@@ -27,7 +27,7 @@ export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
     const items = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
-        items.push({key: row.id, value: row.id, objectRef: row});
+        items.push({ key: row.id, value: row.id, objectRef: row });
       });
     }
     return items;

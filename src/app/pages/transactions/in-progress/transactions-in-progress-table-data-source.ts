@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableChargingStationsStopTransactionAction } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
+import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
@@ -36,7 +37,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -111,7 +112,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         class: 'd-none d-xl-table-cell',
       });
     }
-    columns.push({
+    columns.push(
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
+      {
         id: 'timestamp',
         name: 'transactions.started_at',
         headerClass: 'col-10p',
@@ -192,14 +200,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     switch (actionDef.id) {
       case ChargingStationButtonAction.STOP_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.authorizationService,
+          (actionDef as TableChargingStationsStopTransactionActionDef).action(transaction, this.authorizationService,
             this.dialogService, this.translateService, this.messageService, this.centralServerService, this.spinnerService,
             this.router, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -216,12 +224,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     filters.push(new ChargingStationTableFilter().getFilterDef());
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new TagTableFilter().getFilterDef());
     }
     return filters;
   }
 
   public buildTableDynamicRowActions(): TableActionDef[] {
-    const actions = [
+    const actions: TableActionDef[] = [
       this.viewAction,
     ];
     if (!this.authorizationService.isDemo()) {

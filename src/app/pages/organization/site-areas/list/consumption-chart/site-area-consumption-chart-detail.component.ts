@@ -15,7 +15,7 @@ export class SiteAreaConsumptionChartDetailComponent extends CellContentTemplate
   public siteAreaId!: string;
 
   public ngOnInit(): void {
-      this.siteAreaId = this.row.id as string;
+    this.siteAreaId = this.row.id as string;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

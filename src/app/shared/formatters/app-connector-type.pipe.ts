@@ -46,7 +46,7 @@ export const CONNECTOR_TYPE_MAP =
     },
   ];
 
-@Pipe({name: 'appConnectorType'})
+@Pipe({ name: 'appConnectorType' })
 export class AppConnectorTypePipe implements PipeTransform {
 
   public transform(type: string, target: string = 'icon'): any {

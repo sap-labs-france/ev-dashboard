@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentModule } from 'app/shared/component/component.module';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
@@ -16,6 +17,8 @@ import { AssetsInErrorTableDataSource } from './in-error/assets-in-error-table-d
 import { AssetsInErrorComponent } from './in-error/assets-in-error.component';
 import { AssetsListTableDataSource } from './list/assets-list-table-data-source';
 import { AssetsListComponent } from './list/assets-list.component';
+import { AssetConsumptionChartDetailComponent } from './list/consumption-chart/asset-consumption-chart-detail.component';
+import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-consumption-chart.component';
 
 @NgModule({
   imports: [
@@ -28,13 +31,16 @@ import { AssetsListComponent } from './list/assets-list.component';
     TableModule,
     DialogsModule,
     RouterModule.forChild(AssetsRoutes),
+    ComponentModule
   ],
   declarations: [
     AssetsComponent,
     AssetComponent,
     AssetDialogComponent,
     AssetsListComponent,
-    AssetsInErrorComponent
+    AssetsInErrorComponent,
+    AssetConsumptionChartDetailComponent,
+    AssetConsumptionChartComponent,
   ],
   entryComponents: [
     AssetsComponent,

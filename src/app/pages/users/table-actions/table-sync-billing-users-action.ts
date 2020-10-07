@@ -10,8 +10,13 @@ import { MessageService } from '../../../services/message.service';
 import { BillingButtonAction } from '../../../types/Billing';
 import { Utils } from '../../../utils/Utils';
 
+export interface TableSyncBillingUsersActionDef extends TableActionDef {
+  action: (dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+}
+
 export class TableSyncBillingUsersAction extends TableSynchronizeAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableSyncBillingUsersActionDef {
     return {
       ...super.getActionDef(),
       id: BillingButtonAction.SYNCHRONIZE_BILLING_USERS,

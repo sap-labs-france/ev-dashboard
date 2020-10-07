@@ -24,6 +24,123 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.9',
+        date: new Date('2020-10-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Site filter in User list`,
+              `Static Power limitation must not be provided by the Charging Station Template`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.8',
+        date: new Date('2020-10-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed cannot update new registered Users`,
+              `Send notification to Admins when an unknow Badge is used on a Charging Station`,
+              `Enable the Basic users to activate/deactivate his Notifications`,
+              `Allow high volume of data in export functions`,
+              `Migration tasks for aligning the local Badges with local Users + default description`,
+              `For Badge ID to be in upper case when created manually`,
+              `Auto refresh Badge management list`,
+              `Build Smart Charging safe Car + Override with Meter Values`,
+              `Enable vehicule identifier in OCPP for the Ebee Charging Station`,
+              `Handle Meter Values with L1_N, L2_N and L3_N phases`,
+              `Add Voltage Meter Value on Legrand Charging Station`,
+              `Enable authentication with badge on Schneider Charging Station`,
+              `Display a relevant error message when trying to create a Badge that already exists`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.45',
+        date: new Date('2020-09-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `New Badge Management framework`,
+              `Enable Charging Profile support on ABB`,
+              `Assign a User to a Badge in one step`,
+              `Added a drop down list to activate/deactivate a badge`,
+              `Can only assign a Company or a Site issued by the current organization`,
+              `When Charging Stations are excluded from the Smart Charging they can be tuned manually`,
+              `Fixed retrieving the current connector power limit for the recursive daily Charging Plans and for the ones with one schedule period`,
+              `Charging Station Template updates`,
+              `Added navigation between Tag, User and Session lists`,
+              `Set the phase order in the Charging Station parameters for 3 phases Site Area`,
+              `Fixed minor bugs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.38',
+        date: new Date('2020-09-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added ATESS vendor for Smart Charging support`,
+              `Fixed number of phase in Smart Charging when no consumption`,
+              `Added Logo and Address in Tenant management`,
+              `Added Badge ID in Sessions' lists`,
+              `Always try to get the User during Start Transaction when ACL is not active on Site Area`,
+              `Ignore OCPP Status Notification on Connector ID '0'`,
+              `Get OCPI public Locations with no Charging Station`,
+              `Push CDRs not pushed at the end of the Session every 15 mins`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.35',
+        date: new Date('2020-09-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add manual push of the CDR in Session list`,
+              `Do not push OCPI Locations (Sites) if there is no public Charging Station`,
+              `Make a charging station inactive`,
+              `Added locks in scheduled OCPI jobs`,
+              `Do not send notification on offline charging stations that are set inactive`,
+              `Display Asset dynamic consumption/production curve`,
+              `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
+              `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,
+              `Added Atess Charging Station vendor in templates`,
+              `Add a new field Amps per phase in Edit Charging Station`,
+              `Added Date/Time range picker control in Statistics`,
+              `Updated German and Spanish translations`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.3.32',
+        date: new Date('2020-08-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Push the OCPI CDR when the user unplug the connector with the extra parking time`,
+              `Add an additional inactivity consumption when the connector's status changes from Finishing to Available (session stopped by the Charging Station)`,
+              `Created a migration task to add an additional inactivity consumption to the existing sessions`,
+              `Handling of extra inactivity consumptions in the Sessions/OCPP Unit Tests`,
+              `Total consumption renamed for SAP Analytics`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.3.30',
         date: new Date('2020-08-21'),
         componentChanges: [
@@ -46,8 +163,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Get all consumptions to build the CDR sent to the Roaming platform (Gireve)`,
               `Removed the price when the CDR is sent to the Roaming platform (Gireve)`,
-              `Fixed the Site Admin userscannot read their Charging Plan`,
-              `Smart Charging - Limit the charging schedule periods according the OCPP paramater`,
+              `Fixed the Site Admin users cannot read their Charging Plan`,
+              `Smart Charging - Limit the charging schedule periods according the OCPP parameter`,
               `Added the Price Unit in the OCPI Settings when the price is managed by the IOP platform (Gireve)`,
               `Log the URL connection of the Charging Station trying to connect to our backend`,
               `Security: Log all HTTP requests`,
@@ -85,7 +202,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Handling of GPS coordinates to locate the Charging Stations`,
               `Added OCPI Tariff module for Gireve`,
-              `Handle GPS coodinates of Sites, Site Areas and Charging Stations`,
+              `Handle GPS coordinates of Sites, Site Areas and Charging Stations`,
               `Car Catalog list loading performance improvement`,
               `German translation fixes`,
             ],
@@ -259,7 +376,7 @@ export class ReleaseNotesComponent {
               `Use unique ID to build the tree fuse for the SAP Smart Charging service`,
               `Fixed total number of records not refreshed after delete action in all list`,
               `Renamed Session chart legends with grid`,
-              `Call delete of TxProfile after comsumption calculation in Stop Transaction`,
+              `Call delete of TxProfile after consumption calculation in Stop Transaction`,
               `Retrieve the Charging Plans in database if it fails on Charging Station (workaround Cahors)`,
               `Added Schneider 22 kW Charging Station in template (2 x Type 2 of 11 kW)`,
               `Limited Legrand Charging Station's total power to 44 kW`,
@@ -477,7 +594,7 @@ export class ReleaseNotesComponent {
               `Fixed Session not starting notification when Connector is in Preparing mode`,
               `Added debug logs for third party Charging Station vendor libraries`,
               `Fixed Charging Station's inactive flag`,
-              `Renamed Chaging Plan Debug tab to Advanced`,
+              `Renamed Charging Plan Debug tab to Advanced`,
               `Fixed translation issues in Static Limitation`,
               `Allow to display the Charge Limitation in read-only when Charging Station is disconnected from the backend`,
               `Car structure adaptation for internal converters`,
@@ -498,7 +615,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Added filters on Connector Types (Type 2, Chademo...)`,
               `Fixed number of values in x-axis in chart consumption`,
-              `Changed I-Number to Corporate Number in User's prodile`,
+              `Changed I-Number to Corporate Number in User's profile`,
               `Roaming: Implement PUT and PATCH token from IOP`,
               `Added new parameters to check in Charging Station In Errors`,
               `Update Charging Station's template without migration`,
@@ -508,7 +625,7 @@ export class ReleaseNotesComponent {
               `Fixed Connection Lost in Charger in Error`,
               `Added AWS deployment and configuration files`,
               `Switched the Charging Station's Heartbeat interval to 300 seconds`,
-              `Update of Charging Stations with Template is always applied during Boot Notificiation`,
+              `Update of Charging Stations with Template is always applied during Boot Notification`,
               `Set the minimum power to 2 Amps in the Charging Station Limitation`,
               `Fixed Jump in Maps button not disabled when GPS coordinates are not provided in Site, Site Area, Company, Charging Station and Asset lists`,
               `Fixed Delete action not displayed in User's list`,
@@ -548,7 +665,7 @@ export class ReleaseNotesComponent {
               `Handling of OCPP Firmware Status updates`,
               `Added import of Cars from EV-Database via scheduled job`,
               `Enable Car component in the Tenant Management`,
-              `Notification of failed Car synchronisation is sent to the Super Admin Users`,
+              `Notification of failed Car synchronization is sent to the Super Admin Users`,
               `Refactoring of the Charging Plan`,
               `Change the availability of a charging station`,
               `Notify the user when he forgot to start his session`,
@@ -557,7 +674,7 @@ export class ReleaseNotesComponent {
               `Static Power Limitation for Schneider vendor`,
               `Show Sessions not assigned to a user when ACL is active in a Site Area`,
               `Set default notifications to new registered users`,
-              `The Charging Station's hearbeat is stored in the database`,
+              `The Charging Station's heartbeat is stored in the database`,
               `Zero technical and OCPP configuration of new Charging Station`,
               `Added the copy of the OCPP 1.6 SOAP supervision URL for Hager Charging Station`,
               `Changing the value of an OCPP parameter is now reflected in the UI`,
@@ -620,7 +737,7 @@ export class ReleaseNotesComponent {
               `Set the Site Owner role in Users Management`,
               `Be able to unset the the Site Owner role in Site Management`,
               `Includes extra inactivity in Sessions in Error with inactivity greater than 24h`,
-              `Added Date filter in Stastistics`,
+              `Added Date filter in Statistics`,
               `Made Session/Charging Station/Logs CSV export more user friendly`,
               `Side bar text missing if the browser language is not french or english`,
               `Change CSV separator to tabs instead commas`,
@@ -628,7 +745,7 @@ export class ReleaseNotesComponent {
               `Fix issue in Sending email to Admin when creating a tenant`,
               `Do not compute extra inactivity after several same status notifications`,
               `Prevent deletion of Refunded Sessions in Sessions In Error`,
-              `Fixed Reset Passord redirected to the Login page`,
+              `Fixed Reset Password redirected to the Login page`,
               `Convert Inactivity in mins in Export Session`,
             ],
           },
@@ -661,7 +778,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed Fold/Unflod the side menu manually`,
+              `Fixed Fold/Unfold the side menu manually`,
               `TypeScript migration of Exceptions`,
               `Charging Station can be deleted if an attached ongoing Session is finished`,
               `Fixed URL in OCPI credential object according endpoint role`,
@@ -752,7 +869,7 @@ export class ReleaseNotesComponent {
               `Renamed Tenant to Organization`,
               `Reset Password now is done in the application by the User and is no longer generated`,
               `Delete Connector when a User is deleted`,
-              `Add enpoint for Mobile App to enable Auto Login feature`,
+              `Add endpoint for Mobile App to enable Auto Login feature`,
               `Fixed bottom list's stats in Refunded Sessions to take into account cancelled expenses`,
               `Fixed Charging Station's connection token cannot be revoked when it has already expired`,
               `Fixed 'More' button in list disappears when Log's Message column is too wide`,
@@ -1243,7 +1360,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Concur: Add quick expense V4 implementation`,
               `Convergent Invoicing: Enhanced logs when an error occurred`,
-              `Ignored connector ID 0 for EBEE charger`            ],
+              `Ignored connector ID 0 for EBEE charger`],
           },
         ],
       },

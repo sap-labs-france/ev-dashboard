@@ -23,8 +23,7 @@ import { Observable } from 'rxjs';
 
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
-import { TableChargingStationsSmartChargingAction } from '../table-actions/table-charging-stations-smart-charging-action';
+import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../table-actions/table-charging-stations-smart-charging-action';
 
 @Injectable()
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
@@ -47,9 +46,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{WithChargingStation: 'true'}, {WithSiteArea: 'true'}]);
+      this.setStaticFilters([{ WithChargingStation: 'true' }, { WithSiteArea: 'true' }]);
     } else {
-      this.setStaticFilters([{WithChargingStation: 'true'}]);
+      this.setStaticFilters([{ WithChargingStation: 'true' }]);
     }
     this.initDataSource();
   }
@@ -151,7 +150,11 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
   public rowActionTriggered(actionDef: TableActionDef, chargingProfile: ChargingProfile) {
     switch (actionDef.id) {
       case ChargingStationButtonAction.SMART_CHARGING:
-        this.dialogSmartCharging(chargingProfile);
+        if (actionDef.action) {
+          (actionDef as TableChargingStationsSmartChargingActionDef).action(
+            chargingProfile.chargingStation, this.dialogService, this.translateService, this.dialog, this.refreshData.bind(this)
+          );
+        }
         break;
     }
   }
@@ -176,30 +179,5 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       ];
     }
     return [];
-  }
-
-  private dialogSmartCharging(chargingProfile: ChargingProfile) {
-    if (parseFloat(chargingProfile.chargingStation.ocppVersion) < 1.6) {
-      this.dialogService.createAndShowOkDialog(
-        this.translateService.instant('chargers.action_error.smart_charging_title'),
-        this.translateService.instant('chargers.action_error.smart_charging_charger_version'));
-    } else {
-      // Create the dialog
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.minWidth = '80vw';
-      dialogConfig.minHeight = '60vh';
-      dialogConfig.maxHeight = '90vh';
-      dialogConfig.panelClass = 'transparent-dialog-container';
-      if (chargingProfile.chargingStation) {
-        dialogConfig.data = chargingProfile.chargingStation.id;
-      }
-      // disable outside click close
-      dialogConfig.disableClose = true;
-      // Open
-      const dialogRef = this.dialog.open(ChargingStationLimitationDialogComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(() => {
-        this.refreshData().subscribe();
-      });
-    }
   }
 }

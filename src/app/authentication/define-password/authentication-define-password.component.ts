@@ -23,7 +23,7 @@ import { Utils } from '../../utils/Utils';
 export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public formGroup: FormGroup;
-  public resetPasswordHash!: string|null;
+  public resetPasswordHash!: string | null;
   public passwords: FormGroup;
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
@@ -34,15 +34,15 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
   private siteKey: string;
 
   constructor(
-      private centralServerService: CentralServerService,
-      private router: Router,
-      private route: ActivatedRoute,
-      private spinnerService: SpinnerService,
-      private messageService: MessageService,
-      private reCaptchaV3Service: ReCaptchaV3Service,
-      private windowService: WindowService,
-      private configService: ConfigService,
-      private translateService: TranslateService) {
+    private centralServerService: CentralServerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private spinnerService: SpinnerService,
+    private messageService: MessageService,
+    private reCaptchaV3Service: ReCaptchaV3Service,
+    private windowService: WindowService,
+    private configService: ConfigService,
+    private translateService: TranslateService) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
@@ -59,9 +59,9 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
             Validators.required,
           ])),
       },
-      (passwordFormGroup: FormGroup) => {
-        return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
-      }),
+        (passwordFormGroup: FormGroup) => {
+          return Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword');
+        }),
     });
     // Form
     this.passwords = (this.formGroup.controls['passwords'] as FormGroup);
@@ -70,7 +70,7 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
     // Handle Deep Linking
     if (Utils.isInMobileApp()) {
-        // Forward to Mobile App
+      // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
       window.location.href = mobileAppURL;

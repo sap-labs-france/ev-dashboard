@@ -100,7 +100,7 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
   }
 
   public redirectToLog() {
-    new TableCheckLogsAction().getActionDef().action('logs?chargingStationID=' + this.chargingStation.id +
+    new TableCheckLogsAction().getActionDef().action('logs?ChargingStationID=' + this.chargingStation.id +
       '&actions=' + ServerAction.CHARGING_PROFILES + '|'
       + ServerAction.CHARGING_PROFILE_DELETE + '|' + ServerAction.CHARGING_PROFILE_UPDATE);
   }
@@ -144,7 +144,8 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
       this.loadProfile(chargingProfile);
     });
     // Check if smart charging is active
-    if (this.chargingStation.inactive || (this.isSmartChargingComponentActive && this.chargingStation.siteArea?.smartCharging)) {
+    if (this.chargingStation.inactive || (this.isSmartChargingComponentActive && this.chargingStation.siteArea?.smartCharging
+      && !this.chargingStation.excludeFromSmartCharging)) {
       this.startDateControl.disable();
     }
     // Change the Profile Type

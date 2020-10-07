@@ -11,8 +11,14 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsClearCacheActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsClearCacheAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsClearCacheActionDef = {
     id: ChargingStationButtonAction.CLEAR_CACHE,
     type: 'button',
     icon: 'layers_clear',
@@ -22,7 +28,7 @@ export class TableChargingStationsClearCacheAction implements TableAction {
     action: this.clearCache,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsClearCacheActionDef {
     return this.action;
   }
 
@@ -38,23 +44,23 @@ export class TableChargingStationsClearCacheAction implements TableAction {
         spinnerService.show();
         // Clear cache
         centralServerService.chargingStationClearCache(chargingStation.id).subscribe((response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.clear_cache_error');
+          spinnerService.hide();
+          if (response.status === OCPPGeneralResponse.ACCEPTED) {
+            messageService.showSuccessMessage(
+              translateService.instant('chargers.clear_cache_success', { chargeBoxID: chargingStation.id }));
+            if (refresh) {
+              refresh().subscribe();
             }
-          }, (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.clear_cache_error');
-          });
-        }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, 'chargers.clear_cache_error');
+          }
+        }, (error: any) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, 'chargers.clear_cache_error');
+        });
+      }
     });
   }
 }

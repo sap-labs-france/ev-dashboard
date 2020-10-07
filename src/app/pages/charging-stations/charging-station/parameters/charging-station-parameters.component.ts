@@ -32,6 +32,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public chargingStationURL!: AbstractControl;
   public public!: AbstractControl;
   public excludeFromSmartCharging: AbstractControl;
+  public forceInactive: AbstractControl;
   public issuer!: AbstractControl;
   public maximumPower!: AbstractControl;
   public maximumPowerAmps!: AbstractControl;
@@ -71,6 +72,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.formGroup.addControl('public', new FormControl(false));
     this.formGroup.addControl('issuer', new FormControl(false));
     this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
+    this.formGroup.addControl('forceInactive', new FormControl(false));
     this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.required,
@@ -110,20 +112,21 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           Validators.min(-90),
           Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
         ])),
-      ])
+    ])
     );
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
     this.public = this.formGroup.controls['public'];
     this.issuer = this.formGroup.controls['issuer'];
     this.excludeFromSmartCharging = this.formGroup.controls['excludeFromSmartCharging'];
+    this.forceInactive = this.formGroup.controls['forceInactive'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
-    this.connectors =  this.formGroup.controls['connectors'] as FormArray;
-    this.chargePoints =  this.formGroup.controls['chargePoints'] as FormArray;
+    this.connectors = this.formGroup.controls['connectors'] as FormArray;
+    this.chargePoints = this.formGroup.controls['chargePoints'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
@@ -157,6 +160,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       }
       if (this.excludeFromSmartCharging) {
         this.excludeFromSmartCharging.setValue(this.chargingStation.excludeFromSmartCharging);
+      }
+      if (this.forceInactive) {
+        this.forceInactive.setValue(this.chargingStation.forceInactive);
       }
       if (this.chargingStation.maximumPower) {
         this.maximumPower.setValue(this.chargingStation.maximumPower);
@@ -278,16 +284,16 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.latitude) {
-          this.latitude.setValue(result.latitude);
-          this.formGroup.markAsDirty();
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
         }
-        if (result.longitude) {
-          this.longitude.setValue(result.longitude);
-          this.formGroup.markAsDirty();
-        }
-      }
-    });
+      });
   }
 }

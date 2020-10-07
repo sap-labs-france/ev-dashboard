@@ -6,11 +6,15 @@ import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Constants } from 'app/utils/Constants';
 import { Utils } from 'app/utils/Utils';
 
+export interface TableExportOCPPParamsLocalActionDef extends TableActionDef {
+  action: (charger: ChargingStation, params: OcppParameter[], dialogService: DialogService, translateService: TranslateService) => void;
+}
+
 export class TableExportOCPPParamsLocalAction extends TableExportAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableExportOCPPParamsLocalActionDef {
     return {
       ...super.getActionDef(),
-      id: ChargingStationButtonAction.EXPORT_OCPP_PARAMS,
+      id: ChargingStationButtonAction.EXPORT_LOCAL_OCPP_PARAMS,
       name: 'general.export',
       action: this.exportOCPPAsCSV,
     };

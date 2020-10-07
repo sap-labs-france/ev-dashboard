@@ -12,8 +12,14 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 
+export interface TableRequestOCPPParamsActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableRequestOCPPParamsAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableRequestOCPPParamsActionDef = {
     id: ChargingStationButtonAction.REQUEST_OCPP_PARAMS,
     type: 'button',
     icon: 'vertical_align_bottom',
@@ -22,16 +28,16 @@ export class TableRequestOCPPParamsAction implements TableAction {
     tooltip: 'chargers.button_get_configuration',
     action: this.requestOCPPParameters,
   };
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableRequestOCPPParamsActionDef {
     return this.action;
   }
 
   private requestOCPPParameters(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
+    refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.get_configuration_title'),
-      translateService.instant('chargers.get_configuration_confirm', {chargeBoxID: chargingStation.id})
+      translateService.instant('chargers.get_configuration_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();

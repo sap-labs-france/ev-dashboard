@@ -74,7 +74,7 @@ export abstract class TableDataSource<T extends Data> {
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
-    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+    if (this.tableDef && this.tableDef.rowSelection && !Utils.isUndefined(this.multipleRowSelection)) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
       if (!multipleRowSelection && this.selectedRows > 1) {
         this.clearSelectedRows();
@@ -273,8 +273,13 @@ export abstract class TableDataSource<T extends Data> {
     if (filter.multiple) {
       if (Array.isArray(filter.currentValue)) {
         if (filter.currentValue.length > 0) {
-          filter.label = this.translateService.instant(filter.currentValue[0].value ? filter.currentValue[0].value : filter.currentValue[0]) +
-            (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+          if (filter.currentValue[0].value === '') {
+            filter.label = '';
+          } else {
+            filter.label = this.translateService.instant(filter.currentValue[0].value ?
+              filter.currentValue[0].value : filter.currentValue[0]) +
+              (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+          }
         } else {
           filter.label = '';
         }
@@ -583,7 +588,7 @@ export abstract class TableDataSource<T extends Data> {
       this.tableDef = this.buildTableDef();
     }
     // Override multi-selection (let the undef check for boolean not yet assigned!)
-    if (this.tableDef && this.tableDef.rowSelection && this.multipleRowSelection !== undefined) {
+    if (this.tableDef && this.tableDef.rowSelection && !Utils.isUndefined(this.multipleRowSelection)) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
     }
     return this.tableDef;

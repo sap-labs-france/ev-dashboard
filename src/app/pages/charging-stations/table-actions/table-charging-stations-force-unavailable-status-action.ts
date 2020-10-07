@@ -11,8 +11,14 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsForceUnavailableStatusActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsForceUnavailableStatusAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsForceUnavailableStatusActionDef = {
     id: ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS,
     type: 'button',
     icon: 'stop',
@@ -22,13 +28,13 @@ export class TableChargingStationsForceUnavailableStatusAction implements TableA
     action: this.forceUnavailable,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsForceUnavailableStatusActionDef {
     return this.action;
   }
 
   private forceUnavailable(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) {
     // Show yes/no dialog
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.force_unavailable_status_title'),
@@ -38,23 +44,23 @@ export class TableChargingStationsForceUnavailableStatusAction implements TableA
         spinnerService.show();
         // Change Availability
         centralServerService.chargingStationChangeAvailability(chargingStation.id, false).subscribe((response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.force_unavailable_status_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.force_unavailable_status_error');
+          spinnerService.hide();
+          if (response.status === OCPPGeneralResponse.ACCEPTED) {
+            messageService.showSuccessMessage(
+              translateService.instant('chargers.force_unavailable_status_success', { chargeBoxID: chargingStation.id }));
+            if (refresh) {
+              refresh().subscribe();
             }
-          }, (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.force_unavailable_status_error');
-          });
-        }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, 'chargers.force_unavailable_status_error');
+          }
+        }, (error: any) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, 'chargers.force_unavailable_status_error');
+        });
+      }
     });
   }
 }

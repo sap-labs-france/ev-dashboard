@@ -9,8 +9,13 @@ import { Site, SiteButtonAction } from 'app/types/Site';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteSiteActionDef extends TableActionDef {
+  action: (site: Site, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteSiteAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteSiteActionDef {
     return {
       ...super.getActionDef(),
       id: SiteButtonAction.DELETE_SITE,

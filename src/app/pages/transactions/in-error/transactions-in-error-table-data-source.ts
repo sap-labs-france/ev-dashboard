@@ -37,10 +37,10 @@ import { UserTableFilter } from '../../../shared/table/filters/user-table-filter
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
-import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
-import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
-import { TableDeleteTransactionsAction } from '../table-actions/table-delete-transactions-action';
-import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../table-actions/table-create-transaction-invoice-action';
+import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../table-actions/table-delete-transaction-action';
+import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../table-actions/table-delete-transactions-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsInErrorTableDataSource extends TableDataSource<TransactionInError> {
@@ -141,7 +141,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       // Delete
       case TransactionButtonAction.DELETE_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(
+          (actionDef as TableDeleteTransactionsActionDef).action(
             this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router,
             this.clearSelectedRows.bind(this), this.refreshData.bind(this));
@@ -170,6 +170,12 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       });
     }
     columns.push(
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
       {
         id: 'timestamp',
         name: 'transactions.started_at',
@@ -301,23 +307,25 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.DELETE_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteTransactionActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {
-          actionDef.action(transaction.id, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableCreateTransactionInvoiceActionDef).action(
+            transaction.id, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?search=' + transaction.id);
+        this.checkLogsAction.action('logs?Search=' + transaction.id);
         break;
     }
   }

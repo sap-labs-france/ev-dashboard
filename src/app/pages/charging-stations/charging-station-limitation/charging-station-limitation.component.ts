@@ -32,21 +32,21 @@ export class ChargingStationLimitationComponent implements OnInit {
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectChargingStation().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
+          if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
             singleChangeNotification.data.id === this.chargingStation.id) {
-          // Reload
-          this.loadChargingStation();
-        }
-      });
+            // Reload
+            this.loadChargingStation();
+          }
+        });
       // Update Charging Station?
       this.centralServerNotificationService.getSubjectSiteArea().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-        if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
+          if (this.chargingStation && singleChangeNotification && singleChangeNotification.data &&
             singleChangeNotification.data.id === this.chargingStation.siteAreaID) {
-          // Reload
-          this.loadChargingStation();
-        }
-      });
+            // Reload
+            this.loadChargingStation();
+          }
+        });
     }
   }
 

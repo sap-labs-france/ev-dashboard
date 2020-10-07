@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { BillingTax } from 'app/types/Billing';
 
-@Pipe({name: 'appTaxName'})
+@Pipe({ name: 'appTaxName' })
 export class AppTaxName implements PipeTransform {
 
   public transform(tax: BillingTax): string {

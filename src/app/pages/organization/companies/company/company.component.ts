@@ -161,7 +161,7 @@ export class CompanyComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('companies.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('companies.logo_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {

@@ -2,7 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Locale, LocaleService } from 'app/services/locale.service';
 
-@Pipe({name: 'appDecimal'})
+@Pipe({ name: 'appDecimal' })
 export class AppDecimalPipe implements PipeTransform {
   private decimalPipe!: DecimalPipe;
 

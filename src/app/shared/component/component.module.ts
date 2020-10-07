@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
 import { MaterialModule } from 'app/app.module';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { CommonDirectivesModule } from '../directives/directives.module';
 import { FormattersModule } from '../formatters/formatters.module';
@@ -22,15 +24,17 @@ import { GaugesModule } from './gauge/gauge.module';
     ChartModule,
     GaugesModule,
     MaterialModule,
+    FormsModule,
+    NgxDaterangepickerMd,
   ],
   declarations: [
     ConsumptionChartDetailComponent,
     ConsumptionChartComponent,
-    ChartUnitSelectorComponent
+    ChartUnitSelectorComponent,
   ],
   exports: [
     ConsumptionChartComponent,
-    ChartUnitSelectorComponent
+    ChartUnitSelectorComponent,
   ],
   entryComponents: [
     ConsumptionChartDetailComponent,

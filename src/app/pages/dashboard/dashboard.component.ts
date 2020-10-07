@@ -26,18 +26,18 @@ const FADE_OUT_CLASS = 'fade-out';
         group([
           query('.slide-card-up', [ // Used for title to move it up and and down when it changes
             group([
-              animate('1.0s ease-in', style({transform: 'translateY(-300%)'})),
+              animate('1.0s ease-in', style({ transform: 'translateY(-300%)' })),
             ]),
-          ], {optional: true}),
+          ], { optional: true }),
           query('.fade-out-text', [ // Slight opacity for static texts
-            animate('1.0s ease', style({opacity: '0.6'})),
-          ], {optional: true}),
+            animate('1.0s ease', style({ opacity: '0.6' })),
+          ], { optional: true }),
           query('.fade-in', [ // Complete fade-in-out for dynamic texts (keyfigure values, charts and gauges)
-            animate('1.0s ease', style({opacity: '1'})),
-          ], {optional: true}),
+            animate('1.0s ease', style({ opacity: '1' })),
+          ], { optional: true }),
           query('.fade-out', [
-            animate('1.0s ease', style({opacity: '0'})),
-          ], {optional: true}),
+            animate('1.0s ease', style({ opacity: '0' })),
+          ], { optional: true }),
         ]),
       ]),
     ]),
@@ -47,16 +47,16 @@ const FADE_OUT_CLASS = 'fade-out';
         group([
           query('.slide-card-up, .fade-out-text', [
             group([
-              animate('1.0s ease', style({opacity: '1'})),
-              animate('1.0s ease', style({transform: 'translateY(0%)'})),
+              animate('1.0s ease', style({ opacity: '1' })),
+              animate('1.0s ease', style({ transform: 'translateY(0%)' })),
             ]),
-          ], {optional: true}),
+          ], { optional: true }),
           query('.fade-in', [
-            animate('1.0s ease', style({opacity: '1'})),
-          ], {optional: true}),
+            animate('1.0s ease', style({ opacity: '1' })),
+          ], { optional: true }),
           query('.fade-out', [
-            animate('1.0s ease', style({opacity: '0'})),
-          ], {optional: true}),
+            animate('1.0s ease', style({ opacity: '0' })),
+          ], { optional: true }),
         ]),
       ]),
     ]),
@@ -93,16 +93,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public currentSiteIndex = -1;
 
   public buttonsStatisticsChart = [
-    {name: 'day', title: 'dashboard.statistics.button.day'},
-    {name: 'week', title: 'dashboard.statistics.button.week'},
-    {name: 'month', title: 'dashboard.statistics.button.month'},
-    {name: 'year', title: 'dashboard.statistics.button.year'},
+    { name: 'day', title: 'dashboard.statistics.button.day' },
+    { name: 'week', title: 'dashboard.statistics.button.week' },
+    { name: 'month', title: 'dashboard.statistics.button.month' },
+    { name: 'year', title: 'dashboard.statistics.button.year' },
   ];
   public chartStatisticsFooter;
   @ViewChild('statisticsChart') public statisticsChartComponent: CardChartComponent;
   public buttonsRealtimeChart = [
-    {name: 'consumption', title: 'dashboard.realtime.button.consumption'},
-    {name: 'utilization', title: 'dashboard.realtime.button.utilization'},
+    { name: 'consumption', title: 'dashboard.realtime.button.consumption' },
+    { name: 'utilization', title: 'dashboard.realtime.button.utilization' },
   ];
   public chartRealtimeFooter;
   @ViewChild('realtimeChart') public realtimeChartComponent: CardChartComponent;
@@ -123,9 +123,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public statisticsInterval = STATISTICS_INTERVAL;
 
   constructor(private translateService: TranslateService,
-              private spinnerService: SpinnerService,
-              private dashboardService: DashboardService,
-              private decimalPipe: AppDecimalPipe) {
+    private spinnerService: SpinnerService,
+    private dashboardService: DashboardService,
+    private decimalPipe: AppDecimalPipe) {
     this.dashboardService.startLoading();
   }
 
@@ -319,7 +319,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public createRealtimeOptions(target: any) {
     const optionsLine = {
-      legend: {display: false},
+      legend: { display: false },
       responsive: true,
       aspectRatio: 2,
       animation: {
@@ -417,7 +417,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public createStatisticsOptions(target: any) {
     const optionsLine = {
-      legend: {display: false},
+      legend: { display: false },
       responsive: true,
       aspectRatio: 2,
       animation: {

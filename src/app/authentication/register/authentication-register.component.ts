@@ -150,7 +150,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
               this.messageService.showSuccessMessage(this.messages['register_user_success']);
             }
             // Login successful so redirect to return url
-            this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+            this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
           } else {
             // Unexpected Error
             Utils.handleError(JSON.stringify(response),

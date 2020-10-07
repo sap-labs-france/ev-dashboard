@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SpinnerService {
   public visible = false;
-  private spinner: HTMLElement|null;
+  private spinner: HTMLElement | null;
 
   constructor() {
     this.spinner = document.getElementById('spinner');

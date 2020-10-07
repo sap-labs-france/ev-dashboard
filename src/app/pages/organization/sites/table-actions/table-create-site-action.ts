@@ -5,8 +5,12 @@ import { SiteButtonAction } from 'app/types/Site';
 import { TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+export interface TableCreateSiteActionDef extends TableActionDef {
+  action: (dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableCreateSiteAction extends TableCreateAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableCreateSiteActionDef {
     return {
       ...super.getActionDef(),
       id: SiteButtonAction.CREATE_SITE,

@@ -7,12 +7,15 @@ import { DialogService } from 'app/services/dialog.service';
 import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from 'app/types/Setting';
-import { Tenant } from 'app/types/Tenant';
+import { Tenant, TenantLogo } from 'app/types/Tenant';
 import TenantComponents from 'app/types/TenantComponents';
+import { mergeMap } from 'rxjs/operators';
 
 import { CentralServerService } from '../../../services/central-server.service';
+import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { Address } from '../../../types/Address';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -30,6 +33,9 @@ export class TenantComponent implements OnInit {
   public subdomain!: AbstractControl;
   public email!: AbstractControl;
   public components!: FormGroup;
+  public logo: string = TenantLogo.NO_LOGO;
+  public maxSize: number;
+  public address!: Address;
   public pricingTypes = [
     {
       key: PricingSettingsType.CONVERGENT_CHARGING,
@@ -77,7 +83,9 @@ export class TenantComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private translateService: TranslateService,
-    private router: Router) {
+    private router: Router,
+    private configService: ConfigService) {
+    this.maxSize = this.configService.getTenant().maxLogoKb;
   }
 
   public ngOnInit() {
@@ -123,7 +131,7 @@ export class TenantComponent implements OnInit {
   public loadTenant() {
     if (this.currentTenantID) {
       this.spinnerService.show();
-      this.centralServerService.getTenant(this.currentTenantID).subscribe((tenant) => {
+      this.centralServerService.getTenant(this.currentTenantID).pipe(mergeMap((tenant) => {
         this.spinnerService.hide();
         if (tenant) {
           this.currentTenant = tenant;
@@ -132,6 +140,9 @@ export class TenantComponent implements OnInit {
           this.name.setValue(this.currentTenant.name);
           this.email.setValue(this.currentTenant.email);
           this.subdomain.setValue(this.currentTenant.subdomain);
+          if (tenant.address) {
+            this.address = tenant.address;
+          }
           // Add available components
           for (const componentIdentifier of Object.values(TenantComponents)) {
             // Set the params
@@ -147,6 +158,12 @@ export class TenantComponent implements OnInit {
             }
           }
         }
+        return this.centralServerService.getTenantLogo(this.currentTenantID);
+      })).subscribe((tenantLogo) => {
+        if (tenantLogo && tenantLogo.logo) {
+          this.logo = tenantLogo.logo.toString();
+        }
+        this.spinnerService.hide();
       }, (error) => {
         // Hide
         this.spinnerService.hide();
@@ -232,6 +249,7 @@ export class TenantComponent implements OnInit {
 
   private createTenant(tenant: Tenant) {
     this.spinnerService.show();
+    this.updateTenantLogo(tenant);
     this.centralServerService.createTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
@@ -248,6 +266,7 @@ export class TenantComponent implements OnInit {
 
   private updateTenant(tenant: Tenant) {
     this.spinnerService.show();
+    this.updateTenantLogo(tenant);
     this.centralServerService.updateTenant(tenant).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
@@ -264,5 +283,39 @@ export class TenantComponent implements OnInit {
         Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
       }
     });
+  }
+
+  public logoChanged(event: any) {
+    // load picture
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.size > (this.maxSize * 1024)) {
+        this.messageService.showErrorMessage('tenants.logo_size_error', {maxPictureKb: this.maxSize});
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.logo = reader.result as string;
+          this.formGroup.markAsDirty();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  public clearLogo() {
+    // Clear
+    this.logo = TenantLogo.NO_LOGO;
+    // Set form dirty
+    this.formGroup.markAsDirty();
+  }
+
+  public updateTenantLogo(tenant: Tenant) {
+    if (!this.logo.endsWith(TenantLogo.NO_LOGO)) {
+      // Set to tenant
+      tenant.logo = this.logo;
+    } else {
+      // No logo
+      delete tenant.logo;
+    }
   }
 }

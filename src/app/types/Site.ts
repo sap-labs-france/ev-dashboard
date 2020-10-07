@@ -20,6 +20,7 @@ export interface Site extends Data, CreatedUpdatedProps {
   occupationData: object;
   userIDs: string[];
   users: User[];
+  public?: boolean;
 }
 
 export interface SiteUser extends Data {

@@ -60,15 +60,16 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
                     messageService, centralServerService, spinnerService, router);
                 }
               }
+              if (refresh) {
+                refresh().subscribe();
+              }
             } else {
-              Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
-            }
-            if (refresh) {
-              refresh().subscribe();
+              Utils.handleError(JSON.stringify(response), messageService,
+              translateService.instant('chargers.change_params_error', { paramKey: param.key, chargeBoxID: charger.id }));
             }
           }, (error) => {
             spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
+            Utils.handleHttpError(error, router, messageService, centralServerService, translateService.instant('chargers.change_params_error', { paramKey: param.key, chargeBoxID: charger.id }));
           });
         }
       });

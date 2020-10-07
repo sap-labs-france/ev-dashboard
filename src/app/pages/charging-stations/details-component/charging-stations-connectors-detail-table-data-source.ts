@@ -228,7 +228,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
               this.router, this.refreshData.bind(this));
           }
         }, (error) => {
-          this.messageService.showErrorMessage('transactions.transaction_id_not_found', {sessionID: connector.currentTransactionID});
+          this.messageService.showErrorMessage('transactions.transaction_id_not_found', { sessionID: connector.currentTransactionID });
         });
         break;
       // View Transaction

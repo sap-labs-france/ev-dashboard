@@ -25,8 +25,8 @@ export class TableExportChargingStationsAction extends TableExportAction {
   }
 
   private exportChargingStations(filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router,
-      spinnerService: SpinnerService) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    spinnerService: SpinnerService) {
     super.export(filters, 'exported-charging-stations.csv',
       'chargers.dialog.export.title', 'chargers.dialog.export.confirm', 'chargers.dialog.export.error',
       centralServerService.exportChargingStations.bind(centralServerService),

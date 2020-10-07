@@ -20,7 +20,7 @@ export class ChargingStationAdvancedComponent implements OnInit {
   public formGroup!: FormGroup;
   public connectorControl!: AbstractControl;
   public connectorIds: string[];
-  public scheduleResult!: GetCompositeScheduleCommandResult|GetCompositeScheduleCommandResult[];
+  public scheduleResult!: GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[];
   public durationControl!: AbstractControl;
 
   constructor(

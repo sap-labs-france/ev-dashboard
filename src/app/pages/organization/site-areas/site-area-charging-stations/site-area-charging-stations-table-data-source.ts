@@ -72,7 +72,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public buildTableDef(): TableDef {
     if (this.siteArea && this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
+      this.authorizationService.isSiteAdmin(this.siteArea.siteID)) {
       return {
         class: 'table-dialog-list',
         rowSelection: {
@@ -132,7 +132,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
     if (this.siteArea && (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
+      this.authorizationService.isSiteAdmin(this.siteArea.siteID))) {
       return [
         this.addAction,
         this.removeAction,

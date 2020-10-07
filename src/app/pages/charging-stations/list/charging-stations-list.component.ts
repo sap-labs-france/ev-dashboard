@@ -35,7 +35,7 @@ export class ChargingStationsListComponent implements OnInit {
         }
       }, (error) => {
         // Not Found
-        this.messageService.showErrorMessage('chargers.charger_id_not_found', {chargerID: chargingStationID});
+        this.messageService.showErrorMessage('chargers.charger_id_not_found', { chargerID: chargingStationID });
       });
       // Clear Search
       this.windowService.deleteSearch('ChargingStationID');

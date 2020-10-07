@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'appConnectorId'})
+@Pipe({ name: 'appConnectorId' })
 export class AppConnectorIdPipe implements PipeTransform {
 
   public transform(connectorID: number): string {

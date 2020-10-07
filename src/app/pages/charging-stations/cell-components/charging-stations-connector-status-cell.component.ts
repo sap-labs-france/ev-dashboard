@@ -21,7 +21,7 @@ export class ChargingStationsConnectorStatusCellComponent extends CellContentTem
   @Input() public row!: Connector;
 }
 
-@Pipe({name: 'appChargingStationsFormatConnectorStatus'})
+@Pipe({ name: 'appChargingStationsFormatConnectorStatus' })
 export class AppChargingStationsFormatConnectorStatusPipe implements PipeTransform {
   public transform(status: string, type: string): string {
     if (type === 'class') {

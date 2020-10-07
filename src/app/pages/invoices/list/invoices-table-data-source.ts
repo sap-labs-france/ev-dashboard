@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
-import { TableDownloadAction } from 'app/shared/table/actions/table-download-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
@@ -39,18 +38,18 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private downloadBillingInvoiceAction = new TableDownloadBillingInvoice().getActionDef();
 
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private dialogService: DialogService,
-      private router: Router,
-      private appUserNamePipe: AppUserNamePipe,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private datePipe: AppDatePipe,
-      private appCurrencyPipe: AppCurrencyPipe,
-      private componentService: ComponentService) {
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private router: Router,
+    private appUserNamePipe: AppUserNamePipe,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
+    private datePipe: AppDatePipe,
+    private appCurrencyPipe: AppCurrencyPipe,
+    private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -89,7 +88,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableDynamicRowActions(invoice: BillingInvoice): TableActionDef[] {
     const rowActions = [];
     if (invoice.downloadable && this.authorizationService.canDownloadInvoice(invoice.userID)) {
-        rowActions.push(this.downloadBillingInvoiceAction);
+      rowActions.push(this.downloadBillingInvoiceAction);
     }
     return rowActions;
   }
@@ -147,12 +146,12 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         class: 'col-20p text-left',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
-      {
-        id: 'user.email',
-        name: 'users.email',
-        headerClass: 'col-20p text-left',
-        class: 'col-20p text-left',
-      });
+        {
+          id: 'user.email',
+          name: 'users.email',
+          headerClass: 'col-20p text-left',
+          class: 'col-20p text-left',
+        });
     }
     return columns as TableColumnDef[];
   }

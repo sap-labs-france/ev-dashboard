@@ -23,7 +23,6 @@ import { Observable } from 'rxjs';
 
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../table-actions/table-charging-stations-smart-charging-action';
 
 @Injectable()
@@ -47,9 +46,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{WithChargingStation: 'true'}, {WithSiteArea: 'true'}]);
+      this.setStaticFilters([{ WithChargingStation: 'true' }, { WithSiteArea: 'true' }]);
     } else {
-      this.setStaticFilters([{WithChargingStation: 'true'}]);
+      this.setStaticFilters([{ WithChargingStation: 'true' }]);
     }
     this.initDataSource();
   }

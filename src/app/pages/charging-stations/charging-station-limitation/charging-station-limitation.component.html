@@ -6,9 +6,11 @@
           <mat-icon>battery_charging_full</mat-icon>
           <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
         </ng-template>
-        <div class="card-body tab-dialog-min-content row" *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported">
+        <div class="card-body tab-dialog-min-content row"
+          *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported">
           <div class="col-md-12">
-            <app-charging-station-static-limitation [chargingStation]="chargingStation"></app-charging-station-static-limitation>
+            <app-charging-station-static-limitation [chargingStation]="chargingStation">
+            </app-charging-station-static-limitation>
           </div>
         </div>
         <ng-template #notSupported>
@@ -23,7 +25,8 @@
           <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
-          <div class="card-body tab-dialog-min-content" *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
+          <div class="card-body tab-dialog-min-content"
+            *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
             <app-charging-plans [chargingStation]="chargingStation"></app-charging-plans>
           </div>
           <ng-template #notSupported>
@@ -38,7 +41,8 @@
           <mat-icon>info</mat-icon>
           <span>{{'chargers.smart_charging.debug_charging_station' | translate }}</span>
         </ng-template>
-        <div class="card-body tab-dialog-min-content" *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
+        <div class="card-body tab-dialog-min-content"
+          *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
           <app-charging-station-advanced [chargingStation]="chargingStation"></app-charging-station-advanced>
         </div>
         <ng-template #notSupported>

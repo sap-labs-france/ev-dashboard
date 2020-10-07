@@ -46,8 +46,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private defaultColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false},
-    {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true},
+    { key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false },
+    { key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true },
   ];
 
   constructor(
@@ -58,7 +58,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private authorizationService: AuthorizationService ) {
+    private authorizationService: AuthorizationService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });

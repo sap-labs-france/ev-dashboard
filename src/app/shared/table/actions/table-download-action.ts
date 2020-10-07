@@ -1,7 +1,6 @@
 import { ButtonAction } from 'app/types/GlobalType';
 import { ButtonColor, TableActionDef } from 'app/types/Table';
 
-import { BillingButtonAction } from '../../../types/Billing';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { SiteButtonAction } from '../../../types/Site';
 import { TransactionButtonAction } from '../../../types/Transaction';

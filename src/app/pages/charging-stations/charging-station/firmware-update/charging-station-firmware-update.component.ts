@@ -52,7 +52,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
 
   public ngOnInit() {
     // Init FormControl
-    this.url = new FormControl( '', Validators.compose([
+    this.url = new FormControl('', Validators.compose([
       Validators.required,
     ]));
   }
@@ -60,7 +60,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public updateFirmware() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value}),
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();

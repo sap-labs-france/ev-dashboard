@@ -21,9 +21,9 @@ export class ConfirmationDialogComponent implements AfterViewInit {
   private canCancelDialog = false;
 
   constructor(
-      protected dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-      protected translateService: TranslateService,
-      @Inject(MAT_DIALOG_DATA) data: any) {
+    protected dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    protected translateService: TranslateService,
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
     this.title = data.title;
     this.message = data.message;

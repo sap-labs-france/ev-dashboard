@@ -33,8 +33,8 @@ export class TableChargingStationsForceAvailableStatusAction implements TableAct
   }
 
   private forceAvailable(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) {
     // Show yes/no dialog
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.force_available_status_title'),
@@ -44,23 +44,23 @@ export class TableChargingStationsForceAvailableStatusAction implements TableAct
         spinnerService.show();
         // Change Availability
         centralServerService.chargingStationChangeAvailability(chargingStation.id, true).subscribe((response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.force_available_status_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.force_available_status_error');
+          spinnerService.hide();
+          if (response.status === OCPPGeneralResponse.ACCEPTED) {
+            messageService.showSuccessMessage(
+              translateService.instant('chargers.force_available_status_success', { chargeBoxID: chargingStation.id }));
+            if (refresh) {
+              refresh().subscribe();
             }
-          }, (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.force_available_status_error');
-          });
-        }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, 'chargers.force_available_status_error');
+          }
+        }, (error: any) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, 'chargers.force_available_status_error');
+        });
+      }
     });
   }
 }

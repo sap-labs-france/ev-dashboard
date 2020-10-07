@@ -9,6 +9,5 @@ export class StartDateFilter extends DateTableFilter {
     filter.name = 'general.search_date_from';
     filter.currentValue = currentValue;
     filter.reset = () => filter.currentValue = currentValue;
-
   }
 }

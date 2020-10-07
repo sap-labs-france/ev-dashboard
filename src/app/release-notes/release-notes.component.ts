@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added Site filter in User list`,
+              `Static Power limitation must not be provided by the Charging Station Template`,
             ],
           },
         ],
@@ -1359,7 +1360,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Concur: Add quick expense V4 implementation`,
               `Convergent Invoicing: Enhanced logs when an error occurred`,
-              `Ignored connector ID 0 for EBEE charger`            ],
+              `Ignored connector ID 0 for EBEE charger`],
           },
         ],
       },

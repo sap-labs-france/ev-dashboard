@@ -13,9 +13,8 @@
         <div class="row text-left">
           <div class="col-md-3" *ngIf="efficiency?.value">
             <mat-form-field>
-              <input matInput
-                placeholder="{{'chargers.efficiency' | translate}}"
-                [formControl]="efficiency" [readOnly]="!isAdmin"/>
+              <input matInput placeholder="{{'chargers.efficiency' | translate}}" [formControl]="efficiency"
+                [readOnly]="!isAdmin" />
               <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
             </mat-form-field>
           </div>
@@ -37,8 +36,7 @@
         </div>
         <div class="row">
           <div class="col-md-6" *ngFor="let connectorID of chargePoint?.connectorIDs">
-            <app-charging-station-connector
-              [chargingStation]="chargingStation" [chargePoint]="chargePoint"
+            <app-charging-station-connector [chargingStation]="chargingStation" [chargePoint]="chargePoint"
               [connector]="chargingStation?.connectors[connectorID - 1]" [formConnectorsArray]="formConnectorsArray"
               [isAdmin]="isAdmin" (connectorChanged)="connectorChanged()"></app-charging-station-connector>
           </div>

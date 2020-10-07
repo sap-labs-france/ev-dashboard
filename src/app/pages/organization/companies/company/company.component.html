@@ -3,8 +3,8 @@
     <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
       <mat-tab>
         <ng-template mat-tab-label>
-            <mat-icon>portrait</mat-icon>
-            <span>{{name.value}}</span>
+          <mat-icon>portrait</mat-icon>
+          <span>{{name.value}}</span>
         </ng-template>
         <div class="card-body">
           <div class="row app-organization">
@@ -50,7 +50,8 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <app-address [address]="address" [formGroup]="formGroup" componentName="{{'companies.company' | translate}}" [itemComponentName]="name.value"></app-address>
+              <app-address [address]="address" [formGroup]="formGroup"
+                componentName="{{'companies.company' | translate}}" [itemComponentName]="name.value"></app-address>
             </div>
           </div>
           <div class="clearfix"></div>

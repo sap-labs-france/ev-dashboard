@@ -28,8 +28,8 @@ export class TableSyncBillingInvoicesAction extends TableSynchronizeAction {
   }
 
   private synchronizeInvoices(dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router,
+    refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.billing.invoice.synchronize_invoices_dialog_title'),
       translateService.instant('settings.billing.invoice.synchronize_invoices_dialog_confirm'),
@@ -43,13 +43,13 @@ export class TableSyncBillingInvoicesAction extends TableSynchronizeAction {
                 refresh().subscribe();
               }
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success',
-                {number: synchronizeResponse.inSuccess}));
+                { number: synchronizeResponse.inSuccess }));
             } else if (!synchronizeResponse.inError) {
               messageService.showSuccessMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_success_all'));
             }
             if (synchronizeResponse.inError) {
               messageService.showWarningMessage(translateService.instant('settings.billing.invoice.synchronize_invoices_failure',
-                {number: synchronizeResponse.inError}));
+                { number: synchronizeResponse.inError }));
             }
           } else {
             Utils.handleError(JSON.stringify(synchronizeResponse), messageService, 'settings.billing.invoice.synchronize_invoices_error');

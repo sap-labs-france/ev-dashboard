@@ -176,7 +176,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               this.translateService.instant('authentication.verify_email_resend_confirm'),
             ).subscribe((response) => {
               if (response === ButtonType.YES) {
-                this.router.navigate(['/auth/verify-email'], {queryParams: {Email: user['email']}});
+                this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
               }
             });
           } else {

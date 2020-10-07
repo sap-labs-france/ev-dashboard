@@ -112,7 +112,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           Validators.min(-90),
           Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
         ])),
-      ])
+    ])
     );
     // Form
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
@@ -125,8 +125,8 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
-    this.connectors =  this.formGroup.controls['connectors'] as FormArray;
-    this.chargePoints =  this.formGroup.controls['chargePoints'] as FormArray;
+    this.connectors = this.formGroup.controls['connectors'] as FormArray;
+    this.chargePoints = this.formGroup.controls['chargePoints'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
     this.formGroup.updateValueAndValidity();
@@ -284,16 +284,16 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.latitude) {
-          this.latitude.setValue(result.latitude);
-          this.formGroup.markAsDirty();
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
         }
-        if (result.longitude) {
-          this.longitude.setValue(result.longitude);
-          this.formGroup.markAsDirty();
-        }
-      }
-    });
+      });
   }
 }

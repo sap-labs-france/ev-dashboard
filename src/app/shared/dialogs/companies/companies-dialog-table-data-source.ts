@@ -15,30 +15,30 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 @Injectable()
 export class CompaniesDialogTableDataSource extends DialogTableDataSource<Company> {
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private centralServerService: CentralServerService) {
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<Company>> {
-  return new Observable((observer) => {
-    // Get data
-    this.centralServerService.getCompanies(this.buildFilterValues(),
-      this.getPaging(), this.getSorting()).subscribe((companies) => {
-        // Ok
-        observer.next(companies);
-        observer.complete();
-      }, (error) => {
-        // No longer exists!
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+    return new Observable((observer) => {
+      // Get data
+      this.centralServerService.getCompanies(this.buildFilterValues(),
+        this.getPaging(), this.getSorting()).subscribe((companies) => {
+          // Ok
+          observer.next(companies);
+          observer.complete();
+        }, (error) => {
+          // No longer exists!
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 

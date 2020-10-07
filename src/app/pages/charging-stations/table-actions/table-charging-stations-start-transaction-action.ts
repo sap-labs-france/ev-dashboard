@@ -40,9 +40,9 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
   }
 
   private startTransaction(chargingStation: ChargingStation, connector: Connector, authorizationService: AuthorizationService,
-      dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      refresh?: () => Observable<void>) {
+    dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) {
     if (chargingStation.inactive) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
@@ -104,8 +104,8 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
   }
 
   private startTransactionForUser(chargingStation: ChargingStation, connector: Connector, user: User | null,
-      loggedUser: UserToken, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService, refresh?: () => Observable<void>): void {
+    loggedUser: UserToken, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService, refresh?: () => Observable<void>): void {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.start_transaction_title'),
       translateService.instant('chargers.start_transaction_confirm', {
@@ -134,21 +134,21 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
         spinnerService.show();
         centralServerService.chargingStationStartTransaction(
           chargingStation.id, connector.connectorId, tagId).subscribe((startTransactionResponse: ActionResponse) => {
-          spinnerService.hide();
-          if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
-            messageService.showSuccessMessage(
-              translateService.instant('chargers.start_transaction_success', { chargeBoxID: chargingStation.id }));
-            if (refresh) {
-              refresh().subscribe();
+            spinnerService.hide();
+            if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.start_transaction_success', { chargeBoxID: chargingStation.id }));
+              if (refresh) {
+                refresh().subscribe();
+              }
+            } else {
+              Utils.handleError(JSON.stringify(response),
+                messageService, translateService.instant('chargers.start_transaction_error'));
             }
-          } else {
-            Utils.handleError(JSON.stringify(response),
-              messageService, translateService.instant('chargers.start_transaction_error'));
-          }
-        }, (error) => {
-          spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.start_transaction_error');
-        });
+          }, (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.start_transaction_error');
+          });
       }
     });
   }

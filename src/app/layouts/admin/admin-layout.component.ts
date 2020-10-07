@@ -20,7 +20,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('sidebar') public sidebar: any;
   @ViewChild(NavbarComponent, { static: true }) public navbar!: NavbarComponent;
   private _router!: Subscription;
-  private lastPoppedUrl!: string|null;
+  private lastPoppedUrl!: string | null;
   private yScrollStack: number[] = [];
 
   constructor(private router: Router, location: Location) {

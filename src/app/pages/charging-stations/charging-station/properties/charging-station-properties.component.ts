@@ -9,7 +9,7 @@ export interface PropertyDisplay {
   key: string;
   title: string;
   value?: string;
-  formatter?: (value: any) => string|null;
+  formatter?: (value: any) => string | null;
 }
 
 @Component({
@@ -21,15 +21,15 @@ export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [
-    {key: 'chargePointVendor', title: 'chargers.vendor'},
-    {key: 'chargePointModel', title: 'chargers.model'},
-    {key: 'chargeBoxSerialNumber', title: 'chargers.serial_number'},
-    {key: 'firmwareVersion', title: 'chargers.firmware_version'},
-    {key: 'endpoint', title: 'chargers.private_url'},
-    {key: 'chargingStationURL', title: 'chargers.public_url'},
-    {key: 'currentIPAddress', title: 'chargers.current_ip'},
-    {key: 'ocppVersion', title: 'chargers.ocpp_version'},
-    {key: 'ocppProtocol', title: 'chargers.ocpp_protocol'},
+    { key: 'chargePointVendor', title: 'chargers.vendor' },
+    { key: 'chargePointModel', title: 'chargers.model' },
+    { key: 'chargeBoxSerialNumber', title: 'chargers.serial_number' },
+    { key: 'firmwareVersion', title: 'chargers.firmware_version' },
+    { key: 'endpoint', title: 'chargers.private_url' },
+    { key: 'chargingStationURL', title: 'chargers.public_url' },
+    { key: 'currentIPAddress', title: 'chargers.current_ip' },
+    { key: 'ocppVersion', title: 'chargers.ocpp_version' },
+    { key: 'ocppProtocol', title: 'chargers.ocpp_protocol' },
     {
       key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => {
         return this.datePipe.transform(lastReboot);

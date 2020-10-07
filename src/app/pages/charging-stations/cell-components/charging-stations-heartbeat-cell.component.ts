@@ -26,7 +26,7 @@ export class ChargingStationsHeartbeatCellComponent extends CellContentTemplateD
   public locale!: string;
 
   constructor(
-      private localeService: LocaleService) {
+    private localeService: LocaleService) {
     super();
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;

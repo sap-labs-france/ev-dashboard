@@ -12,9 +12,9 @@ import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-so
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   constructor(
-      public companiesDataSource: CompaniesDialogTableDataSource,
-      protected dialogRef: MatDialogRef<CompaniesDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) data: any) {
+    public companiesDataSource: CompaniesDialogTableDataSource,
+    protected dialogRef: MatDialogRef<CompaniesDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any) {
     // Super class
     super(data, dialogRef, companiesDataSource);
     // Default title
@@ -28,7 +28,7 @@ export class CompaniesDialogComponent extends DialogTableDataComponent<Company> 
     const items: KeyValue[] = [];
     if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((row) => {
-        items.push({key: row.id, value: row.name, objectRef: row});
+        items.push({ key: row.id, value: row.name, objectRef: row });
       });
     }
     return items;

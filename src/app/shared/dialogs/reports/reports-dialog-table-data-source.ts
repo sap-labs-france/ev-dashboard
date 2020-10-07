@@ -16,12 +16,12 @@ import { DialogTableDataSource } from '../dialog-table-data-source';
 @Injectable()
 export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundReport> {
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private router: Router,
-      private centralServerService: CentralServerService,
-      private appUserNamePipe: AppUserNamePipe) {
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private router: Router,
+    private centralServerService: CentralServerService,
+    private appUserNamePipe: AppUserNamePipe) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();

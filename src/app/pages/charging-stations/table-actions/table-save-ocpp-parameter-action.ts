@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 export interface TableSaveOCPPParameterActionDef extends TableActionDef {
   action: (charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
-    spinnerService: SpinnerService, router: Router,  refresh?: () => Observable<void>) => void;
+    spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
 }
 
 export class TableSaveOCPPParameterAction extends TableSaveAction {
@@ -32,7 +32,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
 
   private saveOcppParameter(charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
-    spinnerService: SpinnerService, router: Router,  refresh?: () => Observable<void>) {
+    spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     // Show yes/no dialog only if fields are not empty
     if (param.key !== null && param.key !== '' && param.value !== null && param.value !== '') {
       dialogService.createAndShowYesNoDialog(

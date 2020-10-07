@@ -1195,7 +1195,7 @@ export class CentralServerService {
       );
   }
 
-  public exportAllChargingStationsOCCPParams(params: FilterParams): Observable<Blob> {
+  public exportAllChargingStationsOCPPParams(params: FilterParams): Observable<Blob> {
     // Verify init
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATIONS_OCPP_PARAMS_EXPORT}`,

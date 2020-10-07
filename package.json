@@ -46,7 +46,7 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix=true",
     "e2e": "codeceptjs run --steps --reporter mochawesome",
-    "clean-install": "rimraf node_modules && rimraf package-lock.json && npm cache clear --force && npm install",
+    "clean-install": "rimraf package-lock.json && rimraf node_modules && npm cache clear --force && npm install",
     "npm-check": "npm-check",
     "ng:update": "ng update",
     "angular-update": "ng update @angular/cli @angular/core",

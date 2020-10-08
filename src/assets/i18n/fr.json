@@ -1268,7 +1268,8 @@
     "assign_user_to_tag_success": "L'utilisateur '{{userName}}' a assigné au badge avec succès",
     "tag_has_transaction_error": "Impossible de mettre a jour un badge qui a des transactions",
     "assign_user_to_tag_error": "Une erreur est survenue pendant l'assignation de l'utilisateurs au badge",
-    "assign_user_button": "Assigner utilisateur"
+    "assign_user_button": "Assigner utilisateur",
+    "default_tag": "Badge par défaut"
   },
   "tenants": {
     "title": "Organisation",

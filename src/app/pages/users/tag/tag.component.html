@@ -59,6 +59,17 @@
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
+                <div class="text-left">
+                  <mat-checkbox value="false" [formControl]="default">
+                    {{'tags.default_tag' | translate}}
+                  </mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
                 <mat-form-field>
                   <mat-select [formControl]="active" placeholder="{{'tags.status' | translate}}" required>
                     <mat-option [value]="true">{{'tags.activated' | translate}}</mat-option>

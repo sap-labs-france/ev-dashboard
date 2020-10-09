@@ -2742,11 +2742,13 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
+    const custom = chargerParameter.custom ? chargerParameter.custom : false;
     const body = `{
       "chargeBoxID": "${id}",
       "args": {
         "key": "${chargerParameter.key}",
-        "value": "${chargerParameter.value}"
+        "value": "${chargerParameter.value}",
+        "custom": "${custom}"
       }
     }`;
     // Execute

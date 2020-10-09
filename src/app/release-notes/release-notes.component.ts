@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Persist custom OCPP Parameters in the database for Delta Charging Station`,
               `Added Site filter in User list`,
               `Static Power limitation must not be provided by the Charging Station Template`,
               `Fixed ABB badge reader configuration`,

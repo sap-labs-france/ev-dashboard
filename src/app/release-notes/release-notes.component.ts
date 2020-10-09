@@ -25,7 +25,7 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.11',
-        date: new Date('2020-10-09'),
+        date: new Date('2020-10-10'),
         componentChanges: [
           {
             name: 'Dashboard',
@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Added Site filter in User list`,
               `Static Power limitation must not be provided by the Charging Station Template`,
               `Fixed ABB badge reader configuration`,
+              `Added Schneider model EV2S7P04 in Charging Station's Template`,
               `Minor bug fixes`
             ],
           },

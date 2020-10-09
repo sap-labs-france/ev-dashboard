@@ -32,18 +32,19 @@ export class TagComponent implements OnInit {
   public user!: AbstractControl;
   public userID!: AbstractControl;
   public active!: AbstractControl;
+  public default!: AbstractControl;
 
   public isAdmin = false;
 
   constructor(
-      public spinnerService: SpinnerService,
-      private authorizationService: AuthorizationService,
-      private centralServerService: CentralServerService,
-      private messageService: MessageService,
-      private translateService: TranslateService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog) {
+    public spinnerService: SpinnerService,
+    private authorizationService: AuthorizationService,
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog) {
     this.isAdmin = this.authorizationService.isAdmin();
   }
 
@@ -73,6 +74,10 @@ export class TagComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
+      default: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -80,6 +85,8 @@ export class TagComponent implements OnInit {
     this.user = this.formGroup.controls['user'];
     this.userID = this.formGroup.controls['userID'];
     this.active = this.formGroup.controls['active'];
+    this.default = this.formGroup.controls['default'];
+    this.default.setValue(false);
     if (this.currentTagID) {
       this.id.disable();
     }
@@ -123,6 +130,7 @@ export class TagComponent implements OnInit {
           this.userID.setValue(tag.user.id);
           this.user.setValue(Utils.buildUserFullName(tag.user));
         }
+        this.default.setValue(tag.default);
         this.id.disable();
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();

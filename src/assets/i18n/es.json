@@ -91,6 +91,7 @@
     "previous": "Previo",
     "info": "Información",
     "now": "Ahora",
+    "default": "Default",
     "yes": "Sí",
     "no": "No",
     "apply": "Aplicar",
@@ -1268,7 +1269,8 @@
     "assign_user_to_tag_success": "The user '{{userName}}' has been assigned to the badge successfully",
     "tag_has_transaction_error": "Cannot update a tag which has transactions",
     "assign_user_to_tag_error": "Error occurred while assigning the user to the badge",
-    "assign_user_button": "Assign user"
+    "assign_user_button": "Assign user",
+    "default_tag": "Default badge"
   },
   "tenants": {
     "title": "Organización",

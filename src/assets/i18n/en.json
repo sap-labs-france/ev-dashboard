@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.10",
+    "last_update": "Version 2.4.11",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -91,6 +91,7 @@
     "previous": "Previous",
     "info": "Info",
     "now": "Now",
+    "default": "Default",
     "yes": "Yes",
     "no": "No",
     "apply": "Apply",
@@ -1268,7 +1269,8 @@
     "assign_user_to_tag_success": "The user '{{userName}}' has been assigned to the badge successfully",
     "tag_has_transaction_error": "Cannot update a tag which has transactions",
     "assign_user_to_tag_error": "Error occurred while assigning the user to the badge",
-    "assign_user_button": "Assign user"
+    "assign_user_button": "Assign user",
+    "default_tag": "Default badge"
   },
   "tenants": {
     "title": "Organization",

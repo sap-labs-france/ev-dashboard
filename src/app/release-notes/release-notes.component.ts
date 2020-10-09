@@ -24,15 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.10',
-        date: new Date('2020-10-07'),
+        version: '2.4.11',
+        date: new Date('2020-10-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Persist custom OCPP Parameters in the database for Delta Charging Station`,
+              `Added default Badge property`,
               `Added Site filter in User list`,
               `Static Power limitation must not be provided by the Charging Station Template`,
-              `Minor fixes`
+              `Fixed ABB badge reader configuration`,
+              `Added Schneider model EV2S7P04 in Charging Station's Template`,
+              `Minor bug fixes`
             ],
           },
         ],

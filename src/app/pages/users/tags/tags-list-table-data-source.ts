@@ -163,8 +163,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       },
       {
         id: 'default',
-        name: 'tags.default_tag',
-        headerClass: 'text-center col-10em',
+        name: 'general.default',
+        headerClass: 'text-center col-5em',
         class: 'text-center col-10em',
         sortable: true,
         formatter: (defaultTag) => defaultTag ? this.translateService.instant('general.yes') :

@@ -24,15 +24,16 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.10',
-        date: new Date('2020-10-07'),
+        version: '2.4.11',
+        date: new Date('2020-10-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Added Site filter in User list`,
               `Static Power limitation must not be provided by the Charging Station Template`,
-              `Minor fixes`
+              `Fixed ABB badge reader configuration`,
+              `Minor bug fixes`
             ],
           },
         ],

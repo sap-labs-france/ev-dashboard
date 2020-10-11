@@ -14,7 +14,6 @@ import { RestResponse } from 'app/types/GlobalType';
 import { HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
-import { User } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -54,7 +53,7 @@ export class TagComponent implements OnInit {
       id: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(1),
           Validators.maxLength(20),
           Validators.pattern('^[a-zA-Z0-9]*$'),
         ])),

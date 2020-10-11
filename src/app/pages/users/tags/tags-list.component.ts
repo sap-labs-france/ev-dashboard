@@ -11,8 +11,6 @@ export class TagsListComponent {
 
   constructor(
     public tagsListTableDataSource: TagsListTableDataSource
-  ) {
-
-  }
+  ) { }
 }
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Injectable, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Injectable, Input } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { OcppParameter } from 'app/types/ChargingStation';
 import { TableColumnDef } from 'app/types/Table';
@@ -7,7 +7,7 @@ import { TableColumnDef } from 'app/types/Table';
   selector: 'app-charging-station-ocpp-parameters-input-field-cell',
   template: `
     <ng-container *ngIf="row.id !== customOcppParameterRowID">
-      <span class="text-right" >{{row.key}}</span>
+      <span class="text-right">{{row.key}}</span>
     </ng-container>
     <ng-container *ngIf="row.id === customOcppParameterRowID">
       <input id="key" name="key" class="form-control text-line"

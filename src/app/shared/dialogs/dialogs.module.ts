@@ -19,6 +19,8 @@ import { CarCatalogsDialogTableDataSource } from './car-catalogs/car-catalogs-di
 import { CarCatalogsDialogComponent } from './car-catalogs/car-catalogs-dialog.component';
 import { CarMakersTableDataSource } from './car-makers/car-makers-dialog-table-data-source';
 import { CarMakersDialogComponent } from './car-makers/car-makers-dialog.component';
+import { CarsDialogTableDataSource } from './cars/cars-dialog-table-data-source';
+import { CarsDialogComponent } from './cars/cars-dialog.component';
 import { ChargingStationsDialogTableDataSource } from './charging-stations/charging-stations-dialog-table-data-source';
 import { ChargingStationsDialogComponent } from './charging-stations/charging-stations-dialog.component';
 import { CompaniesDialogTableDataSource } from './companies/companies-dialog-table-data-source';
@@ -59,6 +61,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
+    CarsDialogComponent,
     ConfirmationDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
@@ -76,6 +79,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
+    CarsDialogComponent,
     ConfirmationDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
@@ -94,6 +98,7 @@ export class FooterModule {
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
+    CarsDialogComponent,
     ConfirmationDialogComponent,
     ChargingStationsDialogComponent,
     SiteAreasDialogComponent,
@@ -116,6 +121,7 @@ export class FooterModule {
     AssetsDialogTableDataSource,
     UsersDialogTableDataSource,
     TagsDialogTableDataSource,
+    CarsDialogTableDataSource,
     ChargingStationsDialogTableDataSource,
     SitesDialogTableDataSource,
     SiteAreasDialogTableDataSource,

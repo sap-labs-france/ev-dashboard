@@ -1,0 +1,62 @@
+<h2 class="dialog-title" mat-dialog-title>{{title | translate}}</h2>
+<mat-dialog-content>  
+  <mat-checkbox  required>
+    <span id="eula-checkbox" class="adapt-font-size">For Myself</span>
+  </mat-checkbox>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
+                      class="form-field-popup" (click)="assignUser()" [formControl]="user"/>
+                    <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignUser()">
+                      <mat-icon>create</mat-icon>
+                    </button>
+                    <mat-error *ngIf="user.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput type="text" readonly=true placeholder="{{'car.title' | translate}}"
+                      class="form-field-popup" (click)="assignCar()" [formControl]="car"/>
+                    <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignCar()">
+                      <mat-icon>create</mat-icon>
+                    </button>
+                    <mat-error *ngIf="car.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput type="text" readonly=true placeholder="{{'tags.title' | translate}}"
+                      class="form-field-popup" (click)="assignTag()" [formControl]="tag"/>
+                    <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignTag()">
+                      <mat-icon>create</mat-icon>
+                    </button>
+                    <mat-error *ngIf="tag.errors?.required">
+                      {{"general.mandatory_field" | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+       
+    
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" disabled="false" >Start session</button>
+  <button mat-raised-button >{{'general.cancel' | translate}}</button>
+</mat-dialog-actions>

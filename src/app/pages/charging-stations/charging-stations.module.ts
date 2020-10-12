@@ -40,6 +40,7 @@ import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
+import { ChargingStationsStartTransactionDetailsDialogComponent } from './details-component/charging-stations-start-transaction-details-dialog-component';
 import { ChargingStationsStartTransactionDialogComponent } from './details-component/charging-stations-start-transaction-dialog-component';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
@@ -75,6 +76,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     TransactionDialogComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
+    ChargingStationsStartTransactionDetailsDialogComponent,
     TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
     ChargingStationsTransactionDetailComponentCellComponent,
@@ -115,6 +117,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationsComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
+    ChargingStationsStartTransactionDetailsDialogComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
@@ -124,6 +127,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
   ],
   exports: [
     ChargingStationsStartTransactionDialogComponent,
+    ChargingStationsStartTransactionDetailsDialogComponent
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

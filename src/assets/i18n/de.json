@@ -1268,7 +1268,8 @@
     "assign_user_to_tag_success": "Der Nutzer '{{userName}}' wurde erfolgreich dem Badge zugeordnet",
     "tag_has_transaction_error": "Ein Badge mit Transaktionen kann nicht aktualisiert werden",
     "assign_user_to_tag_error": "Bei der Zuordnung des Nutzers zum Badge ist ein Fehler aufgetreten",
-    "assign_user_button": "Nutzer zuordnen"
+    "assign_user_button": "Nutzer zuordnen",
+    "title": "Badge"
   },
   "tenants": {
     "title": "Organisation",
@@ -1784,6 +1785,7 @@
     "delete_title": "Fahrzeug löschen",
     "delete_confirm": "Möchten Sie das Fahrzeug  '{{carName}}' wirklich löschen?",
     "users": "Nutzer",
+    "select_car": "Select Car",
     "unit": {
       "meters": "m",
       "seconde": "sek",

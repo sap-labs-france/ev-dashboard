@@ -17,6 +17,8 @@ import { Users } from 'app/utils/Users';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { ChargingStationsStartTransactionDetailsDialogComponent } from '../details-component/charging-stations-start-transaction-details-dialog-component';
+
 export interface TableChargingStationsStartTransactionActionDef extends TableActionDef {
   action: (chargingStation: ChargingStation, connector: Connector, authorizationService: AuthorizationService,
     dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
@@ -65,14 +67,15 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     if (authorizationService.isAdmin()) {
       // Create dialog data
       const dialogConfig = new MatDialogConfig();
+      dialogConfig.minWidth = '40vw';
       dialogConfig.panelClass = '';
       // Set data
       dialogConfig.data = {
-        title: 'chargers.start_transaction_admin_title',
+        title: 'Start a session on SAP-Caen-01',
         message: 'chargers.start_transaction_admin_message',
       };
       // Show
-      const dialogRef = dialog.open(ChargingStationsStartTransactionDialogComponent, dialogConfig);
+      const dialogRef = dialog.open(ChargingStationsStartTransactionDetailsDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe((buttonId) => {
         switch (buttonId) {
           case BUTTON_FOR_MYSELF:

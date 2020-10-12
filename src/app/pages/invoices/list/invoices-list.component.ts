@@ -5,6 +5,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import * as FileSaver from 'file-saver';
 
+import { MessageService } from '../../../services/message.service';
 import { InvoicesComponent } from '../invoices.component';
 import { InvoicesTableDataSource } from './invoices-table-data-source';
 
@@ -20,18 +21,20 @@ export class InvoicesListComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public centralServerService: CentralServerService,
     public spinnerService: SpinnerService,
-    public windowService: WindowService
+    public windowService: WindowService,
+    public messageService: MessageService
   ) {
   }
 
   public ngOnInit() {
     const invoiceID = this.windowService.getSearch('invoiceID');
     if (invoiceID) {
-      this.centralServerService.downloadInvoice(invoiceID).subscribe(async (result) => {
+      this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
         this.spinnerService.show();
         FileSaver.saveAs(result, 'invoice.pdf');
-      }, (error) => {
+      }, () => {
         this.spinnerService.hide();
+        this.messageService.showErrorMessage('invoices.error.failed_download');
       });
     }
   }

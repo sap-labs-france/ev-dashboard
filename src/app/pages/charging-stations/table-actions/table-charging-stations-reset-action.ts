@@ -11,8 +11,14 @@ import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsResetActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsResetAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsResetActionDef = {
     id: ChargingStationButtonAction.SOFT_RESET,
     type: 'button',
     icon: 'refresh',
@@ -22,13 +28,13 @@ export class TableChargingStationsResetAction implements TableAction {
     action: this.reset,
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsResetActionDef {
     return this.action;
   }
 
   private reset(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) {
     // Show yes/no dialog
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.soft_reset_title'),
@@ -38,23 +44,23 @@ export class TableChargingStationsResetAction implements TableAction {
         spinnerService.show();
         // Reboot
         centralServerService.chargingStationReset(chargingStation.id, false).subscribe((response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.soft_reset_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.soft_reset_error');
+          spinnerService.hide();
+          if (response.status === OCPPGeneralResponse.ACCEPTED) {
+            messageService.showSuccessMessage(
+              translateService.instant('chargers.soft_reset_success', { chargeBoxID: chargingStation.id }));
+            if (refresh) {
+              refresh().subscribe();
             }
-          }, (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.soft_reset_error');
-          });
-        }
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              messageService, 'chargers.soft_reset_error');
+          }
+        }, (error: any) => {
+          spinnerService.hide();
+          Utils.handleHttpError(error, router, messageService,
+            centralServerService, 'chargers.soft_reset_error');
+        });
+      }
     });
   }
 }

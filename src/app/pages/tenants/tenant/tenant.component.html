@@ -36,7 +36,35 @@
               <div class="tab-content">
                 <div class="tab-pane active" id="profile">
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-2">
+                      <div class="rotating-card-container app-tenant-image-border"
+                           [ngStyle]="{ 'pointer-events': 'all' }">
+                        <div class="card card-rotate card-background app-tenant-image mt-0">
+                          <div class="front front-background"
+                               [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                            <div class="card-body">
+                            </div>
+                          </div>
+                          <div class="back back-background"
+                               [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                            <div class="card-body">
+                              <div class="footer justify-content-center">
+                                <button mat-flat-button color="primary" class="mr-2">
+                                  <mat-icon (click)="file.click()">mode_edit</mat-icon>
+                                  <div class="d-none">
+                                    <input type="file" name="..." (change)="logoChanged($event)" #file>
+                                  </div>
+                                </button>
+                                <button mat-flat-button color="warn">
+                                  <mat-icon (click)="clearLogo()">delete</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-10">
                       <div class="form-group">
                         <mat-form-field>
                           <input [formControl]="name" appAutofocus matInput
@@ -70,6 +98,11 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}" [itemComponentName]="name.value"></app-address>
+                    </div>
+                  </div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="tab-pane" id="components">
@@ -77,7 +110,8 @@
                     <div class="col-md-12">
                       <div class="d-flex flex-column mx-3">
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].ocpi['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"ocpi.title" | translate}}</b></strong></div>
                             <div>{{"ocpi.description" | translate}}</div>
                           </div>
@@ -92,10 +126,10 @@
                             <mat-error *ngIf="components['controls'].ocpi['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components['controls'].ocpi['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].refund['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"refund.title" | translate}}</b></strong></div>
                             <div>{{"refund.description" | translate}}</div>
                           </div>
@@ -110,10 +144,10 @@
                             <mat-error *ngIf="components['controls'].refund['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components['controls'].refund['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].pricing['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"pricing.title" | translate}}</b></strong></div>
                             <div>{{"pricing.description" | translate}}</div>
                           </div>
@@ -128,10 +162,10 @@
                             <mat-error *ngIf="components['controls'].pricing['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components['controls'].pricing['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].billing['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"billing.title" | translate}}</b></strong></div>
                             <div>{{"billing.description" | translate}}</div>
                           </div>
@@ -146,42 +180,38 @@
                             <mat-error *ngIf="components['controls'].billing['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components['controls'].billing['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].organization['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start">
                             <div><strong><b>{{"organization.title" | translate}}</b></strong></div>
                             <div>{{"organization.description" | translate}}</div>
                           </div>
-                          <mat-slide-toggle [formControl]="components['controls'].organization['controls'].active">
-                          </mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].car['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start">
                             <div><strong><b>{{"car.title" | translate}}</b></strong></div>
                             <div>{{"car.description" | translate}}</div>
                           </div>
-                          <mat-slide-toggle [formControl]="components['controls'].car['controls'].active">
-                          </mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].asset['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start">
                             <div><strong><b>{{"asset.title" | translate}}</b></strong></div>
                             <div>{{"asset.description" | translate}}</div>
                           </div>
-                          <mat-slide-toggle [formControl]="components['controls'].asset['controls'].active">
-                          </mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].statistics['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start">
                             <div><strong><b>{{"statistics.title" | translate}}</b></strong></div>
                             <div>{{"statistics.description" | translate}}</div>
                           </div>
-                          <mat-slide-toggle [formControl]="components['controls'].statistics['controls'].active">
-                          </mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].analytics['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"analytics.title" | translate}}</b></strong></div>
                             <div>{{"analytics.description" | translate}}</div>
                           </div>
@@ -196,10 +226,10 @@
                             <mat-error *ngIf="components['controls'].analytics['controls'].active.errors?.required">
                               {{"general.mandatory_field" | translate}}</mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components['controls'].analytics['controls'].active"></mat-slide-toggle>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <div class="d-flex flex-column mr-auto justify-content-around align-items-start w-100">
+                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].smartCharging['controls'].active"></mat-slide-toggle>
+                          <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"smart_charging.title" | translate}}</b></strong></div>
                             <div>{{"smart_charging.description" | translate}}</div>
                           </div>
@@ -212,9 +242,9 @@
                               </mat-option>
                             </mat-select>
                             <mat-error *ngIf="components['controls'].smartCharging['controls'].active.errors?.required">
-                              {{"general.mandatory_field" | translate}}</mat-error>
+                              {{"general.mandatory_field" | translate}}
+                            </mat-error>
                           </mat-form-field>
-                          <mat-slide-toggle [formControl]="components['controls'].smartCharging['controls'].active"></mat-slide-toggle>
                         </div>
                       </div>
                     </div>

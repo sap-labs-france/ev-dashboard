@@ -6,6 +6,7 @@ import { LogAction } from './Log';
 import { RefundReport } from './Refund';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
+import { Tag } from './Tag';
 import { User } from './User';
 
 export interface Image {
@@ -42,8 +43,9 @@ export enum DocumentEncoding {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction;
+  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction|Tag;
   readonly?: boolean;
+  custom?: boolean;
   icon?: string;
   tooltip?: string;
 }

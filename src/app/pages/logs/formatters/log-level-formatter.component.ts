@@ -18,7 +18,7 @@ export class LogLevelFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: Log;
 }
 
-@Pipe({name: 'appFormatLogLevel'})
+@Pipe({ name: 'appFormatLogLevel' })
 export class AppFormatLogLevelPipe implements PipeTransform {
   public transform(logLevel: string, type: string): string {
     if (type === 'class') {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionResponse } from 'app/types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSetting, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
 import TenantComponents from 'app/types/TenantComponents';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -79,7 +79,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.PRICING,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: Utils.cloneJSonDocument(settings),
     };
     if (settings.type === PricingSettingsType.CONVERGENT_CHARGING) {
       settingsToSave.sensitiveData = ['content.convergentCharging.password'];
@@ -102,7 +102,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.BILLING,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: Utils.cloneJSonDocument(settings),
     };
     if (settings.type === BillingSettingsType.STRIPE) {
       settingsToSave.sensitiveData = ['content.stripe.secretKey'];
@@ -128,7 +128,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.REFUND,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: Utils.cloneJSonDocument(settings),
     };
     if (settings.type === RefundSettingsType.CONCUR) {
       settingsToSave.sensitiveData = ['content.concur.clientSecret'];
@@ -147,7 +147,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.OCPI,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: Utils.cloneJSonDocument(settings),
     };
     // Delete IDS
     delete settingsToSave.content.id;
@@ -167,7 +167,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.ASSET,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)) as AssetSettings,
+      content: Utils.cloneJSonDocument(settings) as AssetSettings,
     };
     settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
       if (settingConnection.type === AssetConnectionType.SCHNEIDER) {
@@ -188,7 +188,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.ANALYTICS,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: Utils.cloneJSonDocument(settings),
     };
     // Delete IDS
     delete settingsToSave.content.id;
@@ -204,7 +204,7 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.SMART_CHARGING,
       sensitiveData: [],
-      content: JSON.parse(JSON.stringify(settings)),
+      content: Utils.cloneJSonDocument(settings),
     };
     if (settings.type === SmartChargingSettingsType.SAP_SMART_CHARGING) {
       settingsToSave.sensitiveData = ['content.sapSmartCharging.password'];

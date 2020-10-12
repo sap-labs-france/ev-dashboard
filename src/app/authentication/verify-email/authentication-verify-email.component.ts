@@ -21,9 +21,9 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: FormGroup;
   public verifyEmailAction!: boolean;
-  public verificationToken: string|null;
-  public resetToken: string|null;
-  public verificationEmail: string|null;
+  public verificationToken: string | null;
+  public resetToken: string | null;
+  public verificationEmail: string | null;
   private messages!: object;
 
   private siteKey: string;
@@ -106,7 +106,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     // Show
     this.spinnerService.show();
     // Verify Email
-    this.centralServerService.verifyEmail({Email: data.email, VerificationToken: data.verificationToken}).subscribe((response) => {
+    this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe((response) => {
       // Hide
       this.spinnerService.hide();
       // Success
@@ -115,12 +115,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           // Show message
           this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
           // Go to reset password
-          this.router.navigate(['auth/define-password'], {queryParams: {hash: this.resetToken}});
+          this.router.navigate(['auth/define-password'], { queryParams: { hash: this.resetToken } });
         } else {
           // Show message
           this.messageService.showSuccessMessage(this.messages['verify_email_success']);
           // Go to login
-          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
         }
         // Unexpected Error
       } else {
@@ -134,12 +134,12 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       // Check status error code
       switch (error.status) {
         // Account already active
-        case 530:
+        case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
           // Report the error
           this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
           break;
         // VerificationToken no longer valid
-        case 540:
+        case HTTPError.INVALID_TOKEN_ERROR:
           // Report the error
           this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
           break;
@@ -155,7 +155,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           break;
       }
       // Go to login
-      this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+      this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
     });
   }
 
@@ -174,7 +174,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
         if (response.status && response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
           // Go back to login
-          this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+          this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, this.messages['verify_email_resend_error']);
@@ -182,9 +182,9 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.spinnerService.hide();
         switch (error.status) {
-          case 530:
+          case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
             this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
-            this.router.navigate(['/auth/login'], {queryParams: {email: this.email.value}});
+            this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
             break;
           case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
             this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);

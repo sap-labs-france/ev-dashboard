@@ -46,8 +46,8 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   private defaultColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false},
-    {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true},
+    { key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('organization.graph.power'), hidden: false },
+    { key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('organization.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true },
   ];
 
   constructor(
@@ -58,7 +58,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
     private datePipe: AppDatePipe,
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
-    private authorizationService: AuthorizationService ) {
+    private authorizationService: AuthorizationService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -137,7 +137,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
   }
 
   private createGraphData() {
-    if (this.data.datasets && this.options.scales && this.options.scales.yAxes) {
+    if (this.data.datasets && this.options?.scales?.yAxes) {
       const datasets: ChartDataSets[] = [];
       // Instant Amps/Power
       datasets.push({
@@ -262,9 +262,9 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
             };
           },
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
-            if (this.data.datasets && data.datasets && tooltipItem.datasetIndex !== undefined) {
+            if (this.data.datasets && data.datasets && !Utils.isUndefined(tooltipItem.datasetIndex)) {
               const dataSet = data.datasets[tooltipItem.datasetIndex];
-              if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
+              if (dataSet && dataSet.data && !Utils.isUndefined(tooltipItem.index)) {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantWatts':
@@ -285,7 +285,7 @@ export class SiteAreaConsumptionChartComponent implements OnInit, AfterViewInit 
           title: (item: ChartTooltipItem[], data: ChartData) => {
             if (data.labels && data.labels.length > 0) {
               const firstDate = new Date(data.labels[0] as number);
-              if (item[0].index !== undefined) {
+              if (!Utils.isUndefined(item[0].index)) {
                 const currentDate = new Date(data.labels[item[0].index] as number);
                 return this.datePipe.transform(currentDate) + ' - ' +
                   this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);

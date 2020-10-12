@@ -7,12 +7,19 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableSaveAction } from 'app/shared/table/actions/table-save-action';
 import { ChargingStation, ChargingStationButtonAction, OCPPConfigurationStatus, OcppParameter } from 'app/types/ChargingStation';
+import { KeyValue } from 'app/types/GlobalType';
 import { ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableSaveOCPPParameterActionDef extends TableActionDef {
+  action: (charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
+    translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
+    spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableSaveOCPPParameterAction extends TableSaveAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableSaveOCPPParameterActionDef {
     return {
       ...super.getActionDef(),
       id: ChargingStationButtonAction.SAVE_OCPP_PARAMETER,
@@ -25,7 +32,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
 
   private saveOcppParameter(charger: ChargingStation, param: OcppParameter, dialogService: DialogService,
     translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
-    spinnerService: SpinnerService, router: Router,  refresh?: () => Observable<void>) {
+    spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     // Show yes/no dialog only if fields are not empty
     if (param.key !== null && param.key !== '' && param.value !== null && param.value !== '') {
       dialogService.createAndShowYesNoDialog(
@@ -34,32 +41,36 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
       ).subscribe((result) => {
         if (result === ButtonType.YES) {
           spinnerService.show();
-          centralServerService.updateChargingStationOCPPConfiguration(
-            charger.id, { key: param.key, value: param.value, readonly: param.readonly }).subscribe((response) => {
-              spinnerService.hide();
-              // Ok?
-              if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                  response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                messageService.showSuccessMessage(
-                  translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
-                // Reboot Required?
-                if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
-                  const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
-                  if (chargingStationsRebootAction.action) {
-                    chargingStationsRebootAction.action(charger, dialogService, translateService,
-                      messageService, centralServerService, spinnerService, router);
-                  }
+          const params: KeyValue = { key: param.key, value: param.value, readonly: param.readonly };
+          if (param.custom) {
+            params.custom = param.custom;
+          }
+          centralServerService.updateChargingStationOCPPConfiguration(charger.id, params).subscribe((response) => {
+            spinnerService.hide();
+            // Ok?
+            if (response.status === OCPPConfigurationStatus.ACCEPTED ||
+              response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+              messageService.showSuccessMessage(
+                translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
+              // Reboot Required?
+              if (response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+                const chargingStationsRebootAction = new TableChargingStationsRebootAction().getActionDef();
+                if (chargingStationsRebootAction.action) {
+                  chargingStationsRebootAction.action(charger, dialogService, translateService,
+                    messageService, centralServerService, spinnerService, router);
                 }
-              } else {
-                Utils.handleError(JSON.stringify(response), messageService, 'chargers.change_params_error');
               }
               if (refresh) {
                 refresh().subscribe();
               }
-            }, (error) => {
-              spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.change_params_error');
-            });
+            } else {
+              Utils.handleError(JSON.stringify(response), messageService,
+                translateService.instant('chargers.change_params_error', { paramKey: param.key, chargeBoxID: charger.id }));
+            }
+          }, (error) => {
+            spinnerService.hide();
+            Utils.handleHttpError(error, router, messageService, centralServerService, translateService.instant('chargers.change_params_error', { paramKey: param.key, chargeBoxID: charger.id }));
+          });
         }
       });
     }

@@ -4,13 +4,16 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
+import { HTTPError } from 'app/types/HTTPError';
 import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
@@ -44,11 +47,12 @@ import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
-import { TableCreateTransactionInvoiceAction } from '../table-actions/table-create-transaction-invoice-action';
-import { TableDeleteTransactionAction } from '../table-actions/table-delete-transaction-action';
-import { TableExportTransactionsAction } from '../table-actions/table-export-transactions-action';
-import { TableRebuildTransactionConsumptionsAction } from '../table-actions/table-rebuild-transaction-consumptions-action';
-import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../table-actions/table-create-transaction-invoice-action';
+import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../table-actions/table-delete-transaction-action';
+import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../table-actions/table-export-transactions-action';
+import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../table-actions/table-rebuild-transaction-consumptions-action';
+import { TableRoamingPushCdrAction, TableRoamingPushCdrActionDef } from '../table-actions/table-roaming-push-cdr-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -59,6 +63,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private checkLogsAction = new TableCheckLogsAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
+  private pushCdr = new TableRoamingPushCdrAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -77,15 +82,65 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe,
+    private windowService: WindowService) {
     super(spinnerService, translateService);
     // Admin
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     // Init
     this.initDataSource();
+    this.initFilters();
     // Add statistics to query
     this.setStaticFilters([{ Statistics: 'history' }]);
+  }
+
+  public initFilters() {
+    // User
+    const userID = this.windowService.getSearch('UserID');
+    if (userID) {
+      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+      if (userTableFilter) {
+        userTableFilter.currentValue.push({
+          key: userID, value: '-',
+        });
+        this.filterChanged(userTableFilter);
+      }
+      this.loadUserFilterLabel(userID);
+    }
+    // Tag
+    const tagID = this.windowService.getSearch('TagID');
+    if (tagID) {
+      const tagTableFilter = this.tableFiltersDef.find(filter => filter.id === 'tag');
+      if (tagTableFilter) {
+        tagTableFilter.currentValue.push({
+          key: tagID, value: tagID,
+        });
+        this.filterChanged(tagTableFilter);
+      }
+    }
+  }
+
+  public loadUserFilterLabel(userID: string) {
+    this.centralServerService.getUser(userID).subscribe((user: User) => {
+      const userTableFilter = this.tableFiltersDef.find(filter => filter.id === 'user');
+      if (userTableFilter) {
+        userTableFilter.currentValue = [{
+          key: userID, value: Utils.buildUserFullName(user)
+        }];
+        this.filterChanged(userTableFilter);
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+          this.messageService.showErrorMessage('users.user_do_not_exist');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
+    });
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -132,6 +187,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       });
     }
     columns.push(
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
       {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
@@ -263,12 +324,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     if (this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights()) {
       filters.push(new UserTableFilter(this.authorizationService.getSitesAdmin()).getFilterDef());
+      filters.push(new TagTableFilter().getFilterDef());
     }
     return filters;
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
-    const rowActions = [this.viewAction];
+    const rowActions: TableActionDef[] = [this.viewAction];
     if (this.isAdmin) {
       const moreActions = new TableMoreAction([]);
       moreActions.addActionInMoreActions(this.deleteAction);
@@ -276,6 +338,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       if (this.componentService.isActive(TenantComponents.BILLING) &&
         !transaction.billingData) {
         moreActions.addActionInMoreActions(this.createInvoice);
+      }
+      if (transaction.ocpiData && !transaction.ocpiData.cdr) {
+        moreActions.addActionInMoreActions(this.pushCdr);
       }
       // Enable only for one user for the time being
       if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
@@ -301,28 +366,38 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.DELETE_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteTransactionActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?search=' + transaction.id);
+        this.checkLogsAction.action('logs?Search=' + transaction.id);
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {
-          actionDef.action(transaction.id, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableCreateTransactionInvoiceActionDef).action(
+            transaction.id, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
       case TransactionButtonAction.REBUILD_TRANSACTION_CONSUMPTIONS:
         if (actionDef.action) {
-          actionDef.action(transaction, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableRebuildTransactionConsumptionsActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.router, this.spinnerService);
+        }
+        break;
+      case TransactionButtonAction.PUSH_TRANSACTION_CDR:
+        if (actionDef.action) {
+          (actionDef as TableRoamingPushCdrActionDef).action(
+            transaction, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
     }
@@ -350,7 +425,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.dialogService,
+          (actionDef as TableExportTransactionsActionDef).action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }

@@ -12,8 +12,14 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 
+export interface TableUpdateOCPPParamsActionDef extends TableActionDef {
+  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableUpdateOCPPParamsAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableUpdateOCPPParamsActionDef = {
     id: ChargingStationButtonAction.UPDATE_OCPP_PARAMS,
     type: 'button',
     icon: 'system_update_alt',
@@ -22,16 +28,17 @@ export class TableUpdateOCPPParamsAction implements TableAction {
     tooltip: 'chargers.button_force_ocpp_params_update_from_template',
     action: this.updateOCPPParameters,
   };
-  public getActionDef(): TableActionDef {
+
+  public getActionDef(): TableUpdateOCPPParamsActionDef {
     return this.action;
   }
 
   private updateOCPPParameters(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
+    refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.ocpp_params_update_from_template_title'),
-      translateService.instant('chargers.ocpp_params_update_from_template_confirm', {chargeBoxID: chargingStation.id})
+      translateService.instant('chargers.ocpp_params_update_from_template_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();

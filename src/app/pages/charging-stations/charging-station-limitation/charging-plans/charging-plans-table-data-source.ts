@@ -79,7 +79,7 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
         class: 'col-45p',
         formatter: (limit: number) => `${Utils.convertAmpToWattString(
           this.chargingStation, this.chargePoint, this.chargingProfile.connectorID, this.unitPipe, limit, 'kW', true, 3)}
-        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: limit} )}`
+        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: limit })}`
       },
     ];
     return tableColumnDef;

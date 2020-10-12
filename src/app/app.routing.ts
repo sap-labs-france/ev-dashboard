@@ -25,26 +25,26 @@ export const AppRoutes: Routes = [
     children: [
 
       {path: '', redirectTo: 'charging-stations', pathMatch: 'full'},
-      {
-        path: 'dashboard',
-        loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
-        data: {
-          menu: {
-            title: 'dashboard',
-            type: 'link',
-            icon: 'dashboard',
-            path: '/dashboard',
-          },
-          auth: {
-            entity: Entity.CHARGING_STATIONS,
-            action: Action.LIST,
-          },
-          options: {
-            onlyDev: true,
-          },
-        },
-        canLoad: [DevEnvGuard],
-      },
+      // {
+      //   path: 'dashboard',
+      //   loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
+      //   data: {
+      //     menu: {
+      //       title: 'dashboard',
+      //       type: 'link',
+      //       icon: 'dashboard',
+      //       path: '/dashboard',
+      //     },
+      //     auth: {
+      //       entity: Entity.CHARGING_STATIONS,
+      //       action: Action.LIST,
+      //     },
+      //     options: {
+      //       onlyDev: true,
+      //     },
+      //   },
+      //   canLoad: [DevEnvGuard],
+      // },
       {
         path: 'charging-stations',
         loadChildren: () => import('./pages/charging-stations/charging-stations.module').then((m) => m.ChargingStationsModule),

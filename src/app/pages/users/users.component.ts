@@ -12,10 +12,10 @@ import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstra
 export class UsersComponent extends AbstractTabComponent {
   public isAdmin: boolean;
   constructor(
-      activatedRoute: ActivatedRoute,
-      authorizationService: AuthorizationService,
-      windowService: WindowService) {
-    super(activatedRoute, windowService, ['all', 'inerror']);
+    activatedRoute: ActivatedRoute,
+    authorizationService: AuthorizationService,
+    windowService: WindowService) {
+    super(activatedRoute, windowService, ['all', 'tag', 'inerror']);
     this.isAdmin = authorizationService.isAdmin();
   }
 }

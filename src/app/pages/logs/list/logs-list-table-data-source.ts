@@ -29,7 +29,7 @@ import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
-import { TableExportLogsAction } from '../table-actions/table-export-logs-action';
+import { TableExportLogsAction, TableExportLogsActionDef } from '../table-actions/table-export-logs-action';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {
@@ -65,7 +65,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Charging Station
-    const chargingStationID = this.windowService.getSearch('chargingStationID');
+    const chargingStationID = this.windowService.getSearch('ChargingStationID');
     if (chargingStationID) {
       const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
       if (logSourceTableFilter) {
@@ -74,7 +74,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       }
     }
     // Search
-    const search = this.windowService.getSearch('search');
+    const search = this.windowService.getSearch('Search');
     if (search) {
       this.setSearchValue(search);
     }
@@ -164,20 +164,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         sortable: true,
       },
       {
-        id: 'host',
-        name: 'logs.host',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
-        id: 'process',
-        name: 'logs.process',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-      },
-      {
         id: 'action',
         name: 'logs.action',
         headerClass: 'col-15p',
@@ -198,6 +184,20 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         class: 'text-left col-50p',
         sortable: true,
       },
+      {
+        id: 'host',
+        name: 'logs.host',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
+      {
+        id: 'process',
+        name: 'logs.process',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+      },
     ];
   }
 
@@ -216,7 +216,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     switch (actionDef.id) {
       case LogButtonAction.EXPORT_LOGS:
         if (actionDef.action) {
-          actionDef.action(this.buildFilterValues(), this.dialogService,
+          (actionDef as TableExportLogsActionDef).action(this.buildFilterValues(), this.dialogService,
             this.translateService, this.messageService, this.centralServerService, this.router,
             this.spinnerService);
         }

@@ -6,8 +6,12 @@ import { Observable } from 'rxjs';
 
 import { CarDialogComponent } from '../car/car.dialog.component';
 
+export interface TableEditCarActionDef extends TableActionDef {
+  action: (car: Car, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
 export class TableEditCarAction extends TableEditAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableEditCarActionDef {
     return {
       ...super.getActionDef(),
       id: CarButtonAction.EDIT_CAR,

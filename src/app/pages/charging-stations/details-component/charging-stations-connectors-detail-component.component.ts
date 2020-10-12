@@ -6,14 +6,14 @@ import { ChargingStationsConnectorsDetailTableDataSource } from './charging-stat
 
 @Component({
   template: '<app-table class="connectors-details" [dataSource]="chargingStationsConnectorsDetailTableDataSource"></app-table>',
-  providers: [ ChargingStationsConnectorsDetailTableDataSource ],
+  providers: [ChargingStationsConnectorsDetailTableDataSource],
 })
 
 export class ChargingStationsConnectorsDetailComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
   @Input() public row!: ChargingStation;
 
   constructor(
-      @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {
+    @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationsConnectorsDetailTableDataSource) {
     super();
   }
 

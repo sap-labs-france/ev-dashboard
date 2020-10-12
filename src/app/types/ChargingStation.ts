@@ -28,6 +28,7 @@ export interface ChargingStation extends Data {
   lastHeartBeat: Date;
   deleted: boolean;
   inactive: boolean;
+  forceInactive: boolean;
   lastReboot: Date;
   chargingStationURL: string;
   maximumPower: number;
@@ -92,8 +93,9 @@ export enum ChargingRateUnitType {
 
 export interface OcppParameter extends Data {
   key: string;
-  value: string;
+  value?: string;
   readonly: boolean;
+  custom?: boolean;
 }
 
 export interface ChargePoint {
@@ -141,6 +143,27 @@ export interface Connector extends Data {
   isStopAuthorized: boolean;
   isStartAuthorized: boolean;
   isTransactionDisplayAuthorized: boolean;
+  phaseAssignmentToGrid: PhaseAssignmentToGrid;
+}
+
+export interface PhaseAssignmentToGrid {
+  csPhaseL1: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
+  csPhaseL2: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
+  csPhaseL3: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
+
+}
+
+export enum OCPPPhase {
+  L1 = 'L1',
+  L2 = 'L2',
+  L3 = 'L3',
+  N = 'N',
+  L1_N = 'L1-N',
+  L2_N = 'L2-N',
+  L3_N = 'L3-N',
+  L1_L2 = 'L1-L2',
+  L2_L3 = 'L2-L3',
+  L3_L1 = 'L3-L1'
 }
 
 export enum Voltage {
@@ -180,6 +203,7 @@ export enum ChargingStationButtonAction {
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_CHARGING_STATIONS = 'export_charging_stations',
   EXPORT_OCPP_PARAMS = 'export_ocpp_params',
+  EXPORT_LOCAL_OCPP_PARAMS = 'export_local_ocpp_params',
   UPDATE_OCPP_PARAMS = 'update_ocpp_params',
   REQUEST_OCPP_PARAMS = 'request_ocpp_params',
   FORCE_AVAILABLE_STATUS = 'force_available_status',

@@ -11,8 +11,13 @@ import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableDeleteTransactionActionDef extends TableActionDef {
+  action: (transaction: Transaction, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableDeleteTransactionAction extends TableDeleteAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableDeleteTransactionActionDef {
     return {
       ...super.getActionDef(),
       id: TransactionButtonAction.DELETE_TRANSACTION,

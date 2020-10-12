@@ -31,7 +31,7 @@ export class ChargingStationsConnectorCellComponent extends CellContentTemplateD
   @Input() public row!: Connector;
 }
 
-@Pipe({name: 'appChargingStationsFormatConnector'})
+@Pipe({ name: 'appChargingStationsFormatConnector' })
 export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
   public transform(connector: Connector, type: string): string {
     if (type === 'class') {

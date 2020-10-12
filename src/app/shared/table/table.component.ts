@@ -286,7 +286,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
-  public actionTriggered(actionDef: TableActionDef, event?: MouseEvent|MatSlideToggleChange) {
+  public actionTriggered(actionDef: TableActionDef, event?: MouseEvent | MatSlideToggleChange) {
     // Slide
     if (event && event instanceof MatSlideToggleChange && actionDef.type === 'slide') {
       // Slide is one way binding: update the value manually

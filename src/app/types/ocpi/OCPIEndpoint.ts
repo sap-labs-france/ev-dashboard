@@ -1,4 +1,4 @@
-import { Data } from './Table';
+import { Data } from '../Table';
 
 export interface OcpiEndpoint extends Data {
   id: string;

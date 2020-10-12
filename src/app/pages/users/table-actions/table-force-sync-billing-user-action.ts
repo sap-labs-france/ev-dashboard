@@ -11,8 +11,13 @@ import { User, UserButtonAction } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableForceSyncBillingUserActionDef extends TableActionDef {
+  action: (user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) => void;
+}
+
 export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableForceSyncBillingUserActionDef {
     return {
       ...super.getActionDef(),
       id: UserButtonAction.BILLING_FORCE_SYNCHRONIZE_USER,

@@ -11,21 +11,21 @@ import { CellContentTemplateModule } from './cell-content-template/cell-content-
 import { TableComponent } from './table.component';
 
 @NgModule({
-    imports: [
-        RouterModule,
-        CommonModule,
-        MaterialModule,
-        TranslateModule,
-        FormattersModule,
-        CellContentTemplateModule,
-        CommonDirectivesModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
-    declarations: [
+  imports: [
+    RouterModule,
+    CommonModule,
+    MaterialModule,
+    TranslateModule,
+    FormattersModule,
+    CellContentTemplateModule,
+    CommonDirectivesModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  declarations: [
     TableComponent,
   ],
-    exports: [
+  exports: [
     TableComponent,
   ],
 })

@@ -11,10 +11,10 @@ import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType }
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { TableExportOCPPParamsLocalAction } from '../../table-actions/table-export-ocpp-params-local-action';
-import { TableRequestOCPPParamsAction } from '../../table-actions/table-request-ocpp-params-action';
-import { TableSaveOCPPParameterAction } from '../../table-actions/table-save-ocpp-parameter-action';
-import { TableUpdateOCPPParamsAction } from '../../table-actions/table-update-ocpp-params-action';
+import { TableExportOCPPParamsLocalAction, TableExportOCPPParamsLocalActionDef } from '../../table-actions/table-export-ocpp-params-local-action';
+import { TableRequestOCPPParamsAction, TableRequestOCPPParamsActionDef } from '../../table-actions/table-request-ocpp-params-action';
+import { TableSaveOCPPParameterAction, TableSaveOCPPParameterActionDef } from '../../table-actions/table-save-ocpp-parameter-action';
+import { TableUpdateOCPPParamsAction, TableUpdateOCPPParamsActionDef } from '../../table-actions/table-update-ocpp-params-action';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()
@@ -68,25 +68,27 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
-      case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
+      case ChargingStationButtonAction.EXPORT_LOCAL_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.charger, this.getContent(), this.dialogService, this.translateService);
+          (actionDef as TableExportOCPPParamsLocalActionDef).action(
+            this.charger, this.getContent(), this.dialogService, this.translateService);
         }
-        break;
-      default:
-        super.actionTriggered(actionDef);
         break;
       case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
-             this.router, this.spinnerService, this.refreshData());
+          (actionDef as TableUpdateOCPPParamsActionDef).action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+            this.router, this.spinnerService, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REQUEST_OCPP_PARAMS:
         if (actionDef.action) {
-          actionDef.action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
-             this.router, this.spinnerService, this.refreshData());
+          (actionDef as TableRequestOCPPParamsActionDef).action(
+            this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
+            this.router, this.spinnerService, this.refreshData.bind(this));
         }
+        break;
+      default:
+        super.actionTriggered(actionDef);
         break;
     }
   }
@@ -99,7 +101,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     switch (actionDef.id) {
       case ChargingStationButtonAction.SAVE_OCPP_PARAMETER:
         if (actionDef.action) {
-          actionDef.action(this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableSaveOCPPParameterActionDef).action(
+            this.charger, ocppParameter, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
@@ -116,9 +119,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         headerClass: 'text-right col-20p',
         validators: [
           Validators.required,
+          Validators.maxLength(50),
         ],
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
+          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 50 } },
         ],
         class: 'text-right col-20p table-cell-angular-big-component',
       },
@@ -127,8 +132,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         name: 'chargers.charger_param_value',
         editType: TableEditType.INPUT,
         validators: [
-          Validators.maxLength(500),
           Validators.required,
+          Validators.maxLength(500),
         ],
         canBeDisabled: true,
         errors: [
@@ -159,6 +164,7 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
     const customOcppParameterRow = this.createRow();
     customOcppParameterRow.id = ChargingStationOcppParametersInputFieldCellComponent.CUSTOM_OCPP_PARAMETER_ID;
     customOcppParameterRow.readonly = false;
+    customOcppParameterRow.custom = true;
     // Set
     super.setContent([
       customOcppParameterRow,

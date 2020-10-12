@@ -10,7 +10,7 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { ChargingStation } from 'app/types/ChargingStation';
 import { KeyValue } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
+import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { ButtonType } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 
@@ -52,7 +52,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
 
   public ngOnInit() {
     // Init FormControl
-    this.url = new FormControl( '', Validators.compose([
+    this.url = new FormControl('', Validators.compose([
       Validators.required,
     ]));
   }
@@ -60,11 +60,10 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public updateFirmware() {
     this.dialogService.createAndShowYesNoDialog(
       this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value}),
+      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.url.value }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         this.spinnerService.show();
-        const fileName = 'r7_update_3.3.0.10_d4.epk';
         this.centralServerService.chargingStationUpdateFirmware(this.charger, this.url.value).subscribe(() => {
           this.spinnerService.hide();
           this.messageService.showSuccessMessage(
@@ -72,7 +71,7 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
         }, (error) => {
           this.spinnerService.hide();
           switch (error.status) {
-            case 401:
+            case HTTPAuthError.ERROR:
               this.messageService.showErrorMessage('chargers.update_firmware_error');
               break;
             case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
@@ -86,5 +85,4 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
       }
     });
   }
-
 }

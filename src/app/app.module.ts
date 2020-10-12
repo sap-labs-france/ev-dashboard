@@ -49,6 +49,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -73,6 +74,7 @@ import { WindowService } from './services/window.service';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
+import { Utils } from './utils/Utils';
 
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeDe, 'de');
@@ -125,11 +127,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export function getLocalStorage() {
-  return (typeof window !== 'undefined') ? window.localStorage : null;
+  return (!Utils.isUndefined(window)) ? window.localStorage : null;
 }
 
 export function configFactory(config: ConfigService) {
-  return () => config.load();
+  return () => config.getConfig();
 }
 
 export function localeFactory(
@@ -159,6 +161,7 @@ export function localeFactory(
     HttpClientModule,
     ChartModule,
     BrowserNotSupportedModule,
+    NgxDaterangepickerMd.forRoot(),
     AgmCoreModule.forRoot({ apiKey: 'AIzaSyCIH5GgUOJF-4TlCcL5le107L_thn6WESg' }),
     TranslateModule.forRoot({
       loader: {

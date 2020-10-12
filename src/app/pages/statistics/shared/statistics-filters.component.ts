@@ -1,11 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'app/services/locale.service';
 import { FilterParams } from 'app/types/GlobalType';
 import { SettingLink } from 'app/types/Setting';
 import { FilterType, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
+import * as moment from 'moment';
+import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -33,11 +36,16 @@ export class StatisticsFiltersComponent implements OnInit {
   public transactionYears!: number[];
   public sacLinks!: SettingLink[];
   public sacLinksActive = false;
+  public initDateRange = false;
+  public dateRangeValue: any;
+  @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
 
+  @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
   @Output() public category = new EventEmitter();
   @Output() public year = new EventEmitter();
   @Output() public dateFrom = new EventEmitter();
   @Output() public dateTo = new EventEmitter();
+  @Output() public dateRange = new EventEmitter();
 
   @Input() public allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
@@ -54,13 +62,24 @@ export class StatisticsFiltersComponent implements OnInit {
   public selectedCategory = 'C';
   public activeButtonOfScopeGroup!: StatisticsButtonGroup;
   private filterParams = {};
+  private language!: string;
+
 
   constructor(
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private dialog: MatDialog) { }
+    private localeService: LocaleService,
+    private dialog: MatDialog) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.language = locale.language;
+      moment.locale(this.language);
+    });
+  }
+  public openDateRange() {
+    this.picker.open();
+  }
 
   public ngOnInit(): void {
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
@@ -124,10 +143,49 @@ export class StatisticsFiltersComponent implements OnInit {
       }
     }
     this.setDateFilterYear();
+    this.setDateRangeFilterYear(true);
     this.filterParams = this.buildFilterValues();
     this.filters.emit(this.filterParams);
     this.update.emit(true);
   }
+
+  public dateRangeChange(filterDef: StatisticsFilterDef, event): void {
+    if (filterDef.type === 'date-range' && event.hasOwnProperty('startDate') && event.hasOwnProperty('endDate')) {
+      filterDef.currentValue = event ? event : null;
+    } else {
+      const dateRange = event.currentTarget.value;
+      if (dateRange.split('-').length - 1 !== 1) {
+        this.setDateRangeFilterYear(false);
+      } else {
+        const startDate = moment(dateRange.split('-')[0]);
+        const endDate = moment(dateRange.split('-')[1]);
+        if (!startDate.isValid() || !endDate.isValid()) {
+          this.setDateRangeFilterYear(false);
+        } else {
+          if (startDate > endDate) {
+            this.setDateRangeFilterYear(false);
+          } else {
+            filterDef.currentValue = {
+              startDate,
+              endDate
+            };
+          }
+        }
+      }
+    }
+    // Update filter
+    this.filterChanged(filterDef);
+    if (!this.initDateRange) {
+      // set year to -1 to reset filter year
+      this.selectedYear = -1;
+    } else {
+      this.initDateRange = false;
+    }
+    // update year and filter
+    this.yearChanged(true, false);
+  }
+
+
 
   public filterChanged(filter: StatisticsFilterDef): void {
     // Update Filter
@@ -291,6 +349,10 @@ export class StatisticsFiltersComponent implements OnInit {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
+          } else if (filterDef.type === FilterType.DATE_RANGE) {
+            filterJson['StartDateTime'] = filterDef.currentValue.startDate.toISOString();
+            filterJson['EndDateTime'] = filterDef.currentValue.endDate.toISOString();
+            // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
@@ -306,7 +368,7 @@ export class StatisticsFiltersComponent implements OnInit {
     this.update.emit(true);
   }
 
-  public yearChanged(refresh = true): void {
+  public yearChanged(refresh = true, setDate = true): void {
     if (this.allYears) {
       if (this.selectedYear > 0) {
         this.buttonsOfScopeGroup[1].inactive = false;
@@ -316,6 +378,9 @@ export class StatisticsFiltersComponent implements OnInit {
       const index = this.buttonsOfScopeGroup.findIndex((button) => button.name === this.activeButtonOfScopeGroup.name);
       if (index >= 0 && this.buttonsOfScopeGroup[index].inactive) {
         this.setActiveButtonOfScopeGroup();
+      }
+      if (setDate) {
+        this.setDateRangeFilterYear();
       }
       this.setDateFilterYear();
       this.filterParams = this.buildFilterValues();
@@ -370,6 +435,33 @@ export class StatisticsFiltersComponent implements OnInit {
 
   public exportData(): void {
     this.export.emit();
+  }
+
+  // set Date Filter to corresponding year
+  private setDateRangeFilterYear(init = false): void {
+    this.statFiltersDef.forEach((filterDef: StatisticsFilterDef) => {
+      if (filterDef.type === FilterType.DATE_RANGE) {
+        if (init) {
+          this.initDateRange = true;
+          filterDef.dateRangeTableFilterDef.locale = {
+            daysOfWeek: moment.weekdaysMin(),
+            monthNames: moment.monthsShort(),
+            firstDay: moment.localeData().firstDayOfWeek()
+          };
+        }
+        if (this.selectedYear === 0) {
+          filterDef.currentValue = {
+            startDate: moment(new Date(this.transactionYears[0], 0, 1)),
+            endDate: moment(),
+          };
+        } else {
+          filterDef.currentValue = {
+            startDate: moment(new Date(this.selectedYear, 0, 1)),
+            endDate: moment(new Date(this.selectedYear + 1, 0, 1))
+          };
+        }
+      }
+    });
   }
 
   // set Date Filter to corresponding year

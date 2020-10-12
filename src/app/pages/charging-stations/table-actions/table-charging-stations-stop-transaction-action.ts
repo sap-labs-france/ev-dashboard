@@ -13,8 +13,15 @@ import { Transaction } from 'app/types/Transaction';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+export interface TableChargingStationsStopTransactionActionDef extends TableActionDef {
+  action: (transaction: Transaction, authorizationService: AuthorizationService,
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) => void;
+}
+
 export class TableChargingStationsStopTransactionAction implements TableAction {
-  private action: TableActionDef = {
+  private action: TableChargingStationsStopTransactionActionDef = {
     id: ChargingStationButtonAction.STOP_TRANSACTION,
     type: 'button',
     icon: 'stop',
@@ -24,14 +31,14 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     action: this.stopTransaction.bind(this),
   };
 
-  public getActionDef(): TableActionDef {
+  public getActionDef(): TableChargingStationsStopTransactionActionDef {
     return this.action;
   }
 
   private stopTransaction(transaction: Transaction, authorizationService: AuthorizationService,
-      dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-      centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-      refresh?: () => Observable<void>) {
+    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
+    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
+    refresh?: () => Observable<void>) {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
       const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
@@ -68,23 +75,23 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
             // Remote Stop
             spinnerService.show();
             centralServerService.chargingStationStopTransaction(chargingStation.id, connector.currentTransactionID)
-                .subscribe((response2: ActionResponse) => {
-              spinnerService.hide();
-              if (response2.status === OCPPGeneralResponse.ACCEPTED) {
-                messageService.showSuccessMessage(
-                  translateService.instant('chargers.stop_transaction_success', { chargeBoxID: chargingStation.id }));
-                if (refresh) {
-                  refresh().subscribe();
+              .subscribe((response2: ActionResponse) => {
+                spinnerService.hide();
+                if (response2.status === OCPPGeneralResponse.ACCEPTED) {
+                  messageService.showSuccessMessage(
+                    translateService.instant('chargers.stop_transaction_success', { chargeBoxID: chargingStation.id }));
+                  if (refresh) {
+                    refresh().subscribe();
+                  }
+                } else {
+                  Utils.handleError(JSON.stringify(response),
+                    messageService, translateService.instant('chargers.stop_transaction_error'));
                 }
-              } else {
-                Utils.handleError(JSON.stringify(response),
-                  messageService, translateService.instant('chargers.stop_transaction_error'));
-              }
-            }, (error) => {
-              spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'chargers.stop_transaction_error');
-            });
+              }, (error) => {
+                spinnerService.hide();
+                Utils.handleHttpError(error, router, messageService,
+                  centralServerService, 'chargers.stop_transaction_error');
+              });
           } else {
             // Soft Stop
             centralServerService.softStopTransaction(transaction.id).subscribe((response: ActionResponse) => {

@@ -23,8 +23,8 @@ import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { TableDeleteAssetAction } from '../table-actions/table-delete-asset-action';
-import { TableEditAssetAction } from '../table-actions/table-edit-asset-action';
+import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../table-actions/table-delete-asset-action';
+import { TableEditAssetAction, TableEditAssetActionDef } from '../table-actions/table-edit-asset-action';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
@@ -132,12 +132,12 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     switch (actionDef.id) {
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          actionDef.action(asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(asset, this.dialog, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
         if (actionDef.action) {
-          actionDef.action(asset, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteAssetActionDef).action(asset, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

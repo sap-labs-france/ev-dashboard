@@ -23,9 +23,9 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
-import { TableCreateCarAction } from '../table-actions/table-create-car-action';
-import { TableDeleteCarAction } from '../table-actions/table-delete-car-action';
-import { TableEditCarAction } from '../table-actions/table-edit-car-action';
+import { TableCreateCarAction, TableCreateCarActionDef } from '../table-actions/table-create-car-action';
+import { TableDeleteCarAction, TableDeleteCarActionDef } from '../table-actions/table-delete-car-action';
+import { TableEditCarAction, TableEditCarActionDef } from '../table-actions/table-edit-car-action';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -193,24 +193,30 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         id: 'createdOn',
         name: 'users.created_on',
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'col-15p',
+        headerClass: 'col-15em',
+        class: 'col-15em',
         sortable: true,
       },
-        {
-          id: 'lastChangedOn',
-          name: 'users.changed_on',
-          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-          headerClass: 'col-15p',
-          class: 'col-15p',
-          sortable: true,
-        },
-        {
-          id: 'lastChangedBy',
-          name: 'users.changed_by',
-          headerClass: 'col-15p',
-          class: 'col-15p',
-        });
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      });
     }
     return tableColumnDef;
   }
@@ -220,7 +226,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     switch (actionDef.id) {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
-          actionDef.action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateCarActionDef).action(this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -253,12 +259,12 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     switch (actionDef.id) {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
-          actionDef.action(car, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditCarActionDef).action(car, this.dialog, this.refreshData.bind(this));
         }
         break;
       case CarButtonAction.DELETE_CAR:
         if (actionDef.action) {
-          actionDef.action(car, this.dialogService, this.translateService, this.messageService,
+          (actionDef as TableDeleteCarActionDef).action(car, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;

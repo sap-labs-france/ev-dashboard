@@ -18,7 +18,6 @@ import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
   selector: 'app-transaction-chart',
   templateUrl: 'consumption-chart.component.html',
 })
-
 export class ConsumptionChartComponent implements AfterViewInit {
   @Input() public transactionId!: number;
   @Input() public transaction!: Transaction;
@@ -67,20 +66,20 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private instantAmpsDCColor!: string;
   private language!: string;
   private activeLegend = [
-    {key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.power'), hidden: false},
-    {key: this.translateService.instant('transactions.graph.amps_l1') + this.translateService.instant('transactions.graph.power_l1'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.amps_l2') + this.translateService.instant('transactions.graph.power_l2'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.amps_l3') + this.translateService.instant('transactions.graph.power_l3'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('transactions.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true},
-    {key: this.translateService.instant('transactions.graph.energy_amps') + this.translateService.instant('transactions.graph.energy'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.cumulated_amount'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.amperage_dc'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.voltage'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.voltage_dc'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.voltage_l1'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.voltage_l2'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.voltage_l3'), hidden: true},
-    {key: this.translateService.instant('transactions.graph.battery'), hidden: false}
+    { key: this.translateService.instant('transactions.graph.amps') + this.translateService.instant('transactions.graph.power'), hidden: false },
+    { key: this.translateService.instant('transactions.graph.amps_l1') + this.translateService.instant('transactions.graph.power_l1'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.amps_l2') + this.translateService.instant('transactions.graph.power_l2'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.amps_l3') + this.translateService.instant('transactions.graph.power_l3'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('transactions.graph.limit_watts'), hidden: this.authorizationService.isAdmin() ? false : true },
+    { key: this.translateService.instant('transactions.graph.energy_amps') + this.translateService.instant('transactions.graph.energy'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.cumulated_amount'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.amperage_dc'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.voltage'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.voltage_dc'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.voltage_l1'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.voltage_l2'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.voltage_l3'), hidden: true },
+    { key: this.translateService.instant('transactions.graph.battery'), hidden: false }
   ];
 
   constructor(
@@ -91,7 +90,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
     private appCurrencyPipe: AppCurrencyPipe,
-    private authorizationService: AuthorizationService ) {
+    private authorizationService: AuthorizationService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -182,8 +181,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       });
       // Power/Amps L1/L2/L3
       if (this.transaction.values.find((consumption) => consumption.instantWattsL1 > 0) ||
-          this.transaction.values.find((consumption) => consumption.instantWattsL2 > 0) ||
-          this.transaction.values.find((consumption) => consumption.instantWattsL3 > 0)) {
+        this.transaction.values.find((consumption) => consumption.instantWattsL2 > 0) ||
+        this.transaction.values.find((consumption) => consumption.instantWattsL3 > 0)) {
         datasets.push({
           name: (this.selectedUnit === ConsumptionUnit.AMPERE) ? 'instantAmpsL1' : 'instantWattsL1',
           type: 'line',
@@ -296,8 +295,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
       }
       // Voltage L1/L2/L3
       if (this.transaction.values.find((consumption) => consumption.instantVoltsL1 > 0) ||
-          this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
-          this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
+        this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
+        this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
         datasets.push({
           name: 'instantVoltsL1',
           type: 'line',
@@ -497,9 +496,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
           // tslint:disable-next-line: cyclomatic-complexity
           label: (tooltipItem: ChartTooltipItem, data: ChartData) => {
-            if (this.data.datasets && data.datasets && tooltipItem.datasetIndex !== undefined) {
+            if (this.data.datasets && data.datasets && !Utils.isUndefined(tooltipItem.datasetIndex)) {
               const dataSet = data.datasets[tooltipItem.datasetIndex];
-              if (dataSet && dataSet.data && tooltipItem.index !== undefined) {
+              if (dataSet && dataSet.data && !Utils.isUndefined(tooltipItem.index)) {
                 const value = dataSet.data[tooltipItem.index] as number;
                 switch (this.data.datasets[tooltipItem.datasetIndex]['name']) {
                   case 'instantWatts':
@@ -554,7 +553,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           title: (item: ChartTooltipItem[], data: ChartData) => {
             if (data.labels && data.labels.length > 0) {
               const firstDate = new Date(data.labels[0] as number);
-              if (item[0].index !== undefined) {
+              if (!Utils.isUndefined(item[0].index)) {
                 const currentDate = new Date(data.labels[item[0].index] as number);
                 return this.datePipe.transform(currentDate) + ' - ' +
                   this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);

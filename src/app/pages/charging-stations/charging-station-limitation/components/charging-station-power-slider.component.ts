@@ -31,9 +31,9 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public ampSteps;
 
   constructor(
-      private appUnitFormatter: AppUnitPipe,
-      private componentService: ComponentService,
-      private decimalPipe: AppDecimalPipe) {
+    private appUnitFormatter: AppUnitPipe,
+    private componentService: ComponentService,
+    private decimalPipe: AppDecimalPipe) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
@@ -47,7 +47,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(
       this.chargingStation, this.chargePoint, this.connector ? this.connector.connectorId : 0, this.forChargingProfile);
-    if (this.currentAmp === undefined) {
+    if (Utils.isUndefined(this.currentAmp)) {
       this.currentAmp = chargerPowers.currentAmp;
     }
     this.minAmp = chargerPowers.minAmp;
@@ -63,7 +63,7 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
     this.ampSteps = Utils.computeStaticLimitAmpSteps(this.chargingStation, this.chargePoint);
   }
 
-  public formatSlideLabelPowerKW = (currentAmp: number): string|null => {
+  public formatSlideLabelPowerKW = (currentAmp: number): string | null => {
     const powerKW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, null, 0, currentAmp) / 1000);
     return this.decimalPipe.transform(powerKW) + 'kW';
   }

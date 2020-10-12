@@ -59,6 +59,7 @@ export interface UserNotifications {
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
   sendEndUserErrorNotification: boolean;
+  sendBillingNewInvoice: boolean;
 }
 
 export interface UserToken {

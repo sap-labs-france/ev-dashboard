@@ -32,6 +32,7 @@ export class InvoicesListComponent implements OnInit {
       this.centralServerService.downloadInvoice(invoiceID).subscribe((result) => {
         this.spinnerService.show();
         FileSaver.saveAs(result, 'invoice.pdf');
+        this.spinnerService.hide();
       }, () => {
         this.spinnerService.hide();
         this.messageService.showErrorMessage('invoices.error.failed_download');

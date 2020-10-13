@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.12',
+        date: new Date('2020-10-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Schneider model EV2S22P04 in Charging Station's Template`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.11',
         date: new Date('2020-10-10'),
         componentChanges: [

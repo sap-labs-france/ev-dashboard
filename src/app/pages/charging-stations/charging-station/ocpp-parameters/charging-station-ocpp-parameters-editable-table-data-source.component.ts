@@ -7,12 +7,10 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { MessageService } from 'app/services/message.service';
 import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Observable } from 'rxjs';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { TableExportOCPPParamsActionDef } from '../../table-actions/table-export-ocpp-params-action';
 import { TableExportOCPPParamsLocalAction, TableExportOCPPParamsLocalActionDef } from '../../table-actions/table-export-ocpp-params-local-action';
 import { TableRequestOCPPParamsAction, TableRequestOCPPParamsActionDef } from '../../table-actions/table-request-ocpp-params-action';
 import { TableSaveOCPPParameterAction, TableSaveOCPPParameterActionDef } from '../../table-actions/table-save-ocpp-parameter-action';
@@ -76,9 +74,6 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
             this.charger, this.getContent(), this.dialogService, this.translateService);
         }
         break;
-      default:
-        super.actionTriggered(actionDef);
-        break;
       case ChargingStationButtonAction.UPDATE_OCPP_PARAMS:
         if (actionDef.action) {
           (actionDef as TableUpdateOCPPParamsActionDef).action(this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
@@ -91,6 +86,9 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
             this.charger, this.dialogService, this.translateService, this.messageService, this.centralServerService,
             this.router, this.spinnerService, this.refreshData.bind(this));
         }
+        break;
+      default:
+        super.actionTriggered(actionDef);
         break;
     }
   }
@@ -121,9 +119,11 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         headerClass: 'text-right col-20p',
         validators: [
           Validators.required,
+          Validators.maxLength(50),
         ],
         errors: [
           { id: 'required', message: 'general.mandatory_field' },
+          { id: 'maxlength', message: 'general.error_max_length', messageParams: { length: 50 } },
         ],
         class: 'text-right col-20p table-cell-angular-big-component',
       },
@@ -132,8 +132,8 @@ export class ChargingStationOcppParametersEditableTableDataSource extends Editab
         name: 'chargers.charger_param_value',
         editType: TableEditType.INPUT,
         validators: [
-          Validators.maxLength(500),
           Validators.required,
+          Validators.maxLength(500),
         ],
         canBeDisabled: true,
         errors: [

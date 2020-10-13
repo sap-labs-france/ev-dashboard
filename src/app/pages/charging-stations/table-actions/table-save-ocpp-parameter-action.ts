@@ -49,7 +49,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
             spinnerService.hide();
             // Ok?
             if (response.status === OCPPConfigurationStatus.ACCEPTED ||
-                response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
+              response.status === OCPPConfigurationStatus.REBOOT_REQUIRED) {
               messageService.showSuccessMessage(
                 translateService.instant('chargers.change_params_success', { paramKey: param.key, chargeBoxID: charger.id }));
               // Reboot Required?
@@ -65,7 +65,7 @@ export class TableSaveOCPPParameterAction extends TableSaveAction {
               }
             } else {
               Utils.handleError(JSON.stringify(response), messageService,
-              translateService.instant('chargers.change_params_error', { paramKey: param.key, chargeBoxID: charger.id }));
+                translateService.instant('chargers.change_params_error', { paramKey: param.key, chargeBoxID: charger.id }));
             }
           }, (error) => {
             spinnerService.hide();

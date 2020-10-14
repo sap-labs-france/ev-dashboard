@@ -3098,7 +3098,7 @@ export class CentralServerService {
   }
 
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
-    // In a real world app, we might use a remote logging infrastructure
+    // We might use a remote logging infrastructure
     const errMsg = { status: 0, message: '', details: undefined };
     if (error && error instanceof TimeoutError) {
       errMsg.status = StatusCodes.REQUEST_TIMEOUT;

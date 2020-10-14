@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Handle Schneider model EV2S22P04 in Charging Station's Template`,
+              `Handle Schneider model EV2S22P4 in Charging Station's Template`,
             ],
           },
         ],
@@ -61,14 +61,14 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed cannot update new registered Users`,
-              `Send notification to Admins when an unknow Badge is used on a Charging Station`,
+              `Send notification to Admins when an unknown Badge is used on a Charging Station`,
               `Enable the Basic users to activate/deactivate his Notifications`,
               `Allow high volume of data in export functions`,
               `Migration tasks for aligning the local Badges with local Users + default description`,
               `For Badge ID to be in upper case when created manually`,
               `Auto refresh Badge management list`,
               `Build Smart Charging safe Car + Override with Meter Values`,
-              `Enable vehicule identifier in OCPP for the Ebee Charging Station`,
+              `Enable vehicle identifier in OCPP for the Ebee Charging Station`,
               `Handle Meter Values with L1_N, L2_N and L3_N phases`,
               `Add Voltage Meter Value on Legrand Charging Station`,
               `Enable authentication with badge on Schneider Charging Station`,

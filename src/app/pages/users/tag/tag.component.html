@@ -11,8 +11,8 @@
             <div class="col-md-4">
               <div class="form-group">
                 <mat-form-field>
-                  <input matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name"
-                    type="text" [formControl]="id" (input)="toUpperCase(id)">
+                  <input matInput placeholder="{{'tags.id' | translate}}" class="app-tag-name" type="text"
+                    [formControl]="id" (input)="toUpperCase(id)">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
@@ -21,7 +21,7 @@
                     <div [translate]="'general.error_max_length'" [translateParams]="{length: 20}"></div>
                   </mat-error>
                   <mat-error *ngIf="id.errors?.minlength">
-                    <div [translate]="'general.error_min_length'" [translateParams]="{length: 8}"></div>
+                    <div [translate]="'general.error_min_length'" [translateParams]="{length: 1}"></div>
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -31,8 +31,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <mat-form-field>
-                  <input appAutofocus matInput placeholder="{{'general.description' | translate}}"
-                    class="app-car-name" type="text" [formControl]="description">
+                  <input appAutofocus matInput placeholder="{{'general.description' | translate}}" class="app-car-name"
+                    type="text" [formControl]="description">
                   <mat-error *ngIf="id.errors?.required">
                     {{"general.mandatory_field" | translate}}
                   </mat-error>
@@ -45,7 +45,7 @@
               <div class="form-group">
                 <mat-form-field>
                   <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
-                    class="form-field-popup" (click)="assignUser()" [formControl]="user"/>
+                    class="form-field-popup" (click)="assignUser()" [formControl]="user" />
                   <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignUser()">
                     <mat-icon>create</mat-icon>
                   </button>
@@ -66,6 +66,17 @@
                   </mat-select>
                   <mat-error *ngIf="active.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                 </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="text-left">
+                  <mat-checkbox value="false" [formControl]="default">
+                    {{'tags.default_tag' | translate}}
+                  </mat-checkbox>
+                </div>
               </div>
             </div>
           </div>

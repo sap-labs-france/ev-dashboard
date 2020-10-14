@@ -11,4 +11,5 @@ export interface Tag extends Data {
   lastChangedBy?: Partial<User>;
   lastChangedOn?: Date;
   user?: User;
+  default?: boolean;
 }

@@ -45,6 +45,7 @@ export interface KeyValue {
   value: string;
   objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction|Tag;
   readonly?: boolean;
+  custom?: boolean;
   icon?: string;
   tooltip?: string;
 }

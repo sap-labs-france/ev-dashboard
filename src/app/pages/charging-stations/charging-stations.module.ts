@@ -41,7 +41,6 @@ import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
 import { ChargingStationsStartTransactionDetailsDialogComponent } from './details-component/charging-stations-start-transaction-details-dialog-component';
-import { ChargingStationsStartTransactionDialogComponent } from './details-component/charging-stations-start-transaction-dialog-component';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
@@ -75,7 +74,6 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationChargePointComponent,
     TransactionDialogComponent,
     ChargingStationsConnectorsDetailComponent,
-    ChargingStationsStartTransactionDialogComponent,
     ChargingStationsStartTransactionDetailsDialogComponent,
     TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
@@ -116,7 +114,6 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationOcppParametersInputFieldCellComponent,
     ChargingStationsComponent,
     ChargingStationsConnectorsDetailComponent,
-    ChargingStationsStartTransactionDialogComponent,
     ChargingStationsStartTransactionDetailsDialogComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
@@ -126,7 +123,6 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingPlansListComponent,
   ],
   exports: [
-    ChargingStationsStartTransactionDialogComponent,
     ChargingStationsStartTransactionDetailsDialogComponent
   ],
   providers: [

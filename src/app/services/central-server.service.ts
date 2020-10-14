@@ -857,6 +857,23 @@ export class CentralServerService {
       );
   }
 
+  public getUserDefaultTag(userID: string): Observable<Tag> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['UserID'] = userID;
+    // Execute the REST service
+    return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.DEFAUlT_TAG}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getTags(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Tag>> {
     // Verify init
@@ -2462,13 +2479,14 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
       args: {
         tagID,
         connectorId,
+        carID
       },
     };
     return this.httpClient.post<ActionResponse>(
@@ -2604,6 +2622,23 @@ export class CentralServerService {
     params['ID'] = carID;
     // Execute the REST service
     return this.httpClient.get<Car>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CAR}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getUserDefaultCar(userID: string): Observable<Car> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['UserID'] = userID;
+    // Execute the REST service
+    return this.httpClient.get<Car>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.DEFAULT_CAR}`,
       {
         headers: this.buildHttpHeaders(),
         params

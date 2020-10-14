@@ -848,8 +848,8 @@
         "kind": "Kind",
         "purpose": "Purpose",
         "stack_level": "Stack Level",
-        "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit"
+        "site_area": "Site Area",
+        "site_area_limit": "Site Area Limit"
       }
     },
     "more_actions": {
@@ -979,12 +979,7 @@
     "button_get_configuration": "Get Configuration",
     "button_force_ocpp_params_update_from_template": "Force OCPP Params Update",
     "created_on": "Creation date",
-    "start_transaction_admin_title": "Start session as Administrator",
-    "start_transaction_admin_message": "Do you want to start a session for:",
-    "start_transaction_user_select_title": "Select user for start session",
-    "start_transaction_user_select_button": "Select",
-    "start_for_myself_button": "Myself",
-    "select_user_button": "Another user",
+    "start_transaction_details_title": "Start session on charging station '{{chargeBoxID}}'",
     "power_limit_unit": "Connector Power Unit",
     "watt": "Watt",
     "amper": "Ampere",
@@ -1054,7 +1049,7 @@
     "search_last_week": "Last Week",
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
-    "select_actions":"Select Actions",
+    "select_actions": "Select Actions",
     "redirect": "Navigate to Logs",
     "no_logs": "No logs matching the filters",
     "dialog": {

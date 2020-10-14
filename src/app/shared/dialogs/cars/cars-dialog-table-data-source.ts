@@ -77,6 +77,20 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
             sortable: true,
             formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
           },
+          {
+            id: 'licensePlate',
+            name: 'cars.license_plate',
+            headerClass: 'text-center col-15p',
+            class: 'text-center col-15p',
+            sortable: true,
+          },
+          {
+            id: 'vin',
+            name: 'cars.vin',
+            headerClass: 'text-center col-15p',
+            class: 'text-center col-15p',
+            sortable: true,
+          },
     ];
   }
 }

@@ -13,6 +13,7 @@ import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, Current
 import { KeyValue } from 'app/types/GlobalType';
 import { MobileType } from 'app/types/Mobile';
 import { ButtonType } from 'app/types/Table';
+import { Tag } from 'app/types/Tag';
 import { User, UserCar, UserToken } from 'app/types/User';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
@@ -322,7 +323,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-            // Connector
+              // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -449,7 +450,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-            // Connector
+              // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -619,6 +620,19 @@ export class Utils {
     return fullName;
   }
 
+  public static buildTagName(tag: Tag): string {
+    let tagName: string;
+    if (!tag) {
+      return '-';
+    }
+    if (tag.description) {
+      tagName = `'${tag.description}' ('${tag.id}')`;
+    } else {
+      tagName = `'${tag.id}'`;
+    }
+    return tagName;
+  }
+
   public static buildCarCatalogName(carCatalog: CarCatalog, withID = false): string {
     let carCatalogName: string;
     if (!carCatalog) {
@@ -637,7 +651,7 @@ export class Utils {
     return carCatalogName;
   }
 
-  public static buildCarName(car: Car, withID = false): string {
+  public static buildCarName(car: Car, withVIN = true, withID = false): string {
     let carName: string;
     if (!car) {
       return '-';
@@ -645,10 +659,18 @@ export class Utils {
     if (car.carCatalog) {
       carName = Utils.buildCarCatalogName(car.carCatalog, withID);
     }
-    if (!carName) {
-      carName = `VIN '${car.vin}', License Plate '${car.licensePlate}'`;
+    if (withVIN && car.vin) {
+      if (!carName) {
+        carName = `VIN '${car.vin}', License Plate '${car.licensePlate}'`;
+      } else {
+        carName += ` with VIN '${car.vin}' and License Plate '${car.licensePlate}'`;
+      }
     } else {
-      carName += ` with VIN '${car.vin}' and License Plate '${car.licensePlate}'`;
+      if (!carName) {
+        carName = `License Plate '${car.licensePlate}'`;
+      } else {
+        carName += ` with License Plate '${car.licensePlate}'`;
+      }
     }
     if (withID && car.id) {
       carName += ` (${car.id})`;

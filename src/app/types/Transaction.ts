@@ -1,10 +1,10 @@
 import { BillingTransactionData } from './Billing';
 import { ChargingStation } from './ChargingStation';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
-import { OCPICdr } from './ocpi/OCPICdr';
-import { OCPISession } from './ocpi/OCPISession';
 
 export interface Transaction extends Data {
   id: number;
@@ -95,6 +95,12 @@ export interface TransactionConsumption {
   cumulatedConsumptionAmps: number;
   stateOfCharge: number;
   cumulatedAmount: number;
+}
+
+export interface StartTransaction {
+userFullName: string;
+tagID: string;
+carID?: string;
 }
 
 export enum InactivityStatus {

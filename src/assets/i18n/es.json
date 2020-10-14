@@ -1231,7 +1231,10 @@
     "cannot_download_invoice": "No se puede descargar la factura",
     "number_of_items": "Sesiones",
     "pay": "Pagar",
-    "user": "Usuario"
+    "user": "Usuario",
+    "error": {
+      "failed_download": "Invoice download failed."
+    }
   },
   "tags": {
     "id": "ID",
@@ -2133,6 +2136,7 @@
     "session_not_started": "Notificarme si no se inició ninguna sesión después de la identificación",
     "user_account_inactivity": "Notificarme cuando no haya iniciado sesión en la aplicación durante más de 6 meses",
     "car_catalog_synchronization_failed": "Notificarme si se ha producido un error durante la sincronización de los automóviles",
-    "end_user_error_notification": "Notificarme cuando un usuario reporte algún error"
+    "end_user_error_notification": "Notificarme cuando un usuario reporte algún error",
+    "billing_new_invoice": "Notify me when a new invoice is available"
   }
 }

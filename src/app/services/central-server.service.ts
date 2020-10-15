@@ -8,7 +8,6 @@ import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
@@ -16,7 +15,6 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
-import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -28,6 +26,9 @@ import { Tag } from 'app/types/Tag';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from 'app/types/ocpp/OCPP';
 import { Utils } from 'app/utils/Utils';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError, timer } from 'rxjs';
@@ -1788,7 +1789,7 @@ export class CentralServerService {
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.RESET}`, data,
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.PASSWORD_RESET}`, data,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2741,11 +2742,13 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
+    const custom = chargerParameter.custom ? chargerParameter.custom : false;
     const body = `{
       "chargeBoxID": "${id}",
       "args": {
         "key": "${chargerParameter.key}",
-        "value": "${chargerParameter.value}"
+        "value": "${chargerParameter.value}",
+        "custom": "${custom}"
       }
     }`;
     // Execute
@@ -2864,9 +2867,9 @@ export class CentralServerService {
     );
   }
 
-  public chargingStationReset(id: string, hard: boolean = true): Observable<ActionResponse> {
+  public chargingStationReset(id: string, hard: boolean = false): Observable<ActionResponse> {
     return this.actionChargingStation(
-      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? 'Hard' : 'Soft' }));
+      ServerAction.CHARGING_STATION_RESET, id, JSON.stringify({ type: hard ? OCPPResetType.HARD : OCPPResetType.SOFT }));
   }
 
   public chargingStationClearCache(id: string): Observable<ActionResponse> {
@@ -3095,7 +3098,7 @@ export class CentralServerService {
   }
 
   private handleHttpError(error: HttpErrorResponse): Observable<never> {
-    // In a real world app, we might use a remote logging infrastructure
+    // We might use a remote logging infrastructure
     const errMsg = { status: 0, message: '', details: undefined };
     if (error && error instanceof TimeoutError) {
       errMsg.status = StatusCodes.REQUEST_TIMEOUT;

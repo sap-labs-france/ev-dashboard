@@ -34,11 +34,11 @@ export class TableUpdateOCPPParamsAction implements TableAction {
   }
 
   private updateOCPPParameters(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-      messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
-      refresh?: () => Observable<void>) {
+    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
+    refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('chargers.ocpp_params_update_from_template_title'),
-      translateService.instant('chargers.ocpp_params_update_from_template_confirm', {chargeBoxID: chargingStation.id})
+      translateService.instant('chargers.ocpp_params_update_from_template_confirm', { chargeBoxID: chargingStation.id })
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
         spinnerService.show();

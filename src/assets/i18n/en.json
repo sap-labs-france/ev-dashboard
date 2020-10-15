@@ -1149,6 +1149,7 @@
     "remove_sites_success": "The site(s) have been removed successfully",
     "export_users_title": "Export Users",
     "export_users_confirm": "Do you really want to export the User list to a csv format?",
+    "export_users_error": "Error occurred while trying to export the Users",
     "remove_sites_error": "Error occurred while removing the site(s) from the user, check the logs",
     "update_success": "The user '{{userFullName}}' has been updated successfully",
     "update_sites_success": "The sites have been added successfully",

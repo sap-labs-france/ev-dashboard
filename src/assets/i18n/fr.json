@@ -1149,6 +1149,7 @@
     "remove_sites_success": "Le(s) site(s) ont été retiré(s) avec succès",
     "export_users_title": "Export des Utilisateurs",
     "export_users_confirm": "Voulez-vous vraiment exporter la liste des utilisateurs au format csv?",
+    "export_users_error": "Une erreur est survenue pendant l'export des utilisateurs",
     "remove_sites_error": "Une erreur est survenue pendant le retrait des sites, vérifiez les logs",
     "update_success": "L'utilisateur '{{userFullName}}' a été mis à jour avec succès",
     "update_sites_success": "Les sites ont été ajouté avec succès",

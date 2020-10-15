@@ -39,7 +39,7 @@ import { TableCheckTagsAction } from '../table-actions/table-check-tags-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
 import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
-import { TableExportUsersAction } from '../table-actions/table-export-users-action';
+import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
 
@@ -281,7 +281,9 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case UserButtonAction.EXPORT_USERS:
         if (actionDef.action) {
-          actionDef.action(this.data, this.dialogService, this.translateService);
+          (actionDef as TableExportUsersActionDef).action(this.buildFilterValues(), this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:

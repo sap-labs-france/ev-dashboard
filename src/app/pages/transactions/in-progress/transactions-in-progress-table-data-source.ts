@@ -92,7 +92,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   public buildTableDef(): TableDef {
     return {
       search: {
-        enabled: false,
+        enabled: true,
       },
       rowDetails: {
         enabled: true,

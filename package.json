@@ -88,7 +88,7 @@
     "canvas-gauges": "^2.1.7",
     "chart.js": "^2.9.3",
     "chartjs-plugin-datalabels": "^0.7.0",
-    "chartjs-plugin-zoom": "^0.7.7",
+    "chartjs-plugin-zoom": "^0.7.5",
     "file-saver": "^2.0.2",
     "http-status-codes": "^2.1.4",
     "jasny-bootstrap": "^4.0.0",

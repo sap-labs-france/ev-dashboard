@@ -24,13 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.12',
-        date: new Date('2020-10-13'),
+        version: '2.4.13',
+        date: new Date('2020-10-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Handle Schneider model EV2S22P4 in Charging Station's Template`,
+              `RETful API PoC for external coonsumer (Open Data, Providiris)`,
             ],
           },
         ],

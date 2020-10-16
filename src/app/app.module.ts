@@ -3,6 +3,7 @@ import 'chartjs-plugin-zoom';
 import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
+import 'moment/locale/pt';
 import 'popper.js';
 
 import { AgmCoreModule } from '@agm/core';
@@ -11,6 +12,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
+import localePt from '@angular/common/locales/pt';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -79,6 +81,7 @@ import { Utils } from './utils/Utils';
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeDe, 'de');
 registerLocaleData(localeEs, 'es');
+registerLocaleData(localePt, 'pt');
 
 @NgModule({
   exports: [
@@ -215,10 +218,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr', 'es', 'de']);
+    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt']);
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es|de/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es|de|pt/) ? language : 'en');
   }
 }

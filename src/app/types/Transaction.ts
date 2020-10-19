@@ -1,4 +1,5 @@
 import { BillingTransactionData } from './Billing';
+import { Car } from './Car';
 import { ChargingStation } from './ChargingStation';
 import { OCPICdr } from './ocpi/OCPICdr';
 import { OCPISession } from './ocpi/OCPISession';
@@ -38,6 +39,7 @@ export interface Transaction extends Data {
   siteID: string;
   user: User;
   tagID: string;
+  car?: Car;
   status: string;
   price: number;
   priceUnit: string;

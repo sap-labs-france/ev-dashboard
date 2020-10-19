@@ -18,7 +18,7 @@ export class CarsDialogComponent extends DialogTableDataComponent<Car> {
         super(data, dialogRef, carsDialogTableDataSource);
         // Default title
         if (this.title === '') {
-            this.title = 'tags.select_tags';
+            this.title = 'cars.select_car';
         }
         this.carsDialogTableDataSource.destroyDatasource();
     }

@@ -66,9 +66,10 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     dialogConfig.panelClass = '';
     // Set data
     dialogConfig.data = {
-      title: translateService.instant('start_transaction_details_title', {
+      title: translateService.instant('chargers.start_transaction_details_title', {
         chargeBoxID: chargingStation.id
       }),
+      chargeBoxID: chargingStation.id
     };
     // Show
     const dialogRef = dialog.open(ChargingStationsStartTransactionDetailsDialogComponent, dialogConfig);

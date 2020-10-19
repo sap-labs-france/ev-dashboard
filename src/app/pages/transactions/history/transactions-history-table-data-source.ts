@@ -11,6 +11,7 @@ import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
+import { CarCatalog } from 'app/types/Car';
 import { Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { HTTPError } from 'app/types/HTTPError';
@@ -187,6 +188,22 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       });
     }
     columns.push(
+      {
+        id: 'car.carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
+      },
       {
         id: 'tagID',
         name: 'transactions.badge_id',

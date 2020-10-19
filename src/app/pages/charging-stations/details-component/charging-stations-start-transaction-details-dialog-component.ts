@@ -12,7 +12,6 @@ import { TagsDialogComponent } from 'app/shared/dialogs/tags/tags-dialog.compone
 import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
 import { Car } from 'app/types/Car';
 import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
 import { Tag } from 'app/types/Tag';
 import { StartTransaction } from 'app/types/Transaction';
 import { UserToken } from 'app/types/User';
@@ -23,6 +22,7 @@ import { Utils } from 'app/utils/Utils';
 })
 export class ChargingStationsStartTransactionDetailsDialogComponent implements OnInit {
     public title = '';
+    public chargeBoxID = '';
     public formGroup!: FormGroup;
     public user!: AbstractControl;
     public userID!: AbstractControl;
@@ -30,6 +30,7 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
     public carID!: AbstractControl;
     public tag!: AbstractControl;
     public tagID!: AbstractControl;
+    private spinnerCounter = 0;
 
     public loggedUser: UserToken;
     public isAdmin = false;
@@ -45,6 +46,7 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         @Inject(MAT_DIALOG_DATA) data: any) {
         // Set
         this.title = data.title;
+        this.chargeBoxID = data.chargeBoxID;
         this.loggedUser = centralServerService.getLoggedUser();
         this.isAdmin = this.authorizationService.isAdmin();
         Utils.registerCloseKeyEvents(this.dialogRef);
@@ -87,25 +89,42 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         this.tagID = this.formGroup.controls['tagID'];
         this.user.setValue(Utils.buildUserFullName(this.loggedUser));
         this.userID.setValue(this.loggedUser.id);
+        this.spinnerCounter = 2;
         this.loadDefaultCar();
         this.loadDefaultTag();
+    }
+
+    public resetCar() {
+        this.car.reset();
+        this.carID.reset();
     }
 
     public loadDefaultTag() {
         if (this.userID.value) {
             this.spinnerService.show();
             this.centralServerService.getUserDefaultTag(this.userID.value).subscribe((tag: Tag) => {
-                this.spinnerService.hide();
+                this.spinnerCounter--;
+                if (this.spinnerCounter === 0) {
+                    this.spinnerService.hide();
+                }
                 this.tag.setValue(Utils.buildTagName(tag));
                 this.tagID.setValue(tag.id);
                 this.formGroup.updateValueAndValidity();
                 this.formGroup.markAsPristine();
                 this.formGroup.markAllAsTouched();
             }, (error) => {
-                this.spinnerService.hide();
+                this.spinnerCounter--;
+                if (this.spinnerCounter === 0) {
+                    this.spinnerService.hide();
+                }
                 switch (error.status) {
                     case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-                        this.messageService.showErrorMessage('tags.tag_not_found');
+                        this.tag.disable();
+                        this.messageService.showErrorMessage(
+                            this.translateService.instant('chargers.start_transaction_missing_active_tag', {
+                                chargeBoxID: this.chargeBoxID,
+                                userName: this.user.value,
+                            }));
                         break;
                     default:
                         Utils.handleHttpError(error, this.router, this.messageService,
@@ -119,14 +138,20 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         if (this.userID.value) {
             this.spinnerService.show();
             this.centralServerService.getUserDefaultCar(this.userID.value).subscribe((car: Car) => {
-                this.spinnerService.hide();
+                this.spinnerCounter--;
+                if (this.spinnerCounter === 0) {
+                    this.spinnerService.hide();
+                }
                 this.car.setValue(Utils.buildCarName(car, false));
                 this.carID.setValue(car.id);
                 this.formGroup.updateValueAndValidity();
                 this.formGroup.markAsPristine();
                 this.formGroup.markAllAsTouched();
             }, (error) => {
-                this.spinnerService.hide();
+                this.spinnerCounter--;
+                if (this.spinnerCounter === 0) {
+                    this.spinnerService.hide();
+                }
                 switch (error.status) {
                     case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
                         this.car.disable();
@@ -158,9 +183,9 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
             this.tagID.setValue('');
             this.car.setValue('');
             this.carID.setValue('');
+            this.spinnerCounter = 2;
             this.loadDefaultCar();
             this.loadDefaultTag();
-            this.formGroup.markAsDirty();
         });
     }
 
@@ -171,7 +196,8 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         dialogConfig.data = {
             rowMultipleSelection: false,
             staticFilter: {
-                UserID: this.userID.value
+                UserID: this.userID.value,
+                Active: true
             },
         };
         // Show
@@ -180,7 +206,6 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         dialogRef.afterClosed().subscribe((result) => {
             this.tag.setValue(result[0].key);
             this.tagID.setValue(result[0].key);
-            this.formGroup.markAsDirty();
         });
     }
 
@@ -200,7 +225,6 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         dialogRef.afterClosed().subscribe((result) => {
             this.car.setValue(Utils.buildCarName(result[0].objectRef, false));
             this.carID.setValue(result[0].key);
-            this.formGroup.markAsDirty();
         });
     }
 

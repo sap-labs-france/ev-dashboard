@@ -1,0 +1,50 @@
+general:
+  verbose: true
+  productiveBranch: 'master-qa'
+  buildTool: 'npm'
+  gitHttpsCredentialsId: 'GitHub-emobility-ci-build'
+  githubTokenCredentialsId: 'GitHub-token-emobility-ci-build'
+
+stages:
+
+  Central Build:
+    executeSonarScan: false
+    sonarExecuteScan: true
+
+  IPScan and PPMS:
+    whitesourceProductName: 'SHC - SAP E-MOBILITY UI 1.0'
+    whitesourceProjectNames: ['SAP SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests # TODO
+    whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
+    whitesourceUserTokenCredentialsId : 'whitesourceUserTokenEmobility'
+    executeWhitesourceScan: true
+    sapCheckPPMSCompliance: true
+    buildVersion: '{{.Major}}.{{.Minor}}'
+    
+  Additional Unit Tests:
+    karmaExecuteTests: false
+    
+  Security:
+    executeCheckmarxScan: true
+    checkmarxExecuteScan: false
+    executeWhitesourceScan: false
+
+steps:
+
+  sonarExecuteScan:
+    instance: 'SAP SonarQube Enterprise'
+
+  executeWhitesourceScan:
+    scanType: npm
+   
+  executeCheckmarxScan:
+    checkmarxProject: 'ev-dashboard'
+    checkmarxGroupId: '29091a00-0dbc-4d06-b78b-32ab0ef54cdc'
+    preset: 100131 #SAP_Default_Typescript
+    checkmarxCredentialsId: 'checkmarx-i030367-access'
+    filterPattern: '!**/node_modules/**, !**/coverage/**, !**/coverage-tmp/**, !**/.xmake/**, !**/tests/**, !**/jest.config.js, !**/*_test.go, !**/vendor/**/*.go, **/*.html, **/*.xml, **/*.go, **/*.py, **/*.js, **/*.scala, **/*.ts, **/*.tsx'
+      
+  sapCheckPPMSCompliance:
+    ppmsID: '73554900100200014453'
+    ppmsCredentialsId: 'ppms-i030367-access'
+    ppmsBuildVersionCreation: true
+    ppmsChangeRequestUpload: true

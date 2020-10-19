@@ -24,13 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.12',
-        date: new Date('2020-10-13'),
+        version: '2.4.14',
+        date: new Date('2020-10-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Handle all the Charge Point status transitions to compute the parking time`,
+              `Fixed connection issues with Concur when the previous granted access has expired`,
+              `Added Portuguese translation`,
+              `Export users to CSV`,
               `Handle Schneider model EV2S22P4 in Charging Station's Template`,
+              `RESTful API PoC for external consumer (Open Data, Proviridis)`,
             ],
           },
         ],
@@ -133,7 +138,7 @@ export class ReleaseNotesComponent {
               `Display Asset dynamic consumption/production curve`,
               `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
               `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,
-              `Added Atess Charging Station vendor in templates`,
+              `Added ATESS Charging Station vendor in templates`,
               `Add a new field Amps per phase in Edit Charging Station`,
               `Added Date/Time range picker control in Statistics`,
               `Updated German and Spanish translations`,

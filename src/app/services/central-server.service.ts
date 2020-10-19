@@ -1157,6 +1157,21 @@ export class CentralServerService {
       );
   }
 
+  public exportUsers(params: FilterParams): Observable<Blob> {
+    this.checkInit();
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USERS_EXPORT}`,
+    {
+      headers: this.buildHttpHeaders(),
+      responseType: 'blob',
+      params,
+    })
+    .pipe(
+      timeout(Constants.DEFAULT_BACKEND_CONNECTION_TIMEOUT),
+      this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries, true),
+      catchError(this.handleHttpError),
+    );
+  }
+
   public exportTransactions(params: FilterParams): Observable<Blob> {
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTIONS_EXPORT}`,

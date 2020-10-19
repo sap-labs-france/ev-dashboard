@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Handle all the Charge Point status transitions to compute the parking time`,
               `Fixed connection issues with Concur when the previous granted access has expired`,
               `Added Portuguese translation`,
               `Export users to CSV`,

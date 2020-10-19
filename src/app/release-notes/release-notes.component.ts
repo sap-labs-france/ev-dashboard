@@ -25,11 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.14',
-        date: new Date('2020-10-16'),
+        date: new Date('2020-10-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed connection issues with Concur when the previous granted access has expired`,
+              `Added Portuguese translation`,
               `Export users to CSV`,
               `Handle Schneider model EV2S22P4 in Charging Station's Template`,
               `RETful API PoC for external coonsumer (Open Data, Providiris)`,

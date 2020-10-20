@@ -1806,7 +1806,7 @@
     "description": "Gerir Carros",
     "tabs": {
       "car_catalogs": "Catálogos de carros",
-      "cars": "Carros"
+      "cars": "Car Management"
     }
   },
   "analytics": {

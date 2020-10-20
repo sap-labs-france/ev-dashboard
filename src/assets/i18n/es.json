@@ -1809,7 +1809,7 @@
     "description": "Gestión de vehículos",
     "tabs": {
       "car_catalogs": "Catálogo de vehículo",
-      "cars": "vehículo"
+      "cars": "Car Management"
     }
   },
   "analytics": {

@@ -10,11 +10,8 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { CarsDialogComponent } from 'app/shared/dialogs/cars/cars-dialog.component';
 import { TagsDialogComponent } from 'app/shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
-import { Car } from 'app/types/Car';
-import { HTTPError } from 'app/types/HTTPError';
-import { Tag } from 'app/types/Tag';
 import { StartTransaction } from 'app/types/Transaction';
-import { UserToken } from 'app/types/User';
+import { UserDefaultTagCar, UserToken } from 'app/types/User';
 import { Utils } from 'app/utils/Utils';
 
 @Component({
@@ -30,7 +27,6 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
     public carID!: AbstractControl;
     public tag!: AbstractControl;
     public tagID!: AbstractControl;
-    private spinnerCounter = 0;
 
     public loggedUser: UserToken;
     public isAdmin = false;
@@ -89,9 +85,7 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         this.tagID = this.formGroup.controls['tagID'];
         this.user.setValue(Utils.buildUserFullName(this.loggedUser));
         this.userID.setValue(this.loggedUser.id);
-        this.spinnerCounter = 2;
-        this.loadDefaultCar();
-        this.loadDefaultTag();
+        this.loadUserDefaultTagCar();
     }
 
     public resetCar() {
@@ -99,67 +93,45 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
         this.carID.reset();
     }
 
-    public loadDefaultTag() {
+    public loadUserDefaultTagCar() {
         if (this.userID.value) {
             this.spinnerService.show();
-            this.centralServerService.getUserDefaultTag(this.userID.value).subscribe((tag: Tag) => {
-                this.spinnerCounter--;
-                if (this.spinnerCounter === 0) {
-                    this.spinnerService.hide();
-                }
-                this.tag.setValue(Utils.buildTagName(tag));
-                this.tagID.setValue(tag.id);
-                this.formGroup.updateValueAndValidity();
-                this.formGroup.markAsPristine();
-                this.formGroup.markAllAsTouched();
-            }, (error) => {
-                this.spinnerCounter--;
-                if (this.spinnerCounter === 0) {
-                    this.spinnerService.hide();
-                }
-                switch (error.status) {
-                    case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+            this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
+                this.spinnerService.hide();
+                if (userDefaultTagCar) {
+                    if (userDefaultTagCar.tag) {
+                        this.tag.setValue(Utils.buildTagName(userDefaultTagCar.tag));
+                        this.tagID.setValue(userDefaultTagCar.tag.id);
+                    } else {
                         this.tag.disable();
                         this.messageService.showErrorMessage(
                             this.translateService.instant('chargers.start_transaction_missing_active_tag', {
                                 chargeBoxID: this.chargeBoxID,
                                 userName: this.user.value,
                             }));
-                        break;
-                    default:
-                        Utils.handleHttpError(error, this.router, this.messageService,
-                            this.centralServerService, 'tags.tag_error');
+                    }
+                    if (userDefaultTagCar.car) {
+                        this.car.setValue(Utils.buildCarName(userDefaultTagCar.car, false));
+                        this.carID.setValue(userDefaultTagCar.car.id);
+                    } else {
+                        this.car.disable();
+                    }
+                } else {
+                    this.car.disable();
+                    this.tag.disable();
+                    this.messageService.showErrorMessage(
+                        this.translateService.instant('chargers.start_transaction_missing_active_tag', {
+                            chargeBoxID: this.chargeBoxID,
+                            userName: this.user.value,
+                        }));
                 }
-            });
-        }
-    }
-
-    public loadDefaultCar() {
-        if (this.userID.value) {
-            this.spinnerService.show();
-            this.centralServerService.getUserDefaultCar(this.userID.value).subscribe((car: Car) => {
-                this.spinnerCounter--;
-                if (this.spinnerCounter === 0) {
-                    this.spinnerService.hide();
-                }
-                this.car.setValue(Utils.buildCarName(car, false));
-                this.carID.setValue(car.id);
                 this.formGroup.updateValueAndValidity();
                 this.formGroup.markAsPristine();
                 this.formGroup.markAllAsTouched();
             }, (error) => {
-                this.spinnerCounter--;
-                if (this.spinnerCounter === 0) {
-                    this.spinnerService.hide();
-                }
-                switch (error.status) {
-                    case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-                        this.car.disable();
-                        break;
-                    default:
-                        Utils.handleHttpError(error, this.router, this.messageService,
-                            this.centralServerService, 'cars.car_error');
-                }
+                this.spinnerService.hide();
+                Utils.handleHttpError(error, this.router, this.messageService,
+                    this.centralServerService, 'general.error_backend');
             });
         }
     }
@@ -183,9 +155,7 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
             this.tagID.setValue('');
             this.car.setValue('');
             this.carID.setValue('');
-            this.spinnerCounter = 2;
-            this.loadDefaultCar();
-            this.loadDefaultTag();
+            this.loadUserDefaultTagCar();
         });
     }
 

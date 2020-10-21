@@ -1,5 +1,6 @@
 import { Address } from './Address';
 import { BillingUserData } from './Billing';
+import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import { Tag } from './Tag';
@@ -59,6 +60,11 @@ export interface UserNotifications {
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
   sendEndUserErrorNotification: boolean;
+}
+
+export interface UserDefaultTagCar {
+  car?: Car;
+  tag?: Tag;
 }
 
 export interface UserToken {

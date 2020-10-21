@@ -29,7 +29,6 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 import { TableActivateTagAction, TableActivateTagActionDef } from '../table-actions/table-activate-tag-action';
-import { TableAssignUserToTagAction, TableAssignUserToTagActionDef } from '../table-actions/table-assign-user-to-tag-action';
 import { TableCheckUserAction } from '../table-actions/table-check-user-action';
 import { TableCreateTagAction, TableCreateTagActionDef } from '../table-actions/table-create-tag-action';
 import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../table-actions/table-deactivate-tag-action';
@@ -44,7 +43,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private editAction = new TableEditTagAction().getActionDef();
   private checkUserAction = new TableCheckUserAction().getActionDef();
   private checkTransactionsAction = new TableCheckTransactionsAction().getActionDef();
-  private assignUserToTagAction = new TableAssignUserToTagAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -240,7 +238,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     const moreActions = new TableMoreAction([]);
     if (tag.issuer) {
       actions.push(this.editAction);
-      actions.push(this.assignUserToTagAction);
       if (tag.active) {
         moreActions.addActionInMoreActions(this.deactivateAction);
       } else {
@@ -300,12 +297,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TransactionButtonAction.CHECK_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id);
-        }
-        break;
-      case UserButtonAction.ASSIGN_USER_TO_TAG:
-        if (actionDef.action) {
-          (actionDef as TableAssignUserToTagActionDef).action(tag, this.dialog, this.dialogService, this.translateService,
-            this.messageService, this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
     }

@@ -211,8 +211,7 @@
       "download": "Download",
       "test_connection": "Verbindung testen",
       "force_available_status": "Status verfügbar erzwingen",
-      "force_unavailable_status": "Status nicht verfügbar erzwingen",
-      "assign_user_to_tag": "Neuen Nutzer einem Badge Zuordnen/Ändern"
+      "force_unavailable_status": "Status nicht verfügbar erzwingen"
     }
   },
   "issuer": {
@@ -1261,14 +1260,6 @@
     "select_tags": "Badge auswählen",
     "tag_id_already_used": "Der Badge '{{tagID}}' existiert bereits",
     "redirect": "Zu den Badges navigieren",
-    "assign_user_to_tag_title": "Nutzer dem Badge zuordnen",
-    "assign_user_to_tag_confirm": "Möchten Sie den Nutzer '{{newUserName}}' wirklich dem Badge '{{tagID}}' zuordnen?",
-    "change_user_tag_title": "Den Nutzer des Badges ändern",
-    "change_user_tag_confirm": "Möchten Sie den Nutzer '{{oldUserName}}' wirklich entfernen und den Nutzer '{{newUserName}}' dem Badge '{{tagID}}' zuordnen?",
-    "assign_user_to_tag_success": "Der Nutzer '{{userName}}' wurde erfolgreich dem Badge zugeordnet",
-    "tag_has_transaction_error": "Ein Badge mit Transaktionen kann nicht aktualisiert werden",
-    "assign_user_to_tag_error": "Bei der Zuordnung des Nutzers zum Badge ist ein Fehler aufgetreten",
-    "assign_user_button": "Nutzer zuordnen",
     "title": "Badge",
     "default_tag": "Default badge"
   },

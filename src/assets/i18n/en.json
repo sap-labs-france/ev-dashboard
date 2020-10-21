@@ -1232,9 +1232,7 @@
     "number_of_items": "Sessions",
     "pay": "Pay",
     "user": "User",
-    "error": {
-      "failed_download": "Invoice download failed."
-    }
+    "failed_download": "Invoice download failed."
   },
   "tags": {
     "id": "ID",

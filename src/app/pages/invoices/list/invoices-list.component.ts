@@ -35,7 +35,7 @@ export class InvoicesListComponent implements OnInit {
         this.spinnerService.hide();
       }, () => {
         this.spinnerService.hide();
-        this.messageService.showErrorMessage('invoices.error.failed_download');
+        this.messageService.showErrorMessage('invoices.failed_download');
       });
     }
   }

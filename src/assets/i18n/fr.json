@@ -1232,9 +1232,7 @@
     "number_of_items": "Sessions",
     "pay": "Payer",
     "user": "Utilisateur",
-    "error": {
-      "failed_download": "Le téléchargement de la facture a échoué."
-    }
+    "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
     "id": "ID",

@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.14',
-        date: new Date('2020-10-19'),
+        version: '2.4.15',
+        date: new Date('2020-10-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Email service disruption due to not provided value in CC`,
               `Handle all the Charge Point status transitions to compute the parking time`,
               `Fixed connection issues with Concur when the previous granted access has expired`,
               `Added Portuguese translation`,

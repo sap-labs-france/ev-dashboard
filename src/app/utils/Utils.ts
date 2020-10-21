@@ -803,7 +803,7 @@ export class Utils {
     return changedValue;
   }
 
-  public static isNull(obj: any): boolean {
+  public static isNullOrUndefined(obj: any): boolean {
     // tslint:disable-next-line: triple-equals
     return obj == null;
   }

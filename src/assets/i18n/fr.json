@@ -1806,7 +1806,7 @@
     "description": "Gestion des voitures",
     "tabs": {
       "car_catalogs": "Catalogue Voitures",
-      "cars": "Voitures"
+      "cars": "Gestion des Voitures"
     }
   },
   "analytics": {

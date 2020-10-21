@@ -1806,7 +1806,7 @@
     "description": "Manage Cars",
     "tabs": {
       "car_catalogs": "Car Catalogs",
-      "cars": "Cars"
+      "cars": "Car Management"
     }
   },
   "analytics": {

@@ -48,30 +48,13 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
           translateService.instant('chargers.action_error.transaction_stop_title'),
           translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
       }
-      if (chargingStation.inactive) {
-        dialogService.createAndShowOkDialog(
-          translateService.instant('chargers.action_error.transaction_stop_title'),
-          translateService.instant('chargers.action_error.transaction_stop_charger_inactive'));
-        return;
-      }
-      if (connector.status === ChargePointStatus.UNAVAILABLE) {
-        dialogService.createAndShowOkDialog(
-          translateService.instant('chargers.action_error.transaction_stop_title'),
-          translateService.instant('chargers.action_error.transaction_stop_not_available'));
-        return;
-      }
-      if (!connector.currentTransactionID) {
-        dialogService.createAndShowOkDialog(
-          translateService.instant('chargers.action_error.transaction_stop_title'),
-          translateService.instant('chargers.action_error.no_active_transaction'));
-      }
       // Check authorization
       dialogService.createAndShowYesNoDialog(
         translateService.instant('chargers.stop_transaction_title'),
         translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
       ).subscribe((response) => {
         if (response === ButtonType.YES) {
-          if (connector.status !== ChargePointStatus.AVAILABLE) {
+          if (!chargingStation.inactive && connector.currentTransactionID > 0 && connector.status !== ChargePointStatus.AVAILABLE) {
             // Remote Stop
             spinnerService.show();
             centralServerService.chargingStationStopTransaction(chargingStation.id, connector.currentTransactionID)

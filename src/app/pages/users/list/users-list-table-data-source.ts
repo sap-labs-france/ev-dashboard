@@ -39,6 +39,7 @@ import { TableCheckTagsAction } from '../table-actions/table-check-tags-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
 import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
+import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
 
@@ -131,7 +132,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         name: 'users.status',
         isAngularComponent: true,
         angularComponent: UserStatusFormatterComponent,
-        headerClass: 'col-10em',
+        headerClass: 'col-10em text-center',
         class: 'col-10em table-cell-angular-big-component',
         sortable: true,
       },
@@ -231,6 +232,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
+    tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeBillingUsers()) {
@@ -275,6 +277,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
           (actionDef as TableCreateUserActionDef).action(this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      case UserButtonAction.EXPORT_USERS:
+        if (actionDef.action) {
+          (actionDef as TableExportUsersActionDef).action(this.buildFilterValues(), this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.router,
+            this.spinnerService);
         }
         break;
       case BillingButtonAction.SYNCHRONIZE_BILLING_USERS:

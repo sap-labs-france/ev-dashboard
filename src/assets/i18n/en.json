@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.12",
+    "last_update": "Version 2.4.15",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -1101,6 +1101,7 @@
     "locale_desc_french": "French",
     "locale_desc_spanish": "Spanish",
     "locale_desc_german": "German",
+    "locale_desc_portuguese": "Portuguese",
     "role_unknown": "Unknown",
     "locale_unknown": "Unknown",
     "status": "Status",
@@ -1148,6 +1149,9 @@
     "remove_sites_confirm": "Are you sure to remove the selected site(s) from this user?",
     "remove_sites_success": "The site(s) have been removed successfully",
     "remove_sites_error": "Error occurred while removing the site(s) from the user, check the logs",
+    "export_users_title": "Export Users",
+    "export_users_confirm": "Do you really want to export the User list to a csv format?",
+    "export_users_error": "Error occurred while trying to export the Users",
     "update_success": "The user '{{userFullName}}' has been updated successfully",
     "update_sites_success": "The sites have been added successfully",
     "changed_by_other_user": "The user '{{userFullName}}' has been changed by another user and will be reloaded",
@@ -1806,7 +1810,7 @@
     "description": "Manage Cars",
     "tabs": {
       "car_catalogs": "Car Catalogs",
-      "cars": "Cars"
+      "cars": "Car Management"
     }
   },
   "analytics": {

@@ -24,13 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.12',
-        date: new Date('2020-10-13'),
+        version: '2.4.15',
+        date: new Date('2020-10-21'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Handle Schneider model EV2S22P04 in Charging Station's Template`,
+              `Fixed Email service disruption due to not provided value in CC`,
+              `Handle all the Charge Point status transitions to compute the parking time`,
+              `Fixed connection issues with Concur when the previous granted access has expired`,
+              `Added Portuguese translation`,
+              `Export users to CSV`,
+              `Handle Schneider model EV2S22P4 in Charging Station's Template`,
+              `RESTful API PoC for external consumer (Open Data, Proviridis)`,
             ],
           },
         ],
@@ -61,14 +67,14 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed cannot update new registered Users`,
-              `Send notification to Admins when an unknow Badge is used on a Charging Station`,
+              `Send notification to Admins when an unknown Badge is used on a Charging Station`,
               `Enable the Basic users to activate/deactivate his Notifications`,
               `Allow high volume of data in export functions`,
               `Migration tasks for aligning the local Badges with local Users + default description`,
               `For Badge ID to be in upper case when created manually`,
               `Auto refresh Badge management list`,
               `Build Smart Charging safe Car + Override with Meter Values`,
-              `Enable vehicule identifier in OCPP for the Ebee Charging Station`,
+              `Enable vehicle identifier in OCPP for the Ebee Charging Station`,
               `Handle Meter Values with L1_N, L2_N and L3_N phases`,
               `Add Voltage Meter Value on Legrand Charging Station`,
               `Enable authentication with badge on Schneider Charging Station`,
@@ -133,7 +139,7 @@ export class ReleaseNotesComponent {
               `Display Asset dynamic consumption/production curve`,
               `Don't take into account Inactivity when a Charging Plan is lowering the power below 13 Amps per phase`,
               `Send End of Charge Notification when the last 5 mins consumption is 0 kW.h`,
-              `Added Atess Charging Station vendor in templates`,
+              `Added ATESS Charging Station vendor in templates`,
               `Add a new field Amps per phase in Edit Charging Station`,
               `Added Date/Time range picker control in Statistics`,
               `Updated German and Spanish translations`,

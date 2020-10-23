@@ -8,6 +8,7 @@ import { Car, CarCatalog, CarMaker, ImageObject } from 'app/types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from 'app/types/ChargingStation';
 import { Company } from 'app/types/Company';
+import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from 'app/types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from 'app/types/DataResult';
 import { EndUserLicenseAgreement } from 'app/types/Eula';
@@ -15,6 +16,8 @@ import { FilterParams, Image, KeyValue, Logo } from 'app/types/GlobalType';
 import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
 import { AssetInError, ChargingStationInError, TransactionInError } from 'app/types/InError';
 import { Log } from 'app/types/Log';
+import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from 'app/types/ocpp/OCPP';
 import { RefundReport } from 'app/types/Refund';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { ServerAction } from 'app/types/Server';
@@ -26,9 +29,6 @@ import { Tag } from 'app/types/Tag';
 import { Tenant } from 'app/types/Tenant';
 import { Transaction } from 'app/types/Transaction';
 import { User, UserCar, UserSite, UserToken } from 'app/types/User';
-import CentralSystemServerConfiguration from 'app/types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from 'app/types/ocpp/OCPP';
 import { Utils } from 'app/utils/Utils';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError, timer } from 'rxjs';
@@ -45,7 +45,7 @@ export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceUtilURL!: string;
-  private centralRestServerServiceAuthURL!: string;
+  private restServiceAuthURL!: string;
   private centralSystemServerConfig: CentralSystemServerConfiguration;
   private initialized = false;
   private currentUserToken!: string;
@@ -71,8 +71,8 @@ export class CentralServerService {
     return this.centralRestServerServiceSecuredURL;
   }
 
-  public getCentralRestServerServiceAuthURL(): string {
-    return this.centralRestServerServiceAuthURL;
+  public getRestServiceAuthURL(): string {
+    return this.restServiceAuthURL;
   }
 
   public removeChargersFromSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
@@ -1692,7 +1692,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<EndUserLicenseAgreement>(`${this.centralRestServerServiceAuthURL}/${ServerAction.END_USER_LICENSE_AGREEMENT}?Language=${language}`,
+    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServiceAuthURL}/${ServerAction.END_USER_LICENSE_AGREEMENT}?Language=${language}`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
@@ -1708,7 +1708,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<LoginResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.LOGIN}`, user,
+    return this.httpClient.post<LoginResponse>(`${this.restServiceAuthURL}/${ServerAction.REST_SIGNIN}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1780,7 +1780,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.LOGOUT}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.REST_SIGNOUT}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1804,7 +1804,7 @@ export class CentralServerService {
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.PASSWORD_RESET}`, data,
+    return this.httpClient.post<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.REST_PASSWORD_RESET}`, data,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1820,7 +1820,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.REGISTER_USER}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.REGISTER_USER}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2366,7 +2366,7 @@ export class CentralServerService {
     // Set the tenant
     params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.VERIFY_EMAIL}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.VERIFY_EMAIL}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2383,7 +2383,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceAuthURL}/${ServerAction.RESEND_VERIFICATION_MAIL}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.RESEND_VERIFICATION_MAIL}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3004,7 +3004,7 @@ export class CentralServerService {
       // Set REST base URL
       this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
-      this.centralRestServerServiceAuthURL = this.centralRestServerServiceBaseURL + '/client/auth';
+      this.restServiceAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API

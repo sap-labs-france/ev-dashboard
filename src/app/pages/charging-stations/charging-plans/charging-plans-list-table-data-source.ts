@@ -8,6 +8,7 @@ import { CentralServerService } from 'app/services/central-server.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
@@ -42,6 +43,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private componentService: ComponentService,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private windowService: WindowService
   ) {
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
@@ -51,6 +53,19 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       this.setStaticFilters([{ WithChargingStation: 'true' }]);
     }
     this.initDataSource();
+    this.initFilters();
+  }
+
+  public initFilters() {
+        // Charging Station
+        const chargingStationID = this.windowService.getSearch('ChargingStationID');
+        if (chargingStationID) {
+          const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+          if (chargingStationTableFilter) {
+            chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+            this.filterChanged(chargingStationTableFilter);
+          }
+        }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

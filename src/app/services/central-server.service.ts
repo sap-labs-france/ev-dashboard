@@ -45,7 +45,7 @@ export class CentralServerService {
   private centralRestServerServiceBaseURL!: string;
   private centralRestServerServiceSecuredURL!: string;
   private centralRestServerServiceUtilURL!: string;
-  private restServiceAuthURL!: string;
+  private restServerAuthURL!: string;
   private centralSystemServerConfig: CentralSystemServerConfiguration;
   private initialized = false;
   private currentUserToken!: string;
@@ -71,8 +71,8 @@ export class CentralServerService {
     return this.centralRestServerServiceSecuredURL;
   }
 
-  public getRestServiceAuthURL(): string {
-    return this.restServiceAuthURL;
+  public getRestServerAuthURL(): string {
+    return this.restServerAuthURL;
   }
 
   public removeChargersFromSiteArea(siteAreaID: string, chargerIDs: string[]): Observable<ActionResponse> {
@@ -1692,7 +1692,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServiceAuthURL}/${ServerAction.END_USER_LICENSE_AGREEMENT}?Language=${language}`,
+    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerAction.END_USER_LICENSE_AGREEMENT}?Language=${language}`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
       })
@@ -1708,7 +1708,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<LoginResponse>(`${this.restServiceAuthURL}/${ServerAction.REST_SIGNIN}`, user,
+    return this.httpClient.post<LoginResponse>(`${this.restServerAuthURL}/${ServerAction.REST_SIGNIN}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1780,7 +1780,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.REST_SIGNOUT}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_SIGNOUT}`,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1804,7 +1804,7 @@ export class CentralServerService {
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.REST_PASSWORD_RESET}`, data,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_PASSWORD_RESET}`, data,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1820,7 +1820,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.REGISTER_USER}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REGISTER_USER}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2366,7 +2366,7 @@ export class CentralServerService {
     // Set the tenant
     params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.VERIFY_EMAIL}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.VERIFY_EMAIL}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2383,7 +2383,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServiceAuthURL}/${ServerAction.RESEND_VERIFICATION_MAIL}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.RESEND_VERIFICATION_MAIL}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3004,7 +3004,7 @@ export class CentralServerService {
       // Set REST base URL
       this.centralServerNotificationService.setcentralRestServerServiceURL(this.centralRestServerServiceBaseURL);
       // Auth API
-      this.restServiceAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
+      this.restServerAuthURL = this.centralRestServerServiceBaseURL + '/v1/auth';
       // Secured API
       this.centralRestServerServiceSecuredURL = this.centralRestServerServiceBaseURL + '/client/api';
       // Util API

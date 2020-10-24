@@ -114,6 +114,20 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
     columns.push(
       {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component col-10p',
+        isAngularComponent: true,
+        angularComponent: TransactionsConnectorCellComponent,
+      },
+      {
         id: 'tagID',
         name: 'transactions.badge_id',
         headerClass: 'col-15p',
@@ -145,20 +159,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         sortable: false,
         isAngularComponent: true,
         angularComponent: TransactionsInactivityCellComponent,
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-10p',
-        class: 'table-cell-angular-big-component col-10p',
-        isAngularComponent: true,
-        angularComponent: TransactionsConnectorCellComponent,
       },
       {
         id: 'currentInstantWatts',

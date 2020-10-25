@@ -118,8 +118,8 @@ export class Utils {
     return false;
   }
 
-  public static cloneJSonDocument(jsonDocument: any): any {
-    return JSON.parse(JSON.stringify(jsonDocument));
+  public static cloneObject(object: any): any {
+    return JSON.parse(JSON.stringify(object));
   }
 
   public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {

@@ -66,6 +66,10 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
             this.filterChanged(chargingStationTableFilter);
           }
         }
+        const transactionID = this.windowService.getSearch('TransactionID');
+        if (transactionID) {
+          this.setSearchValue(transactionID);
+        }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

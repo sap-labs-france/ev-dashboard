@@ -8,6 +8,7 @@ import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { Log, LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -71,6 +72,26 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       if (logSourceTableFilter) {
         logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
         this.filterChanged(logSourceTableFilter);
+      }
+    }
+    // Timestamp
+    const timestamp = this.windowService.getSearch('Timestamp');
+    if (timestamp) {
+      const startDateFilter = this.tableFiltersDef.find(filter => filter.id === 'dateFrom');
+      if (startDateFilter) {
+        startDateFilter.currentValue = moment(timestamp).toDate();
+        this.filterChanged(startDateFilter);
+        const timestampColumn = this.tableColumnsDef.find(column => column.id === 'timestamp');
+        if (timestampColumn) {
+          this.tableColumnsDef.forEach((column) => {
+            if (column.id === timestampColumn.id) {
+              column.sorted = true;
+              column.direction = 'asc';
+            } else {
+              column.sorted = false;
+            }
+          });
+        }
       }
     }
     // Search

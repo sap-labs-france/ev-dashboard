@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Display Users in Car Management list`,
               `Added Navigate from Transaction History to To Charging Plans`,
               `Increased error margin from 5% to 10% in Session In Error over consumption`,
               `Ensure the static limitation value is never over the connector value`,

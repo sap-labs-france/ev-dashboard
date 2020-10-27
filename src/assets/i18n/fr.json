@@ -850,7 +850,8 @@
         "purpose": "But",
         "stack_level": "Niveau Prio",
         "site_area":"Zone",
-        "site_area_limit":"Limite Zone"
+        "site_area_limit":"Limite Zone",
+        "redirect": "Naviguer vers Charging Plans"
       }
     },
     "more_actions": {

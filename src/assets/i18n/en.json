@@ -850,7 +850,8 @@
         "purpose": "Purpose",
         "stack_level": "Stack Level",
         "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit"
+        "site_area_limit":"Site Area Limit",
+        "redirect": "Navigate to Charging Plans"
       }
     },
     "more_actions": {

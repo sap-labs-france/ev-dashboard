@@ -2366,7 +2366,7 @@ export class CentralServerService {
     // Set the tenant
     params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.VERIFY_EMAIL}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_VERIFY_EMAIL}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2383,7 +2383,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.RESEND_VERIFICATION_MAIL}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_RESEND_VERIFICATION_EMAIL}`, user,
       {
         headers: this.buildHttpHeaders(),
       })

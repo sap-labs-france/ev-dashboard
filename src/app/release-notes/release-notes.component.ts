@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Implemented the Car Management in the Smart Charging`,
               `Delete/Assignment of a Badge with anonymous Sessions should be allowed`,
               `Display Users in Car Management list`,
               `Added Navigate from Transaction History to To Charging Plans`,

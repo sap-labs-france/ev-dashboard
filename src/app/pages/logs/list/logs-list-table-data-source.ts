@@ -30,6 +30,7 @@ import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
+import { logLevels } from '../model/logs.model';
 import { TableExportLogsAction, TableExportLogsActionDef } from '../table-actions/table-export-logs-action';
 
 @Injectable()
@@ -72,6 +73,15 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       if (logSourceTableFilter) {
         logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
         this.filterChanged(logSourceTableFilter);
+      }
+    }
+    // Log Level
+    const logLevel = this.windowService.getSearch('LogLevel');
+    if (logLevel) {
+      const logLevelTableFilter = this.tableFiltersDef.find(filter => filter.id === 'level');
+      if (logLevelTableFilter) {
+        logLevelTableFilter.currentValue = [logLevels.find(logLevelObject => logLevelObject.key === logLevel)];
+        this.filterChanged(logLevelTableFilter);
       }
     }
     // Timestamp

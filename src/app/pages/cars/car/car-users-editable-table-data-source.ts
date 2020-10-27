@@ -102,7 +102,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
             // Initial Assignment
             if (!this.serverCalled) {
               // Keep original list for comparison
-              this.carUsers = Utils.cloneJSonDocument(usersCar.result) as UserCar[];
+              this.carUsers = Utils.cloneObject(usersCar.result) as UserCar[];
               // Set rows manually
               this.editableRows = usersCar.result;
               this.serverCalled = true;
@@ -110,7 +110,7 @@ export class CarUsersEditableTableDataSource extends EditableTableDataSource<Use
             // Check Paging
             if (paging.skip !== 0) {
               // Add new paginated rows
-              this.carUsers.splice(paging.skip, paging.limit, ...Utils.cloneJSonDocument(usersCar.result) as UserCar[]);
+              this.carUsers.splice(paging.skip, paging.limit, ...Utils.cloneObject(usersCar.result) as UserCar[]);
               this.editableRows.splice(paging.skip, paging.limit, ...usersCar.result);
             }
             // Create the form controls

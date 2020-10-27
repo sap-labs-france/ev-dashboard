@@ -190,17 +190,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     columns.push(
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
+      },
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       },
       {
         id: 'timestamp',
@@ -244,7 +244,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
     );
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(1, 0, {
+      columns.splice(2, 0, {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',

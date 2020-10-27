@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.16',
-        date: new Date('2020-10-25'),
+        date: new Date('2020-10-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added Navigate from Transaction History to To Charging Plans`,
               `Increased error margin from 5% to 10% in Session In Error over consumption`,
               `Ensure the static limitation value is never over the connector value`,
               `Fixed Email service disruption due to not provided value in CC`,

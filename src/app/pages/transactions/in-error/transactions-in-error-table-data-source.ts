@@ -160,16 +160,14 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         class: 'col-10p',
       });
     }
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.push({
-        id: 'user',
-        name: 'transactions.user',
+    columns.push(
+      {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (value: User) => this.appUserNamePipe.transform(value),
-      });
-    }
-    columns.push(
+        formatter: (chargingStationID: string, row: TransactionInError) => this.formatChargingStation(chargingStationID, row),
+      },
       {
         id: 'tagID',
         name: 'transactions.badge_id',
@@ -185,13 +183,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         sortable: true,
         direction: 'desc',
         formatter: (value: Date) => this.datePipe.transform(value),
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (chargingStationID: string, row: TransactionInError) => this.formatChargingStation(chargingStationID, row),
       },
       {
         id: 'errorCodeDetails',
@@ -211,6 +202,15 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
     );
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.splice(2, 0, {
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (value: User) => this.appUserNamePipe.transform(value),
+      });
+    }
     return columns as TableColumnDef[];
   }
 

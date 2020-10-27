@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.15",
+    "last_update": "Version 2.4.16",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -349,7 +349,7 @@
   "sites": {
     "assign_company": "Assign Company",
     "auto_user_site_assignment": "Automatic user assignment to this site",
-    "public": "Ce site est public",
+    "public": "This site is public",
     "public_site": "Public",
     "auto_assignment": "Auto User Assignment",
     "user_list": "Users authorized to use charging stations on this site",
@@ -850,7 +850,8 @@
         "purpose": "Purpose",
         "stack_level": "Stack Level",
         "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit"
+        "site_area_limit":"Site Area Limit",
+        "redirect": "Navigate to Charging Plans"
       }
     },
     "more_actions": {

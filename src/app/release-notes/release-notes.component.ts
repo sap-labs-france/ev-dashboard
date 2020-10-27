@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Delete/Assignment of a Badge with anonymous Sessions should be allowed`,
               `Display Users in Car Management list`,
               `Added Navigate from Transaction History to To Charging Plans`,
               `Increased error margin from 5% to 10% in Session In Error over consumption`,

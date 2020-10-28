@@ -1692,9 +1692,10 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerAction.END_USER_LICENSE_AGREEMENT}?Language=${language}`,
+    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerAction.REST_EULA}`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
+        params: { language }
       })
       .pipe(
         this.httpRetry(this.configService.getCentralSystemServer().connectionMaxRetries),
@@ -1804,7 +1805,7 @@ export class CentralServerService {
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_PASSWORD_RESET}`, data,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_PASSWORD}/reset`, data,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -1820,7 +1821,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REGISTER_USER}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_SIGNON}`, user,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2366,7 +2367,7 @@ export class CentralServerService {
     // Set the tenant
     params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_VERIFY_EMAIL}`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_MAIL}/check`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2383,7 +2384,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_RESEND_VERIFICATION_EMAIL}`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_MAIL}/resend`, user,
       {
         headers: this.buildHttpHeaders(),
       })

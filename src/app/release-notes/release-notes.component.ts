@@ -30,8 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Jump from Session to the Logs with the proper filters`,
               `Workaround Gireve for Charging Station's specs`,
+              `Jump from Session lists to the Logs with the proper filters`,
             ],
           },
         ],

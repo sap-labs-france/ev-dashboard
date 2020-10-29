@@ -1692,7 +1692,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/${ServerAction.REST_EULA}`,
+    return this.httpClient.get<EndUserLicenseAgreement>(`${this.restServerAuthURL}/eula`,
       {
         headers: this.buildHttpHeaders(this.windowService.getSubdomain()),
         params: { language }
@@ -1805,7 +1805,7 @@ export class CentralServerService {
     // Set the tenant
     data['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_PASSWORD}/reset`, data,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/password/${ServerAction.REST_RESET}`, data,
       {
         headers: this.buildHttpHeaders(),
       })
@@ -2367,7 +2367,7 @@ export class CentralServerService {
     // Set the tenant
     params['Tenant'] = this.windowService.getSubdomain();
     // Execute the REST service
-    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_MAIL}/check`,
+    return this.httpClient.get<ActionResponse>(`${this.restServerAuthURL}/mail/${ServerAction.REST_CHECK}`,
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2384,7 +2384,7 @@ export class CentralServerService {
     // Set the tenant
     user['tenant'] = this.windowService.getSubdomain();
     // Execute
-    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${ServerAction.REST_MAIL}/resend`, user,
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/mail/${ServerAction.REST_RESEND}`, user,
       {
         headers: this.buildHttpHeaders(),
       })

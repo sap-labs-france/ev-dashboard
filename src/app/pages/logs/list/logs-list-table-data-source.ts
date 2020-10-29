@@ -104,11 +104,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         }
       }
     }
-    // Search
-    const search = this.windowService.getSearch('Search');
-    if (search) {
-      this.setSearchValue(search);
-    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

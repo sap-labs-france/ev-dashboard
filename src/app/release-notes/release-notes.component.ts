@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.17',
-        date: new Date('2020-10-28'),
+        date: new Date('2020-10-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Jump from Session to the Logs with the proper filters`,
+              `Workaround Gireve for Charging Station's specs`,
             ],
           },
         ],

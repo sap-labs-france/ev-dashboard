@@ -42,7 +42,7 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe((chargingStation) => {
       const connector = Utils.getConnectorFromID(chargingStation, transaction.connectorId);
-      const isStopAuthorized = !!connector.currentTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.currentTagID);
+      const isStopAuthorized = !!connector?.currentTransactionID && authorizationService.canStopTransaction(chargingStation.siteArea, connector.currentTagID);
       if (!isStopAuthorized) {
         dialogService.createAndShowOkDialog(
           translateService.instant('chargers.action_error.transaction_stop_title'),

@@ -849,7 +849,8 @@
         "purpose": "Objetivo",
         "stack_level": "Nível de Pilha",
         "site_area":"Area de Site",
-        "site_area_limit":"Limite Area do Site"
+        "site_area_limit":"Limite Area do Site",
+        "redirect": "Navigate to Charging Plans"
       }
     },
     "more_actions": {

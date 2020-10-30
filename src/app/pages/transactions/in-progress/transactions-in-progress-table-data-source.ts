@@ -128,7 +128,21 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+      },
+      {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+      },
+      {
+        id: 'connectorId',
+        name: 'transactions.connector',
+        headerClass: 'text-center col-10p',
+        class: 'table-cell-angular-big-component col-10p',
+        isAngularComponent: true,
+        angularComponent: TransactionsConnectorCellComponent,
       },
       {
         id: 'tagID',
@@ -162,20 +176,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         sortable: false,
         isAngularComponent: true,
         angularComponent: TransactionsInactivityCellComponent,
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
-        id: 'connectorId',
-        name: 'transactions.connector',
-        headerClass: 'text-center col-10p',
-        class: 'table-cell-angular-big-component col-10p',
-        isAngularComponent: true,
-        angularComponent: TransactionsConnectorCellComponent,
       },
       {
         id: 'currentInstantWatts',
@@ -235,7 +235,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new IssuerFilter().getFilterDef()),
-      filters.push(new SiteTableFilter().getFilterDef());
+        filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());

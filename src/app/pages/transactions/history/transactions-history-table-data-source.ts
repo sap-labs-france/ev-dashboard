@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
 import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
@@ -12,7 +13,7 @@ import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { CarCatalog } from 'app/types/Car';
-import { Connector } from 'app/types/ChargingStation';
+import { ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult, TransactionDataResult } from 'app/types/DataResult';
 import { HTTPError } from 'app/types/HTTPError';
 import { LogButtonAction } from 'app/types/Log';
@@ -62,6 +63,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private checkLogsAction = new TableCheckLogsAction().getActionDef();
+  private checkChargingPlansAction = new TableCheckChargingPlansAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private pushCdr = new TableRoamingPushCdrAction().getActionDef();
@@ -205,17 +207,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
       },
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
+      },
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       },
       {
         id: 'timestamp',
@@ -259,7 +261,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
     );
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(1, 0, {
+      columns.splice(2, 0, {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
@@ -352,6 +354,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       const moreActions = new TableMoreAction([]);
       moreActions.addActionInMoreActions(this.deleteAction);
       moreActions.addActionInMoreActions(this.checkLogsAction);
+      moreActions.addActionInMoreActions(this.checkChargingPlansAction);
       if (this.componentService.isActive(TenantComponents.BILLING) &&
         !transaction.billingData) {
         moreActions.addActionInMoreActions(this.createInvoice);
@@ -394,7 +397,11 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?Search=' + transaction.id);
+        this.checkLogsAction.action('logs?ChargingStationID=' + transaction.chargeBoxID +
+        '&Timestamp=' + transaction.timestamp  + '&LogLevel=I');
+        break;
+      case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
+        this.checkChargingPlansAction.action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {

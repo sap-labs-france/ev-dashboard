@@ -119,8 +119,8 @@ export class Utils {
     return false;
   }
 
-  public static cloneJSonDocument(jsonDocument: any): any {
-    return JSON.parse(JSON.stringify(jsonDocument));
+  public static cloneObject(object: any): any {
+    return JSON.parse(JSON.stringify(object));
   }
 
   public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {
@@ -825,7 +825,7 @@ export class Utils {
     return changedValue;
   }
 
-  public static isNull(obj: any): boolean {
+  public static isNullOrUndefined(obj: any): boolean {
     // tslint:disable-next-line: triple-equals
     return obj == null;
   }

@@ -25,7 +25,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.15",
+    "last_update": "Version 2.4.17",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -850,7 +850,8 @@
         "purpose": "Zweck",
         "stack_level": "Stack Level",
         "site_area":"Standortbereich",
-        "site_area_limit":"Standortbereichslimit"
+        "site_area_limit":"Standortbereichslimit",
+        "redirect": "Navigate to Charging Plans"
       }
     },
     "more_actions": {

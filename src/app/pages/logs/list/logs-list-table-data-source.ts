@@ -8,6 +8,7 @@ import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
 import { DataResult } from 'app/types/DataResult';
 import { Log, LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -29,6 +30,7 @@ import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
+import { logLevels } from '../model/logs.model';
 import { TableExportLogsAction, TableExportLogsActionDef } from '../table-actions/table-export-logs-action';
 
 @Injectable()
@@ -73,10 +75,34 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         this.filterChanged(logSourceTableFilter);
       }
     }
-    // Search
-    const search = this.windowService.getSearch('Search');
-    if (search) {
-      this.setSearchValue(search);
+    // Log Level
+    const logLevel = this.windowService.getSearch('LogLevel');
+    if (logLevel) {
+      const logLevelTableFilter = this.tableFiltersDef.find(filter => filter.id === 'level');
+      if (logLevelTableFilter) {
+        logLevelTableFilter.currentValue = [logLevels.find(logLevelObject => logLevelObject.key === logLevel)];
+        this.filterChanged(logLevelTableFilter);
+      }
+    }
+    // Timestamp
+    const timestamp = this.windowService.getSearch('Timestamp');
+    if (timestamp) {
+      const startDateFilter = this.tableFiltersDef.find(filter => filter.id === 'dateFrom');
+      if (startDateFilter) {
+        startDateFilter.currentValue = moment(timestamp).toDate();
+        this.filterChanged(startDateFilter);
+        const timestampColumn = this.tableColumnsDef.find(column => column.id === 'timestamp');
+        if (timestampColumn) {
+          this.tableColumnsDef.forEach((column) => {
+            if (column.id === timestampColumn.id) {
+              column.sorted = true;
+              column.direction = 'asc';
+            } else {
+              column.sorted = false;
+            }
+          });
+        }
+      }
     }
   }
 

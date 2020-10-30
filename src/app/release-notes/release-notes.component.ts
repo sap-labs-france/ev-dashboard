@@ -24,12 +24,31 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.15',
-        date: new Date('2020-10-21'),
+        version: '2.4.17',
+        date: new Date('2020-10-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Workaround Gireve for Charging Station's specs`,
+              `Jump from Session lists to the Logs with the proper filters`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.16',
+        date: new Date('2020-10-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented the Car Management in the Smart Charging`,
+              `Delete/Assignment of a Badge with anonymous Sessions should be allowed`,
+              `Display Users in Car Management list`,
+              `Added Navigate from Transaction History to To Charging Plans`,
+              `Increased error margin from 5% to 10% in Session In Error over consumption`,
+              `Ensure the static limitation value is never over the connector value`,
               `Fixed Email service disruption due to not provided value in CC`,
               `Handle all the Charge Point status transitions to compute the parking time`,
               `Fixed connection issues with Concur when the previous granted access has expired`,

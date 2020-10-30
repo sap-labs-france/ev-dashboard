@@ -209,6 +209,7 @@ export enum ChargingStationButtonAction {
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
   SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
+  CHECK_CHARGING_PLANS = 'check_charging_plans'
 }
 
 export enum ChargePointStatus {

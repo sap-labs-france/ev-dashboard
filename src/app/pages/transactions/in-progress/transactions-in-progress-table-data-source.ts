@@ -6,6 +6,7 @@ import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTr
 import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -214,7 +215,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         }
         break;
       case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
-        this.checkChargingPlansAction.action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
+           + '&TransactionID=' + transaction.id);
+        }
         break;
     }
   }

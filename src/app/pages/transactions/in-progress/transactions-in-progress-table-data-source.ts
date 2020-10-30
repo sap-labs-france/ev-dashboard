@@ -3,11 +3,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
+import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
+import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
@@ -43,6 +47,7 @@ import { TableViewTransactionAction, TableViewTransactionActionDef } from '../ta
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
   private viewAction = new TableViewTransactionAction().getActionDef();
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
+  private checkLogsAction = new TableCheckLogsAction().getActionDef();
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -210,6 +215,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
+      case LogButtonAction.CHECK_LOGS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
+            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+        }
+        break;
     }
   }
 
@@ -218,7 +229,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new IssuerFilter().getFilterDef()),
-      filters.push(new SiteTableFilter().getFilterDef());
+        filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());
@@ -235,6 +246,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     ];
     if (!this.authorizationService.isDemo()) {
       actions.push(this.stopAction);
+    }
+    if (this.isAdmin) {
+      const moreActions = new TableMoreAction([this.checkLogsAction]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

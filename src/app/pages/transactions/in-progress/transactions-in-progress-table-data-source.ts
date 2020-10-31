@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
+import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
@@ -43,6 +46,7 @@ import { TableViewTransactionAction, TableViewTransactionActionDef } from '../ta
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
   private viewAction = new TableViewTransactionAction().getActionDef();
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
+  private checkChargingPlansAction = new TableCheckChargingPlansAction().getActionDef();
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -210,6 +214,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
+      case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
+           + '&TransactionID=' + transaction.id);
+        }
+        break;
     }
   }
 
@@ -218,7 +228,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     // Show Site Area Filter If Organization component is active
     if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
       filters.push(new IssuerFilter().getFilterDef()),
-      filters.push(new SiteTableFilter().getFilterDef());
+        filters.push(new SiteTableFilter().getFilterDef());
       filters.push(new SiteAreaTableFilter().getFilterDef());
     }
     filters.push(new ChargingStationTableFilter().getFilterDef());
@@ -235,6 +245,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     ];
     if (!this.authorizationService.isDemo()) {
       actions.push(this.stopAction);
+    }
+    if (this.isAdmin) {
+      const moreActions = new TableMoreAction([this.checkChargingPlansAction]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

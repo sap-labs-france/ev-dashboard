@@ -8,6 +8,7 @@ import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
@@ -384,7 +385,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         '&Timestamp=' + transaction.timestamp  + '&LogLevel=I');
         break;
       case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
-        this.checkChargingPlansAction.action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+        }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {

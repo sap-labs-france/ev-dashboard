@@ -381,8 +381,10 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?ChargingStationID=' + transaction.chargeBoxID +
-        '&Timestamp=' + transaction.timestamp  + '&LogLevel=I');
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
+            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+        }
         break;
       case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
         if (actionDef.action) {

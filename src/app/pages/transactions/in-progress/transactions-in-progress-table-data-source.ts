@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
 import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
@@ -48,6 +49,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   private viewAction = new TableViewTransactionAction().getActionDef();
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
   private checkLogsAction = new TableCheckLogsAction().getActionDef();
+  private checkChargingPlansAction = new TableCheckChargingPlansAction().getActionDef();
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -219,6 +221,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
             '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+      case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
+           + '&TransactionID=' + transaction.id);
         }
         break;
     }
@@ -248,7 +254,10 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       actions.push(this.stopAction);
     }
     if (this.isAdmin) {
-      const moreActions = new TableMoreAction([this.checkLogsAction]);
+      const moreActions = new TableMoreAction([
+        this.checkLogsAction,
+        this.checkChargingPlansAction,
+      ]);
       actions.push(moreActions.getActionDef());
     }
     return actions;

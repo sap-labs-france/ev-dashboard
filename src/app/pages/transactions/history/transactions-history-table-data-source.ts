@@ -387,7 +387,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         }
         break;
       case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
-        this.checkChargingPlansAction.action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+        }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {

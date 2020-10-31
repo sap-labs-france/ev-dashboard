@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.17',
-        date: new Date('2020-10-29'),
+        date: new Date('2020-10-31'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Workaround Gireve for Charging Station's specs`,
+              `Jump from Session In Progress to the Charging Plans`,
               `Jump from Session lists to the Logs with the proper filters`,
             ],
           },

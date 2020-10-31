@@ -6,6 +6,7 @@ import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-l
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter.js';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
@@ -325,7 +326,10 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         }
         break;
       case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?Search=' + transaction.id);
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
+            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+        }
         break;
     }
   }

@@ -20,7 +20,7 @@ export class ReleaseNotesComponent {
   constructor() {
     this.buidlReleaseNotes();
   }
-  
+
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {

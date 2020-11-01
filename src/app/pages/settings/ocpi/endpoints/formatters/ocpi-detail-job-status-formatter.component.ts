@@ -16,7 +16,7 @@ export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateDir
   @Input() public row!: OcpiEndpointDetail;
 }
 
-@Pipe({name: 'appFormatOcpiDetailJobStatus'})
+@Pipe({ name: 'appFormatOcpiDetailJobStatus' })
 export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
   public transform(backgroundPatchJob: boolean, type: string): string {
     // Class

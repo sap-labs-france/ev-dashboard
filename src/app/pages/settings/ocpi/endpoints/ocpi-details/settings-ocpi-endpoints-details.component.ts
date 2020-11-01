@@ -6,7 +6,7 @@ import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-end
 
 @Component({
   template: '<app-table class="endpoint-details" [dataSource]="settingsOcpiEnpointsDetaislTableDataSource"></app-table>',
-  providers: [ SettingsOcpiEndpointsDetailsTableDataSource ],
+  providers: [SettingsOcpiEndpointsDetailsTableDataSource],
 })
 
 export class SettingsOcpiEnpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {

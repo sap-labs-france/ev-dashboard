@@ -16,7 +16,7 @@ export class OcpiDetailTotalEvsesStatusFormatterComponent extends CellContentTem
   @Input() public row!: OcpiEndpointDetail;
 }
 
-@Pipe({name: 'appFormatOcpiEvsesTotal'})
+@Pipe({ name: 'appFormatOcpiEvsesTotal' })
 export class AppFormatOcpiEvsesTotalPipe implements PipeTransform {
   public transform(totalNbr: number, type: string): string {
     if (type === 'class') {

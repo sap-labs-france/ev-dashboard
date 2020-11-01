@@ -17,7 +17,7 @@ export class OcpiDetailFailureEvsesStatusFormatterComponent extends CellContentT
   @Input() public row!: OcpiEndpointDetail;
 }
 
-@Pipe({name: 'appFormatOcpiEvsesFailure'})
+@Pipe({ name: 'appFormatOcpiEvsesFailure' })
 export class AppFormatOcpiEvsesFailurePipe implements PipeTransform {
   public transform(failureNbr: number, type: string): string {
     if (type === 'class') {

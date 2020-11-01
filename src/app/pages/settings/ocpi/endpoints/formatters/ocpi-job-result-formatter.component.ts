@@ -16,7 +16,7 @@ export class OcpiJobResultFormatterComponent extends CellContentTemplateDirectiv
   @Input() public row!: OcpiEndpoint;
 }
 
-@Pipe({name: 'appFormatOcpiJobResult'})
+@Pipe({ name: 'appFormatOcpiJobResult' })
 export class AppFormatOcpiJobResultPipe implements PipeTransform {
   public transform(lastPatchJobResult: any, type: string): string {
     if (type === 'class') {

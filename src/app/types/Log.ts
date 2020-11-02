@@ -1,5 +1,6 @@
 import { ServerAction } from './Server';
 import { Data } from './Table';
+import { User } from './User';
 
 export interface Log extends Data {
   id: string;
@@ -13,8 +14,8 @@ export interface Log extends Data {
   action: string;
   type: string;
   message: string;
-  user: string;
-  actionOnUser: string;
+  user: User;
+  actionOnUser: User;
   detailedMessages: string[];
 }
 

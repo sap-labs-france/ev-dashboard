@@ -24,13 +24,27 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.18',
+        date: new Date('2020-11-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Format OCPI Country codes`,
+              `Optimized MongoDB free text search in Logs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.17',
-        date: new Date('2020-10-29'),
+        date: new Date('2020-10-31'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Workaround Gireve for Charging Station's specs`,
+              `Jump from Session In Progress to the Charging Plans`,
               `Jump from Session lists to the Logs with the proper filters`,
             ],
           },

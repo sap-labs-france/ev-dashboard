@@ -117,7 +117,7 @@ export enum TransactionButtonAction {
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
-  CHECK_TRANSACTIONS = 'check_transactions'
+  NAVIGATE_TO_TRANSACTIONS = 'navigate_to_transactions'
 }
 
 export enum ConsumptionUnit {

@@ -334,23 +334,32 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
     const rowActions: TableActionDef[] = [this.viewAction];
-    if (this.isAdmin) {
-      const moreActions = new TableMoreAction([]);
-      moreActions.addActionInMoreActions(this.deleteAction);
-      moreActions.addActionInMoreActions(this.navigateToLogsAction);
-      moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
-      if (this.componentService.isActive(TenantComponents.BILLING) &&
-        !transaction.billingData) {
-        moreActions.addActionInMoreActions(this.createInvoice);
+    if (transaction.issuer) {
+      if (this.isAdmin) {
+        const moreActions = new TableMoreAction([]);
+        moreActions.addActionInMoreActions(this.navigateToLogsAction);
+        moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
+        if (this.componentService.isActive(TenantComponents.BILLING) &&
+          !transaction.billingData) {
+          moreActions.addActionInMoreActions(this.createInvoice);
+        }
+        if (transaction.ocpiData && !transaction.ocpiData.cdr) {
+          moreActions.addActionInMoreActions(this.pushCdr);
+        }
+        // Enable only for one user for the time being
+        if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
+          moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
+        }
+        moreActions.addActionInMoreActions(this.deleteAction);
+        rowActions.push(moreActions.getActionDef());
       }
-      if (transaction.ocpiData && !transaction.ocpiData.cdr) {
-        moreActions.addActionInMoreActions(this.pushCdr);
+    } else {
+      if (this.isAdmin) {
+        const moreActions = new TableMoreAction([]);
+        moreActions.addActionInMoreActions(this.navigateToLogsAction);
+        moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
+        rowActions.push(moreActions.getActionDef());
       }
-      // Enable only for one user for the time being
-      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
-      }
-      rowActions.push(moreActions.getActionDef());
     }
     return rowActions;
   }

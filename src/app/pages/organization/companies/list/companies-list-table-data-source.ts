@@ -170,17 +170,19 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
   }
 
   public buildTableDynamicRowActions(company: Company): TableActionDef[] {
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(company.address);
-    if (this.isAdmin) {
-      return [
-        this.editAction,
-        new TableMoreAction([
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef(),
-      ];
+    if (company.issuer) {
+      if (this.isAdmin) {
+        return [
+          this.editAction,
+          new TableMoreAction([
+            openInMaps,
+            this.deleteAction,
+          ]).getActionDef(),
+        ];
+      }
     }
     return [
       this.viewAction,

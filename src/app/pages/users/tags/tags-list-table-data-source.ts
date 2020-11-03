@@ -246,11 +246,11 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       } else {
         moreActions.addActionInMoreActions(this.activateAction);
       }
-      moreActions.addActionInMoreActions(this.deleteAction);
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       if (tag.userID) {
         moreActions.addActionInMoreActions(this.navigateToUserAction);
       }
+      moreActions.addActionInMoreActions(this.deleteAction);
       actions.push(moreActions.getActionDef());
     }
     return actions;

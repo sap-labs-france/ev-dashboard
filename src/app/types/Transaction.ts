@@ -14,6 +14,7 @@ export interface Transaction extends Data {
   siteAreaID: string;
   connectorId: number;
   meterStart: number;
+  issuer: boolean;
   currentInstantWatts: number;
   currentInstantWattsL1?: number;
   currentInstantWattsL2?: number;

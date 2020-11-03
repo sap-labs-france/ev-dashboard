@@ -10,6 +10,7 @@ export interface Site extends Data, CreatedUpdatedProps {
   name: string;
   companyID: string;
   company: Company;
+  issuer: boolean;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;

@@ -218,22 +218,35 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
 
   public buildTableDynamicRowActions(siteArea: SiteArea): TableActionDef[] {
     const openInMaps = new TableOpenInMapsAction().getActionDef();
-    let actions: TableActionDef[];
     // Check if GPS is available
+    let actions: TableActionDef[];
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(siteArea.address);
-    if (this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(siteArea.siteID)) {
-      actions = [
-        this.editAction,
-        this.authorizationService.isAdmin() ? this.assignChargingStationsToSiteAreaAction : this.viewChargingStationsOfSiteArea,
-        new TableMoreAction([
-          this.exportOCPPParamsAction,
-          openInMaps,
-          this.deleteAction,
-        ]).getActionDef(),
-      ];
-      if (this.isAssetComponentActive) {
-        actions.splice(2, 0, this.assignAssetsToSiteAreaAction);
+    if (siteArea.issuer) {
+      if (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(siteArea.siteID)) {
+        actions = [
+          this.editAction,
+          this.authorizationService.isAdmin() ? this.assignChargingStationsToSiteAreaAction : this.viewChargingStationsOfSiteArea,
+          new TableMoreAction([
+            this.exportOCPPParamsAction,
+            openInMaps,
+            this.deleteAction,
+          ]).getActionDef(),
+        ];
+        if (this.isAssetComponentActive) {
+          actions.splice(2, 0, this.assignAssetsToSiteAreaAction);
+        }
+      } else {
+        actions = [
+          this.viewAction,
+          this.viewChargingStationsOfSiteArea,
+          new TableMoreAction([
+            openInMaps,
+          ]).getActionDef(),
+        ];
+        if (this.isAssetComponentActive) {
+          actions.splice(2, 0, this.viewAssetsOfSiteArea);
+        }
       }
     } else {
       actions = [
@@ -243,17 +256,12 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           openInMaps,
         ]).getActionDef(),
       ];
-      if (this.isAssetComponentActive) {
-        actions.splice(2, 0, this.viewAssetsOfSiteArea);
-      }
     }
     return actions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
-    // Action
     switch (actionDef.id) {
-      // Add
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableCreateSiteAreaActionDef).action(this.dialog, this.refreshData.bind(this));

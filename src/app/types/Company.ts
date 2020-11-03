@@ -7,6 +7,7 @@ export interface Company extends Data, CreatedUpdatedProps {
   name: string;
   address: Address;
   logo: string;
+  issuer: boolean;
 }
 
 export enum CompanyButtonAction {

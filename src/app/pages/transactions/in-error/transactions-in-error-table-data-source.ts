@@ -286,20 +286,26 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     return filters;
   }
 
-  public buildTableDynamicRowActions(rowItem: TransactionInError): TableActionDef[] {
+  public buildTableDynamicRowActions(transaction: TransactionInError): TableActionDef[] {
     const rowActions: TableActionDef[] = [this.viewAction];
     const moreActions = new TableMoreAction([]);
-    if (this.authorizationService.canDeleteTransaction()) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
-    if (rowItem.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
-      moreActions.addActionInMoreActions(this.createInvoice);
-    }
-    if (this.isAdmin) {
-      moreActions.addActionInMoreActions(this.checkLogsAction);
-    }
-    if (moreActions.getActionsInMoreActions().length > 0) {
-      rowActions.push(moreActions.getActionDef());
+    if (transaction.issuer) {
+      if (transaction.errorCode === TransactionInErrorType.NO_BILLING_DATA) {
+        moreActions.addActionInMoreActions(this.createInvoice);
+      }
+      if (this.isAdmin) {
+        moreActions.addActionInMoreActions(this.checkLogsAction);
+      }
+      if (moreActions.getActionsInMoreActions().length > 0) {
+        rowActions.push(moreActions.getActionDef());
+      }
+      if (this.authorizationService.canDeleteTransaction()) {
+        moreActions.addActionInMoreActions(this.deleteAction);
+      }
+    } else {
+      if (this.isAdmin) {
+        moreActions.addActionInMoreActions(this.checkLogsAction);
+      }
     }
     return rowActions;
   }

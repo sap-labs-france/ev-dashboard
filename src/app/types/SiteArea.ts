@@ -15,6 +15,7 @@ export interface SiteArea extends Data {
   smartCharging: boolean;
   siteID: string;
   site: Site;
+  issuer: boolean;
   chargingStations: ChargingStation[];
 }
 

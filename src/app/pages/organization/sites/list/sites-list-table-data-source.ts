@@ -182,29 +182,37 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableDynamicRowActions(site: Site): TableActionDef[] {
     const actions = [];
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
     openInMaps.disabled = !Utils.containsAddressGPSCoordinates(site.address);
     let moreActions;
-    if (this.authorizationService.isAdmin() ||
-        this.authorizationService.isSiteAdmin(site.id) ||
-        this.authorizationService.isSiteOwner(site.id)) {
-      actions.push(this.editAction);
-      actions.push(this.assignUsersToSite);
-      moreActions = new TableMoreAction([
-        this.exportOCPPParamsAction,
-        openInMaps,
-      ]).getActionDef();
+    if (site.issuer) {
+      if (this.authorizationService.isAdmin() ||
+          this.authorizationService.isSiteAdmin(site.id) ||
+          this.authorizationService.isSiteOwner(site.id)) {
+        actions.push(this.editAction);
+        actions.push(this.assignUsersToSite);
+        moreActions = new TableMoreAction([
+          this.exportOCPPParamsAction,
+          openInMaps,
+        ]).getActionDef();
+      } else {
+        actions.push(this.viewAction);
+        moreActions = new TableMoreAction([
+          openInMaps,
+        ]).getActionDef();
+      }
+      if (this.authorizationService.canDeleteSite()) {
+        if (moreActions.dropdownActions) {
+          moreActions.dropdownActions.push(this.deleteAction);
+        }
+      }
     } else {
       actions.push(this.viewAction);
+      actions.push(this.assignUsersToSite);
       moreActions = new TableMoreAction([
         openInMaps,
       ]).getActionDef();
-    }
-    if (this.authorizationService.canDeleteSite()) {
-      if (moreActions.dropdownActions) {
-        moreActions.dropdownActions.push(this.deleteAction);
-      }
     }
     actions.push(moreActions);
     return actions;

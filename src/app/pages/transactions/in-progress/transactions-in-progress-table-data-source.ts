@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
-import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
-import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableNavigateToChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-navigate-to-charging-plans-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
@@ -48,8 +48,8 @@ import { TableViewTransactionAction, TableViewTransactionActionDef } from '../ta
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
   private viewAction = new TableViewTransactionAction().getActionDef();
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
-  private checkLogsAction = new TableCheckLogsAction().getActionDef();
-  private checkChargingPlansAction = new TableCheckChargingPlansAction().getActionDef();
+  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
+  private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -217,13 +217,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECK_LOGS:
+      case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
             '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
         }
         break;
-      case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
+      case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
            + '&TransactionID=' + transaction.id);
@@ -257,8 +257,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
     if (this.isAdmin) {
       const moreActions = new TableMoreAction([
-        this.checkLogsAction,
-        this.checkChargingPlansAction,
+        this.navigateToLogsAction,
+        this.navigateToChargingPlansAction,
       ]);
       actions.push(moreActions.getActionDef());
     }

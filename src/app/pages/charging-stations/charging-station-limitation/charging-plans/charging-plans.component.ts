@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/cor
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
 import { ComponentService } from 'app/services/component.service';
@@ -99,8 +99,8 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
     }
   }
 
-  public redirectToLog() {
-    new TableCheckLogsAction().getActionDef().action('logs?ChargingStationID=' + this.chargingStation.id +
+  public navigateToLog() {
+    new TableNavigateToLogsAction().getActionDef().action('logs?ChargingStationID=' + this.chargingStation.id +
       '&actions=' + ServerAction.CHARGING_PROFILES + '|'
       + ServerAction.CHARGING_PROFILE_DELETE + '|' + ServerAction.CHARGING_PROFILE_UPDATE);
   }

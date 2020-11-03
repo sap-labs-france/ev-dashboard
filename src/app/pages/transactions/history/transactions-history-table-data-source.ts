@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
-import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableNavigateToChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-navigate-to-charging-plans-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
@@ -62,8 +62,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
-  private checkLogsAction = new TableCheckLogsAction().getActionDef();
-  private checkChargingPlansAction = new TableCheckChargingPlansAction().getActionDef();
+  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
+  private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private pushCdr = new TableRoamingPushCdrAction().getActionDef();
@@ -337,8 +337,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     if (this.isAdmin) {
       const moreActions = new TableMoreAction([]);
       moreActions.addActionInMoreActions(this.deleteAction);
-      moreActions.addActionInMoreActions(this.checkLogsAction);
-      moreActions.addActionInMoreActions(this.checkChargingPlansAction);
+      moreActions.addActionInMoreActions(this.navigateToLogsAction);
+      moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
       if (this.componentService.isActive(TenantComponents.BILLING) &&
         !transaction.billingData) {
         moreActions.addActionInMoreActions(this.createInvoice);
@@ -380,13 +380,13 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECK_LOGS:
+      case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
             '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
         }
         break;
-      case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
+      case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
         }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
 import { CentralServerService } from 'app/services/central-server.service';
@@ -43,7 +43,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private resetAction = new TableChargingStationsResetAction().getActionDef();
   private rebootAction = new TableChargingStationsRebootAction().getActionDef();
-  private checkLogsAction = new TableCheckLogsAction().getActionDef();
+  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
   private isOrganizationComponentActive: boolean;
 
   constructor(
@@ -218,7 +218,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
             chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECK_LOGS:
+      case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + chargingStation.id);
         }
@@ -286,7 +286,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         case ChargingStationInErrorType.CONNECTION_BROKEN:
           return [
             this.editAction,
-            this.checkLogsAction,
+            this.navigateToLogsAction,
             new TableMoreAction([
               this.deleteAction,
             ]).getActionDef(),
@@ -294,7 +294,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         case ChargingStationInErrorType.CONNECTOR_ERROR:
           return [
             this.editAction,
-            this.checkLogsAction,
+            this.navigateToLogsAction,
             new TableMoreAction([
               this.deleteAction,
               this.resetAction,

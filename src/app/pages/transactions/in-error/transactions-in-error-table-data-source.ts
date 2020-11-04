@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { AuthorizationService } from 'app/services/authorization.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
@@ -51,7 +51,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
   private deleteManyAction = new TableDeleteTransactionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
-  private checkLogsAction = new TableCheckLogsAction().getActionDef();
+  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -294,7 +294,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         moreActions.addActionInMoreActions(this.createInvoice);
       }
       if (this.isAdmin) {
-        moreActions.addActionInMoreActions(this.checkLogsAction);
+        moreActions.addActionInMoreActions(this.navigateToLogsAction);
       }
       if (moreActions.getActionsInMoreActions().length > 0) {
         rowActions.push(moreActions.getActionDef());
@@ -304,7 +304,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       }
     } else {
       if (this.isAdmin) {
-        moreActions.addActionInMoreActions(this.checkLogsAction);
+        moreActions.addActionInMoreActions(this.navigateToLogsAction);
       }
     }
     return rowActions;
@@ -331,7 +331,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECK_LOGS:
+      case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
             '&Timestamp=' + transaction.timestamp + '&LogLevel=I');

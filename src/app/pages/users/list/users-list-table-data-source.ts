@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckTransactionsAction } from 'app/pages/transactions/table-actions/table-check-transactions-action';
+import { TableNavigateToTransactionsAction } from 'app/pages/transactions/table-actions/table-navigate-to-transactions-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
@@ -35,12 +35,12 @@ import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
-import { TableCheckTagsAction } from '../table-actions/table-check-tags-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
 import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
+import { TableNavigateToTagsAction } from '../table-actions/table-navigate-to-tags-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
 
 @Injectable()
@@ -50,8 +50,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteAction = new TableDeleteUserAction().getActionDef();
   private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
-  private checkTagsAction = new TableCheckTagsAction().getActionDef();
-  private checkTransactionsAction = new TableCheckTransactionsAction().getActionDef();
+  private navigateToTagsAction = new TableNavigateToTagsAction().getActionDef();
+  private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
@@ -246,8 +246,8 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions = [];
     const moreActions = new TableMoreAction([]);
-    moreActions.addActionInMoreActions(this.checkTagsAction);
-    moreActions.addActionInMoreActions(this.checkTransactionsAction);
+    moreActions.addActionInMoreActions(this.navigateToTagsAction);
+    moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
     if (user.issuer) {
       if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
           this.authorizationService.canUpdateUser() &&
@@ -327,12 +327,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      case UserButtonAction.CHECK_TAGS:
+      case UserButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id);
         }
         break;
-      case TransactionButtonAction.CHECK_TRANSACTIONS:
+      case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id);
         }

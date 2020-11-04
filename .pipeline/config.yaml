@@ -24,9 +24,9 @@ stages:
     karmaExecuteTests: false
     
   Security:
-    executeCheckmarxScan: true
+    executeCheckmarxScan: false
     checkmarxExecuteScan: false
-    executeWhitesourceScan: false
+    #executeWhitesourceScan: false
     failOnError: false
 
 steps:

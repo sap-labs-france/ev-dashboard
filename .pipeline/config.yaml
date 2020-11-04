@@ -27,7 +27,6 @@ stages:
     executeCheckmarxScan: false
     checkmarxExecuteScan: false
     #executeWhitesourceScan: false
-    failOnError: false
 
 steps:
 

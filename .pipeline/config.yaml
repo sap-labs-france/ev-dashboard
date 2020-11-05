@@ -13,7 +13,7 @@ stages:
 
   IPScan and PPMS:
     whitesourceProductName: 'SHC - SAP E-MOBILITY UI 1.0'
-    whitesourceProjectNames: ['SAP SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests # TODO
+    whitesourceProjectNames: ['SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests # TODO
     whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
     whitesourceUserTokenCredentialsId : 'whitesourceUserTokenEmobility'
     executeWhitesourceScan: true
@@ -24,10 +24,9 @@ stages:
     karmaExecuteTests: false
     
   Security:
-    executeCheckmarxScan: true
+    executeCheckmarxScan: false
     checkmarxExecuteScan: false
-    executeWhitesourceScan: false
-    failOnError: false
+    #executeWhitesourceScan: false
 
 steps:
 

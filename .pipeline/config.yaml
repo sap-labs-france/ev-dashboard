@@ -32,12 +32,6 @@ steps:
 
   sonarExecuteScan:
     instance: 'SAP SonarQube Enterprise'
-
-  #executeOpenSourceDependencyScan:
-   # buildTool: 'npm'
-   # executeWhitesourceScan: true
-   # whitesourceActive:
-   #   - npm
             
   executeWhitesourceScan:
     scanType: 'npm'

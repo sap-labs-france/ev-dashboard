@@ -42,6 +42,7 @@ steps:
     whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
     whitesourceProductVersion: '1'
     whitesourceUserTokenCredentialsId: 'whitesourceUserTokenEmobility'
+    agentParameters: 'ignoreNpmLsErrors'
    
   executeCheckmarxScan:
     checkmarxProject: 'ev-dashboard'

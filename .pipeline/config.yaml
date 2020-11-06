@@ -33,16 +33,15 @@ steps:
   sonarExecuteScan:
     instance: 'SAP SonarQube Enterprise'
 
-  executeOpenSourceDependencyScan:
-    buildTool: 'npm'
-    executeWhitesourceScan: true
-    whitesourceActive:
-      - npm
+  #executeOpenSourceDependencyScan:
+   # buildTool: 'npm'
+   # executeWhitesourceScan: true
+   # whitesourceActive:
+   #   - npm
             
   executeWhitesourceScan:
     scanType: 'npm'
     dockerImage: node:lts
-    agentParameters: 'ignoreNpmLsErrors'
    
   executeCheckmarxScan:
     checkmarxProject: 'ev-dashboard'

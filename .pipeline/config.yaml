@@ -14,6 +14,11 @@ stages:
   IPScan and PPMS:
     ppmsCredentialsId: 'ppms-i030367-access'
     executeWhitesourceScan: true
+    whitesourceProductName: 'SHC - SAP E-MOBILITY UI 1.0'
+    whitesourceProjectNames: ['SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests
+    whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
+    #whitesourceProductVersion: '1'
+    whitesourceUserTokenCredentialsId: 'whitesourceUserTokenEmobility'
     
   Additional Unit Tests:
     karmaExecuteTests: false
@@ -37,11 +42,6 @@ steps:
   executeWhitesourceScan:
     scanType: 'npm'
     dockerImage: node:lts
-    whitesourceProductName: 'SHC - SAP E-MOBILITY UI 1.0'
-    whitesourceProjectNames: ['SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests
-    whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
-    whitesourceProductVersion: '1'
-    whitesourceUserTokenCredentialsId: 'whitesourceUserTokenEmobility'
     agentParameters: 'ignoreNpmLsErrors'
    
   executeCheckmarxScan:

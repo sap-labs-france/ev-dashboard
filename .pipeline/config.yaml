@@ -12,14 +12,8 @@ stages:
     sonarExecuteScan: true
 
   IPScan and PPMS:
-    whitesourceProductName: 'SHC - SAP E-MOBILITY UI 1.0'
-    whitesourceProjectNames: ['SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests # TODO
-    whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
-    whitesourceProductVersion: '1'
-    whitesourceUserTokenCredentialsId : 'whitesourceUserTokenEmobility'
+    ppmsCredentialsId: 'ppms-i030367-access'
     executeWhitesourceScan: true
-    sapCheckPPMSCompliance: true
-    buildVersion: '{{.Major}}.{{.Minor}}'
     
   Additional Unit Tests:
     karmaExecuteTests: false
@@ -34,8 +28,19 @@ steps:
   sonarExecuteScan:
     instance: 'SAP SonarQube Enterprise'
 
+  executeOpenSourceDependencyScan:
+    buildTool: 'npm'
+    executeWhitesourceScan: true
+    whitesourceActive:
+      - npm
+            
   executeWhitesourceScan:
-    scanType: npm
+    scanType: 'npm'
+    whitesourceProductName: 'SHC - SAP E-MOBILITY UI 1.0'
+    whitesourceProjectNames: ['SAP E-MOBILITY UI 1.0'] # needed for automation of mapping requests
+    whitesourceProductToken: 'c96d2e0dd15c4c359d224d8ae51bc2119f9721988d344aaea3cecd0dad2b6196'
+    whitesourceProductVersion: '1'
+    whitesourceUserTokenCredentialsId: 'whitesourceUserTokenEmobility'
    
   executeCheckmarxScan:
     checkmarxProject: 'ev-dashboard'
@@ -46,6 +51,6 @@ steps:
       
   sapCheckPPMSCompliance:
     ppmsID: '73554900100200014453'
-    ppmsCredentialsId: 'ppms-i030367-access'
-    ppmsBuildVersionCreation: true
-    ppmsChangeRequestUpload: true
+    uploadChangeRequest: true
+    createBuildVersion: true
+    buildVersion: '{{.Major}}.{{.Minor}}'

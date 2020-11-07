@@ -12,6 +12,7 @@ import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
+import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { Car, CarButtonAction, CarConverter, CarType } from 'app/types/Car';
@@ -197,26 +198,26 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         class: 'col-15em',
         sortable: true,
       },
-      {
-        id: 'createdBy',
-        name: 'users.created_by',
-        headerClass: 'col-15em',
-        class: 'col-15em',
-      },
-      {
-        id: 'lastChangedOn',
-        name: 'users.changed_on',
-        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        sortable: true,
-      },
-      {
-        id: 'lastChangedBy',
-        name: 'users.changed_by',
-        headerClass: 'col-15em',
-        class: 'col-15em',
-      });
+        {
+          id: 'createdBy',
+          name: 'users.created_by',
+          headerClass: 'col-15em',
+          class: 'col-15em',
+        },
+        {
+          id: 'lastChangedOn',
+          name: 'users.changed_on',
+          formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+          headerClass: 'col-15em',
+          class: 'col-15em',
+          sortable: true,
+        },
+        {
+          id: 'lastChangedBy',
+          name: 'users.changed_by',
+          headerClass: 'col-15em',
+          class: 'col-15em',
+        });
     }
     return tableColumnDef;
   }
@@ -236,6 +237,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     if (this.authorizationService.isAdmin()) {
       return [
         new UserTableFilter().getFilterDef(),
+        new CarMakerTableFilter().getFilterDef(),
+
       ];
     }
     return [];

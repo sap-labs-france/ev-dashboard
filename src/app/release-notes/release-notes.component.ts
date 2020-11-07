@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Push all the locations once a day`,
               `Retrieve all the OCPI badges once a day`,
               `Fixed billing invoice deletion during synchronization`,
+              `Added Car Maker filter in Car Management`,
               `Jump from User to Badge list should take into account the organization filter`,
               `Format OCPI Country codes`,
               `Aligned REST sorting with standard`,

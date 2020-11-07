@@ -30,10 +30,12 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed billing invoice deletion during synchronization`,
               `Hide table list actions for OCPI entities`,
               `Push all the locations once a day`,
               `Retrieve all the OCPI badges once a day`,
               `Format OCPI Country codes`,
+              `Aligned REST sorting with standard`,
               `Optimized MongoDB free text search in Logs`,
             ],
           },

@@ -24,14 +24,15 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.19',
-        date: new Date('2020-11-03'),
+        version: '2.4.20',
+        date: new Date('2020-11-07'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Hide table list actions for OCPI entities`,
-              `Retrieve the full OCPI badge list once a day`,
+              `Push all the locations once a day`,
+              `Retrieve all the OCPI badges once a day`,
               `Format OCPI Country codes`,
               `Optimized MongoDB free text search in Logs`,
             ],

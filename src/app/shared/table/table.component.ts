@@ -148,7 +148,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
             this.windowService.setSearch(filterIdInCap, filter.currentValue);
             break;
           }
-          case 'date': {
+          case FilterType.DATE: {
             this.windowService.setSearch(filterIdInCap, JSON.stringify(filter.currentValue));
             break;
           }
@@ -176,7 +176,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public dateFilterChanged(filterDef: TableFilterDef, event: MatDatetimepickerInputEvent<any>) {
     // Date?
-    if (filterDef.type === 'date') {
+    if (filterDef.type === FilterType.DATE) {
       filterDef.currentValue = event.value ? event.value.toDate() : null;
     }
     // Update filter

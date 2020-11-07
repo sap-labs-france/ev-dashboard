@@ -40,7 +40,7 @@ import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -120,6 +120,15 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           key: tagID, value: tagID,
         });
         this.filterChanged(tagTableFilter);
+      }
+    }
+    // Issuer
+    const issuer = this.windowService.getSearch('Issuer');
+    if (issuer) {
+      const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
+      if (issuerTableFilter) {
+        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        this.filterChanged(issuerTableFilter);
       }
     }
   }

@@ -8,7 +8,7 @@ import { WindowService } from 'app/services/window.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { IssuerFilter } from 'app/shared/table/filters/issuer-filter';
+import { IssuerFilter, organisations } from 'app/shared/table/filters/issuer-filter';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { HTTPError } from 'app/types/HTTPError';
@@ -74,6 +74,16 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       }
       this.loadUserFilterLabel(userID);
     }
+    // Issuer
+    const issuer = this.windowService.getSearch('Issuer');
+    if (issuer) {
+      const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
+      if (issuerTableFilter) {
+        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        this.filterChanged(issuerTableFilter);
+      }
+    }
+    // Tag
     const tagID = this.windowService.getSearch('TagID');
     if (tagID) {
       this.setSearchValue(tagID);

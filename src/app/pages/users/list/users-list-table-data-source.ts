@@ -55,17 +55,17 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private currentUser: UserToken;
 
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private componentService: ComponentService,
-      private appUserRolePipe: AppUserRolePipe,
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
+    private appUserRolePipe: AppUserRolePipe,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
@@ -102,15 +102,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Ok
-        observer.next(users);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+          // Ok
+          observer.next(users);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -235,7 +235,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeBillingUsers()) {
+      this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
     return [
@@ -245,13 +245,13 @@ export class UsersListTableDataSource extends TableDataSource<User> {
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
     let actions = [];
-    const moreActions = new TableMoreAction([]);
-    moreActions.addActionInMoreActions(this.navigateToTagsAction);
-    moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
     if (user.issuer) {
+      const moreActions = new TableMoreAction([]);
+      moreActions.addActionInMoreActions(this.navigateToTagsAction);
+      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
-          this.authorizationService.canUpdateUser() &&
-          this.authorizationService.canUpdateSite()) {
+        this.authorizationService.canUpdateUser() &&
+        this.authorizationService.canUpdateSite()) {
         actions = [
           this.editAction,
           this.assignSitesToUser,
@@ -262,14 +262,19 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         ];
       }
       if (this.componentService.isActive(TenantComponents.BILLING) &&
-          this.authorizationService.canSynchronizeBillingUser()) {
+        this.authorizationService.canSynchronizeBillingUser()) {
         moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
       }
       if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
         moreActions.addActionInMoreActions(this.deleteAction);
       }
+      actions.push(moreActions.getActionDef());
+    } else {
+      actions = [
+        this.navigateToTagsAction,
+        this.navigateToTransactionsAction
+      ];
     }
-    actions.push(moreActions.getActionDef());
     return actions;
   }
 
@@ -329,12 +334,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         break;
       case UserButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id);
+          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id + '&Issuer=' + user.issuer);
         }
         break;
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id);
+          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer);
         }
         break;
     }

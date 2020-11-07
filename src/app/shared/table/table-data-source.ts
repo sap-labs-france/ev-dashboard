@@ -187,14 +187,14 @@ export abstract class TableDataSource<T extends Data> {
     const sort = this.getSort();
     if (sort && sort.active) {
       return [
-        { field: sort.active, direction: sort.direction },
+        { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },
       ];
     }
     // Find Sorted columns
     const columnDef = this.tableColumnsDef.find((column) => column.sorted === true);
     if (columnDef) {
       return [
-        { field: columnDef.id, direction: columnDef.direction ? columnDef.direction : '' },
+        { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },
       ];
     }
     return [];

@@ -8,8 +8,10 @@ import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableStartAction } from 'app/shared/table/actions/table-start-action';
 import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
+import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
 import { TableUploadAction } from 'app/shared/table/actions/table-upload-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
 import { DataResult } from 'app/types/DataResult';
@@ -20,7 +22,6 @@ import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
 import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
-import { TableMultiSyncAction } from '../../../../../shared/table/actions/table-multi-sync-action';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { OcpiDetailJobStatusFomatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-success-evses-status-formatter.component';
@@ -31,7 +32,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private ocpiEndpoint!: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
-  private synchronizeAllAction = new TableUploadAction(OcpiButtonAction.SYNC_ALL, 'ocpi.sync_all').getActionDef();
+  private synchronizeAllAction = new TableSynchronizeAction(OcpiButtonAction.SYNC_ALL, 'ocpi.sync_all').getActionDef();
   private pushLocationsAction = new TableUploadAction(OcpiButtonAction.PUSH_LOCATIONS, 'ocpi.push_locations').getActionDef();
   private pushTokensAction = new TableUploadAction(OcpiButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
   private getCdrsAction = new TableDownloadAction(OcpiButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
@@ -40,7 +41,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private checkCdrsAction = new TableDownloadAction(OcpiButtonAction.CHECK_CDRS, 'ocpi.check_cdrs').getActionDef();
   private checkLocationsAction = new TableDownloadAction(OcpiButtonAction.CHECK_LOCATIONS, 'ocpi.check_locations').getActionDef();
   private checkSessionsAction = new TableDownloadAction(OcpiButtonAction.CHECK_SESSIONS, 'ocpi.check_sessions').getActionDef();
-  private getTokensAction = new TableUploadAction(OcpiButtonAction.PULL_TOKENS, 'ocpi.pull_tokens').getActionDef();
+  private getTokensAction = new TableDownloadAction(OcpiButtonAction.PULL_TOKENS, 'ocpi.pull_tokens').getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -177,7 +178,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       }
       let syncActions: TableActionDef;
       if (rowItem.ocpiendpoint.role === OcpiRole.CPO) {
-        syncActions = new TableMultiSyncAction([
+        syncActions = new TableMoreAction([
           this.synchronizeAllAction,
           this.pushLocationsAction,
           this.getTokensAction,
@@ -185,14 +186,13 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
           this.checkSessionsAction,
           this.checkCdrsAction]).getActionDef();
       } else {
-        syncActions = new TableMultiSyncAction([
+        syncActions = new TableMoreAction([
           this.synchronizeAllAction,
           this.getLocationsAction,
           this.getSessionsAction,
           this.getCdrsAction,
           this.pushTokensAction]).getActionDef();
       }
-      // add send all EVSE Statuses
       _actionRowButtons.push(syncActions);
     }
     return _actionRowButtons;

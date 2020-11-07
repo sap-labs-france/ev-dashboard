@@ -1,5 +1,3 @@
-import { SortDirection } from '@angular/material/sort';
-
 import { Data } from './Table';
 import { Transaction } from './Transaction';
 
@@ -94,7 +92,6 @@ export interface TransactionRefundDataResult {
 
 export interface Ordering {
   field: string;
-  direction: SortDirection;
 }
 
 export interface Paging {

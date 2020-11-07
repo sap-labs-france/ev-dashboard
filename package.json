@@ -40,7 +40,7 @@
     "start:prod": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" npm run ngcc && ng serve --prod",
     "start:prod:ssl": "ng serve --prod --ssl true --ssl-key ./ssl/localhost.key --ssl-cert ./ssl/localhost.cert",
     "build": "npm run build:dev",
-    "build:prod": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" npm run ngcc && ng build --prod --stats-json",
+    "build:prod": "cross-env NODE_OPTIONS=\"--max-old-space-size=6128\" npm run ngcc && ng build --prod --stats-json",
     "build:dev": "npm run ngcc && ng build --configuration=development --stats-json",
     "codeceptjstest": "npm run e2e",
     "tslint": "ng lint",

@@ -1,5 +1,5 @@
 import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, DropdownItem, TableActionDef } from 'app/types/Table';
+import { ButtonColor, TableActionDef } from 'app/types/Table';
 
 import { TableAction } from './table-action';
 

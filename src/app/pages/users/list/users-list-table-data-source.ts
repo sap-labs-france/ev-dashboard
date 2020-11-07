@@ -1,47 +1,47 @@
-import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { TableNavigateToTransactionsAction } from 'app/pages/transactions/table-actions/table-navigate-to-transactions-action';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
-import { DataResult } from 'app/types/DataResult';
+import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { TransactionButtonAction } from 'app/types/Transaction';
-import { User, UserButtonAction, UserToken } from 'app/types/User';
-import { Observable } from 'rxjs';
-
-import { AuthorizationService } from '../../../services/authorization.service';
-import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
-import { CentralServerService } from '../../../services/central-server.service';
-import { ComponentService } from '../../../services/component.service';
-import { DialogService } from '../../../services/dialog.service';
-import { MessageService } from '../../../services/message.service';
-import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
-import { TableDataSource } from '../../../shared/table/table-data-source';
-import { BillingButtonAction } from '../../../types/Billing';
-import ChangeNotification from '../../../types/ChangeNotification';
-import { Utils } from '../../../utils/Utils';
-import { UserRoleFilter } from '../filters/user-role-filter';
-import { UserStatusFilter } from '../filters/user-status-filter';
-import { AppUserRolePipe } from '../formatters/user-role.pipe';
-import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
 import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
 import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
 import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
 import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
+import { User, UserButtonAction, UserToken } from 'app/types/User';
+
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AppUserRolePipe } from '../formatters/user-role.pipe';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { BillingButtonAction } from '../../../types/Billing';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { ComponentService } from '../../../services/component.service';
+import { DataResult } from 'app/types/DataResult';
+import { DialogService } from '../../../services/dialog.service';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
+import { SpinnerService } from 'app/services/spinner.service';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableNavigateToTagsAction } from '../table-actions/table-navigate-to-tags-action';
+import { TableNavigateToTransactionsAction } from 'app/pages/transactions/table-actions/table-navigate-to-transactions-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
+import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
+import TenantComponents from 'app/types/TenantComponents';
+import { TransactionButtonAction } from 'app/types/Transaction';
+import { TranslateService } from '@ngx-translate/core';
+import { UserRoleFilter } from '../filters/user-role-filter';
+import { UserStatusFilter } from '../filters/user-status-filter';
+import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
+import { Utils } from '../../../utils/Utils';
+import { WindowService } from 'app/services/window.service';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -89,6 +89,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           key: tagID, value: tagID,
         });
         this.filterChanged(tagTableFilter);
+      }
+    }
+    // Issuer
+    const issuer = this.windowService.getSearch('Issuer');
+    if (issuer) {
+      const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
+      if (issuerTableFilter) {
+        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        this.filterChanged(issuerTableFilter);
       }
     }
   }
@@ -270,10 +279,11 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       }
       actions.push(moreActions.getActionDef());
     } else {
-      actions = [
+      const moreActions = new TableMoreAction([
         this.navigateToTagsAction,
         this.navigateToTransactionsAction
-      ];
+      ]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

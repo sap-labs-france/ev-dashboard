@@ -1236,7 +1236,8 @@
     "cannot_download_invoice": "Impossible de télécharger la facture",
     "number_of_items": "Sessions",
     "pay": "Payer",
-    "user": "Utilisateur"
+    "user": "Utilisateur",
+    "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
     "id": "ID",
@@ -2138,6 +2139,7 @@
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
     "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
-    "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème"
+    "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème",
+    "billing_new_invoice": "Me notifier lorsqu'une nouvelle facture est disponible"
   }
 }

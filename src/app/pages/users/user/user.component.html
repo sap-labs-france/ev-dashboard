@@ -232,6 +232,12 @@
                     [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-checkbox [disabled]="!notificationsActive.value"
+                    [formControl]="sendBillingNewInvoice">{{"notifications.billing_new_invoice" | translate}}</mat-checkbox>
+                </div>
+              </div>
               <div *ngIf="role && role.value === 'A'" class="row">
                 <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin_only" | translate}}</div>
                 <div class="ml-3">

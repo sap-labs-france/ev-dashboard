@@ -71,7 +71,6 @@ export enum ButtonAction {
   COPY = 'copy',
   MULTI_COPY = 'multi_copy',
   MULTI_CREATE = 'multi_create',
-  MULTI_SYNC = 'multi_sync',
   NO_ACTION = 'block',
   OPEN = 'open',
   OPEN_URL = 'open_url',

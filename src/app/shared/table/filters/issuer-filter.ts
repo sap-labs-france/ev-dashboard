@@ -14,8 +14,8 @@ export class IssuerFilter extends TableFilter {
       name: 'issuer.title',
       class: 'col-md-6 col-lg-2 col-xl-2',
       label: '',
-      defaultValue: items[0],
-      items: Object.assign([], items),
+      defaultValue: organisations[0],
+      items: Object.assign([], organisations),
       multiple: true,
       exhaustive: true
     };
@@ -24,7 +24,7 @@ export class IssuerFilter extends TableFilter {
   }
 }
 
-export const items: KeyValue[] = [
+export const organisations: KeyValue[] = [
   { key: 'true', value: 'issuer.local' },
   { key: 'false', value: 'issuer.foreign' },
 ];

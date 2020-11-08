@@ -93,6 +93,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
   public sendEndUserErrorNotification!: AbstractControl;
+  public sendBillingNewInvoice!: AbstractControl;
   public user!: User;
   public isRefundConnectionValid!: boolean;
   public canSeeInvoice: boolean;
@@ -184,6 +185,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendSmtpAuthError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
+        sendBillingNewInvoice: new FormControl(false),
       }),
       email: new FormControl('',
         Validators.compose([
@@ -270,6 +272,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
+    this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
     if (this.currentUserID) {
       this.loadUser();
     } else if (this.activatedRoute && this.activatedRoute.params) {
@@ -432,6 +435,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendEndUserErrorNotification.setValue(user.notifications.sendEndUserErrorNotification);
       } else {
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
+      }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingNewInvoice')) {
+        this.notifications.controls.sendBillingNewInvoice.setValue(user.notifications.sendBillingNewInvoice);
+      } else {
+        this.notifications.controls.sendBillingNewInvoice.setValue(false);
       }
       if (user.address) {
         this.address = user.address;

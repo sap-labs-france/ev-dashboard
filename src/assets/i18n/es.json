@@ -25,7 +25,7 @@
     "connectors": "Conexiones",
     "notifications": "Notificaciones",
     "app_name": "e-Mobility",
-    "last_update": "Versión 2.4.19",
+    "last_update": "Versión 2.4.20",
     "version": "Versión",
     "about_us": "Sobre nosotros",
     "unexpected_error_backend": "Ocurrió un error inesperado",
@@ -1236,7 +1236,8 @@
     "cannot_download_invoice": "No se puede descargar la factura",
     "number_of_items": "Sesiones",
     "pay": "Pagar",
-    "user": "Usuario"
+    "user": "Usuario",
+    "failed_download": "Invoice download failed."
   },
   "tags": {
     "id": "ID",
@@ -1649,10 +1650,10 @@
     "business_details": "Detalles de la empresa",
     "logo": "Imagen",
     "sync_all": "Sincronizar todo",
-    "push_locations": "Enviar destinos",
+    "push_locations": "Enviar ubicaciones",
     "push_tokens": "Enviar tokens",
     "pull_cdrs": "Descargar cdrs",
-    "pull_locations": "Descargar destinos",
+    "pull_locations": "Descargar ubicaciones",
     "pull_sessions": "Descargar sesiones",
     "pull_tokens": "Descargar tokens",
     "check_locations": "Verificar sitios",
@@ -2138,6 +2139,7 @@
     "session_not_started": "Notificarme si no se inició ninguna sesión después de la identificación",
     "user_account_inactivity": "Notificarme cuando no haya iniciado sesión en la aplicación durante más de 6 meses",
     "car_catalog_synchronization_failed": "Notificarme si se ha producido un error durante la sincronización de los automóviles",
-    "end_user_error_notification": "Notificarme cuando un usuario reporte algún error"
+    "end_user_error_notification": "Notificarme cuando un usuario reporte algún error",
+    "billing_new_invoice": "Notify me when a new invoice is available"
   }
 }

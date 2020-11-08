@@ -14,14 +14,11 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput appAutofocus
-                             placeholder="{{'ocpiendpoints.name' | translate}}" type="text"
-                             [formControl]="name" required>
-                      <mat-error
-                        *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input matInput appAutofocus placeholder="{{'ocpiendpoints.name' | translate}}" type="text"
+                        [formControl]="name" required>
+                      <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="name.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'"
-                             [translateParams]="{length: 100}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -33,8 +30,7 @@
                         <mat-option value="CPO">CPO</mat-option>
                         <mat-option value="EMSP">eMSP</mat-option>
                       </mat-select>
-                      <mat-error
-                        *ngIf="role.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="role.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -42,11 +38,9 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput
-                             placeholder="{{'ocpiendpoints.base_url' | translate}}"
-                             type="text" [formControl]="baseUrl" required>
-                      <mat-error
-                        *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input matInput placeholder="{{'ocpiendpoints.base_url' | translate}}" type="text"
+                        [formControl]="baseUrl" required>
+                      <mat-error *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="baseUrl.errors?.pattern">
                         <div [translate]="'general.error_url_pattern'"></div>
                       </mat-error>
@@ -57,18 +51,15 @@
                 <div class="col-md-6">
                   <div class="form-group" *ngIf="!currentEndpoint?.id">
                     <mat-form-field>
-                      <input matInput
-                             placeholder="{{'ocpiendpoints.country_code' | translate}}"
-                             type="text" [formControl]="countryCode">
-                      <mat-error
-                        *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input matInput placeholder="{{'ocpiendpoints.country_code' | translate}}" type="text"
+                        [formControl]="countryCode">
+                      <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}
+                      </mat-error>
                       <mat-error *ngIf="countryCode.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'"
-                             [translateParams]="{length: 2}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
                       </mat-error>
                       <mat-error *ngIf="countryCode.errors?.minlength">
-                        <div [translate]="'general.error_max_length'"
-                             [translateParams]="{length: 2}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -76,18 +67,14 @@
                 <div class="col-md-6">
                   <div class="form-group" *ngIf="!currentEndpoint?.id">
                     <mat-form-field>
-                      <input matInput
-                             placeholder="{{'ocpiendpoints.party_id' | translate}}"
-                             type="text" [formControl]="partyId">
-                      <mat-error
-                        *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input matInput placeholder="{{'ocpiendpoints.party_id' | translate}}" type="text"
+                        [formControl]="partyId">
+                      <mat-error *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="partyId.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'"
-                             [translateParams]="{length: 3}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
                       </mat-error>
                       <mat-error *ngIf="partyId.errors?.minlength">
-                        <div [translate]="'general.error_max_length'"
-                             [translateParams]="{length: 3}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -99,18 +86,15 @@
                     <div class="d-flex flex-row">
                       <div class="flex-grow-1">
                         <mat-form-field class="endpoint-dialog-no-padding-bottom">
-                          <input matInput
-                                 placeholder="{{'ocpiendpoints.local_token' | translate}}"
-                                 type="text" [formControl]="localToken">
+                          <input matInput placeholder="{{'ocpiendpoints.local_token' | translate}}" type="text"
+                            [formControl]="localToken">
                           <mat-error *ngIf="localToken.errors?.maxlength">
-                            <div [translate]="'general.error_max_length'"
-                                 [translateParams]="{length: 64}"></div>
+                            <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
                           </mat-error>
                         </mat-form-field>
                       </div>
                       <div align="right" pull-right>
-                        <button mat-raised-button color="primary"
-                                (click)="generateLocalToken(formGroup.value)">
+                        <button mat-raised-button color="primary" (click)="generateLocalToken(formGroup.value)">
                           <mat-icon>vpn_key</mat-icon>
                           <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
                         </button>
@@ -121,18 +105,15 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field class="endpoint-dialog-no-padding-bottom">
-                      <input matInput
-                             placeholder="{{'ocpiendpoints.token' | translate}}"
-                             type="text" [formControl]="token">
+                      <input matInput placeholder="{{'ocpiendpoints.token' | translate}}" type="text"
+                        [formControl]="token">
                       <mat-error *ngIf="token.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'"
-                             [translateParams]="{length: 64}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
                       </mat-error>
                     </mat-form-field>
                     <div align="right" pull-right>
-                      <button mat-raised-button color="primary"
-                              (click)="testConnection(formGroup.value)"
-                              [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
+                      <button mat-raised-button color="primary" (click)="testConnection(formGroup.value)"
+                        [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
                         <mat-icon>touch_app</mat-icon>
                         <span>{{'ocpiendpoints.test_connection' | translate}}</span>
                       </button>
@@ -147,8 +128,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="save(formGroup.value)"
-              [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button mat-button (click)="save(formGroup.value)" [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>

@@ -316,36 +316,38 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     return [];
   }
 
-  public buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
-    if (!charger) {
+  public buildTableDynamicRowActions(chargingStation: ChargingStation): TableActionDef[] {
+    if (!chargingStation) {
       return [];
     }
     // Check if both connectors are unavailable
     let isUnavailable = true;
-    for (const connector of charger.connectors) {
+    for (const connector of chargingStation.connectors) {
       if (connector.status !== ChargePointStatus.UNAVAILABLE) {
         isUnavailable = false;
         break;
       }
     }
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
-    if (this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
-      return [
-        this.editAction,
-        this.smartChargingAction,
-        this.rebootAction,
-        new TableMoreAction([
-          this.clearCacheAction,
-          this.resetAction,
-          isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
-          this.deleteAction,
-          openInMaps,
-        ]).getActionDef()
-        ,
-      ];
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    openInMaps.disabled = !Utils.containsGPSCoordinates(chargingStation.coordinates);
+    if (chargingStation.issuer) {
+      if (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(chargingStation.siteArea ? chargingStation.siteArea.siteID : '')) {
+        return [
+          this.editAction,
+          this.smartChargingAction,
+          this.rebootAction,
+          new TableMoreAction([
+            this.clearCacheAction,
+            this.resetAction,
+            isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
+            this.deleteAction,
+            openInMaps,
+          ]).getActionDef()
+          ,
+        ];
+      }
     }
     return [openInMaps];
   }

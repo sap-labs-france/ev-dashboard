@@ -3105,16 +3105,13 @@ export class CentralServerService {
     // Check
     if (ordering && ordering.length) {
       const sortFields: string[] = [];
-      const sortDirs: string[] = [];
       for (const order of ordering) {
         if (order.field) {
           sortFields.push(order.field);
-          sortDirs.push(order.direction);
         }
       }
       if (sortFields.length > 0) {
         queryParams['SortFields'] = sortFields;
-        queryParams['SortDirs'] = sortDirs;
       }
     }
   }

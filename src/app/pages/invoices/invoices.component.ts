@@ -15,7 +15,7 @@ export class InvoicesComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['invoices', 'inerror']);
+    super(activatedRoute, windowService, ['all', 'inerror']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
   }
 }

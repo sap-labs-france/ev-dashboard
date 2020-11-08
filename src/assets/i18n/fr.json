@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.17",
+    "last_update": "Version 2.4.20",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -160,7 +160,7 @@
       "pricing": "Prix",
       "components": "Composants",
       "settings": "Configuration",
-      "assets": "Assets",
+      "assets": "Ressources",
       "organization": "Organisation",
       "cars": "Voitures",
       "template": "Modeles",
@@ -185,8 +185,8 @@
       "edit": "Editer",
       "edit_chargers": "Editer les bornes",
       "display_chargers": "Afficher les bornes",
-      "edit_assets": "Éditer les assets",
-      "display_assets": "Afficher les assets",
+      "edit_assets": "Éditer les ressources",
+      "display_assets": "Afficher les ressources",
       "edit_location": "Assigner au site",
       "edit_users": "Editer un utilisateur",
       "edit_siteArea": "Editer les site areas",
@@ -1230,7 +1230,8 @@
     "cannot_download_invoice": "Impossible de télécharger la facture",
     "number_of_items": "Sessions",
     "pay": "Payer",
-    "user": "Utilisateur"
+    "user": "Utilisateur",
+    "failed_download": "Le téléchargement de la facture a échoué."
   },
   "tags": {
     "id": "ID",
@@ -1636,10 +1637,10 @@
     "business_details": "Business Details",
     "logo": "Image",
     "sync_all": "Tout synchroniser",
-    "push_locations": "Envoyer les destinations",
+    "push_locations": "Envoyer les emplacements",
     "push_tokens": "Envoyer les jetons",
     "pull_cdrs": "Télécharger les cdrs",
-    "pull_locations": "Télécharger les destinations",
+    "pull_locations": "Télécharger les emplacements",
     "pull_sessions": "Télécharger les sessions",
     "pull_tokens": "Télécharger les jetons",
     "check_locations": "Vérifier les sites",
@@ -2126,6 +2127,7 @@
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
     "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
-    "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème"
+    "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème",
+    "billing_new_invoice": "Me notifier lorsqu'une nouvelle facture est disponible"
   }
 }

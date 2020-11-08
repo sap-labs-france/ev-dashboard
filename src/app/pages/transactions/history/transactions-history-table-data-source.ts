@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-check-charging-plans-action';
-import { TableCheckLogsAction } from 'app/pages/logs/table-actions/table-check-logs-action';
+import { TableNavigateToChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-navigate-to-charging-plans-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
@@ -40,7 +41,7 @@ import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -62,8 +63,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private isSiteAdmin = false;
   private viewAction = new TableViewTransactionAction().getActionDef();
   private deleteAction = new TableDeleteTransactionAction().getActionDef();
-  private checkLogsAction = new TableCheckLogsAction().getActionDef();
-  private checkChargingPlansAction = new TableCheckChargingPlansAction().getActionDef();
+  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
+  private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private pushCdr = new TableRoamingPushCdrAction().getActionDef();
@@ -120,6 +121,15 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           key: tagID, value: tagID,
         });
         this.filterChanged(tagTableFilter);
+      }
+    }
+    // Issuer
+    const issuer = this.windowService.getSearch('Issuer');
+    if (issuer) {
+      const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
+      if (issuerTableFilter) {
+        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        this.filterChanged(issuerTableFilter);
       }
     }
   }
@@ -350,23 +360,32 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
     const rowActions: TableActionDef[] = [this.viewAction];
-    if (this.isAdmin) {
-      const moreActions = new TableMoreAction([]);
-      moreActions.addActionInMoreActions(this.deleteAction);
-      moreActions.addActionInMoreActions(this.checkLogsAction);
-      moreActions.addActionInMoreActions(this.checkChargingPlansAction);
-      if (this.componentService.isActive(TenantComponents.BILLING) &&
-        !transaction.billingData) {
-        moreActions.addActionInMoreActions(this.createInvoice);
+    if (transaction.issuer) {
+      if (this.isAdmin) {
+        const moreActions = new TableMoreAction([]);
+        moreActions.addActionInMoreActions(this.navigateToLogsAction);
+        moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
+        if (this.componentService.isActive(TenantComponents.BILLING) &&
+          !transaction.billingData) {
+          moreActions.addActionInMoreActions(this.createInvoice);
+        }
+        if (transaction.ocpiData && !transaction.ocpiData.cdr) {
+          moreActions.addActionInMoreActions(this.pushCdr);
+        }
+        // Enable only for one user for the time being
+        if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
+          moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
+        }
+        moreActions.addActionInMoreActions(this.deleteAction);
+        rowActions.push(moreActions.getActionDef());
       }
-      if (transaction.ocpiData && !transaction.ocpiData.cdr) {
-        moreActions.addActionInMoreActions(this.pushCdr);
+    } else {
+      if (this.isAdmin) {
+        const moreActions = new TableMoreAction([]);
+        moreActions.addActionInMoreActions(this.navigateToLogsAction);
+        moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
+        rowActions.push(moreActions.getActionDef());
       }
-      // Enable only for one user for the time being
-      if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
-        moreActions.addActionInMoreActions(this.rebuildTransactionConsumptionsAction);
-      }
-      rowActions.push(moreActions.getActionDef());
     }
     return rowActions;
   }
@@ -396,12 +415,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case LogButtonAction.CHECK_LOGS:
-        this.checkLogsAction.action('logs?ChargingStationID=' + transaction.chargeBoxID +
-        '&Timestamp=' + transaction.timestamp  + '&LogLevel=I');
+      case LogButtonAction.NAVIGATE_TO_LOGS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
+            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+        }
         break;
-      case ChargingStationButtonAction.CHECK_CHARGING_PLANS:
-        this.checkChargingPlansAction.action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+      case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID + '&TransactionID=' + transaction.id);
+        }
         break;
       case TransactionButtonAction.CREATE_TRANSACTION_INVOICE:
         if (actionDef.action) {

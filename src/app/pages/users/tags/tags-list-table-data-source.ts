@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckTransactionsAction } from 'app/pages/transactions/table-actions/table-check-transactions-action';
+import { TableNavigateToTransactionsAction } from 'app/pages/transactions/table-actions/table-navigate-to-transactions-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { IssuerFilter } from 'app/shared/table/filters/issuer-filter';
+import { IssuerFilter, organisations } from 'app/shared/table/filters/issuer-filter';
 import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
 import { DataResult } from 'app/types/DataResult';
 import { HTTPError } from 'app/types/HTTPError';
@@ -29,11 +29,11 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { Utils } from '../../../utils/Utils';
 import { TagStatusFormatterComponent } from '../formatters/tag-status-formatter.component';
 import { TableActivateTagAction, TableActivateTagActionDef } from '../table-actions/table-activate-tag-action';
-import { TableCheckUserAction } from '../table-actions/table-check-user-action';
 import { TableCreateTagAction, TableCreateTagActionDef } from '../table-actions/table-create-tag-action';
 import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../table-actions/table-deactivate-tag-action';
 import { TableDeleteTagAction, TableDeleteTagActionDef } from '../table-actions/table-delete-tag-action';
 import { TableEditTagAction, TableEditTagActionDef } from '../table-actions/table-edit-tag-action';
+import { TableNavigateToUserAction } from '../table-actions/table-navigate-to-user-action';
 
 @Injectable()
 export class TagsListTableDataSource extends TableDataSource<Tag> {
@@ -41,8 +41,8 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private activateAction = new TableActivateTagAction().getActionDef();
   private deactivateAction = new TableDeactivateTagAction().getActionDef();
   private editAction = new TableEditTagAction().getActionDef();
-  private checkUserAction = new TableCheckUserAction().getActionDef();
-  private checkTransactionsAction = new TableCheckTransactionsAction().getActionDef();
+  private navigateToUserAction = new TableNavigateToUserAction().getActionDef();
+  private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -72,6 +72,16 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       }
       this.loadUserFilterLabel(userID);
     }
+    // Issuer
+    const issuer = this.windowService.getSearch('Issuer');
+    if (issuer) {
+      const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
+      if (issuerTableFilter) {
+        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        this.filterChanged(issuerTableFilter);
+      }
+    }
+    // Tag
     const tagID = this.windowService.getSearch('TagID');
     if (tagID) {
       this.setSearchValue(tagID);
@@ -243,13 +253,18 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       } else {
         moreActions.addActionInMoreActions(this.activateAction);
       }
-      moreActions.addActionInMoreActions(this.deleteAction);
-      moreActions.addActionInMoreActions(this.checkTransactionsAction);
+      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       if (tag.userID) {
-        moreActions.addActionInMoreActions(this.checkUserAction);
+        moreActions.addActionInMoreActions(this.navigateToUserAction);
       }
-      actions.push(moreActions.getActionDef());
+      moreActions.addActionInMoreActions(this.deleteAction);
+    } else {
+      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      if (tag.userID) {
+        moreActions.addActionInMoreActions(this.navigateToUserAction);
+      }
     }
+    actions.push(moreActions.getActionDef());
     return actions;
   }
 
@@ -289,14 +304,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           (actionDef as TableEditTagActionDef).action(tag, this.dialog, this.refreshData.bind(this));
         }
         break;
-      case UserButtonAction.CHECK_USER:
+      case UserButtonAction.NAVIGATE_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#all?TagID=' + tag.id);
+          (actionDef as TableOpenURLActionDef).action('users#all?TagID=' + tag.id + '&Issuer=' + tag.issuer);
         }
         break;
-      case TransactionButtonAction.CHECK_TRANSACTIONS:
+      case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id);
+          (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id + '&Issuer=' + tag.issuer);
         }
         break;
     }

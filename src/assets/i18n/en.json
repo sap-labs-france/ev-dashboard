@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.17",
+    "last_update": "Version 2.4.20",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -1230,7 +1230,8 @@
     "cannot_download_invoice": "Cannot download invoice",
     "number_of_items": "Sessions",
     "pay": "Pay",
-    "user": "User"
+    "user": "User",
+    "failed_download": "Invoice download failed."
   },
   "tags": {
     "id": "ID",
@@ -2126,6 +2127,7 @@
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars, check the logs",
-    "end_user_error_notification": "Notify me when a user reports an error"
+    "end_user_error_notification": "Notify me when a user reports an error",
+    "billing_new_invoice": "Notify me when a new invoice is available"
   }
 }

@@ -2,7 +2,6 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from 'app/types/GlobalType';
 import { OcpiEndpointDetail } from 'app/types/ocpi/OCPIEndpoint';
-import { Constants } from 'app/utils/Constants';
 
 @Component({
   template: `
@@ -17,7 +16,7 @@ export class OcpiDetailFailureEvsesStatusFormatterComponent extends CellContentT
   @Input() public row!: OcpiEndpointDetail;
 }
 
-@Pipe({name: 'appFormatOcpiEvsesFailure'})
+@Pipe({ name: 'appFormatOcpiEvsesFailure' })
 export class AppFormatOcpiEvsesFailurePipe implements PipeTransform {
   public transform(failureNbr: number, type: string): string {
     if (type === 'class') {

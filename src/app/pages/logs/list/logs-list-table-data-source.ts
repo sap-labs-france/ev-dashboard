@@ -120,11 +120,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
             let user;
             // Set User
             if (log.user) {
-              user = log.user;
+              user = Utils.buildUserFullName(log.user);
             }
             // Set Action On User
             if (log.actionOnUser) {
-              user = (user ? `${user} > ${log.actionOnUser}` : log.actionOnUser);
+              user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
             }
             // Set
             if (user) {
@@ -148,10 +148,6 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     // Read the log details
     return this.centralServerService.getLog(row.id).pipe(
       map((log) => Formatters.formatTextToHTML(log.detailedMessages)));
-  }
-
-  public getPageSize(): number {
-    return 200;
   }
 
   public buildTableDef(): TableDef {

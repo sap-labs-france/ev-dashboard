@@ -3,12 +3,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
+import { TableNavigateToChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-navigate-to-charging-plans-action';
+import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
 import { SpinnerService } from 'app/services/spinner.service';
+import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { CarCatalog } from 'app/types/Car';
 import { ChargingStationButtonAction } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
+import { LogButtonAction } from 'app/types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
@@ -44,6 +49,8 @@ import { TableViewTransactionAction, TableViewTransactionActionDef } from '../ta
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
   private viewAction = new TableViewTransactionAction().getActionDef();
   private stopAction = new TableChargingStationsStopTransactionAction().getActionDef();
+  private navigateToLogsAction = new TableNavigateToLogsAction().getActionDef();
+  private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private isAdmin = false;
   private isSiteAdmin = false;
 
@@ -227,6 +234,18 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           (actionDef as TableViewTransactionActionDef).action(transaction, this.dialog, this.refreshData.bind(this));
         }
         break;
+      case LogButtonAction.NAVIGATE_TO_LOGS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
+            '&Timestamp=' + transaction.timestamp + '&LogLevel=I');
+        }
+        break;
+      case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
+        if (actionDef.action) {
+          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
+           + '&TransactionID=' + transaction.id);
+        }
+        break;
     }
   }
 
@@ -252,6 +271,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     ];
     if (!this.authorizationService.isDemo()) {
       actions.push(this.stopAction);
+    }
+    if (this.isAdmin) {
+      const moreActions = new TableMoreAction([
+        this.navigateToLogsAction,
+        this.navigateToChargingPlansAction,
+      ]);
+      actions.push(moreActions.getActionDef());
     }
     return actions;
   }

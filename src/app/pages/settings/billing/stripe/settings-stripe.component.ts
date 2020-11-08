@@ -41,13 +41,10 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       secretKey: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100),
-           // StripeToolBox.validateSecretKey
         ]),
       ),
       publicKey: new FormControl('',
         Validators.compose([
-          Validators.maxLength(100),
           this.validatePublicKey,
         ]),
       ),

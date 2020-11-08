@@ -1,8 +1,17 @@
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
+import { User, UserButtonAction, UserToken } from 'app/types/User';
+import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
+import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
+import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
+import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
+import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
+import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
+
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCheckTransactionsAction } from 'app/pages/transactions/table-actions/table-check-transactions-action';
+import { TableNavigateToTransactionsAction } from 'app/pages/transactions/table-actions/table-navigate-to-transactions-action';
 import { SpinnerService } from 'app/services/spinner.service';
 import { WindowService } from 'app/services/window.service';
 import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
@@ -10,12 +19,9 @@ import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-a
 import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
 import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
 import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import TenantComponents from 'app/types/TenantComponents';
 import { TransactionButtonAction } from 'app/types/Transaction';
-import { User, UserButtonAction, UserToken } from 'app/types/User';
 import { Observable } from 'rxjs';
-
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -25,7 +31,6 @@ import { MessageService } from '../../../services/message.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
@@ -34,13 +39,8 @@ import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
-import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
-import { TableCheckTagsAction } from '../table-actions/table-check-tags-action';
-import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
-import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
-import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
-import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
+import { TableNavigateToTagsAction } from '../table-actions/table-navigate-to-tags-action';
 import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
 
 @Injectable()
@@ -50,22 +50,22 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private deleteAction = new TableDeleteUserAction().getActionDef();
   private syncBillingUsersAction = new TableSyncBillingUsersAction().getActionDef();
   private forceSyncBillingUserAction = new TableForceSyncBillingUserAction().getActionDef();
-  private checkTagsAction = new TableCheckTagsAction().getActionDef();
-  private checkTransactionsAction = new TableCheckTransactionsAction().getActionDef();
+  private navigateToTagsAction = new TableNavigateToTagsAction().getActionDef();
+  private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
   private currentUser: UserToken;
 
   constructor(
-      public spinnerService: SpinnerService,
-      public translateService: TranslateService,
-      private messageService: MessageService,
-      private dialogService: DialogService,
-      private router: Router,
-      private dialog: MatDialog,
-      private centralServerNotificationService: CentralServerNotificationService,
-      private centralServerService: CentralServerService,
-      private authorizationService: AuthorizationService,
-      private componentService: ComponentService,
-      private appUserRolePipe: AppUserRolePipe,
+    public spinnerService: SpinnerService,
+    public translateService: TranslateService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private router: Router,
+    private dialog: MatDialog,
+    private centralServerNotificationService: CentralServerNotificationService,
+    private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
+    private componentService: ComponentService,
+    private appUserRolePipe: AppUserRolePipe,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
@@ -91,6 +91,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
         this.filterChanged(tagTableFilter);
       }
     }
+    // Issuer
+    const issuer = this.windowService.getSearch('Issuer');
+    if (issuer) {
+      const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
+      if (issuerTableFilter) {
+        issuerTableFilter.currentValue = [organisations.find(organisation => organisation.key === issuer)];
+        this.filterChanged(issuerTableFilter);
+      }
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -102,15 +111,15 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       // Get the Tenants
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Ok
-        observer.next(users);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+          // Ok
+          observer.next(users);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -235,7 +244,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     tableActionsDef.unshift(new TableExportUsersAction().getActionDef());
     tableActionsDef.unshift(new TableCreateUserAction().getActionDef());
     if (this.componentService.isActive(TenantComponents.BILLING) &&
-        this.authorizationService.canSynchronizeBillingUsers()) {
+      this.authorizationService.canSynchronizeBillingUsers()) {
       tableActionsDef.splice(1, 0, this.syncBillingUsersAction);
     }
     return [
@@ -244,30 +253,38 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   }
 
   public buildTableDynamicRowActions(user: User): TableActionDef[] {
-    let actions;
-    if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
+    let actions = [];
+    if (user.issuer) {
+      const moreActions = new TableMoreAction([]);
+      moreActions.addActionInMoreActions(this.navigateToTagsAction);
+      moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION) &&
         this.authorizationService.canUpdateUser() &&
         this.authorizationService.canUpdateSite()) {
-      actions = [
-        this.editAction,
-        this.assignSitesToUser,
-      ];
-    } else {
-      actions = [
-        this.editAction,
-      ];
-    }
-    const moreActions = new TableMoreAction([]);
-    if (this.componentService.isActive(TenantComponents.BILLING) &&
+        actions = [
+          this.editAction,
+          this.assignSitesToUser,
+        ];
+      } else {
+        actions = [
+          this.editAction,
+        ];
+      }
+      if (this.componentService.isActive(TenantComponents.BILLING) &&
         this.authorizationService.canSynchronizeBillingUser()) {
-      moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+        moreActions.addActionInMoreActions(this.forceSyncBillingUserAction);
+      }
+      if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
+        moreActions.addActionInMoreActions(this.deleteAction);
+      }
+      actions.push(moreActions.getActionDef());
+    } else {
+      const moreActions = new TableMoreAction([
+        this.navigateToTagsAction,
+        this.navigateToTransactionsAction
+      ]);
+      actions.push(moreActions.getActionDef());
     }
-    if (this.currentUser.id !== user.id && this.authorizationService.canDeleteUser()) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
-    moreActions.addActionInMoreActions(this.checkTagsAction);
-    moreActions.addActionInMoreActions(this.checkTransactionsAction);
-    actions.push(moreActions.getActionDef());
     return actions;
   }
 
@@ -325,14 +342,14 @@ export class UsersListTableDataSource extends TableDataSource<User> {
           );
         }
         break;
-      case UserButtonAction.CHECK_TAGS:
+      case UserButtonAction.NAVIGATE_TO_TAGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id);
+          (actionDef as TableOpenURLActionDef).action('users#tag?UserID=' + user.id + '&Issuer=' + user.issuer);
         }
         break;
-      case TransactionButtonAction.CHECK_TRANSACTIONS:
+      case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id);
+          (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer);
         }
         break;
     }

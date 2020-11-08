@@ -31,10 +31,10 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Hide table list actions for OCPI entities`,
-              `Push all the locations once a day`,
+              `Push all the OCPI locations once a day`,
               `Retrieve all the OCPI badges once a day`,
               `Notify the user when a new invoice is available`,
-              `Fixed billing invoice deletion during synchronization`,
+              `Fixed billing invoice deletion during invoice synchronization`,
               `Added Car Maker filter in Car Management`,
               `Jump from User to Badge list should take into account the organization filter`,
               `Format OCPI Country codes`,

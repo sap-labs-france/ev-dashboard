@@ -124,6 +124,7 @@ export enum ServerAction {
   OCPI_CHECK_TOKENS = 'OcpiCheckTokens',
   OCPI_PUSH_TOKENS = 'OcpiPushTokens',
   OCPI_PUSH_SESSIONS = 'OcpiPushSessions',
+  OCPI_PUSH_LOCATIONS = 'OcpiPushLocations',
   OCPI_PUSH_CDRS = 'OcpiPushCdrs',
   OCPI_PULL_CDRS = 'OcpiPullCdrs',
   OCPI_PULL_LOCATIONS = 'OcpiPullLocations',
@@ -154,6 +155,7 @@ export enum ServerAction {
   AUTHORIZATIONS = 'Authorizations',
 
   DB_WATCH = 'DBWatch',
+  DB_MONITOR = 'DBMonitor',
 
   EXPRESS_SERVER = 'ExpressServer',
   ODATA_SERVER = 'ODataServer',
@@ -358,6 +360,7 @@ export enum ServerAction {
   BILLING_FORCE_SYNCHRONIZE_USER_INVOICES = 'BillingForceSynchronizeUserInvoices',
   BILLING_DOWNLOAD_INVOICE = 'BillingDownloadInvoice',
   BILLING_CREATE_TRANSACTION_INVOICE = 'BillingCreateTransactionInvoice',
+  BILLING_NEW_INVOICE = 'BillingNewInvoice',
 
   MONGO_DB = 'MongoDB',
 
@@ -374,9 +377,11 @@ export enum ServerAction {
   REST_SIGNIN = 'signin',
   REST_SIGNON = 'signon',
   REST_SIGNOUT = 'signout',
-  REST_CHECK = 'check',
-  REST_RESEND = 'resend',
-  REST_RESET = 'reset',
+  REST_PASSWORD_RESET = 'password/reset',
+  REST_END_USER_LICENSE_AGREEMENT = 'eula',
+  REST_END_USER_LICENSE_AGREEMENT_CHECK = 'eula/check',
+  REST_MAIL_CHECK = 'mail/check',
+  REST_MAIL_RESEND = 'mail/resend',
   REST_PING = 'ping',
   REST_TENANTS = 'tenants'
 }

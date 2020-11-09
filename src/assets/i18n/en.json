@@ -2138,6 +2138,7 @@
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",
     "user_account_inactivity": "Notify me when I haven't logged in to the application for more than 6 months",
+    "check_and_apply_smart_charging_error_notification": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notify me if an error has occurred while synchronization cars, check the logs",
     "end_user_error_notification": "Notify me when a user reports an error",
     "billing_new_invoice": "Notify me when a new invoice is available"

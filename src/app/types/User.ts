@@ -58,6 +58,7 @@ export interface UserNotifications {
   sendBillingSynchronizationFailed: boolean;
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
+  sendCheckAndApplySmartChargingFailed: boolean;
   sendEndUserErrorNotification: boolean;
   sendBillingNewInvoice: boolean;
 }

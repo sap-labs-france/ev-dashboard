@@ -2139,7 +2139,7 @@
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
     "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
-    "check_and_apply_smart_charging_error_notification": "Notify me when applying the Smart Charging Profiles-fails for a certain site area",
+    "compute_and_apply_charging_profiles_error_notification": "Notify me when applying the Smart Charging Profiles-fails for a certain site area",
     "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème",
     "billing_new_invoice": "Me notifier lorsqu'une nouvelle facture est disponible"
   }

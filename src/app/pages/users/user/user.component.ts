@@ -90,7 +90,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
-  public sendCheckAndApplySmartChargingFailed!: AbstractControl;
+  public sendComputeAndApplyChargingProfilesFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
   public sendUserAccountInactivity!: AbstractControl;
   public sendEndUserErrorNotification!: AbstractControl;
@@ -185,7 +185,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOcpiPatchStatusError: new FormControl(false),
         sendSmtpAuthError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
-        sendCheckAndApplySmartChargingFailed: new FormControl(false),
+        sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
         sendBillingNewInvoice: new FormControl(false),
       }),
@@ -273,7 +273,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
-    this.sendCheckAndApplySmartChargingFailed = this.notifications.controls['sendCheckAndApplySmartChargingFailed'];
+    this.sendComputeAndApplyChargingProfilesFailed = this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
     if (this.currentUserID) {
@@ -434,10 +434,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendSessionNotStarted.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendCheckAndApplySmartChargingFailed')) {
-        this.notifications.controls.sendCheckAndApplySmartChargingFailed.setValue(user.notifications.sendCheckAndApplySmartChargingFailed);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendComputeAndApplyChargingProfilesFailed')) {
+        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(
+          user.notifications.sendComputeAndApplyChargingProfilesFailed);
       } else {
-        this.notifications.controls.sendCheckAndApplySmartChargingFailed.setValue(false);
+        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
       }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendEndUserErrorNotification')) {
         this.notifications.controls.sendEndUserErrorNotification.setValue(user.notifications.sendEndUserErrorNotification);
@@ -498,7 +499,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpAuthError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
-        this.notifications.controls.sendCheckAndApplySmartChargingFailed.setValue(true);
+        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
         this.notifications.controls.sendEndUserErrorNotification.setValue(true);
         break;
       case UserRole.BASIC:
@@ -519,7 +520,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
-        this.notifications.controls.sendCheckAndApplySmartChargingFailed.setValue(false);
+        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
       case UserRole.DEMO:
@@ -540,7 +541,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
-        this.notifications.controls.sendCheckAndApplySmartChargingFailed.setValue(false);
+        this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
         break;
     }

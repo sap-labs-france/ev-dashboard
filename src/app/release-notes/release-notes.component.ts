@@ -24,7 +24,7 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.21',
+        version: '2.4.22',
         date: new Date('2020-11-10'),
         componentChanges: [
           {
@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Enhanced OCPI logs`,
               `Fixed and optimized OCPI Pull Tokens`,
+              `Fixed Remote Start Transaction not working`
             ],
           },
         ],

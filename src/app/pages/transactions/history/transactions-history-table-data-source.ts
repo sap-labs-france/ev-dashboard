@@ -51,6 +51,7 @@ import { TransactionsInactivityCellComponent } from '../cell-components/transact
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
 import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../table-actions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../table-actions/table-delete-transaction-action';
+import { TableExportOcpiDataFromTransactionAction, TableExportOcpiDataFromTransactionActionDef } from '../table-actions/table-export-ocpi-data-from-transaction';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../table-actions/table-export-transactions-action';
 import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../table-actions/table-rebuild-transaction-consumptions-action';
 import { TableRoamingPushCdrAction, TableRoamingPushCdrActionDef } from '../table-actions/table-roaming-push-cdr-action';
@@ -67,6 +68,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
   private pushCdr = new TableRoamingPushCdrAction().getActionDef();
+  private exportOcpiData = new TableExportOcpiDataFromTransactionAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -367,6 +369,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         const moreActions = new TableMoreAction([]);
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
         moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
+        if (transaction.ocpiData) {
+          moreActions.addActionInMoreActions(this.exportOcpiData);
+        }
         rowActions.push(moreActions.getActionDef());
       }
     }
@@ -430,6 +435,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
+      case TransactionButtonAction.EXPORT_OCPI_DATA_FROM_TRANSACTION:
+        if (actionDef.action) {
+          (actionDef as TableExportOcpiDataFromTransactionActionDef).action(
+            transaction.id, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
+        }
     }
   }
 

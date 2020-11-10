@@ -1,10 +1,10 @@
 import { BillingTransactionData } from './Billing';
 import { ChargingStation } from './ChargingStation';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
-import { OCPICdr } from './ocpi/OCPICdr';
-import { OCPISession } from './ocpi/OCPISession';
 
 export interface Transaction extends Data {
   id: number;
@@ -65,12 +65,14 @@ export interface Transaction extends Data {
   dateTimestring: string;
   values: TransactionConsumption[];
   billingData: BillingTransactionData;
-  ocpiData?: {
-    session?: OCPISession;
-    cdr?: OCPICdr;
-    sessionCheckedOn?: Date;
-    cdrCheckedOn?: Date;
-  };
+  ocpiData?: OcpiData;
+}
+
+export interface OcpiData {
+  session?: OCPISession;
+  cdr?: OCPICdr;
+  sessionCheckedOn?: Date;
+  cdrCheckedOn?: Date;
 }
 
 export interface TransactionConsumption {
@@ -111,6 +113,7 @@ export enum TransactionButtonAction {
   DELETE_TRANSACTION = 'delete_transaction',
   DELETE_TRANSACTIONS = 'delete_transactions',
   EXPORT_TRANSACTIONS = 'export_transactions',
+  EXPORT_OCPI_DATA_FROM_TRANSACTION = 'export_ocpi_data_from_transaction',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
   REFUND_SYNCHRONIZE = 'refund_synchronize',

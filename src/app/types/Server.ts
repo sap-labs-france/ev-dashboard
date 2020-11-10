@@ -49,6 +49,8 @@ export enum ServerAction {
   ASSIGN_TRANSACTIONS_TO_USER = 'AssignTransactionsToUser',
   UPDATE_TRANSACTION = 'UpdateTransaction',
 
+  GET_OCPI_DATA = 'GetOcpiData',
+
   LOGGINGS = 'Loggings',
   LOGGING = 'Logging',
   LOGGINGS_EXPORT = 'LoggingsExport',

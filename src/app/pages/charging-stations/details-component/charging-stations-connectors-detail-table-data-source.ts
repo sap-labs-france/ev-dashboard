@@ -8,7 +8,7 @@ import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { DataResult } from 'app/types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
 import { TransactionButtonAction } from 'app/types/Transaction';
@@ -29,6 +29,7 @@ import { ChargingStationsConnectorStatusCellComponent } from '../cell-components
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../table-actions/table-charging-stations-start-transaction-action';
 import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from '../table-actions/table-charging-stations-stop-transaction-action';
+import { TableChargingStationsUnlockConnectorAction, TableChargingStationsUnlockConnectorActionDef } from '../table-actions/table-charging-stations-unlock-connector-action';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -197,6 +198,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       if (connector.isStartAuthorized && !this.chargingStation.inactive) {
         actions.push(this.startTransactionAction);
       }
+      if (this.authorizationService.canUnlockConnector(this.chargingStation.siteArea)) {
+        const unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
+        unlockConnectorAction.disabled = connector.status === ChargePointStatus.AVAILABLE || this.chargingStation.inactive;
+        actions.push(unlockConnectorAction);
+      }
     }
     if (actions.length > 0) {
       return actions;
@@ -245,6 +251,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
             chargingStationID: this.chargingStation.id,
             connectorID: connector.connectorId,
           }, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+        // Unlock Charger
+      case ChargingStationButtonAction.UNLOCK_CONNECTOR:
+        if (actionDef.action) {
+          (actionDef as TableChargingStationsUnlockConnectorActionDef).action(
+            connector, this.chargingStation, this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.spinnerService,
+            this.router, this.refreshData.bind(this));
         }
         break;
     }

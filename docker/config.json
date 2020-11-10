@@ -3,7 +3,8 @@
     "protocol": "http",
     "host": "localhost",
     "port": 81,
-    "socketIOEnabled": true
+    "socketIOEnabled": true,
+    "connectionMaxRetries": 1
   },
   "FrontEnd": {
     "host": "localhost"

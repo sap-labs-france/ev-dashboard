@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.21',
+        date: new Date('2020-11-10'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Enhanced OCPI logs`,
+              `Fixed and optimized OCPI Pull Tokens`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.20',
         date: new Date('2020-11-07'),
         componentChanges: [

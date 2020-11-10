@@ -765,16 +765,16 @@ export class Utils {
     return result;
   }
 
-  public static convertToDate(date: any): Date {
+  public static convertToDate(value: any): Date {
     // Check
-    if (!date) {
-      return date;
+    if (!value) {
+      return value;
     }
     // Check Type
-    if (!(date instanceof Date)) {
-      return new Date(date);
+    if (!(value instanceof Date)) {
+      return new Date(value);
     }
-    return date;
+    return value;
   }
 
   public static convertToInteger(value: any): number {

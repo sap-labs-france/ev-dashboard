@@ -1001,7 +1001,7 @@ export class CentralServerService {
       );
   }
 
-  public assignTransactionsToUser(userId: string): Observable<ActionResponse> {
+  public assignTransactionsToUser(userID: string, tagID: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1009,21 +1009,26 @@ export class CentralServerService {
       null,
       {
         headers: this.buildHttpHeaders(),
-        params: { UserID: userId },
+        params: {
+          UserID: userID,
+          TagID: tagID,
+        },
       })
       .pipe(
         catchError(this.handleHttpError),
       );
   }
 
-  public getUnassignedTransactionsCount(userId: string): Observable<number> {
+  public getUnassignedTransactionsCount(tagID: string): Observable<number> {
     // Verify init
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<number>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.UNASSIGNED_TRANSACTIONS_COUNT}`,
       {
         headers: this.buildHttpHeaders(),
-        params: { UserID: userId },
+        params: {
+          TagID: tagID
+        },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1986,20 +1991,6 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_SEND_EVSE_STATUSES}`, ocpiEndpoint,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public triggerJobsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPITriggerJobsResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute
-    return this.httpClient.post<OCPITriggerJobsResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_TRIGGER_JOBS}`, ocpiEndpoint,
       {
         headers: this.buildHttpHeaders(),
       })

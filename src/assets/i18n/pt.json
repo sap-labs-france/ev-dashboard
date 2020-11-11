@@ -1575,6 +1575,7 @@
     "trigger_jobs_title": "Executar trabalhos",
     "trigger_jobs_confirm": "Deseja acionar todos os trabalhos de IOP '{{name}}'?",
     "trigger_ocpi_action": "The action has been successfully sent and may take time to be processed",
+    "ocpi_action_in_progress": "The action is already running",
     "pull_locations_title": "Localizações de extração",
     "pull_locations_confirm": "Deseja recuperar todas as localizações do IOP '{{name}}'?",
     "pull_locations_success": "Locais atualizados com sucesso {{success}} do IOP",

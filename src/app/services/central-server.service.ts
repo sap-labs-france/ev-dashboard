@@ -1999,20 +1999,6 @@ export class CentralServerService {
       );
   }
 
-  public triggerJobsOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPITriggerJobsResponse> {
-    // Verify init
-    this.checkInit();
-    // Execute
-    return this.httpClient.post<OCPITriggerJobsResponse>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_TRIGGER_JOBS}`, ocpiEndpoint,
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public sendTokensOcpiEndpoint(ocpiEndpoint: OcpiEndpoint): Observable<OCPIJobStatusesResponse> {
     // Verify init
     this.checkInit();

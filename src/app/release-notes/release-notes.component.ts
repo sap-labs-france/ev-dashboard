@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.22',
-        date: new Date('2020-11-10'),
+        date: new Date('2020-11-11'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Enhanced OCPI logs`,
+              `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
               `Fixed and optimized OCPI Pull Tokens`,
+              `Enhanced OCPI logs`,
               `Fixed Remote Start Transaction not working`
             ],
           },

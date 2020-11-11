@@ -1001,7 +1001,7 @@ export class CentralServerService {
       );
   }
 
-  public assignTransactionsToUser(userId: string): Observable<ActionResponse> {
+  public assignTransactionsToUser(userID: string, tagID: string): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1009,21 +1009,26 @@ export class CentralServerService {
       null,
       {
         headers: this.buildHttpHeaders(),
-        params: { UserID: userId },
+        params: {
+          UserID: userID,
+          TagID: tagID,
+        },
       })
       .pipe(
         catchError(this.handleHttpError),
       );
   }
 
-  public getUnassignedTransactionsCount(userId: string): Observable<number> {
+  public getUnassignedTransactionsCount(tagID: string): Observable<number> {
     // Verify init
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<number>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.UNASSIGNED_TRANSACTIONS_COUNT}`,
       {
         headers: this.buildHttpHeaders(),
-        params: { UserID: userId },
+        params: {
+          TagID: tagID
+        },
       })
       .pipe(
         catchError(this.handleHttpError),

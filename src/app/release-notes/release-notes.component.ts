@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
               `OCPI Pull Tokens second optimization pass`,
               `Increased to 2 the number of jobs pulling the Badges from the Gireve`,
+              `Added locks to all OCPI eMSP and CPO's actions`,
               `Fixed and optimized OCPI Pull Tokens`,
               `Enhanced OCPI logs`,
               `Fixed Remote Start Transaction not working`

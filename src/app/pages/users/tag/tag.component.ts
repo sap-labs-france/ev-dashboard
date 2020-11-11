@@ -196,7 +196,7 @@ export class TagComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.create_success', { tagID: tag.id });
         // Reassign transactions to user?
-        this.checkUnassignedTransactions(tag.userID);
+        this.checkUnassignedTransactions(tag.userID, tag.id);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.create_error');
       }

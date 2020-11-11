@@ -31,6 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
+              `OCPI Pull Tokens second optimization pass`,
+              `Increased to 2 the number of jobs pulling the Badges from the Gireve`,
               `Fixed and optimized OCPI Pull Tokens`,
               `Enhanced OCPI logs`,
               `Fixed Remote Start Transaction not working`

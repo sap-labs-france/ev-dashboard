@@ -1578,6 +1578,7 @@
     "trigger_jobs_title": "Execute Jobs",
     "trigger_jobs_confirm": "Do you want to trigger all jobs of IOP '{{name}}'?",
     "trigger_ocpi_action": "The action has been successfully sent and may take time to be processed",
+    "ocpi_action_in_progress": "The action is already running",
     "pull_locations_title": "Pull Locations",
     "pull_locations_confirm": "Do you want to retrieve all locations from IOP '{{name}}'?",
     "pull_locations_success": "Successfully updated '{{success}}' locations from IOP",

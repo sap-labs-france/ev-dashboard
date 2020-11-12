@@ -1578,6 +1578,7 @@
     "trigger_jobs_title": "Execution des Processus",
     "trigger_jobs_confirm": "Voulez-vous vraiment exécuter tous les processus de l'IOP '{{name}}'?",
     "trigger_ocpi_action": "L'action a bien été envoyée et pourrait prendre du temps pour s'exécuter",
+    "ocpi_action_in_progress": "L'action est déjà en cours d'exécution",
     "pull_locations_title": "Téléchargement des destinations",
     "pull_locations_confirm": "Voulez-vous vraiment télécharger les destinations de l'IOP '{{name}}'?",
     "pull_locations_success": "'{{success}}' destinations ont été mis à jour avec succès",

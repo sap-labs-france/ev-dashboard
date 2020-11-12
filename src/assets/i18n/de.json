@@ -1578,6 +1578,7 @@
     "trigger_jobs_title": "Jobs ausführen",
     "trigger_jobs_confirm": "Wollen Sie die Ausführung aller IOP '{{name}}' Jobs auslösen?",
     "trigger_ocpi_action": "The action has been successfully sent and may take time to be processed",
+    "ocpi_action_in_progress": "The action is already running",
     "pull_locations_title": "Standorte abrufen",
     "pull_locations_confirm": "Wollen Sie alle Standorte von IOP '{{name}}' abrufen?",
     "pull_locations_success": "Aktualisieren der Standorte '{{success}}' von IOP war erfolgreich",

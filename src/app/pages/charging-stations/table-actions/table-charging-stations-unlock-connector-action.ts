@@ -5,8 +5,9 @@ import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
 import { TableAction } from 'app/shared/table/actions/table-action';
-import { ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from 'app/types/ChargingStation';
+import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
 import { ActionResponse } from 'app/types/DataResult';
+import { OCPPUnlockStatus } from 'app/types/ocpp/OCPP';
 import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
 import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
@@ -49,7 +50,7 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
                 centralServerService.chargingStationsUnlockConnector(
                     chargingStation.id, connector.connectorId).subscribe((unlockConnectorResponse: ActionResponse) => {
                         spinnerService.hide();
-                        if (unlockConnectorResponse.status === OCPPGeneralResponse.ACCEPTED) {
+                        if (unlockConnectorResponse.status === OCPPUnlockStatus.UNLOCKED) {
                             messageService.showSuccessMessage(
                                 translateService.instant('chargers.unlock_connector_success', {
                                     chargeBoxID: chargingStation.id,

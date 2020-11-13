@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "md-pro-angular-cli": {
+    "ev-dashboard": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -76,21 +76,21 @@
             "port": 45000,
             "host": "localhost",
             "disableHostCheck": true,
-            "browserTarget": "md-pro-angular-cli:build"
+            "browserTarget": "ev-dashboard:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "md-pro-angular-cli:build:production"
+              "browserTarget": "ev-dashboard:build:production"
             },
             "development": {
-              "browserTarget": "md-pro-angular-cli:build:development"
+              "browserTarget": "ev-dashboard:build:development"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "md-pro-angular-cli:build"
+            "browserTarget": "ev-dashboard:build"
           }
         },
         "test": {
@@ -132,7 +132,7 @@
       }
     }
   },
-  "defaultProject": "md-pro-angular-cli",
+  "defaultProject": "ev-dashboard",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

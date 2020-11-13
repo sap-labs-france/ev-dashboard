@@ -9,7 +9,7 @@ import { SpinnerService } from './services/spinner.service';
 import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe';
 
 @Component({
-  selector: 'app-my-app',
+  selector: 'app-root',
   templateUrl: './app.component.html',
 })
 

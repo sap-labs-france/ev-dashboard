@@ -3,9 +3,11 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { RegistrationToken } from 'app/types/RegistrationToken';
 import { SiteArea } from 'app/types/SiteArea';
+import TenantComponents from 'app/types/TenantComponents';
 import * as moment from 'moment';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -23,6 +25,7 @@ export class RegistrationTokenComponent implements OnInit {
   @Input() public currentToken!: RegistrationToken;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<RegistrationTokenDialogComponent>;
+  public readonly isOrganizationComponentActive: boolean;
   public formGroup!: FormGroup;
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
@@ -34,9 +37,11 @@ export class RegistrationTokenComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
+    private componentService: ComponentService,
     private translateService: TranslateService,
     private dialog: MatDialog,
     private router: Router) {
+      this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
   }
 
   public ngOnInit(): void {

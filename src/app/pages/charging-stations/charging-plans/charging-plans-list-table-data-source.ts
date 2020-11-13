@@ -196,6 +196,11 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     if (!chargingProfile) {
       return [];
     }
+    if (this.authorizationService.isAdmin() && !this.isOrganizationComponentActive ) {
+      return [
+        this.smartChargingAction
+      ];
+    }
     if (this.authorizationService.isAdmin() ||
       this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
       return [

@@ -466,7 +466,8 @@
     "export_all_params_error": "Se produjo un error al intentar exportar todos los parámetros OCPP",
     "consumption_date": "Fecha",
     "single_phased": "Monofásica",
-    "three_phased": "Trifásica"
+    "three_phased": "Trifásica",
+    "redirect": "Navigate to Site Area"
   },
   "authentication": {
     "accept": "Acepto el ",

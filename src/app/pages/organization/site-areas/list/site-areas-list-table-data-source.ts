@@ -10,6 +10,7 @@ import { ComponentService } from 'app/services/component.service';
 import { DialogService } from 'app/services/dialog.service';
 import { MessageService } from 'app/services/message.service';
 import { SpinnerService } from 'app/services/spinner.service';
+import { WindowService } from 'app/services/window.service';
 import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
 import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
 import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
@@ -63,12 +64,25 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
+    private windowService: WindowService,
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
+    this.initUrlParams();
+  }
+
+  public initUrlParams() {
+    const siteAreaID = this.windowService.getSearch('SiteAreaID');
+    if (siteAreaID) {
+      this.centralServerService.getSiteArea(siteAreaID).subscribe((siteArea) => {
+        if (siteArea) {
+          this.editAction.action(siteArea, this.dialog);
+        }
+      });
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

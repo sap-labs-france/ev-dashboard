@@ -466,7 +466,8 @@
     "export_all_params_error": "Beim Exportieren aller OCPP-Parameter ist ein Fehler aufgetreten.",
     "consumption_date": "Datum",
     "single_phased": "Einphasig",
-    "three_phased": "Dreiphasig"
+    "three_phased": "Dreiphasig",
+    "redirect": "Navigiere zum Standortbereich"
   },
   "authentication": {
     "accept": "Ich akzeptiere die",

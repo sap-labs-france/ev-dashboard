@@ -25,11 +25,13 @@ import { Observable } from 'rxjs';
 import { ComponentService } from '../../../services/component.service';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../table-actions/table-charging-stations-smart-charging-action';
+import { TableNavigateToSiteAreaAction } from '../table-actions/table-navigate-to-site-area-action';
 
 @Injectable()
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
   private readonly isOrganizationComponentActive: boolean;
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
+  private checkSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -175,6 +177,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
           );
         }
         break;
+        case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
+          this.checkSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
+          break;
     }
   }
 
@@ -195,6 +200,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
       return [
         this.smartChargingAction,
+        this.checkSiteAreaAction,
       ];
     }
     return [];

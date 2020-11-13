@@ -466,7 +466,8 @@
     "export_all_params_error": "Error occurred while trying to export all the OCPP parameters, check the logs",
     "consumption_date": "Date",
     "single_phased": "Single Phase",
-    "three_phased": "Three Phases"
+    "three_phased": "Three Phases",
+    "redirect": "Navigate to Site Area"
   },
   "authentication": {
     "accept": "I accept the",

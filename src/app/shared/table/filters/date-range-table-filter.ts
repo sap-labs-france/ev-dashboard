@@ -1,5 +1,6 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
+
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 import { TableFilter } from './table-filter';
 

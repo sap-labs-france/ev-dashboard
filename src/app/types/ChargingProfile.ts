@@ -1,4 +1,4 @@
-import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
+import { ChargingRateUnitType, ChargingStation } from '../types/ChargingStation';
 
 import { Data } from './Table';
 

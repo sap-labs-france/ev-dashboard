@@ -1,17 +1,17 @@
-import { FormArray } from '@angular/forms';
-import { MatSort } from '@angular/material/sort';
-import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DataResult, Ordering, Paging } from 'app/types/DataResult';
-import { FilterParams } from 'app/types/GlobalType';
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
+import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { Observable, of } from 'rxjs';
-import { first } from 'rxjs/operators';
 
 import ChangeNotification from '../../types/ChangeNotification';
 import { Constants } from '../../utils/Constants';
+import { FilterParams } from '../../types/GlobalType';
+import { FormArray } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
+import { SpinnerService } from '../../services/spinner.service';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from '../../utils/Utils';
+import { first } from 'rxjs/operators';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;

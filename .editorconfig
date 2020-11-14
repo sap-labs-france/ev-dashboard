@@ -1,15 +1,16 @@
+# Editor configuration, see https://editorconfig.org
 root = true
 
 [*]
+charset = utf-8
 indent_style = space
 indent_size = 2
-tab_width = 2
-charset = utf-8
-trim_trailing_whitespace = true
 insert_final_newline = true
-end_of_line = lf
-max_line_length = 100
+trim_trailing_whitespace = true
 
-[{Makefile,**.mk}]
-# Use tabs for indentation (Makefiles require tabs)
-indent_style = tab
+[*.ts]
+quote_type = single
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false

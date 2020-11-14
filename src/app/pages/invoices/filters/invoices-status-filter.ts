@@ -1,7 +1,6 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
+import { TRANSACTION_INVOICE_STATUS } from '../../../shared/model/transactions-invoices.model';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { invoicesStatuses } from '../model/invoices.model';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class InvoiceStatusFilter extends TableFilter {
   constructor() {
@@ -15,7 +14,7 @@ export class InvoiceStatusFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
-      items: Object.assign([], invoicesStatuses),
+      items: Object.assign([], TRANSACTION_INVOICE_STATUS),
       multiple: true,
     };
     this.setFilterDef(filterDef);

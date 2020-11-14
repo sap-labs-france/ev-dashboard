@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Action } from 'app/types/Authorization';
-import { UserToken } from 'app/types/User';
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { RouteGuardService } from '../guard/route-guard';
+import { Action } from '../types/Authorization';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerNotificationService } from '../services/central-server-notification.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ConfigService } from '../services/config.service';
 import { Constants } from '../utils/Constants';
+import { RouteGuardService } from '../guard/route-guard';
+import { Subscription } from 'rxjs';
+import { UserToken } from '../types/User';
+import { debounceTime } from 'rxjs/operators';
 
 declare const $: any;
 
@@ -44,9 +44,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private centralServerNotificationService: CentralServerNotificationService) {
     // Get the routes
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
-      this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => {
-        return route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, []);
-      }).map((route) => route && route.data ? route.data.menu : null);
+      this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, [])).map((route) => route && route.data ? route.data.menu : null);
     }
 
     // Set admin
@@ -77,18 +75,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
       // Subscribe to user's change
       this.userRefreshSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          // Update user?
-          if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
-            // Deleted?
-            if (singleChangeNotification.action === Action.DELETE) {
-              // Log off user
-              this.logout();
-            } else {
-              // Same user: Update it
-              this.refreshUser();
-            }
+        // Update user?
+        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.id) {
+          // Deleted?
+          if (singleChangeNotification.action === Action.DELETE) {
+            // Log off user
+            this.logout();
+          } else {
+            // Same user: Update it
+            this.refreshUser();
           }
-        });
+        }
+      });
     }
   }
 
@@ -114,8 +112,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   public updatePS(): void {
-    if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
-      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') as HTMLElement;
+    if (window.matchMedia('(min-width: 960px)').matches && !this.isMac()) {
+      const elemSidebar = document.querySelector('.sidebar .sidebar-wrapper') ;
     }
   }
 

@@ -4,7 +4,7 @@ import { Utils } from './Utils';
 
 export default class SocketIOClient {
   private static instance: SocketIOClient;
-  private socketIO: SocketIOClient.Socket;
+  private socketIO: any;
 
   private constructor() {
   }

@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { KeyValue } from 'app/types/GlobalType';
-import { UserToken } from 'app/types/User';
 import { BehaviorSubject } from 'rxjs';
-
 import { CentralServerService } from './central-server.service';
 import { ConfigService } from './config.service';
+import { Injectable } from '@angular/core';
+import { KeyValue } from '../types/GlobalType';
+import { TranslateService } from '@ngx-translate/core';
+import { UserToken } from '../types/User';
 
 export interface Locale {
   language: string;

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Role } from 'app/types/Authorization';
-import { environment } from 'environments/environment';
 
+import { environment } from '../../environments/environment';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ComponentService } from '../services/component.service';
 import { MessageService } from '../services/message.service';
+import { Role } from '../types/Authorization';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
@@ -36,11 +36,12 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     });
   }
 
-  public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
+  public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
+
     if (isIEOrEdge) {
-      await this.redirectToBrowserNotSupportRoute();
+      this.redirectToBrowserNotSupportRoute();
       return false;
     }
     const queryParams = {};
@@ -49,7 +50,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       if (this.isRouteAllowed(activatedRoute.routeConfig, isActiveInSuperTenant)) {
         return true;
       }
-      await this.redirectToDefaultRoute();
+      this.redirectToDefaultRoute();
       return false;
     }
     this.userRole = undefined;
@@ -67,7 +68,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       }).subscribe((result) => {
         // Success
         this.centralServerService.loginSucceeded(result.token);
-        await this.redirectToDefaultRoute();
+        this.redirectToDefaultRoute();
       }, (error) => {
         // Report the error
         this.messageService.showErrorMessage(

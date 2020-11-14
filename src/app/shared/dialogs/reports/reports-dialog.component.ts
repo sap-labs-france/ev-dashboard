@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { KeyValue } from 'app/types/GlobalType';
-import { RefundReport } from 'app/types/Refund';
+import { KeyValue } from '../../../types/GlobalType';
+import { RefundReport } from '../../../types/Refund';
 
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { ReportsDialogTableDataSource } from './reports-dialog-table-data-source';

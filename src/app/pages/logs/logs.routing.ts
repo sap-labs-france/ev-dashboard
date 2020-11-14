@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Action, Entity } from 'app/types/Authorization';
+import { Action, Entity } from '../../types/Authorization';
 
 import { RouteGuardService } from '../../guard/route-guard';
 import { LogsListComponent } from './list/logs-list.component';

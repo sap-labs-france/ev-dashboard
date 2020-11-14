@@ -2,35 +2,37 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from 'app/pages/charging-stations/table-actions/table-export-ocpp-params-action';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CompanyTableFilter } from 'app/shared/table/filters/company-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { Site, SiteButtonAction } from 'app/types/Site';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
+import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-users-to-site-action';
+import { TableCreateSiteAction, TableCreateSiteActionDef } from '../../../../shared/table/actions/sites/table-create-site-action';
+import { TableDeleteSiteAction, TableDeleteSiteActionDef } from '../../../../shared/table/actions/sites/table-delete-site-action';
+import { TableEditSiteAction, TableEditSiteActionDef } from '../../../../shared/table/actions/sites/table-edit-site-action';
+import { TableViewSiteAction, TableViewSiteActionDef } from '../../../../shared/table/actions/sites/table-view-site-action';
+import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
+import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { CompanyTableFilter } from '../../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../table-actions/table-assign-users-to-site-action';
-import { TableCreateSiteAction, TableCreateSiteActionDef } from '../table-actions/table-create-site-action';
-import { TableDeleteSiteAction, TableDeleteSiteActionDef } from '../table-actions/table-delete-site-action';
-import { TableEditSiteAction, TableEditSiteActionDef } from '../table-actions/table-edit-site-action';
-import { TableViewSiteAction, TableViewSiteActionDef } from '../table-actions/table-view-site-action';
+import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
+import { DataResult } from '../../../../types/DataResult';
+import { ButtonAction } from '../../../../types/GlobalType';
+import { Site, SiteButtonAction } from '../../../../types/Site';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
+import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
+import { SiteDialogComponent } from '../site/site-dialog.component';
 
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
@@ -224,7 +226,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent, this.dialog, this.refreshData.bind(this));
         }
     }
   }
@@ -233,18 +235,18 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
-          (actionDef as TableEditSiteActionDef).action(site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, site, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
-          (actionDef as TableViewSiteActionDef).action(site, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, site, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
           (actionDef as TableAssignUsersToSiteActionDef).action(
-            site, this.dialog, this.refreshData.bind(this));
+            SiteUsersDialogComponent, site, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteButtonAction.DELETE_SITE:

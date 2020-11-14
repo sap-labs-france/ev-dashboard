@@ -1,23 +1,24 @@
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Data, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { Address } from 'app/types/Address';
-import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { MobileType } from 'app/types/Mobile';
-import { ButtonType } from 'app/types/Table';
-import { User, UserCar, UserToken } from 'app/types/User';
-import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 
+import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from '../types/ChargingStation';
+import { Data, Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { User, UserCar, UserToken } from '../types/User';
+
+import { Address } from '../types/Address';
+import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
+import { ButtonType } from '../types/Table';
+import { CentralServerService } from '../services/central-server.service';
+import { ConfigService } from '../services/config.service';
 import { Constants } from './Constants';
+import { DialogService } from '../services/dialog.service';
+import { KeyValue } from '../types/GlobalType';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MessageService } from '../services/message.service';
+import { MobileType } from '../types/Mobile';
+import { StatusCodes } from 'http-status-codes';
+import { TranslateService } from '@ngx-translate/core';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -278,14 +279,16 @@ export class Utils {
     if (!chargingStation.chargePoints) {
       return null;
     }
-    return chargingStation.chargePoints.find((chargePoint) => chargePoint && (chargePoint.chargePointID === chargePointID));
+    return chargingStation.chargePoints.find((chargePoint: ChargePoint) =>
+      chargePoint && (chargePoint.chargePointID === chargePointID));
   }
 
   public static getConnectorFromID(chargingStation: ChargingStation, connectorID: number): Connector {
     if (!chargingStation.connectors) {
       return null;
     }
-    return chargingStation.connectors.find((connector) => connector && (connector.connectorId === connectorID));
+    return chargingStation.connectors.find((connector: Connector) =>
+      connector && (connector.connectorId === connectorID));
   }
 
   public static computeChargingStationTotalAmps(chargingStation: ChargingStation): number {
@@ -638,7 +641,7 @@ export class Utils {
   }
 
   public static buildCarName(car: Car, withID = false): string {
-    let carName: string;
+    let carName: string = null;
     if (!car) {
       return '-';
     }

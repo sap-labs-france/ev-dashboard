@@ -1,16 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import AssetConfiguration from 'app/types/configuration/AssetConfiguration';
-import CarConfiguration from 'app/types/configuration/CarConfiguration';
-import Debug from 'app/types/configuration/Debug';
-import { Constants } from 'app/utils/Constants';
-
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
+import AssetConfiguration from '../types/configuration/AssetConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
+import CarConfiguration from '../types/configuration/CarConfiguration';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import CompanyConfiguration from '../types/configuration/CompanyConfiguration';
 import { Configuration } from '../types/configuration/Configuration';
+import Debug from '../types/configuration/Debug';
 import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';

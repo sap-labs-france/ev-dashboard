@@ -1,6 +1,7 @@
-import { DecimalPipe } from '@angular/common';
+import { Locale, LocaleService } from '../../services/locale.service';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Locale, LocaleService } from 'app/services/locale.service';
+
+import { DecimalPipe } from '@angular/common';
 
 @Pipe({ name: 'appDecimal' })
 export class AppDecimalPipe implements PipeTransform {

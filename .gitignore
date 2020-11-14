@@ -1,3 +1,5 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
 # config
 config
 src/assets/config*.json
@@ -8,10 +10,15 @@ manifest.yml
 /dist
 /tmp
 /out-tsc
-/docs/build
+# Only exists if Bazel was run
+/bazel-out
 
 # dependencies
 /node_modules
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
 
 # IDEs and editors
 /.idea
@@ -28,13 +35,7 @@ manifest.yml
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# Vim
-# Persistent undo
-[._]*.un~
-# Temporary
-.netrwhist
-*~
+.history/*
 
 # misc
 /.sass-cache
@@ -42,13 +43,9 @@ manifest.yml
 /coverage
 /libpeerconnection.log
 npm-debug.log
-npm-debug.log*
 yarn-error.log
-/yarn.lock
 testem.log
 /typings
-/output
-*.orig
 
 # System Files
 .DS_Store

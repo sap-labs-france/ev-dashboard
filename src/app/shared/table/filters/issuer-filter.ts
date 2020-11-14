@@ -1,7 +1,7 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
-import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { KeyValue } from '../../../types/GlobalType';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
 
 export class IssuerFilter extends TableFilter {
   constructor() {

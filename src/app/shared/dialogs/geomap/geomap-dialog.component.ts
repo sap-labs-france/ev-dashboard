@@ -1,7 +1,7 @@
 import { MapTypeId, MouseEvent } from '@agm/core';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Utils } from 'app/utils/Utils';
+import { Utils } from '../../../utils/Utils';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({

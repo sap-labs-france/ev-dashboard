@@ -1,16 +1,17 @@
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ButtonAction, FilterParams } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, TableActionDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import * as FileSaver from 'file-saver';
-import { Observable } from 'rxjs';
 
+import { ButtonAction, FilterParams } from '../../../types/GlobalType';
+import { ButtonColor, ButtonType, TableActionDef } from '../../../types/Table';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SpinnerService } from '../../../services/spinner.service';
 import { TableAction } from './table-action';
+import { TranslateService } from '@ngx-translate/core';
+import { Utils } from '../../../utils/Utils';
 
 export class TableExportAction implements TableAction {
   private action: TableActionDef = {

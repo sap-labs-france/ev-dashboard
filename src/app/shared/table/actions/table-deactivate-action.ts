@@ -1,6 +1,6 @@
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
+import { ButtonColor, TableActionDef } from '../../../types/Table';
 
+import { ButtonAction } from '../../../types/GlobalType';
 import { TableAction } from './table-action';
 
 export class TableDeactivateAction implements TableAction {

@@ -1,6 +1,6 @@
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { FilterType, TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
+import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/site-areas-dialog.component';
 import { TableFilter } from './table-filter';
 
 export class SiteAreaTableFilter extends TableFilter {

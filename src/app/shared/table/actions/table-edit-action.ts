@@ -1,9 +1,9 @@
-import { ComponentType } from '@angular/cdk/portal';
+import { ButtonColor, Data, TableActionDef } from '../../../types/Table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, Data, TableActionDef } from 'app/types/Table';
-import { Observable } from 'rxjs';
 
+import { ButtonAction } from '../../../types/GlobalType';
+import { ComponentType } from '@angular/cdk/portal';
+import { Observable } from 'rxjs';
 import { TableAction } from './table-action';
 
 export class TableEditAction implements TableAction {

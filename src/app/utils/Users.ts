@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { User, UserToken } from 'app/types/User';
+import { User, UserToken } from '../types/User';
 
 export class Users {
   public static buildUserFullName(user: User | UserToken): string|undefined {

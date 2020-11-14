@@ -1,4 +1,4 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 import { ReportsDialogComponent } from '../../dialogs/reports/reports-dialog.component';
 import { TableFilter } from './table-filter';

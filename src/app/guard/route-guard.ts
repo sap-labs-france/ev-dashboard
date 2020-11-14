@@ -36,12 +36,11 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     });
   }
 
-  public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
+  public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
-
     if (isIEOrEdge) {
-      this.redirectToBrowserNotSupportRoute();
+      await this.redirectToBrowserNotSupportRoute();
       return false;
     }
     const queryParams = {};
@@ -50,7 +49,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       if (this.isRouteAllowed(activatedRoute.routeConfig, isActiveInSuperTenant)) {
         return true;
       }
-      this.redirectToDefaultRoute();
+      await this.redirectToDefaultRoute();
       return false;
     }
     this.userRole = undefined;
@@ -68,7 +67,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       }).subscribe((result) => {
         // Success
         this.centralServerService.loginSucceeded(result.token);
-        this.redirectToDefaultRoute();
+        await this.redirectToDefaultRoute();
       }, (error) => {
         // Report the error
         this.messageService.showErrorMessage(

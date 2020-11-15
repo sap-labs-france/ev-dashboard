@@ -41,7 +41,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
 
     if (isIEOrEdge) {
-      this.redirectToBrowserNotSupportRoute();
+      await this.redirectToBrowserNotSupportRoute();
       return false;
     }
     const queryParams = {};
@@ -50,7 +50,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       if (this.isRouteAllowed(activatedRoute.routeConfig, isActiveInSuperTenant)) {
         return true;
       }
-      this.redirectToDefaultRoute();
+      await this.redirectToDefaultRoute();
       return false;
     }
     this.userRole = undefined;
@@ -69,16 +69,16 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         // Success
         this.centralServerService.loginSucceeded(result.token);
         this.redirectToDefaultRoute();
-      }, (error) => {
+      }, async (error) => {
         // Report the error
         this.messageService.showErrorMessage(
           this.translateService.instant('authentication.wrong_email_or_password'));
         // Navigate to login
-        this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
+        await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
       });
     } else {
       // Not logged in so redirect to login page with the return url
-      this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams });
+      await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams });
     }
     return false;
   }

@@ -68,7 +68,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       }).subscribe(async (result) => {
         // Success
         this.centralServerService.loginSucceeded(result.token);
-        this.redirectToDefaultRoute();
+        await this.redirectToDefaultRoute();
       }, async (error) => {
         // Report the error
         this.messageService.showErrorMessage(

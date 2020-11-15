@@ -36,7 +36,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     });
   }
 
-  public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
+  public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
     const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
     if (isIEOrEdge) {
@@ -82,7 +82,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return false;
   }
 
-  public canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  public async canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.canActivate(childRoute, state);
   }
 

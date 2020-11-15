@@ -37,6 +37,13 @@ speed-measure-plugin*.json
 !.vscode/extensions.json
 .history/*
 
+# Vim
+# Persistent undo
+[._]*.un~
+# Temporary
+.netrwhist
+*~
+
 # misc
 /.sass-cache
 /connect.lock
@@ -46,6 +53,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/output
+*.orig
 
 # System Files
 .DS_Store

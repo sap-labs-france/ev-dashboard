@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { ConsumptionUnit, Transaction } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
+import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
+import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
+import { ConsumptionUnit, Transaction } from '../../../types/Transaction';
+import { Utils } from '../../../utils/Utils';
 import { AppDatePipe } from '../../formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../formatters/app-decimal-pipe';
 

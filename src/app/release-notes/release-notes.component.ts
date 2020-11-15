@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Angular 11 migration`,
               `Fixed OCPI CDR was not sent to Gireve at the end of the Session`,
               `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
               `OCPI Pull Tokens second optimization pass`,

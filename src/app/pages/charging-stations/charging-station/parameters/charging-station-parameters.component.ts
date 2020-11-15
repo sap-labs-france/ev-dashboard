@@ -2,18 +2,18 @@ import { Component, Injectable, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { ChargingStation, OCPPProtocol } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { ComponentService } from '../../../../services/component.service';
 import { LocaleService } from '../../../../services/locale.service';
+import { GeoMapDialogComponent } from '../../../../shared/dialogs/geomap/geomap-dialog.component';
+import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
+import { ChargingStation, OCPPProtocol } from '../../../../types/ChargingStation';
+import { KeyValue } from '../../../../types/GlobalType';
+import { SiteArea } from '../../../../types/SiteArea';
+import TenantComponents from '../../../../types/TenantComponents';
 import { Constants } from '../../../../utils/Constants';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-parameters',

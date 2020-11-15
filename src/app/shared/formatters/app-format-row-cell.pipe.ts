@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TableColumnDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+
+import { TableColumnDef } from '../../types/Table';
+import { Utils } from '../../utils/Utils';
 
 @Pipe({ name: 'appFormatRowCell' })
 export class AppFormatRowCellPipe implements PipeTransform {

@@ -1,7 +1,6 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
+import { TRANSACTION_INACTIVITY_STATUS } from '../../../shared/model/transaction-inactivity-status.model';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { transactionInactivityStatus } from '../model/transaction-inactivity-status.model';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class TransactionsInactivityStatusFilter extends TableFilter {
   constructor() {
@@ -14,7 +13,7 @@ export class TransactionsInactivityStatusFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
-      items: Object.assign([], transactionInactivityStatus),
+      items: Object.assign([], TRANSACTION_INACTIVITY_STATUS),
       multiple: true,
     };
     this.setFilterDef(filterDef);

@@ -5,17 +5,17 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import ChangeNotification from 'app/types/ChangeNotification';
-import { ButtonAction } from 'app/types/GlobalType';
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from 'app/types/Table';
-import { Constants } from 'app/utils/Constants';
 import { Observable, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, takeWhile } from 'rxjs/operators';
 
 import { ConfigService } from '../../services/config.service';
 import { LocaleService } from '../../services/locale.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { WindowService } from '../../services/window.service';
+import ChangeNotification from '../../types/ChangeNotification';
+import { ButtonAction } from '../../types/GlobalType';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableEditType, TableFilterDef } from '../../types/Table';
+import { Constants } from '../../utils/Constants';
 import { TableDataSource } from './table-data-source';
 
 @Component({
@@ -72,36 +72,39 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    this.alive = true;
-    // Init Search
-    if (this.dataSource.tableDef && this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
-      // Init initial value
-      this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
-      // Observe the Search field
-      fromEvent(this.searchInput.nativeElement, 'input').pipe(
-        takeWhile(() => this.alive),
-        map((e: KeyboardEvent) => e.target['value']),
-        debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-        distinctUntilChanged(),
-      ).subscribe((text: string) => {
-        this.dataSource.setSearchValue(text);
-        this.refresh();
-      });
-    }
-    if (this.dataSource.tableActionsRightDef) {
-      // Init Auto-Refresh
-      for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
-        if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
-          // Active by default?
-          if (tableActionRightDef.currentValue) {
-            this.createAutoRefresh();
+    // HACK: Avoid ERROR Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked
+    setTimeout(() => {
+      this.alive = true;
+      // Init Search
+      if (this.dataSource.tableDef && this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
+        // Init initial value
+        this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
+        // Observe the Search field
+        fromEvent(this.searchInput.nativeElement, 'input').pipe(
+          takeWhile(() => this.alive),
+          map((e: KeyboardEvent) => e.target['value']),
+          debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+          distinctUntilChanged(),
+        ).subscribe((text: string) => {
+          this.dataSource.setSearchValue(text);
+          this.refresh();
+        });
+      }
+      if (this.dataSource.tableActionsRightDef) {
+        // Init Auto-Refresh
+        for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
+          if (tableActionRightDef.id === ButtonAction.AUTO_REFRESH) {
+            // Active by default?
+            if (tableActionRightDef.currentValue) {
+              this.createAutoRefresh();
+            }
+            break;
           }
-          break;
         }
       }
-    }
-    // Initial Load
-    this.loadData();
+      // Initial Load
+      this.loadData();
+    }, 0);
   }
 
   public ngOnDestroy() {

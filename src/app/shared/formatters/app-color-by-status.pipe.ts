@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LevelText } from 'app/types/GlobalType';
-import { InactivityStatus } from 'app/types/Transaction';
+
+import { LevelText } from '../../types/GlobalType';
+import { InactivityStatus } from '../../types/Transaction';
 
 @Pipe({ name: 'appColorByStatus' })
 export class AppColorByStatusPipe implements PipeTransform {

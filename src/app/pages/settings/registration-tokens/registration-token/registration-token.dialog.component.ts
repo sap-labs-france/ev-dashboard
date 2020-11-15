@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RegistrationToken } from 'app/types/RegistrationToken';
-import { Utils } from 'app/utils/Utils';
 
+import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { RegistrationTokenComponent } from './registration-token.component';
 
 @Component({

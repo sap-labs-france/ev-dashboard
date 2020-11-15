@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { ChargingStation, ChargingStationButtonAction, OcppParameter } from 'app/types/ChargingStation';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
 
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { TableExportOCPPParamsLocalAction, TableExportOCPPParamsLocalActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-local-action';
+import { TableRequestOCPPParamsAction, TableRequestOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-request-ocpp-params-action';
+import { TableSaveOCPPParameterAction, TableSaveOCPPParameterActionDef } from '../../../../shared/table/actions/charging-stations/table-save-ocpp-parameter-action';
+import { TableUpdateOCPPParamsAction, TableUpdateOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-update-ocpp-params-action';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
-import { TableExportOCPPParamsLocalAction, TableExportOCPPParamsLocalActionDef } from '../../table-actions/table-export-ocpp-params-local-action';
-import { TableRequestOCPPParamsAction, TableRequestOCPPParamsActionDef } from '../../table-actions/table-request-ocpp-params-action';
-import { TableSaveOCPPParameterAction, TableSaveOCPPParameterActionDef } from '../../table-actions/table-save-ocpp-parameter-action';
-import { TableUpdateOCPPParamsAction, TableUpdateOCPPParamsActionDef } from '../../table-actions/table-update-ocpp-params-action';
+import { ChargingStation, ChargingStationButtonAction, OcppParameter } from '../../../../types/ChargingStation';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../../types/Table';
 import { ChargingStationOcppParametersInputFieldCellComponent } from './cell-components/charging-station-ocpp-parameters-input-field-cell.component';
 
 @Injectable()

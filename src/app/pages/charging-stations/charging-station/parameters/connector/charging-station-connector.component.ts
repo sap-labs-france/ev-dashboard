@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
-import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'app/types/ChargingStation';
-import { Utils } from 'app/utils/Utils';
+
+import { CONNECTOR_TYPE_MAP } from '../../../../../shared/formatters/app-connector-type.pipe';
+import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from '../../../../../types/ChargingStation';
+import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-connector',

@@ -152,11 +152,11 @@ export function localeFactory(
 @NgModule({
   imports: [
     CommonModule,
+    AppRouting,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     NgxCaptchaModule,
-    AppRouting,
     MaterialModule,
     SidebarModule,
     NavbarModule,

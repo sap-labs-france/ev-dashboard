@@ -64,7 +64,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         email,
         password,
         acceptEula: true,
-      }).subscribe((result) => {
+      }).subscribe(async (result) => {
         // Success
         this.centralServerService.loginSucceeded(result.token);
         await this.redirectToDefaultRoute();

@@ -5,12 +5,12 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "angular-dependencies-update",
+      "script": "angular-update",
       "problemMatcher": []
     },
     {
       "type": "npm",
-      "script": "angular-update",
+      "script": "material-update",
       "problemMatcher": []
     }
   ]

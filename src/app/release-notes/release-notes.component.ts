@@ -24,12 +24,13 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.23',
-        date: new Date('2020-11-11'),
+        version: '2.4.24',
+        date: new Date('2020-11-15'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed OCPI CDR was not sent to Gireve at the end of the Session`,
               `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
               `OCPI Pull Tokens second optimization pass`,
               `Increased to 2 the number of jobs pulling the Badges from the Gireve`,

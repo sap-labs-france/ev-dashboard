@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewContainerRef } from '@angular/core';
-import { Data, TableColumnDef, TableDef } from '../../../types/Table';
 
+import { Data, TableColumnDef, TableDef } from '../../../types/Table';
 import { CellContentTemplateDirective } from './cell-content-template.directive';
 
 @Component({

@@ -1,3 +1,6 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
 import AssetConfiguration from '../types/configuration/AssetConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
@@ -7,8 +10,6 @@ import CompanyConfiguration from '../types/configuration/CompanyConfiguration';
 import { Configuration } from '../types/configuration/Configuration';
 import Debug from '../types/configuration/Debug';
 import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
 import SiteConfiguration from '../types/configuration/SiteConfiguration';

@@ -9,7 +9,7 @@ import { CONNECTOR_TYPE_MAP } from './shared/formatters/app-connector-type.pipe'
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'e-Mobility';
+  public title = 'e-Mobility';
 
   constructor(
     private iconRegistry: MatIconRegistry,

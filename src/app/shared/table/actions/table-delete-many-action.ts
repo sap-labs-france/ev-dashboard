@@ -1,16 +1,16 @@
-import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
-import { ActionsResponse } from '../../../types/DataResult';
-import { ButtonAction } from '../../../types/GlobalType';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableAction } from './table-action';
-import { TranslateService } from '@ngx-translate/core';
+import { ActionsResponse } from '../../../types/DataResult';
+import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
+import { TableAction } from './table-action';
 
 export class TableDeleteManyAction implements TableAction {
   private action: TableActionDef = {

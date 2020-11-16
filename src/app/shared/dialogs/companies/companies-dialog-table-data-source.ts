@@ -1,16 +1,16 @@
-import { TableColumnDef, TableDef } from '../../../types/Table';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 
 import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { Company } from '../../../types/Company';
 import { DataResult } from '../../../types/DataResult';
-import { DialogTableDataSource } from '../dialog-table-data-source';
-import { Injectable } from '@angular/core';
-import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { SpinnerService } from '../../../services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TableColumnDef, TableDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
+import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class CompaniesDialogTableDataSource extends DialogTableDataSource<Company> {

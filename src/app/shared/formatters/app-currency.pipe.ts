@@ -1,7 +1,7 @@
+import { CurrencyPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { ComponentService } from '../../services/component.service';
-import { CurrencyPipe } from '@angular/common';
 import { LocaleService } from '../../services/locale.service';
 import { PricingSettingsType } from '../../types/Setting';
 

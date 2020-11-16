@@ -1,12 +1,11 @@
-import { ButtonColor, TableActionDef } from '../../../types/Table';
-
-import { ButtonAction } from '../../../types/GlobalType';
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
-import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
+import { ButtonAction } from '../../../types/GlobalType';
 import { SiteButtonAction } from '../../../types/Site';
-import { TableAction } from './table-action';
+import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
+import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
+import { TableAction } from './table-action';
 
 export class TableUploadAction implements TableAction {
   private action: TableActionDef = {

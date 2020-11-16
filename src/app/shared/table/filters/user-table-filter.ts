@@ -1,7 +1,6 @@
 import { FilterType, TableFilterDef } from '../../../types/Table';
-
-import { TableFilter } from './table-filter';
 import { UsersDialogComponent } from '../../dialogs/users/users-dialog.component';
+import { TableFilter } from './table-filter';
 
 export class UserTableFilter extends TableFilter {
   constructor(siteIDs?: ReadonlyArray<string>) {

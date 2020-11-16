@@ -1,9 +1,9 @@
-import { ButtonType, DialogType } from '../types/Table';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 import { ConfirmationDialogComponent } from '../shared/dialogs/confirmation/confirmation-dialog.component';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ButtonType, DialogType } from '../types/Table';
 
 @Injectable()
 export class DialogService {

@@ -54,7 +54,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
       key: ChargingProfileKindType.RECURRING, recurrencyKindType: RecurrencyKindType.DAILY, description: 'chargers.smart_charging.profile_types.recurring_daily',
       chargingProfileKindType: ChargingProfileKindType.RECURRING, stackLevel: 2, profileId: 2
     },
-    // { key: RecurrencyKindType.WEEKLY, description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, profileId: 1 },
   ];
   public formGroup!: FormGroup;
   public profileTypeControl!: AbstractControl;

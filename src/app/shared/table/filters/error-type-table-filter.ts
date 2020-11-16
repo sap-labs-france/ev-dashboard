@@ -1,7 +1,6 @@
-import { FilterType, TableFilterDef } from '../../../types/Table';
-
-import { KeyValue } from '../../../types/GlobalType';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { KeyValue } from '../../../types/GlobalType';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class ErrorTypeTableFilter extends TableFilter {
   constructor(types: KeyValue[]) {

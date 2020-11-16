@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
-import { CellContentTemplateDirective } from '../../table/cell-content-template/cell-content-template.directive';
-import { Connector } from '../../../types/ChargingStation';
 import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
+import { Connector } from '../../../types/ChargingStation';
 import { Transaction } from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
+import { CellContentTemplateDirective } from '../../table/cell-content-template/cell-content-template.directive';
 
 @Component({
   template:

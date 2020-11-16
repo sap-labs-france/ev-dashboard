@@ -1,17 +1,17 @@
-import { TableColumnDef, TableDef } from '../../../types/Table';
-
-import { AppUserNamePipe } from '../../formatters/app-user-name.pipe';
-import { CentralServerService } from '../../../services/central-server.service';
-import { DataResult } from '../../../types/DataResult';
-import { DialogTableDataSource } from '../dialog-table-data-source';
 import { Injectable } from '@angular/core';
-import { MessageService } from '../../../services/message.service';
-import { Observable } from 'rxjs';
-import { RefundReport } from '../../../types/Refund';
 import { Router } from '@angular/router';
-import { SpinnerService } from '../../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { DataResult } from '../../../types/DataResult';
+import { RefundReport } from '../../../types/Refund';
+import { TableColumnDef, TableDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
+import { AppUserNamePipe } from '../../formatters/app-user-name.pipe';
+import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
 export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundReport> {

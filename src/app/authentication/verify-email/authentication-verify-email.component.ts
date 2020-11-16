@@ -1,17 +1,17 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
-import { HTTPError } from '../../types/HTTPError';
 import { MessageService } from '../../services/message.service';
-import { ReCaptchaV3Service } from 'ngx-captcha';
-import { RestResponse } from '../../types/GlobalType';
 import { SpinnerService } from '../../services/spinner.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from '../../utils/Utils';
 import { WindowService } from '../../services/window.service';
+import { RestResponse } from '../../types/GlobalType';
+import { HTTPError } from '../../types/HTTPError';
+import { Utils } from '../../utils/Utils';
 
 @Component({
   selector: 'app-authentication-verify-email',

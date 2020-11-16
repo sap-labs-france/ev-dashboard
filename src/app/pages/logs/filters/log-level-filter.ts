@@ -1,7 +1,6 @@
-import { FilterType, TableFilterDef } from '../../../types/Table';
-
-import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { logLevels } from '../../../shared/model/logs.model';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class LogLevelTableFilter extends TableFilter {
   constructor() {

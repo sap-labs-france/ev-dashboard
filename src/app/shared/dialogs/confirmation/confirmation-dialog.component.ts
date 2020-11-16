@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+
 import { ButtonType, DialogType } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 

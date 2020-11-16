@@ -1,4 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+
 import { logLevels } from '../../../shared/model/logs.model';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from '../../../types/GlobalType';

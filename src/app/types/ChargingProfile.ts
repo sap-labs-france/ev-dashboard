@@ -1,5 +1,4 @@
 import { ChargingRateUnitType, ChargingStation } from '../types/ChargingStation';
-
 import { Data } from './Table';
 
 export interface ChargingProfile extends Data {

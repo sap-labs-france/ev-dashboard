@@ -1,12 +1,12 @@
-import * as moment from 'moment';
-
-import { BehaviorSubject } from 'rxjs';
-import { CentralServerService } from './central-server.service';
-import { CurrentMetrics } from '../types/Statistic';
 import { Injectable } from '@angular/core';
-import { MessageService } from '../services/message.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
+import { BehaviorSubject } from 'rxjs';
+
+import { MessageService } from '../services/message.service';
+import { CurrentMetrics } from '../types/Statistic';
 import { Utils } from '../utils/Utils';
+import { CentralServerService } from './central-server.service';
 
 const DATA_LOAD_INTERVAL = 10000;
 

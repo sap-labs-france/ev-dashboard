@@ -1,8 +1,8 @@
+import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import ChangeNotification from '../types/ChangeNotification';
 import { Entity } from '../types/Authorization';
-import { Injectable } from '@angular/core';
+import ChangeNotification from '../types/ChangeNotification';
 import SingleChangeNotification from '../types/SingleChangeNotification';
 import SocketIOClient from '../utils/SocketIOClient';
 

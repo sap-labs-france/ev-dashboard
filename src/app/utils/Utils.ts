@@ -1,24 +1,23 @@
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Data, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 
-import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from '../types/ChargingStation';
-import { Data, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
-import { User, UserCar, UserToken } from '../types/User';
-
-import { Address } from '../types/Address';
-import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
-import { ButtonType } from '../types/Table';
 import { CentralServerService } from '../services/central-server.service';
 import { ConfigService } from '../services/config.service';
-import { Constants } from './Constants';
 import { DialogService } from '../services/dialog.service';
-import { KeyValue } from '../types/GlobalType';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from '../services/message.service';
+import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
+import { Address } from '../types/Address';
+import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from '../types/ChargingStation';
+import { KeyValue } from '../types/GlobalType';
 import { MobileType } from '../types/Mobile';
-import { StatusCodes } from 'http-status-codes';
-import { TranslateService } from '@ngx-translate/core';
+import { ButtonType } from '../types/Table';
+import { User, UserCar, UserToken } from '../types/User';
+import { Constants } from './Constants';
 
 export class Utils {
   public static isEmptyArray(array: any[]): boolean {
@@ -768,16 +767,16 @@ export class Utils {
     return result;
   }
 
-  public static convertToDate(date: any): Date {
+  public static convertToDate(value: any): Date {
     // Check
-    if (!date) {
-      return date;
+    if (!value) {
+      return value;
     }
     // Check Type
-    if (!(date instanceof Date)) {
-      return new Date(date);
+    if (!(value instanceof Date)) {
+      return new Date(value);
     }
-    return date;
+    return value;
   }
 
   public static convertToInteger(value: any): number {

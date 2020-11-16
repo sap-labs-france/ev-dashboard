@@ -1,17 +1,17 @@
-import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
-import { DataResult, Ordering, Paging } from '../../types/DataResult';
-import { Observable, of } from 'rxjs';
-
-import ChangeNotification from '../../types/ChangeNotification';
-import { Constants } from '../../utils/Constants';
-import { FilterParams } from '../../types/GlobalType';
 import { FormArray } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { SpinnerService } from '../../services/spinner.service';
-import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 import { TranslateService } from '@ngx-translate/core';
-import { Utils } from '../../utils/Utils';
+import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+
+import { SpinnerService } from '../../services/spinner.service';
+import ChangeNotification from '../../types/ChangeNotification';
+import { DataResult, Ordering, Paging } from '../../types/DataResult';
+import { FilterParams } from '../../types/GlobalType';
+import { Data, DropdownItem, FilterType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../types/Table';
+import { Constants } from '../../utils/Constants';
+import { Utils } from '../../utils/Utils';
+import { TableResetFiltersAction } from './actions/table-reset-filters-action';
 
 export abstract class TableDataSource<T extends Data> {
   public tableDef!: TableDef;

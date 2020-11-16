@@ -22,7 +22,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   constructor(
       public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
     // initialize timezone list from moment-timezone
-    this.timezoneList = (<any>moment).tz.names();
+    this.timezoneList = (moment as any).tz.names();
   }
 
   public ngOnInit(): void {

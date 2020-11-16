@@ -1,7 +1,6 @@
 import * as moment from 'moment';
 
 import { FilterType, TableFilterDef } from '../../../types/Table';
-
 import { TableFilter } from './table-filter';
 
 export class DateTableFilter extends TableFilter {

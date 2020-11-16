@@ -386,8 +386,15 @@ export class ConsumptionChartComponent implements AfterViewInit {
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
+      // Add last point
+      if (this.transaction.values.length > 0) {
+        this.transaction.values.push({
+          ...this.transaction.values[this.transaction.values.length - 1],
+          startedAt: this.transaction.values[this.transaction.values.length - 1].endedAt,
+        });
+      }
       for (const consumption of this.transaction.values) {
-        labels.push(new Date(consumption.date).getTime());
+        labels.push(new Date(consumption.startedAt).getTime());
         if (instantPowerDataSet) {
           if (consumption.instantWattsDC > 0) {
             instantPowerDataSet.push(consumption.instantWattsDC);
@@ -453,6 +460,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           limitAmpsDataSet.push(consumption.limitAmps);
         }
       }
+      // Add last consumption duration
       this.data.labels = labels;
     }
   }

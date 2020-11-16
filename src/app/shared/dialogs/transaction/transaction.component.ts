@@ -156,7 +156,6 @@ export class TransactionComponent implements OnInit, OnDestroy {
           this.stateOfChargeIcon = 'battery_charging_20';
         }
       }
-
       if (transaction.user) {
         this.centralServerService.getUserImage(transaction.user.id).subscribe((userImage: Image) => {
           if (userImage && userImage.image) {

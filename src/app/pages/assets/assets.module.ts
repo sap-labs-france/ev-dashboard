@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentModule } from 'app/shared/component/component.module';
 
 import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
+import { ComponentModule } from '../../shared/component/component.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
 import { AssetComponent } from './asset/asset.component';

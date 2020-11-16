@@ -3,14 +3,14 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { OcpiEndpoint } from 'app/types/ocpi/OCPIEndpoint';
 import { StatusCodes } from 'http-status-codes';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
+import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
+import { RestResponse } from '../../../../../types/GlobalType';
+import { OcpiEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 

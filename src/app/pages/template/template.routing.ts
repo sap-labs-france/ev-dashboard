@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { Action, Entity } from 'app/types/Authorization';
 
 import { RouteGuardService } from '../../guard/route-guard';
+import { Action, Entity } from '../../types/Authorization';
 import { TemplateComponent } from './template.component';
 
 export const TemplateRoutes: Routes = [

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { ChargingProfile, Schedule } from 'app/types/ChargingProfile';
-import { ChargePoint, ChargingStation, ChargingStationPowers } from 'app/types/ChargingStation';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
+import { ChargingProfile, Schedule } from '../../../../types/ChargingProfile';
+import { ChargePoint, ChargingStation, ChargingStationPowers } from '../../../../types/ChargingStation';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 import { ChargingStationPowerSliderCellComponent } from '../cell-components/charging-station-power-slider-cell.component';
 
 @Injectable()

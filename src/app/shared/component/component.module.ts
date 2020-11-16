@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
-import { MaterialModule } from 'app/app.module';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
+import { MaterialModule } from '../../app.module';
 import { CommonDirectivesModule } from '../directives/directives.module';
 import { FormattersModule } from '../formatters/formatters.module';
 import { ChartUnitSelectorComponent } from './consumption-chart/chart-unit-selector.component';

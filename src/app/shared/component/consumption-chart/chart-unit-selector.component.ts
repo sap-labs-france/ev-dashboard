@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ConsumptionUnit } from 'app/types/Transaction';
+
+import { ConsumptionUnit } from '../../../types/Transaction';
 
 export interface UnitButtonGroup {
   key: string;

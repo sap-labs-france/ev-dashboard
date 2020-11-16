@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from 'app/types/User';
-import { Utils } from 'app/utils/Utils';
+
+import { User } from '../../types/User';
+import { Utils } from '../../utils/Utils';
 
 @Pipe({ name: 'appUserName' })
 export class AppUserNamePipe implements PipeTransform {

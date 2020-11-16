@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { Tenant } from 'app/types/Tenant';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { Tenant } from '../../../types/Tenant';
 
 @Component({
   template: `

@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.25',
+        date: new Date('2020-11-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Angular 11 migration`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.24',
         date: new Date('2020-11-15'),
         componentChanges: [

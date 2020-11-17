@@ -1,8 +1,7 @@
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
-
 import { ChargingStationButtonAction } from '../../../types/ChargingStation';
+import { ButtonAction } from '../../../types/GlobalType';
 import { SiteButtonAction } from '../../../types/Site';
+import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';

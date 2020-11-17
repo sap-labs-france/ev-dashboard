@@ -1,7 +1,6 @@
-import { TableFilter } from 'app/shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
-import { logHosts } from '../model/logs.model';
+import { LOG_HOSTS } from '../../../shared/model/logs.model';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class LogHostTableFilter extends TableFilter {
   constructor() {
@@ -14,7 +13,7 @@ export class LogHostTableFilter extends TableFilter {
       name: 'logs.host',
       class: 'col-md-4 col-lg-4 col-xl-2',
       currentValue: [],
-      items: Object.assign([], logHosts),
+      items: Object.assign([], LOG_HOSTS),
       multiple: true,
     };
     // Set

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { Action, Entity } from 'app/types/Authorization';
-import TenantComponents from 'app/types/TenantComponents';
 
 import { RouteGuardService } from '../../guard/route-guard';
+import { Action, Entity } from '../../types/Authorization';
+import TenantComponents from '../../types/TenantComponents';
 import { StatisticsComponent } from './statistics.component';
 
 export const StatisticsRoutes: Routes = [

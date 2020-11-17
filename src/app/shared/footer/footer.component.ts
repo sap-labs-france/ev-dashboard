@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-footer',
   templateUrl: 'footer.component.html',
 })
-
 export class FooterComponent {
   public test: Date = new Date();
 }

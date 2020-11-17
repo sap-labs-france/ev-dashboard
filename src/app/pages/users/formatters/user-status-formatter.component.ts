@@ -1,9 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ChipType } from 'app/types/GlobalType';
-import { User, UserStatus } from 'app/types/User';
 
-import { userStatuses } from '../model/users.model';
+import { USER_STATUSES } from '../../../shared/model/users.model';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { ChipType } from '../../../types/GlobalType';
+import { User, UserStatus } from '../../../types/User';
 
 @Component({
   selector: 'app-user-status-formatter',
@@ -56,7 +56,7 @@ export class AppFormatUserStatusPipe implements PipeTransform {
   }
 
   public buildUserStatusText(status: string): string {
-    for (const userStatus of userStatuses) {
+    for (const userStatus of USER_STATUSES) {
       if (userStatus.key === status) {
         return userStatus.value;
       }

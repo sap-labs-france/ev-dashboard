@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Address } from 'app/types/Address';
-import { Constants } from 'app/utils/Constants';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
 
+import { Address } from '../../types/Address';
+import { Constants } from '../../utils/Constants';
 import { GeoMapDialogComponent } from '../dialogs/geomap/geomap-dialog.component';
 
 @Component({

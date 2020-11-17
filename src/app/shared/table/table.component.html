@@ -9,7 +9,7 @@
           <!-- Action Button -->
           <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
             (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
-            [disabled]="actionDef.disabled" appTooltip [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+            [disabled]="actionDef.disabled" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>
@@ -25,7 +25,7 @@
               <ng-template matMenuContent>
                 <ng-container *ngFor="let dropdownAction of actionDef.dropdownActions">
                   <button mat-menu-item (click)="actionTriggered(actionDef)" [disabled]="dropdownAction.disabled"
-                    appTooltip [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
+                    [title]="(dropdownAction.name ? '' : dropdownAction.tooltip | translate)">
                     <mat-icon *ngIf="dropdownAction.icon">{{dropdownAction.icon}}</mat-icon>
                     <span>{{dropdownAction.name | translate}}</span>
                   </button>
@@ -33,7 +33,7 @@
               </ng-template>
             </mat-menu>
             <button mat-raised-button [matMenuTriggerFor]="dropDownMenu"
-              [color]="(actionDef.color ? actionDef.color : '')" appTooltip [title]="'analytics.links' | translate">
+              [color]="(actionDef.color ? actionDef.color : '')" [title]="'analytics.links' | translate">
               <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
               <span>{{actionDef.name | translate}}</span>
             </button>
@@ -55,7 +55,7 @@
             <ng-container *ngIf="actionRightDef.id !== 'refresh'">
               <button mat-raised-button *ngIf="actionRightDef.type === 'button'"
                 [color]="(actionRightDef.color ? actionRightDef.color : '')" (click)="actionTriggered(actionRightDef)"
-                appTooltip [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
+                [title]="(actionRightDef.name ? '' : actionRightDef.tooltip | translate)">
                 <mat-icon *ngIf="actionRightDef.icon">{{actionRightDef.icon}}</mat-icon>
                 <ng-container *ngIf="actionRightDef.name">
                   <span>{{actionRightDef.name | translate}}</span>
@@ -233,7 +233,7 @@
                   </ng-container>
                   <!-- Button Action -->
                   <ng-container *ngIf="!rowAction.isDropdownMenu">
-                    <div class="d-inline-block" appTooltip [title]="rowAction.tooltip | translate">
+                    <div class="d-inline-block" [title]="rowAction.tooltip | translate">
                       <button mat-icon-button [color]="(rowAction.color ? rowAction.color : '')"
                         (click)="rowActionTriggered(rowAction, row)" [disabled]="rowAction.disabled">
                         <mat-icon>{{rowAction.icon}}</mat-icon>

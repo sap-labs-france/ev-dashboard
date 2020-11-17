@@ -1,31 +1,32 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { ChargingStationTableFilter } from 'app/shared/table/filters/charging-station-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingProfile } from 'app/types/ChargingProfile';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
+import { TableNavigateToSiteAreaAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-site-area-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../table-actions/table-charging-stations-smart-charging-action';
-import { TableNavigateToSiteAreaAction } from '../table-actions/table-navigate-to-site-area-action';
+import { ChargingProfile } from '../../../types/ChargingProfile';
+import { ChargingStationButtonAction } from '../../../types/ChargingStation';
+import { DataResult } from '../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { Utils } from '../../../utils/Utils';
+import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
 
 @Injectable()
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
@@ -173,7 +174,8 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            chargingProfile.chargingStation, this.dialogService, this.translateService, this.dialog, this.refreshData.bind(this)
+            ChargingStationLimitationDialogComponent, chargingProfile.chargingStation, this.dialogService,
+            this.translateService, this.dialog, this.refreshData.bind(this)
           );
         }
         break;

@@ -2,39 +2,40 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStationButtonAction, Connector, OCPPVersion } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from 'app/types/InError';
-import { LogButtonAction } from 'app/types/Log';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { TableChargingStationsRebootAction, TableChargingStationsRebootActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-reboot-action';
+import { TableChargingStationsResetAction, TableChargingStationsResetActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-reset-action';
+import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-delete-charging-station-action';
+import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-edit-charging-station-action';
+import { TableNavigateToLogsAction } from '../../../shared/table/actions/logs/table-navigate-to-logs-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargingStationButtonAction, Connector, OCPPVersion } from '../../../types/ChargingStation';
+import { DataResult } from '../../../types/DataResult';
+import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from '../../../types/InError';
+import { LogButtonAction } from '../../../types/Log';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
-import { TableChargingStationsRebootAction, TableChargingStationsRebootActionDef } from '../table-actions/table-charging-stations-reboot-action';
-import { TableChargingStationsResetAction, TableChargingStationsResetActionDef } from '../table-actions/table-charging-stations-reset-action';
-import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../table-actions/table-delete-charging-station-action';
-import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../table-actions/table-edit-charging-station-action';
+import { ChargingStationDialogComponent } from '../charging-station/charging-station-dialog.component';
 
 @Injectable()
 export class ChargingStationsInErrorTableDataSource extends TableDataSource<ChargingStationInError> {
@@ -215,7 +216,7 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
-            chargingStation, this.dialog, this.refreshData.bind(this));
+            ChargingStationDialogComponent, chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:

@@ -2,29 +2,30 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { CarButtonAction, CarCatalog, CarImage } from 'app/types/Car';
-import ChangeNotification from 'app/types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ConfigService } from '../../../services/config.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { TableSyncCarCatalogsAction } from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
+import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../../../shared/table/actions/cars/table-view-car-catalog-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { CarButtonAction, CarCatalog, CarImage } from '../../../types/Car';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
+import { CarCatalogDialogComponent } from '../car-catalog/car-catalog.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
-import { TableSyncCarCatalogsAction } from '../table-actions/table-sync-car-catalogs-action';
-import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../table-actions/table-view-car-catalog-action';
 
 @Injectable()
 export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> {
@@ -239,7 +240,8 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     switch (actionDef.id) {
       case CarButtonAction.VIEW_CAR_CATALOG:
         if (actionDef.action) {
-          (actionDef as TableViewCarCatalogActionDef).action(carCatalog, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCarCatalogActionDef).action(CarCatalogDialogComponent, carCatalog, this.dialog,
+            this.refreshData.bind(this));
         }
         break;
     }

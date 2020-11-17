@@ -1,8 +1,9 @@
 import { MapTypeId, MouseEvent } from '@agm/core';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Utils } from 'app/utils/Utils';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: './geomap-dialog.component.html',

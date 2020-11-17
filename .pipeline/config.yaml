@@ -28,16 +28,15 @@ stages:
     checkmarxExecuteScan: false
     executeWhitesourceScan: false
 
+  Release:
+    cloudFoundry/org: SAP_IT_Cloud_sapitcft
+    cloudFoundry/space: e-mobility
+    cloudFoundry/credentialsId: scp-i030367-access
+    
 steps:
 
   sonarExecuteScan:
     instance: 'SAP SonarQube Enterprise'
-
-  #executeOpenSourceDependencyScan:
-   # buildTool: 'npm'
-   # executeWhitesourceScan: true
-   # whitesourceActive:
-   #   - npm
             
   executeWhitesourceScan:
     scanType: 'npm'

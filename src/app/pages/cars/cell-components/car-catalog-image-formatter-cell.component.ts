@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { Car, CarCatalog } from 'app/types/Car';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { Car, CarCatalog } from '../../../types/Car';
 
 @Component({
   template: `

@@ -1,12 +1,12 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable, Subject, of } from 'rxjs';
 
 import { SpinnerService } from '../../services/spinner.service';
+import { DataResult } from '../../types/DataResult';
+import { ButtonAction } from '../../types/GlobalType';
+import { Data, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../types/Table';
+import { Utils } from '../../utils/Utils';
 import { TableAddAction } from './actions/table-add-action';
 import { TableDeleteAction } from './actions/table-delete-action';
 import { TableDataSource } from './table-data-source';

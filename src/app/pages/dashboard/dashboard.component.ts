@@ -1,12 +1,12 @@
 import { AnimationEvent, animate, group, query, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { CurrentMetrics } from 'app/types/Statistic';
 import * as moment from 'moment';
 
 import { DashboardService } from '../../services/dashboard.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { AppDecimalPipe } from '../../shared/formatters/app-decimal-pipe';
+import { CurrentMetrics } from '../../types/Statistic';
 import { CardChartComponent, ChartButton, ChartData } from './card-chart/card-chart.component';
 
 const SLIDE_INTERVAL = 60000;

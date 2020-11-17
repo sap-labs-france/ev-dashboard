@@ -1,6 +1,5 @@
-import { TagsDialogComponent } from 'app/shared/dialogs/tags/tags-dialog.component';
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
+import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class TagTableFilter extends TableFilter {

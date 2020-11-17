@@ -1,8 +1,9 @@
-import { OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { WindowService } from '../../../services/window.service';
 
+@Injectable()
 export class AbstractTabComponent implements OnDestroy {
   public activeTabIndex = 0;
 

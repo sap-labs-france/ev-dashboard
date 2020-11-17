@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { StatisticData } from 'app/types/Statistic';
 import { ChartDataSets } from 'chart.js';
 import * as moment from 'moment';
 
 import { LocaleService } from '../../../services/locale.service';
+import { StatisticData } from '../../../types/Statistic';
 import { ChartConstants, ChartData } from './chart-utilities';
 
 export interface StatisticsBuildValueWithUnit {

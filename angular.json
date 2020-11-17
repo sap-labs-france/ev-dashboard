@@ -3,24 +3,34 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "md-pro-angular-cli": {
+    "ev-dashboard": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "customWebpackConfig": {
-              "path": "./extra-webpack.config.js"
-            },
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "sourceMap": true,
             "polyfills": "src/polyfills.ts",
+            "allowedCommonJsDependencies": [
+              "angular2-chartjs",
+              "socket.io-client",
+              "jquery",
+              "file-saver",
+              "ngx-google-places-autocomplete",
+              "chartjs-plugin-datalabels"
+            ],
             "assets": [
               { "glob": "@(LICENSE|NOTICE)", "input": "src/../", "output": "/" },
               { "glob": "**/*", "input": "src/assets/", "output": "/assets/" },
@@ -53,9 +63,8 @@
               "optimization": true,
               "buildOptimizer": true,
               "outputHashing": "all",
-              "extractCss": true,
+              "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "fileReplacements": [
@@ -63,47 +72,59 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
               ]
             },
             "development": {
-              "optimization": false
+              "optimization": false,
+              "sourceMap": true
             }
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 45000,
             "host": "localhost",
             "disableHostCheck": true,
-            "browserTarget": "md-pro-angular-cli:build"
+            "browserTarget": "ev-dashboard:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "md-pro-angular-cli:build:production"
+              "browserTarget": "ev-dashboard:build:production"
             },
             "development": {
-              "browserTarget": "md-pro-angular-cli:build:development"
+              "browserTarget": "ev-dashboard:build:development"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "md-pro-angular-cli:build"
+            "browserTarget": "ev-dashboard:build"
           }
         },
         "test": {
-          "builder": "@angular-builders/custom-webpack:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
+            "karmaConfig": "karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/moment/moment.js",
-              "node_modules/arrive/src/arrive.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"
@@ -126,20 +147,13 @@
               "tsconfig.app.json",
               "tsconfig.spec.json"
             ],
-            "exclude": []
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "md-pro-angular-cli",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "style": "scss"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
-    }
-  }
+  "defaultProject": "ev-dashboard"
 }

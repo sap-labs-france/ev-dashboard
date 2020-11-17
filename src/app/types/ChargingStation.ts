@@ -181,6 +181,17 @@ export enum ConnectorType {
   UNKNOWN = 'U',
 }
 
+export enum SiteAreaLimitSource {
+  CHARGING_STATIONS = 'CS',
+  SITE_AREA = 'SA',
+}
+
+export enum ConnectorCurrentLimitSource {
+  CHARGING_PROFILE = 'CP',
+  STATIC_LIMITATION = 'SL',
+  CONNECTOR = 'CO'
+}
+
 export enum CurrentType {
   AC = 'AC',
   DC = 'DC',

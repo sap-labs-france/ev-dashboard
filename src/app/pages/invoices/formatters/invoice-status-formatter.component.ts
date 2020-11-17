@@ -1,9 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ChipType } from 'app/types/GlobalType';
 
+import { TRANSACTION_INVOICE_STATUS } from '../../../shared/model/transactions-invoices.model';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { BillingInvoice, BillingInvoiceStatus } from '../../../types/Billing';
-import { invoicesStatuses } from '../model/invoices.model';
+import { ChipType } from '../../../types/GlobalType';
 
 @Component({
   selector: 'app-invoice-status-formatter',
@@ -47,7 +47,7 @@ export class AppFormatInvoiceStatusPipe implements PipeTransform {
   }
 
   public buildInvoiceStatusText(status: string): string {
-    for (const invoiceStatus of invoicesStatuses) {
+    for (const invoiceStatus of TRANSACTION_INVOICE_STATUS) {
       if (invoiceStatus.key === status) {
         return invoiceStatus.value;
       }

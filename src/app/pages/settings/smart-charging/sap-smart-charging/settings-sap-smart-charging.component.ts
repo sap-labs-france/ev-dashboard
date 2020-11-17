@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SmartChargingSettings } from 'app/types/Setting';
-import { Constants } from 'app/utils/Constants';
+
+import { SmartChargingSettings } from '../../../../types/Setting';
+import { Constants } from '../../../../utils/Constants';
 
 @Component({
   selector: 'app-settings-sap-smart-charging',

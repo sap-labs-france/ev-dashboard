@@ -2139,7 +2139,7 @@
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",
-    "compute_and_apply_charging_profiles_error_notification": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notifique-me se ocorrer um erro durante os carros de sincronização",
     "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro"
   }

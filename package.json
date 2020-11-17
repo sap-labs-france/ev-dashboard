@@ -99,10 +99,14 @@
     "ngx-moment": "^5.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.0",
-    "socket.io-client": "^2.3.1",
+    "socket.io-client": "^3.0.1",
     "sweetalert2": "^10.10.0",
     "tslib": "^2.0.3",
     "zone.js": "~0.10.2"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.2",
+    "utf-8-validate": "^5.0.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.1",
@@ -117,7 +121,6 @@
     "@types/mocha": "^8.0.4",
     "@types/moment-duration-format": "^2.2.2",
     "@types/node": "^12.11.1",
-    "@types/socket.io-client": "^1.4.34",
     "codeceptjs": "^2.6.11",
     "codelyzer": "^6.0.0",
     "cross-env": "^7.0.2",

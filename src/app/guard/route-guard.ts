@@ -37,10 +37,10 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
-    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+    const isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
 
-    if (isIEOrEdge) {
+    if (isIE) {
       await this.redirectToBrowserNotSupportRoute();
       return false;
     }

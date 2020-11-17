@@ -25,6 +25,7 @@
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": [
               "angular2-chartjs",
+              "chart.js",
               "socket.io-client",
               "jquery",
               "file-saver",

@@ -117,7 +117,6 @@ export enum UserButtonAction {
   EXPORT_USERS = 'export_users',
   NAVIGATE_TO_TAGS = 'navigate_to_tags',
   NAVIGATE_TO_USER = 'navigate_to_user',
-  ASSIGN_USER_TO_TAG = 'assign_user_to_tag'
 }
 
 export enum UserStatus {

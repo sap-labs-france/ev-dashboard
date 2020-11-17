@@ -466,7 +466,8 @@
     "export_all_params_error": "Ocurreu um erro enquanto tentava exportar todos os parametros OCPP",
     "consumption_date": "Data",
     "single_phased": "Fase Unica",
-    "three_phased": "Fase Tripla"
+    "three_phased": "Fase Tripla",
+    "redirect": "Navigate to Site Area"
   },
   "authentication": {
     "accept": "Eu aceito o",

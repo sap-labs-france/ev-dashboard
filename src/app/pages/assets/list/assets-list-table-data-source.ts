@@ -2,31 +2,32 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Asset, AssetButtonAction, AssetImage } from 'app/types/Asset';
-import ChangeNotification from 'app/types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
-import { TableCreateAssetAction, TableCreateAssetActionDef } from '../table-actions/table-create-asset-action';
-import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../table-actions/table-delete-asset-action';
-import { TableEditAssetAction, TableEditAssetActionDef } from '../table-actions/table-edit-asset-action';
-import { TableRetrieveAssetConsumptionAction, TableRetrieveAssetConsumptionActionDef } from '../table-actions/table-retrieve-asset-consumption-action';
-import { TableViewAssetAction, TableViewAssetActionDef } from '../table-actions/table-view-asset-action';
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { TableCreateAssetAction, TableCreateAssetActionDef } from '../../../shared/table/actions/assets/table-create-asset-action';
+import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
+import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
+import { TableRetrieveAssetConsumptionAction, TableRetrieveAssetConsumptionActionDef } from '../../../shared/table/actions/assets/table-retrieve-asset-consumption-action';
+import { TableViewAssetAction, TableViewAssetActionDef } from '../../../shared/table/actions/assets/table-view-asset-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Asset, AssetButtonAction, AssetImage } from '../../../types/Asset';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
+import { AssetDialogComponent } from '../asset/asset.dialog.component';
 import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
 
 @Injectable()
@@ -184,7 +185,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableCreateAssetActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -194,12 +195,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     switch (actionDef.id) {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
-          (actionDef as TableViewAssetActionDef).action(asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

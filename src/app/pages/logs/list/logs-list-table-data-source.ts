@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { DataResult } from 'app/types/DataResult';
-import { Log, LogButtonAction } from 'app/types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,12 +10,21 @@ import { CentralServerNotificationService } from '../../../services/central-serv
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { logLevels } from '../../../shared/model/logs.model';
+import { TableExportLogsAction, TableExportLogsActionDef } from '../../../shared/table/actions/logs/table-export-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
+import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { Log, LogButtonAction } from '../../../types/Log';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Formatters } from '../../../utils/Formatters';
 import { Utils } from '../../../utils/Utils';
 import { LogActionTableFilter } from '../filters/log-action-filter';
@@ -30,8 +32,6 @@ import { LogHostTableFilter } from '../filters/log-host-filter';
 import { LogLevelTableFilter } from '../filters/log-level-filter';
 import { LogSourceTableFilter } from '../filters/log-source-filter';
 import { LogLevelFormatterComponent } from '../formatters/log-level-formatter.component';
-import { logLevels } from '../model/logs.model';
-import { TableExportLogsAction, TableExportLogsActionDef } from '../table-actions/table-export-logs-action';
 
 @Injectable()
 export class LogsListTableDataSource extends TableDataSource<Log> {

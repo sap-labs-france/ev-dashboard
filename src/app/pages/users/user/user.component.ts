@@ -1,18 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Address } from 'app/types/Address';
-import { IntegrationConnection } from 'app/types/Connection';
-import { ActionResponse } from 'app/types/DataResult';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { PricingSettingsType, RefundSettings } from 'app/types/Setting';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { User, UserRole, UserStatus } from 'app/types/User';
 import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -25,11 +16,19 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
+import { USER_STATUSES, UserRoles } from '../../../shared/model/users.model';
+import { Address } from '../../../types/Address';
+import { IntegrationConnection } from '../../../types/Connection';
+import { ActionResponse } from '../../../types/DataResult';
+import { KeyValue, RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { PricingSettingsType, RefundSettings } from '../../../types/Setting';
+import TenantComponents from '../../../types/TenantComponents';
+import { User, UserRole, UserStatus } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
 import { Users } from '../../../utils/Users';
 import { Utils } from '../../../utils/Utils';
-import { UserRoles, userStatuses } from '../model/users.model';
 import { UserDialogComponent } from './user.dialog.component';
 
 @Component({
@@ -122,7 +121,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // Get statuses
-    this.userStatuses = userStatuses;
+    this.userStatuses = USER_STATUSES;
     // Get Roles
     this.userRoles = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Get Locales

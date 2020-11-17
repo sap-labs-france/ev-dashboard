@@ -3,19 +3,20 @@ import { FormArray } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
-import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { EditableTableDataSource } from 'app/shared/table/editable-table-data-source';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, KeyValue } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableEditType } from 'app/types/Table';
-import { User, UserCar } from 'app/types/User';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
+import { TableAddAction } from '../../../shared/table/actions/table-add-action';
+import { TableRemoveAction } from '../../../shared/table/actions/table-remove-action';
+import { EditableTableDataSource } from '../../../shared/table/editable-table-data-source';
+import { DataResult } from '../../../types/DataResult';
+import { ButtonAction, KeyValue } from '../../../types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../types/Table';
+import { User, UserCar } from '../../../types/User';
+import { Utils } from '../../../utils/Utils';
 
 @Injectable()
 export class CarUsersEditableTableDataSource extends EditableTableDataSource<UserCar> {

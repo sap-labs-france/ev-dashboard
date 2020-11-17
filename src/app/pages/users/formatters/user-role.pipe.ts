@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { UserRoles } from '../model/users.model';
+import { UserRoles } from '../../../shared/model/users.model';
 
 @Pipe({name: 'appUserRole'})
 export class AppUserRolePipe implements PipeTransform {

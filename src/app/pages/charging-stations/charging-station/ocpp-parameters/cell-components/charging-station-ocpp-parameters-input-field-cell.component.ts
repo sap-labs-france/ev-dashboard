@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, Injectable, Input } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { OcppParameter } from 'app/types/ChargingStation';
-import { TableColumnDef } from 'app/types/Table';
+
+import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
+import { OcppParameter } from '../../../../../types/ChargingStation';
+import { TableColumnDef } from '../../../../../types/Table';
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters-input-field-cell',
@@ -33,10 +34,13 @@ export class ChargingStationOcppParametersInputFieldCellComponent extends CellCo
   @Input() public row!: OcppParameter;
 
   public ngAfterViewInit() {
-    // Get the key column def
-    if (this.row) {
-      this.tableColumnDef = this.row['keyTableColumnsDef'] as TableColumnDef;
-    }
+    // HACK: Avoid ERROR Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked
+    setTimeout(() => {
+      // Get the key column def
+      if (this.row) {
+        this.tableColumnDef = this.row['keyTableColumnsDef'] as TableColumnDef;
+      }
+    }, 0);
   }
 
   public valueChanged(value: string) {

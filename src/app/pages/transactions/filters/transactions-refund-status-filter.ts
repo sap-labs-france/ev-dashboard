@@ -1,7 +1,6 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
+import { TRANSACTION_REFUND_STATUS } from '../../../shared/model/transaction-refund-status.model';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { transactionRefundStatus } from '../model/transaction-refund-status.model';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class TransactionsRefundStatusFilter extends TableFilter {
   constructor() {
@@ -14,7 +13,7 @@ export class TransactionsRefundStatusFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
-      items: Object.assign([], transactionRefundStatus),
+      items: Object.assign([], TRANSACTION_REFUND_STATUS),
       multiple: true,
     };
     this.setFilterDef(filterDef);

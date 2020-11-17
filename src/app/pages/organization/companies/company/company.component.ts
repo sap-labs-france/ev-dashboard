@@ -3,19 +3,20 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { Address } from 'app/types/Address';
-import { Company, CompanyLogo } from 'app/types/Company';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
-import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
+
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ConfigService } from '../../../../services/config.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { Address } from '../../../../types/Address';
+import { Company, CompanyLogo } from '../../../../types/Company';
+import { RestResponse } from '../../../../types/GlobalType';
+import { HTTPError } from '../../../../types/HTTPError';
+import { ParentErrorStateMatcher } from '../../../../utils/ParentStateMatcher';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-company',

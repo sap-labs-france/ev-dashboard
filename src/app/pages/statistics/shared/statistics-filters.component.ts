@@ -2,17 +2,17 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
-import { FilterParams } from 'app/types/GlobalType';
-import { SettingLink } from 'app/types/Setting';
-import { FilterType, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
 import * as moment from 'moment';
 import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
+import { LocaleService } from '../../../services/locale.service';
+import { FilterParams } from '../../../types/GlobalType';
+import { SettingLink } from '../../../types/Setting';
+import { FilterType, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
 
 export interface StatisticsButtonGroup {
   name: string;
@@ -49,8 +49,8 @@ export class StatisticsFiltersComponent implements OnInit {
 
   @Input() public allYears ?= false;
   public buttonsOfScopeGroup: StatisticsButtonGroup[] = [
-    { name: 'total', title: 'statistics.total', inactive: false },
     { name: 'month', title: 'statistics.graphic_title_month_x_axis', inactive: false },
+    { name: 'total', title: 'statistics.total', inactive: false },
   ];
   @Output() public buttonOfScopeGroup = new EventEmitter();
   @Input() public tableFiltersDef?: TableFilterDef[] = [];
@@ -99,7 +99,6 @@ export class StatisticsFiltersComponent implements OnInit {
         this.transactionYears.push(0); // 'all years' corresponds to year = 0
       }
     });
-
     // Get SAC links
     this.componentService.getSacSettings(true).subscribe((sacSettings) => {
       if (this.isAdmin) {
@@ -118,9 +117,7 @@ export class StatisticsFiltersComponent implements OnInit {
         this.sacLinksActive = false;
       }
     });
-
     this.setActiveButtonOfScopeGroup();
-
     // Provided filters
     if (this.tableFiltersDef) {
       for (const tableFilterDef of this.tableFiltersDef) {
@@ -350,8 +347,16 @@ export class StatisticsFiltersComponent implements OnInit {
             }
             // Others
           } else if (filterDef.type === FilterType.DATE_RANGE) {
-            filterJson['StartDateTime'] = filterDef.currentValue.startDate.toISOString();
-            filterJson['EndDateTime'] = filterDef.currentValue.endDate.toISOString();
+            if (!filterDef.currentValue.startDate) {
+              filterJson['StartDateTime'] = moment().startOf('y').toISOString();
+            } else {
+              filterJson['StartDateTime'] = filterDef.currentValue.startDate.toISOString();
+            }
+            if (!filterDef.currentValue.endDate) {
+              filterJson['EndDateTime'] = moment().endOf('d').toISOString();
+            } else {
+              filterJson['EndDateTime'] = filterDef.currentValue.endDate.toISOString();
+            }
             // Others
           } else {
             // Set it

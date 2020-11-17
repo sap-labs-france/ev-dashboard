@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { ComponentService } from 'app/services/component.service';
-import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { ChargePoint, ChargingStation, Connector } from 'app/types/ChargingStation';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
+
+import { ComponentService } from '../../../../services/component.service';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
+import { ChargePoint, ChargingStation, Connector } from '../../../../types/ChargingStation';
+import TenantComponents from '../../../../types/TenantComponents';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-power-slider',

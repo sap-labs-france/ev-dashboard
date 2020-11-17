@@ -1,18 +1,19 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { AssetConsumption } from 'app/types/Asset';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
+import { AssetConsumption } from '../../../../types/Asset';
+import { ConsumptionUnit } from '../../../../types/Transaction';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-asset-chart',

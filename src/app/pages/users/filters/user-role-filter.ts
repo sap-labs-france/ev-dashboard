@@ -1,8 +1,7 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
 import { CentralServerService } from '../../../services/central-server.service';
+import { UserRoles } from '../../../shared/model/users.model';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { UserRoles } from '../model/users.model';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class UserRoleFilter extends TableFilter {
   constructor(

@@ -2,32 +2,33 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Company, CompanyButtonAction, CompanyLogo } from 'app/types/Company';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { TableCreateCompanyAction, TableCreateCompanyActionDef } from '../../../../shared/table/actions/companies/table-create-company-action';
+import { TableDeleteCompanyAction, TableDeleteCompanyActionDef } from '../../../../shared/table/actions/companies/table-delete-company-action';
+import { TableEditCompanyAction, TableEditCompanyActionDef } from '../../../../shared/table/actions/companies/table-edit-company-action';
+import { TableViewCompanyAction, TableViewCompanyActionDef } from '../../../../shared/table/actions/companies/table-view-company-action';
+import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
+import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { Company, CompanyButtonAction, CompanyLogo } from '../../../../types/Company';
+import { DataResult } from '../../../../types/DataResult';
+import { ButtonAction } from '../../../../types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
-import { TableCreateCompanyAction, TableCreateCompanyActionDef } from '../table-actions/table-create-company-action';
-import { TableDeleteCompanyAction, TableDeleteCompanyActionDef } from '../table-actions/table-delete-company-action';
-import { TableEditCompanyAction, TableEditCompanyActionDef } from '../table-actions/table-edit-company-action';
-import { TableViewCompanyAction, TableViewCompanyActionDef } from '../table-actions/table-view-company-action';
+import { CompanyDialogComponent } from '../company/company.dialog.component';
 
 @Injectable()
 export class CompaniesListTableDataSource extends TableDataSource<Company> {
@@ -198,7 +199,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
       // Add
       case CompanyButtonAction.CREATE_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableCreateCompanyActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateCompanyActionDef).action(CompanyDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -208,12 +209,12 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     switch (actionDef.id) {
       case CompanyButtonAction.EDIT_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableEditCompanyActionDef).action(company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditCompanyActionDef).action(CompanyDialogComponent, company, this.dialog, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.VIEW_COMPANY:
         if (actionDef.action) {
-          (actionDef as TableViewCompanyActionDef).action(company, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewCompanyActionDef).action(CompanyDialogComponent, company, this.dialog, this.refreshData.bind(this));
         }
         break;
       case CompanyButtonAction.DELETE_COMPANY:

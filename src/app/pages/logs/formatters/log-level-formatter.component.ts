@@ -1,9 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ChipType } from 'app/types/GlobalType';
-import { Log } from 'app/types/Log';
 
-import { logLevels } from '../model/logs.model';
+import { logLevels } from '../../../shared/model/logs.model';
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { ChipType } from '../../../types/GlobalType';
+import { Log } from '../../../types/Log';
 
 @Component({
   template: `

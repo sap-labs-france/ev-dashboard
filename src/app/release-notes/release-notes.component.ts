@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.25',
+        date: new Date('2020-11-17'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Angular 11 migration`,
+              `Enhanced OCPI CPO logs`,
+              `Added locks at Transaction level when pushing OCPI CDRs`,
+              `Fixed cannot select Transaction to Refund in list`,
+              `Fixed Transaction in progress connector not animated when charging`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.24',
         date: new Date('2020-11-15'),
         componentChanges: [

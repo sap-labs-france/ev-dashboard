@@ -1,16 +1,16 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LocaleService } from 'app/services/locale.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { Schedule } from 'app/types/ChargingProfile';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector } from 'app/types/ChargingStation';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartPoint, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
 
+import { LocaleService } from '../../../../services/locale.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
+import { Schedule } from '../../../../types/ChargingProfile';
+import { ChargePoint, ChargingStation, ChargingStationPowers } from '../../../../types/ChargingStation';
+import { ConsumptionUnit } from '../../../../types/Transaction';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-smart-charging-limit-planner-chart',

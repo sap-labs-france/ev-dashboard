@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { KeyValue } from 'app/types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType } from 'app/types/Setting';
-import { Constants } from 'app/utils/Constants';
 
+import { KeyValue } from '../../../../types/GlobalType';
+import { AssetConnectionSetting, AssetConnectionType, AssetSchneiderConnectionType } from '../../../../types/Setting';
+import { Constants } from '../../../../utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
 @Component({

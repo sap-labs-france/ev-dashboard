@@ -3,15 +3,15 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
-import { RegistrationToken } from 'app/types/RegistrationToken';
-import { SiteArea } from 'app/types/SiteArea';
 import * as moment from 'moment';
 
 import { CentralServerService } from '../../../../services/central-server.service';
+import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { SiteAreasDialogComponent } from '../../../../shared/dialogs/site-areas/site-areas-dialog.component';
+import { RegistrationToken } from '../../../../types/RegistrationToken';
+import { SiteArea } from '../../../../types/SiteArea';
 import { Utils } from '../../../../utils/Utils';
 import { RegistrationTokenDialogComponent } from './registration-token.dialog.component';
 

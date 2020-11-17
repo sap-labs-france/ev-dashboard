@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ChargePointStatus, Connector } from 'app/types/ChargingStation';
+
+import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
 
 const TYPE_INFO = 'chip-info';
 const TYPE_SUCCESS = 'chip-success';

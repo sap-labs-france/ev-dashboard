@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { WindowService } from 'app/services/window.service';
-import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract-tab.component';
+
+import { WindowService } from '../../services/window.service';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
   selector: 'app-organization',

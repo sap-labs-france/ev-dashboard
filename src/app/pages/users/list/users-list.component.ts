@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
 
 import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
-import { TableEditUserAction } from '../table-actions/table-edit-user-action';
+import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
 import { UserComponent } from '../user/user.component';
+import { UserDialogComponent } from '../user/user.dialog.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';
 
 @Component({
@@ -34,7 +35,7 @@ export class UsersListComponent implements OnInit {
       this.centralServerService.getUser(userId).subscribe((user) => {
       const editAction = new TableEditUserAction().getActionDef();
       if (editAction.action) {
-          editAction.action(user, this.dialog);
+          editAction.action(UserDialogComponent, user, this.dialog);
         }
       }, (error) => {
         // Not Found

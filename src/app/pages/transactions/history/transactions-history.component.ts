@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CentralServerService } from 'app/services/central-server.service';
-import { Utils } from 'app/utils/Utils';
 
+import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { WindowService } from '../../../services/window.service';
-import { TableViewTransactionAction } from '../table-actions/table-view-transaction-action';
+import { TableViewTransactionAction } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import { Utils } from '../../../utils/Utils';
 import { TransactionsHistoryTableDataSource } from './transactions-history-table-data-source';
 
 @Component({

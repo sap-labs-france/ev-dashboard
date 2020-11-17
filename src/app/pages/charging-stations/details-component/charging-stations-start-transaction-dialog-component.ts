@@ -1,10 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ButtonType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 
-export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
-export const BUTTON_SELECT_USER = 'SELECT_USER';
+import { BUTTON_FOR_MYSELF, BUTTON_SELECT_USER } from '../../../shared/table/actions/charging-stations/table-charging-stations-start-transaction-action';
+import { ButtonType } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: './charging-stations-start-transaction-dialog-component.html',

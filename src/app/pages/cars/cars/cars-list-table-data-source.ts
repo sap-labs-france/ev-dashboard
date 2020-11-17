@@ -2,31 +2,32 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { CarMakerTableFilter } from 'app/shared/table/filters/car-maker-table-filter';
-import { UserTableFilter } from 'app/shared/table/filters/user-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Car, CarButtonAction, CarConverter, CarType } from 'app/types/Car';
-import ChangeNotification from 'app/types/ChangeNotification';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { UserCar } from 'app/types/User';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { TableCreateCarAction, TableCreateCarActionDef } from '../../../shared/table/actions/cars/table-create-car-action';
+import { TableDeleteCarAction, TableDeleteCarActionDef } from '../../../shared/table/actions/cars/table-delete-car-action';
+import { TableEditCarAction, TableEditCarActionDef } from '../../../shared/table/actions/cars/table-edit-car-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
+import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { Car, CarButtonAction, CarConverter, CarType } from '../../../types/Car';
+import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { UserCar } from '../../../types/User';
+import { Utils } from '../../../utils/Utils';
+import { CarDialogComponent } from '../car/car.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
-import { TableCreateCarAction, TableCreateCarActionDef } from '../table-actions/table-create-car-action';
-import { TableDeleteCarAction, TableDeleteCarActionDef } from '../table-actions/table-delete-car-action';
-import { TableEditCarAction, TableEditCarActionDef } from '../table-actions/table-edit-car-action';
 
 @Injectable()
 export class CarsListTableDataSource extends TableDataSource<Car> {
@@ -227,7 +228,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     switch (actionDef.id) {
       case CarButtonAction.CREATE_CAR:
         if (actionDef.action) {
-          (actionDef as TableCreateCarActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateCarActionDef).action(CarDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -262,7 +263,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
     switch (actionDef.id) {
       case CarButtonAction.EDIT_CAR:
         if (actionDef.action) {
-          (actionDef as TableEditCarActionDef).action(car, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditCarActionDef).action(CarDialogComponent, car, this.dialog, this.refreshData.bind(this));
         }
         break;
       case CarButtonAction.DELETE_CAR:

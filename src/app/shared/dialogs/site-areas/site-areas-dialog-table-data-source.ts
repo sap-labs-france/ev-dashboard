@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DataResult } from 'app/types/DataResult';
-import { SiteArea } from 'app/types/SiteArea';
-import { TableColumnDef, TableDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { DataResult } from '../../../types/DataResult';
+import { SiteArea } from '../../../types/SiteArea';
+import { TableColumnDef, TableDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 

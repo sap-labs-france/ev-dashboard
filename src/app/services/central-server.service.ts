@@ -1083,14 +1083,14 @@ export class CentralServerService {
   public exportUsers(params: FilterParams): Observable<Blob> {
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USERS_EXPORT}`,
-    {
-      headers: this.buildHttpHeaders(),
-      responseType: 'blob',
-      params,
-    })
-    .pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public exportTransactions(params: FilterParams): Observable<Blob> {

@@ -852,8 +852,8 @@
         "kind": "Typ",
         "purpose": "Zweck",
         "stack_level": "Stack Level",
-        "site_area":"Standortbereich",
-        "site_area_limit":"Standortbereichslimit",
+        "site_area": "Standortbereich",
+        "site_area_limit": "Standortbereichslimit",
         "redirect": "Navigiere zu den Ladeplänen"
       }
     },

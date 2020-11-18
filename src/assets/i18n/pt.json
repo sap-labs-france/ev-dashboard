@@ -852,8 +852,8 @@
         "kind": "Tipo",
         "purpose": "Objetivo",
         "stack_level": "Nível de Pilha",
-        "site_area":"Area de Site",
-        "site_area_limit":"Limite Area do Site",
+        "site_area": "Area de Site",
+        "site_area_limit": "Limite Area do Site",
         "redirect": "Navigate to Charging Plans"
       }
     },
@@ -1059,7 +1059,7 @@
     "search_last_week": "Ultima Semana",
     "search_this_month": "Este mês",
     "search_last_month": "Ultimo mês",
-    "select_actions":"Selecionar Ações",
+    "select_actions": "Selecionar Ações",
     "redirect": "Verificar Registos",
     "no_logs": "Não existem registos que correspondem com o filtros",
     "dialog": {

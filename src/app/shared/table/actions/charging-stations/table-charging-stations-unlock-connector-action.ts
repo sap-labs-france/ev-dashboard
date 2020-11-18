@@ -8,8 +8,8 @@ import { SpinnerService } from 'services/spinner.service';
 import { TableAction } from 'shared/table/actions/table-action';
 import { ChargingStation, ChargingStationButtonAction, Connector } from 'types/ChargingStation';
 import { ActionResponse } from 'types/DataResult';
-import { OCPPUnlockStatus } from 'types/ocpp/OCPP';
 import { ButtonColor, ButtonType, TableActionDef } from 'types/Table';
+import { OCPPUnlockStatus } from 'types/ocpp/OCPP';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationsUnlockConnectorActionDef extends TableActionDef {

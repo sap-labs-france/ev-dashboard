@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Notify Admins when the Smart Charging cannot push a plan to a Charging Station`,
               `Jump from Charging Plan list to Site Area`,
               `Angular 11 migration`,
               `Enhanced OCPI CPO logs`,

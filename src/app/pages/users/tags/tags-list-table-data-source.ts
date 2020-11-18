@@ -17,7 +17,6 @@ import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { TableActivateTagAction, TableActivateTagActionDef } from '../../../shared/table/actions/users/table-activate-tag-action';
-import { TableAssignUserToTagAction, TableAssignUserToTagActionDef } from '../../../shared/table/actions/users/table-assign-user-to-tag-action';
 import { TableCreateTagAction, TableCreateTagActionDef } from '../../../shared/table/actions/users/table-create-tag-action';
 import { TableDeactivateTagAction, TableDeactivateTagActionDef } from '../../../shared/table/actions/users/table-deactivate-tag-action';
 import { TableDeleteTagAction, TableDeleteTagActionDef } from '../../../shared/table/actions/users/table-delete-tag-action';
@@ -45,7 +44,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   private editAction = new TableEditTagAction().getActionDef();
   private navigateToUserAction = new TableNavigateToUserAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
-  private assignUserToTagAction = new TableAssignUserToTagAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -251,7 +249,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     const moreActions = new TableMoreAction([]);
     if (tag.issuer) {
       actions.push(this.editAction);
-      actions.push(this.assignUserToTagAction);
       if (tag.active) {
         moreActions.addActionInMoreActions(this.deactivateAction);
       } else {
@@ -316,12 +313,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('transactions#history?TagID=' + tag.id + '&Issuer=' + tag.issuer);
-        }
-        break;
-      case UserButtonAction.ASSIGN_USER_TO_TAG:
-        if (actionDef.action) {
-          (actionDef as TableAssignUserToTagActionDef).action(tag, this.dialog, this.dialogService, this.translateService,
-            this.messageService, this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
     }

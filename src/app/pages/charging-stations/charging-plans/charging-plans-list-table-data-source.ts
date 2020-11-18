@@ -14,6 +14,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
+import { TableNavigateToSiteAreaAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-site-area-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
@@ -31,6 +32,7 @@ import { ChargingStationLimitationDialogComponent } from '../charging-station-li
 export class ChargingPlansListTableDataSource extends TableDataSource<ChargingProfile> {
   private readonly isOrganizationComponentActive: boolean;
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
+  private checkSiteAreaAction = new TableNavigateToSiteAreaAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -177,6 +179,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
           );
         }
         break;
+        case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
+          this.checkSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id);
+          break;
     }
   }
 
@@ -193,10 +198,16 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     if (!chargingProfile) {
       return [];
     }
+    if (this.authorizationService.isAdmin() && !this.isOrganizationComponentActive ) {
+      return [
+        this.smartChargingAction
+      ];
+    }
     if (this.authorizationService.isAdmin() ||
       this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
       return [
         this.smartChargingAction,
+        this.checkSiteAreaAction,
       ];
     }
     return [];

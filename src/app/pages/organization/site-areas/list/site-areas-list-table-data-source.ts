@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -66,12 +67,25 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
+    private windowService: WindowService,
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
+    this.initUrlParams();
+  }
+
+  public initUrlParams() {
+    const siteAreaID = this.windowService.getSearch('SiteAreaID');
+    if (siteAreaID) {
+      this.centralServerService.getSiteArea(siteAreaID).subscribe((siteArea) => {
+        if (siteArea) {
+          this.editAction.action(SiteAreaDialogComponent, siteArea, this.dialog);
+        }
+      });
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {

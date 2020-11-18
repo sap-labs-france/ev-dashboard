@@ -25,7 +25,7 @@
     "connectors": "Verknüpfungen",
     "notifications": "Benachrichtungen",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.25",
+    "last_update": "Version 2.4.26",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "Ein unerwarteter Fehler ist aufgetreten",
@@ -91,7 +91,7 @@
     "previous": "Vorherige",
     "info": "Info",
     "now": "Jetzt",
-    "default": "Default",
+    "default": "Standard",
     "yes": "Ja",
     "no": "Nein",
     "apply": "Anwenden",
@@ -466,7 +466,8 @@
     "export_all_params_error": "Beim Exportieren aller OCPP-Parameter ist ein Fehler aufgetreten.",
     "consumption_date": "Datum",
     "single_phased": "Einphasig",
-    "three_phased": "Dreiphasig"
+    "three_phased": "Dreiphasig",
+    "redirect": "Navigiere zum Standortbereich"
   },
   "authentication": {
     "accept": "Ich akzeptiere die",
@@ -851,7 +852,7 @@
         "stack_level": "Stack Level",
         "site_area":"Standortbereich",
         "site_area_limit":"Standortbereichslimit",
-        "redirect": "Navigate to Charging Plans"
+        "redirect": "Navigiere zu den Ladeplänen"
       }
     },
     "more_actions": {
@@ -1150,9 +1151,9 @@
     "remove_sites_confirm": "Sind Sie sich sicher, dass Sie die ausgewählte(n) Standort(e) vom Nutzer entfernen wollen?",
     "remove_sites_success": "Die Standort(e) wurden erfolgreich entfernt",
     "remove_sites_error": "Beim Entfernen der Standorte vom Nutzer ist ein Fehler aufgetreten",
-    "export_users_title": "Export Users",
-    "export_users_confirm": "Do you really want to export the User list to a csv format?",
-    "export_users_error": "Error occurred while trying to export the Users",
+    "export_users_title": "Nutzer exportieren",
+    "export_users_confirm": "Möchten Sie die Nutzerliste wirklich im csv-Format exportieren?",
+    "export_users_error": "Beim Export der Nutzerliste ist ein Fehler aufgetreten",
     "update_success": "Der Nutzer '{{userFullName}}' wurde erfolgreich aktualisiert",
     "update_sites_success": "Die Standorte wurden erfolgreich hinzugefügt",
     "changed_by_other_user": "Der Nutzer '{{userFullName}}' wurde von einem anderem Nutzer aktualisiert und wird neu geladen",
@@ -1237,7 +1238,7 @@
     "number_of_items": "Ladevorgänge",
     "pay": "Bezahlen",
     "user": "Nutzer",
-    "failed_download": "Invoice download failed."
+    "failed_download": "Download der Rechnung fehlgeschlagen."
   },
   "tags": {
     "id": "ID",
@@ -1403,7 +1404,7 @@
       },
       "simple": {
         "title": "Einfache Preisbildung",
-        "price": "Price (per kW.h)",
+        "price": "Preis (pro kW.h)",
         "currency": "Währung"
       }
     },
@@ -1575,8 +1576,8 @@
     "push_tokens_confirm": "Wollen Sie wirklich alle Nutzer-Tokens zu IOP '{{name}}' senden?",
     "trigger_jobs_title": "Jobs ausführen",
     "trigger_jobs_confirm": "Wollen Sie die Ausführung aller IOP '{{name}}' Jobs auslösen?",
-    "trigger_ocpi_action": "The action has been successfully sent and may take time to be processed",
-    "ocpi_action_in_progress": "The action is already running",
+    "trigger_ocpi_action": "Die Aktion wurde erfolgreich gesendet und braucht eventuell etwas Verarbeitungszeit",
+    "ocpi_action_in_progress": "Die Aktion läuft bereits",
     "pull_locations_title": "Standorte abrufen",
     "pull_locations_confirm": "Wollen Sie alle Standorte von IOP '{{name}}' abrufen?",
     "pull_locations_success": "Aktualisieren der Standorte '{{success}}' von IOP war erfolgreich",
@@ -1813,7 +1814,7 @@
     "description": "Fahrzeuge verwalten",
     "tabs": {
       "car_catalogs": "Fahrzeugverzeichnisse",
-      "cars": "Car Management"
+      "cars": "Fahrzeug Management"
     }
   },
   "analytics": {
@@ -2141,7 +2142,8 @@
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",
     "user_account_inactivity": "Benachrichtigen Sie mich, wenn ich mich seit mehr als 6 Monaten nicht eingeloggt habe",
     "car_catalog_synchronization_failed": "Benachrichtigen Sie mich, wenn bei der Synchronisierung der Fahrzeuge ein Fehler auftrat",
+    "compute_and_apply_charging_profiles_failed": "Benachrichtigen Sie mich, wenn das Anwenden der Smart Charging-Profile für einen Standortbereich fehlschlägt",
     "end_user_error_notification": "Benachrichtigen Sie mich, wenn ein Nutzer einen Fehler meldet",
-    "billing_new_invoice": "Notify me when a new invoice is available"
+    "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist"
   }
 }

@@ -24,12 +24,14 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.25',
-        date: new Date('2020-11-17'),
+        version: '2.4.26',
+        date: new Date('2020-11-18'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Notify Admins when the Smart Charging cannot push a plan to a Charging Station`,
+              `Jump from Charging Plan list to Site Area`,
               `Angular 11 migration`,
               `Enhanced OCPI CPO logs`,
               `Added locks at Transaction level when pushing OCPI CDRs`,

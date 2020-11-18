@@ -1,6 +1,5 @@
-import { CarMakersDialogComponent } from 'app/shared/dialogs/car-makers/car-makers-dialog.component';
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
+import { CarMakersDialogComponent } from '../../../shared/dialogs/car-makers/car-makers-dialog.component';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 import { TableFilter } from './table-filter';
 
 export class CarMakerTableFilter extends TableFilter {

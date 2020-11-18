@@ -2,41 +2,45 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from 'app/pages/charging-stations/table-actions/table-export-ocpp-params-action';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from 'app/services/component.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { SiteArea, SiteAreaButtonAction } from 'app/types/SiteArea';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
+import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
+import { TableAssignAssetsToSiteAreaAction, TableAssignAssetsToSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-assign-assets-to-site-area-action';
+import { TableAssignChargingStationsToSiteAreaAction, TableAssignChargingStationsToSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-assign-charging-stations-to-site-area-action';
+import { TableViewAssignedAssetsOfSiteAreaAction, TableViewAssignedAssetsOfSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-assign-view-assets-of-site-area-action';
+import { TableCreateSiteAreaAction, TableCreateSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-create-site-area-action';
+import { TableDeleteSiteAreaAction, TableDeleteSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-delete-site-area-action';
+import { TableEditSiteAreaAction, TableEditSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-edit-site-area-action';
+import { TableViewChargingStationsOfSiteAreaAction, TableViewChargingStationsOfSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-view-charging-stations-of-site-area-action';
+import { TableViewSiteAreaAction, TableViewSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-view-site-area-action';
+import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
+import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
+import { SiteTableFilter } from '../../../../shared/table/filters/site-table-filter';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { TableAssignAssetsToSiteAreaAction, TableAssignAssetsToSiteAreaActionDef } from '../table-actions/table-assign-assets-to-site-area-action';
-import { TableAssignChargingStationsToSiteAreaAction, TableAssignChargingStationsToSiteAreaActionDef } from '../table-actions/table-assign-charging-stations-to-site-area-action';
-import { TableViewAssignedAssetsOfSiteAreaAction, TableViewAssignedAssetsOfSiteAreaActionDef } from '../table-actions/table-assign-view-assets-of-site-area-action';
-import { TableCreateSiteAreaAction, TableCreateSiteAreaActionDef } from '../table-actions/table-create-site-area-action';
-import { TableDeleteSiteAreaAction, TableDeleteSiteAreaActionDef } from '../table-actions/table-delete-site-area-action';
-import { TableEditSiteAreaAction, TableEditSiteAreaActionDef } from '../table-actions/table-edit-site-area-action';
-import { TableViewChargingStationsOfSiteAreaAction, TableViewChargingStationsOfSiteAreaActionDef } from '../table-actions/table-view-charging-stations-of-site-area-action';
-import { TableViewSiteAreaAction, TableViewSiteAreaActionDef } from '../table-actions/table-view-site-area-action';
+import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
+import { DataResult } from '../../../../types/DataResult';
+import { ButtonAction } from '../../../../types/GlobalType';
+import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import TenantComponents from '../../../../types/TenantComponents';
+import { Utils } from '../../../../utils/Utils';
+import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-assets-dialog.component';
+import { SiteAreaChargingStationsDialogComponent } from '../site-area-charging-stations/site-area-charging-stations-dialog.component';
+import { SiteAreaDialogComponent } from '../site-area/site-area-dialog.component';
 import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/site-area-consumption-chart-detail.component';
 
 @Injectable()
@@ -63,12 +67,25 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private datePipe: AppDatePipe,
+    private windowService: WindowService,
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     // Init
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
     this.setStaticFilters([{ WithSite: true }]);
     this.initDataSource();
+    this.initUrlParams();
+  }
+
+  public initUrlParams() {
+    const siteAreaID = this.windowService.getSearch('SiteAreaID');
+    if (siteAreaID) {
+      this.centralServerService.getSiteArea(siteAreaID).subscribe((siteArea) => {
+        if (siteArea) {
+          this.editAction.action(SiteAreaDialogComponent, siteArea, this.dialog);
+        }
+      });
+    }
   }
 
   public getDataChangeSubject(): Observable<ChangeNotification> {
@@ -264,7 +281,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteAreaActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -274,25 +291,25 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     switch (actionDef.id) {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
-          (actionDef as TableEditSiteAreaActionDef).action(siteArea, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewSiteAreaActionDef).action(
-            siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignChargingStationsToSiteAreaActionDef).action(
-            siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaChargingStationsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_CHARGING_STATIONS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewChargingStationsOfSiteAreaActionDef).action(
-            siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaChargingStationsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.DELETE_SITE_AREA:
@@ -318,13 +335,13 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.ASSIGN_ASSETS_TO_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableAssignAssetsToSiteAreaActionDef).action(
-            siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_ASSETS_OF_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewAssignedAssetsOfSiteAreaActionDef).action(
-            siteArea, this.dialog, this.refreshData.bind(this));
+            SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
     }

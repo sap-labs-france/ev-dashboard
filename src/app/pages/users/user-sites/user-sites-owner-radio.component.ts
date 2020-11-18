@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
-import { RestResponse } from 'app/types/GlobalType';
-import { SiteUser } from 'app/types/Site';
-import { UserToken } from 'app/types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { RestResponse } from '../../../types/GlobalType';
+import { SiteUser } from '../../../types/Site';
+import { UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({

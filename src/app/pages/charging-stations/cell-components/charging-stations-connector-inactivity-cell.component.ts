@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Connector } from 'app/types/ChargingStation';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { Connector } from '../../../types/ChargingStation';
 
 @Component({
   template: `

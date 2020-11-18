@@ -2,13 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { DataResult } from 'app/types/DataResult';
-import { ErrorMessage, UserInError, UserInErrorType } from 'app/types/InError';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { User, UserButtonAction } from 'app/types/User';
 import { Observable } from 'rxjs';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -16,22 +9,31 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../../../shared/table/actions/users/table-assign-sites-to-user-action';
+import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared/table/actions/users/table-delete-user-action';
+import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
+import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
+import { TableSyncBillingUserAction } from '../../../shared/table/actions/users/table-sync-billing-user-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { ErrorMessage, UserInError, UserInErrorType } from '../../../types/InError';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
-import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
-import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
-import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
-import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
-import { TableSyncBillingUserAction } from '../table-actions/table-sync-billing-user-action';
+import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
+import { UserDialogComponent } from '../user/user.dialog.component';
 
 @Injectable()
 export class UsersInErrorTableDataSource extends TableDataSource<User> {
@@ -186,12 +188,12 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          (actionDef as TableEditUserActionDef).action(user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(UserDialogComponent, user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableAssignSitesToUserActionDef).action(user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignSitesToUserActionDef).action(UserSitesDialogComponent, user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

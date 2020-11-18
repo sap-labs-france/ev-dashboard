@@ -181,6 +181,17 @@ export enum ConnectorType {
   UNKNOWN = 'U',
 }
 
+export enum SiteAreaLimitSource {
+  CHARGING_STATIONS = 'CS',
+  SITE_AREA = 'SA',
+}
+
+export enum ConnectorCurrentLimitSource {
+  CHARGING_PROFILE = 'CP',
+  STATIC_LIMITATION = 'SL',
+  CONNECTOR = 'CO'
+}
+
 export enum CurrentType {
   AC = 'AC',
   DC = 'DC',
@@ -210,7 +221,8 @@ export enum ChargingStationButtonAction {
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
   SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
-  NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans'
+  NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans',
+  NAVIGATE_TO_SITE_AREA = 'navigate_to_site_area'
 }
 
 export enum ChargePointStatus {

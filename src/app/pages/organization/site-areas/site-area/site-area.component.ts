@@ -3,26 +3,26 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from 'app/services/component.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { SitesDialogComponent } from 'app/shared/dialogs/sites/sites-dialog.component';
-import { Address } from 'app/types/Address';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { RegistrationToken } from 'app/types/RegistrationToken';
-import { Site } from 'app/types/Site';
-import { SiteArea, SiteAreaImage } from 'app/types/SiteArea';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { mergeMap } from 'rxjs/operators';
 
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
+import { ConfigService } from '../../../../services/config.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { SitesDialogComponent } from '../../../../shared/dialogs/sites/sites-dialog.component';
+import { Address } from '../../../../types/Address';
+import { RestResponse } from '../../../../types/GlobalType';
+import { HTTPError } from '../../../../types/HTTPError';
+import { RegistrationToken } from '../../../../types/RegistrationToken';
+import { Site } from '../../../../types/Site';
+import { SiteArea, SiteAreaImage } from '../../../../types/SiteArea';
+import { ButtonType } from '../../../../types/Table';
+import TenantComponents from '../../../../types/TenantComponents';
+import { Utils } from '../../../../utils/Utils';
 import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
 
 @Component({

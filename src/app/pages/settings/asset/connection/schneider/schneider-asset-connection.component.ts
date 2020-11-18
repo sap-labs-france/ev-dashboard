@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AssetSchneiderConnectionType } from 'app/types/Setting';
+
+import { AssetSchneiderConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-schneider-connection',

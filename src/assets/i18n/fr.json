@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.25",
+    "last_update": "Version 2.4.26",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -466,7 +466,8 @@
     "export_all_params_error": "Une erreur est survenue pendant l'exportation des paramètres OCPP, vérifiez les logs",
     "consumption_date": "Date",
     "single_phased": "Monophasé",
-    "three_phased": "Triphasé"
+    "three_phased": "Triphasé",
+    "redirect": "Navigate to Site Area"
   },
   "authentication": {
     "accept": "J'accepte les",
@@ -947,8 +948,8 @@
     "start_transaction_error": "Une erreur est survenue pendant la tentative de démarrage de la session, vérifiez les logs",
     "start_transaction_missing_active_tag": "La transaction ne peut être démarrée pour l'utilisateur '{{userName}}' sur la borne '{{chargeBoxID}}', l'utilisateur doit avoir au moins un badge actif.",
     "start_transaction_user_not_allowed": "Vous n'êtes pas autorisé à demarrer une session sur cette borne",
-    "unlock_connector_title": "Dévérouiller",
-    "unlock_connector_button": "Dévérouiller",
+    "unlock_connector_title": "Dévérrouiller",
+    "unlock_connector_button": "Dévérrouiller",
     "unlock_connector_confirm": "Voulez-vous vraiment dévérouiller le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}'?",
     "unlock_connector_success": "Le connecteur '{{connectorId}}' de la borne '{{chargeBoxID}}' a été dévérouillé avec succès",
     "unlock_connector_error": "Une erreur est survenue lors du dévérouillage du connecteur, vérifiez les logs",
@@ -2141,6 +2142,7 @@
     "session_not_started": "Me notifier lorsque j'ai badger sur une borne de recharge mais aucune session n'a démarré",
     "user_account_inactivity": "Me notifier lorsque je ne me suis pas connecté à l'application depuis plus de 6 mois",
     "car_catalog_synchronization_failed": "Me notifier lorsqu'une synchronisation de véhicule a échoué",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging Profiles-fails for a certain site area",
     "end_user_error_notification": "Me notifier lorsque l'utilisateur me rapporte un problème",
     "billing_new_invoice": "Me notifier lorsqu'une nouvelle facture est disponible"
   }

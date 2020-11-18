@@ -1,6 +1,5 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { data } from 'jquery';
 import { Observable } from 'rxjs';
 
 import { CentralServerService } from '../../../../services/central-server.service';

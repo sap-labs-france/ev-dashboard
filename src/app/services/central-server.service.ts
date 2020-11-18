@@ -623,9 +623,7 @@ export class CentralServerService {
     params['ConnectorId'] = connectorID.toString();
     params['Limit'] = '1';
     params['Skip'] = '0';
-    params['SortFields'] = 'timestamp';
-    params['SortDirs'] = '-1';
-
+    params['SortFields'] = '-timestamp';
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<DataResult<Transaction>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_TRANSACTIONS}`,

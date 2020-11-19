@@ -24,7 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.26',
+        version: '2.4.27',
+        date: new Date('2020-11-19'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `keep track of unmatched template sections`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.27',
         date: new Date('2020-11-18'),
         componentChanges: [
           {

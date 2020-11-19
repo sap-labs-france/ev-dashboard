@@ -25,7 +25,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.25",
+    "last_update": "Versão 2.4.26",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -466,7 +466,8 @@
     "export_all_params_error": "Ocurreu um erro enquanto tentava exportar todos os parametros OCPP",
     "consumption_date": "Data",
     "single_phased": "Fase Unica",
-    "three_phased": "Fase Tripla"
+    "three_phased": "Fase Tripla",
+    "redirect": "Navigate to Site Area"
   },
   "authentication": {
     "accept": "Eu aceito o",
@@ -2140,6 +2141,7 @@
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notifique-me se ocorrer um erro durante os carros de sincronização",
     "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro"
   }

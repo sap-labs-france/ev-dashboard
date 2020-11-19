@@ -4,6 +4,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
+import localeIt from '@angular/common/locales/it';
 import localePt from '@angular/common/locales/pt';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -75,6 +76,7 @@ registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeDe, 'de');
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localePt, 'pt');
+registerLocaleData(localeIt, 'it');
 
 @NgModule({
   exports: [
@@ -211,10 +213,10 @@ export class AppModule {
       language = loggedUser.language;
     }
     // Supported
-    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt']);
+    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it']);
     // Default EN
     translateService.setDefaultLang('en');
     // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es|de|pt/) ? language : 'en');
+    translateService.use(language.match(/en|fr|es|de|pt|it/) ? language : 'en');
   }
 }

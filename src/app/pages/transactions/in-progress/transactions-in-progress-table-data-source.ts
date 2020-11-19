@@ -121,6 +121,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     }
     columns.push(
       {
+        id: 'timestamp',
+        name: 'transactions.started_at',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        sorted: true,
+        sortable: true,
+        direction: 'desc',
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -139,16 +149,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'transactions.badge_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-      },
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'currentTotalDurationSecs',
@@ -192,7 +192,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         },
       });
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(1, 0, {
+      columns.splice(4, 0, {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',

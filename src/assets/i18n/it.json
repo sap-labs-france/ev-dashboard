@@ -25,7 +25,7 @@
     "connectors": "Prese",
     "notifications": "Notifiche",
     "app_name": "e-Mobility",
-    "last_update": "Versione 2.3.30",
+    "last_update": "Versione 2.4.26",
     "version": "Versione",
     "about_us": "A proposito di noi",
     "unexpected_error_backend": "Si è verificato un errore imprevisto",
@@ -466,7 +466,8 @@
     "export_all_params_error": "Si è verificato un errore durante l'esportazione di tutti i parametri OCPP",
     "consumption_date": "Data",
     "single_phased": "Monofase",
-    "three_phased": "Trifase"
+    "three_phased": "Trifase",
+    "redirect": "Navigate to Site Area"
   },
   "authentication": {
     "accept": "Accetto l'",
@@ -2141,6 +2142,7 @@
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",
     "user_account_inactivity": "Avvisami quando non accedo all'applicazione da più di 6 mesi",
+    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Avvisami se si verifica un errore durante la sincronizzazione delle vetture",
     "end_user_error_notification": "Avvisami quando un utente riporta un errore",
     "billing_new_invoice": "Notify me when a new invoice is available"

@@ -130,6 +130,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       {
         id: 'createdBy',
         name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },
@@ -144,6 +145,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },

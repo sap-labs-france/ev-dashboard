@@ -23,6 +23,7 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { RegistrationToken } from '../../../types/RegistrationToken';
+import { SiteArea } from '../../../types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { RegistrationTokenStatusComponent } from './registration-token/registration-token-status.component';
@@ -129,13 +130,9 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         sortable: true,
       },
       {
-        id: 'siteAreaID',
+        id: 'siteArea',
         name: 'site_areas.title',
-        formatter: (siteAreaID: string, token: RegistrationToken) => {
-          if (token.siteArea) {
-            return token.siteArea.name;
-          }
-        },
+        formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,

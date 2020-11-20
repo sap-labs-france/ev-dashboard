@@ -25,6 +25,7 @@ import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { RegistrationToken } from '../../../types/RegistrationToken';
 import { SiteArea } from '../../../types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { RegistrationTokenStatusComponent } from './registration-token/registration-token-status.component';
 import { RegistrationTokenDialogComponent } from './registration-token/registration-token.dialog.component';
@@ -103,15 +104,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         class: 'd-none d-xl-table-cell col-30p',
       },
       {
-        id: 'createdOn',
-        name: 'general.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-        sorted: true,
-      },
-      {
         id: 'expirationDate',
         name: 'general.expired_on',
         formatter: (expirationDate: Date) => this.datePipe.transform(expirationDate),
@@ -136,7 +128,39 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
-      }];
+      },
+      {
+        id: 'createdOn',
+        name: 'general.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+        sorted: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+    ];
     return columns as TableColumnDef[];
   }
 

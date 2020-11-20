@@ -192,13 +192,13 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
       });
       tableColumnDef.push({
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        sortable: true,
-      },
+          id: 'createdOn',
+          name: 'users.created_on',
+          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+          headerClass: 'col-15em',
+          class: 'col-15em',
+          sortable: true,
+        },
         {
           id: 'createdBy',
           name: 'users.created_by',

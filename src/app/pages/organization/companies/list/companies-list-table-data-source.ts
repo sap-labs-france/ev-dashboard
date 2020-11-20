@@ -64,13 +64,6 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     return new Observable((observer) => {
       // get companies
       this.centralServerService.getCompanies(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((companies) => {
-        // lookup for logo otherwise assign default
-        for (const company of companies.result) {
-          if (!company.logo) {
-            company.logo = CompanyLogo.NO_LOGO;
-          }
-        }
-        // Ok
         observer.next(companies);
         observer.complete();
       }, (error) => {

@@ -29,7 +29,8 @@ export class CompanyComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: string = CompanyLogo.NO_LOGO;
+  public logo: string;
+  public logoHasChanged = false;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -99,6 +100,7 @@ export class CompanyComponent implements OnInit {
     }
     this.spinnerService.show();
     this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
+      this.spinnerService.hide();
       if (company.id) {
         this.formGroup.controls.id.setValue(company.id);
       }
@@ -110,11 +112,11 @@ export class CompanyComponent implements OnInit {
       }
       if (company.logo) {
         this.logo = company.logo.toString();
+        delete company.logo;
       }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
-      this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -129,12 +131,11 @@ export class CompanyComponent implements OnInit {
   }
 
   public updateCompanyLogo(company: Company) {
-    // Check no company?
-    if (!this.logo.endsWith(CompanyLogo.NO_LOGO)) {
-      // Set to company
+    if (this.logoHasChanged) {
+      // Set new logo
       company.logo = this.logo;
     } else {
-      // No logo
+      // No changes
       delete company.logo;
     }
   }
@@ -154,7 +155,7 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  public logoChanged(event: any) {
+  public onLogoChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -164,6 +165,7 @@ export class CompanyComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.logo = reader.result as string;
+          this.logoHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -173,7 +175,8 @@ export class CompanyComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = CompanyLogo.NO_LOGO;
+    this.logo = null;
+    this.logoHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

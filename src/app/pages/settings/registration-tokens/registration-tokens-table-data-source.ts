@@ -66,14 +66,14 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tokens) => {
-        observer.next(tokens);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+          observer.next(tokens);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 

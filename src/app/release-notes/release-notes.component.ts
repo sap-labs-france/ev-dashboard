@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `keep track of unmatched template sections`,
+              `Keep track of unmatched template sections`,
             ],
           },
         ],

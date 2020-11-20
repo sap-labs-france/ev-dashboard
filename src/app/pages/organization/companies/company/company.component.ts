@@ -98,7 +98,7 @@ export class CompanyComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCompany(this.currentCompanyID).pipe(mergeMap((company) => {
+    this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
       if (company.id) {
         this.formGroup.controls.id.setValue(company.id);
       }
@@ -108,15 +108,12 @@ export class CompanyComponent implements OnInit {
       if (company.address) {
         this.address = company.address;
       }
+      if (company.logo) {
+        this.logo = company.logo.toString();
+      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
-      // Yes, get logo
-      return this.centralServerService.getCompanyLogo(this.currentCompanyID);
-    })).subscribe((companyLogo) => {
-      if (companyLogo && companyLogo.logo) {
-        this.logo = companyLogo.logo.toString();
-      }
       this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();

@@ -7,6 +7,13 @@
   align-items: center;
 }
 
+.app-company-logo {
+  max-width:  4em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 div.app-organization-image-border {
   @include shadow-2dp();
   border-radius: $border-radius-large;

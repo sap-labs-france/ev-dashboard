@@ -26,6 +26,7 @@ import { Company, CompanyButtonAction, CompanyLogo } from '../../../../types/Com
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { CompanyLogoFormatterCellComponent } from '../cell-components/company-logo-formatter-cell.component';
 import { CompanyDialogComponent } from '../company/company.dialog.component';
@@ -137,6 +138,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         {
           id: 'createdBy',
           name: 'users.created_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         },
@@ -151,6 +153,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         {
           id: 'lastChangedBy',
           name: 'users.changed_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         },

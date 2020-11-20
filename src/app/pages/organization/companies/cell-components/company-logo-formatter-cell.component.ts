@@ -6,7 +6,8 @@ import { Company } from '../../../../types/Company';
 @Component({
   template: `
     <div class="logo-container">
-      <img *ngIf="row.logo" class="app-companies-logo" [src]='row.logo'>
+      <img *ngIf="row['logo']" class="app-company-logo"
+        [src]="row['logo']">
     </div>
   `,
 })

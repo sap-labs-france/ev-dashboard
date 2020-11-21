@@ -86,11 +86,16 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
           // Update details status
-          chargers.result.forEach((charger: ChargingStation) => {
+          chargers.result.forEach((chargingStation: ChargingStation) => {
             // At first filter out the connectors that are null
-            charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-            charger.connectors.forEach((connector) => {
+            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+            chargingStation.connectors.forEach((connector) => {
               connector.hasDetails = connector.currentTransactionID > 0;
+              connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+              connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
+              connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
+              connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
+              connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
             });
           });
           // Ok

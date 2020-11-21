@@ -374,7 +374,7 @@ export class SiteAreaComponent implements OnInit {
       return;
     }
     this.centralServerService.getRegistrationTokens({
-      siteAreaID: this.currentSiteAreaID,
+      SiteAreaID: this.currentSiteAreaID,
     }).subscribe(((dataResult) => {
       if (dataResult && dataResult.result) {
         for (const registrationToken of dataResult.result) {

@@ -37,6 +37,7 @@ import { ButtonAction } from '../../../../types/GlobalType';
 import { SiteArea, SiteAreaButtonAction } from '../../../../types/SiteArea';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
 import TenantComponents from '../../../../types/TenantComponents';
+import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { SiteAreaAssetsDialogComponent } from '../site-area-assets/site-area-assets-dialog.component';
 import { SiteAreaChargingStationsDialogComponent } from '../site-area-charging-stations/site-area-charging-stations-dialog.component';
@@ -200,6 +201,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         {
           id: 'createdBy',
           name: 'users.created_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         },
@@ -214,6 +216,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         {
           id: 'lastChangedBy',
           name: 'users.changed_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         },

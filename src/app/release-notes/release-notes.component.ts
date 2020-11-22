@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.27',
-        date: new Date('2020-11-19'),
+        date: new Date('2020-11-20'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Keep track of unmatched template sections`,
+              `Do not add custom OCPP param if already exists in OCPP (Delta)`
             ],
           },
         ],

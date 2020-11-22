@@ -23,7 +23,9 @@ import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { RegistrationToken } from '../../../types/RegistrationToken';
+import { SiteArea } from '../../../types/SiteArea';
 import { ButtonType, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { RegistrationTokenStatusComponent } from './registration-token/registration-token-status.component';
 import { RegistrationTokenDialogComponent } from './registration-token/registration-token.dialog.component';
@@ -64,14 +66,14 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       // Get the Tenants
       this.centralServerService.getRegistrationTokens(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tokens) => {
-        observer.next(tokens);
-        observer.complete();
-      }, (error) => {
-        // Show error
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        // Error
-        observer.error(error);
-      });
+          observer.next(tokens);
+          observer.complete();
+        }, (error) => {
+          // Show error
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          // Error
+          observer.error(error);
+        });
     });
   }
 
@@ -102,15 +104,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         class: 'd-none d-xl-table-cell col-30p',
       },
       {
-        id: 'createdOn',
-        name: 'general.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sortable: true,
-        sorted: true,
-      },
-      {
         id: 'expirationDate',
         name: 'general.expired_on',
         formatter: (expirationDate: Date) => this.datePipe.transform(expirationDate),
@@ -129,17 +122,45 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         sortable: true,
       },
       {
-        id: 'siteAreaID',
+        id: 'siteArea',
         name: 'site_areas.title',
-        formatter: (siteAreaID: string, token: RegistrationToken) => {
-          if (token.siteArea) {
-            return token.siteArea.name;
-          }
-        },
+        formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
-      }];
+      },
+      {
+        id: 'createdOn',
+        name: 'general.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sortable: true,
+        sorted: true,
+      },
+      {
+        id: 'createdBy',
+        name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+      {
+        id: 'lastChangedOn',
+        name: 'users.changed_on',
+        formatter: (lastChangedOn: Date) => this.datePipe.transform(lastChangedOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+      },
+      {
+        id: 'lastChangedBy',
+        name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+      },
+    ];
     return columns as TableColumnDef[];
   }
 

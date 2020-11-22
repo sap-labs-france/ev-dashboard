@@ -24,7 +24,20 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.26',
+        version: '2.4.27',
+        date: new Date('2020-11-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Keep track of unmatched template sections`,
+              `Do not add custom OCPP param if already exists in OCPP (Delta)`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.27',
         date: new Date('2020-11-18'),
         componentChanges: [
           {

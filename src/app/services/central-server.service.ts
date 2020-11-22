@@ -260,23 +260,6 @@ export class CentralServerService {
       );
   }
 
-  public getCompanyLogo(companyId: string): Observable<Logo> {
-    const params: { [param: string]: string } = {};
-    params['ID'] = companyId;
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.get<Logo>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY_LOGO}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public getAssets(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<Asset>> {
     // Verify init

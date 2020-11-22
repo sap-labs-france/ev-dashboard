@@ -25,7 +25,7 @@ export interface ChargingStation extends Data {
   ocppVersion: OCPPVersion;
   ocppProtocol: OCPPProtocol;
   cfApplicationIDAndInstanceIndex: string;
-  lastHeartBeat: Date;
+  lastSeen: Date;
   deleted: boolean;
   inactive: boolean;
   forceInactive: boolean;

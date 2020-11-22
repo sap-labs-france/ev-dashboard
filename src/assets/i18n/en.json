@@ -850,8 +850,8 @@
         "kind": "Kind",
         "purpose": "Purpose",
         "stack_level": "Stack Level",
-        "site_area":"Site Area",
-        "site_area_limit":"Site Area Limit",
+        "site_area": "Site Area",
+        "site_area_limit": "Site Area Limit",
         "redirect": "Navigate to Charging Plans"
       }
     },
@@ -1057,7 +1057,7 @@
     "search_last_week": "Last Week",
     "search_this_month": "This Month",
     "search_last_month": "Last Month",
-    "select_actions":"Select Actions",
+    "select_actions": "Select Actions",
     "redirect": "Navigate to Logs",
     "no_logs": "No logs matching the filters",
     "dialog": {

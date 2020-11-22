@@ -850,8 +850,8 @@
         "kind": "Tipo",
         "purpose": "Proósito",
         "stack_level": "Nivel",
-        "site_area":"Zona",
-        "site_area_limit":"Límite por zona",
+        "site_area": "Zona",
+        "site_area_limit": "Límite por zona",
         "redirect": "Navigate to Charging Plans"
       }
     },

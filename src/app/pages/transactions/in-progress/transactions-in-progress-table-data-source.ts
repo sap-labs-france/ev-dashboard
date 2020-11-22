@@ -226,7 +226,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
-           + '&TransactionID=' + transaction.id);
+            + '&TransactionID=' + transaction.id);
         }
         break;
     }

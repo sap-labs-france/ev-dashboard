@@ -24,7 +24,7 @@ stages:
     karmaExecuteTests: false
     
   Security:
-    executeCheckmarxScan: true
+    executeCheckmarxScan: false
     checkmarxExecuteScan: false
     executeWhitesourceScan: false
 
@@ -44,10 +44,9 @@ steps:
    
   executeCheckmarxScan:
     checkmarxProject: 'ev-dashboard'
-    #checkmarxGroupId: '29091a00-0dbc-4d06-b78b-32ab0ef54cdc'
-    checkmarxGroupId: 'f8bb43bd-9a38-4e6a-a932-6a8159817e41'
+    checkmarxGroupId: '29091a00-0dbc-4d06-b78b-32ab0ef54cdc'
     preset: 100131 #SAP_Default_Typescript
-    checkmarxCredentialsId: 'checkmarx-access'
+    checkmarxCredentialsId: 'checkmarx-i030367-access'
     filterPattern: '!**/node_modules/**, !**/coverage/**, !**/coverage-tmp/**, !**/.xmake/**, !**/tests/**, !**/jest.config.js, !**/*_test.go, !**/vendor/**/*.go, **/*.html, **/*.xml, **/*.go, **/*.py, **/*.js, **/*.scala, **/*.ts, **/*.tsx'
       
   sapCheckPPMSCompliance:

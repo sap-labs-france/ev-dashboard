@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.27",
+    "last_update": "Version 2.4.26",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -850,8 +850,8 @@
         "kind": "Type",
         "purpose": "But",
         "stack_level": "Niveau Prio",
-        "site_area": "Zone",
-        "site_area_limit": "Limite Zone",
+        "site_area":"Zone",
+        "site_area_limit":"Limite Zone",
         "redirect": "Naviguer vers Charging Plans"
       }
     },
@@ -1057,7 +1057,7 @@
     "search_last_week": "Semaine Dernière",
     "search_this_month": "Ce Mois",
     "search_last_month": "Mois Dernier",
-    "select_actions": "Selection Actions",
+    "select_actions":"Selection Actions",
     "redirect": "Naviguer vers Logs",
     "no_logs": "Aucun log ne correspond aux filtres",
     "dialog": {

@@ -6,7 +6,7 @@ import { ChargingStation } from '../../../types/ChargingStation';
 
 @Component({
   template: `
-    <span class="charger-heartbeat" appTooltip data-offset="0px, 8px" [title]="this.row.lastSeen | amLocale:this.locale | amTimeAgo">
+    <span class="charger-heartbeat" appTooltip data-offset="0px, 8px" [title]="this.row.lastHeartBeat | amLocale:this.locale | amTimeAgo">
       <i class="fa fa-heartbeat charger-heartbeat-icon charger-heartbeat-ok" [class.charger-heartbeat-error]="row.inactive"></i>
       <ng-container *ngIf="row.inactive">
         <span class="ml-1 charger-heartbeat-date charger-heartbeat-date-error">

@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { mergeMap } from 'rxjs/operators';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
@@ -13,7 +14,7 @@ import { Address } from '../../../types/Address';
 import { RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from '../../../types/Setting';
-import { Tenant } from '../../../types/Tenant';
+import { Tenant, TenantLogo } from '../../../types/Tenant';
 import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 
@@ -32,8 +33,7 @@ export class TenantComponent implements OnInit {
   public subdomain!: AbstractControl;
   public email!: AbstractControl;
   public components!: FormGroup;
-  public logo: string;
-  public logoHasChanged = false;
+  public logo: string = TenantLogo.NO_LOGO;
   public maxSize: number;
   public address!: Address;
   public pricingTypes = [
@@ -131,7 +131,7 @@ export class TenantComponent implements OnInit {
   public loadTenant() {
     if (this.currentTenantID) {
       this.spinnerService.show();
-      this.centralServerService.getTenant(this.currentTenantID).subscribe((tenant) => {
+      this.centralServerService.getTenant(this.currentTenantID).pipe(mergeMap((tenant) => {
         this.spinnerService.hide();
         if (tenant) {
           this.currentTenant = tenant;
@@ -157,11 +157,13 @@ export class TenantComponent implements OnInit {
                 this.currentTenant.components[componentIdentifier].type);
             }
           }
-          if (tenant.logo) {
-            this.logo = tenant.logo.toString();
-            delete tenant.logo;
-          }
         }
+        return this.centralServerService.getTenantLogo(this.currentTenantID);
+      })).subscribe((tenantLogo) => {
+        if (tenantLogo && tenantLogo.logo) {
+          this.logo = tenantLogo.logo.toString();
+        }
+        this.spinnerService.hide();
       }, (error) => {
         // Hide
         this.spinnerService.hide();
@@ -283,7 +285,7 @@ export class TenantComponent implements OnInit {
     });
   }
 
-  public onLogoChanged(event: any) {
+  public logoChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -293,7 +295,6 @@ export class TenantComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.logo = reader.result as string;
-          this.logoHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -303,18 +304,17 @@ export class TenantComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = null;
-    this.logoHasChanged = true;
+    this.logo = TenantLogo.NO_LOGO;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
 
   public updateTenantLogo(tenant: Tenant) {
-    if (this.logoHasChanged) {
-      // Set new logo
+    if (!this.logo.endsWith(TenantLogo.NO_LOGO)) {
+      // Set to tenant
       tenant.logo = this.logo;
     } else {
-      // No changes
+      // No logo
       delete tenant.logo;
     }
   }

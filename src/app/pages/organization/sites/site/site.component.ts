@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -15,7 +16,7 @@ import { Address } from '../../../../types/Address';
 import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
-import { Site } from '../../../../types/Site';
+import { Site, SiteImage } from '../../../../types/Site';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -27,8 +28,7 @@ export class SiteComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
-  public image: any;
-  public imageHasChanged = false;
+  public image: any = SiteImage.NO_IMAGE;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -148,8 +148,7 @@ export class SiteComponent implements OnInit {
       this.formGroup.disable();
     }
     this.spinnerService.show();
-    this.centralServerService.getSite(this.currentSiteID, false, true).subscribe((site) => {
-      this.spinnerService.hide();
+    this.centralServerService.getSite(this.currentSiteID, false, true).pipe(mergeMap((site) => {
       // Init form
       if (site.id) {
         this.formGroup.controls.id.setValue(site.id);
@@ -176,13 +175,16 @@ export class SiteComponent implements OnInit {
       if (site.address) {
         this.address = site.address;
       }
-      if (site.image) {
-        this.image = site.image.toString();
-        delete site.image;
-      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
+      // Yes, get image
+      return this.centralServerService.getSiteImage(this.currentSiteID);
+    })).subscribe((siteImage) => {
+      if (siteImage && siteImage.image) {
+        this.image = siteImage.image.toString();
+      }
+      this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -197,11 +199,12 @@ export class SiteComponent implements OnInit {
   }
 
   public updateSiteImage(site: Site) {
-    if (this.imageHasChanged) {
-      // Set new image
+    // Check no image?
+    if (!this.image.endsWith(SiteImage.NO_IMAGE)) {
+      // Set to site
       site.image = this.image;
     } else {
-      // No changes
+      // No image
       delete site.image;
     }
   }
@@ -221,7 +224,7 @@ export class SiteComponent implements OnInit {
     }
   }
 
-  public onImageChanged(event: any) {
+  public imageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -231,7 +234,6 @@ export class SiteComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
-          this.imageHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -241,8 +243,7 @@ export class SiteComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = null;
-    this.imageHasChanged = true;
+    this.image = SiteImage.NO_IMAGE;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

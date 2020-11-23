@@ -184,7 +184,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
       });
     }
     if (this.authorizationService.isAdmin()) {
-      tableColumnDef.splice(4, 0, {
+      tableColumnDef.splice(3, 0, {
         id: 'carUsers',
         name: 'cars.users',
         headerClass: 'col-20p',

@@ -159,8 +159,8 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
       },
     ];
     if (this.isOrganizationComponentActive) {
-      columns.push({
-        id: 'siteAreaID',
+      columns.splice(4, 0, {
+        id: 'siteArea',
         name: 'site_areas.title',
         formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
         headerClass: 'col-15p',

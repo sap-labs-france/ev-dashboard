@@ -53,7 +53,7 @@
     "material-update": "ng update @angular/material",
     "angular11-update": "ng update @angular/core@11 @angular/cli@11",
     "material11-update": "ng update @angular/material@11",
-    "webpack-analyze": "webpack-bundle-analyzer dist/stats-es2015.json",
+    "webpack-analyze": "webpack-bundle-analyzer dist/stats.json",
     "import-sort": "npx import-sort-cli --write '{src,test}/**/*.ts{,x}'"
   },
   "dependencies": {
@@ -148,6 +148,6 @@
     "tslint": "~6.1.3",
     "typescript": "~4.0.5",
     "webpack": "^4.44.2",
-    "webpack-bundle-analyzer": "^3.9.0"
+    "webpack-bundle-analyzer": "^4.1.0"
   }
 }

@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed Connector with wrong status in Session History`,
               `Fixed rounded consumptions in OCPI`,
               `Registration Token Site Area is hidden when Organization is inactive`,
               `Keep track of unmatched template sections`,

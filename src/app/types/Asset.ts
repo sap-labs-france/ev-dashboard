@@ -1,4 +1,4 @@
-import { AbstractConsumption } from './Consumption';
+import Consumption, { AbstractConsumption } from './Consumption';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { KeyValue } from './GlobalType';
 import { SiteArea } from './SiteArea';
@@ -24,15 +24,7 @@ export interface Asset extends Data, CreatedUpdatedProps {
 
 export interface AssetConsumption {
   assetID: string;
-  values: AssetConsumptionValues[];
-}
-
-export interface AssetConsumptionValues {
-  date: Date;
-  instantWatts: number;
-  instantAmps: number;
-  limitWatts: number;
-  limitAmps: number;
+  values: Consumption[];
 }
 
 export const AssetTypes: KeyValue[] = [

@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.27',
+        date: new Date('2020-11-23'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Connector with wrong status in Session History`,
+              `Fixed rounded consumptions in OCPI`,
+              `Registration Token Site Area is hidden when Organization is inactive`,
+              `Keep track of unmatched template sections`,
+              `Do not add custom OCPP param if already exists in OCPP (Delta)`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.26',
         date: new Date('2020-11-18'),
         componentChanges: [

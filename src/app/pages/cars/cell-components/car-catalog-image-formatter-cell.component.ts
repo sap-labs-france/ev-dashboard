@@ -7,7 +7,7 @@ import { Car, CarCatalog } from '../../../types/Car';
   template: `
     <div class="logo-container">
       <img *ngIf="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" class="app-cars-logo"
-        [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']">
+        [src]="row['carCatalog'] ? row['carCatalog']['image'] : row['image']" alt="">
     </div>
   `,
 })

@@ -46,7 +46,7 @@
                       <input [formControl]="expirationDate" matInput placeholder="{{'general.expired_on' | translate}}"
                         [matDatetimepicker]="picker" autocomplete="false">
                     </mat-form-field>
-                    <mat-form-field class="col-md-12 form-group" *ngIf="isOrganizationComponentActive">
+                    <mat-form-field class="col-md-12 form-group">
                       <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
                         class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"/>
                       <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()">

@@ -148,7 +148,17 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
       class: 'col-30p text-danger',
       sortable: true,
       formatter: (value: string, row: UserInError) => this.translateService.instant(`users.errors.${row.errorCode}.title`),
-    });
+    },
+    {
+      id: 'createdOn',
+      name: 'users.created_on',
+      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+      headerClass: 'col-15p',
+      class: 'col-15p',
+      sortable: true,
+      sorted: true,
+      direction: 'desc',
+  });
     return columns as TableColumnDef[];
   }
 

@@ -16,7 +16,6 @@ import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
 import { TableNavigateToSiteAreaAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-site-area-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -206,10 +205,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     }
     if (this.authorizationService.isAdmin() ||
       this.authorizationService.isSiteAdmin(chargingProfile.chargingStation.siteArea ? chargingProfile.chargingStation.siteArea.siteID : '')) {
-      const moreActions = new TableMoreAction([this.checkSiteAreaAction]);
       return [
         this.smartChargingAction,
-        moreActions.getActionDef(),
+        this.checkSiteAreaAction,
       ];
     }
     return [];

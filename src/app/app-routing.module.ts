@@ -131,23 +131,6 @@ const routes: Routes = [
         },
       },
       {
-        path: 'asset',
-        loadChildren: () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
-        data: {
-          menu: {
-            title: 'assets',
-            type: 'link',
-            icon: 'account_balance',
-            path: '/asset',
-          },
-          auth: {
-            entity: Entity.ASSETS,
-            action: Action.LIST,
-          },
-          component: TenantComponents.ASSET,
-        },
-      },
-      {
         path: 'organization',
         loadChildren: () => import('./pages/organization/organization.module').then((m) => m.OrganizationModule),
         data: {
@@ -215,6 +198,23 @@ const routes: Routes = [
             entity: Entity.SETTING,
             action: Action.CREATE,
           },
+        },
+      },
+      {
+        path: 'asset',
+        loadChildren: () => import('./pages/assets/assets.module').then((m) => m.AssetsModule),
+        data: {
+          menu: {
+            title: 'assets',
+            type: 'link',
+            icon: 'account_balance',
+            path: '/asset',
+          },
+          auth: {
+            entity: Entity.ASSETS,
+            action: Action.LIST,
+          },
+          component: TenantComponents.ASSET,
         },
       },
       {

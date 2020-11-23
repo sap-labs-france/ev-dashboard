@@ -38,3 +38,7 @@ export enum SiteButtonAction {
   DELETE_SITE = 'delete_site',
   ASSIGN_USERS_TO_SITE = 'assign_users_to_site'
 }
+
+export enum SiteImage {
+  NO_IMAGE = 'assets/img/theme/no-logo.png',
+}

@@ -16,3 +16,7 @@ export enum CompanyButtonAction {
   CREATE_COMPANY = 'create_company',
   DELETE_COMPANY = 'delete_company',
 }
+
+export enum CompanyLogo {
+  NO_LOGO = 'assets/img/theme/no-logo.png',
+}

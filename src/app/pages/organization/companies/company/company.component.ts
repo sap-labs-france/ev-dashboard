@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -11,7 +12,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { Address } from '../../../../types/Address';
-import { Company } from '../../../../types/Company';
+import { Company, CompanyLogo } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { ParentErrorStateMatcher } from '../../../../utils/ParentStateMatcher';
@@ -28,8 +29,7 @@ export class CompanyComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: string;
-  public logoHasChanged = false;
+  public logo: string = CompanyLogo.NO_LOGO;
   public maxSize: number;
 
   public formGroup!: FormGroup;
@@ -98,8 +98,7 @@ export class CompanyComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getCompany(this.currentCompanyID).subscribe((company: Company) => {
-      this.spinnerService.hide();
+    this.centralServerService.getCompany(this.currentCompanyID).pipe(mergeMap((company) => {
       if (company.id) {
         this.formGroup.controls.id.setValue(company.id);
       }
@@ -109,13 +108,16 @@ export class CompanyComponent implements OnInit {
       if (company.address) {
         this.address = company.address;
       }
-      if (company.logo) {
-        this.logo = company.logo.toString();
-        delete company.logo;
-      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
+      // Yes, get logo
+      return this.centralServerService.getCompanyLogo(this.currentCompanyID);
+    })).subscribe((companyLogo) => {
+      if (companyLogo && companyLogo.logo) {
+        this.logo = companyLogo.logo.toString();
+      }
+      this.spinnerService.hide();
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -130,11 +132,12 @@ export class CompanyComponent implements OnInit {
   }
 
   public updateCompanyLogo(company: Company) {
-    if (this.logoHasChanged) {
-      // Set new logo
+    // Check no company?
+    if (!this.logo.endsWith(CompanyLogo.NO_LOGO)) {
+      // Set to company
       company.logo = this.logo;
     } else {
-      // No changes
+      // No logo
       delete company.logo;
     }
   }
@@ -154,7 +157,7 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  public onLogoChanged(event: any) {
+  public logoChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -164,7 +167,6 @@ export class CompanyComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.logo = reader.result as string;
-          this.logoHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -174,8 +176,7 @@ export class CompanyComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = null;
-    this.logoHasChanged = true;
+    this.logo = CompanyLogo.NO_LOGO;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

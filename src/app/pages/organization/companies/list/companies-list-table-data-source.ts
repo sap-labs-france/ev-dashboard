@@ -22,7 +22,7 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
-import { Company, CompanyButtonAction, CompanyLogo } from '../../../../types/Company';
+import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';

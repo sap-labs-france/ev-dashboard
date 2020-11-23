@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { SiteArea } from 'app/types/SiteArea';
-import { Utils } from 'app/utils/Utils';
 
+import { SiteArea } from '../../../../types/SiteArea';
+import { Utils } from '../../../../utils/Utils';
 import { SiteAreaChargingStationsDataSource } from './site-area-charging-stations-table-data-source';
 
 @Component({

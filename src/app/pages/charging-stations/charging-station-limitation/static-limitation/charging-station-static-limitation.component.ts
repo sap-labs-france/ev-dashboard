@@ -1,20 +1,20 @@
 import { Component, Injectable, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from 'app/services/component.service';
-import { DialogService } from 'app/services/dialog.service';
-import { LocaleService } from 'app/services/locale.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 
-import { TableChargingStationsRebootAction } from '../../table-actions/table-charging-stations-reboot-action';
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { TableChargingStationsRebootAction } from '../../../../shared/table/actions/charging-stations/table-charging-stations-reboot-action';
+import { ChargePoint, ChargingStation, OCPPConfigurationStatus } from '../../../../types/ChargingStation';
+import { KeyValue } from '../../../../types/GlobalType';
+import { ButtonType } from '../../../../types/Table';
+import TenantComponents from '../../../../types/TenantComponents';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-static-limitation',

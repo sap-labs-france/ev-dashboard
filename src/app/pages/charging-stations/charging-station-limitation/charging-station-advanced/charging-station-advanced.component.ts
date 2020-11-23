@@ -2,12 +2,13 @@ import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { GetCompositeScheduleCommandResult } from 'app/types/ChargingProfile';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { Utils } from 'app/utils/Utils';
+
+import { CentralServerService } from '../../../../services/central-server.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { GetCompositeScheduleCommandResult } from '../../../../types/ChargingProfile';
+import { ChargingStation } from '../../../../types/ChargingStation';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-advanced',

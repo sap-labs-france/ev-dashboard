@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CentralServerService } from 'app/services/central-server.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
 import * as FileSaver from 'file-saver';
 
+import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
 import { InvoicesComponent } from '../invoices.component';
 import { InvoicesTableDataSource } from './invoices-table-data-source';
 

@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ConsumptionChartComponent } from 'app/shared/component/consumption-chart/consumption-chart.component';
-import { Connector } from 'app/types/ChargingStation';
-import { Transaction } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
 
+import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
+import { Connector } from '../../../types/ChargingStation';
+import { Transaction } from '../../../types/Transaction';
+import { Utils } from '../../../utils/Utils';
 import { CellContentTemplateDirective } from '../../table/cell-content-template/cell-content-template.directive';
 
 @Component({

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { logActions } from 'app/pages/logs/model/logs.model';
-import { SpinnerService } from 'app/services/spinner.service';
-import { DataResult } from 'app/types/DataResult';
-import { LogAction } from 'app/types/Log';
-import { ServerAction } from 'app/types/Server';
-import { TableColumnDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+import { SpinnerService } from '../../../services/spinner.service';
+import { DataResult } from '../../../types/DataResult';
+import { LogAction } from '../../../types/Log';
+import { ServerAction } from '../../../types/Server';
+import { TableColumnDef } from '../../../types/Table';
+import { LOG_ACTIONS } from '../../model/logs.model';
 import { DialogTableDataSource } from '../dialog-table-data-source';
 
 @Injectable()
-export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAction> {
+export class LOG_ACTIONSDialogTableDataSource extends DialogTableDataSource<LogAction> {
   private reversed = false;
   constructor(
     public spinnerService: SpinnerService,
@@ -27,14 +27,14 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
       const searchValue = this.getSearchValue();
       // let reversed = false;
       if (this.getSort().direction === 'desc' && !this.reversed) {
-        logActions.reverse();
+        LOG_ACTIONS.reverse();
         this.reversed = true;
       } else if (this.getSort().direction === 'asc' && this.reversed) {
-        logActions.reverse();
+        LOG_ACTIONS.reverse();
         this.reversed = false;
       }
-      // const sortedActions = this.getSort().direction === 'desc' && !reversed ? logActions.reverse() : logActions;
-      for (const [key, value] of Object.entries(logActions)) {
+      // const sortedActions = this.getSort().direction === 'desc' && !reversed ? LOG_ACTIONS.reverse() : LOG_ACTIONS;
+      for (const [key, value] of Object.entries(LOG_ACTIONS)) {
         if (value.value.toLowerCase().includes(searchValue.toLowerCase())) {
           actions.push({
             action: value.value as ServerAction,

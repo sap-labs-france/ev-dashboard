@@ -5,15 +5,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChartModule } from 'angular2-chartjs';
-import { ComponentModule } from 'app/shared/component/component.module';
-import { DialogsModule } from 'app/shared/dialogs/dialogs.module';
-import { CommonDirectivesModule } from 'app/shared/directives/directives.module';
-import { FormattersModule } from 'app/shared/formatters/formatters.module';
-import { TableModule } from 'app/shared/table/table.module';
 import { MomentModule } from 'ngx-moment';
 
 import { MaterialModule } from '../../app.module';
-import { TransactionDialogComponent } from '../transactions/transaction/transaction.dialog.component';
+import { ComponentModule } from '../../shared/component/component.module';
+import { DialogsModule } from '../../shared/dialogs/dialogs.module';
+import { CommonDirectivesModule } from '../../shared/directives/directives.module';
+import { FormattersModule } from '../../shared/formatters/formatters.module';
+import { TableModule } from '../../shared/table/table.module';
 import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
 import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
@@ -25,7 +24,14 @@ import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPow
 import { ChargingStationsTransactionDetailComponentCellComponent } from './cell-components/charging-stations-transaction-detail-cell.component';
 import { ChargingPlansListTableDataSource } from './charging-plans/charging-plans-list-table-data-source';
 import { ChargingPlansListComponent } from './charging-plans/charging-plans-list.component';
-import { ChargingStationLimitationModule } from './charging-station-limitation/charging-station-limitation.module';
+import { ChargingStationPowerSliderCellComponent } from './charging-station-limitation/cell-components/charging-station-power-slider-cell.component';
+import { ChargingPlanChartComponent } from './charging-station-limitation/charging-plans/charging-plan-chart.component';
+import { ChargingPlansComponent } from './charging-station-limitation/charging-plans/charging-plans.component';
+import { ChargingStationAdvancedComponent } from './charging-station-limitation/charging-station-advanced/charging-station-advanced.component';
+import { ChargingStationLimitationComponent } from './charging-station-limitation/charging-station-limitation.component';
+import { ChargingStationLimitationDialogComponent } from './charging-station-limitation/charging-station-limitation.dialog.component';
+import { ChargingStationPowerSliderComponent } from './charging-station-limitation/components/charging-station-power-slider.component';
+import { ChargingStationStaticLimitationComponent } from './charging-station-limitation/static-limitation/charging-station-static-limitation.component';
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationComponent } from './charging-station/charging-station.component';
 import { ChargingStationFirmwareUpdateComponent } from './charging-station/firmware-update/charging-station-firmware-update.component';
@@ -61,10 +67,17 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     FormattersModule,
     ComponentModule,
     ChartModule,
-    ChargingStationLimitationModule,
     MomentModule,
   ],
   entryComponents: [
+    ChargingStationLimitationComponent,
+    ChargingStationLimitationDialogComponent,
+    ChargingPlansComponent,
+    ChargingStationPowerSliderComponent,
+    ChargingStationPowerSliderCellComponent,
+    ChargingStationStaticLimitationComponent,
+    ChargingPlanChartComponent,
+    ChargingStationAdvancedComponent,
     ChargingStationDialogComponent,
     ChargingStationComponent,
     ChargingStationPropertiesComponent,
@@ -72,10 +85,8 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationParametersComponent,
     ChargingStationConnectorComponent,
     ChargingStationChargePointComponent,
-    TransactionDialogComponent,
     ChargingStationsConnectorsDetailComponent,
     ChargingStationsStartTransactionDialogComponent,
-    TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
     ChargingStationsTransactionDetailComponentCellComponent,
     ChargingStationsInstantPowerChargerProgressBarCellComponent,
@@ -92,6 +103,14 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingPlansListComponent,
   ],
   declarations: [
+    ChargingStationLimitationComponent,
+    ChargingStationLimitationDialogComponent,
+    ChargingPlansComponent,
+    ChargingStationPowerSliderComponent,
+    ChargingStationPowerSliderCellComponent,
+    ChargingStationStaticLimitationComponent,
+    ChargingPlanChartComponent,
+    ChargingStationAdvancedComponent,
     ChargingStationDialogComponent,
     ChargingStationComponent,
     ChargingStationPropertiesComponent,

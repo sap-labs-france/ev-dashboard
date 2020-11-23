@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Role } from 'app/types/Authorization';
-import { environment } from 'environments/environment';
 
+import { environment } from '../../environments/environment';
 import { AuthorizationService } from '../services/authorization.service';
 import { CentralServerService } from '../services/central-server.service';
 import { ComponentService } from '../services/component.service';
 import { MessageService } from '../services/message.service';
+import { Role } from '../types/Authorization';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
@@ -36,12 +36,12 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     });
   }
 
-  public canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
-    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
+  public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
+    const isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
     const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
 
-    if (isIEOrEdge) {
-      this.redirectToBrowserNotSupportRoute();
+    if (isIE) {
+      await this.redirectToBrowserNotSupportRoute();
       return false;
     }
     const queryParams = {};
@@ -50,7 +50,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       if (this.isRouteAllowed(activatedRoute.routeConfig, isActiveInSuperTenant)) {
         return true;
       }
-      this.redirectToDefaultRoute();
+      await this.redirectToDefaultRoute();
       return false;
     }
     this.userRole = undefined;
@@ -65,25 +65,25 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         email,
         password,
         acceptEula: true,
-      }).subscribe((result) => {
+      }).subscribe(async (result) => {
         // Success
         this.centralServerService.loginSucceeded(result.token);
-        this.redirectToDefaultRoute();
-      }, (error) => {
+        await this.redirectToDefaultRoute();
+      }, async (error) => {
         // Report the error
         this.messageService.showErrorMessage(
           this.translateService.instant('authentication.wrong_email_or_password'));
         // Navigate to login
-        this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
+        await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
       });
     } else {
       // Not logged in so redirect to login page with the return url
-      this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams });
+      await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams });
     }
     return false;
   }
 
-  public canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  public async canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.canActivate(childRoute, state);
   }
 

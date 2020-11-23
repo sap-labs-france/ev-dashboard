@@ -2,25 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableNavigateToChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-navigate-to-charging-plans-action';
-import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
-import { ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
-import { DataResult, TransactionDataResult } from 'app/types/DataResult';
-import { HTTPError } from 'app/types/HTTPError';
-import { LogButtonAction } from 'app/types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
@@ -30,31 +11,50 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
+import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableNavigateToChargingPlansAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-charging-plans-action';
+import { TableNavigateToLogsAction } from '../../../shared/table/actions/logs/table-navigate-to-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
+import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
+import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
+import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../../../shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
+import { TableRoamingPushCdrAction, TableRoamingPushCdrActionDef } from '../../../shared/table/actions/transactions/table-roaming-push-cdr-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
+import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
+import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
+import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { DataResult, TransactionDataResult } from '../../../types/DataResult';
+import { HTTPError } from '../../../types/HTTPError';
+import { LogButtonAction } from '../../../types/Log';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
+import { User } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
 import { TransactionsInactivityStatusFilter } from '../filters/transactions-inactivity-status-filter';
-import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../table-actions/table-create-transaction-invoice-action';
-import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../table-actions/table-delete-transaction-action';
-import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../table-actions/table-export-transactions-action';
-import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../table-actions/table-rebuild-transaction-consumptions-action';
-import { TableRoamingPushCdrAction, TableRoamingPushCdrActionDef } from '../table-actions/table-roaming-push-cdr-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsHistoryTableDataSource extends TableDataSource<Transaction> {
@@ -200,6 +200,16 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     columns.push(
       {
+        id: 'timestamp',
+        name: 'transactions.started_at',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        sorted: true,
+        sortable: true,
+        direction: 'desc',
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -211,16 +221,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         name: 'transactions.badge_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-      },
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'stop.totalDurationSecs',
@@ -254,7 +254,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
     );
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(2, 0, {
+      columns.splice(3, 0, {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',

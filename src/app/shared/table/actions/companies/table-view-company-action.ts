@@ -1,0 +1,25 @@
+import { ComponentType } from '@angular/cdk/portal';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+
+import { TableViewAction } from '../../../../shared/table/actions/table-view-action';
+import { Company, CompanyButtonAction } from '../../../../types/Company';
+import { TableActionDef } from '../../../../types/Table';
+
+export interface TableViewCompanyActionDef extends TableActionDef {
+  action: (companyDialogComponent: ComponentType<unknown>, company: Company, dialog: MatDialog, refresh?: () => Observable<void>) => void;
+}
+
+export class TableViewCompanyAction extends TableViewAction {
+  public getActionDef(): TableViewCompanyActionDef {
+    return {
+      ...super.getActionDef(),
+      id: CompanyButtonAction.VIEW_COMPANY,
+      action: this.viewCompany,
+    };
+  }
+
+  private viewCompany(companyDialogComponent: ComponentType<unknown>, company: Company, dialog: MatDialog, refresh?: () => Observable<void>) {
+    super.view(companyDialogComponent, company.id, dialog, refresh);
+  }
+}

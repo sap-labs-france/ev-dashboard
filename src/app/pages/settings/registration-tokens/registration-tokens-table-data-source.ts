@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import TenantComponents from 'types/TenantComponents';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -32,6 +34,7 @@ import { RegistrationTokenDialogComponent } from './registration-token/registrat
 
 @Injectable()
 export class RegistrationTokensTableDataSource extends TableDataSource<RegistrationToken> {
+  private readonly isOrganizationComponentActive: boolean;
   private deleteAction = new TableDeleteAction().getActionDef();
   private revokeAction = new TableRevokeAction().getActionDef();
   private copySOAP15Action = new TableCopyAction('settings.charging_station.ocpp_15_soap').getActionDef();
@@ -49,10 +52,12 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private componentService: ComponentService,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe) {
     super(spinnerService, translateService);
+    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     // Init
     this.initDataSource();
   }
@@ -87,7 +92,7 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    const columns = [
+    const columns: TableColumnDef[] = [
       {
         id: 'status',
         name: 'users.status',
@@ -122,14 +127,6 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         sortable: true,
       },
       {
-        id: 'siteArea',
-        name: 'site_areas.title',
-        formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      },
-      {
         id: 'createdOn',
         name: 'general.created_on',
         formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
@@ -161,6 +158,16 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         class: 'col-15em',
       },
     ];
+    if (this.isOrganizationComponentActive) {
+      columns.splice(4, 0, {
+        id: 'siteArea',
+        name: 'site_areas.title',
+        formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
+        headerClass: 'col-15p',
+        class: 'col-15p',
+        sortable: true,
+      });
+    }
     return columns as TableColumnDef[];
   }
 

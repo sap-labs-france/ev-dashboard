@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.27',
-        date: new Date('2020-11-20'),
+        date: new Date('2020-11-23'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Registration Token Site Area is hidden when Organization is inactive`,
               `Keep track of unmatched template sections`,
               `Do not add custom OCPP param if already exists in OCPP (Delta)`
             ],

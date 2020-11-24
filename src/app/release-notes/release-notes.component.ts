@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Connector with wrong status in Session History`,
               `Fixed rounded consumptions in OCPI`,
+              `Fixed Demo users can display User in Session details`,
               `Registration Token Site Area is hidden when Organization is inactive`,
               `Keep track of unmatched template sections`,
               `Do not add custom OCPP param if already exists in OCPP (Delta)`

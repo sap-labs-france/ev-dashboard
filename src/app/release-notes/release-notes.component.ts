@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Demo user can now display the Cars`,
               `Fixed Connector with wrong status in Session History`,
               `Fixed rounded consumptions in OCPI`,
+              `Hide spinner when EULA is displayed`,
               `Fixed Demo users can display User in Session details`,
               `Registration Token Site Area is hidden when Organization is inactive`,
               `Keep track of unmatched template sections`,

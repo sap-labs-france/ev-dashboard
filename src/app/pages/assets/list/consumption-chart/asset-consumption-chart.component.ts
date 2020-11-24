@@ -22,7 +22,7 @@ import { Utils } from '../../../../utils/Utils';
 
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
-  @Input() public assetConsumption!: AssetConsumption;
+  @Input() public asset!: AssetConsumption;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
@@ -96,11 +96,11 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
       .subscribe((assetConsumption: AssetConsumption) => {
         this.spinnerService.hide();
-        this.assetConsumption = assetConsumption;
+        this.asset = assetConsumption;
         this.prepareOrUpdateGraph();
       }, (error) => {
         this.spinnerService.hide();
-        delete this.assetConsumption;
+        delete this.asset;
       });
   }
 
@@ -191,7 +191,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.assetConsumption && this.assetConsumption.values && this.assetConsumption.values.length > 1;
+    return this.asset && this.asset.values && this.asset.values.length > 1;
   }
 
   private refreshDataSets() {
@@ -204,8 +204,15 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
-      for (const consumption of this.assetConsumption.values) {
-        labels.push(new Date(consumption.date).getTime());
+      // Add last point
+      if (this.asset.values.length > 0) {
+        this.asset.values.push({
+          ...this.asset.values[this.asset.values.length - 1],
+          startedAt: this.asset.values[this.asset.values.length - 1].endedAt,
+        });
+      }
+      for (const consumption of this.asset.values) {
+        labels.push(new Date(consumption.startedAt).getTime());
         if (instantPowerDataSet) {
           instantPowerDataSet.push(consumption.instantWatts);
         }

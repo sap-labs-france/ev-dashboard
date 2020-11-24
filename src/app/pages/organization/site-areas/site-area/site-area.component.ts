@@ -4,7 +4,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -19,7 +18,7 @@ import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { RegistrationToken } from '../../../../types/RegistrationToken';
 import { Site } from '../../../../types/Site';
-import { SiteArea, SiteAreaImage } from '../../../../types/SiteArea';
+import { SiteArea } from '../../../../types/SiteArea';
 import { ButtonType } from '../../../../types/Table';
 import TenantComponents from '../../../../types/TenantComponents';
 import { Utils } from '../../../../utils/Utils';
@@ -35,7 +34,8 @@ export class SiteAreaComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
-  public image: any = SiteAreaImage.NO_IMAGE;
+  public image: any;
+  public imageHasChanged = false;
   public maxSize: number;
   public siteArea: SiteArea;
 
@@ -192,7 +192,7 @@ export class SiteAreaComponent implements OnInit {
     }
     // Show spinner
     this.spinnerService.show();
-    this.centralServerService.getSiteArea(this.currentSiteAreaID, true).pipe(mergeMap((siteArea) => {
+    this.centralServerService.getSiteArea(this.currentSiteAreaID, true).subscribe((siteArea) => {
       this.spinnerService.hide();
       this.siteArea = siteArea;
       this.isAdmin = this.authorizationService.isAdmin() ||
@@ -237,16 +237,14 @@ export class SiteAreaComponent implements OnInit {
         this.address = siteArea.address;
       }
       this.refreshMaximumAmps();
+      if (siteArea.image) {
+        this.image = siteArea.image.toString();
+        delete siteArea.image;
+      }
       // Force
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
-      // Yes, get image
-      return this.centralServerService.getSiteAreaImage(this.currentSiteAreaID);
-    })).subscribe((siteAreaImage) => {
-      if (siteAreaImage && siteAreaImage.image) {
-        this.image = siteAreaImage.image.toString();
-      }
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -261,11 +259,11 @@ export class SiteAreaComponent implements OnInit {
   }
 
   public updateSiteAreaImage(siteArea: SiteArea) {
-    // Set the image
-    if (!this.image.endsWith(SiteAreaImage.NO_IMAGE)) {
+    if (this.imageHasChanged) {
+      // Set new image
       siteArea.image = this.image;
     } else {
-      // No image
+      // No changes
       delete siteArea.image;
     }
   }
@@ -321,7 +319,7 @@ export class SiteAreaComponent implements OnInit {
     this.messageService.showInfoMessage('settings.charging_station.url_copied');
   }
 
-  public imageChanged(event: any) {
+  public onImageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -331,6 +329,7 @@ export class SiteAreaComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
+          this.imageHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -340,7 +339,8 @@ export class SiteAreaComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = SiteAreaImage.NO_IMAGE;
+    this.image = null;
+    this.imageHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();
   }
@@ -374,7 +374,7 @@ export class SiteAreaComponent implements OnInit {
       return;
     }
     this.centralServerService.getRegistrationTokens({
-      siteAreaID: this.currentSiteAreaID,
+      SiteAreaID: this.currentSiteAreaID,
     }).subscribe(((dataResult) => {
       if (dataResult && dataResult.result) {
         for (const registrationToken of dataResult.result) {

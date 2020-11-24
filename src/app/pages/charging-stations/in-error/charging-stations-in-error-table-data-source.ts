@@ -26,7 +26,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { ChargingStationButtonAction, Connector, OCPPVersion } from '../../../types/ChargingStation';
+import { ChargePointStatus, ChargingStationButtonAction, Connector, OCPPVersion } from '../../../types/ChargingStation';
 import { DataResult } from '../../../types/DataResult';
 import { ChargingStationInError, ChargingStationInErrorType, ErrorMessage } from '../../../types/InError';
 import { LogButtonAction } from '../../../types/Log';
@@ -83,11 +83,16 @@ export class ChargingStationsInErrorTableDataSource extends TableDataSource<Char
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
           this.formatErrorMessages(chargers.result);
           // Update details status
-          chargers.result.forEach((charger: ChargingStationInError) => {
+          chargers.result.forEach((chargingStation: ChargingStationInError) => {
             // At first filter out the connectors that are null
-            charger.connectors = charger.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
-            charger.connectors.forEach((connector) => {
+            chargingStation.connectors = chargingStation.connectors.filter((connector) => !Utils.isNullOrUndefined(connector));
+            chargingStation.connectors.forEach((connector) => {
               connector.hasDetails = connector.currentTransactionID > 0;
+              connector.status = chargingStation.inactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+              connector.currentInstantWatts = chargingStation.inactive ? 0 : connector.currentInstantWatts;
+              connector.currentStateOfCharge = chargingStation.inactive ? 0 : connector.currentStateOfCharge;
+              connector.currentTotalConsumptionWh = chargingStation.inactive ? 0 : connector.currentTotalConsumptionWh;
+              connector.currentTotalInactivitySecs = chargingStation.inactive ? 0 : connector.currentTotalInactivitySecs;
             });
           });
           // Ok

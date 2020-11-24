@@ -12,15 +12,12 @@ import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
-import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
@@ -32,6 +29,9 @@ import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { Transaction } from '../types/Transaction';
 import { User, UserCar, UserSite, UserToken } from '../types/User';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
+import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from '../types/ocpp/OCPP';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -251,23 +251,6 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.get<Company>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY}`,
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getCompanyLogo(companyId: string): Observable<Logo> {
-    const params: { [param: string]: string } = {};
-    params['ID'] = companyId;
-    // Verify init
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.get<Logo>(
-      `${this.centralRestServerServiceSecuredURL}/${ServerAction.COMPANY_LOGO}`,
       {
         headers: this.buildHttpHeaders(),
         params,

@@ -177,7 +177,7 @@
             [class.sortable]="tableColumnDef.sortable">
             {{tableColumnDef.name | translate}}
             <mat-icon *ngIf="sort.active === tableColumnDef.id">
-              {{sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
+              {{!sort.direction || sort.direction === "asc" ? "arrow_drop_up" : "arrow_drop_down"}}
             </mat-icon>
           </th>
         </tr>

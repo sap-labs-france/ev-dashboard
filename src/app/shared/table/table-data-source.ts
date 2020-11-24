@@ -191,7 +191,7 @@ export abstract class TableDataSource<T extends Data> {
       ];
     }
     // Find Sorted columns
-    const columnDef = this.tableColumnsDef.find((column) => column.sorted === true);
+    const columnDef = this.tableColumnsDef.find((column) => column.sorted);
     if (columnDef) {
       return [
         { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },

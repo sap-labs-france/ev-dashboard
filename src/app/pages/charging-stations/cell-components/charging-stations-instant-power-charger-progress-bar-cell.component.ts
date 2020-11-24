@@ -43,9 +43,9 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         instantPowerKW /= 1000;
         // Handle decimals
         if (instantPowerKW < 10) {
-          instantPowerKW = parseFloat((instantPowerKW).toFixed(1));
+          instantPowerKW = Utils.roundTo(instantPowerKW, 1);
         } else {
-          instantPowerKW = parseFloat((instantPowerKW).toFixed(0));
+          instantPowerKW = Utils.roundTo(instantPowerKW, 0);
         }
         if (type === 'instantPowerKWPercent') {
           if (instantPowerKW === 0) {
@@ -80,7 +80,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         }
         // Watt -> kWatts
         maxPowerKW /= 1000;
-        value = Math.round((maxPowerKW * 10)) / 10;
+        value = Utils.roundTo(maxPowerKW, 1);
         break;
     }
     const result = this.decimalPipe.transform(value);

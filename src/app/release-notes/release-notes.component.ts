@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Demo user can now display the Cars`,
               `Fixed Connector with wrong status in Session History`,
               `Fixed rounded consumptions in OCPI`,
               `Fixed Demo users can display User in Session details`,

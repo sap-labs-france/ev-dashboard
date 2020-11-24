@@ -254,8 +254,9 @@ export class Utils {
     return 6;
   }
 
-  public static getRoundedNumberToTwoDecimals(numberToRound: number): number {
-    return Math.round(numberToRound * 100) / 100;
+  public static roundTo(value: number, scale: number): number {
+    const roundPower = Math.pow(10, scale);
+    return Math.round(value * roundPower) / roundPower;
   }
 
   public static convertAmpToWatt(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorID = 0, ampValue: number): number {

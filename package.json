@@ -112,7 +112,7 @@
     "@types/chart.js": "^2.9.28",
     "@types/chartist": "^0.11.0",
     "@types/file-saver": "^2.0.1",
-    "@types/jasmine": "~3.6.1",
+    "@types/jasmine": "~3.6.2",
     "@types/jquery": "^3.5.4",
     "@types/mocha": "^8.0.4",
     "@types/moment-duration-format": "^2.2.2",

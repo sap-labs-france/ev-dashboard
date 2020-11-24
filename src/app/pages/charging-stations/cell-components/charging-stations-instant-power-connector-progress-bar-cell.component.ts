@@ -1,4 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Utils } from 'utils/Utils';
 
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal-pipe';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
@@ -38,9 +39,9 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
         let instantPowerKW = connector.currentInstantWatts / 1000;
         // Handle decimals
         if (instantPowerKW < 10) {
-          instantPowerKW = parseFloat((instantPowerKW).toFixed(1));
+          instantPowerKW = Utils.roundTo(instantPowerKW, 1);
         } else {
-          instantPowerKW = parseFloat((instantPowerKW).toFixed(0));
+          instantPowerKW = Utils.roundTo(instantPowerKW, 0);
         }
         if (type === 'instantPowerKWPercent') {
           if (instantPowerKW === 0) {

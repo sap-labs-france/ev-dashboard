@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'app/services/central-server.service';
+import { DialogService } from 'app/services/dialog.service';
+import { WindowService } from 'app/services/window.service';
+import { QrCodeDialogComponent } from 'app/shared/dialogs/qr-code/qr-code-dialog.component';
 import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'app/types/ChargingStation';
 import { Utils } from 'app/utils/Utils';
@@ -50,7 +56,13 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
-
+  constructor(
+    private dialog: MatDialog,
+    private centralServerService: CentralServerService,
+    private dialogService: DialogService,
+    private windowService: WindowService,
+    private translateService: TranslateService) {
+    }
   public ngOnInit() {
     // Init connectors
     this.formConnectorGroup = new FormGroup({
@@ -204,6 +216,27 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public currentTypeChanged() {
     this.refreshNumberOfPhases();
     this.refreshTotalAmperage();
+  }
+
+  public generateQRCode() {
+    // Create the dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '70vw';
+    dialogConfig.disableClose = false;
+    dialogConfig.panelClass = 'transparent-dialog-container';
+    // Set data
+    dialogConfig.data = {
+      'chargingStationID': this.chargingStation.id,
+      'connectorID': this.connector.connectorId,
+      'tenantSubDomain': this.windowService.getSubdomain(),
+      'tenantName': this.centralServerService.getLoggedUser().tenantName
+    };
+    // Disable outside click close
+    dialogConfig.disableClose = true;
+    // Open
+    this.dialog.open(QrCodeDialogComponent, dialogConfig)
+      .afterClosed().subscribe((result) => {
+    });
   }
 
   public amperageChanged() {

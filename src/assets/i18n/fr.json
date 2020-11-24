@@ -68,6 +68,7 @@
     "create": "Créer",
     "update": "Changer",
     "refresh": "Rafraîchir",
+    "generate_qr": "Generate QR code",
     "save": "Sauvegarder",
     "delete": "Effacer",
     "export": "Export",

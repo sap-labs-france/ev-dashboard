@@ -146,6 +146,15 @@ export interface Connector extends Data {
   phaseAssignmentToGrid: PhaseAssignmentToGrid;
 }
 
+export interface ChargingStationQRCode {
+  tenantSubDomain?: string;
+  tenantName?: string;
+  tenantDescription?: string;
+  endpoint?: string;
+  chargingStationID?: string;
+  connectorID?: number;
+}
+
 export interface PhaseAssignmentToGrid {
   csPhaseL1: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
   csPhaseL2: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
@@ -209,7 +218,8 @@ export enum ChargingStationButtonAction {
   FORCE_AVAILABLE_STATUS = 'force_available_status',
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
   SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
-  NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans'
+  NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans',
+  GENERATE_QR_CODE = 'generate_qr_code'
 }
 
 export enum ChargePointStatus {

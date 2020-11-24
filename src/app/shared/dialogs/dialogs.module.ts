@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { QRCodeModule } from 'angularx-qrcode';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NgxPrintModule } from 'ngx-print';
 
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
@@ -28,6 +30,7 @@ import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
 import { LogActionsDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
 import { LogActionsDialogComponent } from './logs/log-actions-dialog.component';
+import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
@@ -53,6 +56,8 @@ export class FooterModule {
     FormattersModule,
     AgmCoreModule,
     GooglePlaceModule,
+    QRCodeModule,
+    NgxPrintModule
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -65,6 +70,7 @@ export class FooterModule {
     AssetsDialogComponent,
     CompaniesDialogComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -83,6 +89,7 @@ export class FooterModule {
     CompaniesDialogComponent,
     ConsumptionChartComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -100,6 +107,7 @@ export class FooterModule {
     AssetsDialogComponent,
     CompaniesDialogComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,

@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-header card-header-tabs card-header-primary">
+      <div class="nav-tabs-navigation">
+        <h4 class="nav-tabs-title">{{'chargers.connector' | translate}} {{chargingStationQRCode.connectorID | appConnectorId}}</h4>
+        <ul class="nav nav-tabs" data-tabs="tabs">
+          <span class="toolbar-spacer"></span>
+          <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+          </button>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="card-body" id="qr-code-print">
+      <div>
+        <qrcode [qrdata]="chargingStationQRCode | json" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+      </div>
+      <div class="text-center">
+        {{chargingStationQRCode.chargingStationID}} {{'chargers.connector' | translate}} {{chargingStationQRCode.connectorID | appConnectorId}}
+      </div>
+    </div>
+  
+  
+    <div class="card-footer mat-dialog-actions">
+      <span class="app-spacer"></span>
+      <button mat-raised-button color="primary" (click)="download()">
+        {{"general.set_coordinates" | translate}}
+      </button>
+      <button mat-raised-button (click)="cancel()">
+        {{"general.cancel" | translate}}
+      </button>
+    </div>
+  </div>
+  

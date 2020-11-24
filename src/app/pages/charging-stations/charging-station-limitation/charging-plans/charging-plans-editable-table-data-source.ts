@@ -110,8 +110,8 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
             chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         }
         // Update the limit in kW
-        chargingSchedules[i].limitInkW = Utils.getRoundedNumberToTwoDecimals(Utils.convertAmpToWatt(
-          this.chargingStation, this.chargePoint, this.connectorID, chargingSchedules[i].limit) / 1000);
+        chargingSchedules[i].limitInkW = Utils.roundTo(Utils.convertAmpToWatt(
+          this.chargingStation, this.chargePoint, this.connectorID, chargingSchedules[i].limit) / 1000, 2);
         chargingSchedules[i].endDate =
           new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
         // Add
@@ -124,8 +124,8 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       duration: 60,
-      limitInkW: Utils.getRoundedNumberToTwoDecimals(Utils.convertAmpToWatt(
-        this.chargingStation, this.chargePoint, this.connectorID, this.chargerPowers.maxAmp) / 1000),
+      limitInkW: Utils.roundTo(Utils.convertAmpToWatt(
+        this.chargingStation, this.chargePoint, this.connectorID, this.chargerPowers.maxAmp) / 1000, 2),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,

@@ -1,13 +1,5 @@
-import 'bootstrap';
-import 'chartjs-plugin-zoom';
-import 'moment/locale/de';
-import 'moment/locale/es';
-import 'moment/locale/fr';
-import 'moment/locale/pt';
-import 'popper.js';
-
 import { AgmCoreModule } from '@agm/core';
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeEs from '@angular/common/locales/es';
@@ -44,6 +36,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
@@ -54,13 +47,13 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppRouting } from './app.routing';
+import { BrowserNotSupportedModule } from './browser-not-supported/browser-not-supported.module';
 import { DevEnvGuard } from './guard/development.guard';
 import { RouteGuardService } from './guard/route-guard';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
-import { BrowserNotSupportedModule } from './pages/browser-not-supported/browser-not-supported.module';
 import { WINDOW_PROVIDERS } from './providers/window.provider';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { AuthorizationService } from './services/authorization.service';
@@ -152,12 +145,12 @@ export function localeFactory(
 
 @NgModule({
   imports: [
-    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     NgxCaptchaModule,
-    AppRouting,
     MaterialModule,
     SidebarModule,
     NavbarModule,
@@ -205,7 +198,7 @@ export function localeFactory(
     { provide: MAT_DATE_LOCALE, useFactory: localeFactory, deps: [CentralServerService, TranslateService], multi: true },
     { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(

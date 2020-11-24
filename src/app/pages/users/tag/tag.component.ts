@@ -3,18 +3,19 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
-import { ActionResponse } from 'app/types/DataResult';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
-import { Tag } from 'app/types/Tag';
-import { Utils } from 'app/utils/Utils';
+
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
+import { ActionResponse } from '../../../types/DataResult';
+import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { ButtonType } from '../../../types/Table';
+import { Tag } from '../../../types/Tag';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-tag',

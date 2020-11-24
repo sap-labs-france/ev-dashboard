@@ -16,7 +16,3 @@ export enum TenantButtonAction {
   CREATE_TENANT = 'create_tenant',
   DELETE_TENANT = 'delete_tenant',
 }
-
-export enum TenantLogo {
-  NO_LOGO = 'assets/img/theme/no-logo.png',
-}

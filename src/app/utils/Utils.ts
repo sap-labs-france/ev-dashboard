@@ -2,21 +2,21 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { AppUnitPipe } from 'app/shared/formatters/app-unit.pipe';
-import { Address } from 'app/types/Address';
-import { Car, CarCatalog, CarConverter, CarType } from 'app/types/Car';
-import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { MobileType } from 'app/types/Mobile';
-import { ButtonType } from 'app/types/Table';
-import { User, UserCar, UserToken } from 'app/types/User';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
 
+import { CentralServerService } from '../services/central-server.service';
+import { ConfigService } from '../services/config.service';
+import { DialogService } from '../services/dialog.service';
+import { MessageService } from '../services/message.service';
+import { AppUnitPipe } from '../shared/formatters/app-unit.pipe';
+import { Address } from '../types/Address';
+import { Car, CarCatalog, CarConverter, CarType } from '../types/Car';
+import { ChargePoint, ChargingStation, ChargingStationPowers, Connector, CurrentType, StaticLimitAmps } from '../types/ChargingStation';
+import { KeyValue } from '../types/GlobalType';
+import { MobileType } from '../types/Mobile';
+import { ButtonType } from '../types/Table';
+import { User, UserCar, UserToken } from '../types/User';
 import { Constants } from './Constants';
 
 export class Utils {
@@ -278,14 +278,16 @@ export class Utils {
     if (!chargingStation.chargePoints) {
       return null;
     }
-    return chargingStation.chargePoints.find((chargePoint) => chargePoint && (chargePoint.chargePointID === chargePointID));
+    return chargingStation.chargePoints.find((chargePoint: ChargePoint) =>
+      chargePoint && (chargePoint.chargePointID === chargePointID));
   }
 
   public static getConnectorFromID(chargingStation: ChargingStation, connectorID: number): Connector {
     if (!chargingStation.connectors) {
       return null;
     }
-    return chargingStation.connectors.find((connector) => connector && (connector.connectorId === connectorID));
+    return chargingStation.connectors.find((connector: Connector) =>
+      connector && (connector.connectorId === connectorID));
   }
 
   public static computeChargingStationTotalAmps(chargingStation: ChargingStation): number {
@@ -638,7 +640,7 @@ export class Utils {
   }
 
   public static buildCarName(car: Car, withID = false): string {
-    let carName: string;
+    let carName: string = null;
     if (!car) {
       return '-';
     }
@@ -765,16 +767,16 @@ export class Utils {
     return result;
   }
 
-  public static convertToDate(date: any): Date {
+  public static convertToDate(value: any): Date {
     // Check
-    if (!date) {
-      return date;
+    if (!value) {
+      return value;
     }
     // Check Type
-    if (!(date instanceof Date)) {
-      return new Date(date);
+    if (!(value instanceof Date)) {
+      return new Date(value);
     }
-    return date;
+    return value;
   }
 
   public static convertToInteger(value: any): number {

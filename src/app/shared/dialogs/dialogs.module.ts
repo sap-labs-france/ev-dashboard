@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-import { NgxPrintModule } from 'ngx-print';
 
 import { MaterialModule } from '../../app.module';
 import { DialogService } from '../../services/dialog.service';
@@ -28,8 +27,8 @@ import { CompaniesDialogComponent } from './companies/companies-dialog.component
 import { ConfirmationDialogComponent } from './confirmation/confirmation-dialog.component';
 import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code-details-dialog.component';
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
-import { LogActionsDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
-import { LogActionsDialogComponent } from './logs/log-actions-dialog.component';
+import { LOG_ACTIONSDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
+import { LOG_ACTIONSDialogComponent } from './logs/log-actions-dialog.component';
 import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
@@ -39,11 +38,10 @@ import { SitesDialogTableDataSource } from './sites/sites-dialog-table-data-sour
 import { SitesDialogComponent } from './sites/sites-dialog.component';
 import { TagsDialogTableDataSource } from './tags/tags-dialog-table-data-source';
 import { TagsDialogComponent } from './tags/tags-dialog.component';
+import { TransactionComponent } from './transaction/transaction.component';
+import { TransactionDialogComponent } from './transaction/transaction.dialog.component';
 import { UsersDialogTableDataSource } from './users/users-dialog-table-data-source';
 import { UsersDialogComponent } from './users/users-dialog.component';
-
-export class FooterModule {
-}
 
 @NgModule({
   imports: [
@@ -56,11 +54,12 @@ export class FooterModule {
     FormattersModule,
     AgmCoreModule,
     GooglePlaceModule,
-    QRCodeModule,
-    NgxPrintModule
+    QRCodeModule
   ],
   declarations: [
     CarMakersDialogComponent,
+    TransactionComponent,
+    TransactionDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
@@ -75,10 +74,12 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LogActionsDialogComponent
+    LOG_ACTIONSDialogComponent
   ],
   entryComponents: [
     CarMakersDialogComponent,
+    TransactionComponent,
+    TransactionDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
@@ -94,10 +95,12 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LogActionsDialogComponent
+    LOG_ACTIONSDialogComponent
   ],
   exports: [
     CarMakersDialogComponent,
+    TransactionComponent,
+    TransactionDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,
     TagsDialogComponent,
@@ -112,7 +115,7 @@ export class FooterModule {
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
     CarCatalogsDialogComponent,
-    LogActionsDialogComponent
+    LOG_ACTIONSDialogComponent
   ],
   providers: [
     AppConnectorIdPipe,
@@ -131,7 +134,7 @@ export class FooterModule {
     ReportsDialogTableDataSource,
     CarMakersTableDataSource,
     CarCatalogsDialogTableDataSource,
-    LogActionsDialogTableDataSource
+    LOG_ACTIONSDialogTableDataSource
   ],
 })
 export class DialogsModule {

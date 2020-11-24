@@ -2,29 +2,31 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { TableOpenURLAction } from 'app/shared/table/actions/table-open-url-action';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Tenant, TenantButtonAction } from 'app/types/Tenant';
 import { Observable } from 'rxjs';
+import { User } from 'types/User';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
+import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableOpenURLAction } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableCreateTenantAction, TableCreateTenantActionDef } from '../../../shared/table/actions/tenants/table-create-tenant-action';
+import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../../../shared/table/actions/tenants/table-delete-tenant-action';
+import { TableEditTenantAction, TableEditTenantActionDef } from '../../../shared/table/actions/tenants/table-edit-tenant-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Tenant, TenantButtonAction } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
 import { TenantLogoFormatterCellComponent } from '../cell-components/tenant-logo-formatter-cell.component';
-import { TableCreateTenantAction, TableCreateTenantActionDef } from '../table-actions/table-create-tenant-action';
-import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../table-actions/table-delete-tenant-action';
-import { TableEditTenantAction, TableEditTenantActionDef } from '../table-actions/table-edit-tenant-action';
+import { TenantDialogComponent } from '../tenant/tenant.dialog.component';
 
 @Injectable()
 export class TenantsListTableDataSource extends TableDataSource<Tenant> {
@@ -129,6 +131,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       {
         id: 'createdBy',
         name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },
@@ -143,6 +146,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },
@@ -171,7 +175,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       // Add
       case TenantButtonAction.CREATE_TENANT:
         if (actionDef.action) {
-          (actionDef as TableCreateTenantActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateTenantActionDef).action(TenantDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
     }
@@ -181,7 +185,7 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     switch (actionDef.id) {
       case TenantButtonAction.EDIT_TENANT:
         if (actionDef.action) {
-          (actionDef as TableEditTenantActionDef).action(tenant, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditTenantActionDef).action(TenantDialogComponent, tenant, this.dialog, this.refreshData.bind(this));
         }
         break;
       case TenantButtonAction.DELETE_TENANT:

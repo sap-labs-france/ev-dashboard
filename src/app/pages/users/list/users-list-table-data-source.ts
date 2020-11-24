@@ -1,47 +1,49 @@
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { User, UserButtonAction, UserToken } from 'app/types/User';
-import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
-import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../table-actions/table-assign-sites-to-user-action';
-import { TableCreateUserAction, TableCreateUserActionDef } from '../table-actions/table-create-user-action';
-import { TableDeleteUserAction, TableDeleteUserActionDef } from '../table-actions/table-delete-user-action';
-import { TableEditUserAction, TableEditUserActionDef } from '../table-actions/table-edit-user-action';
-import { TableExportUsersAction, TableExportUsersActionDef } from '../table-actions/table-export-users-action';
-
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableNavigateToTransactionsAction } from 'app/pages/transactions/table-actions/table-navigate-to-transactions-action';
-import { SpinnerService } from 'app/services/spinner.service';
-import { WindowService } from 'app/services/window.service';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
-import { DataResult } from 'app/types/DataResult';
-import TenantComponents from 'app/types/TenantComponents';
-import { TransactionButtonAction } from 'app/types/Transaction';
 import { Observable } from 'rxjs';
+
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
+import { TableAssignSitesToUserAction, TableAssignSitesToUserActionDef } from '../../../shared/table/actions/users/table-assign-sites-to-user-action';
+import { TableCreateUserAction, TableCreateUserActionDef } from '../../../shared/table/actions/users/table-create-user-action';
+import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared/table/actions/users/table-delete-user-action';
+import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
+import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
+import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
+import { TableNavigateToTagsAction } from '../../../shared/table/actions/users/table-navigate-to-tags-action';
+import { TableSyncBillingUsersAction } from '../../../shared/table/actions/users/table-sync-billing-users-action';
+import { IssuerFilter, organisations } from '../../../shared/table/filters/issuer-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
+import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { TransactionButtonAction } from '../../../types/Transaction';
+import { User, UserButtonAction, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { UserRoleFilter } from '../filters/user-role-filter';
 import { UserStatusFilter } from '../filters/user-status-filter';
 import { AppUserRolePipe } from '../formatters/user-role.pipe';
 import { UserStatusFormatterComponent } from '../formatters/user-status-formatter.component';
-import { TableForceSyncBillingUserAction } from '../table-actions/table-force-sync-billing-user-action';
-import { TableNavigateToTagsAction } from '../table-actions/table-navigate-to-tags-action';
-import { TableSyncBillingUsersAction } from '../table-actions/table-sync-billing-users-action';
+import { UserSitesDialogComponent } from '../user-sites/user-sites-dialog.component';
+import { UserDialogComponent } from '../user/user.dialog.component';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
@@ -208,6 +210,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'createdBy',
         name: 'users.created_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },
@@ -222,6 +225,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       {
         id: 'lastChangedBy',
         name: 'users.changed_by',
+        formatter: (user: User) => Utils.buildUserFullName(user),
         headerClass: 'col-15em',
         class: 'col-15em',
       },
@@ -293,7 +297,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.CREATE_USER:
         if (actionDef.action) {
-          (actionDef as TableCreateUserActionDef).action(this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateUserActionDef).action(UserDialogComponent, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.EXPORT_USERS:
@@ -318,12 +322,12 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     switch (actionDef.id) {
       case UserButtonAction.EDIT_USER:
         if (actionDef.action) {
-          (actionDef as TableEditUserActionDef).action(user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditUserActionDef).action(UserDialogComponent, user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.ASSIGN_SITES_TO_USER:
         if (actionDef.action) {
-          (actionDef as TableAssignSitesToUserActionDef).action(user, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignSitesToUserActionDef).action(UserSitesDialogComponent, user, this.dialog, this.refreshData.bind(this));
         }
         break;
       case UserButtonAction.DELETE_USER:

@@ -2,26 +2,26 @@ import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/cor
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ComponentService } from 'app/services/component.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from 'app/types/ChargingProfile';
-import { ChargingRateUnitType, ChargingStation } from 'app/types/ChargingStation';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { ServerAction } from 'app/types/Server';
-import { ButtonType } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
+import { ConfigService } from '../../../../services/config.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { TableNavigateToLogsAction } from '../../../../shared/table/actions/logs/table-navigate-to-logs-action';
+import { ChargingProfile, ChargingProfileKindType, ChargingProfilePurposeType, ChargingSchedule, ChargingSchedulePeriod, Profile, RecurrencyKindType, Schedule } from '../../../../types/ChargingProfile';
+import { ChargingRateUnitType, ChargingStation } from '../../../../types/ChargingStation';
+import { RestResponse } from '../../../../types/GlobalType';
+import { HTTPError } from '../../../../types/HTTPError';
+import { ServerAction } from '../../../../types/Server';
+import { ButtonType } from '../../../../types/Table';
+import TenantComponents from '../../../../types/TenantComponents';
+import { Utils } from '../../../../utils/Utils';
 import { ChargingPlansEditableTableDataSource } from './charging-plans-editable-table-data-source';
 import { ChargingPlansTableDataSource } from './charging-plans-table-data-source';
 
@@ -54,7 +54,6 @@ export class ChargingPlansComponent implements OnInit, AfterViewInit, OnChanges 
       key: ChargingProfileKindType.RECURRING, recurrencyKindType: RecurrencyKindType.DAILY, description: 'chargers.smart_charging.profile_types.recurring_daily',
       chargingProfileKindType: ChargingProfileKindType.RECURRING, stackLevel: 2, profileId: 2
     },
-    // { key: RecurrencyKindType.WEEKLY, description: 'chargers.smart_charging.profile_types.recurring_weekly', stackLevel: 1, profileId: 1 },
   ];
   public formGroup!: FormGroup;
   public profileTypeControl!: AbstractControl;

@@ -1,7 +1,7 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Utils } from 'app/utils/Utils';
 
+import { Utils } from '../../../utils/Utils';
 import { ChargingStationLimitationComponent } from './charging-station-limitation.component';
 
 @Component({

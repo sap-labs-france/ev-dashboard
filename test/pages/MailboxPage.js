@@ -1,7 +1,7 @@
 const I = actor();
 
 module.exports = {
-  url: 'http://localhost:1080/#/',
+  url: 'http://localhost:1080/',
   fields: {
     mailFrame: '.preview-iframe',
     actionUrl: '#action-url'

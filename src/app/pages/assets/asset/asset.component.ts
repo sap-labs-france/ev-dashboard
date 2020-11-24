@@ -3,24 +3,25 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { ConfigService } from 'app/services/config.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { GeoMapDialogComponent } from 'app/shared/dialogs/geomap/geomap-dialog.component';
-import { SiteAreasDialogComponent } from 'app/shared/dialogs/site-areas/site-areas-dialog.component';
-import { Asset, AssetImage, AssetTypes } from 'app/types/Asset';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { AssetSettings } from 'app/types/Setting';
-import { SiteArea } from 'app/types/SiteArea';
-import TenantComponents from 'app/types/TenantComponents';
-import { Constants } from 'app/utils/Constants';
-import { ParentErrorStateMatcher } from 'app/utils/ParentStateMatcher';
-import { Utils } from 'app/utils/Utils';
 import { mergeMap } from 'rxjs/operators';
+
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ConfigService } from '../../../services/config.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { GeoMapDialogComponent } from '../../../shared/dialogs/geomap/geomap-dialog.component';
+import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/site-areas-dialog.component';
+import { Asset, AssetImage, AssetTypes } from '../../../types/Asset';
+import { KeyValue, RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { AssetSettings } from '../../../types/Setting';
+import { SiteArea } from '../../../types/SiteArea';
+import TenantComponents from '../../../types/TenantComponents';
+import { Constants } from '../../../utils/Constants';
+import { ParentErrorStateMatcher } from '../../../utils/ParentStateMatcher';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-asset',

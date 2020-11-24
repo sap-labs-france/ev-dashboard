@@ -2,29 +2,30 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { AssetButtonAction } from 'app/types/Asset';
-import { DataResult } from 'app/types/DataResult';
-import { AssetInError, AssetInErrorType, ErrorMessage } from 'app/types/InError';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { ErrorCodeDetailsComponent } from '../../../shared/component/error-code-details/error-code-details.component';
+import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
+import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { AssetButtonAction } from '../../../types/Asset';
 import ChangeNotification from '../../../types/ChangeNotification';
-import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../table-actions/table-delete-asset-action';
-import { TableEditAssetAction, TableEditAssetActionDef } from '../table-actions/table-edit-asset-action';
+import { DataResult } from '../../../types/DataResult';
+import { AssetInError, AssetInErrorType, ErrorMessage } from '../../../types/InError';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
+import { AssetDialogComponent } from '../asset/asset.dialog.component';
 
 @Injectable()
 export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> {
@@ -132,7 +133,7 @@ export class AssetsInErrorTableDataSource extends TableDataSource<AssetInError> 
     switch (actionDef.id) {
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(asset, this.dialog, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, asset, this.dialog, this.refreshData.bind(this));
         }
         break;
       case AssetButtonAction.DELETE_ASSET:

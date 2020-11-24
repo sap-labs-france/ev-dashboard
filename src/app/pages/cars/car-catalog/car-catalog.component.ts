@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { CarCatalog } from 'app/types/Car';
-import { Utils } from 'app/utils/Utils';
+
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { CarCatalog } from '../../../types/Car';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-car-catalog',

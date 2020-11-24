@@ -1,6 +1,6 @@
-import { TableAction } from 'app/shared/table/actions/table-action';
-import { OcpiButtonAction } from 'app/types/ocpi/OCPIEndpoint';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
+import { TableAction } from '../../../../../shared/table/actions/table-action';
+import { OcpiButtonAction } from '../../../../../types/ocpi/OCPIEndpoint';
+import { ButtonColor, TableActionDef } from '../../../../../types/Table';
 
 export class SettingsOCPIStartJobAction implements TableAction {
   private action: TableActionDef = {

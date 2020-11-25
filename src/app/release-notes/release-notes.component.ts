@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.28',
+        date: new Date('2020-11-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed computation of total DC Charging Station's power in UI`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.27',
         date: new Date('2020-11-23'),
         componentChanges: [

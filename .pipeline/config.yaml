@@ -23,6 +23,12 @@ stages:
   Additional Unit Tests:
     karmaExecuteTests: false
     
+  Acceptance:
+    cloudFoundryDeploy:
+      cloudFoundry/org: 'SAP IT Cloud_sapitcfd'
+      cloudFoundry/space: e-Mobility-dev
+      cloudFoundry/credentialsId: scp-i030367-access    
+      
   Security:
     executeCheckmarxScan: true
     checkmarxExecuteScan: false

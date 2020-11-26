@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { SmartChargingSettings, SmartChargingSettingsType } from 'app/types/Setting';
-import TenantComponents from 'app/types/TenantComponents';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { SmartChargingSettings, SmartChargingSettingsType } from '../../../types/Setting';
+import TenantComponents from '../../../types/TenantComponents';
 import { Utils } from '../../../utils/Utils';
 
 @Component({

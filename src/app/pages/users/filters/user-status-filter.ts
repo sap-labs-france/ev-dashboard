@@ -1,7 +1,6 @@
-import { FilterType, TableFilterDef } from 'app/types/Table';
-
+import { USER_STATUSES } from '../../../shared/model/users.model';
 import { TableFilter } from '../../../shared/table/filters/table-filter';
-import { userStatuses } from '../model/users.model';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class UserStatusFilter extends TableFilter {
   constructor() {
@@ -15,7 +14,7 @@ export class UserStatusFilter extends TableFilter {
       class: 'col-md-6 col-lg-4 col-xl-2',
       label: '',
       currentValue: [],
-      items: Object.assign([], userStatuses),
+      items: Object.assign([], USER_STATUSES),
       multiple: true,
     };
     this.setFilterDef(filterDef);

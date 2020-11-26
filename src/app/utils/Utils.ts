@@ -255,8 +255,9 @@ export class Utils {
     return 6;
   }
 
-  public static getRoundedNumberToTwoDecimals(numberToRound: number): number {
-    return Math.round(numberToRound * 100) / 100;
+  public static roundTo(value: number, scale: number): number {
+    const roundPower = Math.pow(10, scale);
+    return Math.round(value * roundPower) / roundPower;
   }
 
   public static convertAmpToWatt(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorID = 0, ampValue: number): number {
@@ -279,14 +280,16 @@ export class Utils {
     if (!chargingStation.chargePoints) {
       return null;
     }
-    return chargingStation.chargePoints.find((chargePoint) => chargePoint && (chargePoint.chargePointID === chargePointID));
+    return chargingStation.chargePoints.find((chargePoint: ChargePoint) =>
+      chargePoint && (chargePoint.chargePointID === chargePointID));
   }
 
   public static getConnectorFromID(chargingStation: ChargingStation, connectorID: number): Connector {
     if (!chargingStation.connectors) {
       return null;
     }
-    return chargingStation.connectors.find((connector) => connector && (connector.connectorId === connectorID));
+    return chargingStation.connectors.find((connector: Connector) =>
+      connector && (connector.connectorId === connectorID));
   }
 
   public static computeChargingStationTotalAmps(chargingStation: ChargingStation): number {
@@ -787,16 +790,16 @@ export class Utils {
     return result;
   }
 
-  public static convertToDate(date: any): Date {
+  public static convertToDate(value: any): Date {
     // Check
-    if (!date) {
-      return date;
+    if (!value) {
+      return value;
     }
     // Check Type
-    if (!(date instanceof Date)) {
-      return new Date(date);
+    if (!(value instanceof Date)) {
+      return new Date(value);
     }
-    return date;
+    return value;
   }
 
   public static convertToInteger(value: any): number {

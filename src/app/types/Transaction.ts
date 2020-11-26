@@ -1,6 +1,7 @@
 import { BillingTransactionData } from './Billing';
 import { Car } from './Car';
 import { ChargingStation } from './ChargingStation';
+import Consumption from './Consumption';
 import { OCPICdr } from './ocpi/OCPICdr';
 import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
@@ -65,7 +66,7 @@ export interface Transaction extends Data {
     inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
-  values: TransactionConsumption[];
+  values: Consumption[];
   billingData: BillingTransactionData;
   ocpiData?: {
     session?: OCPISession;
@@ -73,31 +74,6 @@ export interface Transaction extends Data {
     sessionCheckedOn?: Date;
     cdrCheckedOn?: Date;
   };
-}
-
-export interface TransactionConsumption {
-  date: Date;
-  instantWatts: number;
-  instantWattsL1: number;
-  instantWattsL2: number;
-  instantWattsL3: number;
-  instantWattsDC: number;
-  instantAmps: number;
-  instantAmpsL1: number;
-  instantAmpsL2: number;
-  instantAmpsL3: number;
-  instantAmpsDC: number;
-  instantVolts: number;
-  instantVoltsL1: number;
-  instantVoltsL2: number;
-  instantVoltsL3: number;
-  instantVoltsDC: number;
-  limitWatts: number;
-  limitAmps: number;
-  cumulatedConsumptionWh: number;
-  cumulatedConsumptionAmps: number;
-  stateOfCharge: number;
-  cumulatedAmount: number;
 }
 
 export interface StartTransaction {

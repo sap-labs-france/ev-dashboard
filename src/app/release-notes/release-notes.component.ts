@@ -24,6 +24,76 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.28',
+        date: new Date('2020-11-25'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed computation of total DC Charging Station's power in UI`,
+              `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.27',
+        date: new Date('2020-11-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Demo user can now display the Cars`,
+              `Fixed Connector with wrong status in Session History`,
+              `Fixed rounded consumptions in OCPI`,
+              `Fixed default sorting in all lists`,
+              `Hide spinner when EULA is displayed`,
+              `Fixed Demo users can display User in Session details`,
+              `Registration Token Site Area is hidden when Organization is inactive`,
+              `Keep track of unmatched template sections`,
+              `Do not add custom OCPP param if already exists in OCPP (Delta)`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.26',
+        date: new Date('2020-11-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Notify Admins when the Smart Charging cannot push a plan to a Charging Station`,
+              `Jump from Charging Plan list to Site Area`,
+              `Angular 11 migration`,
+              `Enhanced OCPI CPO logs`,
+              `Added locks at Transaction level when pushing OCPI CDRs`,
+              `Fixed cannot select Transaction to Refund in list`,
+              `Fixed Transaction in progress connector not animated when charging`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.24',
+        date: new Date('2020-11-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI CDR was not sent to Gireve at the end of the Session`,
+              `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
+              `OCPI Pull Tokens second optimization pass`,
+              `Increased to 2 the number of jobs pulling the Badges from the Gireve`,
+              `Added locks to all OCPI eMSP and CPO's actions`,
+              `Fixed and optimized OCPI Pull Tokens`,
+              `Enhanced OCPI logs`,
+              `Fixed Remote Start Transaction not working`
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.20',
         date: new Date('2020-11-07'),
         componentChanges: [

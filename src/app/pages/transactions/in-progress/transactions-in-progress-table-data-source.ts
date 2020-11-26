@@ -2,23 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from 'app/pages/charging-stations/table-actions/table-charging-stations-stop-transaction-action';
-import { TableNavigateToChargingPlansAction } from 'app/pages/charging-stations/table-actions/table-navigate-to-charging-plans-action';
-import { TableNavigateToLogsAction } from 'app/pages/logs/table-actions/table-navigate-to-logs-action';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { TagTableFilter } from 'app/shared/table/filters/tag-table-filter';
-import { CarCatalog } from 'app/types/Car';
-import { ChargingStationButtonAction } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { LogButtonAction } from 'app/types/Log';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
+import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -26,24 +11,39 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-stop-transaction-action';
+import { TableNavigateToChargingPlansAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-charging-plans-action';
+import { TableNavigateToLogsAction } from '../../../shared/table/actions/logs/table-navigate-to-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
+import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargingStationButtonAction } from '../../../types/ChargingStation';
+import { DataResult } from '../../../types/DataResult';
+import { LogButtonAction } from '../../../types/Log';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
+import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from '../table-actions/table-view-transaction-action';
 
 @Injectable()
 export class TransactionsInProgressTableDataSource extends TableDataSource<Transaction> {
@@ -138,6 +138,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
       },
       {
+        id: 'timestamp',
+        name: 'transactions.started_at',
+        headerClass: 'col-10p',
+        class: 'text-left col-10p',
+        sorted: true,
+        sortable: true,
+        direction: 'desc',
+        formatter: (value: Date) => this.datePipe.transform(value),
+      },
+      {
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
@@ -150,22 +160,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         class: 'table-cell-angular-big-component col-10p',
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
-        id: 'timestamp',
-        name: 'transactions.started_at',
-        headerClass: 'col-10p',
-        class: 'text-left col-10p',
-        sorted: true,
-        sortable: true,
-        direction: 'desc',
-        formatter: (value: Date) => this.datePipe.transform(value),
       },
       {
         id: 'currentTotalDurationSecs',
@@ -209,12 +203,18 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         },
       });
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(1, 0, {
+      columns.splice(4, 0, {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
+      },
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       });
     }
     return columns;
@@ -243,7 +243,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
-           + '&TransactionID=' + transaction.id);
+            + '&TransactionID=' + transaction.id);
         }
         break;
     }

@@ -1,15 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import AssetConfiguration from 'app/types/configuration/AssetConfiguration';
-import CarConfiguration from 'app/types/configuration/CarConfiguration';
-import Debug from 'app/types/configuration/Debug';
-import { Constants } from 'app/utils/Constants';
 
 import AdvancedConfiguration from '../types/configuration/AdvancedConfiguration';
+import AssetConfiguration from '../types/configuration/AssetConfiguration';
 import AuthorizationConfiguration from '../types/configuration/AuthorizationConfiguration';
+import CarConfiguration from '../types/configuration/CarConfiguration';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import CompanyConfiguration from '../types/configuration/CompanyConfiguration';
 import { Configuration } from '../types/configuration/Configuration';
+import Debug from '../types/configuration/Debug';
 import FrontEndConfiguration from '../types/configuration/FrontEndConfiguration';
 import LocalesConfiguration from '../types/configuration/LocalesConfiguration';
 import SiteAreaConfiguration from '../types/configuration/SiteAreaConfiguration';
@@ -35,9 +34,6 @@ export class ConfigService {
   public getCentralSystemServer(): CentralSystemServerConfiguration {
     if (this.isUndefined(this.getConfig().CentralSystemServer.socketIOEnabled)) {
       this.getConfig().CentralSystemServer.socketIOEnabled = true;
-    }
-    if (this.isUndefined(this.getConfig().CentralSystemServer.connectionMaxRetries)) {
-      this.getConfig().CentralSystemServer.connectionMaxRetries = Constants.DEFAULT_BACKEND_CONNECTION_MAX_RETRIES;
     }
     if (this.isUndefined(this.getConfig().CentralSystemServer.logoutOnConnectionError)) {
       this.getConfig().CentralSystemServer.logoutOnConnectionError = true;

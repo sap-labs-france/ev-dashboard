@@ -1,6 +1,5 @@
-import { ButtonAction } from 'app/types/GlobalType';
-import { TableActionDef } from 'app/types/Table';
-
+import { ButtonAction } from '../../../types/GlobalType';
+import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableAutoRefreshAction implements TableAction {

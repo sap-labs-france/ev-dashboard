@@ -1,5 +1,6 @@
 import { Directive, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { TableColumnDef } from 'app/types/Table';
+
+import { TableColumnDef } from '../../../types/Table';
 
 @Directive()
 export abstract class CellContentTemplateDirective implements OnChanges {

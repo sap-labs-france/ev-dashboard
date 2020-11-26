@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { OcpiSetting, RoamingSettings, RoamingSettingsType } from 'app/types/Setting';
-import TenantComponents from 'app/types/TenantComponents';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
 
+import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { OcpiSetting, RoamingSettings, RoamingSettingsType } from '../../../types/Setting';
+import TenantComponents from '../../../types/TenantComponents';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-ocpi',

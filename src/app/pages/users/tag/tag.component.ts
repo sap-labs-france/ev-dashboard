@@ -3,18 +3,19 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
-import { ActionResponse } from 'app/types/DataResult';
-import { RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
-import { Tag } from 'app/types/Tag';
-import { Utils } from 'app/utils/Utils';
+
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
+import { ActionResponse } from '../../../types/DataResult';
+import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { ButtonType } from '../../../types/Table';
+import { Tag } from '../../../types/Tag';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-tag',
@@ -179,7 +180,7 @@ export class TagComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.update_success', { tagID: tag.id });
         // Reassign transactions to user?
-        this.checkUnassignedTransactions(tag.userID);
+        this.checkUnassignedTransactions(tag.userID, tag.id);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
       }
@@ -196,7 +197,7 @@ export class TagComponent implements OnInit {
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('tags.create_success', { tagID: tag.id });
         // Reassign transactions to user?
-        this.checkUnassignedTransactions(tag.userID);
+        this.checkUnassignedTransactions(tag.userID, tag.id);
       } else {
         Utils.handleError(JSON.stringify(response), this.messageService, 'tags.create_error');
       }
@@ -212,11 +213,11 @@ export class TagComponent implements OnInit {
     });
   }
 
-  private checkUnassignedTransactions(userID: string) {
+  private checkUnassignedTransactions(userID: string, tagID: string) {
     // Admin?
-    if (this.isAdmin && userID) {
+    if (this.isAdmin && userID && tagID) {
       // Check if there are unassigned transactions
-      this.centralServerService.getUnassignedTransactionsCount(userID).subscribe((count) => {
+      this.centralServerService.getUnassignedTransactionsCount(tagID).subscribe((count) => {
         if (count && count > 0) {
           this.dialogService.createAndShowYesNoDialog(
             this.translateService.instant('users.assign_transactions_title'),
@@ -224,7 +225,7 @@ export class TagComponent implements OnInit {
           ).subscribe((result) => {
             if (result === ButtonType.YES) {
               // Assign transactions to User
-              this.assignTransactionsToUser(userID);
+              this.assignTransactionsToUser(userID, tagID);
             } else {
               this.closeDialog(true);
             }
@@ -246,10 +247,10 @@ export class TagComponent implements OnInit {
     }
   }
 
-  private assignTransactionsToUser(userID: string) {
+  private assignTransactionsToUser(userID: string, tagID: string) {
     // Assign Transactions to User
     this.spinnerService.show();
-    this.centralServerService.assignTransactionsToUser(userID).subscribe((response) => {
+    this.centralServerService.assignTransactionsToUser(userID, tagID).subscribe((response) => {
       this.spinnerService.hide();
       if (response.status === RestResponse.SUCCESS) {
         this.messageService.showSuccessMessage('users.assign_transactions_success', { userFullName: this.user.value });

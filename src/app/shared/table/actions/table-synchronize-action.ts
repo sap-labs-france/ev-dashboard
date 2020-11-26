@@ -1,7 +1,5 @@
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
-import { OcpiButtonAction } from 'app/types/ocpi/OCPIEndpoint';
-
+import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableSynchronizeAction implements TableAction {
@@ -14,7 +12,7 @@ export class TableSynchronizeAction implements TableAction {
     tooltip: 'general.tooltips.synchronize',
   };
 
-  constructor(id?: ButtonAction | OcpiButtonAction, name?: string, tooltip?: string) {
+  constructor(id?: ButtonAction, name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;
     }

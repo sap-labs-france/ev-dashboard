@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+
+import { CentralServerService } from '../../../../services/central-server.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { Constants } from '../../../../utils/Constants';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-carousel',
@@ -33,10 +34,9 @@ export class CarCarouselComponent implements AfterViewInit {
     if (this.carCatalogID) {
       this.spinnerService.show();
       this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
-        { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
+        { limit: Constants.MAX_LIMIT, skip: Constants.DEFAULT_SKIP }).subscribe((carImages) => {
           this.spinnerService.hide();
-          this.images = Array(carImage.count).fill('');
-          this.images[0] = carImage.result[0].image;
+          this.images = Array.from(carImages.result, carImage => carImage.image);
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
@@ -44,20 +44,22 @@ export class CarCarouselComponent implements AfterViewInit {
     }
   }
 
-  public onSlide(event: NgbSlideEvent) {
-    const imageIndex = parseInt(event.current.replace('slideId_', ''), 10);
-    if (this.images[imageIndex] === '') {
-      this.spinnerService.show();
-      this.loading = true;
-      this.centralServerService.getCarCatalogImages(this.carCatalogID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
-        this.spinnerService.hide();
-        this.images[imageIndex] = carImage.result[0].image;
-        this.loading = false;
-      }, (error) => {
-        // Show error
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
-      });
-    }
-  }
+// Problem binding images with angular 11, will be verified later.
+  // public onSlide(event: NgbSlideEvent) {
+  //   const imageIndex = parseInt(event.current.replace('slideId_', ''), 10);
+  //   if (this.images[imageIndex] === '') {
+  //     this.spinnerService.show();
+  //     this.loading = true;
+  //     this.centralServerService.getCarCatalogImages(this.carCatalogID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
+  //       this.spinnerService.hide();
+  //       this.images[imageIndex] = carImage.result[0].image;
+  //       this.loading = false;
+  //     }, (error) => {
+  //       // Show error
+  //       this.spinnerService.hide();
+  //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
+  //     });
+  //   }
+  // }
 }
+

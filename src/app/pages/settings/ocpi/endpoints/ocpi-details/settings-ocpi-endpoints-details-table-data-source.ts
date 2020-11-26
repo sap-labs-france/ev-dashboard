@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableRefreshAction } from 'app//shared/table/actions/table-refresh-action';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableStartAction } from 'app/shared/table/actions/table-start-action';
-import { TableStopAction } from 'app/shared/table/actions/table-stop-action';
-import { TableSynchronizeAction } from 'app/shared/table/actions/table-synchronize-action';
-import { TableUploadAction } from 'app/shared/table/actions/table-upload-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonType, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from 'app/types/ocpi/OCPIEndpoint';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { TableRefreshAction } from '../../../../..//shared/table/actions/table-refresh-action';
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { DialogService } from '../../../../../services/dialog.service';
+import { MessageService } from '../../../../../services/message.service';
+import { SpinnerService } from '../../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../../shared/formatters/app-date.pipe';
+import { TableAutoRefreshAction } from '../../../../../shared/table/actions/table-auto-refresh-action';
 import { TableDownloadAction } from '../../../../../shared/table/actions/table-download-action';
+import { TableMoreAction } from '../../../../../shared/table/actions/table-more-action';
+import { TableStartAction } from '../../../../../shared/table/actions/table-start-action';
+import { TableStopAction } from '../../../../../shared/table/actions/table-stop-action';
+import { TableUploadAction } from '../../../../../shared/table/actions/table-upload-action';
+import { TableDataSource } from '../../../../../shared/table/table-data-source';
+import { DataResult } from '../../../../../types/DataResult';
+import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
+import { HTTPError } from '../../../../../types/HTTPError';
+import { ButtonType, TableActionDef, TableColumnDef, TableDef } from '../../../../../types/Table';
+import { OcpiButtonAction, OcpiEndpoint, OcpiEndpointDetail, OcpiRole } from '../../../../../types/ocpi/OCPIEndpoint';
+import { Utils } from '../../../../../utils/Utils';
 import { OcpiDetailFailureEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-failure-evses-status-formatter.component';
 import { OcpiDetailJobStatusFomatterComponent } from '../formatters/ocpi-detail-job-status-formatter.component';
 import { OcpiDetailSuccessEvsesStatusFormatterComponent } from '../formatters/ocpi-detail-success-evses-status-formatter.component';
@@ -32,7 +32,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private ocpiEndpoint!: OcpiEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
-  private synchronizeAllAction = new TableSynchronizeAction(OcpiButtonAction.SYNC_ALL, 'ocpi.sync_all').getActionDef();
   private pushLocationsAction = new TableUploadAction(OcpiButtonAction.PUSH_LOCATIONS, 'ocpi.push_locations').getActionDef();
   private pushTokensAction = new TableUploadAction(OcpiButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
   private getCdrsAction = new TableDownloadAction(OcpiButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
@@ -179,7 +178,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       let syncActions: TableActionDef;
       if (rowItem.ocpiendpoint.role === OcpiRole.CPO) {
         syncActions = new TableMoreAction([
-          this.synchronizeAllAction,
           this.pushLocationsAction,
           this.getTokensAction,
           this.checkLocationsAction,
@@ -187,7 +185,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
           this.checkCdrsAction]).getActionDef();
       } else {
         syncActions = new TableMoreAction([
-          this.synchronizeAllAction,
           this.getLocationsAction,
           this.getSessionsAction,
           this.getCdrsAction,
@@ -200,9 +197,6 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
 
   public rowActionTriggered(actionDef: TableActionDef, ocpiEndpointDetail: OcpiEndpointDetail) {
     switch (actionDef.id) {
-      case OcpiButtonAction.SYNC_ALL:
-        this.triggerJobsOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
-        break;
       case OcpiButtonAction.PUSH_TOKENS:
         this.pushTokensOcpiEndpoint(ocpiEndpointDetail.ocpiendpoint);
         break;
@@ -245,7 +239,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.push_evse_statuses_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success > 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.push_evse_statuses_success', { success: response.success });
@@ -256,55 +250,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.push_evse_statuses_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.push_evse_statuses_error');
-          // reload data
-          this.refreshData().subscribe();
-        });
-      }
-    });
-  }
-
-  private triggerJobsOcpiEndpoint(ocpiendpoint: OcpiEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.trigger_jobs_title'),
-      this.translateService.instant('ocpiendpoints.trigger_jobs_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonType.YES) {
-        // Ping
-        this.centralServerService.triggerJobsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
-          if (response.tokens) {
-            if (response.tokens.failure === 0 && response.tokens.success >= 0) {
-              this.messageService.showSuccessMessage('ocpiendpoints.push_tokens_success', { success: response.tokens.success });
-            } else if (response.tokens.failure > 0 && response.tokens.success > 0) {
-              this.messageService.showWarningMessage('ocpiendpoints.push_tokens_partial',
-                { success: response.tokens.success, error: response.tokens.failure });
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.push_tokens_error');
-            }
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.push_evse_statuses_error');
           }
-          if (response.locations) {
-            if (response.locations.failure === 0 && response.locations.success >= 0) {
-              this.messageService.showSuccessMessage('ocpiendpoints.push_evse_statuses_success', { success: response.locations.success });
-            } else if (response.locations.failure > 0 && response.locations.success > 0) {
-              this.messageService.showWarningMessage('ocpiendpoints.push_evse_statuses_partial',
-                { success: response.locations.success, error: response.locations.failure });
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.push_evse_statuses_error');
-            }
-          }
-
-          // reload data
-          this.refreshData().subscribe();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.trigger_jobs_error');
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -317,7 +275,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.push_tokens_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.sendTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.push_tokens_success', { success: response.success });
@@ -328,12 +286,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.push_tokens_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.push_tokens_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.push_tokens_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -346,7 +311,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_locations_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.pull_locations_success', { success: response.success });
@@ -357,12 +322,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.pull_locations_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.pull_locations_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.pull_locations_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -375,7 +347,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.get_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.get_sessions_success', { success: response.success });
@@ -386,12 +358,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.get_sessions_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.get_sessions_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.get_sessions_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -404,7 +383,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_tokens_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullTokensOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.pull_tokens_success', { success: response.success });
@@ -415,12 +394,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.pull_tokens_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.pull_tokens_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.pull_tokens_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -433,7 +419,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_locations_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkLocationsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.check_locations_success', { success: response.success });
@@ -444,12 +430,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_locations_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.check_locations_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.check_locations_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -462,7 +455,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_sessions_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkSessionsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.check_sessions_success', { success: response.success });
@@ -473,12 +466,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_sessions_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.check_sessions_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.check_sessions_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -491,7 +491,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.check_cdrs_success', { success: response.success });
@@ -502,12 +502,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.check_cdrs_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.check_cdrs_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.check_cdrs_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }
@@ -520,7 +527,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       this.translateService.instant('ocpiendpoints.pull_cdrs_confirm', { name: ocpiendpoint.name }),
     ).subscribe((result) => {
       if (result === ButtonType.YES) {
-        // Ping
+        this.messageService.showInfoMessage('ocpiendpoints.trigger_ocpi_action');
         this.centralServerService.pullCdrsOcpiEndpoint(ocpiendpoint).subscribe((response) => {
           if (response.failure === 0 && response.success >= 0) {
             this.messageService.showSuccessMessage('ocpiendpoints.pull_cdrs_success', { success: response.success });
@@ -531,12 +538,19 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'ocpiendpoints.pull_cdrs_error');
           }
-          // reload data
+          // Reload data
           this.refreshData().subscribe();
         }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-            'ocpiendpoints.pull_cdrs_error');
-          // reload data
+          switch (error.status) {
+            // Hash no longer valid
+            case HTTPError.CANNOT_ACQUIRE_LOCK:
+              this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
+                'ocpiendpoints.pull_cdrs_error');
+          }
+          // Reload data
           this.refreshData().subscribe();
         });
       }

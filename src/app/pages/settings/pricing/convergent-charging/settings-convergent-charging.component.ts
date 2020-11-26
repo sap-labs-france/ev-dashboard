@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PricingSettings } from 'app/types/Setting';
+
+import { PricingSettings } from '../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-convergent-charging',

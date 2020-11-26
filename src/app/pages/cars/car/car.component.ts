@@ -4,21 +4,21 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { CarCatalogsDialogComponent } from 'app/shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Car, CarCatalog, CarConverter, CarConverterType, CarImage, CarType } from 'app/types/Car';
-import { ActionResponse } from 'app/types/DataResult';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
-import { UserCar } from 'app/types/User';
-import { Cars } from 'app/utils/Cars';
-import { Utils } from 'app/utils/Utils';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { CarCatalogsDialogComponent } from '../../../shared/dialogs/car-catalogs/car-catalogs-dialog.component';
+import { Car, CarCatalog, CarConverter, CarConverterType, CarImage, CarType } from '../../../types/Car';
+import { ActionResponse } from '../../../types/DataResult';
+import { KeyValue, RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
+import { ButtonType } from '../../../types/Table';
+import { UserCar } from '../../../types/User';
+import { Cars } from '../../../utils/Cars';
+import { Utils } from '../../../utils/Utils';
 import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
 
 @Component({

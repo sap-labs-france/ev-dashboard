@@ -3,16 +3,17 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { CarsDialogComponent } from 'app/shared/dialogs/cars/cars-dialog.component';
-import { TagsDialogComponent } from 'app/shared/dialogs/tags/tags-dialog.component';
-import { UsersDialogComponent } from 'app/shared/dialogs/users/users-dialog.component';
-import { StartTransaction } from 'app/types/Transaction';
-import { UserDefaultTagCar, UserToken } from 'app/types/User';
-import { Utils } from 'app/utils/Utils';
+
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.component';
+import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
+import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
+import { StartTransaction } from '../../../types/Transaction';
+import { UserDefaultTagCar, UserToken } from '../../../types/User';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
     templateUrl: './charging-stations-start-transaction-details-dialog-component.html',

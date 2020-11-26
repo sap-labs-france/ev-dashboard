@@ -29,7 +29,7 @@ import { User } from '../../../types/User';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { ChargingStationsStartTransactionDialogComponent } from './charging-stations-start-transaction-dialog-component';
+import { ChargingStationsStartTransactionDetailsDialogComponent } from './charging-stations-start-transaction-details-dialog-component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -213,7 +213,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Start Transaction
       case ChargingStationButtonAction.START_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableChargingStationsStartTransactionActionDef).action(ChargingStationsStartTransactionDialogComponent,
+          (actionDef as TableChargingStationsStartTransactionActionDef).action(ChargingStationsStartTransactionDetailsDialogComponent,
             this.chargingStation, connector, this.authorizationService, this.dialogService, this.dialog,
             this.translateService, this.messageService, this.centralServerService, this.spinnerService,
             this.router, this.refreshData.bind(this));

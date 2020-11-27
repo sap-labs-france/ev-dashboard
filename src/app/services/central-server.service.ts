@@ -1066,14 +1066,14 @@ export class CentralServerService {
   public exportUsers(params: FilterParams): Observable<Blob> {
     this.checkInit();
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USERS_EXPORT}`,
-    {
-      headers: this.buildHttpHeaders(),
-      responseType: 'blob',
-      params,
-    })
-    .pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public exportTransactions(params: FilterParams): Observable<Blob> {
@@ -2294,6 +2294,24 @@ export class CentralServerService {
     };
     return this.httpClient.post<ActionResponse>(
       `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_REMOTE_STOP_TRANSACTION}`, body,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public chargingStationsUnlockConnector(chargeBoxId: string, connectorId: number): Observable<ActionResponse> {
+    this.checkInit();
+    const body = {
+      chargeBoxID: chargeBoxId,
+      args: {
+        connectorId,
+      },
+    };
+    return this.httpClient.post<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_UNLOCK_CONNECTOR}`, body,
       {
         headers: this.buildHttpHeaders(),
       })

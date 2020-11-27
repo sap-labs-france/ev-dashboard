@@ -147,7 +147,7 @@ export class Utils {
     return rgba;
   }
 
-  public static objectHasProperty(object: object, key: string): boolean {
+  public static objectHasProperty(object: any, key: string): boolean {
     return Object.prototype.hasOwnProperty.call(object, key);
   }
 
@@ -179,7 +179,7 @@ export class Utils {
     };
   }
 
-  public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: object) {
+  public static handleError(error: any, messageService: MessageService, errorMessage: string = '', params?: Record<string, unknown>): void {
     Utils.consoleDebugLog(`Error: ${errorMessage}`, error);
     messageService.showErrorMessage(errorMessage, params);
   }
@@ -703,7 +703,7 @@ export class Utils {
   }
 
   public static handleHttpError(error: any, router: Router, messageService: MessageService,
-    centralServerService: CentralServerService, errorMessage: string, params?: object) {
+    centralServerService: CentralServerService, errorMessage: string, params?: Record<string, unknown>): void {
     // Check error
     switch (error.status) {
       // Server connection error

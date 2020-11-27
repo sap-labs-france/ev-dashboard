@@ -44,7 +44,7 @@ export class CarCarouselComponent implements AfterViewInit {
     }
   }
 
-// Problem binding images with angular 11, will be verified later.
+  // Problem binding images with angular 11, will be verified later.
   // public onSlide(event: NgbSlideEvent) {
   //   const imageIndex = parseInt(event.current.replace('slideId_', ''), 10);
   //   if (this.images[imageIndex] === '') {

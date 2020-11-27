@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Unlock Charging Station's Connector`,
               `Added JSon security schemas to filter Tenant HTTP requests`,
               `Fixed computation of total DC Charging Station's power in UI`,
               `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,

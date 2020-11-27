@@ -1239,7 +1239,8 @@
     "cannot_download_invoice": "Não é possível baixar a fatura",
     "number_of_items": "Sessões",
     "pay": "Pago",
-    "user": "Utilizador"
+    "user": "Utilizador",
+    "failed_download": "Invoice download failed."
   },
   "tags": {
     "id": "ID",
@@ -2144,6 +2145,7 @@
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",
     "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notifique-me se ocorrer um erro durante os carros de sincronização",
-    "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro"
+    "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro",
+    "failed_download": "Invoice download failed."
   }
 }

@@ -25,11 +25,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.28',
-        date: new Date('2020-11-25'),
+        date: new Date('2020-11-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Added JSon security schemas to filter Tenant HTTP requests`,
               `Fixed computation of total DC Charging Station's power in UI`,
               `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
             ],

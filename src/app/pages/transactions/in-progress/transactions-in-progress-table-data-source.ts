@@ -145,12 +145,6 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         angularComponent: TransactionsConnectorCellComponent,
       },
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',
@@ -198,6 +192,12 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (value: User) => this.appUserNamePipe.transform(value),
+      },
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       });
     }
     return columns;

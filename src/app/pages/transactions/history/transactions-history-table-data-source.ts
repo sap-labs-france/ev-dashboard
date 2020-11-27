@@ -213,14 +213,15 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
+        sortable: true,
         class: 'text-left col-15p',
-        formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
       },
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+        id: 'connectorId',
+        name: 'chargers.connector',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
       },
       {
         id: 'stop.totalDurationSecs',
@@ -260,6 +261,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'col-15p',
         class: 'text-left col-15p',
         formatter: (user: User) => this.appUserNamePipe.transform(user),
+      },
+      {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
       });
     }
     if (this.componentService.isActive(TenantComponents.PRICING)) {

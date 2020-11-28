@@ -132,6 +132,20 @@ export class AuthorizationService {
     return false;
   }
 
+  public canUnlockConnector(siteArea: SiteArea) {
+    if (this.canAccess(Entity.CHARGING_STATION, Action.UNLOCK_CONNECTOR)) {
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+        if (!siteArea) {
+          return false;
+        }
+        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) || this.isAdmin() ||
+          (!!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteArea.siteID));
+      }
+      return true;
+    }
+    return false;
+  }
+
   public canReadTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Entity.TRANSACTION, Action.READ)) {
       if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {

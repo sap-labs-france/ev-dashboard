@@ -210,6 +210,7 @@ export enum ChargingStationButtonAction {
   SMART_CHARGING = 'smart_charging',
   START_TRANSACTION = 'start_transaction',
   STOP_TRANSACTION = 'stop_transaction',
+  UNLOCK_CONNECTOR = 'unlock_connector',
   EDIT_CHARGING_STATION = 'edit_charging_station',
   DELETE_CHARGING_STATION = 'delete_charging_station',
   EXPORT_CHARGING_STATIONS = 'export_charging_stations',

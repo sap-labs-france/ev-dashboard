@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Unlock Charging Station's Connector`,
               `Added JSon security schemas to filter Tenant HTTP requests`,
+              `Published public REST API for Authentication and Tenants endpoints`,
               `Fixed computation of total DC Charging Station's power in UI`,
               `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
             ],

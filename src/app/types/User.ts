@@ -58,7 +58,9 @@ export interface UserNotifications {
   sendBillingSynchronizationFailed: boolean;
   sendSessionNotStarted: boolean;
   sendCarCatalogSynchronizationFailed: boolean;
+  sendComputeAndApplyChargingProfilesFailed: boolean;
   sendEndUserErrorNotification: boolean;
+  sendBillingNewInvoice: boolean;
 }
 
 export interface UserToken {
@@ -113,9 +115,8 @@ export enum UserButtonAction {
   SYNCHRONIZE_BILLING_USERS = 'billing_synchronize_users',
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
-  CHECK_TAGS = 'check_tags',
-  CHECK_USER = 'check_user',
-  ASSIGN_USER_TO_TAG = 'assign_user_to_tag'
+  NAVIGATE_TO_TAGS = 'navigate_to_tags',
+  NAVIGATE_TO_USER = 'navigate_to_user',
 }
 
 export enum UserStatus {

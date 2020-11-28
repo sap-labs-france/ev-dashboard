@@ -55,7 +55,8 @@ export class AppConnectorTypePipe implements PipeTransform {
       (connectorType) => connectorType.key === type);
     if (target === 'icon') {
       return (foundConnectorType ? foundConnectorType.svgIconName : 'U');
-    } else if (target === 'text') {
+    }
+    if (target === 'text') {
       return (foundConnectorType ? foundConnectorType.description : 'chargers.connector_type_unknown');
     }
   }

@@ -10,6 +10,7 @@ export interface Site extends Data, CreatedUpdatedProps {
   name: string;
   companyID: string;
   company: Company;
+  issuer: boolean;
   autoUserSiteAssignment: boolean;
   siteAreas: SiteArea[];
   address: Address;
@@ -36,8 +37,4 @@ export enum SiteButtonAction {
   CREATE_SITE = 'create_site',
   DELETE_SITE = 'delete_site',
   ASSIGN_USERS_TO_SITE = 'assign_users_to_site'
-}
-
-export enum SiteImage {
-  NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

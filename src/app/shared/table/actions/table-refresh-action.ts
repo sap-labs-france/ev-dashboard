@@ -1,6 +1,5 @@
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, TableActionDef } from 'app/types/Table';
-
+import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonColor, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableRefreshAction implements TableAction {
@@ -9,7 +8,7 @@ export class TableRefreshAction implements TableAction {
     type: 'button',
     icon: 'refresh',
     color: ButtonColor.PRIMARY,
-    name: '',
+    name: 'general.refresh',
     tooltip: 'general.tooltips.refresh',
   };
 

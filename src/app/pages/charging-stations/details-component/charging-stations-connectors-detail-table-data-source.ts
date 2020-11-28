@@ -2,17 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableViewTransactionAction, TableViewTransactionActionDef } from 'app/pages/transactions/table-actions/table-view-transaction-action';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { TransactionButtonAction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
 import { Observable } from 'rxjs';
 
 import { ChargingStationsConnectorInactivityCellComponent } from '../../../pages/charging-stations/cell-components/charging-stations-connector-inactivity-cell.component';
@@ -20,15 +9,28 @@ import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppConnectorErrorCodePipe } from '../../../shared/formatters/app-connector-error-code.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
+import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-start-transaction-action';
+import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-stop-transaction-action';
+import { TableChargingStationsUnlockConnectorAction, TableChargingStationsUnlockConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-unlock-connector-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableNoAction } from '../../../shared/table/actions/table-no-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import { TableDataSource } from '../../../shared/table/table-data-source';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from '../../../types/ChargingStation';
+import { DataResult } from '../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
+import { TransactionButtonAction } from '../../../types/Transaction';
+import { User } from '../../../types/User';
 import { ChargingStationsConnectorCellComponent } from '../cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorStatusCellComponent } from '../cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsInstantPowerConnectorProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
-import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../table-actions/table-charging-stations-start-transaction-action';
-import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from '../table-actions/table-charging-stations-stop-transaction-action';
+import { ChargingStationsStartTransactionDialogComponent } from './charging-stations-start-transaction-dialog-component';
 
 @Injectable()
 export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSource<Connector> {
@@ -197,6 +199,11 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       if (connector.isStartAuthorized && !this.chargingStation.inactive) {
         actions.push(this.startTransactionAction);
       }
+      if (this.authorizationService.canUnlockConnector(this.chargingStation.siteArea)) {
+        const unlockConnectorAction = new TableChargingStationsUnlockConnectorAction().getActionDef();
+        unlockConnectorAction.disabled = connector.status === ChargePointStatus.AVAILABLE || this.chargingStation.inactive;
+        actions.push(unlockConnectorAction);
+      }
     }
     if (actions.length > 0) {
       return actions;
@@ -212,7 +219,7 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
       // Start Transaction
       case ChargingStationButtonAction.START_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableChargingStationsStartTransactionActionDef).action(
+          (actionDef as TableChargingStationsStartTransactionActionDef).action(ChargingStationsStartTransactionDialogComponent,
             this.chargingStation, connector, this.authorizationService, this.dialogService, this.dialog,
             this.translateService, this.messageService, this.centralServerService, this.spinnerService,
             this.router, this.refreshData.bind(this));
@@ -245,6 +252,15 @@ export class ChargingStationsConnectorsDetailTableDataSource extends TableDataSo
             chargingStationID: this.chargingStation.id,
             connectorID: connector.connectorId,
           }, this.dialog, this.refreshData.bind(this));
+        }
+        break;
+      // Unlock Charger
+      case ChargingStationButtonAction.UNLOCK_CONNECTOR:
+        if (actionDef.action) {
+          (actionDef as TableChargingStationsUnlockConnectorActionDef).action(
+            connector, this.chargingStation, this.dialogService,
+            this.translateService, this.messageService, this.centralServerService, this.spinnerService,
+            this.router, this.refreshData.bind(this));
         }
         break;
     }

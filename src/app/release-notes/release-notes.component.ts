@@ -24,12 +24,123 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.16',
-        date: new Date('2020-10-25'),
+        version: '2.4.28',
+        date: new Date('2020-11-27'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Unlock Charging Station's Connector`,
+              `Added JSon security schemas to filter Tenant HTTP requests`,
+              `Fixed computation of total DC Charging Station's power in UI`,
+              `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.27',
+        date: new Date('2020-11-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Demo user can now display the Cars`,
+              `Fixed Connector with wrong status in Session History`,
+              `Fixed rounded consumptions in OCPI`,
+              `Fixed default sorting in all lists`,
+              `Hide spinner when EULA is displayed`,
+              `Fixed Demo users can display User in Session details`,
+              `Registration Token Site Area is hidden when Organization is inactive`,
+              `Keep track of unmatched template sections`,
+              `Do not add custom OCPP param if already exists in OCPP (Delta)`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.26',
+        date: new Date('2020-11-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Notify Admins when the Smart Charging cannot push a plan to a Charging Station`,
+              `Jump from Charging Plan list to Site Area`,
+              `Angular 11 migration`,
+              `Enhanced OCPI CPO logs`,
+              `Added locks at Transaction level when pushing OCPI CDRs`,
+              `Fixed cannot select Transaction to Refund in list`,
+              `Fixed Transaction in progress connector not animated when charging`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.24',
+        date: new Date('2020-11-15'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed OCPI CDR was not sent to Gireve at the end of the Session`,
+              `Optimized Remote Start Transaction of eMSPs with several thousand Badges`,
+              `OCPI Pull Tokens second optimization pass`,
+              `Increased to 2 the number of jobs pulling the Badges from the Gireve`,
+              `Added locks to all OCPI eMSP and CPO's actions`,
+              `Fixed and optimized OCPI Pull Tokens`,
+              `Enhanced OCPI logs`,
+              `Fixed Remote Start Transaction not working`
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.20',
+        date: new Date('2020-11-07'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Hide table list actions for OCPI entities`,
+              `Push all the OCPI locations once a day`,
+              `Retrieve all the OCPI badges once a day`,
+              `Notify the user when a new invoice is available`,
+              `Fixed billing invoice deletion during invoice synchronization`,
+              `Added Car Maker filter in Car Management`,
+              `Jump from User to Badge list should take into account the organization filter`,
+              `Format OCPI Country codes`,
+              `Aligned REST sorting with standard`,
+              `Optimized MongoDB free text search in Logs`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.17',
+        date: new Date('2020-10-31'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Workaround Gireve for Charging Station's specs`,
+              `Jump from Session In Progress to the Charging Plans`,
+              `Jump from Session lists to the Logs with the proper filters`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.16',
+        date: new Date('2020-10-27'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented the Car Management in the Smart Charging`,
+              `Delete/Assignment of a Badge with anonymous Sessions should be allowed`,
+              `Display Users in Car Management list`,
+              `Added Navigate from Transaction History to To Charging Plans`,
               `Increased error margin from 5% to 10% in Session In Error over consumption`,
               `Ensure the static limitation value is never over the connector value`,
               `Fixed Email service disruption due to not provided value in CC`,

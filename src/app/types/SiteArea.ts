@@ -1,5 +1,6 @@
 import { Address } from './Address';
 import { ChargingStation } from './ChargingStation';
+import Consumption from './Consumption';
 import { Site } from './Site';
 import { Data } from './Table';
 
@@ -15,20 +16,13 @@ export interface SiteArea extends Data {
   smartCharging: boolean;
   siteID: string;
   site: Site;
+  issuer: boolean;
   chargingStations: ChargingStation[];
 }
 
 export interface SiteAreaConsumption {
   siteAreaId: string;
-  values: SiteAreaConsumptionValues[];
-}
-
-export interface SiteAreaConsumptionValues {
-  date: Date;
-  instantWatts: number;
-  instantAmps: number;
-  limitWatts: number;
-  limitAmps: number;
+  values: Consumption[];
 }
 
 export enum SiteAreaButtonAction {
@@ -40,8 +34,4 @@ export enum SiteAreaButtonAction {
   VIEW_CHARGING_STATIONS_OF_SITE_AREA = 'view_charging_stations_of_site_area',
   ASSIGN_ASSETS_TO_SITE_AREA = 'assign_assets_to_site_area',
   VIEW_ASSETS_OF_SITE_AREA = 'view_assets_of_site_area',
-}
-
-export enum SiteAreaImage {
-  NO_IMAGE = 'assets/img/theme/no-logo.png',
 }

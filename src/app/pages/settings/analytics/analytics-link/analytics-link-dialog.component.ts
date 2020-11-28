@@ -2,13 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogService } from 'app/services/dialog.service';
-import { KeyValue } from 'app/types/GlobalType';
-import { SettingLink } from 'app/types/Setting';
-import { Constants } from 'app/utils/Constants';
-import { Utils } from 'app/utils/Utils';
 
+import { DialogService } from '../../../../services/dialog.service';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
+import { KeyValue } from '../../../../types/GlobalType';
+import { SettingLink } from '../../../../types/Setting';
+import { Constants } from '../../../../utils/Constants';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   templateUrl: './analytics-link-dialog.component.html',

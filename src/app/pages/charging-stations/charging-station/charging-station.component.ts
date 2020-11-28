@@ -4,17 +4,17 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue, RestResponse } from 'app/types/GlobalType';
-import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
-import { Utils } from 'app/utils/Utils';
 
 import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { ChargingStation } from '../../../types/ChargingStation';
+import { KeyValue, RestResponse } from '../../../types/GlobalType';
+import { HTTPAuthError, HTTPError } from '../../../types/HTTPError';
+import { Utils } from '../../../utils/Utils';
 import { ChargingStationParametersComponent } from './parameters/charging-station-parameters.component';
 
 @Component({

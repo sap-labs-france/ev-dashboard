@@ -1,25 +1,25 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { KeyValue } from 'app/types/GlobalType';
-import { LogAction } from 'app/types/Log';
 
+import { KeyValue } from '../../../types/GlobalType';
+import { LogAction } from '../../../types/Log';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
-import { LogActionsDialogTableDataSource } from './log-actions-dialog-table-data-source';
+import { LOG_ACTIONSDialogTableDataSource } from './log-actions-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
 })
-export class LogActionsDialogComponent extends DialogTableDataComponent<LogAction> {
+export class LOG_ACTIONSDialogComponent extends DialogTableDataComponent<LogAction> {
   constructor(
-    protected dialogRef: MatDialogRef<LogActionsDialogComponent>,
-    private logActionsDialogTableDataSource: LogActionsDialogTableDataSource,
+    protected dialogRef: MatDialogRef<LOG_ACTIONSDialogComponent>,
+    private LOG_ACTIONSDialogTableDataSource: LOG_ACTIONSDialogTableDataSource,
     @Inject(MAT_DIALOG_DATA) data: any) {
-    super(data, dialogRef, logActionsDialogTableDataSource);
+    super(data, dialogRef, LOG_ACTIONSDialogTableDataSource);
     // Default title
     if (this.title === '') {
       this.title = 'logs.select_actions';
     }
-    this.logActionsDialogTableDataSource.destroyDatasource();
+    this.LOG_ACTIONSDialogTableDataSource.destroyDatasource();
   }
 
   public getSelectedItems(selectedRows: LogAction[]): KeyValue[] {

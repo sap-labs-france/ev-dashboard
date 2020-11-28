@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
 
+import { ChargingStation } from '../../../types/ChargingStation';
+import { KeyValue } from '../../../types/GlobalType';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { ChargingStationsDialogTableDataSource } from './charging-stations-dialog-table-data-source';
 

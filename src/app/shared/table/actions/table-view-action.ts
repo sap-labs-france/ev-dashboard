@@ -1,9 +1,9 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ButtonAction } from 'app/types/GlobalType';
-import { ButtonColor, Data, TableActionDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+import { ButtonAction } from '../../../types/GlobalType';
+import { ButtonColor, Data, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableViewAction implements TableAction {
@@ -12,7 +12,7 @@ export class TableViewAction implements TableAction {
     type: 'button',
     icon: 'remove_red_eye',
     color: ButtonColor.PRIMARY,
-    name: 'general.edit',
+    name: 'general.tooltips.view',
     tooltip: 'general.tooltips.view',
     action: this.view
   };

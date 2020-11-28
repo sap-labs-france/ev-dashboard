@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { SiteArea } from 'app/types/SiteArea';
 
+import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
+import { SiteArea } from '../../../../../types/SiteArea';
 import { SiteAreaConsumptionChartComponent } from './site-area-consumption-chart.component';
 
 @Component({

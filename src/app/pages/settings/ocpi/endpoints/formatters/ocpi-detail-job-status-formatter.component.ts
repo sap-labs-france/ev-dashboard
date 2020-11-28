@@ -1,7 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ChipType } from 'app/types/GlobalType';
-import { OcpiEndpointDetail } from 'app/types/ocpi/OCPIEndpoint';
+
+import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
+import { ChipType } from '../../../../../types/GlobalType';
+import { OcpiEndpointDetail } from '../../../../../types/ocpi/OCPIEndpoint';
 
 @Component({
   template: `
@@ -16,7 +17,7 @@ export class OcpiDetailJobStatusFomatterComponent extends CellContentTemplateDir
   @Input() public row!: OcpiEndpointDetail;
 }
 
-@Pipe({name: 'appFormatOcpiDetailJobStatus'})
+@Pipe({ name: 'appFormatOcpiDetailJobStatus' })
 export class AppFormatOcpiDetailJobStatusPipe implements PipeTransform {
   public transform(backgroundPatchJob: boolean, type: string): string {
     // Class

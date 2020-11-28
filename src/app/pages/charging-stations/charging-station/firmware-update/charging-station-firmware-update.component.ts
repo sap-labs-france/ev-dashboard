@@ -2,17 +2,18 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { LocaleService } from 'app/services/locale.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ChargingStation } from 'app/types/ChargingStation';
-import { KeyValue } from 'app/types/GlobalType';
-import { HTTPAuthError, HTTPError } from 'app/types/HTTPError';
-import { ButtonType } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { ChargingStation } from '../../../../types/ChargingStation';
+import { KeyValue } from '../../../../types/GlobalType';
+import { HTTPAuthError, HTTPError } from '../../../../types/HTTPError';
+import { ButtonType } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-firmware-update',

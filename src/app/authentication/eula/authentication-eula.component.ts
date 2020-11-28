@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { CentralServerService } from '../../services/central-server.service';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   templateUrl: './authentication-eula.component.html',
@@ -11,7 +12,9 @@ export class AuthenticationEulaComponent implements OnInit {
 
   constructor(
     private translateService: TranslateService,
+    private spinnerService: SpinnerService,
     private centralServerService: CentralServerService) {
+    this.spinnerService.hide();
   }
 
   public ngOnInit() {

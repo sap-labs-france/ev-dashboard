@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { WindowService } from 'app/services/window.service';
-import { AbstractTabComponent } from 'app/shared/component/abstract-tab/abstract-tab.component';
+
+import { AuthorizationService } from '../../services/authorization.service';
+import { WindowService } from '../../services/window.service';
+import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
 
 @Component({
   selector: 'app-invoices',
@@ -15,7 +16,7 @@ export class InvoicesComponent extends AbstractTabComponent {
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
-    super(activatedRoute, windowService, ['invoices', 'inerror']);
+    super(activatedRoute, windowService, ['all', 'inerror']);
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.hasSitesAdminRights();
   }
 }

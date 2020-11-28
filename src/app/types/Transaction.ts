@@ -1,5 +1,6 @@
 import { BillingTransactionData } from './Billing';
 import { ChargingStation } from './ChargingStation';
+import Consumption from './Consumption';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
@@ -14,6 +15,7 @@ export interface Transaction extends Data {
   siteAreaID: string;
   connectorId: number;
   meterStart: number;
+  issuer: boolean;
   currentInstantWatts: number;
   currentInstantWattsL1?: number;
   currentInstantWattsL2?: number;
@@ -62,7 +64,7 @@ export interface Transaction extends Data {
     inactivityStatus: InactivityStatus;
   };
   dateTimestring: string;
-  values: TransactionConsumption[];
+  values: Consumption[];
   billingData: BillingTransactionData;
   ocpiData?: {
     session?: OCPISession;
@@ -70,31 +72,6 @@ export interface Transaction extends Data {
     sessionCheckedOn?: Date;
     cdrCheckedOn?: Date;
   };
-}
-
-export interface TransactionConsumption {
-  date: Date;
-  instantWatts: number;
-  instantWattsL1: number;
-  instantWattsL2: number;
-  instantWattsL3: number;
-  instantWattsDC: number;
-  instantAmps: number;
-  instantAmpsL1: number;
-  instantAmpsL2: number;
-  instantAmpsL3: number;
-  instantAmpsDC: number;
-  instantVolts: number;
-  instantVoltsL1: number;
-  instantVoltsL2: number;
-  instantVoltsL3: number;
-  instantVoltsDC: number;
-  limitWatts: number;
-  limitAmps: number;
-  cumulatedConsumptionWh: number;
-  cumulatedConsumptionAmps: number;
-  stateOfCharge: number;
-  cumulatedAmount: number;
 }
 
 export enum InactivityStatus {
@@ -116,7 +93,7 @@ export enum TransactionButtonAction {
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
   REBUILD_TRANSACTION_CONSUMPTIONS = 'rebuild_transaction_consumptions',
-  CHECK_TRANSACTIONS = 'check_transactions'
+  NAVIGATE_TO_TRANSACTIONS = 'navigate_to_transactions'
 }
 
 export enum ConsumptionUnit {

@@ -2,45 +2,46 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableAutoRefreshAction } from 'app/shared/table/actions/table-auto-refresh-action';
-import { TableMoreAction } from 'app/shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from 'app/shared/table/actions/table-open-in-maps-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { SiteTableFilter } from 'app/shared/table/filters/site-table-filter';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector } from 'app/types/ChargingStation';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { AuthorizationService } from '../../../services/authorization.service';
+import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
+import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
+import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
+import { TableChargingStationsForceUnavailableStatusAction, TableChargingStationsForceUnavailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-unavailable-status-action';
+import { TableChargingStationsRebootAction, TableChargingStationsRebootActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-reboot-action';
+import { TableChargingStationsResetAction, TableChargingStationsResetActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-reset-action';
+import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
+import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-delete-charging-station-action';
+import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-edit-charging-station-action';
+import { TableExportChargingStationsAction, TableExportChargingStationsActionDef } from '../../../shared/table/actions/charging-stations/table-export-charging-stations-action';
+import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
+import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
+import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
+import { TableDataSource } from '../../../shared/table/table-data-source';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, FirmwareStatus } from '../../../types/ChargingStation';
+import { DataResult } from '../../../types/DataResult';
+import { ButtonAction } from '../../../types/GlobalType';
+import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { Utils } from '../../../utils/Utils';
 import { ChargingStationsConnectorsCellComponent } from '../cell-components/charging-stations-connectors-cell.component';
 import { ChargingStationsFirmwareStatusCellComponent } from '../cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from '../cell-components/charging-stations-heartbeat-cell.component';
 import { ChargingStationsInstantPowerChargerProgressBarCellComponent } from '../cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
 import { ChargingStationLimitationDialogComponent } from '../charging-station-limitation/charging-station-limitation.dialog.component';
+import { ChargingStationDialogComponent } from '../charging-station/charging-station-dialog.component';
 import { ChargingStationsConnectorsDetailComponent } from '../details-component/charging-stations-connectors-detail-component.component';
-import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../table-actions/table-charging-stations-clear-cache-action';
-import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../table-actions/table-charging-stations-force-available-status-action';
-import { TableChargingStationsForceUnavailableStatusAction, TableChargingStationsForceUnavailableStatusActionDef } from '../table-actions/table-charging-stations-force-unavailable-status-action';
-import { TableChargingStationsRebootAction, TableChargingStationsRebootActionDef } from '../table-actions/table-charging-stations-reboot-action';
-import { TableChargingStationsResetAction, TableChargingStationsResetActionDef } from '../table-actions/table-charging-stations-reset-action';
-import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../table-actions/table-charging-stations-smart-charging-action';
-import { TableDeleteChargingStationAction, TableDeleteChargingStationActionDef } from '../table-actions/table-delete-charging-station-action';
-import { TableEditChargingStationAction, TableEditChargingStationActionDef } from '../table-actions/table-edit-charging-station-action';
-import { TableExportChargingStationsAction, TableExportChargingStationsActionDef } from '../table-actions/table-export-charging-stations-action';
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
@@ -85,11 +86,21 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       this.centralServerService.getChargingStations(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((chargers) => {
           // Update details status
-          chargers.result.forEach((charger: ChargingStation) => {
+          chargers.result.forEach((chargingStation: ChargingStation) => {
             // At first filter out the connectors that are null
-            charger.connectors = charger.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
-            charger.connectors.forEach((connector) => {
+            chargingStation.connectors = chargingStation.connectors.filter((connector: Connector) => !Utils.isNullOrUndefined(connector));
+            chargingStation.connectors.forEach((connector) => {
               connector.hasDetails = connector.currentTransactionID > 0;
+              let connectorIsInactive = false;
+              if (chargingStation.inactive ||
+                  chargingStation.firmwareUpdateStatus === FirmwareStatus.INSTALLING) {
+                connectorIsInactive = true;
+              }
+              connector.status = connectorIsInactive ? ChargePointStatus.UNAVAILABLE : connector.status;
+              connector.currentInstantWatts = connectorIsInactive ? 0 : connector.currentInstantWatts;
+              connector.currentStateOfCharge = connectorIsInactive ? 0 : connector.currentStateOfCharge;
+              connector.currentTotalConsumptionWh = connectorIsInactive ? 0 : connector.currentTotalConsumptionWh;
+              connector.currentTotalInactivitySecs = connectorIsInactive ? 0 : connector.currentTotalInactivitySecs;
             });
           });
           // Ok
@@ -244,7 +255,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       case ChargingStationButtonAction.EDIT_CHARGING_STATION:
         if (actionDef.action) {
           (actionDef as TableEditChargingStationActionDef).action(
-            chargingStation, this.dialog, this.refreshData.bind(this));
+            ChargingStationDialogComponent, chargingStation, this.dialog, this.refreshData.bind(this));
         }
         break;
       case ChargingStationButtonAction.REBOOT:
@@ -257,7 +268,8 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            chargingStation, this.dialogService, this.translateService, this.dialog, this.refreshData.bind(this)
+            ChargingStationLimitationDialogComponent, chargingStation, this.dialogService, this.translateService,
+            this.dialog, this.refreshData.bind(this)
           );
         }
         break;
@@ -316,36 +328,38 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     return [];
   }
 
-  public buildTableDynamicRowActions(charger: ChargingStation): TableActionDef[] {
-    if (!charger) {
+  public buildTableDynamicRowActions(chargingStation: ChargingStation): TableActionDef[] {
+    if (!chargingStation) {
       return [];
     }
     // Check if both connectors are unavailable
     let isUnavailable = true;
-    for (const connector of charger.connectors) {
+    for (const connector of chargingStation.connectors) {
       if (connector.status !== ChargePointStatus.UNAVAILABLE) {
         isUnavailable = false;
         break;
       }
     }
-    const openInMaps = new TableOpenInMapsAction().getActionDef();
     // Check if GPS is available
-    openInMaps.disabled = !Utils.containsGPSCoordinates(charger.coordinates);
-    if (this.authorizationService.isAdmin() ||
-      this.authorizationService.isSiteAdmin(charger.siteArea ? charger.siteArea.siteID : '')) {
-      return [
-        this.editAction,
-        this.smartChargingAction,
-        this.rebootAction,
-        new TableMoreAction([
-          this.clearCacheAction,
-          this.resetAction,
-          isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
-          this.deleteAction,
-          openInMaps,
-        ]).getActionDef()
-        ,
-      ];
+    const openInMaps = new TableOpenInMapsAction().getActionDef();
+    openInMaps.disabled = !Utils.containsGPSCoordinates(chargingStation.coordinates);
+    if (chargingStation.issuer) {
+      if (this.authorizationService.isAdmin() ||
+        this.authorizationService.isSiteAdmin(chargingStation.siteArea ? chargingStation.siteArea.siteID : '')) {
+        return [
+          this.editAction,
+          this.smartChargingAction,
+          this.rebootAction,
+          new TableMoreAction([
+            this.clearCacheAction,
+            this.resetAction,
+            isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
+            this.deleteAction,
+            openInMaps,
+          ]).getActionDef()
+          ,
+        ];
+      }
     }
     return [openInMaps];
   }

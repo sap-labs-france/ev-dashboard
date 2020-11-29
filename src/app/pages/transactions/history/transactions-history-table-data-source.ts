@@ -285,7 +285,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
       },
     );
     if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(3, 0, {
+      columns.splice(4, 0, {
         id: 'user',
         name: 'transactions.user',
         headerClass: 'col-15p',

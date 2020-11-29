@@ -25,13 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.28',
-        date: new Date('2020-11-27'),
+        date: new Date('2020-11-29'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Unlock Charging Station's Connector`,
               `Added JSon security schemas to filter Tenant HTTP requests`,
+              `Published public REST API for Authentication and Tenants endpoints`,
               `Fixed computation of total DC Charging Station's power in UI`,
               `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
             ],

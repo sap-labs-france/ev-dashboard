@@ -8,8 +8,8 @@ import { SpinnerService } from 'services/spinner.service';
 import { TableAction } from 'shared/table/actions/table-action';
 import { ChargingStation, ChargingStationButtonAction, Connector } from 'types/ChargingStation';
 import { ActionResponse } from 'types/DataResult';
-import { ButtonColor, ButtonType, TableActionDef } from 'types/Table';
 import { OCPPUnlockStatus } from 'types/ocpp/OCPP';
+import { ButtonColor, ButtonType, TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationsUnlockConnectorActionDef extends TableActionDef {
@@ -42,7 +42,7 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
       translateService.instant('chargers.unlock_connector_title'),
       translateService.instant('chargers.unlock_connector_confirm', {
         chargeBoxID: chargingStation.id,
-        connectorId: connector.connectorId,
+        connectorId: Utils.getConnectorLetterFromConnectorID(connector.connectorId),
       }),
     ).subscribe((response) => {
       if (response === ButtonType.YES) {
@@ -54,7 +54,7 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
               messageService.showSuccessMessage(
                 translateService.instant('chargers.unlock_connector_success', {
                   chargeBoxID: chargingStation.id,
-                  connectorId: connector.connectorId,
+                  connectorId: Utils.getConnectorLetterFromConnectorID(connector.connectorId),
                 }));
               if (refresh) {
                 refresh().subscribe();

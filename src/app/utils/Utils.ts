@@ -27,6 +27,10 @@ export class Utils {
     return true;
   }
 
+  public static getConnectorLetterFromConnectorID(connectorID: number): string {
+    return String.fromCharCode(65 + connectorID - 1);
+  }
+
   public static getValuesFromEnum(enumType: any): number[] {
     const keys: string[] = Object.keys(enumType).filter(httpError => typeof enumType[httpError] === 'number');
     const values: number[] = keys.map((httpErrorKey: string) => enumType[httpErrorKey]);

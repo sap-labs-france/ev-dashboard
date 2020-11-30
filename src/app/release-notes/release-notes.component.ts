@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Enhanced Unlock Connector error message when not supported by the Charging Station`,
               `Used OCPI EVSE ID for Charging Station's name`,
               `Fixed pushing OCPI Charging Station with connectors that cannot charge in parallel`,
+              `Force sort of Connector IDs in Charging Station list`,
             ],
           },
         ],

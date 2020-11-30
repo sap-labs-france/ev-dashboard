@@ -59,6 +59,9 @@ export class TableChargingStationsUnlockConnectorAction implements TableAction {
               if (refresh) {
                 refresh().subscribe();
               }
+            } else if (unlockConnectorResponse.status === OCPPUnlockStatus.NOT_SUPPORTED) {
+              Utils.handleError(JSON.stringify(response),
+                messageService, translateService.instant('chargers.unlock_connector_not_supported_error'));
             } else {
               Utils.handleError(JSON.stringify(response),
                 messageService, translateService.instant('chargers.unlock_connector_error'));

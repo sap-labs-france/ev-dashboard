@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.29',
+        date: new Date('2020-11-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed wrong Connector status displayed in Sessions in progress`,
+              `Enhanced Unlock Connector error message when not supported by the Charging Station`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.28',
         date: new Date('2020-11-29'),
         componentChanges: [

@@ -24,6 +24,23 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.29',
+        date: new Date('2020-11-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Truncate the OCPI pricing to 2 decimals instead of rounding it`,
+              `Fixed wrong Connector status displayed in Sessions in progress`,
+              `Enhanced Unlock Connector error message when not supported by the Charging Station`,
+              `Used OCPI EVSE ID for Charging Station's name`,
+              `Fixed pushing OCPI Charging Station with connectors that cannot charge in parallel`,
+              `Force sort of Connector IDs in Charging Station list`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.28',
         date: new Date('2020-11-29'),
         componentChanges: [

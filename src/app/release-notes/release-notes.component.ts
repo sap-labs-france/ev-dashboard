@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Truncate the OCPI pricing to 2 decimals instead of rounding it`,
               `Fixed wrong Connector status displayed in Sessions in progress`,
               `Enhanced Unlock Connector error message when not supported by the Charging Station`,
               `Used OCPI EVSE ID for Charging Station's name`,

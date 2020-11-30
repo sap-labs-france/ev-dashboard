@@ -14,6 +14,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppBatteryPercentagePipe } from '../../../shared/formatters/app-battery-percentage.pipe';
+import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
@@ -61,6 +62,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
+    private appCurrencyPipe: AppCurrencyPipe,
     private centralServerNotificationService: CentralServerNotificationService,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
@@ -216,6 +218,15 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'col-15p',
         class: 'text-left col-15p',
       });
+      if (this.componentService.isActive(TenantComponents.PRICING)) {
+        columns.push({
+          id: 'currentCumulatedPrice',
+          name: 'transactions.price',
+          headerClass: 'col-10p',
+          class: 'col-10p',
+          formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
+        });
+      }
     }
     return columns;
   }

@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed wrong Connector status displayed in Sessions in progress`,
+              `Enhanced Unlock Connector error message when not supported by the Charging Station`,
             ],
           },
         ],

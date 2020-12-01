@@ -24,7 +24,7 @@ stages:
     karmaExecuteTests: false
     
   Acceptance:
-  #  cloudFoundryDeploy: true
+    cloudFoundryDeploy: false
   #  cloudFoundry:
   #    org: 'SAP IT Cloud_sapitcfd'
   #    space: e-Mobility-dev

@@ -22,7 +22,7 @@ void call(Map params) {
 	sh "ls"
 	sh "ls src/assets"
 
-	//params.originalStage()
+	params.originalStage()
 
 }
 return this

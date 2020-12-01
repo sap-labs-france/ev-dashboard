@@ -8,8 +8,9 @@ general:
 stages:
 
   Central Build:
+    executeBuild: false
     executeSonarScan: false
-    sonarExecuteScan: true
+    sonarExecuteScan: false
 
   IPScan and PPMS:
     ppmsCredentialsId: 'ppms-i030367-access'

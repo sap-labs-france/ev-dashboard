@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.30',
+        date: new Date('2020-11-01'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Add Keba P30 model in Charging Station's template`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.29',
         date: new Date('2020-11-30'),
         componentChanges: [

@@ -1,7 +1,7 @@
 import static com.sap.piper.internal.Prerequisites.checkScript
 
 void call(Map params) {
-	node{
+
 	echo "do acceptance stage"
 	echo "Cloning deployment config repository.."
 	checkout([

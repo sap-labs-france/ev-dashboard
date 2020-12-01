@@ -1,4 +1,3 @@
-import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,26 +5,19 @@ import { ChargingStationsStartTransactionDetailsDialogComponent } from 'pages/ch
 import { Observable } from 'rxjs';
 import { StartTransaction } from 'types/Transaction';
 
-import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { UsersDialogComponent } from '../../../../shared/dialogs/users/users-dialog.component';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
 import { ButtonColor, ButtonType, TableActionDef } from '../../../../types/Table';
-import { User, UserToken } from '../../../../types/User';
-import { Users } from '../../../../utils/Users';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
-export const BUTTON_FOR_MYSELF = 'FOR_MYSELF';
-export const BUTTON_SELECT_USER = 'SELECT_USER';
-
 export interface TableChargingStationsStartTransactionActionDef extends TableActionDef {
-  action: (chargingStationDialogComponent: ComponentType<unknown>, chargingStation: ChargingStation, connector: Connector,
-    authorizationService: AuthorizationService, dialogService: DialogService, dialog: MatDialog, translateService: TranslateService,
+  action: (chargingStation: ChargingStation, connector: Connector,
+    dialogService: DialogService, dialog: MatDialog, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) => void;
 }
@@ -45,7 +37,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     return this.action;
   }
 
-  private startTransaction(chargingStationDialogComponent: ComponentType<unknown>, chargingStation: ChargingStation, connector: Connector, authorizationService: AuthorizationService,
+  private startTransaction(chargingStation: ChargingStation, connector: Connector,
     dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) {

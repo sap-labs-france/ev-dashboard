@@ -25,11 +25,12 @@ stages:
     karmaExecuteTests: false
     
   Acceptance:
-    cloudFoundryDeploy: false
-  #  cloudFoundry:
-  #    org: 'SAP IT Cloud_sapitcfd'
-  #    space: e-Mobility-dev
-  #    credentialsId: scp-i030367-access    
+    cloudFoundryDeploy: true
+    cloudFoundry:
+      org: 'SAP IT Cloud_sapitcfd'
+      space: e-Mobility-dev
+      credentialsId: scp-i030367-access
+      deployTool: 'cf_native'
       
   Security:
     executeCheckmarxScan: true

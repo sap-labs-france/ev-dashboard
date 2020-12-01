@@ -3,6 +3,9 @@ import static com.sap.piper.internal.Prerequisites.checkScript
 void call(Map params) {
 
 	echo "do acceptance stage"
+	deleteDir()
+	echo "checkout dashboard source"
+	checkout scm
 	echo "Cloning deployment config repository.."
 	checkout([
 		$class: 'GitSCM',

@@ -33,6 +33,7 @@ stages:
       credentialsId: scp-i030367-access
       deployTool: 'cf_native'
       manifest: 'manifest.yml'
+      apiEndpoint: 'https://api.cf.eu10.hana.ondemand.com'
       
   Security:
     executeCheckmarxScan: true

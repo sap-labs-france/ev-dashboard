@@ -177,6 +177,18 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         formatter: (publicChargingStation: boolean) => publicChargingStation ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
       },
     ];
+    if (this.isOrganizationComponentActive) {
+      tableColumns.splice(1, 0,
+        {
+          id: 'siteArea.site.name',
+          name: 'sites.site',
+          sortable: true,
+          defaultValue: 'sites.unassigned',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
     if (this.authorizationService.isAdmin()) {
       tableColumns = tableColumns.concat([
         {
@@ -204,18 +216,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
         },
       ]);
-    }
-    if (this.isOrganizationComponentActive) {
-      tableColumns.push(
-        {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          sortable: true,
-          defaultValue: 'sites.unassigned',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-      );
     }
     return tableColumns;
   }

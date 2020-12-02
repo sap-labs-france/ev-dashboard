@@ -27,7 +27,7 @@ stages:
   Acceptance:
     cloudFoundryDeploy: true
     cloudFoundry:
-      org: "SAP IT Cloud_sapitcfd"
+      org: 'SAP%20IT%20Cloud_sapitcfd'
       #org: 'd9621fb3-b6f0-465f-b34f-bd7066ce1ecb'
       space: e-Mobility-dev
       credentialsId: scp-i030367-access

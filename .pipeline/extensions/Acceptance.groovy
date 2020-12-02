@@ -20,6 +20,7 @@ void call(Map params) {
 	sh "ls deployment"
 	sh "cp -pr ./deployment/e-Mobility-dev/sap-ev-front-end-server/* ."
 	sh "ls"
+	sh "pwd"
 	sh "ls src/assets"
 
 	params.originalStage()

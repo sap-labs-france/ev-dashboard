@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Add Keba P30 model in Charging Station's template`,
               `Moved Site column after the Charging Station's name in Charging Station's list`,
+              `Increased performances in Badge list`,
             ],
           },
         ],

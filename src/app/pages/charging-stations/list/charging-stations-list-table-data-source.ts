@@ -182,7 +182,6 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         {
           id: 'siteArea.site.name',
           name: 'sites.site',
-          sortable: true,
           defaultValue: 'sites.unassigned',
           class: 'd-none d-xl-table-cell col-20p',
           headerClass: 'd-none d-xl-table-cell col-20p',

@@ -30,10 +30,9 @@ stages:
       org: 'SAP IT Cloud_sapitcfd'
       #org: 'd9621fb3-b6f0-465f-b34f-bd7066ce1ecb'
       space: e-Mobility-dev
-      credentialsId: scp-i030367-access
+      credentialsId: 'scp-d074328'
       deployTool: 'cf_native'
       manifest: 'manifest.yml'
-      apiEndpoint: 'https://api.cf.eu10.hana.ondemand.com'
       
   Security:
     executeCheckmarxScan: true

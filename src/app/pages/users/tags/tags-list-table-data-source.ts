@@ -171,6 +171,16 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         sortable: true,
       },
       {
+        id: 'createdOn',
+        name: 'users.created_on',
+        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+        headerClass: 'col-15em',
+        class: 'col-15em',
+        sortable: true,
+        sorted: true,
+        direction: 'desc'
+      },
+      {
         id: 'default',
         name: 'general.default',
         headerClass: 'text-center col-5em',
@@ -194,23 +204,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       },
     );
     tableColumnDef.push(
-      {
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15sem',
-        class: 'col-15em',
-        sortable: true,
-        sorted: true,
-        direction: 'desc'
-      },
-      {
-        id: 'createdBy',
-        name: 'users.created_by',
-        formatter: (user: User) => Utils.buildUserFullName(user),
-        headerClass: 'col-15em',
-        class: 'col-15em',
-      },
       {
         id: 'lastChangedOn',
         name: 'users.changed_on',

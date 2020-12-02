@@ -32,7 +32,7 @@ stages:
       space: e-Mobility-dev
       credentialsId: 'scp-d074328'
       deployTool: 'cf_native'
-      manifest: 'manifest.yml'
+      manifest: './manifest.yml'
       
   Security:
     executeCheckmarxScan: true

@@ -30,9 +30,10 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Add Keba P30 model in Charging Station's template`,
+              `Do not exclude Charging Station permanently when Smart Charging fails to push the Charging Plans to it`,
               `Moved Site column after the Charging Station's name in Charging Station's list`,
-              `Increased performances in Badge list`,
+              `Add Keba P30 model in Charging Station's template`,
+              `Increased performances for listing 800k Badges`,
             ],
           },
         ],

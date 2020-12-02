@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.30',
-        date: new Date('2020-11-01'),
+        date: new Date('2020-11-02'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Add Keba P30 model in Charging Station's template`,
+              `Moved Site column after the Charging Station's name in Charging Station's list`,
             ],
           },
         ],

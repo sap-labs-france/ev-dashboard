@@ -31,8 +31,8 @@ stages:
       space: e-Mobility-dev
       credentialsId: 'scp-d074328'
       deployTool: 'cf_native'
-      #manifest: 'manifest.yml'
-      manifest: './deployment/e-Mobility-dev/sap-ev-front-end-server/manifest.yml'
+      manifest: 'manifest.yml'
+      #manifest: './deployment/e-Mobility-dev/sap-ev-front-end-server/manifest.yml'
       
   Security:
     executeCheckmarxScan: true

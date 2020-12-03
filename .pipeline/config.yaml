@@ -47,7 +47,8 @@ stages:
 steps:
 
   pipelineStashFilesAfterBuild:
-    stashIncludes: [buildResult:*]
+    stashIncludes: 
+      buildResult: '*'
 
   sonarExecuteScan:
     instance: 'SAP SonarQube Enterprise'

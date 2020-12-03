@@ -30,7 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed intermitent disconnections with Charging Statiions`,
+              `Added debug logs for Charging Stations connexion issues`,
             ],
           },
         ],

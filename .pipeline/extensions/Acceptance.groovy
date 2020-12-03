@@ -3,12 +3,14 @@ import static com.sap.piper.internal.Prerequisites.checkScript
 void call(Map params) {
 
 	echo "do acceptance stage"
+	// sh "ls"
+	//deleteDir()
+	//sh "ls"
+	unstash 'deployDescriptor'
 	sh "ls"
-	deleteDir()
-	sh "ls"
-	echo "checkout dashboard source"
-	checkout scm
-	sh "ls"
+	//echo "checkout dashboard source"
+	//checkout scm
+	//sh "ls"
 	echo "Cloning deployment config repository.."
 	checkout([
 		$class: 'GitSCM',
@@ -26,7 +28,7 @@ void call(Map params) {
 	sh "pwd"
 	sh "find . -name 'manifest*'"
 	sh "ls src/assets"
-	unstash 'deployDescriptor'
+	//unstash 'deployDescriptor'
 	stash 'deployDescriptor'
 
 	params.originalStage()

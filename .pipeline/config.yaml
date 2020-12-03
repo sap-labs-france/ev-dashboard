@@ -8,7 +8,6 @@ general:
 stages:
 
   Central Build:
-    executeBuild: false
     executeSonarScan: false
     sonarExecuteScan: false
 

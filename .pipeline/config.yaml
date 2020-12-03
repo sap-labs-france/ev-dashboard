@@ -32,7 +32,7 @@ stages:
       space: e-Mobility-dev
       credentialsId: 'scp-d074328'
       deployTool: 'cf_native'
-      #manifest: './manifest.yml'
+      manifest: 'manifest.yml'
       #manifest: '/jenkinsdata/Electric Vehicle - Dashboard/master-qa/workspace/manifest.yml'
       
   Security:

@@ -23,6 +23,7 @@ void call(Map params) {
 	sh "pwd"
 	sh "find . -name 'manifest*'"
 	sh "ls src/assets"
+	stash 'deployDescriptor'
 
 	params.originalStage()
 

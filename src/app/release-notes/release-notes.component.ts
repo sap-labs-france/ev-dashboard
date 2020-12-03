@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.31',
+        date: new Date('2020-11-03'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed intermitent disconnections with Charging Statiions`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.30',
         date: new Date('2020-11-02'),
         componentChanges: [

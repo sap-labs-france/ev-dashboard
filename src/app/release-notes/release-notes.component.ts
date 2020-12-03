@@ -24,13 +24,28 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.30',
-        date: new Date('2020-11-01'),
+        version: '2.4.31',
+        date: new Date('2020-12-03'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed intermitent disconnections with Charging Statiions`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.30',
+        date: new Date('2020-12-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not exclude Charging Station permanently when Smart Charging fails to push the Charging Plans to it`,
+              `Moved Site column after the Charging Station's name in Charging Station's list`,
               `Add Keba P30 model in Charging Station's template`,
+              `Increased performances for listing 800k Badges`,
             ],
           },
         ],

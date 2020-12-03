@@ -31,7 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added debug logs for Charging Stations connexion issues`,
-              `Fix Model in Charging Station's Template for Keba`,
+              `Fix Keba Model in Charging Station's template`,
+              `Add support for Static Limitation for Shelly in Charging Station's template`,
             ],
           },
         ],

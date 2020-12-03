@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Added debug logs for Charging Stations connexion issues`,
+              `Fix Model in Charging Station's Template for Keba`,
             ],
           },
         ],

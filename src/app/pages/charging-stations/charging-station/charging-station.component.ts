@@ -72,6 +72,9 @@ export class ChargingStationComponent implements OnInit {
       this.centralServerService.getChargingStation(this.chargingStationID).subscribe((chargingStation) => {
         this.spinnerService.hide();
         this.chargingStation = chargingStation;
+        console.log('====================================');
+        console.log(chargingStation);
+        console.log('====================================');
         if (chargingStation) {
           this.isAdmin = this.authorizationService.isAdmin() ||
             this.authorizationService.isSiteAdmin(this.chargingStation.siteArea ? this.chargingStation.siteArea.siteID : '');

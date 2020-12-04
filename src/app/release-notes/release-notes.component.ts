@@ -30,7 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              `Fixed intermitent disconnections with Charging Statiions`,
+              `Added debug logs for Charging Stations connexion issues`,
+              `Fix Keba Model in Charging Station's template`,
+              `Add support for Static Limitation for Shelly in Charging Station's template`,
             ],
           },
         ],

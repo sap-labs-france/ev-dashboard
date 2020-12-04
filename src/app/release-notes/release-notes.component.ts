@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Fixed Save button is disabled in Tenant pop-up`,
               `Fix Keba Model in Charging Station's template`,
               `Add support for Static Limitation for Shelly in Charging Station's template`,
+              `Fixed cannot set the phase order for a connector with single phase Site Area`,
             ],
           },
         ],

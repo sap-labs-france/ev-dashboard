@@ -49,7 +49,6 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 
-
   public ngOnInit() {
     // Init the form
     this.formGroup = new FormGroup({
@@ -112,7 +111,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
               }));
           }
           if (userDefaultTagCar.car) {
-            this.car.setValue(Utils.buildCarName(userDefaultTagCar.car, false));
+            this.car.setValue(Utils.buildCarName(userDefaultTagCar.car, this.translateService, false));
             this.carID.setValue(userDefaultTagCar.car.id);
           } else {
             this.car.disable();
@@ -196,7 +195,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(CarsDialogComponent, dialogConfig);
     // Register to the answer
     dialogRef.afterClosed().subscribe((result) => {
-      this.car.setValue(Utils.buildCarName(result[0].objectRef, false));
+      this.car.setValue(Utils.buildCarName(result[0].objectRef, this.translateService, false));
       this.carID.setValue(result[0].key);
     });
   }

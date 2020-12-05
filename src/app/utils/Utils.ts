@@ -633,9 +633,9 @@ export class Utils {
       return '-';
     }
     if (tag.description) {
-      tagName = `'${tag.description}' ('${tag.id}')`;
+      tagName = `${tag.description} ('${tag.id}')`;
     } else {
-      tagName = `'${tag.id}'`;
+      tagName = `${tag.id}`;
     }
     return tagName;
   }
@@ -658,31 +658,26 @@ export class Utils {
     return carCatalogName;
   }
 
-  public static buildCarName(car: Car, withVIN = true, withID = false): string {
-    let carName: string;
+  public static buildCarName(car: Car, translateService: TranslateService, withVIN = true, withID = false): string {
+    const carName: string[] = [];
     if (!car) {
       return '-';
     }
+    // Car name
     if (car.carCatalog) {
-      carName = Utils.buildCarCatalogName(car.carCatalog, withID);
+      carName.push(Utils.buildCarCatalogName(car.carCatalog, withID));
     }
+    // VIN
     if (withVIN && car.vin) {
-      if (!carName) {
-        carName = `VIN '${car.vin}', License Plate '${car.licensePlate}'`;
-      } else {
-        carName += ` with VIN '${car.vin}' and License Plate '${car.licensePlate}'`;
-      }
-    } else {
-      if (!carName) {
-        carName = `License Plate '${car.licensePlate}'`;
-      } else {
-        carName += ` with License Plate '${car.licensePlate}'`;
-      }
+      carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
+    // License platee
+    carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
+    // Car ID
     if (withID && car.id) {
-      carName += ` (${car.id})`;
+      carName.push(`(${car.id})`);
     }
-    return carName;
+    return carName.join(' ');
   }
 
   public static getCarType(carType: CarType, translateService: TranslateService): string {

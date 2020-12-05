@@ -921,7 +921,7 @@
     "force_unavailable_status_error": "Beim Ändern des Statuses der Anschlüsse von der Ladestation ist ein Fehler aufgetreten",
     "retrieve_config_success": "Die Konfiguration von Ladestation '{{chargeBoxID}}' wurde erfolgreich abgerufen",
     "change_config_success": "Die Ladestation '{{chargeBoxID}}' wurde erfolgreich gespeichert",
-    "change_config_error": "Die Konfiguration der Ladestation konnte nicht abgerufen werden, überprüfen Sie die Logs",
+    "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Einem einphasigen Standortbereich kann keine dreiphasige Ladestation zugewiesen werden",
     "change_params_success": "Die Parameter '{{paramKey}}' bei '{{chargeBoxID}}' wurden erfolgreich Ladestation aktualisiert",
     "change_params_error": "Beim Aktualisieren der Parameter der Ladestation ist ein Fehler aufgetreten",

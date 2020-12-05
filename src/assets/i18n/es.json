@@ -921,7 +921,7 @@
     "force_unavailable_status_error": "Se produjo un error al cambiar el estatus de los conectores de la estación de carga",
     "retrieve_config_success": "La configuración de la estación de carga '{{chargeBoxID}}' se ha recuperado exitosamente",
     "change_config_success": "La configuración de la estación de carga '{{chargeBoxID}}' se ha guardado exitosamente",
-    "change_config_error": "No se puede recuperar la configuración de la estación de carga, verifique los registros",
+    "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "No se puede asignar una estación de carga trifásica a una zona monofásica",
     "change_params_success": "El parámetro '{{paramKey}}' se ha actualizado correctamente en la estación de carga '{{chargeBoxID}}'",
     "change_params_error": "Se produjo un error al intentar actualizar el parámetro de la estación de carga",

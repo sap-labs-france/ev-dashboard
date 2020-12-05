@@ -120,7 +120,7 @@ export class ChargingStationComponent implements OnInit {
           break;
         default:
           Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'change_config_error');
+            this.centralServerService, 'chargers.change_config_error');
       }
     });
   }

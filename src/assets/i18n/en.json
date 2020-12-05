@@ -921,7 +921,7 @@
     "force_unavailable_status_error": "Error occurred while changing the status of the connectors of the charging station, check the logs",
     "retrieve_config_success": "The configuration of the charging station '{{chargeBoxID}}' has been retrieved successfully",
     "change_config_success": "The charging station '{{chargeBoxID}}' has been saved successfully",
-    "change_config_error": "Cannot retrieve the configuration of the charging station, check the logs",
+    "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Cannot assign three phases charging station to a single phase site area",
     "change_params_success": "The parameter '{{paramKey}}' has been updated successfully in the charging station '{{chargeBoxID}}'",
     "change_params_error": "The parameter '{{paramKey}}' has been rejected by the charging station '{{chargeBoxID}}'",

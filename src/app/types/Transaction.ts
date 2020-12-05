@@ -41,6 +41,7 @@ export interface Transaction extends Data {
   siteID: string;
   user: User;
   tagID: string;
+  carID?: string;
   car?: Car;
   status: string;
   price: number;
@@ -77,9 +78,9 @@ export interface Transaction extends Data {
 }
 
 export interface StartTransaction {
-userFullName: string;
-tagID: string;
-carID?: string;
+  userFullName: string;
+  tagID: string;
+  carID?: string;
 }
 
 export enum InactivityStatus {

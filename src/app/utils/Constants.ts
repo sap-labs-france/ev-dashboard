@@ -18,6 +18,7 @@ export class Constants {
   public static readonly MAX_PAGING = {limit: Constants.MAX_PAGE_SIZE, skip: Constants.DEFAULT_SKIP};
 
   public static readonly USER_NO_PICTURE = 'assets/img/theme/no-photo.png';
+  public static readonly USER_NO_CAR = 'assets/img/theme/no-car.png';
 
   /* RegEx validation rule */
   public static readonly REGEX_VALIDATION_LATITUDE = /^-?([1-8]?[1-9]|[1-9]0)\.{0,1}[0-9]*$/;

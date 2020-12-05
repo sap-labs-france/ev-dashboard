@@ -33,6 +33,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public endStateOfCharge!: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public stopUserImage = Constants.USER_NO_PICTURE;
+  public carImage = Constants.USER_NO_CAR;
   public isStoppedByAnotherUser = false;
   public totalConsumptionWh!: number;
   public totalInactivitySecs!: number;
@@ -162,6 +163,9 @@ export class TransactionComponent implements OnInit, OnDestroy {
             this.loggedUserImage = userImage.image.toString();
           }
         });
+      }
+      if (transaction?.car?.carCatalog?.image) {
+        this.carImage = transaction.car.carCatalog.image;
       }
       if (transaction.stop && transaction.stop.user) {
         this.centralServerService.getUserImage(transaction.stop.user.id).subscribe((userImage: Image) => {

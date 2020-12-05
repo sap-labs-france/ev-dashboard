@@ -2341,10 +2341,10 @@ export class CentralServerService {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
+      carID,
       args: {
         tagID,
         connectorId,
-        carID
       },
     };
     return this.httpClient.post<ActionResponse>(

@@ -33,6 +33,7 @@ import { ChargingStationLimitationComponent } from './charging-station-limitatio
 import { ChargingStationLimitationDialogComponent } from './charging-station-limitation/charging-station-limitation.dialog.component';
 import { ChargingStationPowerSliderComponent } from './charging-station-limitation/components/charging-station-power-slider.component';
 import { ChargingStationStaticLimitationComponent } from './charging-station-limitation/static-limitation/charging-station-static-limitation.component';
+import { ChargingStationsStartTransactionDialogComponent } from './charging-station-start-transaction/charging-stations-start-transaction-dialog-component';
 import { ChargingStationDialogComponent } from './charging-station/charging-station-dialog.component';
 import { ChargingStationComponent } from './charging-station/charging-station.component';
 import { ChargingStationFirmwareUpdateComponent } from './charging-station/firmware-update/charging-station-firmware-update.component';
@@ -47,7 +48,6 @@ import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsConnectorsDetailComponent } from './details-component/charging-stations-connectors-detail-component.component';
 import { ChargingStationsConnectorsDetailTableDataSource } from './details-component/charging-stations-connectors-detail-table-data-source';
-import { ChargingStationsStartTransactionDetailsDialogComponent } from './details-component/charging-stations-start-transaction-details-dialog-component';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
 import { ChargingStationsInErrorComponent } from './in-error/charging-stations-in-error.component';
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
@@ -87,7 +87,7 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationConnectorComponent,
     ChargingStationChargePointComponent,
     ChargingStationsConnectorsDetailComponent,
-    ChargingStationsStartTransactionDetailsDialogComponent,
+    ChargingStationsStartTransactionDialogComponent,
     TransactionDialogComponent,
     ChargingStationsHeartbeatCellComponent,
     ChargingStationsTransactionDetailComponentCellComponent,
@@ -135,16 +135,13 @@ import { ChargingStationsListComponent } from './list/charging-stations-list.com
     ChargingStationOcppParametersInputFieldCellComponent,
     ChargingStationsComponent,
     ChargingStationsConnectorsDetailComponent,
-    ChargingStationsStartTransactionDetailsDialogComponent,
+    ChargingStationsStartTransactionDialogComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
     ChargingStationFirmwareUpdateComponent,
     ChargingStationsFirmwareStatusCellComponent,
     ChargingPlansListComponent,
-  ],
-  exports: [
-    ChargingStationsStartTransactionDetailsDialogComponent
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,

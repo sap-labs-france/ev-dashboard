@@ -16,9 +16,9 @@ import { UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  templateUrl: './charging-stations-start-transaction-details-dialog-component.html',
+  templateUrl: './charging-stations-start-transaction-dialog-component.html',
 })
-export class ChargingStationsStartTransactionDetailsDialogComponent implements OnInit {
+export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
   public chargeBoxID = '';
   public formGroup!: FormGroup;
@@ -39,7 +39,7 @@ export class ChargingStationsStartTransactionDetailsDialogComponent implements O
     private translateService: TranslateService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
-    private dialogRef: MatDialogRef<ChargingStationsStartTransactionDetailsDialogComponent>,
+    private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any) {
     // Set
     this.title = data.title;

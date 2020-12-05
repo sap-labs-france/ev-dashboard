@@ -1,7 +1,7 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ChargingStationsStartTransactionDetailsDialogComponent } from 'pages/charging-stations/details-component/charging-stations-start-transaction-details-dialog-component';
 import { Observable } from 'rxjs';
 import { StartTransaction } from 'types/Transaction';
 
@@ -16,7 +16,7 @@ import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableChargingStationsStartTransactionActionDef extends TableActionDef {
-  action: (chargingStation: ChargingStation, connector: Connector,
+  action: (chargingStationsStartTransactionDialogComponent: ComponentType<unknown>, chargingStation: ChargingStation, connector: Connector,
     dialogService: DialogService, dialog: MatDialog, translateService: TranslateService,
     messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) => void;
@@ -37,8 +37,8 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     return this.action;
   }
 
-  private startTransaction(chargingStation: ChargingStation, connector: Connector,
-    dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
+  private startTransaction(chargingStationsStartTransactionDialogComponent: ComponentType<unknown>, chargingStation: ChargingStation,
+    connector: Connector, dialogService: DialogService, dialog: MatDialog, translateService: TranslateService, messageService: MessageService,
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
     refresh?: () => Observable<void>) {
     if (chargingStation.inactive) {
@@ -71,7 +71,7 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
       chargeBoxID: chargingStation.id
     };
     // Show
-    const dialogRef = dialog.open(ChargingStationsStartTransactionDetailsDialogComponent, dialogConfig);
+    const dialogRef = dialog.open(chargingStationsStartTransactionDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((startTransaction: StartTransaction) => {
       if (startTransaction) {
         this.startTransactionForUser(chargingStation, connector, startTransaction.userFullName, startTransaction.tagID,

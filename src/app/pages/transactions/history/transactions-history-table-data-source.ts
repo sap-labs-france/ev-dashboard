@@ -201,35 +201,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
     }
     columns.push(
       {
-        id: 'car.carCatalog',
-        name: 'car.title',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-      },
-      {
-        id: 'car.licensePlate',
-        name: 'cars.license_plate',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
-      },
-      {
-        id: 'chargeBoxID',
-        name: 'transactions.charging_station',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (chargingStationID: string, connector: Connector) => this.formatChargingStation(chargingStationID, connector),
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
-      {
         id: 'timestamp',
         name: 'transactions.started_at',
         headerClass: 'col-15p',
@@ -252,8 +223,44 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
+      }
+    );
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.push({
+        id: 'user',
+        name: 'transactions.user',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (user: User) => this.appUserNamePipe.transform(user),
       },
       {
+        id: 'tagID',
+        name: 'transactions.badge_id',
+        headerClass: 'col-15p',
+        class: 'text-left col-15p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
+      });
+    }
+    if (this.componentService.isActive(TenantComponents.CAR) &&
+        this.authorizationService.canListCars()) {
+      columns.push({
+        id: 'car.carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+      });
+    }
+    columns.push({
         id: 'stop.totalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',
@@ -284,21 +291,6 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
       },
     );
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(4, 0, {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      });
-    }
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       columns.push({
         id: 'stop.price',
@@ -308,7 +300,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.stop.priceUnit),
       });
     }
-    if (this.componentService.isActive(TenantComponents.BILLING)) {
+    if (this.componentService.isActive(TenantComponents.BILLING) &&
+        this.authorizationService.canListInvoicesBilling()) {
       columns.push({
         id: 'billingData.invoiceID',
         name: 'invoices.id',

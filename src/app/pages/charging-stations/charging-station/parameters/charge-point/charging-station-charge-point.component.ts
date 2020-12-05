@@ -38,19 +38,16 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.formChargePointGroup = new FormGroup({
       currentType: new FormControl(CurrentType.AC,
         Validators.compose([
-          Validators.required,
         ])
       ),
       voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
-          Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
       amperage: new FormControl(0,
         Validators.compose([
-          Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
@@ -62,29 +59,24 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
       ),
       cannotChargeInParallel: new FormControl(false,
         Validators.compose([
-          Validators.required,
         ])
       ),
       sharePowerToAllConnectors: new FormControl(false,
         Validators.compose([
-          Validators.required,
         ])
       ),
       excludeFromPowerLimitation: new FormControl(false,
         Validators.compose([
-          Validators.required,
         ])
       ),
       power: new FormControl(0,
         Validators.compose([
-          Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
       efficiency: new FormControl(0,
         Validators.compose([
-          Validators.required,
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
@@ -111,7 +103,6 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   public ngOnChanges() {
     this.loadChargePoint();
   }
-
 
   public loadChargePoint() {
     if (this.chargePoint && this.formChargePointGroup) {

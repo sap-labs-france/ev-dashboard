@@ -1,11 +1,12 @@
 import { BillingTransactionData } from './Billing';
+import { Car, CarCatalog } from './Car';
 import { ChargingStation } from './ChargingStation';
 import Consumption from './Consumption';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
-import { OCPICdr } from './ocpi/OCPICdr';
-import { OCPISession } from './ocpi/OCPISession';
 
 export interface Transaction extends Data {
   id: number;
@@ -40,6 +41,10 @@ export interface Transaction extends Data {
   siteID: string;
   user: User;
   tagID: string;
+  carID?: string;
+  car?: Car;
+  carCatalogID?: string;
+  carCatalog?: CarCatalog;
   status: string;
   price: number;
   priceUnit: string;
@@ -72,6 +77,12 @@ export interface Transaction extends Data {
     sessionCheckedOn?: Date;
     cdrCheckedOn?: Date;
   };
+}
+
+export interface StartTransaction {
+  userFullName: string;
+  tagID: string;
+  carID?: string;
 }
 
 export enum InactivityStatus {

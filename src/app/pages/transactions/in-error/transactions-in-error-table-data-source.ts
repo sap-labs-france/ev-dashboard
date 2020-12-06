@@ -217,6 +217,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         name: 'transactions.badge_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
+        formatter: (tagID: string) => tagID ? tagID : '-'
       });
     }
     return columns as TableColumnDef[];

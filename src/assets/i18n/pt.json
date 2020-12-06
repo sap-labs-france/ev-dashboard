@@ -213,8 +213,7 @@
       "download": "Download",
       "test_connection": "Testar Conexão",
       "force_available_status": "Forçar estado disponível",
-      "force_unavailable_status": "Forçar estado indisponível",
-      "assign_user_to_tag": "Atribuir um novo utilizador a tag"
+      "force_unavailable_status": "Forçar estado indisponível"
     }
   },
   "issuer": {
@@ -1272,14 +1271,6 @@
     "select_tags": "Selecionar Tag",
     "tag_id_already_used": "O badge '{{tagID}}' já existe",
     "redirect": "Navegue até as tags",
-    "assign_user_to_tag_title": "Atribuir utilizador à tag",
-    "assign_user_to_tag_confirm": "Deseja realmente atribuir o utilizador '{{newUserName}}' à tag '{{tagID}}'?",
-    "change_user_tag_title": "Alterar utilizador da tag",
-    "change_user_tag_confirm": "Deseja realmente cancelar a atribuição do utilizador '{{oldUserName}}' e atribuir o utulizador '{{newUserName}}' à tag '{{tagID}}'?",
-    "assign_user_to_tag_success": "O usuário '{{userName}}' foi atribuído ao badge com sucesso",
-    "tag_has_transaction_error": "Não é possível atualizar uma tag que contém transações",
-    "assign_user_to_tag_error": "Ocorreu um erro ao atribuir o usuário ao badge",
-    "assign_user_button": "Adicionar utilizador",
     "default_tag": "Badge padrão"
   },
   "tenants": {

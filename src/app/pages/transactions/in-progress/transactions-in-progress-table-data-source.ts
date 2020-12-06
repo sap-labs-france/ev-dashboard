@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { CarCatalog } from 'types/Car';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -146,7 +147,44 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         isAngularComponent: true,
         angularComponent: TransactionsConnectorCellComponent,
       },
+    );
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.push({
+          id: 'user',
+          name: 'transactions.user',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (value: User) => this.appUserNamePipe.transform(value),
+        },
+        {
+          id: 'tagID',
+          name: 'transactions.badge_id',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (tagID: string) => tagID ? tagID : '-'
+        }
+      );
+    }
+    if (this.componentService.isActive(TenantComponents.CAR) &&
+        this.authorizationService.canListCars()) {
+      columns.push({
+        id: 'carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+      },
       {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+      });
+    }
+    columns.push({
         id: 'currentTotalDurationSecs',
         name: 'transactions.duration',
         headerClass: 'col-10p',
@@ -186,30 +224,16 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
           }
           return this.appBatteryPercentagePipe.transform(row.stateOfCharge, currentStateOfCharge);
         },
-      });
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(4, 0, {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (value: User) => this.appUserNamePipe.transform(value),
       },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
+    );
+    if (this.componentService.isActive(TenantComponents.PRICING)) {
+      columns.push({
+        id: 'currentCumulatedPrice',
+        name: 'transactions.price',
+        headerClass: 'col-10p',
+        class: 'col-10p',
+        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
       });
-      if (this.componentService.isActive(TenantComponents.PRICING)) {
-        columns.push({
-          id: 'currentCumulatedPrice',
-          name: 'transactions.price',
-          headerClass: 'col-10p',
-          class: 'col-10p',
-          formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
-        });
-      }
     }
     return columns;
   }

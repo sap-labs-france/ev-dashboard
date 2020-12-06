@@ -122,6 +122,25 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         class: 'col-15p',
         sortable: true,
       },
+    );
+    if (this.authorizationService.isAdmin()) {
+      columns.push(
+        {
+          id: 'user',
+          name: 'invoices.user',
+          headerClass: 'col-20p text-left',
+          class: 'col-20p text-left',
+          formatter: (user: User) => this.appUserNamePipe.transform(user),
+        },
+        {
+          id: 'user.email',
+          name: 'users.email',
+          headerClass: 'col-20p text-left',
+          class: 'col-20p text-left',
+        }
+      );
+    }
+    columns.push(
       {
         id: 'nbrOfItems',
         name: 'invoices.number_of_items',
@@ -138,21 +157,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         sortable: true,
       },
     );
-    if (this.authorizationService.isAdmin()) {
-      columns.splice(3, 0, {
-        id: 'user',
-        name: 'invoices.user',
-        headerClass: 'col-20p text-left',
-        class: 'col-20p text-left',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
-      },
-        {
-          id: 'user.email',
-          name: 'users.email',
-          headerClass: 'col-20p text-left',
-          class: 'col-20p text-left',
-        });
-    }
     return columns as TableColumnDef[];
   }
 

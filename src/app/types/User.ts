@@ -1,5 +1,6 @@
 import { Address } from './Address';
 import { BillingUserData } from './Billing';
+import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { Data } from './Table';
 import { Tag } from './Tag';
@@ -63,6 +64,11 @@ export interface UserNotifications {
   sendBillingNewInvoice: boolean;
 }
 
+export interface UserDefaultTagCar {
+  car?: Car;
+  tag?: Tag;
+}
+
 export interface UserToken {
   id?: string;
   role?: string;
@@ -116,7 +122,7 @@ export enum UserButtonAction {
   ASSIGN_SITES_TO_USER = 'assign_sites_to_user',
   EXPORT_USERS = 'export_users',
   NAVIGATE_TO_TAGS = 'navigate_to_tags',
-  NAVIGATE_TO_USER = 'navigate_to_user',
+  NAVIGATE_TO_USER = 'navigate_to_user'
 }
 
 export enum UserStatus {

@@ -25,11 +25,14 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.31',
-        date: new Date('2020-12-04'),
+        date: new Date('2020-12-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Start a Transaction with a given Car and Badge ID`,
+              `Fixed refresh of power when nbr phase is changed`,
+              `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
               `Added debug logs for Charging Stations connexion issues`,
               `Fixed Save button is disabled in Tenant pop-up`,
               `Fix Keba Model in Charging Station's template`,

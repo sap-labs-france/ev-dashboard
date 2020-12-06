@@ -213,8 +213,7 @@
       "download": "Download",
       "test_connection": "Test Connection",
       "force_available_status": "Force Status to Available",
-      "force_unavailable_status": "Force Status to Unavailable",
-      "assign_user_to_tag": "Assign a new user to the tag"
+      "force_unavailable_status": "Force Status to Unavailable"
     }
   },
   "issuer": {
@@ -985,12 +984,7 @@
     "button_get_configuration": "Get Configuration",
     "button_force_ocpp_params_update_from_template": "Force OCPP Params Update",
     "created_on": "Creation date",
-    "start_transaction_admin_title": "Start session as Administrator",
-    "start_transaction_admin_message": "Do you want to start a session for:",
-    "start_transaction_user_select_title": "Select user for start session",
-    "start_transaction_user_select_button": "Select",
-    "start_for_myself_button": "Myself",
-    "select_user_button": "Another user",
+    "start_transaction_details_title": "Start session on charging station '{{chargeBoxID}}'",
     "power_limit_unit": "Connector Power Unit",
     "watt": "Watt",
     "amper": "Ampere",
@@ -1272,14 +1266,7 @@
     "select_tags": "Select Tag",
     "tag_id_already_used": "The badge '{{tagID}}' already exists",
     "redirect": "Navigate to Tags",
-    "assign_user_to_tag_title": "Assign user to tag",
-    "assign_user_to_tag_confirm": "Do you really want to assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
-    "change_user_tag_title": "Change user of tag",
-    "change_user_tag_confirm": "Do you really want to unassign the user '{{oldUserName}}' and assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
-    "assign_user_to_tag_success": "The user '{{userName}}' has been assigned to the badge successfully",
-    "tag_has_transaction_error": "Cannot update a tag which has transactions",
-    "assign_user_to_tag_error": "Error occurred while assigning the user to the badge",
-    "assign_user_button": "Assign user",
+    "title": "Badge",
     "default_tag": "Default badge"
   },
   "tenants": {
@@ -1798,6 +1785,7 @@
     "delete_title": "Delete Car",
     "delete_confirm": "Do you really want to delete the car '{{carName}}'?",
     "users": "Users",
+    "select_car": "Select Car",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

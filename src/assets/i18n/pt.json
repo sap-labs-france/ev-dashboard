@@ -25,7 +25,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.28",
+    "last_update": "Versão 2.4.31",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -79,6 +79,7 @@
     "change": "Carregar",
     "reload": "Recarregar",
     "stop": "Parar",
+    "unlock": "Desbloquear",
     "refund": "Restituição",
     "open": "Aberto",
     "open_in_concur": "Ir para as suas despesas",
@@ -204,6 +205,7 @@
       "synchronize": "Sincronizar",
       "start": "Iniciar",
       "stop": "Parar",
+      "unlock": "Desbloquear",
       "view": "Verificar",
       "send": "Enviar",
       "clear": "Limpar",
@@ -211,8 +213,7 @@
       "download": "Download",
       "test_connection": "Testar Conexão",
       "force_available_status": "Forçar estado disponível",
-      "force_unavailable_status": "Forçar estado indisponível",
-      "assign_user_to_tag": "Atribuir um novo utilizador a tag"
+      "force_unavailable_status": "Forçar estado indisponível"
     }
   },
   "issuer": {
@@ -919,7 +920,7 @@
     "force_unavailable_status_error": "Ocorreu um erro ao alterar o status dos conectores da estação de carregamento",
     "retrieve_config_success": "A configuração da estação de carregamento '{{chargeBoxID}}' foi recuperado com sucesso",
     "change_config_success": "A estação de carregamento '{{chargeBoxID}}' foi guardado com sucesso",
-    "change_config_error": "Não é possível recuperar a configuração da estação de carregamento, verifique os registros",
+    "change_config_error": "Cannot change the configuration of the charging station, check the logs",
     "change_config_phase_error": "Não é possível atribuir estação de carregamento de três fases a uma área de local de fase única",
     "change_params_success": "O parametro '{{paramKey}}' foi atualizado com sucesso na estação de carregamento '{{chargeBoxID}}'",
     "change_params_error": "Ocorreu um erro ao tentar atualizar o parâmetro da estação de carregamento",
@@ -952,7 +953,8 @@
     "unlock_connector_button": "Desbloquear",
     "unlock_connector_confirm": "Deseja mesmo desbloquear o conector '{{connectorId}}' da estação de carregamento '{{chargeBoxID}}'?",
     "unlock_connector_success": "O conector '{{connectorId}}' da estação de carregamento '{{chargeBoxID}}' foi desbloqueado com sucesso",
-    "unlock_connector_error": "Ocorreu um erro ao desbloquear o conector",
+    "unlock_connector_error": "The Charging Station has not been able to unlock the connector",
+    "unlock_connector_not_supported_error": "This Charging Station does not support the unlock of the connector",
     "connector_type_unknown": "Não configurado",
     "connector_type_type2": "Tipo 2",
     "connector_type_type1": "Tipo 1",
@@ -1237,7 +1239,8 @@
     "cannot_download_invoice": "Não é possível baixar a fatura",
     "number_of_items": "Sessões",
     "pay": "Pago",
-    "user": "Utilizador"
+    "user": "Utilizador",
+    "failed_download": "Invoice download failed."
   },
   "tags": {
     "id": "ID",
@@ -1268,14 +1271,6 @@
     "select_tags": "Selecionar Tag",
     "tag_id_already_used": "O badge '{{tagID}}' já existe",
     "redirect": "Navegue até as tags",
-    "assign_user_to_tag_title": "Atribuir utilizador à tag",
-    "assign_user_to_tag_confirm": "Deseja realmente atribuir o utilizador '{{newUserName}}' à tag '{{tagID}}'?",
-    "change_user_tag_title": "Alterar utilizador da tag",
-    "change_user_tag_confirm": "Deseja realmente cancelar a atribuição do utilizador '{{oldUserName}}' e atribuir o utulizador '{{newUserName}}' à tag '{{tagID}}'?",
-    "assign_user_to_tag_success": "O usuário '{{userName}}' foi atribuído ao badge com sucesso",
-    "tag_has_transaction_error": "Não é possível atualizar uma tag que contém transações",
-    "assign_user_to_tag_error": "Ocorreu um erro ao atribuir o usuário ao badge",
-    "assign_user_button": "Adicionar utilizador",
     "default_tag": "Badge padrão"
   },
   "tenants": {
@@ -2142,6 +2137,7 @@
     "user_account_inactivity": "Notifique-me quando eu não fizer login no aplicativo por mais de 6 meses",
     "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
     "car_catalog_synchronization_failed": "Notifique-me se ocorrer um erro durante os carros de sincronização",
-    "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro"
+    "end_user_error_notification": "Notifique-me quando um utilizador relatar um erro",
+    "failed_download": "Invoice download failed."
   }
 }

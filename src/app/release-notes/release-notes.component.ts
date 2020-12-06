@@ -24,12 +24,66 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.28',
-        date: new Date('2020-11-25'),
+        version: '2.4.31',
+        date: new Date('2020-12-05'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Start a Transaction with a given Car and Badge ID`,
+              `Fixed refresh of power when nbr phase is changed`,
+              `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
+              `Added debug logs for Charging Stations connexion issues`,
+              `Fixed Save button is disabled in Tenant pop-up`,
+              `Fix Keba Model in Charging Station's template`,
+              `Add support for Static Limitation for Shelly in Charging Station's template`,
+              `Fixed cannot set the phase order for a connector with single phase Site Area`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.30',
+        date: new Date('2020-12-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not exclude Charging Station permanently when Smart Charging fails to push the Charging Plans to it`,
+              `Moved Site column after the Charging Station's name in Charging Station's list`,
+              `Add Keba P30 model in Charging Station's template`,
+              `Increased performances for listing 800k Badges`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.29',
+        date: new Date('2020-11-30'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Truncate the OCPI pricing to 2 decimals instead of rounding it`,
+              `Fixed wrong Connector status displayed in Sessions in progress`,
+              `Enhanced Unlock Connector error message when not supported by the Charging Station`,
+              `Used OCPI EVSE ID for Charging Station's name`,
+              `Fixed pushing OCPI Charging Station with connectors that cannot charge in parallel`,
+              `Force sort of Connector IDs in Charging Station list`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.28',
+        date: new Date('2020-11-29'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Unlock Charging Station's Connector`,
+              `Added JSon security schemas to filter Tenant HTTP requests`,
+              `Published public REST API for Authentication and Tenants endpoints`,
               `Fixed computation of total DC Charging Station's power in UI`,
               `Optimized Heartbeat intervals for Charging Stations using WebSocket connections (OCPP 1.6)`,
             ],

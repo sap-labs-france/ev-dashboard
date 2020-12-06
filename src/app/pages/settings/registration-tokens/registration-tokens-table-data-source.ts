@@ -126,6 +126,20 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         direction: 'desc',
         sortable: true,
       },
+    ];
+    if (this.isOrganizationComponentActive) {
+      columns.push(
+        {
+          id: 'siteArea',
+          name: 'site_areas.title',
+          formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+          sortable: true,
+        }
+      );
+    }
+    columns.push(
       {
         id: 'createdOn',
         name: 'general.created_on',
@@ -157,18 +171,8 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
         headerClass: 'col-15em',
         class: 'col-15em',
       },
-    ];
-    if (this.isOrganizationComponentActive) {
-      columns.splice(4, 0, {
-        id: 'siteArea',
-        name: 'site_areas.title',
-        formatter: (siteArea: SiteArea) => siteArea ? siteArea.name : '',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        sortable: true,
-      });
-    }
-    return columns as TableColumnDef[];
+    );
+    return columns;
   }
 
   public buildTableActionsDef(): TableActionDef[] {

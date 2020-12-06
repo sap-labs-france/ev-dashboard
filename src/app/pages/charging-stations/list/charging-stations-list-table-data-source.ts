@@ -145,6 +145,19 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         sorted: true,
         direction: 'asc',
       },
+    ];
+    if (this.isOrganizationComponentActive) {
+      tableColumns.push(
+        {
+          id: 'siteArea.site.name',
+          name: 'sites.site',
+          defaultValue: 'sites.unassigned',
+          class: 'd-none d-xl-table-cell col-20p',
+          headerClass: 'd-none d-xl-table-cell col-20p',
+        },
+      );
+    }
+    tableColumns.push(
       {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
@@ -174,22 +187,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         name: 'chargers.public_charger',
         headerClass: 'text-center col-5em',
         class: 'text-center col-5em',
-        formatter: (publicChargingStation: boolean) => publicChargingStation ? this.translateService.instant('general.yes') : this.translateService.instant('general.no')
+        formatter: (publicChargingStation: boolean) => publicChargingStation ?
+          this.translateService.instant('general.yes') : this.translateService.instant('general.no')
       },
-    ];
-    if (this.isOrganizationComponentActive) {
-      tableColumns.splice(1, 0,
-        {
-          id: 'siteArea.site.name',
-          name: 'sites.site',
-          defaultValue: 'sites.unassigned',
-          class: 'd-none d-xl-table-cell col-20p',
-          headerClass: 'd-none d-xl-table-cell col-20p',
-        },
-      );
-    }
+    );
     if (this.authorizationService.isAdmin()) {
-      tableColumns = tableColumns.concat([
+      tableColumns.push(
         {
           id: 'firmwareVersion',
           name: 'chargers.firmware_version',
@@ -214,7 +217,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
           sortable: false,
           formatter: (ocppVersion: string, row: ChargingStation) => `${ocppVersion} / ${row.ocppProtocol}`
         },
-      ]);
+      );
     }
     return tableColumns;
   }

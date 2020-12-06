@@ -131,14 +131,19 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
-      {
-        id: 'converter',
-        name: 'cars.converter',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
-      },
+    ];
+    if (this.authorizationService.isAdmin()) {
+      tableColumnDef.push(
+        {
+          id: 'carUsers',
+          name: 'cars.users',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+          formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
+        },
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'licensePlate',
         name: 'cars.license_plate',
@@ -154,51 +159,55 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
       },
       {
+        id: 'converter',
+        name: 'cars.converter',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
+      },
+      {
         id: 'type',
         name: 'cars.type',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
       },
-    ];
+    );
     if (this.authorizationService.isBasic()) {
-      tableColumnDef.push({
-        id: 'default',
-        name: 'cars.default_car',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (defaultCar: boolean, car: Car) => {
-          return car.carUsers.find((userCar) => userCar.default) ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+      tableColumnDef.push(
+        {
+          id: 'default',
+          name: 'cars.default_car',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p',
+          formatter: (defaultCar: boolean, car: Car) => {
+            return car.carUsers.find((userCar) => userCar.default) ?
+              this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+          },
+        },
+        {
+          id: 'owner',
+          name: 'cars.car_owner',
+          headerClass: 'text-center col-10p',
+          class: 'text-center col-10p',
+          formatter: (carOwner: boolean, car: Car) => {
+            return car.carUsers.find((userCar) => userCar.owner) ?
+              this.translateService.instant('general.yes') : this.translateService.instant('general.no');
+          }
         }
-      });
-      tableColumnDef.push({
-        id: 'owner',
-        name: 'cars.car_owner',
-        headerClass: 'text-center col-10p',
-        class: 'text-center col-10p',
-        formatter: (carOwner: boolean, car: Car) => {
-          return car.carUsers.find((userCar) => userCar.owner) ?
-            this.translateService.instant('general.yes') : this.translateService.instant('general.no');
-        }
-      });
+      );
     }
     if (this.authorizationService.isAdmin()) {
-      tableColumnDef.splice(4, 0, {
-        id: 'carUsers',
-        name: 'cars.users',
-        headerClass: 'col-20p',
-        class: 'col-20p',
-        formatter: (carUsers: UserCar[]) => Utils.buildCarUsersFullName(carUsers),
-      });
-      tableColumnDef.push({
-        id: 'createdOn',
-        name: 'users.created_on',
-        formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
-        headerClass: 'col-15em',
-        class: 'col-15em',
-        sortable: true,
-      },
+      tableColumnDef.push(
+        {
+          id: 'createdOn',
+          name: 'users.created_on',
+          formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+          headerClass: 'col-15em',
+          class: 'col-15em',
+          sortable: true,
+        },
         {
           id: 'createdBy',
           name: 'users.created_by',
@@ -218,7 +227,8 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
           name: 'users.changed_by',
           headerClass: 'col-15em',
           class: 'col-15em',
-        });
+        }
+      );
     }
     return tableColumnDef;
   }

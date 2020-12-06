@@ -185,7 +185,27 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-10p',
         class: 'text-center col-10p',
         formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
-      },
+      }
+    );
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.push(
+        {
+          id: 'user',
+          name: 'transactions.user',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (value: User) => this.appUserNamePipe.transform(value),
+        },
+        {
+          id: 'tagID',
+          name: 'transactions.badge_id',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (tagID: string) => tagID ? tagID : '-'
+        }
+      );
+    }
+    columns.push(
       {
         id: 'errorCodeDetails',
         name: 'errors.details',
@@ -204,22 +224,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
     );
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(4, 0, {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (value: User) => this.appUserNamePipe.transform(value),
-      },
-      {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (tagID: string) => tagID ? tagID : '-'
-      });
-    }
     return columns as TableColumnDef[];
   }
 

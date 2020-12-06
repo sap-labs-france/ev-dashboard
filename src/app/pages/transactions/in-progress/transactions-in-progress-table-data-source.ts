@@ -168,7 +168,7 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     if (this.componentService.isActive(TenantComponents.CAR) &&
         this.authorizationService.canListCars()) {
       columns.push({
-        id: 'car.carCatalog',
+        id: 'carCatalog',
         name: 'car.title',
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',

@@ -164,8 +164,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
           }
         });
       }
-      if (transaction?.car?.carCatalog?.image) {
-        this.carImage = transaction.car.carCatalog.image;
+      if (transaction?.carCatalog?.image) {
+        this.carImage = transaction.carCatalog.image;
       }
       if (transaction.stop && transaction.stop.user) {
         this.centralServerService.getUserImage(transaction.stop.user.id).subscribe((userImage: Image) => {

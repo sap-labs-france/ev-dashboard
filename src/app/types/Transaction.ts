@@ -1,5 +1,5 @@
 import { BillingTransactionData } from './Billing';
-import { Car } from './Car';
+import { Car, CarCatalog } from './Car';
 import { ChargingStation } from './ChargingStation';
 import Consumption from './Consumption';
 import { OCPICdr } from './ocpi/OCPICdr';
@@ -43,6 +43,8 @@ export interface Transaction extends Data {
   tagID: string;
   carID?: string;
   car?: Car;
+  carCatalogID?: string;
+  carCatalog?: CarCatalog;
   status: string;
   price: number;
   priceUnit: string;

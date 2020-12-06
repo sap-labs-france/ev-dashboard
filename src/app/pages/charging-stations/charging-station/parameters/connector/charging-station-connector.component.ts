@@ -225,6 +225,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public numberOfConnectedPhaseChanged() {
     this.refreshTotalAmperage();
+    this.refreshPower();
     this.amperage.updateValueAndValidity();
     if (this.numberOfConnectedPhase.value === 1) {
       this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;

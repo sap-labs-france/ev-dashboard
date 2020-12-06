@@ -176,15 +176,36 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         id: 'chargeBoxID',
         name: 'transactions.charging_station',
         headerClass: 'col-15p',
+        sortable: true,
         class: 'text-left col-15p',
-        formatter: (chargingStationID: string, row: TransactionInError) => this.formatChargingStation(chargingStationID, row),
       },
       {
-        id: 'tagID',
-        name: 'transactions.badge_id',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-      },
+        id: 'connectorId',
+        name: 'chargers.connector',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
+      }
+    );
+    if (this.isAdmin || this.isSiteAdmin) {
+      columns.push(
+        {
+          id: 'user',
+          name: 'transactions.user',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (value: User) => this.appUserNamePipe.transform(value),
+        },
+        {
+          id: 'tagID',
+          name: 'transactions.badge_id',
+          headerClass: 'col-15p',
+          class: 'text-left col-15p',
+          formatter: (tagID: string) => tagID ? tagID : '-'
+        }
+      );
+    }
+    columns.push(
       {
         id: 'errorCodeDetails',
         name: 'errors.details',
@@ -203,15 +224,6 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
     );
-    if (this.isAdmin || this.isSiteAdmin) {
-      columns.splice(3, 0, {
-        id: 'user',
-        name: 'transactions.user',
-        headerClass: 'col-15p',
-        class: 'text-left col-15p',
-        formatter: (value: User) => this.appUserNamePipe.transform(value),
-      });
-    }
     return columns as TableColumnDef[];
   }
 

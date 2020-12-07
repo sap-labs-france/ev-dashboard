@@ -6,11 +6,13 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.component';
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
+import TenantComponents from '../../../types/TenantComponents';
 import { StartTransaction } from '../../../types/Transaction';
 import { UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -21,6 +23,8 @@ import { Utils } from '../../../utils/Utils';
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
   public chargeBoxID = '';
+  public isCarComponentActive: boolean;
+
   public formGroup!: FormGroup;
   public user!: AbstractControl;
   public userID!: AbstractControl;
@@ -37,6 +41,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     public spinnerService: SpinnerService,
     private messageService: MessageService,
     private translateService: TranslateService,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
@@ -46,7 +51,9 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.chargeBoxID = data.chargeBoxID;
     this.loggedUser = centralServerService.getLoggedUser();
     this.isAdmin = this.authorizationService.isAdmin();
-    Utils.registerCloseKeyEvents(this.dialogRef);
+    this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
+    Utils.registerValidateCloseKeyEvents(this.dialogRef,
+      this.startTransaction.bind(this), this.cancel.bind(this));
   }
 
   public ngOnInit() {

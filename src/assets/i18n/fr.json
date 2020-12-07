@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.30",
+    "last_update": "Version 2.4.31",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -213,8 +213,7 @@
       "download": "Télécharger",
       "test_connection": "Tester la connection",
       "force_available_status": "Forcer le Statut en Disponible",
-      "force_unavailable_status": "Forcer le Statut en Indisponible",
-      "assign_user_to_tag": "Assigner un nouveau utilisateur a ce badge"
+      "force_unavailable_status": "Forcer le Statut en Indisponible"
     }
   },
   "issuer": {
@@ -920,7 +919,7 @@
     "force_unavailable_status_success": "Le statut des connecteurs de la borne '{{chargeBoxID}}'à été changé avec succès",
     "force_unavailable_status_error": "Une erreur est survenue pendant le changement du statut des connecteurs de la borne, vérifiez les logs",
     "retrieve_config_success": "La configuration de la borne '{{chargeBoxID}}' a été téléchargée avec succès",
-    "change_config_error": "impossible de télécharger la configuration de la borne, vérifier les logs",
+    "change_config_error": "impossible de changer la configuration de la borne, vérifier les logs",
     "change_config_phase_error": "Impossible d'assigner une borne triphasée sur une zone monophasée",
     "change_config_success": "La borne '{{chargeBoxID}}' a été sauvegardée avec succès",
     "change_params_success": "Le paramètre '{{paramKey}}' a bien été mis à jour dans la borne '{{chargeBoxID}}'",
@@ -985,12 +984,8 @@
     "button_get_configuration": "Lire Configuration",
     "button_force_ocpp_params_update_from_template": "Forcer Mise à Jour Params OCPP",
     "created_on": "Date de création",
-    "start_transaction_admin_title": "Démarrage de session en tant qu'Administrateur",
-    "start_transaction_admin_message": "Voules-vous démarrer une session pour:",
-    "start_transaction_user_select_title": "Sélectionner un utilisateur",
-    "start_transaction_user_select_button": "Sélectionner",
-    "start_for_myself_button": "Moi même",
-    "select_user_button": "Autre utilisateur",
+    "start_transaction_details_title": "Démarrer une session sur la borne '{{chargeBoxID}}'",
+    "start_transaction": "Démarrer session",
     "power_limit_unit": "Unité de Puissance du Connecteur",
     "watt": "Watt",
     "amper": "Ampere",
@@ -1272,14 +1267,7 @@
     "select_tags": "Selection Badge",
     "tag_id_already_used": "Le badge '{{tagID}}' existe déjà",
     "redirect": "Naviguer vers Badges",
-    "assign_user_to_tag_title": "Assigner utilisateur au badge",
-    "assign_user_to_tag_confirm": "Voulez-vous vraiment assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
-    "change_user_tag_title": "Changer l'utilisateur du tag",
-    "change_user_tag_confirm": "Voulez-vous vraiment désassigner l'utilisateur '{{oldUserName}}' et assigner l'ultilisateur '{{newUserName}}' au badge '{{tagID}}'?",
-    "assign_user_to_tag_success": "L'utilisateur '{{userName}}' a assigné au badge avec succès",
-    "tag_has_transaction_error": "Impossible de mettre a jour un badge qui a des transactions",
-    "assign_user_to_tag_error": "Une erreur est survenue pendant l'assignation de l'utilisateurs au badge",
-    "assign_user_button": "Assigner utilisateur",
+    "title": "Badge",
     "default_tag": "Badge par défaut"
   },
   "tenants": {
@@ -1798,6 +1786,7 @@
     "delete_title": "Supprimer Véhicule",
     "delete_confirm": "Voulez-vous vraiment supprimer le véhicule '{{carName}}'?",
     "users": "Utilisateurs",
+    "select_car": "Selection Véhicule",
     "unit": {
       "meters": "m",
       "seconde": "sec(s)",

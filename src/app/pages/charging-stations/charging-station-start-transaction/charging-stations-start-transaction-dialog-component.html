@@ -1,0 +1,53 @@
+<h2 class="dialog-title" mat-dialog-title>{{title | translate}}</h2>
+<mat-dialog-content>
+  <div class="row" *ngIf="isAdmin">
+    <div class="col-md-12">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}" class="form-field-popup"
+            (click)="assignUser()" [formControl]="user" />
+          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignUser()">
+            <mat-icon>create</mat-icon>
+          </button>
+          <mat-error *ngIf="user.errors?.required">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isCarComponentActive" class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="text" readonly=true placeholder="{{'car.title' | translate}}" class="form-field-popup"
+            (click)="assignCar()" [formControl]="car" />
+          <button *ngIf="car.enabled && car.value" mat-icon-button matSuffix (click)="resetCar()" aria-label="Add">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput type="text" readonly=true placeholder="{{'tags.title' | translate}}" class="form-field-popup"
+            (click)="assignTag()" [formControl]="tag" />
+          <button *ngIf="tag.enabled" mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignTag()">
+            <mat-icon>create</mat-icon>
+          </button>
+          <mat-error *ngIf="tag.errors?.required">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button [disabled]="!formGroup.valid" (click)="startTransaction()" color="primary" disabled="false">{{"chargers.start_transaction" | translate}}</button>
+  <button mat-raised-button (click)="cancel()">{{'general.cancel' | translate}}</button>
+</mat-dialog-actions>

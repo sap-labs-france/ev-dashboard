@@ -24,6 +24,18 @@ export class AuthorizationService {
     this.loggedUser = null;
   }
 
+  public canListInvoicesBilling(): boolean {
+    return this.canAccess(Entity.INVOICES, Action.LIST);
+  }
+
+  public canListCars(): boolean {
+    return this.canAccess(Entity.CARS, Action.LIST);
+  }
+
+  public canUpdateCar(): boolean {
+    return this.canAccess(Entity.CAR, Action.UPDATE);
+  }
+
   public canUpdateChargingStation(): boolean {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }

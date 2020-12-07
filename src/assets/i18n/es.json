@@ -985,6 +985,7 @@
     "button_force_ocpp_params_update_from_template": "Forzar actualización de parámetros de OCPP",
     "created_on": "Fecha de creación",
     "start_transaction_details_title": "Start session on charging station '{{chargeBoxID}}'",
+    "start_transaction": "Start session",
     "power_limit_unit": "Unidad de alimentación del conector",
     "watt": "Vatio",
     "amper": "Amperio",

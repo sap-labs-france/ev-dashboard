@@ -241,24 +241,27 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         formatter: (tagID: string) => tagID ? tagID : '-'
       });
     }
-    if (this.componentService.isActive(TenantComponents.CAR) &&
-        this.authorizationService.canListCars()) {
-      columns.push({
-        id: 'carCatalog',
-        name: 'car.title',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-      },
-      {
-        id: 'car.licensePlate',
-        name: 'cars.license_plate',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
-      });
+    if (this.componentService.isActive(TenantComponents.CAR)) {
+      if (this.authorizationService.canListCars()) {
+        columns.push({
+          id: 'carCatalog',
+          name: 'car.title',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+          formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        });
+      }
+      if (this.authorizationService.canUpdateCar()) {
+        columns.push({
+          id: 'car.licensePlate',
+          name: 'cars.license_plate',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+          formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+        });
+      }
     }
     columns.push({
         id: 'stop.totalDurationSecs',

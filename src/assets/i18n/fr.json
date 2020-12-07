@@ -985,6 +985,7 @@
     "button_force_ocpp_params_update_from_template": "Forcer Mise à Jour Params OCPP",
     "created_on": "Date de création",
     "start_transaction_details_title": "Démarrer une session sur la borne '{{chargeBoxID}}'",
+    "start_transaction": "Démarrer session",
     "power_limit_unit": "Unité de Puissance du Connecteur",
     "watt": "Watt",
     "amper": "Ampere",

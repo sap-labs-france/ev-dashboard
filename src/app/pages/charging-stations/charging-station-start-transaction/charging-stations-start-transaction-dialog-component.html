@@ -51,6 +51,6 @@
   <div class="clearfix"></div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button [disabled]="!formGroup.valid" (click)="startTransaction()" color="primary" disabled="false">Start session</button>
+  <button mat-raised-button [disabled]="!formGroup.valid" (click)="startTransaction()" color="primary" disabled="false">{{"chargers.start_transaction" | translate}}</button>
   <button mat-raised-button (click)="cancel()">{{'general.cancel' | translate}}</button>
 </mat-dialog-actions>

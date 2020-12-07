@@ -1,15 +1,15 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { ActionResponse } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { ButtonColor, ButtonType, Data, TableActionDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
 
+import { CentralServerService } from '../../../services/central-server.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { ActionResponse } from '../../../types/DataResult';
+import { ButtonAction, RestResponse } from '../../../types/GlobalType';
+import { ButtonColor, ButtonType, Data, TableActionDef } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
 export class TableDeleteAction implements TableAction {

@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfigService } from 'app/services/config.service';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../services/central-server.service';
+import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
 

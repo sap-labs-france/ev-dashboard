@@ -1,18 +1,19 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { LocaleService } from 'app/services/locale.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppDatePipe } from 'app/shared/formatters/app-date.pipe';
-import { AppDecimalPipe } from 'app/shared/formatters/app-decimal-pipe';
-import { AppDurationPipe } from 'app/shared/formatters/app-duration.pipe';
-import { AssetConsumption } from 'app/types/Asset';
-import { ConsumptionUnit } from 'app/types/Transaction';
-import { Utils } from 'app/utils/Utils';
 import { Chart, ChartColor, ChartData, ChartDataSets, ChartOptions, ChartTooltipItem } from 'chart.js';
 import * as moment from 'moment';
+
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { LocaleService } from '../../../../services/locale.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal-pipe';
+import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
+import { AssetConsumption } from '../../../../types/Asset';
+import { ConsumptionUnit } from '../../../../types/Transaction';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-asset-chart',
@@ -21,7 +22,7 @@ import * as moment from 'moment';
 
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
-  @Input() public assetConsumption!: AssetConsumption;
+  @Input() public asset!: AssetConsumption;
 
   @ViewChild('primary', { static: true }) public primaryElement!: ElementRef;
   @ViewChild('danger', { static: true }) public dangerElement!: ElementRef;
@@ -95,11 +96,11 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
       .subscribe((assetConsumption: AssetConsumption) => {
         this.spinnerService.hide();
-        this.assetConsumption = assetConsumption;
+        this.asset = assetConsumption;
         this.prepareOrUpdateGraph();
       }, (error) => {
         this.spinnerService.hide();
-        delete this.assetConsumption;
+        delete this.asset;
       });
   }
 
@@ -190,7 +191,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private canDisplayGraph() {
-    return this.assetConsumption && this.assetConsumption.values && this.assetConsumption.values.length > 1;
+    return this.asset && this.asset.values && this.asset.values.length > 1;
   }
 
   private refreshDataSets() {
@@ -203,8 +204,15 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       const limitWattsDataSet = this.getDataSet('limitWatts');
       const limitAmpsDataSet = this.getDataSet('limitAmps');
       const labels: number[] = [];
-      for (const consumption of this.assetConsumption.values) {
-        labels.push(new Date(consumption.date).getTime());
+      // Add last point
+      if (this.asset.values.length > 0) {
+        this.asset.values.push({
+          ...this.asset.values[this.asset.values.length - 1],
+          startedAt: this.asset.values[this.asset.values.length - 1].endedAt,
+        });
+      }
+      for (const consumption of this.asset.values) {
+        labels.push(new Date(consumption.startedAt).getTime());
         if (instantPowerDataSet) {
           instantPowerDataSet.push(consumption.instantWatts);
         }

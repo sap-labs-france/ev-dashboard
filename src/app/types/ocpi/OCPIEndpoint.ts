@@ -37,7 +37,6 @@ export enum OcpiButtonAction {
   PULL_LOCATIONS = 'pull_locations',
   PULL_SESSIONS = 'pull_sessions',
   PULL_TOKENS = 'pull_tokens',
-  SYNC_ALL = 'sync_all',
   START_JOB = 'stop_start_job',
 }
 

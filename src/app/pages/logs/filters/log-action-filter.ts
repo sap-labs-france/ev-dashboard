@@ -1,6 +1,6 @@
-import { LogActionsDialogComponent } from 'app/shared/dialogs/logs/log-actions-dialog.component';
-import { TableFilter } from 'app/shared/table/filters/table-filter';
-import { FilterType, TableFilterDef } from 'app/types/Table';
+import { LOG_ACTIONSDialogComponent } from '../../../shared/dialogs/logs/log-actions-dialog.component';
+import { TableFilter } from '../../../shared/table/filters/table-filter';
+import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class LogActionTableFilter extends TableFilter {
   constructor(actions?: ReadonlyArray<string>) {
@@ -14,7 +14,7 @@ export class LogActionTableFilter extends TableFilter {
       label: '',
       name: 'logs.actions',
       class: 'col-md-6 col-lg-4 col-xl-2',
-      dialogComponent: LogActionsDialogComponent,
+      dialogComponent: LOG_ACTIONSDialogComponent,
       multiple: true,
       cleared: true,
     };

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { CONNECTOR_TYPE_MAP } from 'app/shared/formatters/app-connector-type.pipe';
-import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'app/types/ChargingStation';
-import { Utils } from 'app/utils/Utils';
+
+import { CONNECTOR_TYPE_MAP } from '../../../../../shared/formatters/app-connector-type.pipe';
+import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from '../../../../../types/ChargingStation';
+import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-connector',
@@ -147,6 +148,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
       if (this.numberOfConnectedPhase.value === 1) {
         this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
+      } else {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
       }
       if (this.connector.phaseAssignmentToGrid) {
         this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[
@@ -189,6 +192,11 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     } else {
       this.numberOfConnectedPhase.enable();
       this.phaseAssignmentToGrid.enable();
+      if (this.numberOfConnectedPhase.value === 1) {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
+      } else {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
+      }
     }
   }
 
@@ -217,6 +225,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public numberOfConnectedPhaseChanged() {
     this.refreshTotalAmperage();
+    this.refreshPower();
     this.amperage.updateValueAndValidity();
     if (this.numberOfConnectedPhase.value === 1) {
       this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;

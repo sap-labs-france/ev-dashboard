@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AppUserNamePipe } from 'app/shared/formatters/app-user-name.pipe';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { DataResult } from 'app/types/DataResult';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
@@ -17,20 +10,27 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
+import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
+import { TableDownloadBillingInvoice } from '../../../shared/table/actions/invoices/table-download-billing-invoice-action';
+import { TableSyncBillingInvoicesAction } from '../../../shared/table/actions/invoices/table-sync-billing-invoices-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
+import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { BillingButtonAction, BillingInvoice } from '../../../types/Billing';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult } from '../../../types/DataResult';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import TenantComponents from '../../../types/TenantComponents';
+import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { InvoiceStatusFilter } from '../filters/invoices-status-filter';
 import { InvoiceStatusFormatterComponent } from '../formatters/invoice-status-formatter.component';
-import { TableDownloadBillingInvoice } from '../table-actions/table-download-billing-invoice-action';
-import { TableSyncBillingInvoicesAction } from '../table-actions/table-sync-billing-invoices-action';
 
 @Injectable()
 export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
@@ -122,6 +122,25 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         class: 'col-15p',
         sortable: true,
       },
+    );
+    if (this.authorizationService.isAdmin()) {
+      columns.push(
+        {
+          id: 'user',
+          name: 'invoices.user',
+          headerClass: 'col-20p text-left',
+          class: 'col-20p text-left',
+          formatter: (user: User) => this.appUserNamePipe.transform(user),
+        },
+        {
+          id: 'user.email',
+          name: 'users.email',
+          headerClass: 'col-20p text-left',
+          class: 'col-20p text-left',
+        }
+      );
+    }
+    columns.push(
       {
         id: 'nbrOfItems',
         name: 'invoices.number_of_items',
@@ -138,21 +157,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         sortable: true,
       },
     );
-    if (this.authorizationService.isAdmin()) {
-      columns.splice(3, 0, {
-        id: 'user',
-        name: 'invoices.user',
-        headerClass: 'col-20p text-left',
-        class: 'col-20p text-left',
-        formatter: (user: User) => this.appUserNamePipe.transform(user),
-      },
-        {
-          id: 'user.email',
-          name: 'users.email',
-          headerClass: 'col-20p text-left',
-          class: 'col-20p text-left',
-        });
-    }
     return columns as TableColumnDef[];
   }
 

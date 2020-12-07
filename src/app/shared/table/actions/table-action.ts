@@ -1,4 +1,4 @@
-import { TableActionDef } from 'app/types/Table';
+import { TableActionDef } from '../../../types/Table';
 
 export interface TableAction {
   // Return an action

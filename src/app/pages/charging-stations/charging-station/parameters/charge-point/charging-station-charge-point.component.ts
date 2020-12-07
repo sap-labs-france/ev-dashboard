@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ChargePoint, ChargingStation, CurrentType, Voltage } from 'app/types/ChargingStation';
+
+import { ChargePoint, ChargingStation, CurrentType, Voltage } from '../../../../../types/ChargingStation';
 
 @Component({
   selector: 'app-charging-station-charge-point',
@@ -37,19 +38,16 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.formChargePointGroup = new FormGroup({
       currentType: new FormControl(CurrentType.AC,
         Validators.compose([
-          Validators.required,
         ])
       ),
       voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
-          Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
       amperage: new FormControl(0,
         Validators.compose([
-          Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
@@ -61,29 +59,24 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
       ),
       cannotChargeInParallel: new FormControl(false,
         Validators.compose([
-          Validators.required,
         ])
       ),
       sharePowerToAllConnectors: new FormControl(false,
         Validators.compose([
-          Validators.required,
         ])
       ),
       excludeFromPowerLimitation: new FormControl(false,
         Validators.compose([
-          Validators.required,
         ])
       ),
       power: new FormControl(0,
         Validators.compose([
-          Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
       efficiency: new FormControl(0,
         Validators.compose([
-          Validators.required,
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
@@ -110,7 +103,6 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   public ngOnChanges() {
     this.loadChargePoint();
   }
-
 
   public loadChargePoint() {
     if (this.chargePoint && this.formChargePointGroup) {

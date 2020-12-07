@@ -52,7 +52,7 @@
                                 <button mat-flat-button color="primary" class="mr-2">
                                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                                   <div class="d-none">
-                                    <input type="file" name="..." (change)="logoChanged($event)" #file>
+                                    <input type="file" name="..." (change)="onLogoChanged($event)" #file>
                                   </div>
                                 </button>
                                 <button mat-flat-button color="warn">
@@ -110,7 +110,10 @@
                     <div class="col-md-12">
                       <div class="d-flex flex-column mx-3">
                         <div class="d-flex align-items-center component-item">
-                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].ocpi['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].ocpi['controls'].active"
+                            (change)="toggleDropDownActivation($event, components['controls'].ocpi['controls'].type)">
+                          </mat-slide-toggle>
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"ocpi.title" | translate}}</b></strong></div>
                             <div>{{"ocpi.description" | translate}}</div>
@@ -128,7 +131,10 @@
                           </mat-form-field>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].refund['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].refund['controls'].active"
+                            (change)="toggleDropDownActivation($event, components['controls'].refund['controls'].type)">
+                          </mat-slide-toggle>
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"refund.title" | translate}}</b></strong></div>
                             <div>{{"refund.description" | translate}}</div>
@@ -146,7 +152,10 @@
                           </mat-form-field>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].pricing['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].pricing['controls'].active"
+                            (change)="toggleDropDownActivation($event, components['controls'].pricing['controls'].type)">
+                          </mat-slide-toggle>
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"pricing.title" | translate}}</b></strong></div>
                             <div>{{"pricing.description" | translate}}</div>
@@ -164,7 +173,10 @@
                           </mat-form-field>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].billing['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].billing['controls'].active"
+                            (change)="toggleDropDownActivation($event, components['controls'].billing['controls'].type)">
+                          </mat-slide-toggle>
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"billing.title" | translate}}</b></strong></div>
                             <div>{{"billing.description" | translate}}</div>
@@ -210,7 +222,10 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].analytics['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].analytics['controls'].active"
+                            (change)="toggleDropDownActivation($event, components['controls'].analytics['controls'].type)">
+                          </mat-slide-toggle>
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"analytics.title" | translate}}</b></strong></div>
                             <div>{{"analytics.description" | translate}}</div>
@@ -228,7 +243,10 @@
                           </mat-form-field>
                         </div>
                         <div class="d-flex align-items-center component-item">
-                          <mat-slide-toggle class="align-self-start mt-2" [formControl]="components['controls'].smartCharging['controls'].active"></mat-slide-toggle>
+                          <mat-slide-toggle class="align-self-start mt-2"
+                            [formControl]="components['controls'].smartCharging['controls'].active"
+                            (change)="toggleDropDownActivation($event, components['controls'].smartCharging['controls'].type)">
+                          </mat-slide-toggle>
                           <div class="d-flex flex-column mr-auto ml-3 justify-content-around align-items-start w-100">
                             <div><strong><b>{{"smart_charging.title" | translate}}</b></strong></div>
                             <div>{{"smart_charging.description" | translate}}</div>

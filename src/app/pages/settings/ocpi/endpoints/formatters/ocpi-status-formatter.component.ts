@@ -1,7 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CellContentTemplateDirective } from 'app/shared/table/cell-content-template/cell-content-template.directive';
-import { ChipType, KeyValue } from 'app/types/GlobalType';
-import { OcpiEndpoint, OcpiEndpointStatus } from 'app/types/ocpi/OCPIEndpoint';
+
+import { CellContentTemplateDirective } from '../../../../../shared/table/cell-content-template/cell-content-template.directive';
+import { ChipType, KeyValue } from '../../../../../types/GlobalType';
+import { OcpiEndpoint, OcpiEndpointStatus } from '../../../../../types/ocpi/OCPIEndpoint';
 
 export const ocpiStatuses: KeyValue[] = [
   { key: 'new', value: 'ocpiendpoints.new' },

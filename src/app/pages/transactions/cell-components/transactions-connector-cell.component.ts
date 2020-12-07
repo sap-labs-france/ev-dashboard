@@ -1,8 +1,8 @@
 import { Component, Injectable, Input, Pipe, PipeTransform } from '@angular/core';
-import { ChargePointStatus } from 'app/types/ChargingStation';
-import { Transaction } from 'app/types/Transaction';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { ChargePointStatus } from '../../../types/ChargingStation';
+import { Transaction } from '../../../types/Transaction';
 
 @Component({
   template: `

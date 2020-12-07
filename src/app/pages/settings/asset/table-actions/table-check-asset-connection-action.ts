@@ -1,16 +1,17 @@
 import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableCheckConnectionAction } from 'app/shared/table/actions/table-check-connection-action';
-import { AssetButtonAction } from 'app/types/Asset';
-import { RestResponse } from 'app/types/GlobalType';
-import { AssetConnectionSetting } from 'app/types/Setting';
-import { TableActionDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
+
+import { CentralServerService } from '../../../../services/central-server.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { TableCheckConnectionAction } from '../../../../shared/table/actions/table-check-connection-action';
+import { AssetButtonAction } from '../../../../types/Asset';
+import { RestResponse } from '../../../../types/GlobalType';
+import { AssetConnectionSetting } from '../../../../types/Setting';
+import { TableActionDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 
 export class TableCheckAssetConnectionAction extends TableCheckConnectionAction {
   public getActionDef(): TableActionDef {

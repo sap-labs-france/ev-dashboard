@@ -2,22 +2,23 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from 'app/services/authorization.service';
-import { CentralServerService } from 'app/services/central-server.service';
-import { DialogService } from 'app/services/dialog.service';
-import { MessageService } from 'app/services/message.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { AssetsDialogComponent } from 'app/shared/dialogs/assets/assets-dialog.component';
-import { TableAddAction } from 'app/shared/table/actions/table-add-action';
-import { TableRemoveAction } from 'app/shared/table/actions/table-remove-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { Asset } from 'app/types/Asset';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction, RestResponse } from 'app/types/GlobalType';
-import { SiteArea } from 'app/types/SiteArea';
-import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from 'app/types/Table';
-import { Utils } from 'app/utils/Utils';
 import { Observable } from 'rxjs';
+
+import { AuthorizationService } from '../../../../services/authorization.service';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { AssetsDialogComponent } from '../../../../shared/dialogs/assets/assets-dialog.component';
+import { TableAddAction } from '../../../../shared/table/actions/table-add-action';
+import { TableRemoveAction } from '../../../../shared/table/actions/table-remove-action';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { Asset } from '../../../../types/Asset';
+import { DataResult } from '../../../../types/DataResult';
+import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
+import { SiteArea } from '../../../../types/SiteArea';
+import { ButtonType, Data, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
 export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {

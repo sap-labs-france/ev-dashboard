@@ -1,23 +1,23 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { CentralServerNotificationService } from 'app/services/central-server-notification.service';
-import { DialogService } from 'app/services/dialog.service';
-import { SpinnerService } from 'app/services/spinner.service';
-import { TableCreateAction } from 'app/shared/table/actions/table-create-action';
-import { TableDeleteAction } from 'app/shared/table/actions/table-delete-action';
-import { TableEditAction } from 'app/shared/table/actions/table-edit-action';
-import { TableOpenURLAction } from 'app/shared/table/actions/table-open-url-action';
-import { TableRefreshAction } from 'app/shared/table/actions/table-refresh-action';
-import { TableDataSource } from 'app/shared/table/table-data-source';
-import { DataResult } from 'app/types/DataResult';
-import { ButtonAction } from 'app/types/GlobalType';
-import { SettingLink } from 'app/types/Setting';
-import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
 import { Observable } from 'rxjs';
 
+import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
+import { DialogService } from '../../../../services/dialog.service';
+import { SpinnerService } from '../../../../services/spinner.service';
 import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user-multiple-roles.pipe';
+import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
+import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
+import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
+import { TableOpenURLAction } from '../../../../shared/table/actions/table-open-url-action';
+import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { TableDataSource } from '../../../../shared/table/table-data-source';
 import ChangeNotification from '../../../../types/ChangeNotification';
+import { DataResult } from '../../../../types/DataResult';
+import { ButtonAction } from '../../../../types/GlobalType';
+import { SettingLink } from '../../../../types/Setting';
+import { ButtonType, DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()

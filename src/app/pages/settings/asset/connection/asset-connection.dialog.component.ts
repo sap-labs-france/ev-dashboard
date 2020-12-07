@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AssetConnectionSetting } from 'app/types/Setting';
-import { Utils } from 'app/utils/Utils';
 
+import { AssetConnectionSetting } from '../../../../types/Setting';
+import { Utils } from '../../../../utils/Utils';
 import { AssetConnectionComponent } from './asset-connection.component';
 
 @Component({

@@ -1,16 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AppCurrencyPipe } from 'app/shared/formatters/app-currency.pipe';
-import { TableOpenURLActionDef } from 'app/shared/table/actions/table-open-url-action';
-import { EndDateFilter } from 'app/shared/table/filters/end-date-filter';
-import { StartDateFilter } from 'app/shared/table/filters/start-date-filter';
-import { DataResult, TransactionRefundDataResult } from 'app/types/DataResult';
-import { RefundSettings } from 'app/types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'app/types/Table';
-import TenantComponents from 'app/types/TenantComponents';
-import { Transaction, TransactionButtonAction } from 'app/types/Transaction';
-import { User } from 'app/types/User';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 
@@ -23,26 +13,37 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
 import { AppConnectorIdPipe } from '../../../shared/formatters/app-connector-id.pipe';
+import { AppCurrencyPipe } from '../../../shared/formatters/app-currency.pipe';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
+import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
+import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
+import { TableOpenURLConcurAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
+import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-refund-transactions-action';
+import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
+import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
 import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
+import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { CarCatalog } from '../../../types/Car';
 import ChangeNotification from '../../../types/ChangeNotification';
+import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
+import { RefundSettings } from '../../../types/Setting';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import TenantComponents from '../../../types/TenantComponents';
+import { Transaction, TransactionButtonAction } from '../../../types/Transaction';
+import { User } from '../../../types/User';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsRefundStatusFilter } from '../filters/transactions-refund-status-filter';
-import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../table-actions/table-export-transactions-action';
-import { TableOpenURLConcurAction } from '../table-actions/table-open-url-concur-action';
-import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../table-actions/table-refund-transactions-action';
-import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../table-actions/table-sync-refund-transactions-action';
 
 @Injectable()
 export class TransactionsRefundTableDataSource extends TableDataSource<Transaction> {
@@ -184,21 +185,51 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         name: 'transactions.duration',
         class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
-      }, {
-      id: 'stop.totalConsumptionWh',
-      name: 'transactions.total_consumption',
-      formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
-    }, {
-      id: 'stop.price',
-      name: 'transactions.price',
-      formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
-    }, {
-      id: 'chargeBoxID',
-      name: 'transactions.charging_station',
-      class: 'text-left',
-      formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
-    });
-
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.total_consumption',
+        formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stop.price',
+        name: 'transactions.price',
+        formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
+      },
+      {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        sortable: true,
+        class: 'text-left col-15p',
+      },
+      {
+        id: 'connectorId',
+        name: 'chargers.connector',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
+      },
+    );
+    if (this.componentService.isActive(TenantComponents.CAR) &&
+        this.authorizationService.canListCars()) {
+      columns.push({
+        id: 'carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+      });
+    }
     return columns as TableColumnDef[];
   }
 

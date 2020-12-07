@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Transaction } from 'app/types/Transaction';
 
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
+import { Transaction } from '../../../types/Transaction';
 
 @Component({
   template: `

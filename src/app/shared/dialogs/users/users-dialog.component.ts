@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { KeyValue } from 'app/types/GlobalType';
-import { User } from 'app/types/User';
-import { Utils } from 'app/utils/Utils';
 
+import { KeyValue } from '../../../types/GlobalType';
+import { User } from '../../../types/User';
+import { Utils } from '../../../utils/Utils';
 import { DialogTableDataComponent } from '../dialog-table-data.component';
 import { UsersDialogTableDataSource } from './users-dialog-table-data-source';
 

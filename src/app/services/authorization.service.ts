@@ -32,6 +32,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.CARS, Action.LIST);
   }
 
+  public canUpdateCar(): boolean {
+    return this.canAccess(Entity.CAR, Action.UPDATE);
+  }
+
   public canUpdateChargingStation(): boolean {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }

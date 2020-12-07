@@ -24,7 +24,7 @@ import { Car, CarButtonAction, CarConverter, CarType } from '../../../types/Car'
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { UserCar } from '../../../types/User';
+import { User, UserCar } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 import { CarDialogComponent } from '../car/car.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
@@ -143,39 +143,22 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         },
       );
     }
-    tableColumnDef.push(
-      {
-        id: 'licensePlate',
-        name: 'cars.license_plate',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-      },
-      {
-        id: 'vin',
-        name: 'cars.vin',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-      },
-      {
-        id: 'converter',
-        name: 'cars.converter',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
-      },
-      {
-        id: 'type',
-        name: 'cars.type',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
-      },
-    );
-    if (this.authorizationService.isBasic()) {
+    if (this.authorizationService.canUpdateCar()) {
       tableColumnDef.push(
+        {
+          id: 'licensePlate',
+          name: 'cars.license_plate',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+        },
+        {
+          id: 'vin',
+          name: 'cars.vin',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+        },
         {
           id: 'default',
           name: 'cars.default_car',
@@ -198,6 +181,23 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         }
       );
     }
+    tableColumnDef.push(
+      {
+        id: 'converter',
+        name: 'cars.converter',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (converter: CarConverter) => Utils.buildCarCatalogConverterName(converter, this.translateService),
+      },
+      {
+        id: 'type',
+        name: 'cars.type',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        formatter: (carType: CarType) => Utils.getCarType(carType, this.translateService),
+      },
+    );
     if (this.authorizationService.isAdmin()) {
       tableColumnDef.push(
         {
@@ -211,6 +211,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         {
           id: 'createdBy',
           name: 'users.created_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         },
@@ -225,6 +226,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         {
           id: 'lastChangedBy',
           name: 'users.changed_by',
+          formatter: (user: User) => Utils.buildUserFullName(user),
           headerClass: 'col-15em',
           class: 'col-15em',
         }

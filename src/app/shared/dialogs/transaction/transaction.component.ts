@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { ConfigService } from '../../../services/config.service';
 import { LocaleService } from '../../../services/locale.service';
 import { MessageService } from '../../../services/message.service';
@@ -13,6 +14,7 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartComponent } from '../../../shared/component/consumption-chart/consumption-chart.component';
 import { AppPercentPipe } from '../../../shared/formatters/app-percent-pipe';
 import { Image } from '../../../types/GlobalType';
+import TenantComponents from '../../../types/TenantComponents';
 import { Transaction } from '../../../types/Transaction';
 import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
@@ -27,6 +29,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   @Input() public chargingStationID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+
   public transaction!: Transaction;
   public stateOfChargeIcon!: string;
   public stateOfCharge!: number;
@@ -40,6 +43,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public totalDurationSecs!: number;
   public percentOfInactivity!: string;
   public locale!: string;
+  public isCarComponentActive: boolean;
 
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
 
@@ -52,11 +56,13 @@ export class TransactionComponent implements OnInit, OnDestroy {
     private appPercentPipe: AppPercentPipe,
     private centralServerService: CentralServerService,
     private centralServerNotificationService: CentralServerNotificationService,
+    private componentService: ComponentService,
     private configService: ConfigService,
     private localeService: LocaleService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
+    this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
   }
 
   public ngOnInit(): void {

@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div *ngIf="isCarComponentActive" class="row">
     <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
@@ -25,15 +25,12 @@
           <button *ngIf="car.enabled && car.value" mat-icon-button matSuffix (click)="resetCar()" aria-label="Add">
             <mat-icon>clear</mat-icon>
           </button>
-          <mat-error *ngIf="car.errors?.required">
-            {{"general.mandatory_field" | translate}}
-          </mat-error>
         </mat-form-field>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="form-group">
         <mat-form-field>
           <input matInput type="text" readonly=true placeholder="{{'tags.title' | translate}}" class="form-field-popup"

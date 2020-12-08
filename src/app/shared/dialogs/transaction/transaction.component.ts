@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -44,6 +45,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public percentOfInactivity!: string;
   public locale!: string;
   public isCarComponentActive: boolean;
+  public canDisplayCar: boolean;
+  public canUpdateCar: boolean;
 
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
 
@@ -55,6 +58,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     private router: Router,
     private appPercentPipe: AppPercentPipe,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private centralServerNotificationService: CentralServerNotificationService,
     private componentService: ComponentService,
     private configService: ConfigService,
@@ -63,6 +67,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.locale = locale.currentLocaleJS;
     });
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
+    this.canUpdateCar = this.authorizationService.canUpdateCar();
+    this.canDisplayCar = this.authorizationService.canReadCar();
   }
 
   public ngOnInit(): void {

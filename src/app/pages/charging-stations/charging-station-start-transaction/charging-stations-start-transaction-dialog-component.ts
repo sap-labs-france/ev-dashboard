@@ -6,11 +6,13 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.component';
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
+import TenantComponents from '../../../types/TenantComponents';
 import { StartTransaction } from '../../../types/Transaction';
 import { UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -21,6 +23,8 @@ import { Utils } from '../../../utils/Utils';
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
   public chargeBoxID = '';
+  public isCarComponentActive: boolean;
+
   public formGroup!: FormGroup;
   public user!: AbstractControl;
   public userID!: AbstractControl;
@@ -37,6 +41,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     public spinnerService: SpinnerService,
     private messageService: MessageService,
     private translateService: TranslateService,
+    private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
@@ -46,7 +51,9 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.chargeBoxID = data.chargeBoxID;
     this.loggedUser = centralServerService.getLoggedUser();
     this.isAdmin = this.authorizationService.isAdmin();
-    Utils.registerCloseKeyEvents(this.dialogRef);
+    this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
+    Utils.registerValidateCloseKeyEvents(this.dialogRef,
+      this.startTransaction.bind(this), this.cancel.bind(this));
   }
 
   public ngOnInit() {
@@ -98,33 +105,13 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       this.spinnerService.show();
       this.centralServerService.getUserDefaultTagCar(this.userID.value).subscribe((userDefaultTagCar: UserDefaultTagCar) => {
         this.spinnerService.hide();
-        if (userDefaultTagCar) {
-          if (userDefaultTagCar.tag) {
-            this.tag.setValue(Utils.buildTagName(userDefaultTagCar.tag));
-            this.tagID.setValue(userDefaultTagCar.tag.id);
-          } else {
-            this.tag.disable();
-            this.messageService.showErrorMessage(
-              this.translateService.instant('chargers.start_transaction_missing_active_tag', {
-                chargeBoxID: this.chargeBoxID,
-                userName: this.user.value,
-              }));
-          }
-          if (userDefaultTagCar.car) {
-            this.car.setValue(Utils.buildCarName(userDefaultTagCar.car, this.translateService, false));
-            this.carID.setValue(userDefaultTagCar.car.id);
-          } else {
-            this.car.disable();
-          }
-        } else {
-          this.car.disable();
-          this.tag.disable();
-          this.messageService.showErrorMessage(
-            this.translateService.instant('chargers.start_transaction_missing_active_tag', {
-              chargeBoxID: this.chargeBoxID,
-              userName: this.user.value,
-            }));
-        }
+        // Set Tag
+        this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
+        this.tagID.setValue(userDefaultTagCar.tag?.id);
+        // Set Car
+        this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
+        this.carID.setValue(userDefaultTagCar.car?.id);
+        // Update form
         this.formGroup.updateValueAndValidity();
         this.formGroup.markAsPristine();
         this.formGroup.markAllAsTouched();
@@ -176,8 +163,10 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(TagsDialogComponent, dialogConfig);
     // Register to the answer
     dialogRef.afterClosed().subscribe((result) => {
-      this.tag.setValue(result[0].key);
-      this.tagID.setValue(result[0].key);
+      if (result) {
+        this.tag.setValue(result[0].key);
+        this.tagID.setValue(result[0].key);
+      }
     });
   }
 
@@ -195,8 +184,10 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(CarsDialogComponent, dialogConfig);
     // Register to the answer
     dialogRef.afterClosed().subscribe((result) => {
-      this.car.setValue(Utils.buildCarName(result[0].objectRef, this.translateService, false));
-      this.carID.setValue(result[0].key);
+      if (result) {
+        this.car.setValue(Utils.buildCarName(result[0].objectRef, this.translateService, false));
+        this.carID.setValue(result[0].key);
+      }
     });
   }
 

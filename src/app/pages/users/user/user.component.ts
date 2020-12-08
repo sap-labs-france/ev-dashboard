@@ -87,7 +87,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendOfflineChargingStations!: AbstractControl;
   public sendOcpiPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
-  public sendSmtpAuthError!: AbstractControl;
+  public sendSmtpError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
   public sendComputeAndApplyChargingProfilesFailed!: AbstractControl;
   public sendSessionNotStarted!: AbstractControl;
@@ -182,7 +182,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOfflineChargingStations: new FormControl(false),
         sendPreparingSessionNotStarted: new FormControl(false),
         sendOcpiPatchStatusError: new FormControl(false),
-        sendSmtpAuthError: new FormControl(false),
+        sendSmtpError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
         sendEndUserErrorNotification: new FormControl(false),
@@ -268,7 +268,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendOfflineChargingStations = this.notifications.controls['sendOfflineChargingStations'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
-    this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
+    this.sendSmtpError = this.notifications.controls['sendSmtpError'];
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
@@ -413,10 +413,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
       }
-      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSmtpAuthError')) {
-        this.notifications.controls.sendSmtpAuthError.setValue(user.notifications.sendSmtpAuthError);
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendSmtpError')) {
+        this.notifications.controls.sendSmtpError.setValue(user.notifications.sendSmtpError);
       } else {
-        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendSmtpError.setValue(false);
       }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendBillingSynchronizationFailed')) {
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(user.notifications.sendBillingSynchronizationFailed);
@@ -496,7 +496,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOfflineChargingStations.setValue(true);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(true);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
-        this.notifications.controls.sendSmtpAuthError.setValue(true);
+        this.notifications.controls.sendSmtpError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(true);
         this.notifications.controls.sendEndUserErrorNotification.setValue(true);
@@ -517,7 +517,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);
@@ -538,7 +538,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
-        this.notifications.controls.sendSmtpAuthError.setValue(false);
+        this.notifications.controls.sendSmtpError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
         this.notifications.controls.sendComputeAndApplyChargingProfilesFailed.setValue(false);
         this.notifications.controls.sendEndUserErrorNotification.setValue(false);

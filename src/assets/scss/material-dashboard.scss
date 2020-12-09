@@ -1,10 +1,3 @@
-// material-icons-font dependency integration
-@import '~material-icons-font/sass/variables';
-@import '~material-icons-font/sass/mixins';
-$MaterialIcons_FontPath: "~material-icons-font/fonts";
-@import '~material-icons-font/sass/main';
-@import '~material-icons-font/sass/Regular';
-
 // Import Core Vars/Mixins
 @import "core/variables";
 @import "core/mixins";

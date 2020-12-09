@@ -40,7 +40,6 @@
               { "glob": "**/*", "input": "src/nginx/", "output": "/nginx/" }
             ],
             "styles": [
-              "node_modules/material-icons-font/material-icons-font.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/sweetalert2/src/sweetalert2.scss",
               "src/assets/scss/material-dashboard.scss"

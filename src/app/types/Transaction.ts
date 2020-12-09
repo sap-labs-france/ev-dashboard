@@ -2,11 +2,11 @@ import { BillingTransactionData } from './Billing';
 import { Car, CarCatalog } from './Car';
 import { ChargingStation } from './ChargingStation';
 import Consumption from './Consumption';
-import { OCPICdr } from './ocpi/OCPICdr';
-import { OCPISession } from './ocpi/OCPISession';
 import { RefundStatus, RefundType } from './Refund';
 import { Data } from './Table';
 import { User } from './User';
+import { OCPICdr } from './ocpi/OCPICdr';
+import { OCPISession } from './ocpi/OCPISession';
 
 export interface Transaction extends Data {
   id: number;

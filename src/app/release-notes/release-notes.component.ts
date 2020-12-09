@@ -24,13 +24,54 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.30',
-        date: new Date('2020-11-01'),
+        version: '2.4.32',
+        date: new Date('2020-12-08'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Do not show Car plate ID in Session details for role Demo`,
+              `Fixed Car Default and Owner props not returned to Basic users`,
+              `Fixed CSS in Car Catalog popup for mid-size screens`,
+              `Enhanced performances of the Carousel control used to display all the Car's images`,
+              `Hide car features in front if Car component is not active`,
+              `Added new Delta OCPP parameter in templates to correctly read Badge ID with shorter length like New Motion`,
+              `Setup backup notification email server in AWS in addition to the one in SCP`,
+              `Fixed translation issues`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.31',
+        date: new Date('2020-12-05'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Start a Transaction with a given Car and Badge ID`,
+              `Fixed refresh of power when nbr phase is changed`,
+              `Fixed Instant Power progress bar with wrong Max Power in Charging Station's list`,
+              `Added debug logs for Charging Stations connexion issues`,
+              `Fixed Save button is disabled in Tenant pop-up`,
+              `Fix Keba Model in Charging Station's template`,
+              `Add support for Static Limitation for Shelly in Charging Station's template`,
+              `Fixed cannot set the phase order for a connector with single phase Site Area`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.30',
+        date: new Date('2020-12-02'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not exclude Charging Station permanently when Smart Charging fails to push the Charging Plans to it`,
+              `Moved Site column after the Charging Station's name in Charging Station's list`,
               `Add Keba P30 model in Charging Station's template`,
+              `Increased performances for listing 800k Badges`,
             ],
           },
         ],

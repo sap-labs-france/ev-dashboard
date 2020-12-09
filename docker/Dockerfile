@@ -7,7 +7,7 @@ WORKDIR /usr/builder
 COPY package.json package-lock.json ./
 
 RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
-RUN npm install
+RUN HUSKY_SKIP_INSTALL=1 npm install
 
 COPY NOTICE LICENSE ./
 COPY src ./src

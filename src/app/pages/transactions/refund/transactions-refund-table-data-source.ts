@@ -33,6 +33,7 @@ import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-tab
 import { StartDateFilter } from '../../../shared/table/filters/start-date-filter';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
+import { CarCatalog } from '../../../types/Car';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult, TransactionRefundDataResult } from '../../../types/DataResult';
 import { RefundSettings } from '../../../types/Setting';
@@ -184,21 +185,51 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         name: 'transactions.duration',
         class: 'text-left',
         formatter: (totalDurationSecs) => this.appDurationPipe.transform(totalDurationSecs),
-      }, {
-      id: 'stop.totalConsumptionWh',
-      name: 'transactions.total_consumption',
-      formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
-    }, {
-      id: 'stop.price',
-      name: 'transactions.price',
-      formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
-    }, {
-      id: 'chargeBoxID',
-      name: 'transactions.charging_station',
-      class: 'text-left',
-      formatter: (chargingStation, row) => this.formatChargingStation(chargingStation, row),
-    });
-
+      },
+      {
+        id: 'stop.totalConsumptionWh',
+        name: 'transactions.total_consumption',
+        formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+      },
+      {
+        id: 'stop.price',
+        name: 'transactions.price',
+        formatter: (price, row) => this.appCurrencyPipe.transform(price, row.stop.priceUnit),
+      },
+      {
+        id: 'chargeBoxID',
+        name: 'transactions.charging_station',
+        headerClass: 'col-15p',
+        sortable: true,
+        class: 'text-left col-15p',
+      },
+      {
+        id: 'connectorId',
+        name: 'chargers.connector',
+        headerClass: 'text-center col-10p',
+        class: 'text-center col-10p',
+        formatter: (connectorId: number) => this.appConnectorIdPipe.transform(connectorId),
+      },
+    );
+    if (this.componentService.isActive(TenantComponents.CAR) &&
+        this.authorizationService.canListCars()) {
+      columns.push({
+        id: 'carCatalog',
+        name: 'car.title',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+      },
+      {
+        id: 'car.licensePlate',
+        name: 'cars.license_plate',
+        headerClass: 'text-center col-15p',
+        class: 'text-center col-15p',
+        sortable: true,
+        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+      });
+    }
     return columns as TableColumnDef[];
   }
 

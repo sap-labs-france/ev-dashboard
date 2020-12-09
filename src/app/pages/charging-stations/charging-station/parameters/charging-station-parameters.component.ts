@@ -174,7 +174,7 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         this.latitude.setValue(this.chargingStation.coordinates[1]);
       }
       if (this.chargingStation.siteAreaID) {
-        this.siteAreaID.setValue(this.chargingStation.siteArea.id);
+        this.siteAreaID.setValue(this.chargingStation.siteAreaID);
       }
       if (this.chargingStation.siteArea) {
         this.siteArea.setValue(this.chargingStation.siteArea.name);

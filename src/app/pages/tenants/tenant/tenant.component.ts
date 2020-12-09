@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -126,6 +127,16 @@ export class TenantComponent implements OnInit {
     }
     // Load
     this.loadTenant();
+  }
+
+  public toggleDropDownActivation(event: MatSlideToggleChange, inputControl: FormControl) {
+    if (inputControl) {
+      if (event.checked) {
+        inputControl.enable();
+      } else {
+        inputControl.disable();
+      }
+    }
   }
 
   public loadTenant() {

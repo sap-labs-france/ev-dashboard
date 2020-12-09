@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, TimeoutError, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,7 +13,7 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/Cha
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OCPITriggerJobsResponse, Ordering, Paging } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue, Logo } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -29,7 +28,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { Transaction } from '../types/Transaction';
-import { User, UserCar, UserSite, UserToken } from '../types/User';
+import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
 import { OCPPResetType } from '../types/ocpp/OCPP';
@@ -785,6 +784,22 @@ export class CentralServerService {
     params['ID'] = tagID;
     // Execute the REST service
     return this.httpClient.get<Tag>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TAG}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getUserDefaultTagCar(userID: string): Observable<UserDefaultTagCar> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['UserID'] = userID;
+    // Execute the REST service
+    return this.httpClient.get<UserDefaultTagCar>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.USER_DEFAUlT_TAG_CAR}`,
       {
         headers: this.buildHttpHeaders(),
         params
@@ -2322,10 +2337,11 @@ export class CentralServerService {
       );
   }
 
-  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string): Observable<ActionResponse> {
+  public chargingStationStartTransaction(chargeBoxId: string, connectorId: number, tagID: string, carID?: string): Observable<ActionResponse> {
     this.checkInit();
     const body = {
       chargeBoxID: chargeBoxId,
+      carID,
       args: {
         tagID,
         connectorId,

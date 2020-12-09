@@ -4,13 +4,13 @@ void call(Map params) {
 
 	echo "do acceptance stage"
 	// sh "ls"
-	//deleteDir()
+	deleteDir()
 	//sh "ls"
-	unstash 'deployDescriptor'
+	//unstash 'deployDescriptor'
 	sh "ls"
 	//echo "checkout dashboard source"
-	//checkout scm
-	//sh "ls"
+	checkout scm
+	sh "ls"
 	echo "Cloning deployment config repository.."
 	checkout([
 		$class: 'GitSCM',
@@ -27,9 +27,10 @@ void call(Map params) {
 	sh "ls"
 	sh "pwd"
 	sh "find . -name 'manifest*'"
+	sh "find . -name 'config.json'"
 	sh "ls src/assets"
 	//unstash 'deployDescriptor'
-	stash 'deployDescriptor'
+	//stash 'deployDescriptor'
 
 	params.originalStage()
 

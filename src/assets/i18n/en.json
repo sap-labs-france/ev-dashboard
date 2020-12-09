@@ -997,6 +997,7 @@
     "amperage": "Total Amperage (A)",
     "amperagePerPhase": "Amperage per phase (A)",
     "session_details": "Session",
+    "qr_code_generation_error": "Error occurred while generating QR code",
     "tabs": {
       "list": "Charging Stations",
       "charging_plans": "Charging Plans",

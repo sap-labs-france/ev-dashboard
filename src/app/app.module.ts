@@ -43,7 +43,6 @@ import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepic
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
-import { QRCodeModule } from 'angularx-qrcode';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
@@ -158,7 +157,6 @@ export function localeFactory(
     HttpClientModule,
     ChartModule,
     BrowserNotSupportedModule,
-    QRCodeModule,
     NgxDaterangepickerMd.forRoot(),
     AgmCoreModule.forRoot({ apiKey: 'AIzaSyCIH5GgUOJF-4TlCcL5le107L_thn6WESg' }),
     TranslateModule.forRoot({

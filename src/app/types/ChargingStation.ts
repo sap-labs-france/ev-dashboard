@@ -146,15 +146,6 @@ export interface Connector extends Data {
   phaseAssignmentToGrid: PhaseAssignmentToGrid;
 }
 
-export interface ChargingStationQRCode {
-  tenantSubDomain?: string;
-  tenantName?: string;
-  tenantDescription?: string;
-  endpoint?: string;
-  chargingStationID?: string;
-  connectorID?: number;
-}
-
 export interface PhaseAssignmentToGrid {
   csPhaseL1: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
   csPhaseL2: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;

@@ -24,6 +24,22 @@ export class AuthorizationService {
     this.loggedUser = null;
   }
 
+  public canListInvoicesBilling(): boolean {
+    return this.canAccess(Entity.INVOICES, Action.LIST);
+  }
+
+  public canListCars(): boolean {
+    return this.canAccess(Entity.CARS, Action.LIST);
+  }
+
+  public canReadCar(): boolean {
+    return this.canAccess(Entity.CAR, Action.READ);
+  }
+
+  public canUpdateCar(): boolean {
+    return this.canAccess(Entity.CAR, Action.UPDATE);
+  }
+
   public canUpdateChargingStation(): boolean {
     return this.canAccess(Entity.CHARGING_STATION, Action.UPDATE);
   }
@@ -120,6 +136,20 @@ export class AuthorizationService {
 
   public canStartTransaction(siteArea: SiteArea) {
     if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_START_TRANSACTION)) {
+      if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
+        if (!siteArea) {
+          return false;
+        }
+        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) || this.isAdmin() ||
+          (!!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteArea.siteID));
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public canUnlockConnector(siteArea: SiteArea) {
+    if (this.canAccess(Entity.CHARGING_STATION, Action.UNLOCK_CONNECTOR)) {
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
         if (!siteArea) {
           return false;

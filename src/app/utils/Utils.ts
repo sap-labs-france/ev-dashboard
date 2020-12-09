@@ -4,6 +4,7 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
+import { Tag } from 'types/Tag';
 
 import { CentralServerService } from '../services/central-server.service';
 import { ConfigService } from '../services/config.service';
@@ -25,6 +26,10 @@ export class Utils {
       return false;
     }
     return true;
+  }
+
+  public static getConnectorLetterFromConnectorID(connectorID: number): string {
+    return String.fromCharCode(65 + connectorID - 1);
   }
 
   public static getValuesFromEnum(enumType: any): number[] {
@@ -254,8 +259,9 @@ export class Utils {
     return 6;
   }
 
-  public static getRoundedNumberToTwoDecimals(numberToRound: number): number {
-    return Math.round(numberToRound * 100) / 100;
+  public static roundTo(value: number, scale: number): number {
+    const roundPower = Math.pow(10, scale);
+    return Math.round(value * roundPower) / roundPower;
   }
 
   public static convertAmpToWatt(chargingStation: ChargingStation, chargePoint: ChargePoint, connectorID = 0, ampValue: number): number {
@@ -324,7 +330,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.power) {
               totalPower += chargePointOfCS.power;
-            // Connector
+              // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.power) {
               if (chargePointOfCS.cannotChargeInParallel || chargePointOfCS.sharePowerToAllConnectors) {
                 // Check Connector ID
@@ -451,7 +457,7 @@ export class Utils {
             // Charging Station
             if (connectorId === 0 && chargePointOfCS.currentType) {
               return chargePointOfCS.currentType;
-            // Connector
+              // Connector
             } else if (chargePointOfCS.connectorIDs.includes(connectorId) && chargePointOfCS.currentType) {
               // Check Connector ID
               const connector = Utils.getConnectorFromID(chargingStation, connectorId);
@@ -621,6 +627,19 @@ export class Utils {
     return fullName;
   }
 
+  public static buildTagName(tag: Tag): string {
+    let tagName: string;
+    if (!tag) {
+      return '-';
+    }
+    if (tag.description) {
+      tagName = `${tag.description} ('${tag.id}')`;
+    } else {
+      tagName = `${tag.id}`;
+    }
+    return tagName;
+  }
+
   public static buildCarCatalogName(carCatalog: CarCatalog, withID = false): string {
     let carCatalogName: string;
     if (!carCatalog) {
@@ -639,23 +658,26 @@ export class Utils {
     return carCatalogName;
   }
 
-  public static buildCarName(car: Car, withID = false): string {
-    let carName: string = null;
+  public static buildCarName(car: Car, translateService: TranslateService, withVIN = true, withID = false): string {
+    const carName: string[] = [];
     if (!car) {
       return '-';
     }
+    // Car name
     if (car.carCatalog) {
-      carName = Utils.buildCarCatalogName(car.carCatalog, withID);
+      carName.push(Utils.buildCarCatalogName(car.carCatalog, withID));
     }
-    if (!carName) {
-      carName = `VIN '${car.vin}', License Plate '${car.licensePlate}'`;
-    } else {
-      carName += ` with VIN '${car.vin}' and License Plate '${car.licensePlate}'`;
+    // VIN
+    if (withVIN && car.vin) {
+      carName.push(`${translateService.instant('cars.vin')} '${car.vin}'`);
     }
+    // License platee
+    carName.push(`${translateService.instant('cars.license_plate')} '${car.licensePlate}'`);
+    // Car ID
     if (withID && car.id) {
-      carName += ` (${car.id})`;
+      carName.push(`(${car.id})`);
     }
-    return carName;
+    return carName.join(' ');
   }
 
   public static getCarType(carType: CarType, translateService: TranslateService): string {

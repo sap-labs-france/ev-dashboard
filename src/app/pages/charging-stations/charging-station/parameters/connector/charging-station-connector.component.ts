@@ -166,6 +166,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
       if (this.numberOfConnectedPhase.value === 1) {
         this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
+      } else {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
       }
       if (this.connector.phaseAssignmentToGrid) {
         this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[
@@ -208,6 +210,11 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     } else {
       this.numberOfConnectedPhase.enable();
       this.phaseAssignmentToGrid.enable();
+      if (this.numberOfConnectedPhase.value === 1) {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
+      } else {
+        this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
+      }
     }
   }
 
@@ -267,6 +274,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public numberOfConnectedPhaseChanged() {
     this.refreshTotalAmperage();
+    this.refreshPower();
     this.amperage.updateValueAndValidity();
     if (this.numberOfConnectedPhase.value === 1) {
       this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;

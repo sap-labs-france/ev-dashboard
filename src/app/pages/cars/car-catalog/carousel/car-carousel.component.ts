@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
@@ -15,8 +15,10 @@ import { Utils } from '../../../../utils/Utils';
 })
 export class CarCarouselComponent implements AfterViewInit {
   @Input() public carCatalogID!: number;
-  public images!: string[];
-  public loading = false;
+  @ViewChild('carousel') public carousel: NgbCarousel;
+
+  public images: string[] = null;
+
   constructor(
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
@@ -30,13 +32,19 @@ export class CarCarouselComponent implements AfterViewInit {
     config.pauseOnHover = false;
   }
 
+  // Problem binding images with angular 11, will be verified later.
   public ngAfterViewInit() {
     if (this.carCatalogID) {
       this.spinnerService.show();
       this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
-        { limit: Constants.MAX_LIMIT, skip: Constants.DEFAULT_SKIP }).subscribe((carImages) => {
+        { limit: 2, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
           this.spinnerService.hide();
-          this.images = Array.from(carImages.result, carImage => carImage.image);
+          this.images = Array(carImage.count).fill(null);
+          // Load the tow first images
+          this.images[0] = carImage.result[0].image;
+          if (carImage.count > 1) {
+            this.images[1] = carImage.result[1].image;
+          }
         }, (error) => {
           this.spinnerService.hide();
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
@@ -44,22 +52,19 @@ export class CarCarouselComponent implements AfterViewInit {
     }
   }
 
-// Problem binding images with angular 11, will be verified later.
-  // public onSlide(event: NgbSlideEvent) {
-  //   const imageIndex = parseInt(event.current.replace('slideId_', ''), 10);
-  //   if (this.images[imageIndex] === '') {
-  //     this.spinnerService.show();
-  //     this.loading = true;
-  //     this.centralServerService.getCarCatalogImages(this.carCatalogID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
-  //       this.spinnerService.hide();
-  //       this.images[imageIndex] = carImage.result[0].image;
-  //       this.loading = false;
-  //     }, (error) => {
-  //       // Show error
-  //       this.spinnerService.hide();
-  //       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
-  //     });
-  //   }
-  // }
+  public onSlide(event: NgbSlideEvent) {
+    // Load the next image
+    const imageIndex = parseInt(event.current.replace('slideId_', ''), 10) + 1;
+    if ((imageIndex < this.images.length) && !this.images[imageIndex]) {
+      this.spinnerService.show();
+      this.centralServerService.getCarCatalogImages(this.carCatalogID, {}, { limit: 1, skip: imageIndex }).subscribe((carImage) => {
+        this.spinnerService.hide();
+        this.images[imageIndex] = carImage.result[0].image;
+      }, (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_image_error');
+      });
+    }
+  }
 }
 

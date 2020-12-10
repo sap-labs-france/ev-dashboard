@@ -21,19 +21,13 @@
   width: 100%;
 }
 
-.app-car-image-border {
-  @include shadow-2dp();
-  border-radius: $border-radius-large;
-}
-
-.tab-dialog-car-min-content {
-  min-height: 40vh;
-  min-width: 80vh;
-}
-
 .car-warn {
   font-size: 1rem;
   color: $brand-warn;
+}
+
+.car-catalog-carousel {
+  min-height: 40vh;
 }
 
 .app-car-name {

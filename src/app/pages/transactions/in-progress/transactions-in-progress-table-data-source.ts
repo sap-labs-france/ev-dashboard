@@ -165,24 +165,27 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         }
       );
     }
-    if (this.componentService.isActive(TenantComponents.CAR) &&
-        this.authorizationService.canListCars()) {
-      columns.push({
-        id: 'carCatalog',
-        name: 'car.title',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
-      },
-      {
-        id: 'car.licensePlate',
-        name: 'cars.license_plate',
-        headerClass: 'text-center col-15p',
-        class: 'text-center col-15p',
-        sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
-      });
+    if (this.componentService.isActive(TenantComponents.CAR)) {
+      if (this.authorizationService.canListCars()) {
+        columns.push({
+          id: 'carCatalog',
+          name: 'car.title',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+          formatter: (carCatalog: CarCatalog) => carCatalog ? Utils.buildCarCatalogName(carCatalog) : '-',
+        });
+      }
+      if (this.authorizationService.canUpdateCar()) {
+        columns.push({
+          id: 'car.licensePlate',
+          name: 'cars.license_plate',
+          headerClass: 'text-center col-15p',
+          class: 'text-center col-15p',
+          sortable: true,
+          formatter: (licensePlate: string) => licensePlate ? licensePlate : '-'
+        });
+      }
     }
     columns.push({
         id: 'currentTotalDurationSecs',

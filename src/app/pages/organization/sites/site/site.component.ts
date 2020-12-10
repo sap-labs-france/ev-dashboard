@@ -16,6 +16,7 @@ import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { Site } from '../../../../types/Site';
+import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
@@ -27,7 +28,7 @@ export class SiteComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
-  public image: any;
+  public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
 
@@ -176,13 +177,13 @@ export class SiteComponent implements OnInit {
       if (site.address) {
         this.address = site.address;
       }
-      if (site.image) {
-        this.image = site.image.toString();
-        delete site.image;
-      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
+      // Get Site image
+      this.centralServerService.getSiteImage(this.currentSiteID).subscribe((siteImage) => {
+        this.image = siteImage ? siteImage : Constants.NO_IMAGE;
+      });
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -199,7 +200,11 @@ export class SiteComponent implements OnInit {
   public updateSiteImage(site: Site) {
     if (this.imageHasChanged) {
       // Set new image
-      site.image = this.image;
+      if (this.image !== Constants.NO_IMAGE) {
+        site.image = this.image;
+      } else {
+        site.image = null;
+      }
     } else {
       // No changes
       delete site.image;
@@ -241,7 +246,7 @@ export class SiteComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = null;
+    this.image = Constants.NO_IMAGE;
     this.imageHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();

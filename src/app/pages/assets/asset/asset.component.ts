@@ -34,7 +34,8 @@ export class AssetComponent implements OnInit {
 
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public isAdmin = false;
-  public image: string = AssetImage.NO_IMAGE;
+  public image: string = Constants.NO_IMAGE;
+  public imageHasChanged = false;
   public maxSize: number;
   public selectedSiteArea: SiteArea;
   public assetTypes!: KeyValue[];
@@ -163,7 +164,8 @@ export class AssetComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    this.centralServerService.getAsset(this.currentAssetID, false, true).pipe(mergeMap((asset) => {
+    this.centralServerService.getAsset(this.currentAssetID, false, true).subscribe((asset) => {
+      this.spinnerService.hide();
       this.asset = asset;
       if (this.asset.id) {
         this.formGroup.controls.id.setValue(this.asset.id);
@@ -196,13 +198,10 @@ export class AssetComponent implements OnInit {
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
-      // Yes, get image
-      return this.centralServerService.getAssetImage(this.currentAssetID);
-    })).subscribe((assetImage) => {
-      if (assetImage && assetImage.image) {
-        this.image = assetImage.image.toString();
-      }
-      this.spinnerService.hide();
+      // Get Site image
+      this.centralServerService.getAssetImage(this.currentAssetID).subscribe((assetImage) => {
+        this.image = assetImage ? assetImage : Constants.NO_IMAGE;
+      });
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -228,9 +227,13 @@ export class AssetComponent implements OnInit {
 
   public updateAssetImage(asset: Asset) {
     // Check no asset?
-    if (!this.image.endsWith(AssetImage.NO_IMAGE)) {
-      // Set to asset
-      asset.image = this.image;
+    if (!this.image.endsWith(Constants.NO_IMAGE)) {
+      // Set new image
+      if (this.image !== Constants.NO_IMAGE) {
+        asset.image = this.image;
+      } else {
+        asset.image = null;
+      }
     } else {
       // No image
       delete asset.image;
@@ -251,7 +254,7 @@ export class AssetComponent implements OnInit {
     }
   }
 
-  public imageChanged(event: any) {
+  public onImageChanged(event: any) {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -261,6 +264,7 @@ export class AssetComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
           this.image = reader.result as string;
+          this.imageHasChanged = true;
           this.formGroup.markAsDirty();
         };
         reader.readAsDataURL(file);
@@ -270,7 +274,8 @@ export class AssetComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = AssetImage.NO_IMAGE;
+    this.image = Constants.NO_IMAGE;
+    this.imageHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();
   }

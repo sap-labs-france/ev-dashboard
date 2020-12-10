@@ -23,6 +23,7 @@ import { CarButtonAction, CarCatalog, CarImage } from '../../../types/Car';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CarCatalogDialogComponent } from '../car-catalog/car-catalog.dialog.component';
 import { CarCatalogImageFormatterCellComponent } from '../cell-components/car-catalog-image-formatter-cell.component';
@@ -67,7 +68,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         // lookup for image otherwise assign default
         for (const carCatalog of carCatalogs.result) {
           if (!carCatalog.image) {
-            carCatalog.image = CarImage.NO_IMAGE;
+            carCatalog.image = Constants.NO_IMAGE;
           }
         }
         observer.next(carCatalogs);

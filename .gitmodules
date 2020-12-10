@@ -2,3 +2,6 @@
 	path = src/assets/configs-aws
 	url = git@github.wdf.sap.corp:E-Mobility/ev-aws.git
 	branch = master
+[submodule "src/assets/configs-scp"]
+	path = src/assets/configs-scp
+	url = git@github.wdf.sap.corp:E-Mobility/ev-scp.git

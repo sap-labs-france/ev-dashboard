@@ -21,7 +21,7 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Asset, AssetButtonAction, AssetImage } from '../../../types/Asset';
+import { Asset, AssetButtonAction } from '../../../types/Asset';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';

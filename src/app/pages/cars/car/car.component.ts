@@ -11,7 +11,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CarCatalogsDialogComponent } from '../../../shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Car, CarCatalog, CarConverter, CarConverterType, CarImage, CarType } from '../../../types/Car';
+import { Car, CarCatalog, CarConverter, CarConverterType, CarType } from '../../../types/Car';
 import { ActionResponse } from '../../../types/DataResult';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';

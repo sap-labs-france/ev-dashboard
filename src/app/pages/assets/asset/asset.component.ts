@@ -3,7 +3,6 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs/operators';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -13,7 +12,7 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { GeoMapDialogComponent } from '../../../shared/dialogs/geomap/geomap-dialog.component';
 import { SiteAreasDialogComponent } from '../../../shared/dialogs/site-areas/site-areas-dialog.component';
-import { Asset, AssetImage, AssetTypes } from '../../../types/Asset';
+import { Asset, AssetTypes } from '../../../types/Asset';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { AssetSettings } from '../../../types/Setting';

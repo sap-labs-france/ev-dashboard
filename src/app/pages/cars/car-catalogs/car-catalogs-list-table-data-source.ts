@@ -19,7 +19,7 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { CarButtonAction, CarCatalog, CarImage } from '../../../types/Car';
+import { CarButtonAction, CarCatalog } from '../../../types/Car';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';

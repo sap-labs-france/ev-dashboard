@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public isAdmin = false;
   public canEditProfile = false;
   public logo = Constants.NO_IMAGE;
-  public const misc: any = {
+  public misc: any = {
     navbar_menu_visible: 0,
     active_collapse: true,
     disabled_collapse_init: 0,
@@ -92,9 +92,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       // Subscribe to tenant's change
       this.tenantRefreshSubscription = this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
         this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
-          console.log('====================================');
-          console.log(singleChangeNotification);
-          console.log('====================================');
         // Update user?
         if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.tenantID) {
           // Deleted?

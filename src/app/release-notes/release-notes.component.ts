@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Smart Charging rounding amperage per phase in Car`,
               `Do not authorize roaming Badges on a private Charging Station`,
+              `Add Charging Station vendor integration for Shelly wallboxes`,
               `Added QA flag in Charging Station's templates for testing purpose`,
               `Added Tenant Logo in auth pages and in side bar`,
               `Auto refresh of user data and logo in side bar`,

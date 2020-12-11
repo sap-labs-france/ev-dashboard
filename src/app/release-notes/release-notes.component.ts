@@ -31,7 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Fixed Smart Charging rounding amperage per phase in Car`,
-              `Added QA flag in Charging Station's templates`,
+              `Added QA flag in Charging Station's templates for testing purpose`,
               `Added Tenant Logo in auth pages and in side bar`,
               `Auto refresh of user data and logo in side bar`,
               `Fixed auto-focus not working in Auth pages`,

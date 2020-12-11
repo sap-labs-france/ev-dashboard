@@ -20,13 +20,13 @@
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" [formControl]="user"
+          <input matInput type="text" [formControl]="user"
             placeholder="{{'settings.smart_charging.sap_smart_charging.user' | translate}}" required>
           <mat-error *ngIf="user.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input appAutofocus matInput type="password" [formControl]="password"
+          <input matInput type="password" [formControl]="password"
             placeholder="{{'settings.smart_charging.sap_smart_charging.password' | translate}}" required>
           <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field"
             | translate}}</mat-error>

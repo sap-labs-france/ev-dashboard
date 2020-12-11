@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.33',
+        date: new Date('2020-12-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Smart Charging rounding amperage per phase in Car`,
+              `Added Tenant Logo in Auth pages`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.32',
         date: new Date('2020-12-08'),
         componentChanges: [

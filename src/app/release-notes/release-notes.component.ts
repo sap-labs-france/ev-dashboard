@@ -36,6 +36,7 @@ export class ReleaseNotesComponent {
               `Auto refresh of user data and logo in side bar`,
               `Fixed auto-focus not working in Auth pages`,
               `Use of default image when not provided in Company Site, Site Area, Asset and Tenant`,
+              `Enabled database notification on Charging Station's backends`,
             ],
           },
         ],

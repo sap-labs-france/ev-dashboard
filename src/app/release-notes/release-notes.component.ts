@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Implemented sticky Smart Charging that adjusts limitation to real Car's consumption`,
               `Fixed Smart Charging rounding amperage per phase in Car`,
               `Do not authorize roaming Badges on a private Charging Station`,
               `Add Charging Station vendor integration for Shelly wallboxes`,

@@ -14,12 +14,6 @@ import { Constants } from '../utils/Constants';
 
 declare const $: any;
 
-const misc: any = {
-  navbar_menu_visible: 0,
-  active_collapse: true,
-  disabled_collapse_init: 0,
-};
-
 @Component({
   selector: 'app-sidebar-cmp',
   templateUrl: 'sidebar.component.html',
@@ -31,8 +25,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public isAdmin = false;
   public canEditProfile = false;
-  private toggleButton: HTMLElement;
+  public logo = Constants.NO_IMAGE;
+  public const misc: any = {
+    navbar_menu_visible: 0,
+    active_collapse: true,
+    disabled_collapse_init: 0,
+  };
   private userRefreshSubscription!: Subscription;
+  private tenantRefreshSubscription!: Subscription;
 
   constructor(
     private configService: ConfigService,
@@ -44,33 +44,35 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private centralServerNotificationService: CentralServerNotificationService) {
     // Get the routes
     if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
-      this.menuItems = this.activatedRoute.routeConfig.children.filter((route) => route.data && route.data.menu && this.guard.isRouteAllowed(route) && this.guard.canLoad(route, [])).map((route) => route && route.data ? route.data.menu : null);
+      this.menuItems = this.activatedRoute.routeConfig.children.filter((route) =>
+        route.data && route.data.menu && this.guard.isRouteAllowed(route) &&
+        this.guard.canLoad(route, [])).map((route) => route && route.data ? route.data.menu : null);
     }
-
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
     // Get the logged user
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.loggedUser = user;
     });
-
     if (authorizationService.canUpdateUser()) {
       this.canEditProfile = true;
     }
     // Read user
     this.refreshUser();
+    // Read tenant
+    this.refreshTenant();
   }
 
   public ngOnInit() {
-    this.createUserRefresh();
-    this.toggleButton = document.getElementById('toggler');
+    // Listen to changes
+    this.createRefresh();
   }
 
   public ngOnDestroy() {
-    this.destroyUserRefresh();
+    this.destroyRefresh();
   }
 
-  private createUserRefresh() {
+  private createRefresh() {
     if (this.configService.getCentralSystemServer().socketIOEnabled) {
       // Subscribe to user's change
       this.userRefreshSubscription = this.centralServerNotificationService.getSubjectUser().pipe(debounceTime(
@@ -87,23 +89,68 @@ export class SidebarComponent implements OnInit, OnDestroy {
           }
         }
       });
+      // Subscribe to tenant's change
+      this.tenantRefreshSubscription = this.centralServerNotificationService.getSubjectTenant().pipe(debounceTime(
+        this.configService.getAdvanced().debounceTimeNotifMillis)).subscribe((singleChangeNotification) => {
+          console.log('====================================');
+          console.log(singleChangeNotification);
+          console.log('====================================');
+        // Update user?
+        if (singleChangeNotification && singleChangeNotification.data && singleChangeNotification.data.id === this.loggedUser.tenantID) {
+          // Deleted?
+          if (singleChangeNotification.action === Action.DELETE) {
+            // Log off user
+            this.logout();
+          } else {
+            // Same tenant: Update it
+            this.refreshTenant();
+          }
+        }
+      });
     }
   }
 
-  private destroyUserRefresh() {
+  private destroyRefresh() {
     if (this.userRefreshSubscription) {
       // Unsubscribe to user's change
       this.userRefreshSubscription.unsubscribe();
     }
     this.userRefreshSubscription = null;
+    if (this.tenantRefreshSubscription) {
+      // Unsubscribe to user's change
+      this.tenantRefreshSubscription.unsubscribe();
+    }
+    this.tenantRefreshSubscription = null;
   }
 
   private refreshUser() {
     // Get the user's image
     if (this.loggedUser && this.loggedUser.id) {
-      this.centralServerService.getUserImage(this.loggedUser.id).subscribe((image) => {
-        this.loggedUserImage = (image && image.image ? image.image : Constants.USER_NO_PICTURE).toString();
+      this.centralServerService.getUserImage(this.loggedUser.id).subscribe((userImage) => {
+        if (userImage?.image) {
+          this.loggedUserImage = userImage.image;
+        } else {
+          this.loggedUserImage = Constants.USER_NO_PICTURE;
+        }
       });
+      this.centralServerService.getUser(this.loggedUser.id).subscribe((user) => {
+        if (user) {
+          this.loggedUser.name = user.name;
+          this.loggedUser.firstName = user.firstName;
+          this.loggedUser.email = user.email;
+        }
+      });
+    }
+  }
+
+  private refreshTenant() {
+    // Get Tenant logo
+    if (this.loggedUser.tenantID !== 'default') {
+      this.centralServerService.getTenantLogo(this.loggedUser.tenantID).subscribe((tenantLogo) => {
+        this.logo = tenantLogo ? tenantLogo : Constants.TENANT_DEFAULT_LOGO;
+      });
+    } else {
+      this.logo = Constants.TENANT_DEFAULT_LOGO;
     }
   }
 
@@ -127,13 +174,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   public toggleSidebar() {
     const body = document.getElementsByTagName('body')[0];
-
-    if (misc.sidebar_mini_active === true) {
+    if (this.misc.sidebar_mini_active === true) {
       body.classList.remove('sidebar-mini');
-      misc.sidebar_mini_active = false;
+      this.misc.sidebar_mini_active = false;
     } else {
       body.classList.add('sidebar-mini');
-      misc.sidebar_mini_active = true;
+      this.misc.sidebar_mini_active = true;
     }
   }
 

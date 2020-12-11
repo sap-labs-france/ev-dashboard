@@ -35,7 +35,7 @@ export class ReleaseNotesComponent {
               `Added Tenant Logo in auth pages and in side bar`,
               `Auto refresh of user data and logo in side bar`,
               `Fixed auto-focus not working in auth pages`,
-              `Use of default image when not provided in Company Site, Site Area, Asset and Tenant`,
+              `Use of default image when not provided and limit image types in Company Site, Site Area, Asset and Tenant`,
               `Enabled database notification on Charging Station's backends`,
             ],
           },

@@ -11,7 +11,7 @@
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
                 <div class="col-md-5 d-block mt-auto">
-                  <div class="rotating-card-container app-organization-image-border"
+                  <div class="rotating-card-container"
                     [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
                     <div class="card card-rotate card-background app-site-area-image-padding mt-0">
                       <div class="front front-background"
@@ -88,7 +88,7 @@
                         <mat-form-field>
                           <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} *
                           </mat-label>
-                          <mat-select appAutofocus id="numberOfPhases" [formControl]="numberOfPhases">
+                          <mat-select id="numberOfPhases" [formControl]="numberOfPhases">
                             <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
                               {{phase.description | translate}}
                             </mat-option>

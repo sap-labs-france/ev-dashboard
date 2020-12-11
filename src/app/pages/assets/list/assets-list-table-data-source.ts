@@ -21,11 +21,12 @@ import { TableMoreAction } from '../../../shared/table/actions/table-more-action
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { Asset, AssetButtonAction, AssetImage } from '../../../types/Asset';
+import { Asset, AssetButtonAction } from '../../../types/Asset';
 import ChangeNotification from '../../../types/ChangeNotification';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { AssetDialogComponent } from '../asset/asset.dialog.component';
 import { AssetConsumptionChartDetailComponent } from './consumption-chart/asset-consumption-chart-detail.component';
@@ -68,7 +69,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         // lookup for image otherwise assign default
         for (const asset of assets.result) {
           if (!asset.image) {
-            asset.image = AssetImage.NO_IMAGE;
+            asset.image = Constants.NO_IMAGE;
           }
         }
         // Ok

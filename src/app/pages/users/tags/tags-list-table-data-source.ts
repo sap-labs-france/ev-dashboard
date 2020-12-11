@@ -246,10 +246,12 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     const moreActions = new TableMoreAction([]);
     if (tag.issuer) {
       actions.push(this.editAction);
-      if (tag.active) {
-        moreActions.addActionInMoreActions(this.deactivateAction);
-      } else {
-        moreActions.addActionInMoreActions(this.activateAction);
+      if (tag.userID) {
+        if (tag.active) {
+          moreActions.addActionInMoreActions(this.deactivateAction);
+        } else {
+          moreActions.addActionInMoreActions(this.activateAction);
+        }
       }
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);
       if (tag.userID) {

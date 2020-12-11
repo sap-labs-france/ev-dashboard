@@ -24,6 +24,42 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.33',
+        date: new Date('2020-12-11'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Fixed Smart Charging rounding amperage per phase in Car`,
+              `Added QA flag in Charging Station's templates for testing purpose`,
+              `Added Tenant Logo in auth pages and in side bar`,
+              `Auto refresh of user data and logo in side bar`,
+              `Fixed auto-focus not working in Auth pages`,
+              `Use of default image when not provided in Company Site, Site Area, Asset and Tenant`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.32',
+        date: new Date('2020-12-08'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not show Car plate ID in Session details for role Demo`,
+              `Fixed Car Default and Owner props not returned to Basic users`,
+              `Fixed CSS in Car Catalog popup for mid-size screens`,
+              `Enhanced performances of the Carousel control used to display all the Car's images`,
+              `Hide car features in front if Car component is not active`,
+              `Added new Delta OCPP parameter in templates to correctly read Badge ID with shorter length like New Motion`,
+              `Setup backup notification email server in AWS in addition to the one in SCP`,
+              `Fixed translation issues`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.31',
         date: new Date('2020-12-05'),
         componentChanges: [

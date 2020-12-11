@@ -32,7 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Fixed Smart Charging rounding amperage per phase in Car`,
               `Added QA flag in Charging Station's templates`,
-              `Added Tenant Logo in Auth pages`,
+              `Added Tenant Logo in auth pages and in side bar`,
+              `Auto refresh of user data and logo in side bar`,
               `Fixed auto-focus not working in Auth pages`,
               `Use of default image when not provided in Company Site, Site Area, Asset and Tenant`,
             ],

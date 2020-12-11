@@ -29,7 +29,7 @@
     <div class="row mt-1">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="password"
+          <input matInput type="password"
                  placeholder="{{'settings.billing.stripe.secret_key' | translate}}"
                  [formControl]="secretKey" required>
           <mat-error *ngIf="secretKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
@@ -45,7 +45,7 @@
     <div class="row mt-1">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" [formControl]="publicKey"
+          <input matInput type="text" [formControl]="publicKey"
                  placeholder="{{'settings.billing.stripe.public_key' | translate}}">
           <mat-error *ngIf="publicKey.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
           <mat-error *ngIf="publicKey.errors?.maxlength">

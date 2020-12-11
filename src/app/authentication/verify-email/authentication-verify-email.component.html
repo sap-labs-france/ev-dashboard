@@ -6,7 +6,7 @@
           <div class="card card-login card-hidden">
             <div class="card-header card-header-primary text-center h-25">
               <div class="social-line">
-                <img class="w-50 mb-2" src="/assets/img/logo-low.gif" />
+                <img class="w-50 mb-2" src="tenantLogo" />
               </div>
               <h4 class="card-title">{{"authentication.verify_email_title" | translate}}</h4>
             </div>
@@ -18,7 +18,7 @@
                       <mat-icon>email</mat-icon>
                     </span>
                     <mat-form-field>
-                      <input matInput type="text" placeholder="{{'authentication.email' | translate}}"
+                      <input appAutofocus matInput type="text" placeholder="{{'authentication.email' | translate}}"
                         [formControl]="email" required autocomplete="username" [readonly]="true">
                       <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
                       <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>

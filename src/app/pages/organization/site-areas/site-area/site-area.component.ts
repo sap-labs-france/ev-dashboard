@@ -21,6 +21,7 @@ import { Site } from '../../../../types/Site';
 import { SiteArea } from '../../../../types/SiteArea';
 import { ButtonType } from '../../../../types/Table';
 import TenantComponents from '../../../../types/TenantComponents';
+import { Constants } from '../../../../utils/Constants';
 import { Utils } from '../../../../utils/Utils';
 import { RegistrationTokensTableDataSource } from '../../../settings/registration-tokens/registration-tokens-table-data-source';
 
@@ -34,7 +35,7 @@ export class SiteAreaComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
 
-  public image: any;
+  public image = Constants.NO_IMAGE;
   public imageHasChanged = false;
   public maxSize: number;
   public siteArea: SiteArea;
@@ -237,14 +238,14 @@ export class SiteAreaComponent implements OnInit {
         this.address = siteArea.address;
       }
       this.refreshMaximumAmps();
-      if (siteArea.image) {
-        this.image = siteArea.image.toString();
-        delete siteArea.image;
-      }
       // Force
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
+      // Get Site image
+      this.centralServerService.getSiteAreaImage(this.currentSiteAreaID).subscribe((siteAreaImage) => {
+        this.image = siteAreaImage ? siteAreaImage : Constants.NO_IMAGE;
+      });
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -261,7 +262,11 @@ export class SiteAreaComponent implements OnInit {
   public updateSiteAreaImage(siteArea: SiteArea) {
     if (this.imageHasChanged) {
       // Set new image
-      siteArea.image = this.image;
+      if (this.image !== Constants.NO_IMAGE) {
+        siteArea.image = this.image;
+      } else {
+        siteArea.image = null;
+      }
     } else {
       // No changes
       delete siteArea.image;
@@ -339,7 +344,7 @@ export class SiteAreaComponent implements OnInit {
 
   public clearImage() {
     // Clear
-    this.image = null;
+    this.image = Constants.NO_IMAGE;
     this.imageHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();

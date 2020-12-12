@@ -16,6 +16,7 @@ import { HTTPError } from '../../../types/HTTPError';
 import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SmartChargingSettingsType } from '../../../types/Setting';
 import { Tenant } from '../../../types/Tenant';
 import TenantComponents from '../../../types/TenantComponents';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -33,7 +34,7 @@ export class TenantComponent implements OnInit {
   public subdomain!: AbstractControl;
   public email!: AbstractControl;
   public components!: FormGroup;
-  public logo: string;
+  public logo = Constants.NO_IMAGE;
   public logoHasChanged = false;
   public maxSize: number;
   public address!: Address;
@@ -168,10 +169,10 @@ export class TenantComponent implements OnInit {
                 this.currentTenant.components[componentIdentifier].type);
             }
           }
-          if (tenant.logo) {
-            this.logo = tenant.logo.toString();
-            delete tenant.logo;
-          }
+          // Get Tenant logo
+          this.centralServerService.getTenantLogo(this.currentTenantID).subscribe((tenantLogo) => {
+            this.logo = tenantLogo ? tenantLogo : Constants.NO_IMAGE;
+          });
         }
       }, (error) => {
         // Hide
@@ -314,7 +315,7 @@ export class TenantComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = null;
+    this.logo = Constants.NO_IMAGE;
     this.logoHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();
@@ -323,7 +324,11 @@ export class TenantComponent implements OnInit {
   public updateTenantLogo(tenant: Tenant) {
     if (this.logoHasChanged) {
       // Set new logo
-      tenant.logo = this.logo;
+      if (this.logo !== Constants.NO_IMAGE) {
+        tenant.logo = this.logo;
+      } else {
+        tenant.logo = null;
+      }
     } else {
       // No changes
       delete tenant.logo;

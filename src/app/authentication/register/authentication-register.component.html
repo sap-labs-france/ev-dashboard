@@ -6,7 +6,7 @@
           <div class="card card-login card-hidden">
             <div class="card-header card-header-primary text-center h-25">
               <div class="social-line">
-                <img class="w-50 mb-2" src="/assets/img/logo-low.gif" />
+                <img class="w-50 mb-2" [src]="tenantLogo" />
               </div>
               <h4 class="card-title">{{"authentication.register" | translate}}</h4>
             </div>
@@ -18,7 +18,7 @@
                       <mat-icon>account_circle</mat-icon>
                     </span>
                     <mat-form-field>
-                      <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
+                      <input appAutofocus id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
                         [formControl]="name" required (input)="toUpperCase(name)">
                       <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>

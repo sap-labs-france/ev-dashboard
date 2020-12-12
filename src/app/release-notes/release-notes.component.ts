@@ -25,18 +25,21 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.33',
-        date: new Date('2020-12-11'),
+        date: new Date('2020-12-12'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Implemented sticky Smart Charging that adjusts limitation to real Car's consumption`,
               `Fixed Smart Charging rounding amperage per phase in Car`,
+              `Do not authorize roaming Badges on a private Charging Station`,
+              `Add Charging Station vendor integration for Shelly wallboxes`,
               `Added QA flag in Charging Station's templates for testing purpose`,
               `Added Tenant Logo in auth pages and in side bar`,
               `Auto refresh of user data and logo in side bar`,
-              `Fixed auto-focus not working in auth pages`,
-              `Use of default image when not provided and limit image types in Company Site, Site Area, Asset and Tenant`,
               `Enabled database notification on Charging Station's backends`,
+              `Use of default image when not provided and limit image types in Company Site, Site Area, Asset and Tenant`,
+              `Fixed auto-focus not working in auth pages`,
             ],
           },
         ],

@@ -3,7 +3,7 @@ import static com.sap.piper.internal.Prerequisites.checkScript
 void call(Map params) {
 
 	echo "do acceptance stage for now"
-	downloadArtifactFromNexus script: this
+	downloadArtifactsFromNexus script: this, fromStaging: true
 	sh "ls"
 	//deleteDir()
 	//sh "ls"

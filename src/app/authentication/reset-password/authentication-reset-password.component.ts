@@ -8,6 +8,8 @@ import { CentralServerService } from '../../services/central-server.service';
 import { ConfigService } from '../../services/config.service';
 import { MessageService } from '../../services/message.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { WindowService } from '../../services/window.service';
+import { Constants } from '../../utils/Constants';
 
 @Component({
   selector: 'app-authentication-reset-password',
@@ -19,6 +21,8 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public formGroup: FormGroup;
 
   private siteKey: string;
+  private subDomain: string;
+  public tenantLogo = Constants.TENANT_DEFAULT_LOGO;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -27,6 +31,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private reCaptchaV3Service: ReCaptchaV3Service,
+    private windowService: WindowService,
     private configService: ConfigService,
     private translateService: TranslateService) {
     // Get the Site Key
@@ -39,6 +44,8 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
           Validators.email,
         ])),
     });
+    // Keep the sub-domain
+    this.subDomain = this.windowService.getSubdomain();
     // Form
     this.email = this.formGroup.controls['email'];
     setTimeout(() => {
@@ -52,6 +59,12 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
+    // Retrieve tenant's logo
+    this.centralServerService.getTenantLogoBySubdomain(this.subDomain).subscribe((tenantLogo: string) => {
+      if (tenantLogo) {
+        this.tenantLogo = tenantLogo;
+      }
+    });
   }
 
   public ngOnDestroy() {

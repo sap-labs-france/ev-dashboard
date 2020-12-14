@@ -28,11 +28,11 @@ export default class SocketIOClient {
     if (!this.socketIO && serverURL && token) {
       // Init and connect Socket IO client
       const manager = new Manager(serverURL, {
-        query: 'token=' + token,
+        query: 'auth_token=' + token,
         transports: ['websocket'],
       });
       this.socketIO = manager.socket('/');
-    } else if (this.socketIO && this.socketIO.disconnected) {
+    } else if (this.socketIO?.disconnected) {
       // Connect Socket IO
       this.socketIO.connect();
     } else {
@@ -42,14 +42,8 @@ export default class SocketIOClient {
       Utils.consoleDebugLog(`SocketIO client is connected`);
       connectCallback();
     });
-    this.socketIO.on('authenticated', () => {
-      Utils.consoleDebugLog('SocketIO client token authenticated');
-    });
-    this.socketIO.on('unauthorized', (error) => {
-      if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
-        // Redirect user to login page perhaps?
-        Utils.consoleDebugLog('SocketIO client user token has expired');
-      }
+    this.socketIO.on('success', () => {
+      Utils.consoleDebugLog('SocketIO client is authenticated');
     });
     this.socketIO.on('connect_timeout', (timeout) => { Utils.consoleDebugLog(`SocketIO client connection timeout: ${timeout}`); });
     this.socketIO.on('connect_error', (error) => { Utils.consoleDebugLog(`SocketIO client connect error: ${error}`); });

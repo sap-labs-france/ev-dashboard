@@ -42,8 +42,8 @@ export default class SocketIOClient {
       Utils.consoleDebugLog(`SocketIO client is connected`);
       connectCallback();
     });
-    this.socketIO.on('success', () => {
-      Utils.consoleDebugLog('SocketIO client is authenticated');
+    this.socketIO.on('authenticated', (data) => {
+      Utils.consoleDebugLog(data?.message);
     });
     this.socketIO.on('connect_timeout', (timeout) => { Utils.consoleDebugLog(`SocketIO client connection timeout: ${timeout}`); });
     this.socketIO.on('connect_error', (error) => { Utils.consoleDebugLog(`SocketIO client connect error: ${error}`); });

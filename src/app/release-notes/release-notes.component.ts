@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Export OCPI Session CDR in Session History list`,
               `Handle Charging Station with time in the future in Smart Charging`,
               `Set non public OCPP parameters when applying templates (Delta)`,
               `Do not take into account amperage leaks on a phase in Smart Charging`,

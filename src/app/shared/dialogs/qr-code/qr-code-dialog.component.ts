@@ -1,9 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import jsPDF from 'jspdf';
-import { AppConnectorIdPipe } from 'shared/formatters/app-connector-id.pipe';
+import * as FileSaver from 'file-saver';
 import { Utils } from 'utils/Utils';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
 
 @Component({
   templateUrl: './qr-code-dialog.component.html',
@@ -16,7 +20,10 @@ export class QrCodeDialogComponent {
   constructor(
     protected dialogRef: MatDialogRef<QrCodeDialogComponent>,
     private translateService: TranslateService,
-    private appConnectorIdPipe: AppConnectorIdPipe,
+    private spinnerService: SpinnerService,
+    private centralServerService: CentralServerService,
+    private messageService: MessageService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) data) {
     if (data) {
       if (data.chargingStationID) {
@@ -33,11 +40,15 @@ export class QrCodeDialogComponent {
   }
 
   public download() {
-    const pdf = new jsPDF();
-    pdf.addImage(this.qrCode, 'JPEG', 30, 50, 150, 150);
-    pdf.text(this.chargingStationID + ' ' + this.translateService.instant('chargers.connector') + ' ' +
-      this.appConnectorIdPipe.transform(this.connectorID), 50, 285);
-    pdf.save('ConnectorQRCode.pdf');
+    this.spinnerService.show();
+    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe(async (result) => {
+      this.spinnerService.hide();
+      FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-qr-codes.pdf`);
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, this.translateService.instant('chargers.qr_code_generation_error'));
+    });
   }
 
   public cancel() {

@@ -9,8 +9,10 @@ import { ChargingStationButtonAction } from 'types/ChargingStation';
 import { ButtonColor, TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
+import { Site } from '../../../../types/Site';
+
 export interface TableSiteGenerateQrCodeConnectorsActionDef extends TableActionDef {
-  action: (siteID: string, translateService: TranslateService, spinnerService: SpinnerService,
+  action: (site: Site, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
 }
 
@@ -29,11 +31,12 @@ export class TableSiteGenerateQrCodeConnectorAction implements TableAction {
     return this.action;
   }
 
-  private downloadQrCodePDF(siteID: string, translateService: TranslateService, spinnerService: SpinnerService,
+  private downloadQrCodePDF(site: Site, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
-
-    centralServerService.downloadQrCodePDF(siteID).subscribe(async (result) => {
-      FileSaver.saveAs(result, 'SiteQrCodes.pdf');
+    spinnerService.show();
+    centralServerService.downloadSiteQrCodes(site.id).subscribe(async (result) => {
+      spinnerService.hide();
+      FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes.pdf`);
     }, (error) => {
       spinnerService.hide();
       Utils.handleHttpError(error, router, messageService,

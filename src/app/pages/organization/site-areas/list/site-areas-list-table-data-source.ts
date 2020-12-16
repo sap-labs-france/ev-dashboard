@@ -257,8 +257,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           new TableMoreAction([
             this.exportOCPPParamsAction,
             openInMaps,
+            this.siteAreaGenerateQrCodeConnectorAction,
             this.deleteAction,
-            this.siteAreaGenerateQrCodeConnectorAction
           ]).getActionDef(),
         ];
         if (this.isAssetComponentActive) {
@@ -359,7 +359,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         case ChargingStationButtonAction.GENERATE_QR_CODE:
           if (actionDef.action) {
             (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
-              siteArea.id, this.translateService, this.spinnerService,
+              siteArea, this.translateService, this.spinnerService,
               this.messageService, this.centralServerService, this.router
             );
           }

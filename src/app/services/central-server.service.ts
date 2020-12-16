@@ -1636,13 +1636,42 @@ export class CentralServerService {
       );
   }
 
-  public downloadQrCodePDF(siteID?: string, siteAreaID?: string): Observable<Blob> {
+  public downloadSiteQrCodes(siteID: string): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
-    if (siteID) {
-      params['SiteID'] = siteID;
-    } else if (siteAreaID) {
-      params['SiteAreaID'] = siteAreaID;
+    params['SiteID'] = siteID;
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadSiteAreaQrCodes(siteAreaID?: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteAreaID'] = siteAreaID;
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['ChargeBoxID'] = chargingStationID;
+    if (connectorID) {
+      params['ConnectorID'] = connectorID.toString();
     }
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
       {

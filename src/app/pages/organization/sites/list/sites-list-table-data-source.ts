@@ -277,7 +277,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         case ChargingStationButtonAction.GENERATE_QR_CODE:
           if (actionDef.action) {
             (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
-              site.id, this.translateService, this.spinnerService,
+              site, this.translateService, this.spinnerService,
               this.messageService, this.centralServerService, this.router
             );
           }

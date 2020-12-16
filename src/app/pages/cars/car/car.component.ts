@@ -11,13 +11,14 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CarCatalogsDialogComponent } from '../../../shared/dialogs/car-catalogs/car-catalogs-dialog.component';
-import { Car, CarCatalog, CarConverter, CarConverterType, CarImage, CarType } from '../../../types/Car';
+import { Car, CarCatalog, CarConverter, CarConverterType, CarType } from '../../../types/Car';
 import { ActionResponse } from '../../../types/DataResult';
 import { KeyValue, RestResponse } from '../../../types/GlobalType';
 import { HTTPError } from '../../../types/HTTPError';
 import { ButtonType } from '../../../types/Table';
 import { UserCar } from '../../../types/User';
 import { Cars } from '../../../utils/Cars';
+import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { CarUsersEditableTableDataSource } from './car-users-editable-table-data-source';
 
@@ -51,7 +52,7 @@ export class CarComponent implements OnInit {
   public converter!: AbstractControl;
   public isDefault!: AbstractControl;
   public type!: AbstractControl;
-  public noImage = CarImage.NO_IMAGE;
+  public noImage = Constants.NO_IMAGE;
   public owner = true;
   public carTypes: KeyValue[] = [
     { key: CarType.COMPANY, value: 'cars.company_car' },

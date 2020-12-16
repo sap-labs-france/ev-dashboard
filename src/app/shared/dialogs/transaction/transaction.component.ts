@@ -37,7 +37,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public endStateOfCharge!: number;
   public loggedUserImage = Constants.USER_NO_PICTURE;
   public stopUserImage = Constants.USER_NO_PICTURE;
-  public carImage = Constants.USER_NO_CAR;
+  public carImage = Constants.NO_CAR_IMAGE;
   public isStoppedByAnotherUser = false;
   public totalConsumptionWh!: number;
   public totalInactivitySecs!: number;

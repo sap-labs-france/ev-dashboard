@@ -11,6 +11,7 @@ import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { TableChargingStationGenerateQrCodeConnectorAction, TableChargingStationGenerateQrCodeConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-connector-action';
 import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
 import { TableChargingStationsForceUnavailableStatusAction, TableChargingStationsForceUnavailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-unavailable-status-action';
@@ -54,6 +55,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
   private forceAvailableStatusAction = new TableChargingStationsForceAvailableStatusAction().getActionDef();
   private forceUnavailableStatusAction = new TableChargingStationsForceUnavailableStatusAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
+  private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -308,6 +310,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
+       case ChargingStationButtonAction.GENERATE_QR_CODE:
+        if (actionDef.action) {
+          (actionDef as TableChargingStationGenerateQrCodeConnectorActionDef).action(
+            chargingStation, this.translateService, this.spinnerService, this.messageService,
+            this.centralServerService, this.router);
+        }
+        break;
       case ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS:
         if (actionDef.action) {
           (actionDef as TableChargingStationsForceUnavailableStatusActionDef).action(
@@ -356,8 +365,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.clearCacheAction,
             this.resetAction,
             isUnavailable ? this.forceAvailableStatusAction : this.forceUnavailableStatusAction,
-            this.deleteAction,
+            this.generateQrCodeConnectorAction,
             openInMaps,
+            this.deleteAction,
           ]).getActionDef()
           ,
         ];

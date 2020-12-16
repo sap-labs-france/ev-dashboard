@@ -12,12 +12,15 @@ import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
+import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
@@ -27,11 +30,8 @@ import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
-import { Transaction } from '../types/Transaction';
+import { OcpiData, Transaction } from '../types/Transaction';
 import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
-import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from '../types/ocpp/OCPP';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -1053,6 +1053,23 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public exportTransactionOcpiCdr(id: number): Observable<OcpiData> {
+    // Verify init
+    this.checkInit();
+    if (!id) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<OcpiData>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_OCPI_CDR_EXPORT}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: { ID: id.toString() },
       })
       .pipe(
         catchError(this.handleHttpError),

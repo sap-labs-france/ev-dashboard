@@ -472,7 +472,7 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
-      case TransactionButtonAction.EXPORT_OCPI_DATA_FROM_TRANSACTION:
+      case TransactionButtonAction.EXPORT_TRANSACTION_OCPI_CDR:
         if (actionDef.action) {
           (actionDef as TableExportTransactionOcpiCdrActionDef).action(
             transaction.id, this.dialogService, this.translateService, this.messageService,

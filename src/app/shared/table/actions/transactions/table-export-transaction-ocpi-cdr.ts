@@ -21,7 +21,7 @@ export class TableExportTransactionOcpiCdrAction extends TableExportAction {
   public getActionDef(): TableExportTransactionOcpiCdrActionDef {
     return {
       ...super.getActionDef(),
-      id: TransactionButtonAction.EXPORT_OCPI_DATA_FROM_TRANSACTION,
+      id: TransactionButtonAction.EXPORT_TRANSACTION_OCPI_CDR,
       name: 'transactions.export_ocpi_cdr_button_title',
       action: this.exportTransactionOcpiCdr,
     };

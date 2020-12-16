@@ -14,6 +14,7 @@ import { Address } from '../../../../types/Address';
 import { Company } from '../../../../types/Company';
 import { RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
+import { Constants } from '../../../../utils/Constants';
 import { ParentErrorStateMatcher } from '../../../../utils/ParentStateMatcher';
 import { Utils } from '../../../../utils/Utils';
 
@@ -28,7 +29,7 @@ export class CompanyComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   public isAdmin = false;
-  public logo: string;
+  public logo = Constants.NO_IMAGE;
   public logoHasChanged = false;
   public maxSize: number;
 
@@ -109,13 +110,13 @@ export class CompanyComponent implements OnInit {
       if (company.address) {
         this.address = company.address;
       }
-      if (company.logo) {
-        this.logo = company.logo.toString();
-        delete company.logo;
-      }
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAsPristine();
       this.formGroup.markAllAsTouched();
+      // Get Company logo
+      this.centralServerService.getCompanyLogo(this.currentCompanyID).subscribe((companyLogo) => {
+        this.logo = companyLogo ? companyLogo : Constants.NO_IMAGE;
+      });
     }, (error) => {
       this.spinnerService.hide();
       switch (error.status) {
@@ -132,7 +133,11 @@ export class CompanyComponent implements OnInit {
   public updateCompanyLogo(company: Company) {
     if (this.logoHasChanged) {
       // Set new logo
-      company.logo = this.logo;
+      if (this.logo !== Constants.NO_IMAGE) {
+        company.logo = this.logo;
+      } else {
+        company.logo = null;
+      }
     } else {
       // No changes
       delete company.logo;
@@ -174,7 +179,7 @@ export class CompanyComponent implements OnInit {
 
   public clearLogo() {
     // Clear
-    this.logo = null;
+    this.logo = Constants.NO_IMAGE;
     this.logoHasChanged = true;
     // Set form dirty
     this.formGroup.markAsDirty();

@@ -40,7 +40,3 @@ export enum AssetButtonAction {
   RETRIEVE_ASSET_CONSUMPTION = 'retrieve_asset_connection',
   CHECK_ASSET_CONNECTION = 'check_asset_connection',
 }
-
-export enum AssetImage {
-  NO_IMAGE = 'assets/img/theme/no-logo.png',
-}

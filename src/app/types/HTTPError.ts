@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
 export enum HTTPError {
+  GENERAL_ERROR = StatusCodes.INTERNAL_SERVER_ERROR,
   NOT_IMPLEMENTED_ERROR = StatusCodes.NOT_IMPLEMENTED,
   OBJECT_DOES_NOT_EXIST_ERROR = 550,
   FEATURE_NOT_SUPPORTED_ERROR = 585,
@@ -53,11 +54,10 @@ export enum HTTPError {
   TRANSACTION_CDR_ALREADY_PUSHED = 582,
 
   THREE_PHASE_CHARGER_ON_SINGLE_PHASE_SITE_AREA = 539,
-  FORBIDDEN = StatusCodes.FORBIDDEN,
 
   CANNOT_ACQUIRE_LOCK = 510,
 }
 
 export enum HTTPAuthError {
-  ERROR = 560,
+  ERROR = StatusCodes.UNAUTHORIZED,
 }

@@ -30,6 +30,7 @@ import { ErrorCodeDetailsDialogComponent } from './error-code-details/error-code
 import { GeoMapDialogComponent } from './geomap/geomap-dialog.component';
 import { LOG_ACTIONSDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
 import { LOG_ACTIONSDialogComponent } from './logs/log-actions-dialog.component';
+import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
@@ -53,7 +54,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     ComponentModule,
     FormattersModule,
     AgmCoreModule,
-    GooglePlaceModule,
+    GooglePlaceModule
   ],
   declarations: [
     CarMakersDialogComponent,
@@ -69,6 +70,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     AssetsDialogComponent,
     CompaniesDialogComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -90,6 +92,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CompaniesDialogComponent,
     ConsumptionChartComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,
@@ -110,6 +113,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     AssetsDialogComponent,
     CompaniesDialogComponent,
     GeoMapDialogComponent,
+    QrCodeDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
     ReportsDialogComponent,

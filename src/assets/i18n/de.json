@@ -68,6 +68,7 @@
     "create": "Erstellen",
     "update": "Update",
     "refresh": "Aktualisieren",
+    "generate_qr": "Generate QR code",
     "save": "Speichern",
     "delete": "Löschen",
     "export": "Exportieren",
@@ -197,6 +198,7 @@
       "open": "Öffnen",
       "open_in_maps": "In google maps öffnen",
       "refresh": "Aktulisieren",
+      "generate_qr": "Generate QR code",
       "refund": "Erstattung",
       "register": "Registerieren",
       "unregister": "Abmelden",
@@ -994,6 +996,7 @@
     "amperage": "Gesamttromstärke (A)",
     "amperagePerPhase": "Stromstärke pro Phase (A)",
     "session_details": "Ladevorgang",
+    "qr_code_generation_error": "Error occurred while generating QR code",
     "tabs": {
       "list": "Ladestationen",
       "charging_plans": "Ladepläne",

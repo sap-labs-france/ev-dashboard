@@ -1059,7 +1059,7 @@ export class CentralServerService {
       );
   }
 
-  public getOcpiDataFromTransaction(id: number): Observable<OcpiData> {
+  public exportTransactionOcpiCdr(id: number): Observable<OcpiData> {
     // Verify init
     this.checkInit();
     if (!id) {

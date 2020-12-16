@@ -36,7 +36,7 @@ export class TableExportTransactionOcpiCdrAction extends TableExportAction {
       ).subscribe((response) => {
         if (response === ButtonType.YES) {
           spinnerService.show();
-          centralServerService.getOcpiDataFromTransaction(transactionID).subscribe((result) => {
+          centralServerService.exportTransactionOcpiCdr(transactionID).subscribe((result) => {
               spinnerService.hide();
               const ocpiData = new Blob([JSON.stringify(result, null, '\t')]);
               FileSaver.saveAs(ocpiData, `exported-cdr-session-${transactionID}.json`);

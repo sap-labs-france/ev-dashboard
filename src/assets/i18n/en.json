@@ -68,6 +68,7 @@
     "create": "Create",
     "update": "Update",
     "refresh": "Refresh",
+    "generate_qr": "Generate QR code",
     "save": "Save",
     "delete": "Delete",
     "export": "Export",
@@ -197,6 +198,7 @@
       "open": "Open",
       "open_in_maps": "Open in google maps",
       "refresh": "Refresh",
+      "generate_qr": "Generate QR code",
       "refund": "Refund",
       "register": "Register",
       "unregister": "Unregister",
@@ -994,6 +996,7 @@
     "amperage": "Total Amperage (A)",
     "amperagePerPhase": "Amperage per phase (A)",
     "session_details": "Session",
+    "qr_code_generation_error": "Error occurred while generating QR code",
     "tabs": {
       "list": "Charging Stations",
       "charging_plans": "Charging Plans",

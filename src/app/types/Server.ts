@@ -50,6 +50,8 @@ export enum ServerAction {
   ASSIGN_TRANSACTIONS_TO_USER = 'AssignTransactionsToUser',
   UPDATE_TRANSACTION = 'UpdateTransaction',
 
+  TRANSACTION_OCPI_CDR_EXPORT = 'TransactionOcpiCdrExport',
+
   LOGGINGS = 'Loggings',
   LOGGING = 'Logging',
   LOGGINGS_EXPORT = 'LoggingsExport',

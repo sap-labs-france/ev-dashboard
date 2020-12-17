@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
+import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -55,6 +56,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private viewChargingStationsOfSiteArea = new TableViewChargingStationsOfSiteAreaAction().getActionDef();
   private viewAssetsOfSiteArea = new TableViewAssignedAssetsOfSiteAreaAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
+  private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
+
 
   constructor(
     public spinnerService: SpinnerService,
@@ -254,6 +257,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           new TableMoreAction([
             this.exportOCPPParamsAction,
             openInMaps,
+            this.siteAreaGenerateQrCodeConnectorAction,
             this.deleteAction,
           ]).getActionDef(),
         ];
@@ -294,6 +298,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     }
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public rowActionTriggered(actionDef: TableActionDef, siteArea: SiteArea) {
     switch (actionDef.id) {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
@@ -351,6 +356,14 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
             SiteAreaAssetsDialogComponent, siteArea, this.dialog, this.refreshData.bind(this));
         }
         break;
+        case ChargingStationButtonAction.GENERATE_QR_CODE:
+          if (actionDef.action) {
+            (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
+              siteArea, this.translateService, this.spinnerService,
+              this.messageService, this.centralServerService, this.router
+            );
+          }
+          break;
     }
   }
 

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../../services/central-server-notification.service';
@@ -42,6 +43,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private deleteAction = new TableDeleteSiteAction().getActionDef();
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
+  private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -193,13 +195,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     let moreActions;
     if (site.issuer) {
       if (this.authorizationService.isAdmin() ||
-          this.authorizationService.isSiteAdmin(site.id) ||
-          this.authorizationService.isSiteOwner(site.id)) {
+        this.authorizationService.isSiteAdmin(site.id) ||
+        this.authorizationService.isSiteOwner(site.id)) {
         actions.push(this.editAction);
         actions.push(this.assignUsersToSite);
         moreActions = new TableMoreAction([
           this.exportOCPPParamsAction,
           openInMaps,
+          this.siteGenerateQrCodeConnectorAction
         ]).getActionDef();
       } else {
         actions.push(this.viewAction);
@@ -271,6 +274,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
             this.centralServerService, this.router, this.spinnerService);
         }
         break;
+        case ChargingStationButtonAction.GENERATE_QR_CODE:
+          if (actionDef.action) {
+            (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
+              site, this.translateService, this.spinnerService,
+              this.messageService, this.centralServerService, this.router
+            );
+          }
+          break;
     }
   }
 

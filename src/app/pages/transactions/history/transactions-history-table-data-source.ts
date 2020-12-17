@@ -30,9 +30,10 @@ import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableCreateTransactionInvoiceAction, TableCreateTransactionInvoiceActionDef } from '../../../shared/table/actions/transactions/table-create-transaction-invoice-action';
 import { TableDeleteTransactionAction, TableDeleteTransactionActionDef } from '../../../shared/table/actions/transactions/table-delete-transaction-action';
+import { TableExportTransactionOcpiCdrAction, TableExportTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-export-transaction-ocpi-cdr';
 import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
+import { TablePushTransactionOcpiCdrAction, TablePushTransactionOcpiCdrActionDef } from '../../../shared/table/actions/transactions/table-push-transaction-ocpi-cdr-action';
 import { TableRebuildTransactionConsumptionsAction, TableRebuildTransactionConsumptionsActionDef } from '../../../shared/table/actions/transactions/table-rebuild-transaction-consumptions-action';
-import { TableRoamingPushCdrAction, TableRoamingPushCdrActionDef } from '../../../shared/table/actions/transactions/table-roaming-push-cdr-action';
 import { TableViewTransactionAction, TableViewTransactionActionDef } from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { EndDateFilter } from '../../../shared/table/filters/end-date-filter';
@@ -67,7 +68,8 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
   private navigateToChargingPlansAction = new TableNavigateToChargingPlansAction().getActionDef();
   private rebuildTransactionConsumptionsAction = new TableRebuildTransactionConsumptionsAction().getActionDef();
   private createInvoice = new TableCreateTransactionInvoiceAction().getActionDef();
-  private pushCdr = new TableRoamingPushCdrAction().getActionDef();
+  private transactionPushOcpiCdrAction = new TablePushTransactionOcpiCdrAction().getActionDef();
+  private exportTransactionOcpiCdrAction = new TableExportTransactionOcpiCdrAction().getActionDef();
 
   constructor(
     public spinnerService: SpinnerService,
@@ -385,8 +387,12 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
           !transaction.billingData) {
           moreActions.addActionInMoreActions(this.createInvoice);
         }
-        if (transaction.ocpiData && !transaction.ocpiData.cdr) {
-          moreActions.addActionInMoreActions(this.pushCdr);
+        if (transaction.ocpi) {
+          if (!transaction.ocpiWithCdr) {
+            moreActions.addActionInMoreActions(this.transactionPushOcpiCdrAction);
+          } else {
+            moreActions.addActionInMoreActions(this.exportTransactionOcpiCdrAction);
+          }
         }
         // Enable only for one user for the time being
         if (this.centralServerService.getLoggedUser().email === 'serge.fabiano@sap.com') {
@@ -401,6 +407,9 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         moreActions.addActionInMoreActions(this.navigateToLogsAction);
         moreActions.addActionInMoreActions(this.navigateToChargingPlansAction);
         rowActions.push(moreActions.getActionDef());
+        if (transaction.ocpi && transaction.ocpiWithCdr) {
+          moreActions.addActionInMoreActions(this.exportTransactionOcpiCdrAction);
+        }
       }
     }
     return rowActions;
@@ -458,11 +467,17 @@ export class TransactionsHistoryTableDataSource extends TableDataSource<Transact
         break;
       case TransactionButtonAction.PUSH_TRANSACTION_CDR:
         if (actionDef.action) {
-          (actionDef as TableRoamingPushCdrActionDef).action(
+          (actionDef as TablePushTransactionOcpiCdrActionDef).action(
             transaction, this.dialogService, this.translateService, this.messageService,
             this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
         }
         break;
+      case TransactionButtonAction.EXPORT_TRANSACTION_OCPI_CDR:
+        if (actionDef.action) {
+          (actionDef as TableExportTransactionOcpiCdrActionDef).action(
+            transaction.id, this.dialogService, this.translateService, this.messageService,
+            this.centralServerService, this.router, this.spinnerService);
+        }
     }
   }
 

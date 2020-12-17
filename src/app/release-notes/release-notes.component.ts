@@ -24,18 +24,38 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.4.33',
-        date: new Date('2020-12-11'),
+        version: '2.4.34',
+        date: new Date('2020-12-16'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Generate QR-Codes for Charging Stations`,
+              `Export OCPI Session CDR in Session History list`,
+              `Handle Charging Station with time in the future in Smart Charging`,
+              `Set non public OCPP parameters when applying templates (Delta)`,
+              `Do not take into account amperage leaks on a phase in Smart Charging`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.33',
+        date: new Date('2020-12-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Implemented sticky Smart Charging that adjusts limitation to real Car's consumption`,
               `Fixed Smart Charging rounding amperage per phase in Car`,
+              `Do not authorize roaming Badges on a private Charging Station`,
+              `Add Charging Station vendor integration for Shelly wallboxes`,
               `Added QA flag in Charging Station's templates for testing purpose`,
               `Added Tenant Logo in auth pages and in side bar`,
               `Auto refresh of user data and logo in side bar`,
-              `Fixed auto-focus not working in Auth pages`,
-              `Use of default image when not provided in Company Site, Site Area, Asset and Tenant`,
+              `Enabled database notification on Charging Station's backends`,
+              `Use of default image when not provided and limit image types in Company Site, Site Area, Asset and Tenant`,
+              `Fixed auto-focus not working in auth pages`,
             ],
           },
         ],

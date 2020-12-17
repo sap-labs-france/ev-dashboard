@@ -29,7 +29,7 @@
                             <button mat-flat-button color="primary" class="mr-2">
                               <mat-icon (click)="file.click()">mode_edit</mat-icon>
                               <div class="d-none">
-                                <input type="file" name="..." (change)="onImageChanged($event)" #file>
+                                <input #file type="file" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
                               </div>
                             </button>
                             <button mat-flat-button color="warn">

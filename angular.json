@@ -30,7 +30,8 @@
               "jquery",
               "file-saver",
               "ngx-google-places-autocomplete",
-              "chartjs-plugin-datalabels"
+              "chartjs-plugin-datalabels",
+              "canvg"
             ],
             "assets": [
               { "glob": "@(LICENSE|NOTICE)", "input": "src/../", "output": "/" },

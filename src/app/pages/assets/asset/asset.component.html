@@ -8,7 +8,7 @@
         </ng-template>
         <div class="card-body">
           <div class="row app-asset-align-center">
-            <div class="col-md-5">
+            <div class="col-md-12 col-xl-5">
               <div class="rotating-card-container"
                 [ngStyle]="{ 'pointer-events': this.isAdmin ? 'all' : 'none'}">
                 <div class="card card-rotate card-background app-asset-image-padding mt-0">
@@ -27,7 +27,7 @@
                         <button mat-flat-button color="primary" class="mr-2">
                           <mat-icon (click)="file.click()">mode_edit</mat-icon>
                           <div class="d-none">
-                            <input type="file" name="..." (change)="onImageChanged($event)" #file>
+                            <input #file type="file" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
                           </div>
                         </button>
                         <button mat-flat-button color="warn">
@@ -39,7 +39,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-12 col-xl-7">
               <div class="form-group">
                 <mat-form-field>
                   <input appAutofocus matInput placeholder="{{'assets.name' | translate}}"

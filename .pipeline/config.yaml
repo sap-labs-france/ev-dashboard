@@ -24,7 +24,8 @@ stages:
     karmaExecuteTests: false
 
   Acceptance:
-    cloudFoundryDeploy: true
+    downloadArtifactFromNexus: true
+    cloudFoundryDeploy: false
     cloudFoundry:
       org: 'SAP IT Cloud_sapitcfd'
       #org: 'd9621fb3-b6f0-465f-b34f-bd7066ce1ecb'

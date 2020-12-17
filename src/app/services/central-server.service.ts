@@ -12,12 +12,15 @@ import { Car, CarCatalog, CarMaker, ImageObject } from '../types/Car';
 import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/ChargingProfile';
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
+import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
 import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
 import { Log } from '../types/Log';
+import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
+import { OCPPResetType } from '../types/ocpp/OCPP';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
 import { ServerAction } from '../types/Server';
@@ -27,11 +30,8 @@ import { SiteArea, SiteAreaConsumption } from '../types/SiteArea';
 import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
-import { Transaction } from '../types/Transaction';
+import { OcpiData, Transaction } from '../types/Transaction';
 import { User, UserCar, UserDefaultTagCar, UserSite, UserToken } from '../types/User';
-import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
-import { OcpiEndpoint } from '../types/ocpi/OCPIEndpoint';
-import { OCPPResetType } from '../types/ocpp/OCPP';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerNotificationService } from './central-server-notification.service';
@@ -755,6 +755,26 @@ export class CentralServerService {
       );
   }
 
+  public getConnectorQrCode(chargeBoxID: string, connectorID: number): Observable<Image> {
+    // Verify init
+    this.checkInit();
+    if (!chargeBoxID || connectorID < 0) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<Image>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.GENERATE_QR_CODE_FOR_CONNECTOR}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: {
+          ChargeBoxID: chargeBoxID,
+          ConnectorID: connectorID.toString()
+        },
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   // tslint:disable-next-line:max-line-length
   public getChargingStationsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<ChargingStationInError>> {
@@ -1053,6 +1073,23 @@ export class CentralServerService {
       {
         headers: this.buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public exportTransactionOcpiCdr(id: number): Observable<OcpiData> {
+    // Verify init
+    this.checkInit();
+    if (!id) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<OcpiData>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.TRANSACTION_OCPI_CDR_EXPORT}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params: { ID: id.toString() },
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -1592,6 +1629,54 @@ export class CentralServerService {
     return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_DOWNLOAD_INVOICE}?ID=${id}`,
       {
         headers: this.buildHttpHeaders(),
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadSiteQrCodes(siteID: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteID'] = siteID;
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadSiteAreaQrCodes(siteAreaID?: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteAreaID'] = siteAreaID;
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['ChargeBoxID'] = chargingStationID;
+    if (connectorID) {
+      params['ConnectorID'] = connectorID.toString();
+    }
+    return this.httpClient.get(`${this.centralRestServerServiceSecuredURL}/${ServerAction.CHARGING_STATION_DOWNLOAD_QR_CODE_PDF}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
         responseType: 'blob',
       })
       .pipe(

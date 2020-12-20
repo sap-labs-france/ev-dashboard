@@ -42,7 +42,7 @@ export class ConfigService {
   }
 
   public getFrontEnd(): FrontEndConfiguration {
-    return (this.getConfig().FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' });
+    return (this.getConfig && this.getConfig().FrontEnd ? this.getConfig().FrontEnd : { host: 'localhost' });
   }
 
   public getLocales(): LocalesConfiguration {

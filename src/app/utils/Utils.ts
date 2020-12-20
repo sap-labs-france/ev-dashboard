@@ -123,7 +123,7 @@ export class Utils {
     return false;
   }
 
-  public static cloneObject(object: any): any {
+  public static cloneObject<T>(object: T): T {
     return JSON.parse(JSON.stringify(object));
   }
 

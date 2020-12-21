@@ -13,7 +13,7 @@ import { ChargingProfile, GetCompositeScheduleCommandResult } from '../types/Cha
 import { ChargePoint, ChargingStation, OCPPAvailabilityType, OcppParameter } from '../types/ChargingStation';
 import { Company } from '../types/Company';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, Ordering, Paging } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, CheckAssetConnectionResponse, CheckBillingConnectionResponse, DataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { AssetInError, ChargingStationInError, TransactionInError } from '../types/InError';
@@ -38,6 +38,7 @@ import { CentralServerNotificationService } from './central-server-notification.
 import { ConfigService } from './config.service';
 import { LocalStorageService } from './local-storage.service';
 import { WindowService } from './window.service';
+import { OicpEndpoint } from 'types/oicp/OICPEndpoint';
 
 @Injectable()
 export class CentralServerService {
@@ -1315,6 +1316,26 @@ export class CentralServerService {
       );
   }
 
+  // tslint:disable-next-line:max-line-length
+  public getOicpEndpoints(params: FilterParams,
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OicpEndpoint>> {
+    // Verify init
+    this.checkInit();
+    // Build Paging
+    this.getPaging(paging, params);
+    // Build Ordering
+    this.getSorting(ordering, params);
+    // Execute the REST service
+    return this.httpClient.get<DataResult<OicpEndpoint>>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINTS}`,
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public getSiteAreaConsumption(siteAreaID: string, startDate: Date, endDate: Date): Observable<SiteAreaConsumption> {
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
@@ -2247,6 +2268,120 @@ export class CentralServerService {
     // Execute
     return this.httpClient.post<OCPIJobStatusesResponse>(
       `${this.centralRestServerServiceSecuredURL}/${ServerAction.OCPI_ENPOINT_CHECK_SESSIONS}`, ocpiEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public createOicpEndpoint(oicpEndpoint: any): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_CREATE}`,
+      oicpEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public sendEVSEStatusesOicpEndpoint(oicpEndpoint: OicpEndpoint): Observable<OICPJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OICPJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_SEND_EVSE_STATUSES}`, oicpEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public sendEVSEsOicpEndpoint(oicpEndpoint: OicpEndpoint): Observable<OICPJobStatusesResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OICPJobStatusesResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_SEND_EVSES}`, oicpEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public pingOicpEndpoint(oicpEndpoint: any): Observable<OICPPingResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.post<OICPPingResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENPOINT_PING}`, oicpEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public updateOicpEndpoint(oicpEndpoint: OicpEndpoint): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute
+    return this.httpClient.put<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_UPDATE}`, oicpEndpoint,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public deleteOicpEndpoint(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.delete<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_DELETE}?ID=${id}`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public unregisterOicpEndpoint(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_UNREGISTER}?ID=${id}`,
+      `{ "id": "${id}" }`,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public registerOicpEndpoint(id: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.put<ActionResponse>(
+      `${this.centralRestServerServiceSecuredURL}/${ServerAction.OICP_ENDPOINT_REGISTER}?ID=${id}`,
+      `{ "id": "${id}" }`,
       {
         headers: this.buildHttpHeaders(),
       })

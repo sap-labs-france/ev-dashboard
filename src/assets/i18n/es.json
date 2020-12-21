@@ -1623,7 +1623,7 @@
     "push_tokens_error": "Se produjo un error al actualizar los tokens de usuario; Consulte los registros para obtener más detalles",
     "start_stop_job": "Activar / Desactivar el proceso",
     "background_job_activated": "Proceso de actualización automática activado correctamente",
-    "background_job_desactivated": "Proceso de actualización automática deshabilitado exitosamente",
+    "background_job_deactivated": "Proceso de actualización automática deshabilitado exitosamente",
     "background_job_no_run": "No ejecutado",
     "start_background_job_title": "Iniciar el proceso de actualización",
     "start_background_job_confirm": "¿Está seguro que desea iniciar el proceso de actualización del IOP '{{name}}'?",

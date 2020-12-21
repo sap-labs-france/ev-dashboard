@@ -12,6 +12,7 @@ export interface Setting extends Data {
 export interface SettingContent {
   type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
   ocpi?: OcpiSetting;
+  oicp?: OicpSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
   stripe?: StripeBillingSetting;
@@ -59,15 +60,41 @@ export interface ConvergentChargingPricingSetting extends PricingSetting {
 
 export enum RoamingSettingsType {
   GIREVE = 'gireve',
+  HUBJECT = 'hubject',
 }
 
 export interface RoamingSettings extends Setting {
-  identifier: TenantComponents.OCPI;
+  identifier: TenantComponents.OCPI | TenantComponents.OICP;
   type: RoamingSettingsType;
-  ocpi: OcpiSetting;
+  ocpi?: OcpiSetting;
+  oicp?: OicpSetting;
 }
 
 export interface OcpiSetting {
+  currency: string;
+  businessDetails: {
+    name: string;
+    website: string;
+    logo: {
+      url: string;
+      thumbnail: string;
+      category: string;
+      type: string;
+      width: string;
+      height: string;
+    }
+  };
+  cpo: {
+    countryCode: string;
+    partyID: string;
+  };
+  emsp: {
+    countryCode: string;
+    partyID: string;
+  };
+}
+
+export interface OicpSetting {
   currency: string;
   businessDetails: {
     name: string;

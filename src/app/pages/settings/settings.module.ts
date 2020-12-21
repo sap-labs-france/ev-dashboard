@@ -35,6 +35,21 @@ import { SettingsOcpiEnpointsDetailsComponent } from './ocpi/endpoints/ocpi-deta
 import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
 import { SettingsOcpiEnpointsComponent } from './ocpi/endpoints/settings-ocpi-endpoints.component';
 import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
+import { SettingsOicpEndpointComponent } from './oicp/endpoints/endpoint/settings-oicp-endpoint.component';
+import { SettingsOicpEnpointDialogComponent } from './oicp/endpoints/endpoint/settings-oicp-endpoint.dialog.component';
+import { AppFormatOicpEvsesFailurePipe, OicpDetailFailureEvsesStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-failure-evses-status-formatter.component';
+import { AppFormatOicpDetailJobStatusPipe, OicpDetailJobStatusFomatterComponent } from './oicp/endpoints/formatters/oicp-detail-job-status-formatter.component';
+import { OicpDetailSuccessEvsesStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-success-evses-status-formatter.component';
+import { AppFormatOicpEvsesTotalPipe, OicpDetailTotalEvsesStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-total-evses-status-formatter.component';
+import { AppFormatOicpJobResultPipe, OicpJobResultFormatterComponent } from './oicp/endpoints/formatters/oicp-job-result-formatter.component';
+import { AppFormatOicpPatchJobResultPipe, OicpPatchJobResultFormatterComponent } from './oicp/endpoints/formatters/oicp-patch-job-result-formatter.component';
+import { AppFormatOicpPatchJobStatusPipe, OicpPatchJobStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-patch-job-status-formatter.component';
+import { AppFormatOicpStatusPipe, OicpEndpointStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-status-formatter.component';
+import { SettingsOicpEndpointsDetailsTableDataSource } from './oicp/endpoints/oicp-details/settings-oicp-endpoints-details-table-data-source';
+import { SettingsOicpEnpointsDetailsComponent } from './oicp/endpoints/oicp-details/settings-oicp-endpoints-details.component';
+import { SettingsOicpEndpointsTableDataSource } from './oicp/endpoints/settings-oicp-endpoints-table-data-source';
+import { SettingsOicpEnpointsComponent } from './oicp/endpoints/settings-oicp-endpoints.component';
+import { SettingsOicpComponent } from './oicp/settings-oicp.component';
 import { SettingsConvergentChargingComponent } from './pricing/convergent-charging/settings-convergent-charging.component';
 import { SettingsPricingComponent } from './pricing/settings-pricing.component';
 import { SettingsSimplePricingComponent } from './pricing/simple/settings-simple-pricing.component';
@@ -65,6 +80,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   declarations: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOicpComponent,
     RegistrationTokensComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
@@ -78,17 +94,23 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSmartChargingComponent,
     SettingsSapSmartChargingComponent,
     OcpiJobResultFormatterComponent,
+    OicpJobResultFormatterComponent,
     AnalyticsLinkDialogComponent,
     SettingsOcpiComponent,
+    SettingsOicpComponent,
     SettingsOcpiEnpointsComponent,
     SettingsOcpiEnpointDialogComponent,
     SettingsOcpiEnpointComponent,
+    SettingsOicpEnpointsComponent,
+    SettingsOicpEnpointDialogComponent,
+    SettingsOicpEndpointComponent,
     SettingsAssetComponent,
     AssetConnectionComponent,
     AssetConnectionDialogComponent,
     RegistrationTokenDialogComponent,
     SchneiderAssetConnectionComponent,
     OcpiEndpointStatusFormatterComponent,
+    OicpEndpointStatusFormatterComponent,
     AppFormatOcpiStatusPipe,
     OcpiDetailJobStatusFomatterComponent,
     AppFormatOcpiDetailJobStatusPipe,
@@ -103,6 +125,20 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiPatchJobStatusFormatterComponent,
     AppFormatOcpiPatchJobStatusPipe,
     SettingsOcpiEnpointsDetailsComponent,
+    AppFormatOicpStatusPipe,
+    OicpDetailJobStatusFomatterComponent,
+    AppFormatOicpDetailJobStatusPipe,
+    AppFormatOicpJobResultPipe,
+    OicpPatchJobResultFormatterComponent,
+    AppFormatOicpPatchJobResultPipe,
+    OicpDetailTotalEvsesStatusFormatterComponent,
+    AppFormatOicpEvsesTotalPipe,
+    OicpDetailSuccessEvsesStatusFormatterComponent,
+    OicpDetailFailureEvsesStatusFormatterComponent,
+    AppFormatOicpEvsesFailurePipe,
+    OicpPatchJobStatusFormatterComponent,
+    AppFormatOicpPatchJobStatusPipe,
+    SettingsOicpEnpointsDetailsComponent,
     RegistrationTokenComponent,
     RegistrationTokenStatusComponent,
     AppRegistrationTokenStatusPipe,
@@ -110,8 +146,10 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
   entryComponents: [
     SettingsComponent,
     SettingsOcpiComponent,
+    SettingsOicpComponent,
     RegistrationTokensComponent,
     SettingsOcpiEnpointsComponent,
+    SettingsOicpEnpointsComponent,
     SettingsRefundComponent,
     SettingsConcurComponent,
     SettingsPricingComponent,
@@ -139,12 +177,24 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     OcpiDetailFailureEvsesStatusFormatterComponent,
     OcpiPatchJobStatusFormatterComponent,
     SettingsOcpiEnpointsDetailsComponent,
+    SettingsOicpEnpointDialogComponent,
+    SettingsOicpEndpointComponent,
+    OicpEndpointStatusFormatterComponent,
+    OicpDetailJobStatusFomatterComponent,
+    OicpPatchJobResultFormatterComponent,
+    OicpDetailTotalEvsesStatusFormatterComponent,
+    OicpDetailSuccessEvsesStatusFormatterComponent,
+    OicpDetailFailureEvsesStatusFormatterComponent,
+    OicpPatchJobStatusFormatterComponent,
+    SettingsOicpEnpointsDetailsComponent,
     RegistrationTokenComponent,
     RegistrationTokenStatusComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
     SettingsOcpiEndpointsTableDataSource,
+    SettingsOicpEndpointsDetailsTableDataSource,
+    SettingsOicpEndpointsTableDataSource,
     SettingsAssetConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
   ],

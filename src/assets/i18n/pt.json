@@ -1623,7 +1623,7 @@
     "push_tokens_error": "Ocorreu um erro ao atualizar os tokens do usuário - consulte os logs para obter mais detalhes",
     "start_stop_job": "Ativar / desativar trabalho em segundo plano",
     "background_job_activated": "Trabalho em segundo plano ativado com sucesso",
-    "background_job_desactivated": "Trabalho em segundo plano desativado com sucesso",
+    "background_job_deactivated": "Trabalho em segundo plano desativado com sucesso",
     "background_job_no_run": "Não executado",
     "start_background_job_title": "Iniciar trabalho em segundo plano",
     "start_background_job_confirm": "Deseja iniciar o trabalho em segundo plano para o IOP '{{name}}'?",

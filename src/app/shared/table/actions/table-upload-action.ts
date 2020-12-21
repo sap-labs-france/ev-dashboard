@@ -6,6 +6,7 @@ import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { OcpiButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { TableAction } from './table-action';
+import { OicpButtonAction } from 'types/oicp/OICPEndpoint';
 
 export class TableUploadAction implements TableAction {
   private action: TableActionDef = {
@@ -17,7 +18,7 @@ export class TableUploadAction implements TableAction {
     tooltip: 'general.tooltips.upload',
   };
 
-  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction,
+  constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction,
     name?: string, tooltip?: string) {
     if (id) {
       this.action.id = id;

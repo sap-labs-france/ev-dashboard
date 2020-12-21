@@ -1623,7 +1623,7 @@
     "push_tokens_error": "Une erreur est survenue lors de la mise à jour des jetons des utilisateurs, vérifiez les logs",
     "start_stop_job": "Activer/Désactiver le processus",
     "background_job_activated": "Processus de mise à jour automatique activé avec succès",
-    "background_job_desactivated": "Processus de mise à jour automatique désactivé avec succès",
+    "background_job_deactivated": "Processus de mise à jour automatique désactivé avec succès",
     "background_job_no_run": "Non executée",
     "start_background_job_title": "Démarrer le processus de mise à jour",
     "start_background_job_confirm": "Voulez-vous vraiment démarrer le processus de mise à jour pour IOP '{{name}}' ?",

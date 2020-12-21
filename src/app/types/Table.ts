@@ -15,6 +15,7 @@ import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
+import { OicpButtonAction } from './oicp/OICPEndpoint';
 
 export interface Data {
   id: string | number;
@@ -109,7 +110,7 @@ export enum DialogType {
 
 export interface TableActionDef {
   id: ButtonAction | CompanyButtonAction | TenantButtonAction | SiteAreaButtonAction | ChargingStationButtonAction |
-  UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | AssetButtonAction |
+  UserButtonAction | TransactionButtonAction | SiteButtonAction | OcpiButtonAction | OicpButtonAction | AssetButtonAction |
   BillingButtonAction | CarButtonAction | LogButtonAction;
   type: ActionType;
   currentValue?: any;

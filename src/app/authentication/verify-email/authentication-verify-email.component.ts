@@ -25,7 +25,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
   public verificationToken: string | null;
   public resetToken: string | null;
   public verificationEmail: string | null;
-  private messages!: object;
+  private messages!: Record<string, string>;
 
   private siteKey: string;
   private subDomain: string;

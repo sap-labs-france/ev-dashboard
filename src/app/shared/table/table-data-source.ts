@@ -44,7 +44,7 @@ export abstract class TableDataSource<T extends Data> {
   public multipleRowSelection!: boolean;
   private loadingNumberOfRecords = false;
   private searchValue = '';
-  private staticFilters: object[] = [];
+  private staticFilters: Record<string, unknown>[] = [];
 
   constructor(
     public spinnerService: SpinnerService,
@@ -390,11 +390,11 @@ export abstract class TableDataSource<T extends Data> {
     return of('getRowDetails() not implemented in your data source!');
   }
 
-  public setStaticFilters(staticFilters: object[]) {
+  public setStaticFilters(staticFilters: Record<string, unknown>[]): void {
     this.staticFilters = staticFilters;
   }
 
-  public getStaticFilters(): object[] {
+  public getStaticFilters(): Record<string, unknown>[] {
     return this.staticFilters;
   }
 

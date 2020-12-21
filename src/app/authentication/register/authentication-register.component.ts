@@ -34,7 +34,7 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public acceptEula: AbstractControl;
   public hidePassword = true;
   public hideRepeatPassword = true;
-  private messages: object;
+  private messages: Record<string, string>;
   private subDomain: string;
 
   private siteKey: string;

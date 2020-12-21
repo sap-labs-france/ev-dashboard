@@ -24,6 +24,22 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.34',
+        date: new Date('2020-12-16'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Generate QR-Codes for Charging Stations`,
+              `Export OCPI Session CDR in Session History list`,
+              `Handle Charging Station with time in the future in Smart Charging`,
+              `Set non public OCPP parameters when applying templates (Delta)`,
+              `Do not take into account amperage leaks on a phase in Smart Charging`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.33',
         date: new Date('2020-12-12'),
         componentChanges: [

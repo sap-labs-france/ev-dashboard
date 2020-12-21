@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from 'types/User';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { CentralServerService } from '../../services/central-server.service';
@@ -25,7 +26,7 @@ declare var $: any;
 export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   private toggleButton: any;
   private sidebarVisible: boolean;
-  private messages!: object;
+  private messages!: Record<string, string>;
   private subDomain: string;
   private nativeElement: Node;
 
@@ -145,7 +146,7 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  public login(user: object): void {
+  public login(user: User): void {
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();

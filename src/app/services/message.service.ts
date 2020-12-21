@@ -28,7 +28,7 @@ export class MessageService {
     private translateService: TranslateService) {
   }
 
-  public showErrorMessageConnectionLost() {
+  public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs
     if ((new Date().getTime() - this.lastLostConnectionDate.getTime()) > 5000) {
       this.showErrorMessage('general.backend_not_running');
@@ -36,27 +36,27 @@ export class MessageService {
     }
   }
 
-  public showWarningMessageUserOrTenantUpdated() {
+  public showWarningMessageUserOrTenantUpdated(): void {
     this.showWarningMessage('general.user_or_tenant_updated');
   }
 
-  public showInfoMessage(message: string, params?: object, title?: string) {
+  public showInfoMessage(message: string, params?: Record<string, unknown>, title?: string): void {
     this.showMessage('info', message, title, params);
   }
 
-  public showWarningMessage(message: string, params?: object, title?: string) {
+  public showWarningMessage(message: string, params?: Record<string, unknown>, title?: string): void {
     this.showMessage('warning', message, title, params);
   }
 
-  public showSuccessMessage(message: string, params?: object, title?: string) {
+  public showSuccessMessage(message: string, params?: Record<string, unknown>, title?: string): void {
     this.showMessage('success', message, title, params);
   }
 
-  public showErrorMessage(message: string, params?: object, title?: string) {
+  public showErrorMessage(message: string, params?: Record<string, unknown>, title?: string): void {
     this.showMessage('danger', message, title, params);
   }
 
-  private showMessage(type: string, message: string, title = '', params?: object, from = 'top', align = 'right', icon = 'notifications') {
+  private showMessage(type: string, message: string, title = '', params?: Record<string, unknown>, from = 'top', align = 'right', icon = 'notifications') {
     $.notify({
         icon,
         title,

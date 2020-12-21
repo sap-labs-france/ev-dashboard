@@ -70,13 +70,17 @@ export interface Transaction extends Data {
   };
   dateTimestring: string;
   values: Consumption[];
+  ocpi?: boolean;
+  ocpiWithCdr?: boolean;
   billingData: BillingTransactionData;
-  ocpiData?: {
-    session?: OCPISession;
-    cdr?: OCPICdr;
-    sessionCheckedOn?: Date;
-    cdrCheckedOn?: Date;
-  };
+  ocpiData?: OcpiData;
+}
+
+export interface OcpiData {
+  session?: OCPISession;
+  cdr?: OCPICdr;
+  sessionCheckedOn?: Date;
+  cdrCheckedOn?: Date;
 }
 
 export interface StartTransaction {
@@ -98,6 +102,7 @@ export enum TransactionButtonAction {
   DELETE_TRANSACTION = 'delete_transaction',
   DELETE_TRANSACTIONS = 'delete_transactions',
   EXPORT_TRANSACTIONS = 'export_transactions',
+  EXPORT_TRANSACTION_OCPI_CDR = 'export_transaction_ocpi_cdr',
   OPEN_CONCUR_URL = 'open_concur_url',
   REFUND_TRANSACTIONS = 'refund_transactions',
   REFUND_SYNCHRONIZE = 'refund_synchronize',

@@ -15,10 +15,10 @@ export interface Site extends Data, CreatedUpdatedProps {
   siteAreas: SiteArea[];
   address: Address;
   image: string;
-  images: object[];
+  images: Record<string, unknown>[];
   gps: string;
-  consumptionData: object;
-  occupationData: object;
+  consumptionData: Record<string, unknown>;
+  occupationData: Record<string, unknown>;
   userIDs: string[];
   users: User[];
   public?: boolean;

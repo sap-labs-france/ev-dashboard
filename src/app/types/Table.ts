@@ -165,7 +165,7 @@ export interface TableColumnDef {
   errors?: {
     id: string;
     message: string;
-    messageParams?: object;
+    messageParams?: Record<string, unknown>;
   }[];
   headerClass?: string;
   class?: string;

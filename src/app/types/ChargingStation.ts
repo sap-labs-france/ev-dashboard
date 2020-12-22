@@ -222,6 +222,7 @@ export enum ChargingStationButtonAction {
   FORCE_UNAVAILABLE_STATUS = 'force_unavailable_status',
   SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
   NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans',
+  GENERATE_QR_CODE = 'generate_qr_code',
   NAVIGATE_TO_SITE_AREA = 'navigate_to_site_area'
 }
 

@@ -1,9 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-
-import { CONNECTOR_TYPE_MAP } from '../../../../../shared/formatters/app-connector-type.pipe';
-import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from '../../../../../types/ChargingStation';
-import { Utils } from '../../../../../utils/Utils';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'services/central-server.service';
+import { DialogService } from 'services/dialog.service';
+import { MessageService } from 'services/message.service';
+import { SpinnerService } from 'services/spinner.service';
+import { WindowService } from 'services/window.service';
+import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
+import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
+import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
+import { Image } from 'types/GlobalType';
+import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-charging-station-connector',
@@ -51,7 +60,16 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public numberOfConnectedPhase!: AbstractControl;
   public currentType!: AbstractControl;
   public phaseAssignmentToGrid!: AbstractControl;
-
+  constructor(
+    private dialog: MatDialog,
+    private centralServerService: CentralServerService,
+    private dialogService: DialogService,
+    private windowService: WindowService,
+    private translateService: TranslateService,
+    private spinnerService: SpinnerService,
+    private router: Router,
+    private messageService: MessageService) {
+  }
   public ngOnInit() {
     // Init connectors
     this.formConnectorGroup = new FormGroup({
@@ -213,6 +231,37 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.refreshNumberOfPhases();
     this.refreshTotalAmperage();
   }
+
+  public generateQRCode() {
+    this.spinnerService.show();
+    this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId).subscribe((qrCode: Image) => {
+      this.spinnerService.hide();
+      if (qrCode) {
+        // Create the dialog
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.minWidth = '70vw';
+        dialogConfig.disableClose = false;
+        dialogConfig.panelClass = 'transparent-dialog-container';
+        // Set data
+        dialogConfig.data = {
+          'qrCode': qrCode.image,
+          'connectorID': this.connector.connectorId,
+          'chargingStationID': this.chargingStation.id,
+        };
+        // Disable outside click close
+        dialogConfig.disableClose = true;
+        // Open
+        this.dialog.open(QrCodeDialogComponent, dialogConfig)
+          .afterClosed().subscribe((result) => {
+          });
+      }
+    }, (error) => {
+      this.spinnerService.hide();
+      Utils.handleHttpError(error, this.router, this.messageService,
+        this.centralServerService, 'chargers.qr_code_generation_error');
+    });
+  }
+
 
   public amperageChanged() {
     this.refreshTotalAmperage();

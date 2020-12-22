@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.35',
+        date: new Date('2020-12-22'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set Sticky Smart Charging threshold to 20%`,
+              `Fixed configuration file not loading at the right time in Firefox`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.34',
         date: new Date('2020-12-21'),
         componentChanges: [

@@ -1478,8 +1478,8 @@
         "settings": "Configuración",
         "user": "Usuario",
         "password": "Contraseña",
-        "additional_settings":"Additional settings",
-        "sticky_limitation": "Adjust limit according current consumption",
+        "additional_settings":"Additional settings:",
+        "sticky_limitation": "Adjust limit according to current consumption",
         "limit_buffer_dc": "Buffer for Limit DC (%)",
         "limit_buffer_ac": "Buffer for Limit AC (%)"
       },

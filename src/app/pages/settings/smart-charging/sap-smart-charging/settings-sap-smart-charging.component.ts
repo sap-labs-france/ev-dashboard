@@ -41,16 +41,8 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
         ]),
       ),
       stickyLimitation: new FormControl(''),
-      limitBufferDC: new FormControl('',
-        Validators.compose([
-          Validators.maxLength(100),
-        ]),
-      ),
-      limitBufferAC: new FormControl('',
-        Validators.compose([
-          Validators.maxLength(100),
-        ]),
-      ),
+      limitBufferDC: new FormControl(''),
+      limitBufferAC: new FormControl(''),
     });
     // Add
     this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);
@@ -86,14 +78,12 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public updateFormData() {
     // Set data
     if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging && this.sapSmartCharging) {
-      this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl);
-      this.user.setValue(this.smartChargingSettings.sapSmartCharging.user);
-      this.password.setValue(this.smartChargingSettings.sapSmartCharging.password);
-      this.stickyLimitation.setValue(this.smartChargingSettings.sapSmartCharging.stickyLimitation
-        ? this.smartChargingSettings.sapSmartCharging.stickyLimitation : false);
-      this.password.setValue(this.smartChargingSettings.sapSmartCharging.password);
-      this.limitBufferDC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferDC);
-      this.limitBufferAC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferAC);
+      this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl ? this.smartChargingSettings.sapSmartCharging.optimizerUrl : '');
+      this.user.setValue(this.smartChargingSettings.sapSmartCharging.user ? this.smartChargingSettings.sapSmartCharging.user : '');
+      this.password.setValue(this.smartChargingSettings.sapSmartCharging.password ? this.smartChargingSettings.sapSmartCharging.password : '');
+      this.stickyLimitation.setValue(this.smartChargingSettings.sapSmartCharging.stickyLimitation ? this.smartChargingSettings.sapSmartCharging.stickyLimitation : false);
+      this.limitBufferDC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferDC ? this.smartChargingSettings.sapSmartCharging.limitBufferDC : 0);
+      this.limitBufferAC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferAC ? this.smartChargingSettings.sapSmartCharging.limitBufferAC : 0);
       this.formGroup.markAsPristine();
 
     }

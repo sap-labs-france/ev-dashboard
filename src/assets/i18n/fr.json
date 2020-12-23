@@ -25,7 +25,7 @@
     "connectors": "Connexions",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.34",
+    "last_update": "Version 2.4.35",
     "version": "Version",
     "about_us": "A Propos",
     "unexpected_error_backend": "Une erreur inattendue s'est produite, vérifiez les logs",
@@ -1365,6 +1365,7 @@
       "synchronize_started": "La synchronization des transactions remboursées a été démarrée",
       "synchronize_success": "Les transactions remboursées ont été mises à jour avec succès",
       "synchronize_error": "Une erreur est survenue durant la synchronization des transactions remboursées, vérifiez les logs",
+      "connection_error": "Une erreur est survenue durant la connexion avec le système de remboursement, vérifiez votre connection dans votre profil",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Url d'Authentification",

@@ -25,7 +25,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "app_name": "e-Mobility",
-    "last_update": "Versão 2.4.34",
+    "last_update": "Versão 2.4.35",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -1365,6 +1365,7 @@
       "synchronize_started": "A sincronização das transações reembolsadas foi iniciada",
       "synchronize_success": "As transações reembolsadas foram sincronizadas com sucesso",
       "synchronize_error": "Ocorreu um erro ao sincronizar as transações reembolsadas",
+      "connection_error": "Error in connecting to the refunding system, check your connection in your profile",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Url de Autenticação",

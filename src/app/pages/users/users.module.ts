@@ -11,7 +11,7 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { UserConnectionComponent } from './connections/user-connection.component';
+import { ConcurUserConnectionComponent } from './connections/concur/concur-user-connection.component';
 import { AppFormatTagStatusPipe, TagStatusFormatterComponent } from './formatters/tag-status-formatter.component';
 import { AppUserRolePipe } from './formatters/user-role.pipe';
 import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
@@ -57,7 +57,7 @@ import { UserRoutes } from './users.routing';
     UserDialogComponent,
     UserSitesDialogComponent,
     UserSitesAdminCheckboxComponent,
-    UserConnectionComponent,
+    ConcurUserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe,
     UserSitesOwnerRadioComponent,

@@ -1365,6 +1365,7 @@
       "synchronize_started": "Refunded transactions synchronization has been started",
       "synchronize_success": "Refunded transactions have been synchronized successfully",
       "synchronize_error": "Error occurred while synchronizing the refunded transactions, check the logs",
+      "connection_error": "Error in connecting to the refunding system, check your connection in your profile",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Authentication Url",

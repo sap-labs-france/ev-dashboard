@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Set Sticky Smart Charging threshold to 20%`,
               `Fixed configuration file not loading at the right time in Firefox`,
               `Handle connection issues with the Refunding system`,
+              `Fixed Demo role cannot read its profile`,
             ],
           },
         ],

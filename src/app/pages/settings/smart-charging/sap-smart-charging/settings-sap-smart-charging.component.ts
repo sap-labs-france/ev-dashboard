@@ -16,6 +16,9 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public optimizerUrl!: AbstractControl;
   public user!: AbstractControl;
   public password!: AbstractControl;
+  public stickyLimitation!: AbstractControl;
+  public limitBufferDC!: AbstractControl;
+  public limitBufferAC!: AbstractControl;
 
   public ngOnInit(): void {
     this.sapSmartCharging = new FormGroup({
@@ -37,6 +40,17 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
           Validators.maxLength(100),
         ]),
       ),
+      stickyLimitation: new FormControl(''),
+      limitBufferDC: new FormControl('',
+        Validators.compose([
+          Validators.maxLength(100),
+        ]),
+      ),
+      limitBufferAC: new FormControl('',
+        Validators.compose([
+          Validators.maxLength(100),
+        ]),
+      ),
     });
     // Add
     this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);
@@ -44,12 +58,29 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
     this.optimizerUrl = this.sapSmartCharging.controls['optimizerUrl'];
     this.user = this.sapSmartCharging.controls['user'];
     this.password = this.sapSmartCharging.controls['password'];
+    this.stickyLimitation = this.sapSmartCharging.controls['stickyLimitation'];
+    this.limitBufferDC = this.sapSmartCharging.controls['limitBufferDC'];
+    this.limitBufferAC = this.sapSmartCharging.controls['limitBufferAC'];
     // Set data
     this.updateFormData();
+    if (!this.stickyLimitation.value) {
+      this.limitBufferDC.disable();
+      this.limitBufferAC.disable();
+    }
   }
 
   public ngOnChanges() {
     this.updateFormData();
+  }
+
+  public stickyLimitationChanged() {
+    if (this.stickyLimitation.value) {
+      this.limitBufferDC.enable();
+      this.limitBufferAC.enable();
+    } else {
+      this.limitBufferDC.disable();
+      this.limitBufferAC.disable();
+    }
   }
 
   public updateFormData() {
@@ -58,7 +89,13 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
       this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl);
       this.user.setValue(this.smartChargingSettings.sapSmartCharging.user);
       this.password.setValue(this.smartChargingSettings.sapSmartCharging.password);
+      this.stickyLimitation.setValue(this.smartChargingSettings.sapSmartCharging.stickyLimitation
+        ? this.smartChargingSettings.sapSmartCharging.stickyLimitation : false);
+      this.password.setValue(this.smartChargingSettings.sapSmartCharging.password);
+      this.limitBufferDC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferDC);
+      this.limitBufferAC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferAC);
       this.formGroup.markAsPristine();
+
     }
   }
 }

@@ -1477,7 +1477,11 @@
         "title": "SAP Smart Charging",
         "settings": "Settings",
         "user": "User",
-        "password": "Password"
+        "password": "Password",
+        "additional_settings":"Additional settings",
+        "sticky_limitation": "Sticky Limitation",
+        "limit_buffer_dc": "Buffer for Limit DC (%)",
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility can use smart charging algorithm to optimize power distribution and charging schedules based on complex constraints",
       "setting_do_not_exist": "Configuration has not been found",

@@ -1477,7 +1477,11 @@
         "title": "SAP Smart Charging",
         "settings": "Einstellungen",
         "user": "Nutzer",
-        "password": "Passwort"
+        "password": "Passwort",
+        "additional_settings":"Zusätzliche Einstellungen",
+        "sticky_limitation": "Sticky Limitation",
+        "limit_buffer_dc": "Puffer für Limit DC (%)",
+        "limit_buffer_ac": "Puffer für Limit AC (%)"
       },
       "description": "E-Mobility kann Smart-Charging Algorithmen nutzen um die Leistungsbereitstellung und den Ladezeitplan auf Basis komplexer Abhängigkeiten zu optimieren",
       "setting_do_not_exist": "Konfiguration nicht gefunden",

@@ -1365,6 +1365,7 @@
       "synchronize_started": "Se inició la sincronización de transacciones reembolsadas",
       "synchronize_success": "Las transacciones reembolsadas se han sincronizado exitosamente",
       "synchronize_error": "Se produjo un error al sincronizar las transacciones reembolsadas",
+      "connection_error": "Error in connecting to the refunding system, check your connection in your profile",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "URL de autenticación",

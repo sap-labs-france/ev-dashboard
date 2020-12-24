@@ -1365,6 +1365,7 @@
       "synchronize_started": "Die Synchronisierung der rückerstatteten Ladevorgänge wurde erfolgreich gestartet",
       "synchronize_success": "Rückerstattete Ladevorgänge wurden erfolgreich synchronisiert",
       "synchronize_error": "Beim synchronisieren der rückerstatteten Ladevorgänge ist ein Fehler aufgetreten",
+      "connection_error": "Error in connecting to the refunding system, check your connection in your profile",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Authentifizierungs-Url",

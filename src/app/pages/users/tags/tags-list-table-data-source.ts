@@ -10,6 +10,7 @@ import { TableMoreAction } from 'shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from 'shared/table/actions/table-open-url-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { organisations } from 'shared/table/filters/issuer-filter';
+import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { DataResult } from 'types/DataResult';
 import { HTTPError } from 'types/HTTPError';
@@ -327,6 +328,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public buildTableFiltersDef(): TableFilterDef[] {
     return [
       new IssuerFilter().getFilterDef(),
+      new StatusFilter().getFilterDef(),
       new UserTableFilter().getFilterDef(),
     ];
   }

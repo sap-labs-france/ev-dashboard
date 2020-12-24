@@ -32,6 +32,7 @@
     "select_at_least_one_record": "Você deve selecionar pelo menos um registo da lista",
     "mandatory_field": "Compo Obrigatório",
     "no_record_found": "Não foram encontrados registos",
+    "no_image_found": "No images have been found",
     "no_connector_available": "Conexão não disponível",
     "error_max_length": "O tamanho máximo é {{length}}",
     "error_min_length": "O tamanho mínimo é {{length}}",

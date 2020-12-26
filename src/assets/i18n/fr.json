@@ -1273,7 +1273,12 @@
     "tag_id_already_used": "Le badge '{{tagID}}' existe déjà",
     "redirect": "Naviguer vers Badges",
     "title": "Badge",
-    "default_tag": "Badge par défaut"
+    "default_tag": "Badge par défaut",
+    "delete_tags_title": "Supprimer Session(s)",
+    "delete_tags_confirm": "Voulez-vous vraiment supprimer les badges sélectionnés ?",
+    "delete_tags_success": "'{{inSuccess}}' badges ont été supprimés avec succès",
+    "delete_tags_partial": "'{{inSuccess}}' badges ont été supprimés avec succès et '{{inError}}' badges ont rencontrés une erreur",
+    "delete_tags_error": "Une erreur est survenue pendant la suppression des badges, vérifiez les logs"
   },
   "tenants": {
     "title": "Organisation",

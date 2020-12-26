@@ -1273,7 +1273,12 @@
     "tag_id_already_used": "The badge '{{tagID}}' already exists",
     "redirect": "Navigate to Tags",
     "title": "Badge",
-    "default_tag": "Default badge"
+    "default_tag": "Default badge",
+    "delete_tags_title": "Delete Badge(s)",
+    "delete_tags_confirm": "Do you really want to delete '{{quantity}}' badge(s)?",
+    "delete_tags_success": "'{{inSuccess}}' badges have been deleted successfully",
+    "delete_tags_partial": "'{{inSuccess}}' badges  have been deleted successfully and '{{inError}}' badges have encountered an error, check the logs",
+    "delete_tags_error": "Error occurred while deleting the badges, check the logs"
   },
   "tenants": {
     "title": "Organización",

@@ -43,7 +43,7 @@ export class QrCodeDialogComponent {
     this.spinnerService.show();
     this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe(async (result) => {
       this.spinnerService.hide();
-      FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-qr-codes.pdf`);
+      FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(this.connectorID).toLowerCase()}-qr-codes.pdf`);
     }, (error) => {
       this.spinnerService.hide();
       Utils.handleHttpError(error, this.router, this.messageService,

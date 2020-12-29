@@ -206,10 +206,26 @@ const routes: Routes = [
         loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
         data: {
           menu: {
-            title: 'settings',
+            title: 'integration_settings',
             type: 'link',
             icon: 'settings',
             path: '/settings',
+          },
+          auth: {
+            entity: Entity.SETTING,
+            action: Action.CREATE,
+          },
+        },
+      },
+      {
+        path: 'technical-settings',
+        loadChildren: () => import('./pages/technical-settings/technical-settings.module').then((m) => m.TechnicalSettingsModule),
+        data: {
+          menu: {
+            title: 'technical_settings',
+            type: 'link',
+            icon: 'settings',
+            path: '/technical-settings',
           },
           auth: {
             entity: Entity.SETTING,

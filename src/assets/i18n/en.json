@@ -164,6 +164,8 @@
       "pricing": "Pricing",
       "components": "Components",
       "settings": "Settings",
+      "integration_settings": "Integration Settings",
+      "technical_settings": "Technical Settings",
       "assets": "Assets",
       "organization": "Organization",
       "template": "Templates",

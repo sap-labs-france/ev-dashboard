@@ -1531,6 +1531,11 @@
       "assign_user_to_car_dialog_confirm": "This car already exists, do you really want to reuse it?"
     }
   },
+  "technical_settings": {
+    "tabs": {
+      "crypto": "Crypto"
+    }
+  },
   "ocpiendpoints": {
     "name": "Name",
     "base_url": "URL",

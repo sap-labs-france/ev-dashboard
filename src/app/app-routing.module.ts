@@ -224,7 +224,7 @@ const routes: Routes = [
           menu: {
             title: 'technical_settings',
             type: 'link',
-            icon: 'settings',
+            icon: 'settings_applications',
             path: '/technical-settings',
           },
           auth: {

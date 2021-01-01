@@ -25,13 +25,15 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.35',
-        date: new Date('2020-12-22'),
+        date: new Date('2020-12-24'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Set Sticky Smart Charging threshold to 20%`,
               `Fixed configuration file not loading at the right time in Firefox`,
+              `Handle connection issues with the Refunding system`,
+              `Fixed Demo role cannot read its profile`,
             ],
           },
         ],

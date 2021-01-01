@@ -32,6 +32,7 @@
     "select_at_least_one_record": "Você deve selecionar pelo menos um registo da lista",
     "mandatory_field": "Compo Obrigatório",
     "no_record_found": "Não foram encontrados registos",
+    "no_image_found": "No images have been found",
     "no_connector_available": "Conexão não disponível",
     "error_max_length": "O tamanho máximo é {{length}}",
     "error_min_length": "O tamanho mínimo é {{length}}",
@@ -1365,6 +1366,7 @@
       "synchronize_started": "A sincronização das transações reembolsadas foi iniciada",
       "synchronize_success": "As transações reembolsadas foram sincronizadas com sucesso",
       "synchronize_error": "Ocorreu um erro ao sincronizar as transações reembolsadas",
+      "connection_error": "Error in connecting to the refunding system, check your connection in your profile",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "Url de Autenticação",

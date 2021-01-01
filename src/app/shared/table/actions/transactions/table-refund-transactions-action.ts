@@ -82,6 +82,10 @@ export class TableRefundTransactionsAction implements TableAction {
                 Utils.handleHttpError(error, router, messageService,
                   centralServerService, 'transactions.notification.refund.forbidden_refund_another_user');
                 break;
+              case HTTPError.REFUND_CONNECTION_ERROR:
+                Utils.handleHttpError(error, router, messageService,
+                  centralServerService, 'settings.refund.connection_error');
+                break;
               default:
                 Utils.handleHttpError(error, router, messageService,
                   centralServerService, 'transactions.notification.refund.error');

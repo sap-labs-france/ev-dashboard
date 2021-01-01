@@ -113,7 +113,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
-    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connectors', 'miscs'], false);
+    super(activatedRoute, windowService, ['common', 'notifications', 'address', 'password', 'connections', 'miscs'], false);
     this.maxSize = this.configService.getUser().maxPictureKb;
     // Check auth
     if (this.activatedRoute.snapshot.params['id'] &&
@@ -135,7 +135,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.isBasic = this.authorizationService.isBasic();
     this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
     if (!this.isAdmin) {
-      this.setHashArray(['common', 'address', 'password', 'connectors', 'miscs']);
+      this.setHashArray(['common', 'address', 'password', 'connections', 'miscs']);
     }
     this.canSeeInvoice = false;
     if (this.componentService.isActive(TenantComponents.PRICING)) {
@@ -608,6 +608,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       this.messageService.showErrorMessage(
         this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
     } else {
+      // Concur
       const concurSetting = this.refundSetting.content.concur;
       const returnedUrl = `${this.windowService.getOrigin()}/users/connections`;
       const state = {

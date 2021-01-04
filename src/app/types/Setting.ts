@@ -10,7 +10,7 @@ export interface Setting extends Data {
 }
 
 export interface SettingContent {
-  type: RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
+  type: CryptoSettingsType | RoamingSettingsType | AnalyticsSettingsType | RefundSettingsType | PricingSettingsType | BillingSettingsType | SmartChargingSettingsType | AssetSettingsType;
   ocpi?: OcpiSetting;
   simple?: SimplePricingSetting;
   convergentCharging?: ConvergentChargingPricingSetting;
@@ -20,6 +20,7 @@ export interface SettingContent {
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
+  crypto?: CryptoKeySetting;
 }
 
 export interface SettingLink extends Data {
@@ -206,4 +207,22 @@ export interface AssetUserPasswordConnectionType {
 
 // tslint:disable-next-line: no-empty-interface
 export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
+}
+
+
+
+export enum CryptoSettingsType {
+  CRYPTO = 'crypto',
+}
+
+export interface CryptoSettings extends Setting {
+  identifier: TenantComponents.CRYPTO;
+  type: CryptoSettingsType;
+  crypto?: CryptoKeySetting;
+}
+
+export interface CryptoKeySetting {
+  key: string;
+  formerKey?: string;
+  migrationDone?: boolean;
 }

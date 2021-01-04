@@ -1534,6 +1534,13 @@
   "technical_settings": {
     "tabs": {
       "crypto": "Crypto"
+    },
+    "crypto": {
+      "crypto_key": {
+        "title": "Crypto Settings",
+        "subtitle": "Crypto Key",
+        "key": "Key"
+      }
     }
   },
   "ocpiendpoints": {

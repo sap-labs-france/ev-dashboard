@@ -8,6 +8,9 @@ import { SpinnerService } from 'services/spinner.service';
 import { CryptoSettings, CryptoSettingsType } from 'types/Setting';
 import TenantComponents from 'types/TenantComponents';
 
+import { HTTPError } from '../../../types/HTTPError';
+import { Utils } from '../../../utils/Utils';
+
 @Component({
     selector: 'app-crypto-settings',
     templateUrl: 'crypto-settings.component.html',
@@ -37,23 +40,23 @@ export class CryptoSettingsComponent implements OnInit {
     }
 
     public loadConfiguration() {
-        // this.spinnerService.show();
-        // this.componentService.getCryptoSettings().subscribe((settings) => {
-        //     this.spinnerService.hide();
-        //     // Keep
-        //     this.cryptoSettings = settings;
-        //     // Init form
-        //     this.formGroup.markAsPristine();
-        // }, (error) => {
-        //     this.spinnerService.hide();
-        //     switch (error.status) {
-        //         case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-        //             this.messageService.showErrorMessage('settings.smart_charging.setting_do_not_exist');
-        //             break;
-        //         default:
-        //             Utils.handleHttpError(error, this.router, this.messageService,
-        //                 this.centralServerService, 'general.unexpected_error_backend');
-        //     }
-        // });
+        this.spinnerService.show();
+        this.componentService.getCryptoSettings().subscribe((settings) => {
+            this.spinnerService.hide();
+            // Keep
+            this.cryptoSettings = settings;
+            // Init form
+            this.formGroup.markAsPristine();
+        }, (error) => {
+            this.spinnerService.hide();
+            switch (error.status) {
+                case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+                    this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
+                    break;
+                default:
+                    Utils.handleHttpError(error, this.router, this.messageService,
+                        this.centralServerService, 'general.unexpected_error_backend');
+            }
+        });
     }
 }

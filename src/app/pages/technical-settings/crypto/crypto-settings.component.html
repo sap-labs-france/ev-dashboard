@@ -10,6 +10,7 @@
                 <mat-icon>save</mat-icon><span>{{'general.save' | translate}}</span>
             </button>
         </div>
-        <app-crypto-key [formGroup]="formGroup"></app-crypto-key>
+        <app-crypto-key *ngIf="cryptoSettings?.crypto"
+      [cryptoSettings]="cryptoSettings" [formGroup]="formGroup"></app-crypto-key>
     </form>
 </div>

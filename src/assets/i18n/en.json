@@ -1540,7 +1540,8 @@
         "title": "Crypto Settings",
         "subtitle": "Crypto Key",
         "key": "Key"
-      }
+      },
+      "setting_do_not_exist": "Crypto Technical Settings not found"
     }
   },
   "ocpiendpoints": {

@@ -32,6 +32,7 @@
     "select_at_least_one_record": "Sie müssen mindestens einen Eintrag aus der Liste auswählen",
     "mandatory_field": "Pflichtfeld",
     "no_record_found": "Keine Einträge gefunden",
+    "no_image_found": "No images have been found",
     "no_connector_available": "Keine Verbindung verfügbar",
     "error_max_length": "Maximalelänge ist '{{length}}'",
     "error_min_length": "Minimallänge ist '{{length}}'",

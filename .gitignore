@@ -60,3 +60,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# MTA
+*.mta
+mta_archives/

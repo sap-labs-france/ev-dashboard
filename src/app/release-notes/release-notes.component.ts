@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.36',
+        date: new Date('2020-01-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Scheduled status in OCPP Change Availability command`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.35',
         date: new Date('2020-12-24'),
         componentChanges: [

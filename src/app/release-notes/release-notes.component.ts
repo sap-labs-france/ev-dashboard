@@ -31,6 +31,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Handle Scheduled status in OCPP Change Availability command`,
+              `Fixed Roaming badges are not checked when Site Area access control is not active`,
             ],
           },
         ],

@@ -6,7 +6,6 @@ import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { CryptoSettings, CryptoSettingsType } from 'types/Setting';
-import TenantComponents from 'types/TenantComponents';
 
 import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
@@ -17,8 +16,6 @@ import { Utils } from '../../../utils/Utils';
 })
 
 export class CryptoSettingsComponent implements OnInit {
-    public isActive = false;
-
     public formGroup!: FormGroup;
     public cryptoSettings: CryptoSettings;
 
@@ -29,7 +26,6 @@ export class CryptoSettingsComponent implements OnInit {
         private messageService: MessageService,
         private router: Router,
     ) {
-        this.isActive = this.componentService.isActive(TenantComponents.CRYPTO);
     }
 
     public ngOnInit(): void {
@@ -58,5 +54,9 @@ export class CryptoSettingsComponent implements OnInit {
                         this.centralServerService, 'general.unexpected_error_backend');
             }
         });
+    }
+
+    public save(content: CryptoSettings) {
+        
     }
 }

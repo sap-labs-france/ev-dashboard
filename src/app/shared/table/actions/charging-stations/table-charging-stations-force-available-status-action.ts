@@ -47,7 +47,7 @@ export class TableChargingStationsForceAvailableStatusAction implements TableAct
         // Change Availability
         centralServerService.chargingStationChangeAvailability(chargingStation.id, true).subscribe((response: ActionResponse) => {
           spinnerService.hide();
-          if (response.status === OCPPAvailabilityStatus.ACCEPTED || OCPPAvailabilityStatus.SCHEDULED) {
+          if (response.status === OCPPAvailabilityStatus.ACCEPTED || response.status === OCPPAvailabilityStatus.SCHEDULED) {
             messageService.showSuccessMessage(
               translateService.instant('chargers.force_available_status_success', { chargeBoxID: chargingStation.id }));
             if (refresh) {

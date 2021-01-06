@@ -23,13 +23,6 @@ export interface OCPITriggerJobsResponse extends ActionResponse {
   cdrs: OCPIJobStatusesResponse;
 }
 
-export interface OICPTriggerJobsResponse extends ActionResponse {
-  tokens: OCPIJobStatusesResponse;
-  locations: OCPIJobStatusesResponse;
-  sessions: OCPIJobStatusesResponse;
-  cdrs: OCPIJobStatusesResponse;
-}
-
 export interface OCPIJobStatusesResponse extends ActionResponse {
   success: number;
   failure: number;

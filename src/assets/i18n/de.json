@@ -1531,7 +1531,7 @@
       "update_error": "Während der Aktualisierung der Asset-Einstellungen ist ein Fehler aufgetreten"
     },
     "information": "Informationen",
-    "activation_contact_msg": "Um dieses Featurezu aktivieren, kontaktieren Sie bitte Ihren E-Mobility Verantwortlichen.",
+    "activation_contact_msg": "Um dieses Feature zu aktivieren, kontaktieren Sie bitte Ihren E-Mobility Verantwortlichen.",
     "car": {
       "synchronize_car_catalogs": "Fahrzeuge Synchronisieren",
       "synchronize_car_catalogs_dialog_title": "Fahrzeuge Synchronisieren",

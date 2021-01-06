@@ -38,8 +38,11 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput placeholder="{{'oicpendpoints.base_url' | translate}}" type="text"
-                        [formControl]="baseUrl" required>
+                      <mat-select [formControl]="baseUrl" placeholder="{{'oicpendpoints.base_url' | translate}}" required>
+                        <mat-option *ngFor="let oicpBaseurl of oicpBaseurls" [value]="oicpBaseurl.key">
+                          {{oicpBaseurl.key}}
+                        </mat-option>
+                      </mat-select>
                       <mat-error *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="baseUrl.errors?.pattern">
                         <div [translate]="'general.error_url_pattern'"></div>

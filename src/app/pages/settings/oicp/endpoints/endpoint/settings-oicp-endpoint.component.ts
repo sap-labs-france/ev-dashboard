@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { HubjectBaseurls } from 'types/oicp/OICPGeneral';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
@@ -33,6 +34,16 @@ export class SettingsOicpEndpointComponent implements OnInit {
   public localToken!: AbstractControl;
   public token!: AbstractControl;
   public isBackgroundPatchJobActive!: AbstractControl;
+  public oicpBaseurls = [
+    {
+      key: HubjectBaseurls.PRODUCTIVE,
+      description: 'Productive',
+    },
+    {
+      key: HubjectBaseurls.QA,
+      description: 'QA',
+    }
+  ];
 
   constructor(
     private centralServerService: CentralServerService,

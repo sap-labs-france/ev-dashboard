@@ -1722,7 +1722,6 @@
     "unregister_error": "Error occurred while unregistring, check the logs",
     "push_evse_statuses_title": "Send EVSE Statuses",
     "push_evsess_title": "Send EVSEs",
-    "push_tokens_title": "Send User Tokens",
     "push_evse_statuses_confirm": "Do you want to send All EVSE statuses to Hubject '{{name}}'?",
     "push_evses_confirm": "Do you want to send All EVSEs to Hubject '{{name}}'?",
     "trigger_jobs_title": "Execute Jobs",

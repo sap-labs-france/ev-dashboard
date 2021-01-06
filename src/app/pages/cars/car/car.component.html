@@ -12,7 +12,7 @@
               <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': 'none'}">
                 <div class="card card-rotate card-background mt-0">
                   <div class="front front-background"
-                    [ngStyle]="{'background-image': (selectedCarCatalog ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+                    [ngStyle]="{'background-image': (selectedCarCatalog && carCatalogImage ? 'url(' + carCatalogImage + ')' : 'url(' + noImage + ')'), 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
                     <div class="card-body">
                     </div>
                   </div>

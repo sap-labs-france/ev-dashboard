@@ -24,8 +24,36 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.36',
+        date: new Date('2020-01-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Handle Scheduled status in OCPP Change Availability command`,
+              `Fixed Roaming badges are not checked when Site Area access control is not active`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.4.35',
+        date: new Date('2020-12-24'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Set Sticky Smart Charging threshold to 20%`,
+              `Fixed configuration file not loading at the right time in Firefox`,
+              `Handle connection issues with the Refunding system`,
+              `Fixed Demo role cannot read its profile`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.34',
-        date: new Date('2020-12-16'),
+        date: new Date('2020-12-21'),
         componentChanges: [
           {
             name: 'Dashboard',

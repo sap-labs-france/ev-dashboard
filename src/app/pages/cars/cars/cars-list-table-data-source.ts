@@ -108,6 +108,18 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         isAngularComponent: true,
         angularComponent: CarCatalogImageFormatterCellComponent,
       },
+    ];
+    if (this.authorizationService.canUpdateCar()) {
+      tableColumnDef.push(
+        {
+          id: 'carCatalog.id',
+          name: 'general.id',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+        },
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'carCatalog.vehicleMake',
         name: 'cars.vehicle_make',
@@ -131,7 +143,7 @@ export class CarsListTableDataSource extends TableDataSource<Car> {
         sortable: true,
         formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
       },
-    ];
+    );
     if (this.authorizationService.isAdmin()) {
       tableColumnDef.push(
         {

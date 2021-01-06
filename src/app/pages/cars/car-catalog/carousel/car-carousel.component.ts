@@ -18,6 +18,7 @@ export class CarCarouselComponent implements AfterViewInit {
   @ViewChild('carousel') public carousel: NgbCarousel;
 
   public images: string[] = null;
+  public noImages = false;
 
   constructor(
     private centralServerService: CentralServerService,
@@ -39,11 +40,15 @@ export class CarCarouselComponent implements AfterViewInit {
       this.centralServerService.getCarCatalogImages(this.carCatalogID, {},
         { limit: 2, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
           this.spinnerService.hide();
-          this.images = Array(carImage.count).fill(null);
-          // Load the tow first images
-          this.images[0] = carImage.result[0].image;
-          if (carImage.count > 1) {
-            this.images[1] = carImage.result[1].image;
+          if (carImage.count > 0) {
+            this.images = Array(carImage.count).fill(null);
+            // Load the two first images
+            this.images[0] = carImage.result[0].image;
+            if (carImage.count > 1) {
+              this.images[1] = carImage.result[1].image;
+            }
+          } else {
+            this.noImages = true;
           }
         }, (error) => {
           this.spinnerService.hide();

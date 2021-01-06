@@ -123,8 +123,8 @@ export class Utils {
     return false;
   }
 
-  public static cloneObject(object: any): any {
-    return JSON.parse(JSON.stringify(object));
+  public static cloneObject<T>(object: T): T {
+    return JSON.parse(JSON.stringify(object)) as T;
   }
 
   public static validateEqual(formGroup: FormGroup, firstField: string, secondField: string) {

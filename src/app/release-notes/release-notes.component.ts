@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.37',
+        date: new Date('2020-01-06'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not display Car's image when no image is provided`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.36',
         date: new Date('2020-01-04'),
         componentChanges: [

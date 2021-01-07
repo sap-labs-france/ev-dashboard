@@ -9,7 +9,9 @@ export interface Asset extends Data, CreatedUpdatedProps {
   name: string;
   siteAreaID: string;
   siteArea: SiteArea;
-  assetType: string;
+  assetType: AssetType;
+  fallbackValue: number;
+  fluctuation: number;
   coordinates: number[];
   image: string;
   dynamicAsset: boolean;
@@ -20,6 +22,7 @@ export interface Asset extends Data, CreatedUpdatedProps {
   createdOn: Date;
   lastChangedBy: string;
   lastChangedOn: Date;
+  connected: boolean;
 }
 
 export interface AssetConsumption {
@@ -27,9 +30,16 @@ export interface AssetConsumption {
   values: Consumption[];
 }
 
+export enum AssetType {
+  CO = 'CO',
+  PR = 'PR',
+  CO_PR = 'CO-PR',
+}
+
 export const AssetTypes: KeyValue[] = [
-  { key: 'CO', value: 'assets.consume' },
-  { key: 'PR', value: 'assets.produce' },
+  { key: AssetType.CO, value: 'assets.consume' },
+  { key: AssetType.PR, value: 'assets.produce' },
+  { key: AssetType.CO_PR, value: 'assets.consume_and_produce' },
 ];
 
 export enum AssetButtonAction {

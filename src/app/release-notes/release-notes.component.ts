@@ -32,6 +32,7 @@ export class ReleaseNotesComponent {
             changes: [
               `Do not display Car's image when no image is provided`,
               `Disable row actions in list when Charging Station is inactive`,
+              `Improve WebSocket events logging to help debugging`,
             ],
           },
         ],

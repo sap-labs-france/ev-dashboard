@@ -100,7 +100,10 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
-      fluctuation: new FormControl(''),
+      fluctuation: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])),
       fallbackValue: new FormControl('',
         Validators.compose([
           Validators.required,

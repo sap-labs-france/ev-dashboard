@@ -83,8 +83,8 @@
                     <mat-form-field>
                       <input matInput [formControl]="fluctuation" placeholder="{{'assets.fluctuation' | translate}}"
                         type='number'>
-                      <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
-                      </mat-error>
+                        <mat-error *ngIf="fluctuation.errors?.pattern">{{"chargers.invalid_power" | translate}}
+                        </mat-error>
                     </mat-form-field>
                   </div>
                 </div>

@@ -9,7 +9,7 @@
           <!-- Action Button -->
           <button mat-raised-button *ngIf="actionDef.type === 'button' && actionDef.id !== 'reset_filters'"
             (click)="actionTriggered(actionDef)" [color]="(actionDef.color ? actionDef.color : '')"
-            [disabled]="actionDef.disabled" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
+    [disabled]="actionDef.disabled|| (dataSource.tableDef.rowSelection && actionDef.linkedToListSelection && dataSource.selectedRows === 0)" [title]="(actionDef.name ? '' : actionDef.tooltip | translate)">
             <mat-icon *ngIf="actionDef.icon">{{actionDef.icon}}</mat-icon>
             <span>{{actionDef.name | translate}}</span>
           </button>

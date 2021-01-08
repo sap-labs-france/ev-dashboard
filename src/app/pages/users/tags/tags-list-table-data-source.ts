@@ -128,9 +128,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
       this.centralServerService.getTags(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((tags) => {
           // Ok
-          if (tags.count === 0) {
-            this.deleteManyAction.disabled = true;
-          }
           observer.next(tags);
           observer.complete();
         }, (error) => {
@@ -140,22 +137,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
           observer.error(error);
         });
     });
-  }
-
-
-  public toggleRowSelection(row: Tag, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.deleteManyAction.disabled = this.selectedRows === 0;
-  }
-
-  public selectAllRows() {
-    super.selectAllRows();
-    this.deleteManyAction.disabled = this.selectedRows === 0;
-  }
-
-  public clearSelectedRows() {
-    super.clearSelectedRows();
-    this.deleteManyAction.disabled = true;
   }
 
   public isSelectable(row: Tag) {
@@ -266,7 +247,6 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    this.deleteManyAction.disabled = true;
     tableActionsDef.unshift(this.deleteManyAction);
     tableActionsDef.unshift(new TableCreateTagAction().getActionDef());
     return [

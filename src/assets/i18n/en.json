@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.36",
+    "last_update": "Version 2.4.37",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -1479,7 +1479,11 @@
         "title": "SAP Smart Charging",
         "settings": "Settings",
         "user": "User",
-        "password": "Password"
+        "password": "Password",
+        "additional_settings":"Additional settings:",
+        "sticky_limitation": "Adjust limit according to current consumption",
+        "limit_buffer_dc": "Buffer for Limit DC (%)",
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility can use smart charging algorithm to optimize power distribution and charging schedules based on complex constraints",
       "setting_do_not_exist": "Configuration has not been found",

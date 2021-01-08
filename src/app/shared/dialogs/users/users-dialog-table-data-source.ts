@@ -30,7 +30,6 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
       // Get data
       this.centralServerService.getUsers(this.buildFilterValues(),
         this.getPaging(), this.getSorting()).subscribe((users) => {
-          // Ok
           observer.next(users);
           observer.complete();
         }, (error) => {

@@ -121,6 +121,9 @@ export interface SapSmartChargingSetting {
   optimizerUrl: string;
   user: string;
   password: string;
+  stickyLimitation: boolean;
+  limitBufferDC: number;
+  limitBufferAC: number;
 }
 
 export enum RefundSettingsType {

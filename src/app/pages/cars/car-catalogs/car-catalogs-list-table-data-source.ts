@@ -65,12 +65,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return new Observable((observer) => {
       // Get cars
       this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((carCatalogs) => {
-        // lookup for image otherwise assign default
-        for (const carCatalog of carCatalogs.result) {
-          if (!carCatalog.image) {
-            carCatalog.image = Constants.NO_IMAGE;
-          }
-        }
         observer.next(carCatalogs);
         observer.complete();
       }, (error) => {

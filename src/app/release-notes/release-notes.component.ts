@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.37',
+        date: new Date('2020-01-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Do not display Car's image when no image is provided`,
+              `Disable row actions in list when Charging Station is inactive`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.36',
         date: new Date('2020-01-04'),
         componentChanges: [
@@ -31,6 +44,7 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               `Handle Scheduled status in OCPP Change Availability command`,
+              `Fixed Roaming badges are not checked when Site Area access control is not active`,
             ],
           },
         ],

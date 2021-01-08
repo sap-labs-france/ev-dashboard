@@ -4,8 +4,8 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
-import { LandscapeType } from 'types/configuration/Landscape';
 import { Tag } from 'types/Tag';
+import { LandscapeType } from 'types/configuration/Landscape';
 
 import { CentralServerService } from '../services/central-server.service';
 import { ConfigService } from '../services/config.service';

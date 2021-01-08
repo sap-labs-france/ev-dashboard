@@ -1479,7 +1479,11 @@
         "title": "SAP Smart Charging",
         "settings": "Configuración",
         "user": "Usuario",
-        "password": "Contraseña"
+        "password": "Contraseña",
+        "additional_settings":"Additional settings:",
+        "sticky_limitation": "Adjust limit according to current consumption",
+        "limit_buffer_dc": "Buffer for Limit DC (%)",
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility puede utilizar un algoritmo de carga inteligente para optimizar la potencia distribuida en los cargadores en función de restricciones complejas.",
       "setting_do_not_exist": "La configuración no existe",

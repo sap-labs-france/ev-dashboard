@@ -114,6 +114,7 @@ export enum UserButtonAction {
   CREATE_USER = 'create_user',
   CREATE_TAG = 'create_tag',
   DELETE_TAG = 'delete_tag',
+  DELETE_TAGS = 'delete_tags',
   ACTIVATE_TAG = 'activate_tag',
   DEACTIVATE_TAG = 'deactivate_tag',
   DELETE_USER = 'delete_user',

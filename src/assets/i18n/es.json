@@ -1352,7 +1352,10 @@
       "generate_connection_url": "Conectar estación de carga",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility proporciona un servicio de reembolso para un sistema de gastos externo. <br> Esta característica permite al usuario llevar sus sesiones a un sistema de gastos y obtener un reembolso de la electricidad consumida. <br> E-Mobility usa actualmente SAP Concur. Más información técnica disponible en: ",

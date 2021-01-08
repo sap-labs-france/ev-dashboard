@@ -303,7 +303,7 @@ export class SiteAreaComponent implements OnInit {
           }).subscribe((token) => {
             this.spinnerService.hide();
             if (token) {
-              this.registrationToken = token;
+              this.loadRegistrationToken();
               this.messageService.showSuccessMessage('settings.charging_station.registration_token_creation_success');
             } else {
               Utils.handleError(null,

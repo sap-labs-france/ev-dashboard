@@ -25,12 +25,13 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.37',
-        date: new Date('2020-01-06'),
+        date: new Date('2020-01-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
               `Do not display Car's image when no image is provided`,
+              `Disable row actions in list when Charging Station is inactive`,
             ],
           },
         ],

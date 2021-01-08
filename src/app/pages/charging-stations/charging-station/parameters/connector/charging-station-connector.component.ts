@@ -2,12 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'services/central-server.service';
-import { DialogService } from 'services/dialog.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
-import { WindowService } from 'services/window.service';
 import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
 import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
@@ -63,9 +60,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   constructor(
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private dialogService: DialogService,
-    private windowService: WindowService,
-    private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private router: Router,
     private messageService: MessageService) {
@@ -240,6 +234,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         // Create the dialog
         const dialogConfig = new MatDialogConfig();
         dialogConfig.minWidth = '70vw';
+        dialogConfig.minHeight = '70vh';
         dialogConfig.disableClose = false;
         dialogConfig.panelClass = 'transparent-dialog-container';
         // Set data
@@ -261,7 +256,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         this.centralServerService, 'chargers.qr_code_generation_error');
     });
   }
-
 
   public amperageChanged() {
     this.refreshTotalAmperage();

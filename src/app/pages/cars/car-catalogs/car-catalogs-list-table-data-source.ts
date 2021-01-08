@@ -65,12 +65,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     return new Observable((observer) => {
       // Get cars
       this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe((carCatalogs) => {
-        // lookup for image otherwise assign default
-        for (const carCatalog of carCatalogs.result) {
-          if (!carCatalog.image) {
-            carCatalog.image = Constants.NO_IMAGE;
-          }
-        }
         observer.next(carCatalogs);
         observer.complete();
       }, (error) => {
@@ -115,7 +109,19 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-8p p-0',
         isAngularComponent: true,
         angularComponent: CarCatalogImageFormatterCellComponent,
-      },
+      }
+    ];
+    if (this.authorizationService.canUpdateCar()) {
+      tableColumnDef.push(
+        {
+          id: 'id',
+          name: 'general.id',
+          headerClass: 'col-20p',
+          class: 'col-20p',
+        },
+      );
+    }
+    tableColumnDef.push(
       {
         id: 'vehicleMake',
         name: 'cars.vehicle_make',
@@ -233,7 +239,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         formatter: (acceleration: number) => acceleration ?
           this.decimalPipe.transform(acceleration) + ' ' + this.translateService.instant('cars.unit.secondes') : '-',
       },
-    ];
+    );
     return tableColumnDef;
   }
 

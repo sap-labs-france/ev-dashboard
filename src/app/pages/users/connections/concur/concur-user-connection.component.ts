@@ -1,26 +1,24 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
-import { WindowService } from '../../../services/window.service';
-import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abstract-tab.component';
-import { ActionResponse } from '../../../types/DataResult';
-import { RestResponse } from '../../../types/GlobalType';
-import { Utils } from '../../../utils/Utils';
+import { CentralServerService } from '../../../../services/central-server.service';
+import { MessageService } from '../../../../services/message.service';
+import { WindowService } from '../../../../services/window.service';
+import { AbstractTabComponent } from '../../../../shared/component/abstract-tab/abstract-tab.component';
+import { ActionResponse } from '../../../../types/DataResult';
+import { RestResponse } from '../../../../types/GlobalType';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
-  templateUrl: 'user-connection.component.html',
+  templateUrl: 'concur-user-connection.component.html',
 })
-export class UserConnectionComponent extends AbstractTabComponent {
+export class ConcurUserConnectionComponent extends AbstractTabComponent {
   public isAdmin!: boolean;
 
   constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,
-    @Inject(DOCUMENT) private document: any,
     activatedRoute: ActivatedRoute,
     windowService: WindowService) {
     super(activatedRoute, windowService, [], false);
@@ -51,17 +49,17 @@ export class UserConnectionComponent extends AbstractTabComponent {
             Utils.handleError(JSON.stringify(response),
               this.messageService, 'settings.refund.concur.link_error');
           }
-          this.router.navigate([`/users/${state.userId}#connectors`]);
+          this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
         }, (error) => {
           Utils.handleError(JSON.stringify(error),
             this.messageService, 'settings.refund.concur.link_error');
-          this.router.navigate([`/users/${state.userId}#connectors`]);
+          this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
         },
       );
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
       Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
         this.messageService, 'settings.refund.concur.link_error');
-      this.router.navigate([`/users/${state.userId}#connectors`]);
+      this.router.navigate([`/users/${state.userId}`], { fragment: 'connections' });
     }
   }
 }

@@ -31,6 +31,7 @@ export class ChargingStationComponent implements OnInit {
   public chargingStation: ChargingStation;
   public userLocales: KeyValue[];
   public isAdmin!: boolean;
+  public isProdLandscape!: boolean;
 
   public isPropertiesPaneDisabled = false;
   public isChargerPaneDisabled = false;
@@ -64,6 +65,7 @@ export class ChargingStationComponent implements OnInit {
       this.dialog.closeAll();
     }
     this.isAdmin = this.authorizationService.isAdmin();
+    this.isProdLandscape = Utils.isProdLandscape();
   }
 
   public loadChargingStation() {

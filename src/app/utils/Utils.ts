@@ -4,6 +4,7 @@ import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import * as moment from 'moment';
+import { LandscapeType } from 'types/configuration/Landscape';
 import { Tag } from 'types/Tag';
 
 import { CentralServerService } from '../services/central-server.service';
@@ -859,5 +860,20 @@ export class Utils {
     element.select();
     document.execCommand('copy');
     document.body.removeChild(element);
+  }
+
+  public static isDevLandscape(): boolean {
+    const configService: ConfigService = new ConfigService();
+    return configService.getLandscape().type === LandscapeType.DEVELOPMENT;
+  }
+
+  public static isQaLandscape(): boolean {
+    const configService: ConfigService = new ConfigService();
+    return configService.getLandscape().type === LandscapeType.QA;
+  }
+
+  public static isProdLandscape(): boolean {
+    const configService: ConfigService = new ConfigService();
+    return configService.getLandscape().type === LandscapeType.PRODUCTION;
   }
 }

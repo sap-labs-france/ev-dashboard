@@ -40,10 +40,10 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
   private copySOAP15Action = new TableCopyAction('settings.charging_station.ocpp_15_soap').getActionDef();
   private copySOAP16Action = new TableCopyAction('settings.charging_station.ocpp_16_soap').getActionDef();
   private copyJSON16Action = new TableCopyAction('settings.charging_station.ocpp_16_json').getActionDef();
-  private copyUrlAction = new TableMultiCopyAction(
-    [this.copySOAP15Action, this.copySOAP16Action, this.copyJSON16Action],
-    'settings.charging_station.copy_url_tooltip',
-    'settings.charging_station.copy_url_tooltip').getActionDef();
+  private copySOAP15SecureAction = new TableCopyAction('settings.charging_station.ocpp_15_soap_secure').getActionDef();
+  private copySOAP16SecureAction = new TableCopyAction('settings.charging_station.ocpp_16_soap_secure').getActionDef();
+  private copyJSON16SecureAction = new TableCopyAction('settings.charging_station.ocpp_16_json_secure').getActionDef();
+  private copyUrlAction: TableActionDef;
 
   constructor(
     public spinnerService: SpinnerService,
@@ -187,6 +187,18 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
     if (registrationToken.revocationDate || moment().isAfter(registrationToken.expirationDate)) {
       return [this.deleteAction];
     }
+    const copyUrlActions: TableActionDef[] = [
+      ...(!Utils.isUndefined(registrationToken.ocpp15SOAPUrl) ? [this.copySOAP15Action] : []),
+      ...(!Utils.isUndefined(registrationToken.ocpp16SOAPUrl) ? [this.copySOAP16Action] : []),
+      ...(!Utils.isUndefined(registrationToken.ocpp16JSONUrl) ? [this.copyJSON16Action] : []),
+      ...(!Utils.isUndefined(registrationToken.ocpp15SOAPSecureUrl) ? [this.copySOAP15SecureAction] : []),
+      ...(!Utils.isUndefined(registrationToken.ocpp16SOAPSecureUrl) ? [this.copySOAP16SecureAction] : []),
+      ...(!Utils.isUndefined(registrationToken.ocpp16JSONSecureUrl) ? [this.copyJSON16SecureAction] : [])
+    ];
+    this.copyUrlAction = new TableMultiCopyAction(
+      copyUrlActions,
+      'settings.charging_station.copy_url_tooltip',
+      'settings.charging_station.copy_url_tooltip').getActionDef();
     return [
       this.copyUrlAction,
       this.revokeAction,
@@ -222,6 +234,15 @@ export class RegistrationTokensTableDataSource extends TableDataSource<Registrat
             break;
           case 'settings.charging_station.ocpp_16_json':
             url = registrationToken.ocpp16JSONUrl;
+            break;
+          case 'settings.charging_station.ocpp_15_soap_secure':
+            url = registrationToken.ocpp15SOAPSecureUrl;
+            break;
+          case 'settings.charging_station.ocpp_16_soap_secure':
+            url = registrationToken.ocpp16SOAPSecureUrl;
+            break;
+          case 'settings.charging_station.ocpp_16_json_secure':
+            url = registrationToken.ocpp16JSONSecureUrl;
             break;
         }
         Utils.copyToClipboard(url);

@@ -32,6 +32,8 @@ export class ReleaseNotesComponent {
             changes: [
               `Added Tag multiselection + Mass delete`,
               `Added Active/Inactive Tag filter`,
+              `Added static consumption/production and fluctuation percentage in Asset`,
+              `Handle Asset that consumes and produces energy like a battery`,
               `Do not display Car's image when no image is provided`,
               `Disable row actions in list when Charging Station is inactive`,
               `Improve WebSocket events logging to help debugging`,

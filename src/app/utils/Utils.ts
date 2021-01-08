@@ -862,18 +862,15 @@ export class Utils {
     document.body.removeChild(element);
   }
 
-  public static isDevLandscape(): boolean {
-    const configService: ConfigService = new ConfigService();
+  public static isDevLandscape(configService: ConfigService): boolean {
     return configService.getLandscape().type === LandscapeType.DEVELOPMENT;
   }
 
-  public static isQaLandscape(): boolean {
-    const configService: ConfigService = new ConfigService();
+  public static isQaLandscape(configService: ConfigService): boolean {
     return configService.getLandscape().type === LandscapeType.QA;
   }
 
-  public static isProdLandscape(): boolean {
-    const configService: ConfigService = new ConfigService();
+  public static isProdLandscape(configService: ConfigService ): boolean {
     return configService.getLandscape().type === LandscapeType.PRODUCTION;
   }
 }

@@ -50,11 +50,11 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private appUnitPipe: AppUnitPipe
-) {
+  ) {
     super(spinnerService, translateService);
     // Init
     this.isAdmin = this.authorizationService.isAdmin();
-    this.setStaticFilters([{WithLogo: true, WithSiteArea: true}]);
+    this.setStaticFilters([{ WithLogo: true, WithSiteArea: true }]);
     this.initDataSource();
   }
 
@@ -134,7 +134,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         formatter: (assetType: AssetType) => {
           switch (assetType) {
             case AssetType.PR:
-               return this.translateService.instant('assets.produce');
+              return this.translateService.instant('assets.produce');
             case AssetType.CO:
               return this.translateService.instant('assets.consume');
             case AssetType.CO_PR:

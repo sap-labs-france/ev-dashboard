@@ -6,8 +6,7 @@ import { ConfigService } from './config.service';
 @Injectable()
 export class UtilsService {
 
-  constructor(private configService: ConfigService) {
-  }
+  constructor(private configService: ConfigService) { }
 
   public consoleDebugLog(msg: any, error?: any) {
     if (this.configService.getDebug().enabled) {

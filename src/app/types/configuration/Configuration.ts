@@ -26,6 +26,6 @@ export interface Configuration {
   User: UserConfiguration;
   Car: CarConfiguration;
   Tenant: TenantConfiguration;
-  Debug: Debug;
-  Landscape: Landscape;
+  Debug?: Debug;
+  Landscape?: Landscape;
 }

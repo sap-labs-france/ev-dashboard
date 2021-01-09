@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfigService } from 'services/config.service';
+import { UtilsService } from 'services/utils.service';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -47,7 +47,7 @@ export class ChargingStationComponent implements OnInit {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialogService: DialogService,
-    private configService: ConfigService,
+    private utilsService: UtilsService,
     private dialog: MatDialog,
     private router: Router) {
     // Get Locales
@@ -67,7 +67,7 @@ export class ChargingStationComponent implements OnInit {
       this.dialog.closeAll();
     }
     this.isAdmin = this.authorizationService.isAdmin();
-    this.isProdLandscape = Utils.isProdLandscape(this.configService);
+    this.isProdLandscape = this.utilsService.isProdLandscape();
   }
 
   public loadChargingStation() {

@@ -46,6 +46,8 @@ export class AssetComponent implements OnInit {
   public siteArea!: AbstractControl;
   public siteAreaID!: AbstractControl;
   public assetType!: AbstractControl;
+  public fluctuation!: AbstractControl;
+  public fallbackValue!: AbstractControl;
   public coordinates!: FormArray;
   public longitude!: AbstractControl;
   public latitude!: AbstractControl;
@@ -98,6 +100,15 @@ export class AssetComponent implements OnInit {
           Validators.required,
         ])
       ),
+      fluctuation: new FormControl('',
+        Validators.compose([
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])),
+      fallbackValue: new FormControl('',
+        Validators.compose([
+          Validators.required,
+        ])
+      ),
       coordinates: new FormArray([
         new FormControl('',
           Validators.compose([
@@ -128,6 +139,8 @@ export class AssetComponent implements OnInit {
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.assetType = this.formGroup.controls['assetType'];
+    this.fluctuation = this.formGroup.controls['fluctuation'];
+    this.fallbackValue = this.formGroup.controls['fallbackValue'];
     this.coordinates = this.formGroup.controls['coordinates'] as FormArray;
     this.longitude = this.coordinates.at(0);
     this.latitude = this.coordinates.at(1);
@@ -179,6 +192,12 @@ export class AssetComponent implements OnInit {
       }
       if (this.asset.assetType) {
         this.formGroup.controls.assetType.setValue(this.asset.assetType);
+      }
+      if (this.asset.fluctuation){
+        this.formGroup.controls.fluctuation.setValue(this.asset.fluctuation);
+      }
+      if (!(typeof this.asset.fallbackValue === 'undefined')){
+        this.formGroup.controls.fallbackValue.setValue(this.asset.fallbackValue);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);

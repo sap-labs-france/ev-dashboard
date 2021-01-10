@@ -196,7 +196,7 @@ export class AssetComponent implements OnInit {
       if (this.asset.fluctuation) {
         this.formGroup.controls.fluctuation.setValue(this.asset.fluctuation);
       }
-      if (!(typeof this.asset.fallbackValue === 'undefined')) {
+      if (!Utils.isUndefined(this.asset.fallbackValue)) {
         this.formGroup.controls.fallbackValue.setValue(this.asset.fallbackValue);
       }
       if (this.asset.coordinates) {

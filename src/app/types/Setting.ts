@@ -20,7 +20,7 @@ export interface SettingContent {
   concur?: ConcurRefundSetting;
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
-  crypto?: CryptoKeySetting;
+  crypto?: CryptoSetting;
 }
 
 export interface SettingLink extends Data {
@@ -218,14 +218,23 @@ export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
 
-export interface CryptoSettings extends Setting {
+export interface KeySettings extends Setting {
   identifier: TenantComponents.CRYPTO;
   type: CryptoSettingsType;
-  crypto?: CryptoKeySetting;
+  crypto?: CryptoSetting;
 }
 
-export interface CryptoKeySetting {
+export interface KeyCryptoSetting {
+  blockCypher: string;
+  keySize: number;
+  operationMode: string;
+}
+
+export interface CryptoSetting {
   key: string;
+  keySetting: KeyCryptoSetting;
   formerKey?: string;
+  formerKeySetting?: KeyCryptoSetting;
   migrationDone?: boolean;
+  sensitiveDataMigrationId?: string;
 }

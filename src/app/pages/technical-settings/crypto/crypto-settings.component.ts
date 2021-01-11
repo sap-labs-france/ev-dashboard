@@ -5,7 +5,8 @@ import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
-import { CryptoSettings, CryptoSettingsType } from 'types/Setting';
+import { RestResponse } from 'types/GlobalType';
+import { CryptoSettingsType, KeySettings } from 'types/Setting';
 
 import { HTTPError } from '../../../types/HTTPError';
 import { Utils } from '../../../utils/Utils';
@@ -17,7 +18,7 @@ import { Utils } from '../../../utils/Utils';
 
 export class CryptoSettingsComponent implements OnInit {
     public formGroup!: FormGroup;
-    public cryptoSettings: CryptoSettings;
+    public cryptoSettings: KeySettings;
 
     constructor(
         private centralServerService: CentralServerService,
@@ -56,7 +57,46 @@ export class CryptoSettingsComponent implements OnInit {
         });
     }
 
-    public save(content: CryptoSettings) {
-        
+    public save(content: any) {
+        if (content.crypto) {
+            this.cryptoSettings.type = CryptoSettingsType.CRYPTO;
+            this.cryptoSettings.crypto.formerKey = this.cryptoSettings.crypto.key;
+            this.cryptoSettings.crypto.key = content.crypto.key;
+            this.cryptoSettings.crypto.formerKeySetting = this.cryptoSettings.crypto.keySetting;
+            this.cryptoSettings.crypto.keySetting = {
+                blockCypher: content.crypto.blockCypher,
+                keySize: content.crypto.keySize,
+                operationMode: content.crypto.operationMode
+            }
+            this.cryptoSettings.crypto.migrationDone = false;
+        } else {
+            return;
+        }
+        // Save
+        this.spinnerService.show();
+        this.componentService.saveCryptoSettings(this.cryptoSettings).subscribe((response) => {
+            this.spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage(
+                    'technical_settings.crypto.update_success');
+                this.refresh();
+            } else {
+                Utils.handleError(JSON.stringify(response),
+                    this.messageService, 'technical_settings.crypto.update_error');
+            }
+        }, (error) => {
+            this.spinnerService.hide();
+            switch (error.status) {
+                case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+                    this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
+                    break;
+                default:
+                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'technical_settings.crypto.update_error');
+            }
+        });
+    }
+    
+    public refresh() {
+        this.loadConfiguration();
     }
 }

@@ -1554,9 +1554,14 @@
       "crypto_key": {
         "title": "Crypto Settings",
         "subtitle": "Crypto Key",
-        "key": "Key"
+        "key": "Key",
+        "block_cypher": "Block Cypher",
+        "key_size": "Key Size",
+        "operation_mode": "Operation Mode"
       },
-      "setting_do_not_exist": "Crypto Technical Settings not found"
+      "setting_do_not_exist": "Crypto Technical Settings not found",
+      "update_success": "Crypto Technical Settings have been updated successfully",
+      "update_error": "Error occurred while updating the Crypto Technical Settings, check the logs"
     }
   },
   "ocpiendpoints": {

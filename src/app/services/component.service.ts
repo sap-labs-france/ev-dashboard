@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, KeySettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -362,18 +362,22 @@ export class ComponentService {
     });
   }
 
-  public getCryptoSettings(): Observable<CryptoSettings> {
+  public getCryptoSettings(): Observable<KeySettings> {
     return new Observable((observer) => {
       const cryptoSettings = {
         identifier: TenantComponents.CRYPTO,
-      } as CryptoSettings;
+      } as KeySettings;
       // Get the Asset settings
       this.centralServerService.getSettings(TenantComponents.CRYPTO).subscribe((settings) => {
         // Get the currency
         if (settings && settings.count > 0 && settings.result[0].content) {
+          // ID
+          cryptoSettings.id = settings.result[0].id;
           // Crypto Key
           cryptoSettings.crypto = {
-            key: settings.result[0].content.crypto.key
+            key: settings.result[0].content.crypto.key,
+            keySetting: settings.result[0].content.crypto.keySetting,
+            migrationDone: settings.result[0].content.crypto.migrationDone
           };
         }
         observer.next(cryptoSettings);
@@ -382,5 +386,21 @@ export class ComponentService {
         observer.error(error);
       });
     });
+  }
+
+  public saveCryptoSettings(settings: KeySettings): Observable<ActionResponse> {
+    // build setting payload
+    const settingsToSave = {
+      id: settings.id,
+      identifier: TenantComponents.CRYPTO,
+      sensitiveData: [],
+      content: Utils.cloneObject(settings),
+    };
+    // Delete IDS
+    delete settingsToSave.content.id;
+    delete settingsToSave.content.identifier;
+    delete settingsToSave.content.sensitiveData;
+    
+    return this.centralServerService.updateSetting(settingsToSave);
   }
 }

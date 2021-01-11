@@ -14,6 +14,18 @@
                     <input matInput type="text" [formControl]="key"
                         placeholder="{{'technical_settings.crypto.crypto_key.key' | translate}}" required>
                 </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" [formControl]="blockCypher"
+                        placeholder="{{'technical_settings.crypto.crypto_key.block_cypher' | translate}}" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" [formControl]="keySize"
+                        placeholder="{{'technical_settings.crypto.crypto_key.key_size' | translate}}" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" [formControl]="operationMode"
+                        placeholder="{{'technical_settings.crypto.crypto_key.operation_mode' | translate}}" required>
+                </mat-form-field>
             </div>
         </div>
     </div>

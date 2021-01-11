@@ -24,6 +24,27 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.37',
+        date: new Date('2020-01-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added Tag multiselection + Mass delete`,
+              `Added Active/Inactive Tag filter`,
+              `Added static consumption/production and fluctuation percentage in Asset`,
+              `Handle Asset that consumes and produces energy like a battery`,
+              `Do not display Car's image when no image is provided`,
+              `Disable row actions in list when Charging Station is inactive`,
+              `Improve WebSocket events logging to help debugging`,
+              `Added Wallbox Commander 2 in Charging Station's template`,
+              `Fix initial Static Charging Station's limitation value`,
+              `Add OCPP backend configuration support for secure and insecure URIs`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.36',
         date: new Date('2020-01-04'),
         componentChanges: [

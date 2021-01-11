@@ -11,8 +11,7 @@
             <div class="tab-pane active" id="profile">
               <div class="row app-organization">
                 <div class="col-md-5 d-block mt-auto">
-                  <div class="rotating-card-container"
-                    [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
+                  <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': isAdmin ? 'all' : 'none'}">
                     <div class="card card-rotate card-background app-site-area-image-padding mt-0">
                       <div class="front front-background"
                         [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -29,7 +28,8 @@
                             <button mat-flat-button color="primary" class="mr-2">
                               <mat-icon (click)="file.click()">mode_edit</mat-icon>
                               <div class="d-none">
-                                <input #file type="file" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
+                                <input #file type="file" name="..." (change)="onImageChanged($event)"
+                                  accept="image/jpg,image/jpeg,image/png,image/gif">
                               </div>
                             </button>
                             <button mat-flat-button color="warn">
@@ -126,17 +126,35 @@
                         </button>
                         <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false"
                           class="dropdown-button">
-                          <button mat-menu-item (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
+                          <button *ngIf="registrationToken.ocpp15SOAPUrl" mat-menu-item
+                            (click)="copyUrl(registrationToken.ocpp15SOAPUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
                             <span>{{'settings.charging_station.ocpp_15_soap' | translate}}</span>
                           </button>
-                          <button mat-menu-item (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
+                          <button *ngIf="registrationToken.ocpp16SOAPUrl" mat-menu-item
+                            (click)="copyUrl(registrationToken.ocpp16SOAPUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
                             <span>{{'settings.charging_station.ocpp_16_soap' | translate}}</span>
                           </button>
-                          <button mat-menu-item (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
+                          <button *ngIf="registrationToken.ocpp16JSONUrl" mat-menu-item
+                            (click)="copyUrl(registrationToken.ocpp16JSONUrl)">
                             <mat-icon color="primary">file_copy</mat-icon>
                             <span>{{'settings.charging_station.ocpp_16_json' | translate}}</span>
+                          </button>
+                          <button *ngIf="registrationToken.ocpp15SOAPSecureUrl" mat-menu-item
+                            (click)="copyUrl(registrationToken.ocpp15SOAPSecureUrl)">
+                            <mat-icon color="primary">file_copy</mat-icon>
+                            <span>{{'settings.charging_station.ocpp_15_soap_secure' | translate}}</span>
+                          </button>
+                          <button *ngIf="registrationToken.ocpp16SOAPSecureUrl" mat-menu-item
+                            (click)="copyUrl(registrationToken.ocpp16SOAPSecureUrl)">
+                            <mat-icon color="primary">file_copy</mat-icon>
+                            <span>{{'settings.charging_station.ocpp_16_soap_secure' | translate}}</span>
+                          </button>
+                          <button *ngIf="registrationToken.ocpp16JSONSecureUrl" mat-menu-item
+                            (click)="copyUrl(registrationToken.ocpp16JSONSecureUrl)">
+                            <mat-icon color="primary">file_copy</mat-icon>
+                            <span>{{'settings.charging_station.ocpp_16_json_secure' | translate}}</span>
                           </button>
                         </mat-menu>
                       </div>

@@ -52,7 +52,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     },
     {
       key: this.translateService.instant('transactions.graph.limit_amps') + this.translateService.instant('asset.graph.limit_watts'),
-      hidden: this.authorizationService.isAdmin() ? false : true
+      hidden: true
     },
   ];
 
@@ -173,7 +173,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
         id: 'power',
         ticks: {
           callback: (value: number) => (this.selectedUnit === ConsumptionUnit.AMPERE) ? value : value / 1000,
-          min: 0,
+          beginAtZero: true,
         },
       }];
       // Assign

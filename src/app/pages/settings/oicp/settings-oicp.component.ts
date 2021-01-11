@@ -25,6 +25,8 @@ export class SettingsOicpComponent implements OnInit {
 
   public cpoCountryCode!: AbstractControl;
   public cpoPartyID!: AbstractControl;
+  public cpoKey!: AbstractControl;
+  public cpoCert!: AbstractControl;
   public emspCountryCode!: AbstractControl;
   public emspPartyID!: AbstractControl;
   public website!: AbstractControl;
@@ -100,6 +102,16 @@ export class SettingsOicpComponent implements OnInit {
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
+            key: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.minLength(2),
+            ])),
+            cert: new FormControl('',
+              Validators.compose([
+                Validators.required,
+                Validators.minLength(3),
+             ])),
         }),
         emsp: new FormGroup({
           countryCode: new FormControl('',
@@ -125,6 +137,9 @@ export class SettingsOicpComponent implements OnInit {
       // CPO identifier
       this.cpoCountryCode = (this.formGroup.controls['cpo'] as FormGroup).controls['countryCode'];
       this.cpoPartyID = (this.formGroup.controls['cpo'] as FormGroup).controls['partyID'];
+      // CPO Certificates
+      this.cpoKey = (this.formGroup.controls['cpo'] as FormGroup).controls['key'];
+      this.cpoCert = (this.formGroup.controls['cpo'] as FormGroup).controls['cert'];
       // EMSP identifier
       this.emspCountryCode = (this.formGroup.controls['emsp'] as FormGroup).controls['countryCode'];
       this.emspPartyID = (this.formGroup.controls['emsp'] as FormGroup).controls['partyID'];
@@ -154,6 +169,8 @@ export class SettingsOicpComponent implements OnInit {
       if (settings.oicp.cpo) {
         this.cpoCountryCode.setValue(settings.oicp.cpo.countryCode);
         this.cpoPartyID.setValue(settings.oicp.cpo.partyID);
+        this.cpoKey.setValue(settings.oicp.cpo.key);
+        this.cpoCert.setValue(settings.oicp.cpo.cert);
       }
       // EMSP identifier
       if (settings.oicp.cpo) {

@@ -1763,6 +1763,8 @@
     "party_id": "Party ID",
     "business_details": "Business Details",
     "logo": "Image",
+    "key": "Private Key",
+    "cert": "Certificate",
     "sync_all": "Synchronize All",
     "push_evses": "Push EVSE Data",
     "push_evses_statuses": "Push EVSE Status Data",

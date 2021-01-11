@@ -108,14 +108,15 @@ export interface OicpSetting {
       height: string;
     }
   };
-  cpo: {
-    countryCode: string;
-    partyID: string;
-  };
-  emsp: {
-    countryCode: string;
-    partyID: string;
-  };
+  cpo: OicpIdentifier;
+  emsp: OicpIdentifier;
+}
+
+export interface OicpIdentifier {
+  countryCode: string;
+  partyID: string;
+  key?: string;
+  cert?: string;
 }
 
 export enum AnalyticsSettingsType {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActionResponse } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, RoamingSettingsType, SmartChargingSettings, SmartChargingSettingsType } from '../types/Setting';
 import TenantComponents from '../types/TenantComponents';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -165,6 +165,9 @@ export class ComponentService {
       sensitiveData: [],
       content: Utils.cloneObject(settings),
     };
+    if (settings.type === RoamingSettingsType.HUBJECT) {
+      settingsToSave.sensitiveData = ['content.oicp.key', 'content.oicp.cert'];
+    }
     // Delete IDS
     delete settingsToSave.content.id;
     delete settingsToSave.content.identifier;

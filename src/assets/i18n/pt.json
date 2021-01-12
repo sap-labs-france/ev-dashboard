@@ -1516,11 +1516,14 @@
         "base_url": "URL",
         "user": "Utilizador",
         "password": "Password",
+        "client_id":"Client ID",
+        "client_secret":"Client secret",
         "delete_title": "Excluir conexão de ativo",
         "delete_confirm": "Tem certeza de que deseja excluir a conexão '{{assetConnectionName}}'?"
       },
       "types": {
-        "schneider": "Schneider Building Management System"
+        "schneider": "Schneider Building Management System",
+        "greencom": "GreenCom Asset Management System"
       },
       "connection_success": "A conexão com o sistema foi testada com sucesso",
       "unknown_connection_error": "Erro de conexão desconhecido",

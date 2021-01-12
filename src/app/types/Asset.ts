@@ -10,8 +10,8 @@ export interface Asset extends Data, CreatedUpdatedProps {
   siteAreaID: string;
   siteArea: SiteArea;
   assetType: AssetType;
-  fallbackValue: number;
-  fluctuation: number;
+  staticValueWatt: number;
+  fluctuationPercent: number;
   coordinates: number[];
   image: string;
   dynamicAsset: boolean;

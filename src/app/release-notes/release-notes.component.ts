@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.38',
+        date: new Date('2020-01-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Disable firmware upload in production`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.37',
         date: new Date('2020-01-09'),
         componentChanges: [

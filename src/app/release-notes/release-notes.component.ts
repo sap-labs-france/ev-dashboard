@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               `Added EVBox G4 Elvi Charging Statiom in templates`,
               `Disable firmware upload in production`,
               `Remove ABB workarounds: firmware have been upgraded`,
+              `Clear the locks by hostname at server startup`,
             ],
           },
         ],

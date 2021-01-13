@@ -198,7 +198,7 @@ export class AssetComponent implements OnInit {
       }
 
       if (!Utils.isUndefined(this.asset.staticValueWatt)) {
-        this.formGroup.controls.fallbackValue.setValue(this.asset.staticValueWatt);
+        this.formGroup.controls.staticValueWatt.setValue(this.asset.staticValueWatt);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);

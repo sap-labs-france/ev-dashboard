@@ -34,6 +34,7 @@ export class ReleaseNotesComponent {
               `Disable firmware upload in production`,
               `Remove ABB workarounds: firmware have been upgraded`,
               `Clear the locks by hostname at server startup`,
+              `Fixed sync of car's images with EV-Database due to a change on their interface`,
             ],
           },
         ],

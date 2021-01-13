@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.38',
+        date: new Date('2020-01-13'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added EVBox G4 Elvi Charging Statiom in templates`,
+              `Disable firmware upload in production`,
+              `Remove ABB workarounds: firmware have been upgraded`,
+              `Clear the locks by hostname at server startup`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.37',
         date: new Date('2020-01-09'),
         componentChanges: [

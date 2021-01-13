@@ -196,8 +196,9 @@ export class AssetComponent implements OnInit {
       if (this.asset.fluctuationPercent){
         this.formGroup.controls.fluctuationPercent.setValue(this.asset.fluctuationPercent);
       }
-      if (!(typeof this.asset.staticValueWatt === 'undefined')){
-        this.formGroup.controls.staticValueWatt.setValue(this.asset.staticValueWatt);
+
+      if (!Utils.isUndefined(this.asset.staticValueWatt)) {
+        this.formGroup.controls.fallbackValue.setValue(this.asset.staticValueWatt);
       }
       if (this.asset.coordinates) {
         this.longitude.setValue(this.asset.coordinates[0]);
@@ -277,7 +278,7 @@ export class AssetComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('assets.logo_size_error', {maxPictureKb: this.maxSize});
+        this.messageService.showErrorMessage('assets.logo_size_error', { maxPictureKb: this.maxSize });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -328,7 +329,7 @@ export class AssetComponent implements OnInit {
           this.formGroup.controls.siteAreaID.setValue(siteArea.id);
           this.selectedSiteArea = siteArea;
         }
-    });
+      });
   }
 
   public assignGeoMap() {
@@ -368,17 +369,17 @@ export class AssetComponent implements OnInit {
     // Open
     this.dialog.open(GeoMapDialogComponent, dialogConfig)
       .afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.latitude) {
-          this.latitude.setValue(result.latitude);
-          this.formGroup.markAsDirty();
+        if (result) {
+          if (result.latitude) {
+            this.latitude.setValue(result.latitude);
+            this.formGroup.markAsDirty();
+          }
+          if (result.longitude) {
+            this.longitude.setValue(result.longitude);
+            this.formGroup.markAsDirty();
+          }
         }
-        if (result.longitude) {
-          this.longitude.setValue(result.longitude);
-          this.formGroup.markAsDirty();
-        }
-      }
-    });
+      });
   }
 
   private createAsset(asset: Asset) {
@@ -420,7 +421,7 @@ export class AssetComponent implements OnInit {
         const assetSetting = response.result[0] as AssetSettings;
         const connections = [] as KeyValue[];
         for (const connection of assetSetting.content.asset.connections) {
-          connections.push({ key: connection.id, value: connection.name});
+          connections.push({ key: connection.id, value: connection.name });
         }
         this.assetConnections = connections;
       }

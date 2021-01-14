@@ -1556,7 +1556,7 @@
         "subtitle": "Crypto Key",
         "key": "Key",
         "block_cypher": "Block Cypher",
-        "key_size": "Key Size",
+        "block_size": "Block Size",
         "operation_mode": "Operation Mode"
       },
       "setting_do_not_exist": "Crypto Technical Settings not found",

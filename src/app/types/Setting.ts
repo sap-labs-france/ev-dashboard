@@ -226,7 +226,7 @@ export interface KeySettings extends Setting {
 
 export interface KeyCryptoSetting {
   blockCypher: string;
-  keySize: number;
+  blockSize: number;
   operationMode: string;
 }
 

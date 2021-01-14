@@ -25,7 +25,7 @@
     "connectors": "Connections",
     "notifications": "Notifications",
     "app_name": "e-Mobility",
-    "last_update": "Version 2.4.37",
+    "last_update": "Version 2.4.38",
     "version": "Version",
     "about_us": "About Us",
     "unexpected_error_backend": "An unexpected error occurred, check the logs",
@@ -310,8 +310,11 @@
     "logo": "Logo",
     "name": "Name",
     "asset_type": "Asset type",
+    "fluctuation": "Short term fluctuation (W)",
+    "fallback_value": "Fallback value (W)",
     "produce": "Produce Energy",
     "consume": "Consume Energy",
+    "consume_and_produce": "Consume and Produce Energy",
     "dynamic_asset": "Dynamic Asset",
     "instant_power": "Instant Power",
     "asset_connection": "Asset Connection",
@@ -1357,7 +1360,10 @@
       "generate_connection_url": "Connect a Charging Station",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility provides a refund service for an external expense system.<br>This feature allows the user to push his sessions to an expense system and get reimbursed of the electricity he consumed.<br>E-Mobility is currently using SAP Concur. More technical information available at ",

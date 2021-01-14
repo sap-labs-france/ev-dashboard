@@ -65,9 +65,10 @@ export class CryptoSettingsComponent implements OnInit {
             this.cryptoSettings.crypto.formerKeyProperties = this.cryptoSettings.crypto.keyProperties;
             this.cryptoSettings.crypto.keyProperties = {
                 blockCypher: content.crypto.blockCypher,
-                keySize: content.crypto.keySize,
+                blockSize: content.crypto.blockSize,
                 operationMode: content.crypto.operationMode
             }
+            this.cryptoSettings.crypto.migrationToBeDone = true;
         } else {
             return;
         }

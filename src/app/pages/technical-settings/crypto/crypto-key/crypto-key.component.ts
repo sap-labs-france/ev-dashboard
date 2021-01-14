@@ -14,7 +14,7 @@ export class CryptoKeyComponent implements OnInit, OnChanges {
     public cryptoKey!: FormGroup;
     public key!: AbstractControl;
     public blockCypher!: AbstractControl;
-    public keySize!: AbstractControl;
+    public blockSize!: AbstractControl;
     public operationMode!: AbstractControl;
     public readOnly: boolean = true;
     
@@ -32,7 +32,7 @@ export class CryptoKeyComponent implements OnInit, OnChanges {
                     Validators.required
                 ]),
             ),
-            keySize: new FormControl('',
+            blockSize: new FormControl('',
                 Validators.compose([
                     Validators.required
                 ]),
@@ -48,7 +48,7 @@ export class CryptoKeyComponent implements OnInit, OnChanges {
         // Keep
         this.key = this.cryptoKey.controls['key'];
         this.blockCypher = this.cryptoKey.controls['blockCypher'];
-        this.keySize = this.cryptoKey.controls['keySize'];
+        this.blockSize = this.cryptoKey.controls['blockSize'];
         this.operationMode = this.cryptoKey.controls['operationMode'];
         // Set data
         this.updateFormData();
@@ -63,7 +63,7 @@ export class CryptoKeyComponent implements OnInit, OnChanges {
         if (this.cryptoSettings && this.cryptoSettings.crypto && this.cryptoKey) {
             this.key.setValue(this.cryptoSettings.crypto.key);
             this.blockCypher.setValue(this.cryptoSettings.crypto.keyProperties.blockCypher);
-            this.keySize.setValue(this.cryptoSettings.crypto.keyProperties.keySize);
+            this.blockSize.setValue(this.cryptoSettings.crypto.keyProperties.blockSize);
             this.operationMode.setValue(this.cryptoSettings.crypto.keyProperties.operationMode);
             this.formGroup.markAsPristine();
         }

@@ -25,8 +25,8 @@ export class MessageService {
   `;
 
   constructor(
-    private translateService: TranslateService) {
-  }
+    private translateService: TranslateService
+  ) { }
 
   public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs
@@ -57,11 +57,13 @@ export class MessageService {
   }
 
   private showMessage(type: string, message: string, title = '', params?: Record<string, unknown>, from = 'top', align = 'right', icon = 'notifications') {
-    $.notify({
+    $.notify(
+      {
         icon,
         title,
         message: this.translateService.instant(message, params),
-      }, {
+      },
+      {
         type,
         delay: 3000,
         timer: 1500,

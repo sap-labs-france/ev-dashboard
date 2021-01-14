@@ -232,9 +232,7 @@ export interface KeyCryptoSetting {
 
 export interface CryptoSetting {
   key: string;
-  keySetting: KeyCryptoSetting;
+  keyProperties: KeyCryptoSetting;
   formerKey?: string;
-  formerKeySetting?: KeyCryptoSetting;
-  migrationDone?: boolean;
-  sensitiveDataMigrationId?: string;
+  formerKeyProperties?: KeyCryptoSetting;
 }

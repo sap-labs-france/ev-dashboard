@@ -16,6 +16,7 @@ export class CryptoKeyComponent implements OnInit, OnChanges {
     public blockCypher!: AbstractControl;
     public keySize!: AbstractControl;
     public operationMode!: AbstractControl;
+    public readOnly: boolean = true;
     
     public ngOnInit(): void {
         this.cryptoKey = new FormGroup({
@@ -61,9 +62,9 @@ export class CryptoKeyComponent implements OnInit, OnChanges {
         // Set data
         if (this.cryptoSettings && this.cryptoSettings.crypto && this.cryptoKey) {
             this.key.setValue(this.cryptoSettings.crypto.key);
-            this.blockCypher.setValue(this.cryptoSettings.crypto.keySetting.blockCypher);
-            this.keySize.setValue(this.cryptoSettings.crypto.keySetting.keySize);
-            this.operationMode.setValue(this.cryptoSettings.crypto.keySetting.operationMode);
+            this.blockCypher.setValue(this.cryptoSettings.crypto.keyProperties.blockCypher);
+            this.keySize.setValue(this.cryptoSettings.crypto.keyProperties.keySize);
+            this.operationMode.setValue(this.cryptoSettings.crypto.keyProperties.operationMode);
             this.formGroup.markAsPristine();
         }
     }

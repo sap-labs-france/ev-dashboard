@@ -2263,6 +2263,7 @@
     "charging_stations_offline": "Notify me when a charging station is offline",
     "preparing_session_not_started": "Notify me when a session has not been started (site owner only)",
     "ocpi_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OCPI)",
+    "oicp_patch_status_error": "Notify me if the transfer of a charging station’s statuses has failed to the roaming platform (OICP)",
     "smtp_auth_error": "Notify me if the backend authentication to the email server has failed",
     "billing_synchronization_failed": "Notify me when a synchronization with billing system has failed",
     "session_not_started": "Notify me if no session has been started after badging",

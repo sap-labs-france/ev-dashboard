@@ -2263,6 +2263,7 @@
     "charging_stations_offline": "Benachrichtigen Sie mich, wenn eine Ladestation Offline ist",
     "preparing_session_not_started": "Benachrichtigen Sie mich, wenn ein Ladevorgang nicht gestartet wurde (nur Standortbesitzer)",
     "ocpi_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OCPI)",
+    "oicp_patch_status_error": "Benachrichtigen Sie mich, wenn der Transfer eines Ladestationsstatuses zur Roaming Plattform fehlgeschlagen ist (OICP)",
     "smtp_auth_error": "Benachrichtigen Sie mich, wenn die Authentifizierung zum Email Server fehlgeschlagen ist.",
     "billing_synchronization_failed": "Benachrichtigen Sie mich, wenn eine Synchronisierung mit dem Abrechnungssystem fehlgeschlagen ist",
     "session_not_started": "Benachrichtigen Sie mich, wenn kein Ladevorgang nach dem authentifizieren gestartet wurde",

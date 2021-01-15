@@ -274,6 +274,12 @@
                   <div class="row ml-1">
                     <div class="col-sm-12">
                       <mat-checkbox [disabled]="!notificationsActive.value"
+                        [formControl]="sendOicpPatchStatusError">{{"notifications.oicp_patch_status_error" | translate}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="row ml-1">
+                    <div class="col-sm-12">
+                      <mat-checkbox [disabled]="!notificationsActive.value"
                         [formControl]="sendSmtpAuthError">{{"notifications.smtp_auth_error" | translate}}</mat-checkbox>
                     </div>
                   </div>

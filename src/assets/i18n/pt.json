@@ -2263,6 +2263,7 @@
     "charging_stations_offline": "Notifique-me quando uma estação de carregamento estiver offline",
     "preparing_session_not_started": "Notifique-me quando uma sessão não tiver sido iniciada (apenas proprietário do site)",
     "ocpi_patch_status_error": "Notifique-me se a transferência dos status de uma estação de carregamento falhar para a plataforma de roaming (OCPI)",
+    "oicp_patch_status_error": "Notifique-me se a transferência dos status de uma estação de carregamento falhar para a plataforma de roaming (OICP)",
     "smtp_auth_error": "Notifique-me se a autenticação de back-end para o servidor de e-mail falhar",
     "billing_synchronization_failed": "Notifique-me quando uma sincronização com o sistema de faturamento falhar",
     "session_not_started": "Notifique-me se nenhuma sessão tiver sido iniciada após o selo",

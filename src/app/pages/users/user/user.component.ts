@@ -86,6 +86,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   public sendChargingStationRegistered!: AbstractControl;
   public sendOfflineChargingStations!: AbstractControl;
   public sendOcpiPatchStatusError!: AbstractControl;
+  public sendOicpPatchStatusError!: AbstractControl;
   public sendPreparingSessionNotStarted!: AbstractControl;
   public sendSmtpAuthError!: AbstractControl;
   public sendBillingSynchronizationFailed!: AbstractControl;
@@ -182,6 +183,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         sendOfflineChargingStations: new FormControl(false),
         sendPreparingSessionNotStarted: new FormControl(false),
         sendOcpiPatchStatusError: new FormControl(false),
+        sendOicpPatchStatusError: new FormControl(false),
         sendSmtpAuthError: new FormControl(false),
         sendBillingSynchronizationFailed: new FormControl(false),
         sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
@@ -267,6 +269,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
     this.sendOfflineChargingStations = this.notifications.controls['sendOfflineChargingStations'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
+    this.sendOicpPatchStatusError = this.notifications.controls['sendOicpPatchStatusError'];
     this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
     this.sendSmtpAuthError = this.notifications.controls['sendSmtpAuthError'];
     this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
@@ -408,6 +411,11 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       } else {
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
       }
+      if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendOicpPatchStatusError')) {
+        this.notifications.controls.sendOicpPatchStatusError.setValue(user.notifications.sendOicpPatchStatusError);
+      } else {
+        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
+      }
       if (user.notifications && Utils.objectHasProperty(user.notifications, 'sendPreparingSessionNotStarted')) {
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(user.notifications.sendPreparingSessionNotStarted);
       } else {
@@ -495,6 +503,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendChargingStationRegistered.setValue(true);
         this.notifications.controls.sendOfflineChargingStations.setValue(true);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(true);
+        this.notifications.controls.sendOicpPatchStatusError.setValue(true);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(true);
         this.notifications.controls.sendSmtpAuthError.setValue(true);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(true);
@@ -516,6 +525,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendChargingStationRegistered.setValue(false);
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);
@@ -537,6 +547,7 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
         this.notifications.controls.sendChargingStationRegistered.setValue(false);
         this.notifications.controls.sendOfflineChargingStations.setValue(false);
         this.notifications.controls.sendOcpiPatchStatusError.setValue(false);
+        this.notifications.controls.sendOicpPatchStatusError.setValue(false);
         this.notifications.controls.sendPreparingSessionNotStarted.setValue(false);
         this.notifications.controls.sendSmtpAuthError.setValue(false);
         this.notifications.controls.sendBillingSynchronizationFailed.setValue(false);

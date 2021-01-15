@@ -16,6 +16,7 @@ import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
+import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 
 export interface Data {
   id: string | number;

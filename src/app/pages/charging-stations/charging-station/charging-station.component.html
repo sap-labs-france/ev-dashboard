@@ -36,7 +36,7 @@
           </div>
         </mat-tab>
       </ng-container>
-      <ng-container *ngIf="isAdmin && chargingStation?.issuer">
+      <ng-container *ngIf="!isProdLandscape && isAdmin && chargingStation?.issuer">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>system_update_alt</mat-icon>

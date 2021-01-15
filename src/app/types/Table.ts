@@ -10,13 +10,11 @@ import { CompanyButtonAction } from './Company';
 import { ButtonAction, KeyValue } from './GlobalType';
 import { LogButtonAction } from './Log';
 import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
-import { OicpButtonAction } from './oicp/OICPEndpoint';
 import { SiteButtonAction } from './Site';
 import { SiteAreaButtonAction } from './SiteArea';
 import { TenantButtonAction } from './Tenant';
 import { TransactionButtonAction } from './Transaction';
 import { UserButtonAction } from './User';
-import { OcpiButtonAction } from './ocpi/OCPIEndpoint';
 
 export interface Data {
   id: string | number;

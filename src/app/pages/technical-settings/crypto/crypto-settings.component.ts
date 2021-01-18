@@ -58,42 +58,46 @@ export class CryptoSettingsComponent implements OnInit {
     }
 
     public save(content: any) {
-        if (content.crypto) {
-            this.cryptoSettings.type = CryptoSettingsType.CRYPTO;
-            this.cryptoSettings.crypto.formerKey = this.cryptoSettings.crypto.key;
-            this.cryptoSettings.crypto.key = content.crypto.key;
-            this.cryptoSettings.crypto.formerKeyProperties = this.cryptoSettings.crypto.keyProperties;
-            this.cryptoSettings.crypto.keyProperties = {
-                blockCypher: content.crypto.blockCypher,
-                blockSize: content.crypto.blockSize,
-                operationMode: content.crypto.operationMode
-            }
-            this.cryptoSettings.crypto.migrationToBeDone = true;
+        if (this.cryptoSettings.crypto.migrationToBeDone) {
+            this.messageService.showWarningMessage('technical_settings.crypto.migration_in_progress_warning');
         } else {
-            return;
-        }
-        // Save
-        this.spinnerService.show();
-        this.componentService.saveCryptoSettings(this.cryptoSettings).subscribe((response) => {
-            this.spinnerService.hide();
-            if (response.status === RestResponse.SUCCESS) {
-                this.messageService.showSuccessMessage(
-                    'technical_settings.crypto.update_success');
-                this.refresh();
+            if (content.crypto) {
+                this.cryptoSettings.type = CryptoSettingsType.CRYPTO;
+                this.cryptoSettings.crypto.formerKey = this.cryptoSettings.crypto.key;
+                this.cryptoSettings.crypto.key = content.crypto.key;
+                this.cryptoSettings.crypto.formerKeyProperties = this.cryptoSettings.crypto.keyProperties;
+                this.cryptoSettings.crypto.keyProperties = {
+                    blockCypher: content.crypto.blockCypher,
+                    blockSize: content.crypto.blockSize,
+                    operationMode: content.crypto.operationMode
+                }
+                this.cryptoSettings.crypto.migrationToBeDone = true;
             } else {
-                Utils.handleError(JSON.stringify(response),
-                    this.messageService, 'technical_settings.crypto.update_error');
+                return;
             }
-        }, (error) => {
-            this.spinnerService.hide();
-            switch (error.status) {
-                case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
-                    this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
-                    break;
-                default:
-                    Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'technical_settings.crypto.update_error');
-            }
-        });
+            // Save
+            this.spinnerService.show();
+            this.componentService.saveCryptoSettings(this.cryptoSettings).subscribe((response) => {
+                this.spinnerService.hide();
+                if (response.status === RestResponse.SUCCESS) {
+                    this.messageService.showSuccessMessage(
+                        'technical_settings.crypto.update_success');
+                    this.refresh();
+                } else {
+                    Utils.handleError(JSON.stringify(response),
+                        this.messageService, 'technical_settings.crypto.update_error');
+                }
+            }, (error) => {
+                this.spinnerService.hide();
+                switch (error.status) {
+                    case HTTPError.OBJECT_DOES_NOT_EXIST_ERROR:
+                        this.messageService.showErrorMessage('technical_settings.crypto.setting_do_not_exist');
+                        break;
+                    default:
+                        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'technical_settings.crypto.update_error');
+                }
+            });
+        }
     }
     
     public refresh() {

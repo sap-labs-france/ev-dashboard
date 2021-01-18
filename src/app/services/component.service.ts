@@ -377,6 +377,7 @@ export class ComponentService {
           cryptoSettings.crypto = {
             key: settings.result[0].content.crypto.key,
             keyProperties: settings.result[0].content.crypto.keyProperties,
+            migrationToBeDone: settings.result[0].content.crypto.migrationToBeDone
           };
         }
         observer.next(cryptoSettings);

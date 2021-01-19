@@ -187,14 +187,14 @@ export abstract class TableDataSource<T extends Data> {
     const sort = this.getSort();
     if (sort && sort.active) {
       return [
-        { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },
+        { field: (sort.direction === 'desc' ? '-' : '') + sort.active },
       ];
     }
     // Find Sorted columns
     const columnDef = this.tableColumnsDef.find((column) => column.sorted);
     if (columnDef) {
       return [
-        { field: (sort.direction === 'desc' ?  '-' : '') + sort.active },
+        { field: (sort.direction === 'desc' ? '-' : '') + sort.active },
       ];
     }
     return [];
@@ -342,25 +342,46 @@ export abstract class TableDataSource<T extends Data> {
           if (filterDef.type === 'date') {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
             // Dialog
-          } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
-            if (filterDef.currentValue.length > 0) {
-              if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
-                if (filterDef.currentValue.length > 1) {
-                  // Handle multiple key selection as a JSON array
-                  const jsonKeys = [];
-                  for (const value of filterDef.currentValue) {
-                    jsonKeys.push(value.key);
+          } else if (filterDef.type === FilterType.DIALOG_TABLE) {
+            if (!Utils.isEmptyArray(filterDef.dependentFilters)) {
+              filterDef.dialogComponentData = {
+                staticFilter: {
+
+                }
+              };
+              for (const dependentFilter of filterDef.dependentFilters) {
+                if (!Utils.isEmptyArray(dependentFilter.currentValue)) {
+                  if (dependentFilter.multiple) {
+                    if (dependentFilter.type === FilterType.DROPDOWN && dependentFilter.currentValue.length === dependentFilter.items.length && dependentFilter.exhaustive) {
+                      continue;
+                    }
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue.map((obj) => obj.key).join('|');
+                  } else {
+                    filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] = dependentFilter.currentValue[0].key;
                   }
-                  filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
-                } else {
-                  filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
                 }
               }
             }
-            // Dialog with multiple selections
-          } else if (filterDef.type === FilterType.DIALOG_TABLE && filterDef.multiple) {
-            if (filterDef.currentValue.length > 0) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+            if (!filterDef.multiple) {
+              if (filterDef.currentValue.length > 0) {
+                if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
+                  if (filterDef.currentValue.length > 1) {
+                    // Handle multiple key selection as a JSON array
+                    const jsonKeys = [];
+                    for (const value of filterDef.currentValue) {
+                      jsonKeys.push(value.key);
+                    }
+                    filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+                  } else {
+                    filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                  }
+                }
+              }
+              // Dialog with multiple selections
+            } else {
+              if (filterDef.currentValue.length > 0) {
+                filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+              }
             }
             // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {

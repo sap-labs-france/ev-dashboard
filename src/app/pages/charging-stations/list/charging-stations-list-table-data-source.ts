@@ -324,11 +324,12 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
 
   public buildTableFiltersDef(): TableFilterDef[] {
     if (this.isOrganizationComponentActive) {
+      const siteFilter = new SiteTableFilter().getFilterDef();
       return [
         // new ChargingStationTableFilter().getFilterDef(),
         new IssuerFilter().getFilterDef(),
-        new SiteTableFilter().getFilterDef(),
-        new SiteAreaTableFilter().getFilterDef(),
+        siteFilter,
+        new SiteAreaTableFilter(null, [siteFilter]).getFilterDef(),
       ];
     }
     return [];

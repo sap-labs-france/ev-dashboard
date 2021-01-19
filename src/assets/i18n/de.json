@@ -1927,7 +1927,7 @@
     "delete_transactions_partial": "'{{inSuccess}}' Ladevorgänge wurden erfolgreich gelöscht und '{{inError}}' Ladevorgänge haben einen Fehler ausgelöst",
     "delete_transactions_error": "Beim Löschen der Ladevorgänge ist ein Fehler aufgetreten",
     "export_ocpi_cdr_button_title": "CDR exportieren",
-    "export_ocpi_cdr_title": "CDR der Transaktion exportieren",
+    "export_ocpi_cdr_title": "CDR des Ladevorgangs exportieren",
     "export_ocpi_cdr_confirm": "Möchten Sie wirklich den CDR für den Ladevorgang '{{transactionID}}' exportieren?",
     "export_ocpi_cdr_error": "Beim Exportieren des CDR des Ladevorgangs '{{transactionID}}' ist ein Fehler aufgetreten",
     "inactivity_info": "Alle Inaktivitäten",

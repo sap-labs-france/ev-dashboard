@@ -216,9 +216,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     // Show
     const dialogRef = this.dialog.open(SiteAreasDialogComponent, dialogConfig);
     // Register to the answer
-    dialogRef.afterClosed().subscribe((siteArea) => {
-      this.moveChargers(chargers, siteArea[0].key);
-    });
+    dialogRef.afterClosed().subscribe((siteArea) => this.moveChargers(chargers, siteArea[0].key));
   }
 
   private removeChargers(chargerIDs: string[]) {

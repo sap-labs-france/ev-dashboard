@@ -10,6 +10,7 @@ export class TableRemoveAction implements TableAction {
     color: ButtonColor.WARN,
     name: 'general.remove',
     tooltip: 'general.tooltips.remove',
+    linkedToListSelection: true,
   };
 
   // Return an action

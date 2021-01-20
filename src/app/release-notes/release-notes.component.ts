@@ -25,16 +25,18 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.4.38',
-        date: new Date('2020-01-13'),
+        date: new Date('2020-01-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              `Added EVBox G4 Elvi Charging Statiom in templates`,
+              `Added EVBox G4 Elvi and BusinessLine Charging Statiom in templates`,
+              `Added Innogy eBox Professional S Charging Statiom in templates`,
               `Disable firmware upload in production`,
               `Remove ABB workarounds: firmware have been upgraded`,
               `Clear the locks by hostname at server startup`,
               `Fixed sync of car's images with EV-Database due to a change on their interface`,
+              `Linked toolbar bouton activation with list selection`,
             ],
           },
         ],

@@ -29,6 +29,7 @@ export class TableRefundTransactionsAction implements TableAction {
     name: 'general.refund',
     tooltip: 'general.tooltips.refund',
     action: this.refund,
+    linkedToListSelection: true,
   };
 
   // Return an action

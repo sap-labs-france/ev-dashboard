@@ -45,7 +45,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         // Yes: Get data
         this.centralServerService.getAssets(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((assets) => {
-            this.removeAction.disabled = (assets.count === 0 || !this.hasSelectedRows());
             observer.next(assets);
             observer.complete();
           }, (error) => {
@@ -62,11 +61,6 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         observer.complete();
       }
     });
-  }
-
-  public toggleRowSelection(row: Asset, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {

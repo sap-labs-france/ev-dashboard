@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerNotificationService } from '../../../services/central-server-notification.service';
@@ -329,6 +330,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         new IssuerFilter().getFilterDef(),
         new SiteTableFilter().getFilterDef(),
         new SiteAreaTableFilter().getFilterDef(),
+        new ConnectorTableFilter().getFilterDef()
       ];
     }
     return [];

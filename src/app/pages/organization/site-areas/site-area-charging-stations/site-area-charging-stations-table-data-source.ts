@@ -46,7 +46,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
         // Yes: Get data
         this.centralServerService.getChargingStations(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((chargingStations) => {
-            this.removeAction.disabled = (chargingStations.count === 0 || !this.hasSelectedRows());
             observer.next(chargingStations);
             observer.complete();
           }, (error) => {
@@ -64,11 +63,6 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
         observer.complete();
       }
     });
-  }
-
-  public toggleRowSelection(row: ChargingStation, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {

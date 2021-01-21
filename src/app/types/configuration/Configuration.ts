@@ -6,6 +6,7 @@ import CentralSystemServerConfiguration from './CentralSystemServerConfiguration
 import CompanyConfiguration from './CompanyConfiguration';
 import Debug from './Debug';
 import FrontEndConfiguration from './FrontEndConfiguration';
+import Landscape from './Landscape';
 import LocalesConfiguration from './LocalesConfiguration';
 import SiteAreaConfiguration from './SiteAreaConfiguration';
 import SiteConfiguration from './SiteConfiguration';
@@ -25,5 +26,6 @@ export interface Configuration {
   User: UserConfiguration;
   Car: CarConfiguration;
   Tenant: TenantConfiguration;
-  Debug: Debug;
+  Debug?: Debug;
+  Landscape?: Landscape;
 }

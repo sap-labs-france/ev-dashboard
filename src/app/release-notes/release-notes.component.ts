@@ -24,6 +24,25 @@ export class ReleaseNotesComponent {
   public buidlReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.4.38',
+        date: new Date('2020-01-20'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added EVBox G4 Elvi and BusinessLine Charging Statiom in templates`,
+              `Added Innogy eBox Professional S Charging Statiom in templates`,
+              `Disable firmware upload in production`,
+              `Remove ABB workarounds: firmware have been upgraded`,
+              `Clear the locks by hostname at server startup`,
+              `Fixed sync of car's images with EV-Database due to a change on their interface`,
+              `Linked toolbar bouton activation with list selection`,
+              `Store credentials in SAP User Provided Services`,
+            ],
+          },
+        ],
+      },
+      {
         version: '2.4.37',
         date: new Date('2020-01-09'),
         componentChanges: [

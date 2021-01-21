@@ -49,7 +49,6 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         // Yes: Get data
         this.centralServerService.getUserSites(this.buildFilterValues(),
           this.getPaging(), this.getSorting()).subscribe((userSites) => {
-          this.removeAction.disabled = (userSites.count === 0 || !this.hasSelectedRows());
           observer.next(userSites);
           observer.complete();
         }, (error) => {
@@ -66,11 +65,6 @@ export class UserSitesTableDataSource extends TableDataSource<SiteUser> {
         observer.complete();
       }
     });
-  }
-
-  public toggleRowSelection(row: SiteUser, checked: boolean) {
-    super.toggleRowSelection(row, checked);
-    this.removeAction.disabled = !this.hasSelectedRows();
   }
 
   public buildTableDef(): TableDef {

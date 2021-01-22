@@ -12,8 +12,8 @@
     "expired_on": "Scaduto Il",
     "revoked_on": "Revocato Il",
     "description": "Descrizione",
-    "activate": "Activate",
-    "deactivate": "Deactivate",
+    "activate": "Attivare",
+    "deactivate": "Disattivare",
     "day": "g",
     "hour": "h",
     "minute": "m",
@@ -32,6 +32,7 @@
     "select_at_least_one_record": "Devi selezionare almeno un record nella lista",
     "mandatory_field": "Campo obbligatorio",
     "no_record_found": "Nessun record trovato",
+    "no_image_found": "Nessuna immagine è stata trovata",
     "no_connector_available": "Nessuna connessione disponibile",
     "error_max_length": "La lunghezza massima è {{length}}",
     "error_min_length": "La lunghezza minima è {{length}}",
@@ -68,6 +69,7 @@
     "create": "Crea",
     "update": "Aggiorna",
     "refresh": "Refresh",
+    "generate_qr": "Genera il codice QR",
     "save": "Salva",
     "delete": "Cancella",
     "export": "Esporta",
@@ -79,6 +81,7 @@
     "change": "Modifica",
     "reload": "Ricarica",
     "stop": "Stop",
+    "unlock": "Sblocca",
     "refund": "Rimborso",
     "open": "Apri",
     "open_in_concur": "Vai alle tue Spese",
@@ -101,6 +104,7 @@
     "error": "Errore",
     "drag_drop": "Trascina & Rilascia",
     "picture": "Immagine",
+    "pictures": "Immagini",
     "change_picture": "Modifica Immagine",
     "search": "Cerca",
     "search_place": "Cerca Indirizzo",
@@ -167,7 +171,7 @@
       "invoices": "Fatture"
     },
     "tooltips": {
-      "push_cdr": "Push CDR",
+      "push_cdr": "Spingi CDR",
       "activate": "Attivare",
       "deactivate": "Disattivare",
       "export": "Esporta parametri OCPP",
@@ -195,6 +199,7 @@
       "open": "Apri",
       "open_in_maps": "Apri in google maps",
       "refresh": "Refresh",
+      "generate_qr": "Genera il codice QR",
       "refund": "Rimborso",
       "register": "Registrati",
       "unregister": "Annulla registrazione",
@@ -204,6 +209,7 @@
       "synchronize": "Sincronizza",
       "start": "Avvia",
       "stop": "Interrompi",
+      "unlock": "Sblocca",
       "view": "Visualizza",
       "send": "Invia",
       "clear": "Pulisci",
@@ -211,8 +217,7 @@
       "download": "Download",
       "test_connection": "Test Connessione",
       "force_available_status": "Forza Stato a Disponibile",
-      "force_unavailable_status": "Forza Stato a Non Disponibile",
-      "assign_user_to_tag": "Assign a new user to the tag"
+      "force_unavailable_status": "Forza Stato a Non Disponibile"
     }
   },
   "issuer": {
@@ -305,8 +310,11 @@
     "logo": "Logo",
     "name": "Nome",
     "asset_type": "Tipo risorsa",
+    "fluctuation": "Fluttuazione a breve termine (%)",
+    "fallback_value": "Valore di fallback (W)",
     "produce": "Produce Energia",
     "consume": "Consuma Energia",
+    "consume_and_produce": "Consuma e Produce Energia",
     "dynamic_asset": "Risorsa Dinamica",
     "instant_power": "Potenza Istantanea",
     "asset_connection": "Connessione Risorsa",
@@ -334,7 +342,7 @@
     "refresh_error": "Si è verificato un errore durante l'aggiornamento della connessione alla risorsa",
     "logo_size_error": "Il limite di dimensione dell'immagine è stato superato, il limite è inferiore a {{maxPictureKb}} Kb",
     "select_assets": "Seleziona Risorsa",
-    "consumption_date": "Date",
+    "consumption_date": "Data",
     "dialog_tabs": {
       "connection": "Connessione"
     },
@@ -349,8 +357,8 @@
   "sites": {
     "assign_company": "Assegna Azienda",
     "auto_user_site_assignment": "Assegnazione automatica dell'utente a questo sito",
-    "public": "This site is public",
-    "public_site": "Public",
+    "public": "Questo sito è pubblico",
+    "public_site": "Pubblico",
     "auto_assignment": "Assegnazione Automatica Utente",
     "user_list": "Utenti autorizzati ad usare la stazione di ricarica su questo sito",
     "user_list_source_title": "Disponibile",
@@ -467,7 +475,7 @@
     "consumption_date": "Data",
     "single_phased": "Monofase",
     "three_phased": "Trifase",
-    "redirect": "Navigate to Site Area"
+    "redirect": "Vai all'Area del Sito"
   },
   "authentication": {
     "accept": "Accetto l'",
@@ -648,7 +656,7 @@
     "private_url": "URL Privato",
     "nb_connected_phase": "Numero di Fasi Connesse",
     "current_type": "Tipo Corrente",
-    "phase_assignment": "Phase Assignment",
+    "phase_assignment": "Assegnazione Fase",
     "phase_combinations": {
       "three_phased": {
         "cs_1_g_1": "RST (L1, L2, L3)",
@@ -667,7 +675,7 @@
     "public": "La stazione di ricarica è pubblica",
     "public_charger": "Pubblica",
     "exclude_smart_charging": "Escludi dalla Carica Smart",
-    "force_inactive": "This charging station is inactive",
+    "force_inactive": "Questa stazione di ricarica è inattiva",
     "public_url": "URL Pubblico",
     "current_ip": "Percorso IP Corrente",
     "select_chargers": "Seleziona la Stazione di Ricarica",
@@ -852,7 +860,7 @@
         "stack_level": "Livello Stack",
         "site_area":"Area Sito",
         "site_area_limit":"Limite Area Sito",
-        "redirect": "Navigate to Charging Plans"
+        "redirect": "Vai ai Piani di Ricarica"
       }
     },
     "more_actions": {
@@ -919,7 +927,7 @@
     "force_unavailable_status_error": "Si è verificato un errore durante la modifica dello stato delle prese della stazione di ricarica",
     "retrieve_config_success": "La configurazione della stazione di ricarica '{{chargeBoxID}}' è stata recuperata correttamente",
     "change_config_success": "La stazione di ricarica '{{chargeBoxID}}' è stata salvata correttamente",
-    "change_config_error": "Impossibile recuperare la configurazione della stazione di ricarica, controlla i log",
+    "change_config_error": "Impossibile modificare la configurazione della stazione di ricarica, controllare i log",
     "change_config_phase_error": "Impossibile assegnare una stazione di ricarica trifase ad un'area del sito monofase",
     "change_params_success": "Il parametro '{{paramKey}}' è stato aggiornato correttamente nella stazione di ricarica '{{chargeBoxID}}'",
     "change_params_error": "Si è verificato un errore durante il tentativo di aggiornamento del parametro della stazione di ricarica",
@@ -952,7 +960,8 @@
     "unlock_connector_button": "Sblocca",
     "unlock_connector_confirm": "Vuoi veramente sbloccare la presa '{{connectorId}}' della stazione di ricarica '{{chargeBoxID}}'?",
     "unlock_connector_success": "La presa '{{connectorId}}' della stazione di ricarica '{{chargeBoxID}}' è stata sbloccata correttamente",
-    "unlock_connector_error": "Si è verificato un errore durante lo sblocco della presa",
+    "unlock_connector_error": "La stazione di ricarica non è stata in grado di sbloccare la presa",
+    "unlock_connector_not_supported_error": "Questa Stazione di Ricarica non supporta lo sblocco della presa",
     "connector_type_unknown": "Non impostato",
     "connector_type_type2": "Tipo 2",
     "connector_type_type1": "Tipo 1",
@@ -982,19 +991,16 @@
     "button_get_configuration": "Ottieni Configurazione",
     "button_force_ocpp_params_update_from_template": "Forza Aggiornamento Parametro OCPP",
     "created_on": "Data creazione",
-    "start_transaction_admin_title": "Avvia la sessione come Amministratore",
-    "start_transaction_admin_message": "Vuoi veramente avviare la sessione per:",
-    "start_transaction_user_select_title": "Seleziona l'utente per avviare la sessione",
-    "start_transaction_user_select_button": "Seleziona",
-    "start_for_myself_button": "Me stesso(a)",
-    "select_user_button": "Altro Utente",
+    "start_transaction_details_title": "Avvia la sessione sulla stazione di ricarica '{{chargeBoxID}}'",
+    "start_transaction": "Avvia Sessione",
     "power_limit_unit": "Presa Unità Alimentazione",
     "watt": "Watt",
     "amper": "Ampere",
     "voltage": "Fase/Tensione Neutra (V)",
     "amperage": "Amperaggio Totale (A)",
-    "amperagePerPhase": "Amperage per phase (A)",
+    "amperagePerPhase": "Amperaggio per fase (A)",
     "session_details": "Sessione",
+    "qr_code_generation_error": "Si è verificato un errore durante la generazione del codice QR",
     "tabs": {
       "list": "Stazioni di Ricarica",
       "charging_plans": "Piani di Ricarica",
@@ -1152,9 +1158,9 @@
     "remove_sites_confirm": "Sei sicuro di voler rimuovere il(i) sito(i) selezionati da questo utente?",
     "remove_sites_success": "Il sito(i) è(sono) stato(i) rimosso(i) correttamente",
     "remove_sites_error": "Si è verificato un errore durante la rimozione del(i) sito(i) dall'utente",
-    "export_users_title": "Export Users",
-    "export_users_confirm": "Do you really want to export the User list to a csv format?",
-    "export_users_error": "Error occurred while trying to export the Users",
+    "export_users_title": "Esporta Utenti",
+    "export_users_confirm": "Vuoi davvero esportare l'elenco utenti in un formato csv?",
+    "export_users_error": "Si è verificato un errore durante il tentativo di esportare gli utenti",
     "update_success": "L'utente '{{userFullName}}' è stato aggiornato correttamente",
     "update_sites_success": "I siti sono stati aggiunti correttamente",
     "changed_by_other_user": "L'utente '{{userFullName}}' è stato modificato da un altro utente e sarà ricaricato",
@@ -1239,7 +1245,7 @@
     "number_of_items": "Sessioni",
     "pay": "Paga",
     "user": "Utente",
-    "failed_download": "Invoice download failed."
+    "failed_download": "Download della fattura non riuscito"
   },
   "tags": {
     "id": "ID",
@@ -1252,33 +1258,31 @@
     "activate_confirm": "Vuoi veramente attivare il badge '{{tagID}}'? Una volta attivato, questo badge sarà utilizzabile per avviare sessioni.",
     "deactivate_title": "Deattivazione badge",
     "deactivate_confirm": "Vuoi veramente disattivare il badge '{{tagID}}'? Una volta disattivato, questo badge non sarà più utilizzabile per avviare sessioni.",
-    "deactivate_success": "The badge '{{tagID}}' has been deactivated successfully",
-    "deactivate_error": "Error occurred while deactivating the badge",
-    "activate_success": "The badge '{{tagID}}' has been activated successfully",
-    "activate_error": "Error occurred while activating the badge",
-    "delete_confirm": "Do you really want to delete the badge '{{tagID}}'?",
-    "delete_title": "Delete badge",
-    "delete_success": "The badge '{{tagID}}' has been deleted successfully",
-    "delete_error": "Error occurred while deleting the badge",
-    "delete_has_transaction_error": "This badge is linked to sessions and cannot be deleted",
-    "create_success": "The badge '{{tagID}}' has been created successfully",
-    "create_error": "Error occurred while creating the badge",
-    "update_success": "The badge '{{tagID}}' has been updated successfully",
-    "update_error": "Error occurred while updating the badge",
-    "tag_error": "Error occurred while retrieving the badge",
-    "tag_not_found": "Badge has not been found",
-    "select_tags": "Select Tag",
-    "tag_id_already_used": "The badge '{{tagID}}' already exists",
-    "redirect": "Navigate to Tags",
-    "assign_user_to_tag_title": "Assign user to tag",
-    "assign_user_to_tag_confirm": "Do you really want to assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
-    "change_user_tag_title": "Change user of tag",
-    "change_user_tag_confirm": "Do you really want to unassign the user '{{oldUserName}}' and assign the user '{{newUserName}}' to the tag '{{tagID}}'?",
-    "assign_user_to_tag_success": "The user '{{userName}}' has been assigned to the badge successfully",
-    "tag_has_transaction_error": "Cannot update a tag which has transactions",
-    "assign_user_to_tag_error": "Error occurred while assigning the user to the badge",
-    "assign_user_button": "Assign user",
-    "default_tag": "Default badge"
+    "deactivate_success": "Il badge '{{tagID}}' è stato disattivato con successo",
+    "deactivate_error": "Si è verificato un errore durante la disattivazione del badge",
+    "activate_success": "Il badge '{{tagID}}' è stato attivato con successo",
+    "activate_error": "Si è verificato un errore durante l'attivazione del badge",
+    "delete_confirm": "Vuoi davvero eliminare il badge '{{tagID}}'?",
+    "delete_title": "Elimina badge",
+    "delete_success": "Il badge '{{tagID}}' è stato eliminato con successo",
+    "delete_error": "Si è verificato un errore durante l'eliminazione del badge",
+    "delete_has_transaction_error": "Questo badge è collegato a delle sessioni e non può essere eliminato",
+    "create_success": "Il badge '{{tagID}}' è stato creato con successo",
+    "create_error": "Si è verificato un errore durante la creazione del badge",
+    "update_success": "Il badge '{{tagID}}' è stato aggiornato con successo",
+    "update_error": "Si è verificato un errore durante l'aggiornamento del badge",
+    "tag_error": "Si è verificato un errore durante il recupero del badge",
+    "tag_not_found": "Il badge non è stato trovato",
+    "select_tags": "Seleziona Tag",
+    "tag_id_already_used": "Il badge '{{tagID}}' esiste già",
+    "redirect": "Vai ai Tag",
+    "title": "Badge",
+    "default_tag": "Badge di Default",
+    "delete_tags_title": "Elimina Badge",
+    "delete_tags_confirm": "Vuoi davvero eliminare '{{quantity}}' badge?",
+    "delete_tags_success": "'{{inSuccess}}' badge sono stati eliminati correttamente",
+    "delete_tags_partial": "'{{inSuccess}}' badge sono stati eliminati correttamente e '{{inError}}' badge hanno riscontrato un errore, controlla i log",
+    "delete_tags_error": "Si è verificato un errore durante l'eliminazione dei badge, controlla i log",
   },
   "tenants": {
     "title": "Organizzazione",
@@ -1304,7 +1308,7 @@
     "save_error_smart_charging": "L'organizzazione deve essere attiva per utilizzare Carica Smart",
     "save_error_asset": "L'Organizzazione deve essere attiva per usare Risorsa",
     "smart_charging_still_active_for_site_area": "Carica Smart è ancora attiva per alcune aree del sito.<br>Si prega di disattivare la Carica Smart per tutte le aree del sito nell'organizzazione.",
-    "logo_size_error": "The logo size limit exceeded, limit is below {{maxPictureKb}} Kb"
+    "logo_size_error": "Il limite di dimensione del logo è stato superato, il limite è inferiore a {{maxPictureKb}} Kb"
   },
   "settings": {
     "settings_not_saved_title": "Impostazioni non Salvate",
@@ -1357,7 +1361,10 @@
       "generate_connection_url": "Connetti una Stazione di Ricarica",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
-      "ocpp_16_soap": "OCPP 1.6 SOAP"
+      "ocpp_16_soap": "OCPP 1.6 SOAP",
+      "ocpp_15_soap_secure": "Secure OCPP 1.5 SOAP",
+      "ocpp_16_json_secure": "Secure OCPP 1.6 JSON",
+      "ocpp_16_soap_secure": "Secure OCPP 1.6 SOAP"
     },
     "refund": {
       "description": "E-Mobility fornisce un servizio di rimborso per un sistema di gestione spese esterno.<br>Questa funzionalità consente all'utente di inoltrare le sue sessioni ad un sistema di gestione spese esterno ed ottenere il rimborso per l'elettricità consumata.<br>E-Mobility sta usando attualmente SAP Concur. Ulteriori informazioni tecniche disponibili all'indirizzo ",
@@ -1371,6 +1378,7 @@
       "synchronize_started": "La sincronizzazione delle transazioni rimborsate è stata avviata",
       "synchronize_success": "Le transazioni rimborsate sono state sincronizzate correttamente",
       "synchronize_error": "Si è verificato un errore durante la sincronizzazione delle transazioni rimborsate",
+      "connection_error": "Errore durante la connessione al sistema di rimborso, controlla la tua connessione nel tuo profilo",
       "concur": {
         "title": "SAP Concur",
         "authentication_url": "URL di autenticazione",
@@ -1483,7 +1491,11 @@
         "title": "Ricarica Smart SAP",
         "settings": "Impostazioni",
         "user": "Utente ",
-        "password": "Password"
+        "password": "Password",
+        "additional_settings":"Altre impostazioni:",
+    "sticky_limitation": "Regolare il limite in base al consumo di corrente",
+    "limit_buffer_dc": "Buffer per limite DC (%)",
+    "limit_buffer_ac": "Buffer per limite AC (%)"
       },
       "description": "E-Mobility può utilizzare l'algoritmo di ricarica intelligente per ottimizzare la distribuzione dell'energia e i programmi di ricarica sulla base di vincoli complessi",
       "setting_do_not_exist": "La configurazione non è stata trovata",
@@ -1577,8 +1589,8 @@
     "push_tokens_confirm": "Vuoi veramente inviare tutti i token utente all'IOP '{{name}}'?",
     "trigger_jobs_title": "Esegui Job",
     "trigger_jobs_confirm": "Vuoi veramente avviare tutti i job dell'IOP '{{name}}'?",
-    "trigger_ocpi_action": "The action has been successfully sent and may take time to be processed",
-    "ocpi_action_in_progress": "The action is already running",
+    "trigger_ocpi_action": "L'azione è stata inviata correttamente e l'elaborazione potrebbe richiedere del tempo",
+    "ocpi_action_in_progress": "L'azione è già in corso",
     "pull_locations_title": "Recupera Postazioni",
     "pull_locations_confirm": "Vuoi veramente recuperare tutte le postazioni dall'IOP '{{name}}'?",
     "pull_locations_success": "Aggiornate con successo {{success}} postazioni dall'IOP",
@@ -1698,9 +1710,9 @@
       "in_error": "In Errore"
     },
     "graph": {
-      "power": "Instant Power (kW)",
-      "limit_watts": "Grid Limit (kW)",
-      "no_consumption": "No consumption data available"
+      "power": "Potenza Istantanea (kW)",
+      "limit_watts": "Limite Rete (kW)",
+      "no_consumption": "Nessun dato di consumo disponibile"
      }
   },
   "cars": {
@@ -1796,6 +1808,7 @@
     "delete_title": "Cancella Veicolo",
     "delete_confirm": "Vuoi veramente cancellare il veicolo '{{carName}}'?",
     "users": "Utenti",
+    "select_car": "Seleziona Auto",
     "unit": {
       "meters": "m",
       "seconde": "sec",
@@ -1914,6 +1927,10 @@
     "delete_transactions_success": "{{inSuccess}} sessioni sono state cancellate con successo",
     "delete_transactions_partial": "{{inSuccess}} sessioni sono state cancellate con successo e {{inError}} sessioni hanno riscontrato un errore",
     "delete_transactions_error": "Si è verificato un errore durante la cancellazione delle sessioni",
+    "export_ocpi_cdr_button_title": "Esporta Cdr",
+    "export_ocpi_cdr_title": "Esporta Cdr della transazione",
+    "export_ocpi_cdr_confirm": "Vuoi davvero esportare il Cdr della Sessione '{{transactionID}}'",
+    "export_ocpi_cdr_error": "Si è verificato un errore durante l'esportazione del Cdr della Sessione '{{transactionID}}'",
     "inactivity_info": "Tutte le Inattività",
     "inactivity_warning": "Inattività Medie",
     "inactivity_error": "Inattività Elevate",
@@ -1946,7 +1963,7 @@
     "select_report": "Seleziona Report",
     "create_invoice_success": "La fattura è stata creata correttamente per questa sessione",
     "create_invoice_error": "Si è verificato un errore durante la creazione di una fattura per questa sessione ",
-    "redirect": "Navigate to Sessions",
+    "redirect": "Vai alle Sessioni",
     "filter": {
       "type": {
         "name": "Tipo",
@@ -2019,7 +2036,7 @@
       },
       "roaming": {
         "title": "Roaming",
-        "confirm": "Do you really want to push the CDR of the session ID '{{sessionID}}' to the roaming platform?"
+        "confirm": "Vuoi davvero inviare il CDR dell'ID di sessione '{{sessionID}}' alla piattaforma di roaming?"
       },
       "create_invoice": {
         "title": "Crea Fattura",
@@ -2043,12 +2060,12 @@
         "error": "Si è verificato un errore durante la cancellazione della sessione"
       },
       "roaming": {
-        "success": "The CDR of the session ID '{{sessionID}}' has been pushed successfully to the roaming platform",
-        "error": "An error occurred during the push of the CDR, check the logs",
-        "error_not_from_tenant": "This session does not belong to this tenant",
-        "error_no_ocpi": "This session does not contain OCPI data",
-        "error_cdr_already_pushed": "The CDR of this session has already been pushed"
-      },
+        "success": "Il CDR dell'ID di sessione '{{sessionID}}' è stato inviato correttamente alla piattaforma di roaming",
+        "error": "Si è verificato un errore durante il l'invio del CDR, controllare i log",
+        "error_not_from_tenant": "Questa sessione non appartiene a questo tenant",
+        "error_no_ocpi": "Questa sessione non contiene dati OCPI",
+        "error_cdr_already_pushed": "Il CDR di questa sessione è già stato inviato"
+        },
       "soft_stop": {
         "success": "La sessione dell'utente {{user}} è stata interrotta con successo.",
         "error": "Si è verificato un errore durante l'interruzione della sessione."
@@ -2142,9 +2159,9 @@
     "billing_synchronization_failed": "Avvisami quando una sincronizzazione con un sistema di fatturazione non è riuscita",
     "session_not_started": "Avvisami se nessuna sessione è stata avviata dopo l'inserimento di un badge",
     "user_account_inactivity": "Avvisami quando non accedo all'applicazione da più di 6 mesi",
-    "compute_and_apply_charging_profiles_failed": "Notify me when applying the Smart Charging-Profiles fails for a certain site area",
+    "compute_and_apply_charging_profiles_failed": "Avvisami quando l'applicazione dei profili di ricarica intelligenti non riesce per una determinata area del sito",
     "car_catalog_synchronization_failed": "Avvisami se si verifica un errore durante la sincronizzazione delle vetture",
     "end_user_error_notification": "Avvisami quando un utente riporta un errore",
-    "billing_new_invoice": "Notify me when a new invoice is available"
+    "billing_new_invoice": "Avvisami quando è disponibile una nuova fattura"
   }
 }
